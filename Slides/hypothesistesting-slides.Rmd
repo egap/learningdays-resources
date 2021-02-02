@@ -2,7 +2,7 @@
 title: "Hypothesis Testing: Summarizing Information about Causal Effects"
 author: "Fill In Your Name"
 date: "`r format(Sys.time(), '%d %B %Y')`"
-bibliography: ../../learningdays-guide.bib
+bibliography: ../learningdays-guide.bib
 biblio-style: apalike
 link-citations: yes
 colorlinks: yes
@@ -17,6 +17,8 @@ header-includes: |
    \usepackage{booktabs,multirow,makecell}
    \setbeamersize{text margin left=1ex,text margin right=1ex}
 output:
+  # powerpoint_presentation:
+  #   toc: true
   beamer_presentation:
     keep_tex: true
     toc: true
@@ -57,7 +59,7 @@ library(rcompanion) ## for pairwisePermutationTest()
 ```
 # The Role of Hypothesis Tests in Causal Inference
 
-## Key Points for this Lecture
+## Key points for this lecture
 
 - Statistical inference (e.g., hypothesis tests and confidence
 intervals) requires **inference** --- reasoning about the unobserved.
@@ -68,17 +70,17 @@ intervals) requires **inference** --- reasoning about the unobserved.
 
 - Observed Values of Test Statistics + Reference Distribution $\rightarrow$ $p$-value.
 
-## The Role of Hypothesis Tests in Causal Inference I
+## The role of hypothesis tests in causal inference I
 
-- The Fundamental Problem of Causal Inference says that we can see only one potential outcome for any given unit.
+- The **fundamental problem of causal inference** says that we can see only one potential outcome for any given unit.
 
 - So, if a counterfactual causal effect of the treatment, $Z$, for Jake occurs when  $y_{\text{Jake},Z=1} \ne y_{\text{Jake},Z=0}$, then how can we learn about the causal  effect?
 
-- One solution is the **[Estimation](estimation-slides.Rmd) of Averages of Causal Effects** (the ATE, ITT, LATE).
+- One solution is the **[estimation](estimation-slides.Rmd) of averages of causal effects** (the ATE, ITT, LATE).
 
 - This is what we call Neyman's approach.
 
-## The Role of Hypothesis Tests in Causal Inference II
+## The role of hypothesis tests in causal inference II
 
 - Another solution is to make **claims** or **guesses** about the causal effects.
 
@@ -89,7 +91,7 @@ intervals) requires **inference** --- reasoning about the unobserved.
 - We call this Fisher's approach.
 
 
-## The Role of Hypothesis Tests in Causal Inference III
+## The role of hypothesis tests in causal inference III
 
 - The hypothesis testing approach to causal inference doesn't *provide* a best guess but instead tells you about evidence or information about a best guess.
 
@@ -99,18 +101,17 @@ intervals) requires **inference** --- reasoning about the unobserved.
 
 
 # Hypothesis Test
-## Ingredients of a Hypothesis Test
+## Ingredients of a hypothesis test
 
  - A **hypothesis** is a statement about a relationship among potential outcomes.
 
- - A **test statistic** summarizes the relationship between treatment and
-   observed outcomes.
- - The **design** allows us to link the hypothesis and the test statistic:
-   calculate a test statistic that describes a relationship between potential
-   outcomes.
+ - A **test statistic** summarizes the relationship between treatment and observed outcomes.
+
+ - The **design** allows us to link the hypothesis and the test statistic: calculate a test statistic that describes a relationship between potential outcomes.
+
  - The **design** also generates a distribution of possible test statistics implied by the hypothesis.
- - A **$p$-value** describes the relationship between our observed test statistic
-   and the possible hypothesized test statistics.
+ 
+ - A **$p$-value** describes the relationship between our observed test statistic and the possible hypothesized test statistics.
 
 
 ```{r echo=FALSE}
@@ -215,9 +216,11 @@ Then  we repeat it,  calculating the implied test statistic each time:
 
 ```{r reps, echo=TRUE, cache=TRUE}
 set.seed(123456)
-possibleMeanDiffsH0 <- replicate(10000, meanTZ(ys = Y, z = repeatExperiment(N = 10)))
+possibleMeanDiffsH0 <- replicate(10000, 
+                                 meanTZ(ys = Y, z = repeatExperiment(N = 10)))
 set.seed(123456)
-possibleMeanRankDiffsH0 <- replicate(10000, meanrankTZ(ys = Y, z = repeatExperiment(N = 10)))
+possibleMeanRankDiffsH0 <- replicate(10000, 
+                            meanrankTZ(ys = Y, z = repeatExperiment(N = 10)))
 ```
 
 ## Plot the randomization distributions under the null
@@ -264,9 +267,11 @@ pMeanRankTZ
 ## using the coin package
 library(coin)
 set.seed(12345)
-pMean2 <- pvalue(oneway_test(Y ~ factor(Z), data = dat, distribution = approximate(nresample = 1000)))
+pMean2 <- pvalue(oneway_test(Y ~ factor(Z), data = dat, 
+                             distribution = approximate(nresample = 1000)))
 dat$rankY <- rank(dat$Y)
-pMeanRank2 <- pvalue(oneway_test(rankY ~ factor(Z), data = dat, distribution = approximate(nresample = 1000)))
+pMeanRank2 <- pvalue(oneway_test(rankY ~ factor(Z), data = dat, 
+                                 distribution = approximate(nresample = 1000)))
 pMean2
 pMeanRank2
 ```
@@ -324,9 +329,9 @@ summary(pMeanRank4)
 
  - Rejecting null hypotheses (and making false positive and/or false negative errors).
 
- - Power of hypothesis tests.
-
  - Maintaining correct false positive error rates when testing more than one hypothesis.
+
+- Power of hypothesis tests ([Module on Statistical Power and Design Diagnosands](https://egap.github.io/learningdays-guide/statistical-power-and-design-diagnosands.html)).
 
 
 # Testing weak null hypotheses
@@ -335,7 +340,7 @@ summary(pMeanRank4)
 
 - The weak null hypothesis is a claim about aggregates, and it is nearly always stated in terms of averages: $H_0: \bar{y}_{1} = \bar{y}_{0}$
 
-- The test statistic for this hypothesis nearly always is the difference of means (i.e., `meanTZ()` above).
+- The test statistic for this hypothesis is nearly always the difference of means (i.e., `meanTZ()` above).
 
 ```{r}
 lm1 <- lm(Y ~ Z, data = dat)
@@ -365,7 +370,9 @@ varEstATE <- function(Y, Z) {
 seEstATE <- sqrt(varEstATE(dat$Y, dat$Z))
 obsTStat <- observedMeanTZ / seEstATE
 c(
-  observedTestStat = observedMeanTZ, stderror = seEstATE, tstat = obsTStat,
+  observedTestStat = observedMeanTZ, 
+  stderror = seEstATE, 
+  tstat = obsTStat,
   pval = 2 * min(
     pt(obsTStat, df = 8, lower.tail = TRUE),
     pt(obsTStat, df = 8, lower.tail = FALSE)
@@ -377,19 +384,25 @@ c(
 
 ## Rejecting hypotheses and making errors
 
-- How should we interpret $p$=`r  pMeanTZ`? What about $p$=`r pMeanRankTZ`?
-
-- What does it mean to "reject" $H_0: y_{i,1}=y_{i,2}$ at $\alpha=.05$?
-
 - "In typical use, the level of the test [$\alpha$] is a promise about the test’s performance and the size is a fact about its performance..." (Rosenbaum 2010, Glossary)
 
 - $\alpha$ is the probability of rejecting the null hypothesis when the null hypothesis is true.
 
+- How should we interpret $p$=`r  pMeanTZ`? What about $p$=`r pMeanRankTZ`?
+
+- What does it mean to "reject" $H_0: y_{i,1}=y_{i,2}$ at $\alpha=.05$?
+
+
+
 ## Decisions imply errors
+
+- If we say, "The experimental result is significantly different from the
+hypothesized value of zero ($p=.001$)! We reject that hypothesis!" **when the truth is zero** we are making a **false positive error** (claiming to detect something positively when there is no signal, only noise).
 
 - If errors are necessary, how can we diagnose them? How do we learn whether our hypothesis testing procedure might generate too many false positive errors?
 
 - Diagnose by simulation!
+
 
 
 ## Diagnosing false positive rates by simulation
@@ -434,11 +447,12 @@ pDist <- replicate(5000, collectPValues(y = dat$Ybin, z = dat$Z))
 
 ## Diagnosing false positive rates by simulation
 
-When there is no effect, a test of the null hypothesis of no effects should
-produce a **big** p-value. If the test is working well, we should see mostly
-big p-values and very few small p-values.
+- When there is no effect, a test of the null hypothesis of no effects should
+produce a **big** p-value. 
 
-A few of the p-values for the four different tests (we did 5000 simulations, just showing 5)
+- If the test is working well, we should see mostly big p-values and very few small p-values.
+
+- A few of the p-values for the four different tests (we did 5000 simulations, just showing 5)
 ```{r}
 pDist[,1:5]
 ```
@@ -481,7 +495,7 @@ legend("topleft",
 
 ## False positive rate with $N=60$ and binary outcome
 
-In this design only the direct randomization inference based tests control the false positive rate.
+In this design only the direct randomization inference-based tests control the false positive rate.
 
 ```{r fprdsimBig, cache=TRUE}
 set.seed(12345)
@@ -539,18 +553,18 @@ legend("topleft",
 )
 ```
 
-## Topics for later
-
- - Power of tests
 
 ## Summary
 
-- A good test (1) casts doubt on the truth rarely and (2)  easily
-   distinguishes signal from noise (casts doubt on falsehoods often).
+- A good test: 
+
+    1. casts doubt on the truth rarely and 
+    
+    2. easily distinguishes signal from noise (casts doubt on falsehoods often).
 
 - We can learn whether our testing procedure controls false positive rates given our design.
 
-- When false positive rates are not controlled, what might be going wrong? (often has to do with asymptotics)
+- When false positive rates are not controlled, what might be going wrong? (Often has to do with asymptotics.)
 
 # Advanced Topics
 
@@ -563,13 +577,11 @@ legend("topleft",
 
  - A $100(1-\alpha)$\% confidence interval can be defined as the range of hypotheses where all of the $p$-values are greater than or equal to $\alpha$. This is called inverting the hypothesis test (@rosenbaum2010design). That is, a confidence interval is a collection of hypothesis tests.
 
-## What else to know about hypothesis tests
+## What else to know about hypothesis tests  {.allowframebreaks}
 
  - A point estimate based on hypothesis testing is called a Hodges-Lehmann point estimate (@rosenbaum1993hlp,@hodges1963elb).
 
  - A set of hypothesis tests can be combined into one single hypothesis test (@hansen:bowers:2008,@caughey2017nonparametric).
-
-## What else to know about hypothesis tests
 
  - In equivalence testing, one can hypothesize that two test-statistics are equivalent (i.e., the treatment group is the same as the control group) rather than only about one test-statistic (the difference between the two groups is zero) (@hartman2018equivalence).
 
@@ -582,9 +594,8 @@ legend("topleft",
 
  2. If an intervention caused the mean in the control group to be moderately reduced but increased a few outcomes a lot (like a 10 times effect), would the $p$-value from R `lm_robust()` or `difference_of_means()` be large or small?
 
-## Report and Discuss the Results of the Exercise
 
-# On Testing Many Hypotheses
+# Testing many hypotheses
 
 ## When might we test many hypotheses?
 
@@ -597,9 +608,9 @@ legend("topleft",
 
 
 
-# Learning about the causal effects of multiple treatment arms or on multiple outcomes
+<!-- # Learning about the causal effects of multiple treatment arms or on multiple outcomes -->
 
-## False Positive Rates in Hypothesis Testing {.allowframebreaks}
+## False positive rates in hypothesis testing {.allowframebreaks}
 
 ```{r normp, echo=FALSE,out.width=".5\\textwidth",fig.cap="One-sided p-value from a Normally distributed test statistic."}
 library(tidyverse)
@@ -616,19 +627,23 @@ ggplot(NULL, aes(c(-3, 3))) +
 Notice:
 
  - The curve is centered at the hypothesized value.
+ 
  - The curve represents the world of the hypothesis.
+ 
  - The $p$-value is how rare it would be to see the observed test statistic (or a value farther away from the hypothesized value, like 0) in the world of the null.
+ 
  - In the picture, the observed value of the test statistic is consistent with the hypothesized distribution, but just not super consistent.
+ 
  - Even if $p < .05$ (or $p < .001$) the observed test statistic must reflect some value on the hypothesized distribution. This means that you can always make an error when you reject a null hypothesis.
 
-## False Positive and False Negative Errors {.allowframebreaks}
+## False positive and false negative errors {.allowframebreaks}
 
 - If we say, "The experimental result is significantly different from the
 hypothesized value of zero ($p=.001$)! We reject that hypothesis!" **when the truth is zero** we are making a **false positive error** (claiming to detect something positively when there is no signal, only noise).
 
 - If we say, "We cannot distinguish this result from zero ($p=.3$). We cannot reject the hypothesis of zero." **when the truth is not zero** we are making a **false negative error** (claiming inability to detect something when there is a signal, but it is overwhelmed by noise.)
 
-## A Single Test of a Single Hypothesis
+## A single test of a single hypothesis
 
 - A single test of a single hypothesis should encourage false positive errors rarely (for example, if we set $\alpha=.05$) then we are saying that we are comfortable with our testing procedure making false positive errors **no more than 5% of tests of a given treatment assignment in a given experiment**.
 
