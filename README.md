@@ -6,3 +6,6 @@ A repository for slides and other resources (like images and other documents).
 
 Instructions here.
 
+# License
+
+https://creativecommons.org/licenses/by-nc-sa/4.0/
