@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="generator" content="pandoc">
   <meta name="author" content="Fill In Your Name" />
-  <meta name="dcterms.date" content="2021-02-01" />
+  <meta name="dcterms.date" content="2021-02-02" />
   <title>Hypothesis Testing: Summarizing Information about Causal Effects</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -520,20 +520,20 @@ document.getElementsByTagName('head')[0].appendChild(style);
 <section>
     <h1 class="title">Hypothesis Testing: Summarizing Information about Causal Effects</h1>
     <h2 class="author">Fill In Your Name</h2>
-    <h3 class="date">01 February 2021</h3>
+    <h3 class="date">02 February 2021</h3>
 </section>
 <section id="TOC">
 <ul>
 <li><a href="#/the-role-of-hypothesis-tests-in-causal-inference">The Role of Hypothesis Tests in Causal Inference</a>
 <ul>
-<li><a href="#/key-points-for-this-lecture">Key Points for this Lecture</a></li>
-<li><a href="#/the-role-of-hypothesis-tests-in-causal-inference-i">The Role of Hypothesis Tests in Causal Inference I</a></li>
-<li><a href="#/the-role-of-hypothesis-tests-in-causal-inference-ii">The Role of Hypothesis Tests in Causal Inference II</a></li>
-<li><a href="#/the-role-of-hypothesis-tests-in-causal-inference-iii">The Role of Hypothesis Tests in Causal Inference III</a></li>
+<li><a href="#/key-points-for-this-lecture">Key points for this lecture</a></li>
+<li><a href="#/the-role-of-hypothesis-tests-in-causal-inference-i">The role of hypothesis tests in causal inference I</a></li>
+<li><a href="#/the-role-of-hypothesis-tests-in-causal-inference-ii">The role of hypothesis tests in causal inference II</a></li>
+<li><a href="#/the-role-of-hypothesis-tests-in-causal-inference-iii">The role of hypothesis tests in causal inference III</a></li>
 </ul></li>
 <li><a href="#/hypothesis-test">Hypothesis Test</a>
 <ul>
-<li><a href="#/ingredients-of-a-hypothesis-test">Ingredients of a Hypothesis Test</a></li>
+<li><a href="#/ingredients-of-a-hypothesis-test">Ingredients of a hypothesis test</a></li>
 <li><a href="#/a-hypothesis-is-a-statement-about-or-model-of-a-relationship-between-potential-outcomes">A hypothesis is a statement about or model of a relationship between potential outcomes</a></li>
 <li><a href="#/test-statistics-summarize-treatment-to-outcome-relationships">Test statistics summarize treatment-to-outcome relationships</a></li>
 <li><a href="#/linking-test-statistic-and-hypothesis">Linking test statistic and hypothesis</a></li>
@@ -562,26 +562,20 @@ document.getElementsByTagName('head')[0].appendChild(style);
 <li><a href="#/diagnosing-false-positive-rates-by-simulation-4">Diagnosing false positive rates by simulation</a></li>
 <li><a href="#/false-positive-rate-with-n60-and-binary-outcome">False positive rate with <span class="math inline">\(N=60\)</span> and binary outcome</a></li>
 <li><a href="#/false-positive-rate-with-n60-and-continuous-outcome">False positive rate with <span class="math inline">\(N=60\)</span> and continuous outcome</a></li>
-<li><a href="#/topics-for-later">Topics for later</a></li>
 <li><a href="#/summary">Summary</a></li>
 </ul></li>
 <li><a href="#/advanced-topics">Advanced Topics</a>
 <ul>
 <li><a href="#/some-advanced-topics-connected-to-hypothesis-testing">Some advanced topics connected to hypothesis testing</a></li>
 <li><a href="#/what-else-to-know-about-hypothesis-tests">What else to know about hypothesis tests</a></li>
-<li><a href="#/what-else-to-know-about-hypothesis-tests-1">What else to know about hypothesis tests</a></li>
 <li><a href="#/exercise-hypothesis-tests-and-test-statistics">Exercise: Hypothesis Tests and Test Statistics</a></li>
-<li><a href="#/report-and-discuss-the-results-of-the-exercise">Report and Discuss the Results of the Exercise</a></li>
 </ul></li>
-<li><a href="#/on-testing-many-hypotheses">On Testing Many Hypotheses</a>
+<li><a href="#/testing-many-hypotheses">Testing many hypotheses</a>
 <ul>
 <li><a href="#/when-might-we-test-many-hypotheses">When might we test many hypotheses?</a></li>
-</ul></li>
-<li><a href="#/learning-about-the-causal-effects-of-multiple-treatment-arms-or-on-multiple-outcomes">Learning about the causal effects of multiple treatment arms or on multiple outcomes</a>
-<ul>
-<li><a href="#/false-positive-rates-in-hypothesis-testing">False Positive Rates in Hypothesis Testing</a></li>
-<li><a href="#/false-positive-and-false-negative-errors">False Positive and False Negative Errors</a></li>
-<li><a href="#/a-single-test-of-a-single-hypothesis">A Single Test of a Single Hypothesis</a></li>
+<li><a href="#/false-positive-rates-in-hypothesis-testing">False positive rates in hypothesis testing</a></li>
+<li><a href="#/false-positive-and-false-negative-errors">False positive and false negative errors</a></li>
+<li><a href="#/a-single-test-of-a-single-hypothesis">A single test of a single hypothesis</a></li>
 <li><a href="#/false-positive-rates-in-multiple-hypothesis-testing">False Positive Rates in Multiple Hypothesis Testing</a></li>
 <li><a href="#/false-positive-rates-in-multiple-hypothesis-testing-1">False Positive Rates in Multiple Hypothesis Testing</a></li>
 <li><a href="#/multiple-hypothesis-testing-multiple-outcomes">Multiple hypothesis testing: Multiple Outcomes</a></li>
@@ -605,7 +599,7 @@ document.getElementsByTagName('head')[0].appendChild(style);
 
 </section>
 <section id="key-points-for-this-lecture" class="slide level2">
-<h2>Key Points for this Lecture</h2>
+<h2>Key points for this lecture</h2>
 <ul>
 <li><p>Statistical inference (e.g., hypothesis tests and confidence intervals) requires <strong>inference</strong> — reasoning about the unobserved.</p></li>
 <li><p><span class="math inline">\(p\)</span>-values require probability distributions.</p></li>
@@ -614,16 +608,16 @@ document.getElementsByTagName('head')[0].appendChild(style);
 </ul>
 </section>
 <section id="the-role-of-hypothesis-tests-in-causal-inference-i" class="slide level2">
-<h2>The Role of Hypothesis Tests in Causal Inference I</h2>
+<h2>The role of hypothesis tests in causal inference I</h2>
 <ul>
-<li><p>The Fundamental Problem of Causal Inference says that we can see only one potential outcome for any given unit.</p></li>
+<li><p>The <strong>fundamental problem of causal inference</strong> says that we can see only one potential outcome for any given unit.</p></li>
 <li><p>So, if a counterfactual causal effect of the treatment, <span class="math inline">\(Z\)</span>, for Jake occurs when <span class="math inline">\(y_{\text{Jake},Z=1} \ne y_{\text{Jake},Z=0}\)</span>, then how can we learn about the causal effect?</p></li>
-<li><p>One solution is the <strong><a href="estimation-slides.Rmd">Estimation</a> of Averages of Causal Effects</strong> (the ATE, ITT, LATE).</p></li>
+<li><p>One solution is the <strong><a href="estimation-slides.Rmd">estimation</a> of averages of causal effects</strong> (the ATE, ITT, LATE).</p></li>
 <li><p>This is what we call Neyman’s approach.</p></li>
 </ul>
 </section>
 <section id="the-role-of-hypothesis-tests-in-causal-inference-ii" class="slide level2">
-<h2>The Role of Hypothesis Tests in Causal Inference II</h2>
+<h2>The role of hypothesis tests in causal inference II</h2>
 <ul>
 <li><p>Another solution is to make <strong>claims</strong> or <strong>guesses</strong> about the causal effects.</p></li>
 <li><p>We could say, “I think that the effect on Jake is 5.” or “This experiment had no effect on anyone.” And then we ask “How much evidence does this experiment have about that claim?”</p></li>
@@ -632,7 +626,7 @@ document.getElementsByTagName('head')[0].appendChild(style);
 </ul>
 </section>
 <section id="the-role-of-hypothesis-tests-in-causal-inference-iii" class="slide level2">
-<h2>The Role of Hypothesis Tests in Causal Inference III</h2>
+<h2>The role of hypothesis tests in causal inference III</h2>
 <ul>
 <li><p>The hypothesis testing approach to causal inference doesn’t <em>provide</em> a best guess but instead tells you about evidence or information about a best guess.</p></li>
 <li><p>The estimation approach provides a best guess but doesn’t tell you how much you know about that guess.</p></li>
@@ -645,7 +639,7 @@ document.getElementsByTagName('head')[0].appendChild(style);
 
 </section>
 <section id="ingredients-of-a-hypothesis-test" class="slide level2">
-<h2>Ingredients of a Hypothesis Test</h2>
+<h2>Ingredients of a hypothesis test</h2>
 <ul>
 <li><p>A <strong>hypothesis</strong> is a statement about a relationship among potential outcomes.</p></li>
 <li><p>A <strong>test statistic</strong> summarizes the relationship between treatment and observed outcomes.</p></li>
@@ -786,9 +780,15 @@ document.getElementsByTagName('head')[0].appendChild(style);
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
 <p>Then we repeat it, calculating the implied test statistic each time:</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123456</span>)</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>possibleMeanDiffsH0 <span class="ot">&lt;-</span> <span class="fu">replicate</span>(<span class="dv">10000</span>, <span class="fu">meanTZ</span>(<span class="at">ys =</span> Y, <span class="at">z =</span> <span class="fu">repeatExperiment</span>(<span class="at">N =</span> <span class="dv">10</span>)))</span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123456</span>)</span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>possibleMeanRankDiffsH0 <span class="ot">&lt;-</span> <span class="fu">replicate</span>(<span class="dv">10000</span>, <span class="fu">meanrankTZ</span>(<span class="at">ys =</span> Y, <span class="at">z =</span> <span class="fu">repeatExperiment</span>(<span class="at">N =</span> <span class="dv">10</span>)))</span></code></pre></div>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>possibleMeanDiffsH0 <span class="ot">&lt;-</span> <span class="fu">replicate</span>(</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="dv">10000</span>,</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">meanTZ</span>(<span class="at">ys =</span> Y, <span class="at">z =</span> <span class="fu">repeatExperiment</span>(<span class="at">N =</span> <span class="dv">10</span>))</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123456</span>)</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>possibleMeanRankDiffsH0 <span class="ot">&lt;-</span> <span class="fu">replicate</span>(</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>  <span class="dv">10000</span>,</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">meanrankTZ</span>(<span class="at">ys =</span> Y, <span class="at">z =</span> <span class="fu">repeatExperiment</span>(<span class="at">N =</span> <span class="dv">10</span>))</span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
 </section>
 <section id="plot-the-randomization-distributions-under-the-null" class="slide level2">
 <h2>Plot the randomization distributions under the null</h2>
@@ -814,10 +814,16 @@ An example of using the design of the experiment to test a hypothesis with two d
 <div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="do">## using the coin package</span></span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(coin)</span>
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">12345</span>)</span>
-<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>pMean2 <span class="ot">&lt;-</span> <span class="fu">pvalue</span>(<span class="fu">oneway_test</span>(Y <span class="sc">~</span> <span class="fu">factor</span>(Z), <span class="at">data =</span> dat, <span class="at">distribution =</span> <span class="fu">approximate</span>(<span class="at">nresample =</span> <span class="dv">1000</span>)))</span>
-<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>dat<span class="sc">$</span>rankY <span class="ot">&lt;-</span> <span class="fu">rank</span>(dat<span class="sc">$</span>Y)</span>
-<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>pMeanRank2 <span class="ot">&lt;-</span> <span class="fu">pvalue</span>(<span class="fu">oneway_test</span>(rankY <span class="sc">~</span> <span class="fu">factor</span>(Z), <span class="at">data =</span> dat, <span class="at">distribution =</span> <span class="fu">approximate</span>(<span class="at">nresample =</span> <span class="dv">1000</span>)))</span>
-<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>pMean2</span></code></pre></div>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>pMean2 <span class="ot">&lt;-</span> <span class="fu">pvalue</span>(<span class="fu">oneway_test</span>(Y <span class="sc">~</span> <span class="fu">factor</span>(Z),</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> dat,</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">distribution =</span> <span class="fu">approximate</span>(<span class="at">nresample =</span> <span class="dv">1000</span>)</span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>))</span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>dat<span class="sc">$</span>rankY <span class="ot">&lt;-</span> <span class="fu">rank</span>(dat<span class="sc">$</span>Y)</span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>pMeanRank2 <span class="ot">&lt;-</span> <span class="fu">pvalue</span>(<span class="fu">oneway_test</span>(rankY <span class="sc">~</span> <span class="fu">factor</span>(Z),</span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> dat,</span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">distribution =</span> <span class="fu">approximate</span>(<span class="at">nresample =</span> <span class="dv">1000</span>)</span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a>))</span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a>pMean2</span></code></pre></div>
 <pre><code>[1] 0.451
 99 percent confidence interval:
  0.4103 0.4922 </code></pre>
@@ -883,8 +889,8 @@ Observed Test Statistic     1   0.32</code></pre>
 <ul>
 <li><p>Testing weak null hypotheses <span class="math inline">\(H_0: \bar{y}_{1} = \bar{y}_{0}\)</span>.</p></li>
 <li><p>Rejecting null hypotheses (and making false positive and/or false negative errors).</p></li>
-<li><p>Power of hypothesis tests.</p></li>
 <li><p>Maintaining correct false positive error rates when testing more than one hypothesis.</p></li>
+<li><p>Power of hypothesis tests (<a href="https://egap.github.io/learningdays-guide/statistical-power-and-design-diagnosands.html">Module on Statistical Power and Design Diagnosands</a>).</p></li>
 </ul>
 </section></section>
 <section>
@@ -896,7 +902,7 @@ Observed Test Statistic     1   0.32</code></pre>
 <h2>Testing the weak null of no average effects</h2>
 <ul>
 <li><p>The weak null hypothesis is a claim about aggregates, and it is nearly always stated in terms of averages: <span class="math inline">\(H_0: \bar{y}_{1} = \bar{y}_{0}\)</span></p></li>
-<li><p>The test statistic for this hypothesis nearly always is the difference of means (i.e., <code>meanTZ()</code> above).</p></li>
+<li><p>The test statistic for this hypothesis is nearly always the difference of means (i.e., <code>meanTZ()</code> above).</p></li>
 </ul>
 <pre><code>                   Z 
 0.3321 0.3587 0.3587 </code></pre>
@@ -923,12 +929,14 @@ Boxplot of observed outcomes by treatment status
 <span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>seEstATE <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(<span class="fu">varEstATE</span>(dat<span class="sc">$</span>Y, dat<span class="sc">$</span>Z))</span>
 <span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>obsTStat <span class="ot">&lt;-</span> observedMeanTZ <span class="sc">/</span> seEstATE</span>
 <span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(</span>
-<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">observedTestStat =</span> observedMeanTZ, <span class="at">stderror =</span> seEstATE, <span class="at">tstat =</span> obsTStat,</span>
-<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">pval =</span> <span class="dv">2</span> <span class="sc">*</span> <span class="fu">min</span>(</span>
-<span id="cb26-10"><a href="#cb26-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">pt</span>(obsTStat, <span class="at">df =</span> <span class="dv">8</span>, <span class="at">lower.tail =</span> <span class="cn">TRUE</span>),</span>
-<span id="cb26-11"><a href="#cb26-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">pt</span>(obsTStat, <span class="at">df =</span> <span class="dv">8</span>, <span class="at">lower.tail =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb26-12"><a href="#cb26-12" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb26-13"><a href="#cb26-13" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">observedTestStat =</span> observedMeanTZ,</span>
+<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">stderror =</span> seEstATE,</span>
+<span id="cb26-10"><a href="#cb26-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">tstat =</span> obsTStat,</span>
+<span id="cb26-11"><a href="#cb26-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">pval =</span> <span class="dv">2</span> <span class="sc">*</span> <span class="fu">min</span>(</span>
+<span id="cb26-12"><a href="#cb26-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">pt</span>(obsTStat, <span class="at">df =</span> <span class="dv">8</span>, <span class="at">lower.tail =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb26-13"><a href="#cb26-13" aria-hidden="true" tabindex="-1"></a>    <span class="fu">pt</span>(obsTStat, <span class="at">df =</span> <span class="dv">8</span>, <span class="at">lower.tail =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb26-14"><a href="#cb26-14" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb26-15"><a href="#cb26-15" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
 <pre><code>observedTestStat         stderror            tstat             pval 
         -49.6000          48.0448          -1.0324           0.3321 </code></pre>
 </section></section>
@@ -940,15 +948,16 @@ Boxplot of observed outcomes by treatment status
 <section id="rejecting-hypotheses-and-making-errors" class="slide level2">
 <h2>Rejecting hypotheses and making errors</h2>
 <ul>
-<li><p>How should we interpret <span class="math inline">\(p\)</span>=0.7785? What about <span class="math inline">\(p\)</span>=0.3198?</p></li>
-<li><p>What does it mean to “reject” <span class="math inline">\(H_0: y_{i,1}=y_{i,2}\)</span> at <span class="math inline">\(\alpha=.05\)</span>?</p></li>
 <li><p>“In typical use, the level of the test [<span class="math inline">\(\alpha\)</span>] is a promise about the test’s performance and the size is a fact about its performance…” (Rosenbaum 2010, Glossary)</p></li>
 <li><p><span class="math inline">\(\alpha\)</span> is the probability of rejecting the null hypothesis when the null hypothesis is true.</p></li>
+<li><p>How should we interpret <span class="math inline">\(p\)</span>=0.7785? What about <span class="math inline">\(p\)</span>=0.3198?</p></li>
+<li><p>What does it mean to “reject” <span class="math inline">\(H_0: y_{i,1}=y_{i,2}\)</span> at <span class="math inline">\(\alpha=.05\)</span>?</p></li>
 </ul>
 </section>
 <section id="decisions-imply-errors" class="slide level2">
 <h2>Decisions imply errors</h2>
 <ul>
+<li><p>If we say, “The experimental result is significantly different from the hypothesized value of zero (<span class="math inline">\(p=.001\)</span>)! We reject that hypothesis!” <strong>when the truth is zero</strong> we are making a <strong>false positive error</strong> (claiming to detect something positively when there is no signal, only noise).</p></li>
 <li><p>If errors are necessary, how can we diagnose them? How do we learn whether our hypothesis testing procedure might generate too many false positive errors?</p></li>
 <li><p>Diagnose by simulation!</p></li>
 </ul>
@@ -988,8 +997,11 @@ Boxplot of observed outcomes by treatment status
 </section>
 <section id="diagnosing-false-positive-rates-by-simulation-2" class="slide level2">
 <h2>Diagnosing false positive rates by simulation</h2>
-<p>When there is no effect, a test of the null hypothesis of no effects should produce a <strong>big</strong> p-value. If the test is working well, we should see mostly big p-values and very few small p-values.</p>
-<p>A few of the p-values for the four different tests (we did 5000 simulations, just showing 5) </p>
+<ul>
+<li><p>When there is no effect, a test of the null hypothesis of no effects should produce a <strong>big</strong> p-value.</p></li>
+<li><p>If the test is working well, we should see mostly big p-values and very few small p-values.</p></li>
+<li><p>A few of the p-values for the four different tests (we did 5000 simulations, just showing 5) </p></li>
+</ul>
 <pre><code>          [,1]   [,2] [,3]   [,4] [,5]
 lmp     0.1411 0.1411    1 0.1411    1
 neyp    0.1778 0.1778    1 0.1778    1
@@ -1019,7 +1031,7 @@ P-value distributions when there are no effects for four tests with n=10. A test
 </section>
 <section id="false-positive-rate-with-n60-and-binary-outcome" class="slide level2">
 <h2>False positive rate with <span class="math inline">\(N=60\)</span> and binary outcome</h2>
-<p>In this design only the direct randomization inference based tests control the false positive rate.</p>
+<p>In this design only the direct randomization inference-based tests control the false positive rate.</p>
 
 <div class="figure">
 <img src="figs/figplotecdfBig-1.png" alt="P-value distributions when there are no effects for four tests with n=60 and a binary outcome. A test that controls its false positive rate should have points on or below the diagonal line." width=".6\textwidth"  />
@@ -1039,18 +1051,16 @@ P-value distributions when there are no effects for four tests with n=60 and a c
 </p>
 </div>
 </section>
-<section id="topics-for-later" class="slide level2">
-<h2>Topics for later</h2>
-<ul>
-<li>Power of tests</li>
-</ul>
-</section>
 <section id="summary" class="slide level2">
 <h2>Summary</h2>
 <ul>
-<li><p>A good test (1) casts doubt on the truth rarely and (2) easily distinguishes signal from noise (casts doubt on falsehoods often).</p></li>
+<li><p>A good test:</p>
+<ol type="1">
+<li><p>casts doubt on the truth rarely and</p></li>
+<li><p>easily distinguishes signal from noise (casts doubt on falsehoods often).</p></li>
+</ol></li>
 <li><p>We can learn whether our testing procedure controls false positive rates given our design.</p></li>
-<li><p>When false positive rates are not controlled, what might be going wrong? (often has to do with asymptotics)</p></li>
+<li><p>When false positive rates are not controlled, what might be going wrong? (Often has to do with asymptotics.)</p></li>
 </ul>
 </section></section>
 <section>
@@ -1065,16 +1075,11 @@ P-value distributions when there are no effects for four tests with n=60 and a c
 <li><p>A <span class="math inline">\(100(1-\alpha)\)</span>% confidence interval can be defined as the range of hypotheses where all of the <span class="math inline">\(p\)</span>-values are greater than or equal to <span class="math inline">\(\alpha\)</span>. This is called inverting the hypothesis test (<span class="citation" data-cites="rosenbaum2010design"><a href="#/ref-rosenbaum2010design" role="doc-biblioref">P. R. Rosenbaum</a> (<a href="#/ref-rosenbaum2010design" role="doc-biblioref">2010</a>)</span>). That is, a confidence interval is a collection of hypothesis tests.</p></li>
 </ul>
 </section>
-<section id="what-else-to-know-about-hypothesis-tests" class="slide level2">
-<h2>What else to know about hypothesis tests</h2>
+<section id="what-else-to-know-about-hypothesis-tests" class="slide level2 allowframebreaks">
+<h2 class="allowframebreaks">What else to know about hypothesis tests</h2>
 <ul>
 <li><p>A point estimate based on hypothesis testing is called a Hodges-Lehmann point estimate (<span class="citation" data-cites="rosenbaum1993hlp"><a href="#/ref-rosenbaum1993hlp" role="doc-biblioref">Paul R. Rosenbaum</a> (<a href="#/ref-rosenbaum1993hlp" role="doc-biblioref">1993</a>)</span>,<span class="citation" data-cites="hodges1963elb"><a href="#/ref-hodges1963elb" role="doc-biblioref">Hodges and Lehmann</a> (<a href="#/ref-hodges1963elb" role="doc-biblioref">1963</a>)</span>).</p></li>
 <li><p>A set of hypothesis tests can be combined into one single hypothesis test (<span class="citation" data-cites="hansen:bowers:2008"><a href="#/ref-hansen:bowers:2008" role="doc-biblioref">Hansen and Bowers</a> (<a href="#/ref-hansen:bowers:2008" role="doc-biblioref">2008</a>)</span>,<span class="citation" data-cites="caughey2017nonparametric"><a href="#/ref-caughey2017nonparametric" role="doc-biblioref">Caughey, Dafoe, and Seawright</a> (<a href="#/ref-caughey2017nonparametric" role="doc-biblioref">2017</a>)</span>).</p></li>
-</ul>
-</section>
-<section id="what-else-to-know-about-hypothesis-tests-1" class="slide level2">
-<h2>What else to know about hypothesis tests</h2>
-<ul>
 <li><p>In equivalence testing, one can hypothesize that two test-statistics are equivalent (i.e., the treatment group is the same as the control group) rather than only about one test-statistic (the difference between the two groups is zero) (<span class="citation" data-cites="hartman2018equivalence"><a href="#/ref-hartman2018equivalence" role="doc-biblioref">Hartman and Hidalgo</a> (<a href="#/ref-hartman2018equivalence" role="doc-biblioref">2018</a>)</span>).</p></li>
 <li><p>Since a hypothesis test is a model of potential outcomes, one can use hypothesis testing to learn about complex models, such as models of spillover and propagation of treatment effects across networks (<span class="citation" data-cites="bowers2013reasoning"><a href="#/ref-bowers2013reasoning" role="doc-biblioref">Bowers, Fredrickson, and Panagopoulos</a> (<a href="#/ref-bowers2013reasoning" role="doc-biblioref">2013</a>)</span>, <span class="citation" data-cites="bowers2016research"><a href="#/ref-bowers2016research" role="doc-biblioref">Bowers, Fredrickson, and Aronow</a> (<a href="#/ref-bowers2016research" role="doc-biblioref">2016</a>)</span>, <span class="citation" data-cites="bowers2018models"><a href="#/ref-bowers2018models" role="doc-biblioref">Bowers et al.</a> (<a href="#/ref-bowers2018models" role="doc-biblioref">2018</a>)</span>)</p></li>
 </ul>
@@ -1085,13 +1090,10 @@ P-value distributions when there are no effects for four tests with n=60 and a c
 <li><p>If an intervention was very effective at increasing the variability of an outcome but did not change the mean, would the <span class="math inline">\(p\)</span>-value reported by R or Stata if we used <code>lm_robust()</code> or <code>difference_of_means()</code> or <code>reg</code> or <code>t.test</code> be large or small?</p></li>
 <li><p>If an intervention caused the mean in the control group to be moderately reduced but increased a few outcomes a lot (like a 10 times effect), would the <span class="math inline">\(p\)</span>-value from R <code>lm_robust()</code> or <code>difference_of_means()</code> be large or small?</p></li>
 </ol>
-</section>
-<section id="report-and-discuss-the-results-of-the-exercise" class="slide level2">
-<h2>Report and Discuss the Results of the Exercise</h2>
 </section></section>
 <section>
-<section id="on-testing-many-hypotheses" class="title-slide slide level1">
-<h1>On Testing Many Hypotheses</h1>
+<section id="testing-many-hypotheses" class="title-slide slide level1">
+<h1>Testing many hypotheses</h1>
 
 </section>
 <section id="when-might-we-test-many-hypotheses" class="slide level2">
@@ -1101,14 +1103,10 @@ P-value distributions when there are no effects for four tests with n=60 and a c
 <li><p>Which, among several, strategies for communication were most effective on a single outcome?</p></li>
 <li><p>Which, among several outcomes, were influenced by a single experimental intervention?</p></li>
 </ul>
-</section></section>
-<section>
-<section id="learning-about-the-causal-effects-of-multiple-treatment-arms-or-on-multiple-outcomes" class="title-slide slide level1">
-<h1>Learning about the causal effects of multiple treatment arms or on multiple outcomes</h1>
-
+<!-- # Learning about the causal effects of multiple treatment arms or on multiple outcomes -->
 </section>
 <section id="false-positive-rates-in-hypothesis-testing" class="slide level2 allowframebreaks">
-<h2 class="allowframebreaks">False Positive Rates in Hypothesis Testing</h2>
+<h2 class="allowframebreaks">False positive rates in hypothesis testing</h2>
 
 <div class="figure">
 <img src="figs/fignormp-1.png" alt="One-sided p-value from a Normally distributed test statistic." width=".5\textwidth"  />
@@ -1118,22 +1116,22 @@ One-sided p-value from a Normally distributed test statistic.
 </div>
 <p>Notice:</p>
 <ul>
-<li>The curve is centered at the hypothesized value.</li>
-<li>The curve represents the world of the hypothesis.</li>
-<li>The <span class="math inline">\(p\)</span>-value is how rare it would be to see the observed test statistic (or a value farther away from the hypothesized value, like 0) in the world of the null.</li>
-<li>In the picture, the observed value of the test statistic is consistent with the hypothesized distribution, but just not super consistent.</li>
-<li>Even if <span class="math inline">\(p &lt; .05\)</span> (or <span class="math inline">\(p &lt; .001\)</span>) the observed test statistic must reflect some value on the hypothesized distribution. This means that you can always make an error when you reject a null hypothesis.</li>
+<li><p>The curve is centered at the hypothesized value.</p></li>
+<li><p>The curve represents the world of the hypothesis.</p></li>
+<li><p>The <span class="math inline">\(p\)</span>-value is how rare it would be to see the observed test statistic (or a value farther away from the hypothesized value, like 0) in the world of the null.</p></li>
+<li><p>In the picture, the observed value of the test statistic is consistent with the hypothesized distribution, but just not super consistent.</p></li>
+<li><p>Even if <span class="math inline">\(p &lt; .05\)</span> (or <span class="math inline">\(p &lt; .001\)</span>) the observed test statistic must reflect some value on the hypothesized distribution. This means that you can always make an error when you reject a null hypothesis.</p></li>
 </ul>
 </section>
 <section id="false-positive-and-false-negative-errors" class="slide level2 allowframebreaks">
-<h2 class="allowframebreaks">False Positive and False Negative Errors</h2>
+<h2 class="allowframebreaks">False positive and false negative errors</h2>
 <ul>
 <li><p>If we say, “The experimental result is significantly different from the hypothesized value of zero (<span class="math inline">\(p=.001\)</span>)! We reject that hypothesis!” <strong>when the truth is zero</strong> we are making a <strong>false positive error</strong> (claiming to detect something positively when there is no signal, only noise).</p></li>
 <li><p>If we say, “We cannot distinguish this result from zero (<span class="math inline">\(p=.3\)</span>). We cannot reject the hypothesis of zero.” <strong>when the truth is not zero</strong> we are making a <strong>false negative error</strong> (claiming inability to detect something when there is a signal, but it is overwhelmed by noise.)</p></li>
 </ul>
 </section>
 <section id="a-single-test-of-a-single-hypothesis" class="slide level2">
-<h2>A Single Test of a Single Hypothesis</h2>
+<h2>A single test of a single hypothesis</h2>
 <ul>
 <li><p>A single test of a single hypothesis should encourage false positive errors rarely (for example, if we set <span class="math inline">\(\alpha=.05\)</span>) then we are saying that we are comfortable with our testing procedure making false positive errors <strong>no more than 5% of tests of a given treatment assignment in a given experiment</strong>.</p></li>
 <li><p>Also, a <strong>single test of a single hypothesis</strong> should detect signal when it exists — it should be have high <strong>statistical power</strong>. In other words, it should not fail to detect a signal when it exists (i.e. should have low false negative error rates).</p></li>

@@ -51,3 +51,18 @@ opts_chunk$set(
   out.extra=""
 )
 
+
+## Adding some libraries for use with renv for now
+library(dgof)
+library(kSamples)
+library(SuppDists)
+library(bookdown)
+library(revealjs)
+library(ICC)
+library(foreign)
+library(future)
+library(future.apply)
+library(globals)
+library(listenv)
+library(parallelly)
+library(pwr)
