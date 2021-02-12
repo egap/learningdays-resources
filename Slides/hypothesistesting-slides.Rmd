@@ -15,7 +15,6 @@ header-includes: |
    \usepackage{tikz-cd}
    \usepackage{textpos}
    \usepackage{booktabs,multirow,makecell}
-   \setbeamersize{text margin left=1ex,text margin right=1ex}
 output:
   # powerpoint_presentation:
   #   toc: true
@@ -282,7 +281,8 @@ pMeanRank2
 
 ```{r installritools,echo=TRUE, results='hide',warnings=FALSE,cache=FALSE}
 dev_mode() ## dont install the package globally
-install_github("markmfredrickson/RItools@randomization-distribution", force = TRUE)
+install_github("markmfredrickson/RItools@randomization-distribution", 
+               force = TRUE)
 dev_mode()
 ```
 
@@ -323,9 +323,9 @@ pMeanRank4 <- conduct_ri(rankY ~ Z,
 summary(pMeanRank4)
 ```
 
-## Next Topics
+## Next topics
 
- - Testing weak null hypotheses $H_0: \bar{y}_{1} = \bar{y}_{0}$.
+ - Testing weak null hypotheses, $H_0: \bar{y}_{1} = \bar{y}_{0}$.
 
  - Rejecting null hypotheses (and making false positive and/or false negative errors).
 
@@ -342,7 +342,7 @@ summary(pMeanRank4)
 
 - The test statistic for this hypothesis is nearly always the difference of means (i.e., `meanTZ()` above).
 
-```{r}
+```{r, echo=TRUE}
 lm1 <- lm(Y ~ Z, data = dat)
 lm1P <- summary(lm1)$coef["Z", "Pr(>|t|)"]
 ttestP1 <- t.test(Y ~ Z, data = dat)$p.value
@@ -394,14 +394,51 @@ c(
 
 
 
-## Decisions imply errors
+## False positive rates in hypothesis testing {.allowframebreaks}
+
+```{r normp, echo=FALSE,out.width=".5\\textwidth",fig.cap="One-sided p-value from a Normally distributed test statistic."}
+library(tidyverse)
+ggplot(NULL, aes(c(-3, 3))) +
+  geom_area(stat = "function", fun = dnorm, fill = "#00998a", xlim = c(2, 3)) +
+  geom_area(stat = "function", fun = dnorm, fill = "grey80", xlim = c(-3, 2)) +
+  labs(x = "test stat (center=0)", y = "prob") +
+  geom_vline(xintercept = 2) +
+  scale_y_continuous(breaks = NULL) +
+  # scale_x_continuous(breaks = 4) +
+  theme_classic()
+```
+
+Notice:
+
+ - The curve is centered at the hypothesized value.
+ 
+ - The curve represents the world of the hypothesis.
+ 
+ - The $p$-value is how rare it would be to see the observed test statistic (or a value farther away from the hypothesized value, like 0) in the world of the null.
+ 
+ - In the picture, the observed value of the test statistic is consistent with the hypothesized distribution, but just not super consistent.
+ 
+ - Even if $p < .05$ (or $p < .001$) the observed test statistic must reflect some value on the hypothesized distribution. This means that you can always make an error when you reject a null hypothesis.
+
+## False positive and false negative errors 
 
 - If we say, "The experimental result is significantly different from the
 hypothesized value of zero ($p=.001$)! We reject that hypothesis!" **when the truth is zero** we are making a **false positive error** (claiming to detect something positively when there is no signal, only noise).
 
-- If errors are necessary, how can we diagnose them? How do we learn whether our hypothesis testing procedure might generate too many false positive errors?
+- If we say, "We cannot distinguish this result from zero ($p=.3$). We cannot reject the hypothesis of zero." **when the truth is not zero** we are making a **false negative error** (claiming inability to detect something when there is a signal, but it is overwhelmed by noise.)
+
+## A single test of a single hypothesis
+
+- A single test of a single hypothesis should encourage false positive errors rarely (for example, if we set $\alpha=.05$) then we are saying that we are comfortable with our testing procedure making false positive errors **no more than 5% of tests of a given treatment assignment in a given experiment**.
+
+- Also, a **single test of a single hypothesis** should detect signal when it exists --- it should be have high **statistical power**. In other words, it should not fail to detect a signal when it exists (i.e. should have low false negative error rates).
+
+## Decisions imply errors
+
+- If errors are necessary, how can we diagnose them? How do we learn whether our hypothesis-testing procedure might generate too many false positive errors?
 
 - Diagnose by simulation!
+
 
 
 
@@ -427,9 +464,11 @@ collectPValues <- function(y, z, thedistribution = exact()) {
   ## The four tests
   thelm <- lm(y ~ newz, data = dat)
   ttestP2 <- difference_in_means(y ~ newz, data = dat)
-  owP <- pvalue(oneway_test(y ~ factor(newz), distribution = thedistribution))
+  owP <- pvalue(oneway_test(y ~ factor(newz), 
+                            distribution = thedistribution))
   ranky <- rank(y)
-  owRankP <- pvalue(oneway_test(ranky ~ factor(newz), distribution = thedistribution))
+  owRankP <- pvalue(oneway_test(ranky ~ factor(newz), 
+                                distribution = thedistribution))
   ## Return the p-values
   return(c(
     lmp = summary(thelm)$coef["newz", "Pr(>|t|)"],
@@ -453,7 +492,8 @@ produce a **big** p-value.
 - If the test is working well, we should see mostly big p-values and very few small p-values.
 
 - A few of the p-values for the four different tests (we did 5000 simulations, just showing 5)
-```{r}
+
+```{r, echo=FALSE}
 pDist[,1:5]
 ```
 
@@ -558,7 +598,7 @@ legend("topleft",
 
 - A good test: 
 
-    1. casts doubt on the truth rarely and 
+    1. casts doubt on the truth rarely, and 
     
     2. easily distinguishes signal from noise (casts doubt on falsehoods often).
 
@@ -607,57 +647,19 @@ legend("topleft",
 
 
 
+## False positive rates in multiple hypothesis testing {.fragile}
 
-<!-- # Learning about the causal effects of multiple treatment arms or on multiple outcomes -->
-
-## False positive rates in hypothesis testing {.allowframebreaks}
-
-```{r normp, echo=FALSE,out.width=".5\\textwidth",fig.cap="One-sided p-value from a Normally distributed test statistic."}
-library(tidyverse)
-ggplot(NULL, aes(c(-3, 3))) +
-  geom_area(stat = "function", fun = dnorm, fill = "#00998a", xlim = c(2, 3)) +
-  geom_area(stat = "function", fun = dnorm, fill = "grey80", xlim = c(-3, 2)) +
-  labs(x = "test stat (center=0)", y = "prob") +
-  geom_vline(xintercept = 2) +
-  scale_y_continuous(breaks = NULL) +
-  # scale_x_continuous(breaks = 4) +
-  theme_classic()
-```
-
-Notice:
-
- - The curve is centered at the hypothesized value.
- 
- - The curve represents the world of the hypothesis.
- 
- - The $p$-value is how rare it would be to see the observed test statistic (or a value farther away from the hypothesized value, like 0) in the world of the null.
- 
- - In the picture, the observed value of the test statistic is consistent with the hypothesized distribution, but just not super consistent.
- 
- - Even if $p < .05$ (or $p < .001$) the observed test statistic must reflect some value on the hypothesized distribution. This means that you can always make an error when you reject a null hypothesis.
-
-## False positive and false negative errors {.allowframebreaks}
-
-- If we say, "The experimental result is significantly different from the
-hypothesized value of zero ($p=.001$)! We reject that hypothesis!" **when the truth is zero** we are making a **false positive error** (claiming to detect something positively when there is no signal, only noise).
-
-- If we say, "We cannot distinguish this result from zero ($p=.3$). We cannot reject the hypothesis of zero." **when the truth is not zero** we are making a **false negative error** (claiming inability to detect something when there is a signal, but it is overwhelmed by noise.)
-
-## A single test of a single hypothesis
-
-- A single test of a single hypothesis should encourage false positive errors rarely (for example, if we set $\alpha=.05$) then we are saying that we are comfortable with our testing procedure making false positive errors **no more than 5% of tests of a given treatment assignment in a given experiment**.
-
-- Also, a **single test of a single hypothesis** should detect signal when it exists --- it should be have high **statistical power**. In other words, it should not fail to detect a signal when it exists (i.e. should have low false negative error rates).
-
-## False Positive Rates in Multiple Hypothesis Testing {.fragile}
-
-Say our probability of making a false positive error is .05 in a single test. What happens if we (1) Ask **which of these 10 outcomes has a statistically significant relationship with the two arms of treatment**? or (2) Ask **which of these 10 treatment arms had a statistically significant relationship with the single outcome**?
+Say our probability of making a false positive error is .05 in a single test. What happens if we ask: (1) *which of these 10 outcomes has a statistically significant relationship with the two arms of treatment*? or (2) *which of these 10 treatment arms had a statistically significant relationship with the single outcome*?
 
  - Prob of false positive error should be less than or equal to .05 in 1 test.
  - Prob of one false positive error should be less than or equal to $1 - ( ( 1 - .05 ) \times (1 - .05) ) = .0975$ in 2 tests.
  - Prob of at least one false positive error with $\alpha=.05$ in 10 tests should be $\le$ $1 - (1-.05)^{10}=.40$.
 
-## False Positive Rates in Multiple Hypothesis Testing {.allowframebreaks}
+## Discoveries with multiple tests {.allowframebreaks}
+
+**Number of errors committed when testing $m$ null hypotheses** [@benjamini1995
+'s Table 1]. Cells are numbers of tests.  $R$ is # of "discoveries" and $V$ is # of false discoveries, $U$ is # of correct
+non-rejections, and $S$ is # of correct rejections.
 
 +---------------------------------------------+--------------------------+----------------------+-----------+
 |                                             | Declared                 | Declared             |   Total   |
@@ -667,37 +669,47 @@ Say our probability of making a false positive error is .05 in a single test. Wh
 +---------------------------------------------+--------------------------+----------------------+-----------+
 | Not true null hypotheses ($H_{true} \ne 0$) |             T            |           S          | $m - m_0$ |
 +---------------------------------------------+--------------------------+----------------------+-----------+
-|                                 Total       |            m-R           |           R          |    $m$    |
+| Total                                       |            m-R           |           R          |    $m$    |
 +---------------------------------------------+--------------------------+----------------------+-----------+
 
-**Number of errors committed when testing $m$ null hypotheses** [@benjamini1995
-'s Table 1]. Cells are numbers of tests.  For example, $R$ are # of
-"discoveries" and $V$ are false discoveries, $U$ are # of correct
-non-rejections, and $S$ are # of correct rejections.
 
 
-*Two main error rates to control when testing many hypotheses:*
+## Two main error rates to control when testing many hypotheses {.allowframebreaks}
 
- - **Family wise error rate (FWER)** is $P(V>0)$ (Probability of any false
-       positive error) We'd like to control this if we plan to make a decision
+1. **Family wise error rate (FWER)** is $P(V>0)$ (Probability of any false
+       positive error).
+      
+    - We'd like to control this if we plan to make a decision
        about the results of our multiple tests. The research project is mostly
-       confirmatory. See, for example, the projects of the OES
+       confirmatory. 
+       
+    - See, for example, the projects of the OES
        <http://oes.gsa.gov>: federal agencies will make decisions about
        programs depending on whether they detect results or not.
-- **False Discovery Rate (FDR)** is  $E(V/R | R>0)$ (Average proportion of
-       false positive errors given some rejections.) We'd like to control this
-       if we are using *this* experiment to plan *the next* experiment. We are
+       
+2. **False Discovery Rate (FDR)** is  $E(V/R | R>0)$ (Average proportion of
+       false positive errors given some rejections). 
+   
+    - We'd like to control this if we are using *this* experiment to plan *the next* experiment. We are
        willing to accept a higher probability of error in the interests of
-       giving us more possibilities for discovery. For example, one could
+       giving us more possibilities for discovery. 
+
+    - For example, one could
        imagine an organization, a government, an NGO, could decide to conduct
        *a series* of experiments as a part of a *learning agenda*: no single
        experiment determines decision making, more room for exploration.
 
 We will focus on FWER but recommend thinking about FDR and learning agendas as a very useful way to go.
 
-## Multiple hypothesis testing: Multiple Outcomes
+## Questions with multiple outcomes
 
-What is the effect of one treatment on multiple outcomes? On which outcomes (out of many) did the treatment have an effect? Especially the second question can lead to the kind of uncontrolled family wise error rate problems that we referred to above.
+- What is the effect of one treatment on multiple outcomes? 
+
+- On which outcomes (out of many) did the treatment have an effect? 
+
+- The second question, in particular, can lead to the kind of uncontrolled family wise error rate problems that we referred to above.
+
+## Multiple hypothesis testing: Multiple Outcomes 
 
 Imagine we had five outcomes and one treatment:
 
@@ -732,14 +744,13 @@ des1 <- thepop + theassign +
 
 dat1 <- draw_data(des1)
 options(digits=2)
-head(dat1[,-c(2:6,8)])
+head(dat1[,-c(2:6,8,17:23)])
+head(dat1[,c(1,17:23)])
 ```
 
-## Multiple hypothesis testing: Multiple Outcomes {.allowframebreaks}
+## Can we detect an effect on outcome `Y1`?
 
-We could ask:
-
- - Can we detect an effect on outcome `Y1`? (i.e., does the hypothesis test produce a small enough $p$-value?)
+Can we detect an effect on outcome `Y1`? (i.e., does the hypothesis test produce a small enough $p$-value?)
 ```{r p1, echo=TRUE}
 pvalue(oneway_test(Y1 ~ factor(Z), data = dat1))
 ## Notice that the t-test p-value is also a chi-squared test
@@ -750,8 +761,9 @@ pvalue(independence_test(Y1 ~ factor(Z),
 ))
 ```
 
-## Multiple hypothesis testing: Multiple Outcomes {.allowframebreaks}
- - On which of the five outcomes can we detect an effect? (i.e., does any of the five hypothesis tests produce a small enough $p$-value?)
+## On which of the five outcomes can we detect an effect?
+
+On which of the five outcomes can we detect an effect? (i.e., does any of the five hypothesis tests produce a small enough $p$-value?)
 ```{r pmult, echo=TRUE}
 p1 <- pvalue(oneway_test(Y1 ~ factor(Z), data = dat1))
 p2 <- pvalue(oneway_test(Y2 ~ factor(Z), data = dat1))
@@ -761,9 +773,11 @@ p5 <- pvalue(oneway_test(Y5 ~ factor(Z), data = dat1))
 theps <- c(p1, p2, p3, p4, p5)
 sort(theps)
 ```
-## Multiple hypothesis testing: Multiple Outcomes {.allowframebreaks}
 
- - Can we detect an effect for *any* of the five outcomes? (i.e., does the hypothesis test for *all* five outcomes at once produce a small enough $p$-value?)
+
+## Can we detect an effect for *any* of the five outcomes?
+
+Can we detect an effect for *any* of the five outcomes? (i.e., does the hypothesis test for *all* five outcomes at once produce a small enough $p$-value?)
 ```{r omnibus, echo=TRUE}
 pvalue(independence_test(Y1 + Y2 + Y3 + Y4 + Y5 ~ factor(Z),
   data = dat1, teststat = "quadratic"
@@ -772,12 +786,12 @@ pvalue(independence_test(Y1 + Y2 + Y3 + Y4 + Y5 ~ factor(Z),
 
 Which approach is likely to mislead us with too many "statistically significant" results?
 
-## Multiple hypothesis testing: Multiple Outcomes {.allowframebreaks}
+## Comparing approaches I
 
 Let's do a simulation to learn about these testing approaches.
 
-- We will (1) set the true causal effects to be 0, (2) repeatedly re-assign treatment and (3) do
-each of those three tests each time.
+- We will (1) set the true causal effects to be 0, (2) repeatedly re-assign treatment, and (3) each time, do
+each of those three tests.
 
 - Since the true effect is 0, we expect *most* of the $p$-values to be large. (In fact, we'd like no more than 5% of
 the $p$-values to be greater than $p=.05$ if we are using the $\alpha=.05$ accept-reject criterion).
@@ -822,6 +836,7 @@ ttest_mult_holm(dat1)
 ttest_omnibus(dat1)
 ```
 
+
 ```{r des1setup,echo=FALSE}
 des1_plus <- des1 + ttest_Y1 + ttest_mult + ttest_mult_holm + ttest_omnibus
 thediagnosands <- declare_diagnosands(fwer = mean(p.value < .05))
@@ -829,7 +844,18 @@ thediagnosands <- declare_diagnosands(fwer = mean(p.value < .05))
 ## des1_diag <- diagnose_design(design = des1_plus, bootstrap_sims = 0,
 ##     sims=10, diagnosands = thediagnosands)
 ```
-## Multiple hypothesis testing: Multiple Outcomes {.allowframebreaks}
+
+```{r dd1, echo=TRUE, cache=TRUE}
+des1_sim <- simulate_design(des1_plus, sims = 1000)
+res1 <- des1_sim %>%
+  group_by(estimator_label) %>%
+  summarize(fwer = mean(p.value < .05), .groups = "drop")
+```
+
+## Comparing approaches II
+```{r}
+kableExtra::kable(res1,caption='Family wise error rates')
+```
 
  - The approach using 5 tests produces a $p < .05$ much too often ---
 recall that there are no causal effects at all for any of these outcomes.
@@ -838,16 +864,9 @@ recall that there are no causal effects at all for any of these outcomes.
 
  - The omnibus test also shows a well-controlled error rate.
 
- - And we also show that using a multiple testing correction (here we use the
-   "Holm" correction) also correctly controls the false positive rate.
+ - Using a multiple testing correction (here we use the "Holm" correction) also correctly controls the false positive rate.
 
-```{r dd1, echo=TRUE, cache=TRUE}
-des1_sim <- simulate_design(des1_plus, sims = 1000)
-res1 <- des1_sim %>%
-  group_by(estimator_label) %>%
-  summarize(fwer = mean(p.value < .05), .groups = "drop")
-kableExtra::kable(res1,caption='Family wise error rates')
-```
+## The Holm correction
 
 FYI, here is how to use the Holm correction (Notice what happens to the $p$-values):
 
@@ -860,7 +879,7 @@ p.adjust(theps_new, method = "holm")
 ```
 
 
-## Multiple hypothesis testing: Multiple Treatment Arms {.allowframebreaks}
+## Multiple hypothesis testing: Multiple treatment arms {.allowframebreaks}
 
 - The same kind of problem can happen when the question is about the differential
 effects of a multi-armed treatment.
@@ -890,7 +909,6 @@ options(digits=4)
 ```
 
 
-## Multiple hypothesis testing: Multiple Treatment Arms {.allowframebreaks}
 
 Here are the 10 pairwise tests with and without adjustment for multiple
 testing. Notice how one "significant" result changes with adjustment.
@@ -900,18 +918,17 @@ testing. Notice how one "significant" result changes with adjustment.
 pair_tests1 <- pairwisePermutationTest(Y ~ Z, data = dat2, distribution = asymptotic(), method = "holm", teststat = "quadratic")
 pair_tests1
 ```
-## Multiple hypothesis testing: Multiple Treatment Arms
+## Approaches to testing hypotheses with multiple arms
 
-Here is an illustration of four different approaches to testing hypotheses with
-multiple arms:
+We illustrate four different approaches:
 
-  -  do all of the pairwise tests and choose the best one (a bad idea);
-  -  do all the pairwise tests and choose the best one after adjusting
+  1.  do all of the pairwise tests and choose the best one (a bad idea);
+  2.  do all the pairwise tests and choose the best one after adjusting
 the p-values for multiple testing (a fine idea but one with very low
 statistical power);
-  - test the hypothesis of no relationship between any arm
+  3. test the hypothesis of no relationship between any arm
 and the outcome (a fine idea);
-  -  choose one arm to focus on in advance (a fine idea).
+  4.  choose one arm to focus on in advance (a fine idea).
 
 ```{r}
 ttest_Z1_vs_allfn <- function(data) {
@@ -962,10 +979,12 @@ kableExtra::kable(res2, caption='Approaches to testing in multi-arm experiments.
 
 - Multiple testing problems can arise from multiple outcomes or multiple
   treatments (or multiple moderators/interaction terms).
+  
 - Procedures for making hypothesis tests and confidence intervals can involve
   error. Ordinary practice controls the error rates in a single test (or single
   confidence interval). But multiple tests require extra work to ensure that
   error rates are controlled.
+
 - The loss of power arising from adjustment approaches encourages us to
    consider what *questions we want to ask of the data*. For example, if we
    want to know if the treatment had *any effect*, then a joint test or omnibus
