@@ -2,14 +2,14 @@
 title: "Hypothesis Testing: Summarizing Information about Causal Effects"
 author: "Fill In Your Name"
 date: "`r format(Sys.time(), '%d %B %Y')`"
-bibliography: ../learningdays-guide.bib
+bibliography: ../../learningdays-guide.bib
 biblio-style: apalike
 link-citations: yes
 colorlinks: yes
 fig_caption: yes
 header-includes: |
    \setbeamertemplate{footline}{\begin{beamercolorbox}{section in head/foot}
-   \includegraphics[height=.5cm]{../Images/egap-logo.png} \hfill
+   \includegraphics[height=.5cm]{../../Resources/Images/egap-logo.png} \hfill
    \insertframenumber/\inserttotalframenumber \end{beamercolorbox}}
    \usepackage{tikz}
    \usepackage{tikz-cd}
@@ -73,7 +73,7 @@ intervals) requires **inference** --- reasoning about the unobserved.
 
 - The **fundamental problem of causal inference** says that we can see only one potential outcome for any given unit.
 
-- So, if a counterfactual causal effect of the treatment, $Z$, for Jake occurs when  $y_{\text{Jake},Z=1} \ne y_{\text{Jake},Z=0}$, then how can we learn about the causal  effect?
+- So, if a counterfactual causal effect of the treatment, $T$, for Jake occurs when  $y_{\text{Jake},T=1} \ne y_{\text{Jake},T=0}$, then how can we learn about the causal  effect?
 
 - One solution is the **[estimation](estimation-slides.Rmd) of averages of causal effects** (the ATE, ITT, LATE).
 
@@ -125,17 +125,17 @@ y1 <- y0 + tau
 # sd(y0)
 # mean(y1)-mean(y0)
 # mean(tau)
-## Z is treatment assignment
+## T is treatment assignment
 set.seed(12345)
-Z <- complete_ra(N)
+T <- complete_ra(N)
 ## Y is observed outcomes
-Y <- Z * y1 + (1 - Z) * y0
+Y <- T * y1 + (1 - T) * y0
 ## The data
-dat <- data.frame(Y = Y, Z = Z, y0 = y0, tau = tau, y1 = y1)
+dat <- data.frame(Y = Y, T = T, y0 = y0, tau = tau, y1 = y1)
 dat$Ybin <- as.numeric(dat$Y > 100)
 # dat
-# pvalue(oneway_test(Y~factor(Z),data=dat,distribution=exact(),alternative="less"))
-# pvalue(wilcox_test(Y~factor(Z),data=dat,distribution=exact(),alternative="less"))
+# pvalue(oneway_test(Y~factor(T),data=dat,distribution=exact(),alternative="less"))
+# pvalue(wilcox_test(Y~factor(T),data=dat,distribution=exact(),alternative="less"))
 ```
 
 
@@ -152,11 +152,11 @@ bigdat$y1 <- bigdat$y0 + bigdat$tau
 # sd(y0)
 # mean(y1)-mean(y0)
 # mean(tau)
-## Z is treatment assignment
+## T is treatment assignment
 set.seed(12345)
-bigdat$Z <- complete_ra(bigN)
+bigdat$T <- complete_ra(bigN)
 ## Y is observed outcomes
-bigdat$Y <- with(bigdat, Z * y1 + (1 - Z) * y0)
+bigdat$Y <- with(bigdat, T * y1 + (1 - T) * y0)
 ## The data
 bigdat$Ybin <- as.numeric(bigdat$Y > quantile(bigdat$Y, .85))
 ```
@@ -174,19 +174,19 @@ For example, the sharp, or strong, null hypothesis of no effects is $H_0: y_{i,1
 
 ```{r, echo=TRUE}
 ## The mean difference test statistic
-meanTZ <- function(ys, z) {
+meanTT <- function(ys, z) {
   mean(ys[z == 1]) - mean(ys[z == 0])
 }
 ## The difference of mean ranks test statistic
-meanrankTZ <- function(ys, z) {
+meanrankTT <- function(ys, z) {
   ranky <- rank(ys)
   mean(ranky[z == 1]) - mean(ranky[z == 0])
 }
 
-observedMeanTZ <- meanTZ(ys = Y, z = Z)
-observedMeanRankTZ <- meanrankTZ(ys = Y, z = Z)
-observedMeanTZ
-observedMeanRankTZ
+observedMeanTT <- meanTT(ys = Y, z = T)
+observedMeanRankTT <- meanrankTT(ys = Y, z = T)
+observedMeanTT
+observedMeanRankTT
 ```
 
 ## Linking test statistic and hypothesis
@@ -195,7 +195,7 @@ What we observe for each person $i$ ($Y_i$) is either what we would have
 observed in treatment ($y_{i,1}$) **or** what we would have observed in
 control ($y_{i,0}$).
 
-$$Y_i = Z_i y_{i,1} + (1-Z_i)* y_{i,0}$$
+$$Y_i = T_i y_{i,1} + (1-T_i)* y_{i,0}$$
 
 So, if $y_{i,1}=y_{i,0}$ then $Y_i = y_{i,0}$.
 
@@ -216,10 +216,10 @@ Then  we repeat it,  calculating the implied test statistic each time:
 ```{r reps, echo=TRUE, cache=TRUE}
 set.seed(123456)
 possibleMeanDiffsH0 <- replicate(10000, 
-                                 meanTZ(ys = Y, z = repeatExperiment(N = 10)))
+                                 meanTT(ys = Y, z = repeatExperiment(N = 10)))
 set.seed(123456)
 possibleMeanRankDiffsH0 <- replicate(10000, 
-                            meanrankTZ(ys = Y, z = repeatExperiment(N = 10)))
+                            meanrankTT(ys = Y, z = repeatExperiment(N = 10)))
 ```
 
 ## Plot the randomization distributions under the null
@@ -234,8 +234,8 @@ plot(density(possibleMeanDiffsH0),
   xlab = "Mean Differences Consistent with H0"
 )
 rug(possibleMeanDiffsH0)
-rug(observedMeanTZ, lwd = 3, ticksize = .51)
-text(observedMeanTZ - 4, .022, "Observed Test Statistic")
+rug(observedMeanTT, lwd = 3, ticksize = .51)
+text(observedMeanTT - 4, .022, "Observed Test Statistic")
 
 plot(density(possibleMeanRankDiffsH0),
   lwd = 2,
@@ -245,8 +245,8 @@ plot(density(possibleMeanRankDiffsH0),
   xlab = "Mean Difference of Ranks Consistent with H0"
 )
 rug(possibleMeanRankDiffsH0)
-rug(observedMeanRankTZ, lwd = 3, ticksize = .9)
-text(observedMeanRankTZ, .45, "Observed Test Statistic")
+rug(observedMeanRankTT, lwd = 3, ticksize = .9)
+text(observedMeanRankTT, .45, "Observed Test Statistic")
 
 mtext(side = 3, outer = TRUE, text = expression(paste("Distributions of Test Statistics Consistent with the Design and ", H0:y[i1] == y[i0])))
 ```
@@ -254,10 +254,10 @@ mtext(side = 3, outer = TRUE, text = expression(paste("Distributions of Test Sta
 ## $p$-values summarize the plots
 
 ```{r calcpvalues, echo=TRUE}
-pMeanTZ <- mean(possibleMeanDiffsH0 >= observedMeanTZ)
-pMeanRankTZ <- mean(possibleMeanRankDiffsH0 >= observedMeanRankTZ)
-pMeanTZ
-pMeanRankTZ
+pMeanTT <- mean(possibleMeanDiffsH0 >= observedMeanTT)
+pMeanRankTT <- mean(possibleMeanRankDiffsH0 >= observedMeanRankTT)
+pMeanTT
+pMeanRankTT
 ```
 
 ## How to do this in R: COIN
@@ -266,10 +266,10 @@ pMeanRankTZ
 ## using the coin package
 library(coin)
 set.seed(12345)
-pMean2 <- pvalue(oneway_test(Y ~ factor(Z), data = dat, 
+pMean2 <- pvalue(oneway_test(Y ~ factor(T), data = dat, 
                              distribution = approximate(nresample = 1000)))
 dat$rankY <- rank(dat$Y)
-pMeanRank2 <- pvalue(oneway_test(rankY ~ factor(Z), data = dat, 
+pMeanRank2 <- pvalue(oneway_test(rankY ~ factor(T), data = dat, 
                                  distribution = approximate(nresample = 1000)))
 pMean2
 pMeanRank2
@@ -279,31 +279,49 @@ pMeanRank2
 
  First install a development version of the RItools package
 
-```{r installritools,echo=TRUE, results='hide',warnings=FALSE,cache=FALSE}
-dev_mode() ## dont install the package globally
-install_github("markmfredrickson/RItools@randomization-distribution", 
+```{r installritools, eval=FALSE, echo=TRUE, results='hide',warnings=FALSE,cache=FALSE}
+#dev_mode() ## dont install the package globally
+renv::install("markmfredrickson/RItools@randomization-distribution", 
                force = TRUE)
-dev_mode()
+#dev_mode()
 ```
 
 Then use the `RItest` function.
 
-```{r useritools, echo=TRUE,cache=FALSE}
-dev_mode()
+```{r useritools, eval=FALSE,echo=TRUE,cache=FALSE}
+#dev_mode()
 library(RItools)
-thedesignA <- simpleRandomSampler(total = N, z = dat$Z, b = rep(1, N))
+thedesignA <- simpleRandomSampler(total = N, z = dat$T, b = rep(1, N))
 pMean4 <- RItest(
-  y = dat$Y, z = dat$Z, samples = 1000, test.stat = meanTZ,
+  y = dat$Y, z = dat$T, samples = 1000, test.stat = meanTT,
   sampler = thedesignA
 )
 pMeanRank4 <- RItest(
-  y = dat$Y, z = dat$Z, samples = 1000, test.stat = meanrankTZ,
+  y = dat$Y, z = dat$T, samples = 1000, test.stat = meanrankTT,
   sampler = thedesignA
 )
 pMean4
 pMeanRank4
-dev_mode() ## and turn off dev_mode
+#dev_mode() ## and turn off dev_mode
 ```
+
+```{r ritoolsoutput, echo=TRUE, eval=FALSE, tidy=FALSE}
+pMean4
+Call:  RItest(y = dat$Y, z = dat$T, test.stat = meanTT, sampler = thedesignA,
+          samples = 1000)
+
+                        Value Pr(>x)
+Observed Test Statistic -49.6   0.78
+
+pMeanRank4
+Call:  RItest(y = dat$Y, z = dat$T, test.stat = meanrankTT, sampler = thedesignA,
+          samples = 1000)
+
+                        Value Pr(>x)
+Observed Test Statistic     1   0.32
+```
+
+
 
 ## How to do this in R: RI2
 
@@ -311,6 +329,7 @@ dev_mode() ## and turn off dev_mode
 ## using the ri2 package
 library(ri2)
 thedesign <- declare_ra(N = N)
+dat$Z <- dat$T
 pMean4 <- conduct_ri(Y ~ Z,
   declaration = thedesign,
   sharp_hypothesis = 0, data = dat, sims = 1000
@@ -340,14 +359,14 @@ summary(pMeanRank4)
 
 - The weak null hypothesis is a claim about aggregates, and it is nearly always stated in terms of averages: $H_0: \bar{y}_{1} = \bar{y}_{0}$
 
-- The test statistic for this hypothesis is nearly always the difference of means (i.e., `meanTZ()` above).
+- The test statistic for this hypothesis is nearly always the difference of means (i.e., `meanTT()` above).
 
 ```{r, echo=TRUE}
-lm1 <- lm(Y ~ Z, data = dat)
-lm1P <- summary(lm1)$coef["Z", "Pr(>|t|)"]
-ttestP1 <- t.test(Y ~ Z, data = dat)$p.value
+lm1 <- lm(Y ~ T, data = dat)
+lm1P <- summary(lm1)$coef["T", "Pr(>|t|)"]
+ttestP1 <- t.test(Y ~ T, data = dat)$p.value
 library(estimatr)
-ttestP2 <- difference_in_means(Y ~ Z, data = dat)
+ttestP2 <- difference_in_means(Y ~ T, data = dat)
 c(lm1P, ttestP1, ttestP2$p.value)
 ```
 
@@ -356,7 +375,7 @@ c(lm1P, ttestP1, ttestP2$p.value)
 ## Testing the weak null of no average effects
 
 ```{r fig.cap="Boxplot of observed outcomes by treatment status", results='asis'}
-boxplot(Y ~ Z, data = dat)
+boxplot(Y ~ T, data = dat)
 ```
 
 
@@ -364,13 +383,13 @@ boxplot(Y ~ Z, data = dat)
 
 ```{r, echo=TRUE}
 ## By hand:
-varEstATE <- function(Y, Z) {
-  var(Y[Z == 1]) / sum(Z) + var(Y[Z == 0]) / sum(1 - Z)
+varEstATE <- function(Y, T) {
+  var(Y[T == 1]) / sum(T) + var(Y[T == 0]) / sum(1 - T)
 }
-seEstATE <- sqrt(varEstATE(dat$Y, dat$Z))
-obsTStat <- observedMeanTZ / seEstATE
+seEstATE <- sqrt(varEstATE(dat$Y, dat$T))
+obsTStat <- observedMeanTT / seEstATE
 c(
-  observedTestStat = observedMeanTZ, 
+  observedTestStat = observedMeanTT, 
   stderror = seEstATE, 
   tstat = obsTStat,
   pval = 2 * min(
@@ -388,7 +407,7 @@ c(
 
 - $\alpha$ is the probability of rejecting the null hypothesis when the null hypothesis is true.
 
-- How should we interpret $p$=`r  pMeanTZ`? What about $p$=`r pMeanRankTZ`?
+- How should we interpret $p$=`r  pMeanTT`? What about $p$=`r pMeanRankTT`?
 
 - What does it mean to "reject" $H_0: y_{i,1}=y_{i,2}$ at $\alpha=.05$?
 
@@ -459,7 +478,7 @@ Example with a binary outcome. Does the test work as it should? What do the p-va
 
 ```{r, echo=TRUE}
 collectPValues <- function(y, z, thedistribution = exact()) {
-  ## Make Y and Z have no relationship by re-randomizing Z
+  ## Make Y and T have no relationship by re-randomizing T
   newz <- repeatExperiment(length(y))
   ## The four tests
   thelm <- lm(y ~ newz, data = dat)
@@ -481,7 +500,7 @@ collectPValues <- function(y, z, thedistribution = exact()) {
 
 ```{r fprdsim, cache=TRUE}
 set.seed(12345)
-pDist <- replicate(5000, collectPValues(y = dat$Ybin, z = dat$Z))
+pDist <- replicate(5000, collectPValues(y = dat$Ybin, z = dat$T))
 ```
 
 ## Diagnosing false positive rates by simulation
@@ -539,10 +558,10 @@ In this design only the direct randomization inference-based tests control the f
 
 ```{r fprdsimBig, cache=TRUE}
 set.seed(12345)
-## pDistBig <- replicate(1000,collectPValues(y=bigdat$Ybin,z=bigdat$Z,thedistribution=approximate(B=1000)))
+## pDistBig <- replicate(1000,collectPValues(y=bigdat$Ybin,z=bigdat$T,thedistribution=approximate(B=1000)))
 library(parallel)
 pDistBigLst <- mclapply(1:1000, function(i) {
-  collectPValues(y = bigdat$Ybin, z = bigdat$Z, thedistribution = approximate(nresample = 1000))
+  collectPValues(y = bigdat$Ybin, z = bigdat$T, thedistribution = approximate(nresample = 1000))
 }, mc.cores = 8)
 pDistBig <- simplify2array(pDistBigLst)
 ```
@@ -572,7 +591,7 @@ positive rate.
 ```{r fprdsimBig2, cache=TRUE}
 set.seed(123456)
 pDistBigLst2 <- mclapply(1:1000, function(i) {
-  collectPValues(y = bigdat$Y, z = bigdat$Z, thedistribution = approximate(nresample = 1000))
+  collectPValues(y = bigdat$Y, z = bigdat$T, thedistribution = approximate(nresample = 1000))
 }, mc.cores = 8)
 pDistBig2 <- simplify2array(pDistBigLst2)
 ```
@@ -655,22 +674,22 @@ Say our probability of making a false positive error is .05 in a single test. Wh
  - Prob of one false positive error should be less than or equal to $1 - ( ( 1 - .05 ) \times (1 - .05) ) = .0975$ in 2 tests.
  - Prob of at least one false positive error with $\alpha=.05$ in 10 tests should be $\le$ $1 - (1-.05)^{10}=.40$.
 
-## Discoveries with multiple tests {.allowframebreaks}
+## Discoveries with multiple tests
 
 **Number of errors committed when testing $m$ null hypotheses** [@benjamini1995
 's Table 1]. Cells are numbers of tests.  $R$ is # of "discoveries" and $V$ is # of false discoveries, $U$ is # of correct
 non-rejections, and $S$ is # of correct rejections.
 
-+---------------------------------------------+--------------------------+----------------------+-----------+
-|                                             | Declared                 | Declared             |   Total   |
-|                                             | Non-Significant          | Significant          |           |
-+=============================================+:========================:+:====================:+:=========:+
-| True null hypotheses ($H_{true}=0$)         |             U            |           V          |   $m_0$   |
-+---------------------------------------------+--------------------------+----------------------+-----------+
-| Not true null hypotheses ($H_{true} \ne 0$) |             T            |           S          | $m - m_0$ |
-+---------------------------------------------+--------------------------+----------------------+-----------+
-| Total                                       |            m-R           |           R          |    $m$    |
-+---------------------------------------------+--------------------------+----------------------+-----------+
++---------------------------------------+--------------------------+----------------------+-----------+
+|                                       | Declared                 | Declared             |   Total   |
+|                                       | Non-Significant          | Significant          |           |
++=======================================+:========================:+:====================:+:=========:+
+| True null hypotheses ($H_{true}=0$)   |             U            |           V          |   $m_0$   |
++---------------------------------------+--------------------------+----------------------+-----------+
+| Not true null hyps ($H_{true} \ne 0$) |             T            |           S          | m - $m_0$ |
++---------------------------------------+--------------------------+----------------------+-----------+
+| Total                                 |            m-R           |           R          |    m      |
++---------------------------------------+--------------------------+----------------------+-----------+
 
 
 
@@ -713,7 +732,7 @@ We will focus on FWER but recommend thinking about FDR and learning agendas as a
 
 Imagine we had five outcomes and one treatment:
 
-```{r}
+```{r multtesting1}
 set.seed(23)
 thedat <- fabricate(
   N = 100,
@@ -726,17 +745,17 @@ thedat <- fabricate(
 tau1 <- 0
 tau5 <- tau4 <- tau3 <- tau2 <- tau1
 thepop <- declare_population(thedat)
-theassign <- declare_assignment(m = 50)
-po_1 <- declare_potential_outcomes(Y1_Z_0 = y0_1, Y1_Z_1 = y0_1 + tau1)
-po_2 <- declare_potential_outcomes(Y2_Z_0 = y0_2, Y2_Z_1 = y0_2 + tau2)
-po_3 <- declare_potential_outcomes(Y3_Z_0 = y0_3, Y3_Z_1 = y0_3 + tau3)
-po_4 <- declare_potential_outcomes(Y4_Z_0 = y0_4, Y4_Z_1 = y0_4 + tau4)
-po_5 <- declare_potential_outcomes(Y5_Z_0 = y0_5, Y5_Z_1 = y0_5 + tau5)
-reveal_1 <- declare_reveal(Y1, Z)
-reveal_2 <- declare_reveal(Y2, Z)
-reveal_3 <- declare_reveal(Y3, Z)
-reveal_4 <- declare_reveal(Y4, Z)
-reveal_5 <- declare_reveal(Y5, Z)
+theassign <- declare_assignment(m = 50,assignment_variable = "T")
+po_1 <- declare_potential_outcomes(Y1_T_0 = y0_1, Y1_T_1 = y0_1 + tau1)
+po_2 <- declare_potential_outcomes(Y2_T_0 = y0_2, Y2_T_1 = y0_2 + tau2)
+po_3 <- declare_potential_outcomes(Y3_T_0 = y0_3, Y3_T_1 = y0_3 + tau3)
+po_4 <- declare_potential_outcomes(Y4_T_0 = y0_4, Y4_T_1 = y0_4 + tau4)
+po_5 <- declare_potential_outcomes(Y5_T_0 = y0_5, Y5_T_1 = y0_5 + tau5)
+reveal_1 <- declare_reveal(Y1, T)
+reveal_2 <- declare_reveal(Y2, T)
+reveal_3 <- declare_reveal(Y3, T)
+reveal_4 <- declare_reveal(Y4, T)
+reveal_5 <- declare_reveal(Y5, T)
 
 des1 <- thepop + theassign +
   po_1 + po_2 + po_3 + po_4 + po_5 +
@@ -752,10 +771,10 @@ head(dat1[,c(1,17:23)])
 
 Can we detect an effect on outcome `Y1`? (i.e., does the hypothesis test produce a small enough $p$-value?)
 ```{r p1, echo=TRUE}
-pvalue(oneway_test(Y1 ~ factor(Z), data = dat1))
+pvalue(oneway_test(Y1 ~ factor(T), data = dat1))
 ## Notice that the t-test p-value is also a chi-squared test
 ## p-value. So the omnibus test is just a generalized t-test
-pvalue(independence_test(Y1 ~ factor(Z),
+pvalue(independence_test(Y1 ~ factor(T),
   data = dat1,
   teststat = "quadratic"
 ))
@@ -765,11 +784,11 @@ pvalue(independence_test(Y1 ~ factor(Z),
 
 On which of the five outcomes can we detect an effect? (i.e., does any of the five hypothesis tests produce a small enough $p$-value?)
 ```{r pmult, echo=TRUE}
-p1 <- pvalue(oneway_test(Y1 ~ factor(Z), data = dat1))
-p2 <- pvalue(oneway_test(Y2 ~ factor(Z), data = dat1))
-p3 <- pvalue(oneway_test(Y3 ~ factor(Z), data = dat1))
-p4 <- pvalue(oneway_test(Y4 ~ factor(Z), data = dat1))
-p5 <- pvalue(oneway_test(Y5 ~ factor(Z), data = dat1))
+p1 <- pvalue(oneway_test(Y1 ~ factor(T), data = dat1))
+p2 <- pvalue(oneway_test(Y2 ~ factor(T), data = dat1))
+p3 <- pvalue(oneway_test(Y3 ~ factor(T), data = dat1))
+p4 <- pvalue(oneway_test(Y4 ~ factor(T), data = dat1))
+p5 <- pvalue(oneway_test(Y5 ~ factor(T), data = dat1))
 theps <- c(p1, p2, p3, p4, p5)
 sort(theps)
 ```
@@ -779,7 +798,7 @@ sort(theps)
 
 Can we detect an effect for *any* of the five outcomes? (i.e., does the hypothesis test for *all* five outcomes at once produce a small enough $p$-value?)
 ```{r omnibus, echo=TRUE}
-pvalue(independence_test(Y1 + Y2 + Y3 + Y4 + Y5 ~ factor(Z),
+pvalue(independence_test(Y1 + Y2 + Y3 + Y4 + Y5 ~ factor(T),
   data = dat1, teststat = "quadratic"
 ))
 ```
@@ -798,31 +817,31 @@ the $p$-values to be greater than $p=.05$ if we are using the $\alpha=.05$ accep
 
 ```{r testsetup1, echo=FALSE, results="hide"}
 ttest_Y1fn <- function(data) {
-  p1 <- pvalue(oneway_test(Y1 ~ factor(Z), data = data))
+  p1 <- pvalue(oneway_test(Y1 ~ factor(T), data = data))
   return(data.frame(statistic = NA, p.value = p1))
 }
 ttest_multfn <- function(data) {
-  p1 <- pvalue(oneway_test(Y1 ~ factor(Z), data = data))
-  p2 <- pvalue(oneway_test(Y2 ~ factor(Z), data = data))
-  p3 <- pvalue(oneway_test(Y3 ~ factor(Z), data = data))
-  p4 <- pvalue(oneway_test(Y4 ~ factor(Z), data = data))
-  p5 <- pvalue(oneway_test(Y5 ~ factor(Z), data = data))
+  p1 <- pvalue(oneway_test(Y1 ~ factor(T), data = data))
+  p2 <- pvalue(oneway_test(Y2 ~ factor(T), data = data))
+  p3 <- pvalue(oneway_test(Y3 ~ factor(T), data = data))
+  p4 <- pvalue(oneway_test(Y4 ~ factor(T), data = data))
+  p5 <- pvalue(oneway_test(Y5 ~ factor(T), data = data))
   theps <- c(p1, p2, p3, p4, p5)
   return(data.frame(statistic = NA, p.value = min(theps)))
 }
 ttest_mult_holmfn <- function(data) {
-  p1 <- pvalue(oneway_test(Y1 ~ factor(Z), data = data))
-  p2 <- pvalue(oneway_test(Y2 ~ factor(Z), data = data))
-  p3 <- pvalue(oneway_test(Y3 ~ factor(Z), data = data))
-  p4 <- pvalue(oneway_test(Y4 ~ factor(Z), data = data))
-  p5 <- pvalue(oneway_test(Y5 ~ factor(Z), data = data))
+  p1 <- pvalue(oneway_test(Y1 ~ factor(T), data = data))
+  p2 <- pvalue(oneway_test(Y2 ~ factor(T), data = data))
+  p3 <- pvalue(oneway_test(Y3 ~ factor(T), data = data))
+  p4 <- pvalue(oneway_test(Y4 ~ factor(T), data = data))
+  p5 <- pvalue(oneway_test(Y5 ~ factor(T), data = data))
   theps <- c(p1, p2, p3, p4, p5)
   padj <- p.adjust(theps, method = "holm")
   minp <- min(padj)
   return(data.frame(statistic = NA, p.value = minp))
 }
 ttest_omnibusfn <- function(data) {
-  thep <- pvalue(independence_test(Y1 + Y2 + Y3 + Y4 + Y5 ~ factor(Z), data = data, teststat = "quadratic"))
+  thep <- pvalue(independence_test(Y1 + Y2 + Y3 + Y4 + Y5 ~ factor(T), data = data, teststat = "quadratic"))
   return(data.frame(statistic = NA, p.value = thep))
 }
 
@@ -892,18 +911,18 @@ bigger than arm 2?", "Are the potential outcomes of arm 1 bigger than the averag
 ```{r multitreatsetup, echo=FALSE}
 theassign_mult <- declare_assignment(
   num_arms = 5,
-  conditions = c("1", "2", "3", "4", "5"), assignment_variable = Z
+  conditions = c("1", "2", "3", "4", "5"), assignment_variable = T
 )
-po_mult <- declare_potential_outcomes(Y ~ y0_1 * (Z == "1") + y0_2 * (Z == "2") +
-  y0_3 * (Z == "3") + y0_4 * (Z == "4") + y0_5 * (Z == "5"),
+po_mult <- declare_potential_outcomes(Y ~ y0_1 * (T == "1") + y0_2 * (T == "2") +
+  y0_3 * (T == "3") + y0_4 * (T == "4") + y0_5 * (T == "5"),
 conditions = c("1", "2", "3", "4", "5"),
-assignment_variables = Z
+assignment_variables = T
 )
-reveal_mult <- declare_reveal(assignment_variables = Z)
+reveal_mult <- declare_reveal(assignment_variables = T)
 des2 <- thepop + theassign_mult + po_mult + reveal_mult
 dat2 <- draw_data(des2)
 options(digits=2)
-## Z is treatment arm: 1,2,3,4,5
+## T is treatment arm: 1,2,3,4,5
 head(dat2[,-c(2:6,8)])
 options(digits=4)
 ```
@@ -915,7 +934,7 @@ testing. Notice how one "significant" result changes with adjustment.
 
 ```{r}
 ## this is an interface to coin's independence_test()
-pair_tests1 <- pairwisePermutationTest(Y ~ Z, data = dat2, distribution = asymptotic(), method = "holm", teststat = "quadratic")
+pair_tests1 <- pairwisePermutationTest(Y ~ T, data = dat2, distribution = asymptotic(), method = "holm", teststat = "quadratic")
 pair_tests1
 ```
 ## Approaches to testing hypotheses with multiple arms
@@ -931,42 +950,42 @@ and the outcome (a fine idea);
   4.  choose one arm to focus on in advance (a fine idea).
 
 ```{r}
-ttest_Z1_vs_allfn <- function(data) {
-  p1 <- pvalue(oneway_test(Y ~ factor(Z == "1"), data = data))
+ttest_T1_vs_allfn <- function(data) {
+  p1 <- pvalue(oneway_test(Y ~ factor(T == "1"), data = data))
   return(data.frame(statistic = NA, p.value = p1))
 }
-overall_Zfn <- function(data) {
-  itest <- independence_test(Y ~ Z, data = data)
+overall_Tfn <- function(data) {
+  itest <- independence_test(Y ~ T, data = data)
   return(data.frame(statistic = NA, p.value = pvalue(itest)))
 }
 pairwise_testsfn <- function(data) {
-  pair_tests <- pairwisePermutationTest(Y ~ Z, data = data, distribution = asymptotic(), method = "holm", teststat = "quadratic")
+  pair_tests <- pairwisePermutationTest(Y ~ T, data = data, distribution = asymptotic(), method = "holm", teststat = "quadratic")
   return(data.frame(statistic = NA, p.value = min(pair_tests$p.value)))
 }
 pairwise_tests_adjfn <- function(data) {
-  pair_tests <- pairwisePermutationTest(Y ~ Z, data = data, distribution = asymptotic(), method = "holm", teststat = "quadratic")
+  pair_tests <- pairwisePermutationTest(Y ~ T, data = data, distribution = asymptotic(), method = "holm", teststat = "quadratic")
   return(data.frame(statistic = NA, p.value = min(pair_tests$p.adjust)))
 }
 
 
-## dat2$ZF <- factor(dat2$Z)
-## blah <- independence_test(Y~ZF,data=dat2,xtrafo = mcp_trafo(ZF = "Tukey")) #,teststat="quadratic")
+## dat2$TF <- factor(dat2$T)
+## blah <- independence_test(Y~TF,data=dat2,xtrafo = mcp_trafo(TF = "Tukey")) #,teststat="quadratic")
 ## pair_tests2 <- pvalue(blah,method="unadjusted")
 ## pair_tests2
 ## thecontrasts <- rbind("2 - 1 " = c(1,-1,0,0,0,0),
 ## "3-1"=c(1,0,-1,0,0,0))
-## blah2<- independence_test(Y~ZF,data=dat2,xtrafo = mcp_trafo(ZF = thecontrasts))
+## blah2<- independence_test(Y~TF,data=dat2,xtrafo = mcp_trafo(TF = thecontrasts))
 ## pvalue(blah2,method="single-step")
 ##
 
-ttest_Z1_vs_all <- declare_test(handler = label_test(ttest_Z1_vs_allfn), label = "t-test Z1 vs all")
-overall_Z <- declare_test(handler = label_test(overall_Zfn), label = "Overall test")
+ttest_T1_vs_all <- declare_test(handler = label_test(ttest_T1_vs_allfn), label = "t-test T1 vs all")
+overall_T <- declare_test(handler = label_test(overall_Tfn), label = "Overall test")
 pairwise_test <- declare_test(handler = label_test(pairwise_testsfn), label = "Choose best pairwise test")
 pairwise_test_adj <- declare_test(handler = label_test(pairwise_tests_adjfn), label = "Choose best pairwise test after adjustment")
 ```
 
 ```{r des2diag, cache=TRUE}
-des2_plus <- des2 + ttest_Z1_vs_all + overall_Z + pairwise_test + pairwise_test_adj
+des2_plus <- des2 + ttest_T1_vs_all + overall_T + pairwise_test + pairwise_test_adj
 thediagnosands <- declare_diagnosands(fwer = mean(p.value < .05))
 des2_sim <- simulate_design(des2_plus, sims = 1000)
 res2 <- des2_sim %>%
