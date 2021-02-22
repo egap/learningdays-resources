@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="generator" content="pandoc">
   <meta name="author" content="Fill In Your Name" />
-  <meta name="dcterms.date" content="2021-02-16" />
+  <meta name="dcterms.date" content="2021-02-22" />
   <title>Hypothesis Testing: Summarizing Information about Causal Effects</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -520,7 +520,7 @@ document.getElementsByTagName('head')[0].appendChild(style);
 <section>
     <h1 class="title">Hypothesis Testing: Summarizing Information about Causal Effects</h1>
     <h2 class="author">Fill In Your Name</h2>
-    <h3 class="date">16 February 2021</h3>
+    <h3 class="date">22 February 2021</h3>
 </section>
 <section id="TOC">
 <ul>
@@ -531,13 +531,13 @@ document.getElementsByTagName('head')[0].appendChild(style);
 <li><a href="#/the-role-of-hypothesis-tests-in-causal-inference-ii">The role of hypothesis tests in causal inference II</a></li>
 <li><a href="#/the-role-of-hypothesis-tests-in-causal-inference-iii">The role of hypothesis tests in causal inference III</a></li>
 </ul></li>
-<li><a href="#/hypothesis-test">Hypothesis Test</a>
+<li><a href="#/hypothesis-testing-basics">Hypothesis Testing Basics</a>
 <ul>
 <li><a href="#/ingredients-of-a-hypothesis-test">Ingredients of a hypothesis test</a></li>
 <li><a href="#/a-hypothesis-is-a-statement-about-or-model-of-a-relationship-between-potential-outcomes">A hypothesis is a statement about or model of a relationship between potential outcomes</a></li>
 <li><a href="#/test-statistics-summarize-treatment-to-outcome-relationships">Test statistics summarize treatment-to-outcome relationships</a></li>
-<li><a href="#/linking-test-statistic-and-hypothesis">Linking test statistic and hypothesis</a></li>
-<li><a href="#/generating-the-distribution-of-hypothetical-test-statistics">Generating the distribution of hypothetical test statistics</a></li>
+<li><a href="#/the-design-links-test-statistic-and-hypothesis">The design links test statistic and hypothesis</a></li>
+<li><a href="#/the-design-guides-creation-of-a-distribution-of-hypothetical-test-statistics">The design guides creation of a distribution of hypothetical test statistics</a></li>
 <li><a href="#/plot-the-randomization-distributions-under-the-null">Plot the randomization distributions under the null</a></li>
 <li><a href="#/p-values-summarize-the-plots"><span class="math inline">\(p\)</span>-values summarize the plots</a></li>
 <li><a href="#/how-to-do-this-in-r-coin">How to do this in R: COIN</a></li>
@@ -588,6 +588,8 @@ document.getElementsByTagName('head')[0].appendChild(style);
 <li><a href="#/comparing-approaches-ii">Comparing approaches II</a></li>
 <li><a href="#/the-holm-correction">The Holm correction</a></li>
 <li><a href="#/multiple-hypothesis-testing-multiple-treatment-arms">Multiple hypothesis testing: Multiple treatment arms</a></li>
+<li><a href="#/multiple-hypothesis-testing-multiple-treatment-arms-1">Multiple hypothesis testing: Multiple treatment arms</a></li>
+<li><a href="#/multiple-hypothesis-testing-multiple-treatment-arms-2">Multiple hypothesis testing: Multiple treatment arms</a></li>
 <li><a href="#/approaches-to-testing-hypotheses-with-multiple-arms">Approaches to testing hypotheses with multiple arms</a></li>
 <li><a href="#/summary-1">Summary</a></li>
 <li><a href="#/references">References</a></li>
@@ -630,14 +632,18 @@ document.getElementsByTagName('head')[0].appendChild(style);
 <section id="the-role-of-hypothesis-tests-in-causal-inference-iii" class="slide level2">
 <h2>The role of hypothesis tests in causal inference III</h2>
 <ul>
-<li><p>The hypothesis testing approach to causal inference doesn’t <em>provide</em> a best guess but instead tells you about evidence or information about a best guess.</p></li>
-<li><p>The estimation approach provides a best guess but doesn’t tell you how much you know about that guess.</p></li>
-<li><p>These approaches can converge and we nearly always report both: “Our best guess of the treatment effect was 5, and we could reject the idea that the effect was 0 (<span class="math inline">\(p\)</span>=.01).”</p></li>
+<li><p>The hypothesis testing approach to causal inference doesn’t provide a best guess but instead tells you <em>how much evidence or information the research design provides about a causal claim</em>.</p></li>
+<li><p>The estimation approach provides a best guess but doesn’t tell you how much you know about that guess.</p>
+<ul>
+<li>For example, a best guess with <span class="math inline">\(N=10\)</span> seems to tell us less about the effect than <span class="math inline">\(N=1000\)</span>.</li>
+<li>For example, a best guess when 95% of <span class="math inline">\(Y=1\)</span> and 5% of <span class="math inline">\(Y=0\)</span> seems to tell us less than when outcomes are evenly split betwee 0 and 1.</li>
+</ul></li>
+<li><p>We nearly always report both since both help us make decisions: “Our best guess of the treatment effect was 5, and we could reject the idea that the effect was 0 (<span class="math inline">\(p\)</span>=.01).”</p></li>
 </ul>
 </section></section>
 <section>
-<section id="hypothesis-test" class="title-slide slide level1">
-<h1>Hypothesis Test</h1>
+<section id="hypothesis-testing-basics" class="title-slide slide level1">
+<h1>Hypothesis Testing Basics</h1>
 
 </section>
 <section id="ingredients-of-a-hypothesis-test" class="slide level2">
@@ -646,8 +652,8 @@ document.getElementsByTagName('head')[0].appendChild(style);
 <li><p>A <strong>hypothesis</strong> is a statement about a relationship among potential outcomes.</p></li>
 <li><p>A <strong>test statistic</strong> summarizes the relationship between treatment and observed outcomes.</p></li>
 <li><p>The <strong>design</strong> allows us to link the hypothesis and the test statistic: calculate a test statistic that describes a relationship between potential outcomes.</p></li>
-<li><p>The <strong>design</strong> also generates a distribution of possible test statistics implied by the hypothesis.</p></li>
-<li><p>A <strong><span class="math inline">\(p\)</span>-value</strong> describes the relationship between our observed test statistic and the possible hypothesized test statistics.</p></li>
+<li><p>The <strong>design</strong> also tells us how to generate a <em>distribution</em> of possible test statistics implied by the hypothesis.</p></li>
+<li><p>A <strong><span class="math inline">\(p\)</span>-value</strong> describes the relationship between our observed test statistic and the distribution of possible hypothesized test statistics.</p></li>
 </ul>
 </section>
 <section id="a-hypothesis-is-a-statement-about-or-model-of-a-relationship-between-potential-outcomes" class="slide level2">
@@ -657,10 +663,10 @@ document.getElementsByTagName('head')[0].appendChild(style);
 <tr class="header">
 <th style="text-align: right;">Outcome</th>
 <th style="text-align: right;">Treatment</th>
-<th style="text-align: right;">yi0</th>
+<th style="text-align: right;"><span class="math inline">\(y_{i,0}\)</span></th>
 <th style="text-align: right;">ITE</th>
-<th style="text-align: right;">yi1</th>
-<th style="text-align: right;">Y&gt;0</th>
+<th style="text-align: right;"><span class="math inline">\(y_{i,1}\)</span></th>
+<th style="text-align: right;"><span class="math inline">\(Y&gt;0\)</span></th>
 </tr>
 </thead>
 <tbody>
@@ -767,20 +773,20 @@ document.getElementsByTagName('head')[0].appendChild(style);
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>observedMeanRankTT</span></code></pre></div>
 <pre><code>[1] 1</code></pre>
 </section>
-<section id="linking-test-statistic-and-hypothesis" class="slide level2">
-<h2>Linking test statistic and hypothesis</h2>
+<section id="the-design-links-test-statistic-and-hypothesis" class="slide level2">
+<h2>The design links test statistic and hypothesis</h2>
 <p>What we observe for each person <span class="math inline">\(i\)</span> (<span class="math inline">\(Y_i\)</span>) is either what we would have observed in treatment (<span class="math inline">\(y_{i,1}\)</span>) <strong>or</strong> what we would have observed in control (<span class="math inline">\(y_{i,0}\)</span>).</p>
 <p><span class="math display">\[Y_i = T_i y_{i,1} + (1-T_i)* y_{i,0}\]</span></p>
 <p>So, if <span class="math inline">\(y_{i,1}=y_{i,0}\)</span> then <span class="math inline">\(Y_i = y_{i,0}\)</span>.</p>
-<p>What we actually observe is what we would have observed in the control condition.</p>
+<p>What we <em>actually observe</em> is what we <em>would have observed in the control condition</em>.</p>
 </section>
-<section id="generating-the-distribution-of-hypothetical-test-statistics" class="slide level2">
-<h2>Generating the distribution of hypothetical test statistics</h2>
+<section id="the-design-guides-creation-of-a-distribution-of-hypothetical-test-statistics" class="slide level2">
+<h2>The design guides creation of a distribution of hypothetical test statistics</h2>
 <p>We need to know how to repeat our experiment:</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>repeatExperiment <span class="ot">&lt;-</span> <span class="cf">function</span>(N) {</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">complete_ra</span>(N)</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
-<p>Then we repeat it, calculating the implied test statistic each time:</p>
+<p>Then we repeat it, calculating the implied test statistic by the hypothesis and design each time:</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123456</span>)</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>possibleMeanDiffsH0 <span class="ot">&lt;-</span> <span class="fu">replicate</span>(</span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="dv">10000</span>,</span>
@@ -804,6 +810,7 @@ An example of using the design of the experiment to test a hypothesis with two d
 </section>
 <section id="p-values-summarize-the-plots" class="slide level2">
 <h2><span class="math inline">\(p\)</span>-values summarize the plots</h2>
+<p>How should we interpret these <span class="math inline">\(p\)</span>-values? (Notice that they are one-tailed.)</p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>pMeanTT <span class="ot">&lt;-</span> <span class="fu">mean</span>(possibleMeanDiffsH0 <span class="sc">&gt;=</span> observedMeanTT)</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>pMeanRankTT <span class="ot">&lt;-</span> <span class="fu">mean</span>(possibleMeanRankDiffsH0 <span class="sc">&gt;=</span> observedMeanRankTT)</span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>pMeanTT</span></code></pre></div>
@@ -816,23 +823,23 @@ An example of using the design of the experiment to test a hypothesis with two d
 <div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="do">## using the coin package</span></span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(coin)</span>
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">12345</span>)</span>
-<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>pMean2 <span class="ot">&lt;-</span> <span class="fu">pvalue</span>(<span class="fu">oneway_test</span>(Y <span class="sc">~</span> <span class="fu">factor</span>(T),</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>pMean2 <span class="ot">&lt;-</span> coin<span class="sc">::</span><span class="fu">pvalue</span>(<span class="fu">oneway_test</span>(Y <span class="sc">~</span> <span class="fu">factor</span>(T),</span>
 <span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> dat,</span>
-<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">distribution =</span> <span class="fu">approximate</span>(<span class="at">nresample =</span> <span class="dv">1000</span>)</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">distribution =</span> <span class="fu">approximate</span>(<span class="at">nresample =</span> <span class="dv">1000</span>), <span class="at">alternative =</span> <span class="st">&quot;less&quot;</span></span>
 <span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>))</span>
 <span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>dat<span class="sc">$</span>rankY <span class="ot">&lt;-</span> <span class="fu">rank</span>(dat<span class="sc">$</span>Y)</span>
-<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>pMeanRank2 <span class="ot">&lt;-</span> <span class="fu">pvalue</span>(<span class="fu">oneway_test</span>(rankY <span class="sc">~</span> <span class="fu">factor</span>(T),</span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>pMeanRank2 <span class="ot">&lt;-</span> coin<span class="sc">::</span><span class="fu">pvalue</span>(<span class="fu">oneway_test</span>(rankY <span class="sc">~</span> <span class="fu">factor</span>(T),</span>
 <span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> dat,</span>
-<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">distribution =</span> <span class="fu">approximate</span>(<span class="at">nresample =</span> <span class="dv">1000</span>)</span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">distribution =</span> <span class="fu">approximate</span>(<span class="at">nresample =</span> <span class="dv">1000</span>), <span class="at">alternative =</span> <span class="st">&quot;less&quot;</span></span>
 <span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a>))</span>
 <span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a>pMean2</span></code></pre></div>
-<pre><code>[1] 0.451
+<pre><code>[1] 0.783
 99 percent confidence interval:
- 0.4103 0.4922 </code></pre>
+ 0.7476 0.8157 </code></pre>
 <div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>pMeanRank2</span></code></pre></div>
-<pre><code>[1] 0.636
+<pre><code>[1] 0.323
 99 percent confidence interval:
- 0.5957 0.6750 </code></pre>
+ 0.2853 0.3624 </code></pre>
 </section>
 <section id="how-to-do-this-in-r-ritools" class="slide level2 allowframebreaks">
 <h2 class="allowframebreaks">How to do this in R: RItools</h2>
@@ -873,6 +880,7 @@ An example of using the design of the experiment to test a hypothesis with two d
 </section>
 <section id="how-to-do-this-in-r-ri2" class="slide level2">
 <h2>How to do this in R: RI2</h2>
+<p>How should we interpret the two-tailed <span class="math inline">\(p\)</span>-value here?</p>
 <div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="do">## using the ri2 package</span></span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ri2)</span>
 <span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>thedesign <span class="ot">&lt;-</span> <span class="fu">declare_ra</span>(<span class="at">N =</span> N)</span>
@@ -910,25 +918,26 @@ An example of using the design of the experiment to test a hypothesis with two d
 <h2>Testing the weak null of no average effects</h2>
 <ul>
 <li><p>The weak null hypothesis is a claim about aggregates, and it is nearly always stated in terms of averages: <span class="math inline">\(H_0: \bar{y}_{1} = \bar{y}_{0}\)</span></p></li>
-<li><p>The test statistic for this hypothesis is nearly always the difference of means (i.e., <code>meanTT()</code> above).</p></li>
+<li><p>The test statistic for this hypothesis is nearly always the simple difference of means (i.e., <code>meanTT()</code> above).</p></li>
 </ul>
 <div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>lm1 <span class="ot">&lt;-</span> <span class="fu">lm</span>(Y <span class="sc">~</span> T, <span class="at">data =</span> dat)</span>
 <span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>lm1P <span class="ot">&lt;-</span> <span class="fu">summary</span>(lm1)<span class="sc">$</span>coef[<span class="st">&quot;T&quot;</span>, <span class="st">&quot;Pr(&gt;|t|)&quot;</span>]</span>
 <span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>ttestP1 <span class="ot">&lt;-</span> <span class="fu">t.test</span>(Y <span class="sc">~</span> T, <span class="at">data =</span> dat)<span class="sc">$</span>p.value</span>
 <span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(estimatr)</span>
 <span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>ttestP2 <span class="ot">&lt;-</span> <span class="fu">difference_in_means</span>(Y <span class="sc">~</span> T, <span class="at">data =</span> dat)</span>
-<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(lm1P, ttestP1, ttestP2<span class="sc">$</span>p.value)</span></code></pre></div>
-<pre><code>                   T 
-0.3321 0.3587 0.3587 </code></pre>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(<span class="at">lm1P =</span> lm1P, <span class="at">ttestP1 =</span> ttestP1, <span class="at">tttestP2 =</span> ttestP2<span class="sc">$</span>p.value)</span></code></pre></div>
+<pre><code>      lm1P    ttestP1 tttestP2.T 
+    0.3321     0.3587     0.3587 </code></pre>
 <ul>
-<li>Why is the OLS <span class="math inline">\(p\)</span>-value different? What assumptions is it making?</li>
+<li>Why is the OLS <span class="math inline">\(p\)</span>-value different? What assumptions do we use to calculate it?</li>
 </ul>
 </section>
 <section id="testing-the-weak-null-of-no-average-effects-1" class="slide level2">
 <h2>Testing the weak null of no average effects</h2>
+<p>Both variation and location of <span class="math inline">\(Y\)</span> changes with treatment in this simulation.</p>
 
 <div class="figure">
-<img src="figs/figunnamed-chunk-10-1.png" alt="Boxplot of observed outcomes by treatment status" width=".8\textwidth"  />
+<img src="figs/figunnamed-chunk-8-1.png" alt="Boxplot of observed outcomes by treatment status" width=".7\textwidth"  />
 <p class="caption">
 Boxplot of observed outcomes by treatment status
 </p>
@@ -964,7 +973,7 @@ Boxplot of observed outcomes by treatment status
 <ul>
 <li><p>“In typical use, the level of the test [<span class="math inline">\(\alpha\)</span>] is a promise about the test’s performance and the size is a fact about its performance…” (Rosenbaum 2010, Glossary)</p></li>
 <li><p><span class="math inline">\(\alpha\)</span> is the probability of rejecting the null hypothesis when the null hypothesis is true.</p></li>
-<li><p>How should we interpret <span class="math inline">\(p\)</span>=0.7785? What about <span class="math inline">\(p\)</span>=0.3198?</p></li>
+<li><p>How should we interpret <span class="math inline">\(p\)</span>=0.78? What about <span class="math inline">\(p\)</span>=0.32 (our tests of the sharp null)?</p></li>
 <li><p>What does it mean to “reject” <span class="math inline">\(H_0: y_{i,1}=y_{i,2}\)</span> at <span class="math inline">\(\alpha=.05\)</span>?</p></li>
 </ul>
 </section>
@@ -981,7 +990,7 @@ One-sided p-value from a Normally distributed test statistic.
 <ul>
 <li><p>The curve is centered at the hypothesized value.</p></li>
 <li><p>The curve represents the world of the hypothesis.</p></li>
-<li><p>The <span class="math inline">\(p\)</span>-value is how rare it would be to see the observed test statistic (or a value farther away from the hypothesized value, like 0) in the world of the null.</p></li>
+<li><p>The <span class="math inline">\(p\)</span>-value is how rare it would be to see the observed test statistic (or a value farther away from the hypothesized value) in the world of the null.</p></li>
 <li><p>In the picture, the observed value of the test statistic is consistent with the hypothesized distribution, but just not super consistent.</p></li>
 <li><p>Even if <span class="math inline">\(p &lt; .05\)</span> (or <span class="math inline">\(p &lt; .001\)</span>) the observed test statistic must reflect some value on the hypothesized distribution. This means that you can always make an error when you reject a null hypothesis.</p></li>
 </ul>
@@ -996,7 +1005,7 @@ One-sided p-value from a Normally distributed test statistic.
 <section id="a-single-test-of-a-single-hypothesis" class="slide level2">
 <h2>A single test of a single hypothesis</h2>
 <ul>
-<li><p>A single test of a single hypothesis should encourage false positive errors rarely (for example, if we set <span class="math inline">\(\alpha=.05\)</span>) then we are saying that we are comfortable with our testing procedure making false positive errors <strong>no more than 5% of tests of a given treatment assignment in a given experiment</strong>.</p></li>
+<li><p>A single test of a single hypothesis should encourage false positive errors rarely (for example, if we set <span class="math inline">\(\alpha=.05\)</span>) then we are saying that we are comfortable with our testing procedure making false positive errors in <strong>no more than 5% of tests of a given treatment assignment in a given experiment</strong>.</p></li>
 <li><p>Also, a <strong>single test of a single hypothesis</strong> should detect signal when it exists — it should be have high <strong>statistical power</strong>. In other words, it should not fail to detect a signal when it exists (i.e. should have low false negative error rates).</p></li>
 </ul>
 </section>
@@ -1014,9 +1023,9 @@ One-sided p-value from a Normally distributed test statistic.
 <ul>
 <li>Create a true null hypothesis.</li>
 <li>Test the true null.</li>
-<li>The <span class="math inline">\(p\)</span>-value should be large.</li>
+<li>The <span class="math inline">\(p\)</span>-value should be large if the test is operating correctly.</li>
 </ul></li>
-<li><p>The proportion of small <span class="math inline">\(p\)</span>-values should be no larger than <span class="math inline">\(\alpha\)</span>.</p></li>
+<li><p>The proportion of small <span class="math inline">\(p\)</span>-values should be no larger than <span class="math inline">\(\alpha\)</span> if the test is operating correctly.</p></li>
 </ul>
 </section>
 <section id="diagnosing-false-positive-rates-by-simulation-1" class="slide level2">
@@ -1069,7 +1078,7 @@ rtpRank 0.4444 0.4444    1 0.4444    1</code></pre>
 </section>
 <section id="diagnosing-false-positive-rates-by-simulation-4" class="slide level2">
 <h2>Diagnosing false positive rates by simulation</h2>
-<p>Compare tests by plotting the proportion of p-values less than any given number. The randomization inference tests control the false positive rate.</p>
+<p>Compare tests by plotting the proportion of p-values less than any given number. The “randomization inference” tests control the false positive rate (these are the tests of using direct permutation, repeating the experiment).</p>
 
 <div class="figure">
 <img src="figs/figplotecdf-1.png" alt="P-value distributions when there are no effects for four tests with n=10. A test that controls its false positive rate should have points on or below the diagonal line." width=".6\textwidth"  />
@@ -1083,7 +1092,7 @@ P-value distributions when there are no effects for four tests with n=10. A test
 <p>In this design only the direct randomization inference-based tests control the false positive rate.</p>
 
 <div class="figure">
-<img src="figs/figplotecdfBig-1.png" alt="P-value distributions when there are no effects for four tests with n=60 and a binary outcome. A test that controls its false positive rate should have points on or below the diagonal line." width=".6\textwidth"  />
+<img src="figs/figplotecdfBig-1.png" alt="P-value distributions when there are no effects for four tests with n=60 and a binary outcome. A test that controls its false positive rate should have points on or below the diagonal line." width=".7\textwidth"  />
 <p class="caption">
 P-value distributions when there are no effects for four tests with n=60 and a binary outcome. A test that controls its false positive rate should have points on or below the diagonal line.
 </p>
@@ -1094,7 +1103,7 @@ P-value distributions when there are no effects for four tests with n=60 and a b
 <p>Here, all of the tests do a good job of controlling the false positive rate.</p>
 
 <div class="figure">
-<img src="figs/figplotecdfBig2-1.png" alt="P-value distributions when there are no effects for four tests with n=60 and a continuous outcome. A test that controls its false positive rate should have points on or below the diagonal line." width=".6\textwidth"  />
+<img src="figs/figplotecdfBig2-1.png" alt="P-value distributions when there are no effects for four tests with n=60 and a continuous outcome. A test that controls its false positive rate should have points on or below the diagonal line." width=".7\textwidth"  />
 <p class="caption">
 P-value distributions when there are no effects for four tests with n=60 and a continuous outcome. A test that controls its false positive rate should have points on or below the diagonal line.
 </p>
@@ -1228,7 +1237,7 @@ P-value distributions when there are no effects for four tests with n=60 and a c
 </section>
 <section id="multiple-hypothesis-testing-multiple-outcomes" class="slide level2">
 <h2>Multiple hypothesis testing: Multiple Outcomes</h2>
-<p>Imagine we had five outcomes and one treatment:</p>
+<p>Imagine we had five outcomes and one treatment (showing potential and observed outcomes here):</p>
 <pre><code>   ID T Y1_T_0 Y1_T_1 Y2_T_0 Y2_T_1 Y3_T_0 Y3_T_1 Y4_T_0 Y4_T_1
 1 001 0   0.19   0.19  0.366  0.366  0.546  0.546 -0.626 -0.626
 2 002 0  -0.43  -0.43  0.931  0.931 -2.233 -2.233  1.309  1.309
@@ -1247,11 +1256,11 @@ P-value distributions when there are no effects for four tests with n=60 and a c
 <section id="can-we-detect-an-effect-on-outcome-y1" class="slide level2">
 <h2>Can we detect an effect on outcome <code>Y1</code>?</h2>
 <p>Can we detect an effect on outcome <code>Y1</code>? (i.e., does the hypothesis test produce a small enough <span class="math inline">\(p\)</span>-value?) </p>
-<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="fu">pvalue</span>(<span class="fu">oneway_test</span>(Y1 <span class="sc">~</span> <span class="fu">factor</span>(T), <span class="at">data =</span> dat1))</span></code></pre></div>
+<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>coin<span class="sc">::</span><span class="fu">pvalue</span>(<span class="fu">oneway_test</span>(Y1 <span class="sc">~</span> <span class="fu">factor</span>(T), <span class="at">data =</span> dat1))</span></code></pre></div>
 <pre><code>[1] 0.88</code></pre>
 <div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Notice that the t-test p-value is also a chi-squared test</span></span>
-<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a><span class="do">## p-value. So the omnibus test is just a generalized t-test</span></span>
-<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a><span class="fu">pvalue</span>(<span class="fu">independence_test</span>(Y1 <span class="sc">~</span> <span class="fu">factor</span>(T),</span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a><span class="do">## p-value.</span></span>
+<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a>coin<span class="sc">::</span><span class="fu">pvalue</span>(<span class="fu">independence_test</span>(Y1 <span class="sc">~</span> <span class="fu">factor</span>(T),</span>
 <span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> dat1,</span>
 <span id="cb40-5"><a href="#cb40-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">teststat =</span> <span class="st">&quot;quadratic&quot;</span></span>
 <span id="cb40-6"><a href="#cb40-6" aria-hidden="true" tabindex="-1"></a>))</span></code></pre></div>
@@ -1260,23 +1269,24 @@ P-value distributions when there are no effects for four tests with n=60 and a c
 <section id="on-which-of-the-five-outcomes-can-we-detect-an-effect" class="slide level2">
 <h2>On which of the five outcomes can we detect an effect?</h2>
 <p>On which of the five outcomes can we detect an effect? (i.e., does any of the five hypothesis tests produce a small enough <span class="math inline">\(p\)</span>-value?) </p>
-<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>p1 <span class="ot">&lt;-</span> <span class="fu">pvalue</span>(<span class="fu">oneway_test</span>(Y1 <span class="sc">~</span> <span class="fu">factor</span>(T), <span class="at">data =</span> dat1))</span>
-<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>p2 <span class="ot">&lt;-</span> <span class="fu">pvalue</span>(<span class="fu">oneway_test</span>(Y2 <span class="sc">~</span> <span class="fu">factor</span>(T), <span class="at">data =</span> dat1))</span>
-<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a>p3 <span class="ot">&lt;-</span> <span class="fu">pvalue</span>(<span class="fu">oneway_test</span>(Y3 <span class="sc">~</span> <span class="fu">factor</span>(T), <span class="at">data =</span> dat1))</span>
-<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a>p4 <span class="ot">&lt;-</span> <span class="fu">pvalue</span>(<span class="fu">oneway_test</span>(Y4 <span class="sc">~</span> <span class="fu">factor</span>(T), <span class="at">data =</span> dat1))</span>
-<span id="cb42-5"><a href="#cb42-5" aria-hidden="true" tabindex="-1"></a>p5 <span class="ot">&lt;-</span> <span class="fu">pvalue</span>(<span class="fu">oneway_test</span>(Y5 <span class="sc">~</span> <span class="fu">factor</span>(T), <span class="at">data =</span> dat1))</span>
-<span id="cb42-6"><a href="#cb42-6" aria-hidden="true" tabindex="-1"></a>theps <span class="ot">&lt;-</span> <span class="fu">c</span>(p1, p2, p3, p4, p5)</span>
+<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>p1 <span class="ot">&lt;-</span> coin<span class="sc">::</span><span class="fu">pvalue</span>(<span class="fu">oneway_test</span>(Y1 <span class="sc">~</span> <span class="fu">factor</span>(T), <span class="at">data =</span> dat1))</span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>p2 <span class="ot">&lt;-</span> coin<span class="sc">::</span><span class="fu">pvalue</span>(<span class="fu">oneway_test</span>(Y2 <span class="sc">~</span> <span class="fu">factor</span>(T), <span class="at">data =</span> dat1))</span>
+<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a>p3 <span class="ot">&lt;-</span> coin<span class="sc">::</span><span class="fu">pvalue</span>(<span class="fu">oneway_test</span>(Y3 <span class="sc">~</span> <span class="fu">factor</span>(T), <span class="at">data =</span> dat1))</span>
+<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a>p4 <span class="ot">&lt;-</span> coin<span class="sc">::</span><span class="fu">pvalue</span>(<span class="fu">oneway_test</span>(Y4 <span class="sc">~</span> <span class="fu">factor</span>(T), <span class="at">data =</span> dat1))</span>
+<span id="cb42-5"><a href="#cb42-5" aria-hidden="true" tabindex="-1"></a>p5 <span class="ot">&lt;-</span> coin<span class="sc">::</span><span class="fu">pvalue</span>(<span class="fu">oneway_test</span>(Y5 <span class="sc">~</span> <span class="fu">factor</span>(T), <span class="at">data =</span> dat1))</span>
+<span id="cb42-6"><a href="#cb42-6" aria-hidden="true" tabindex="-1"></a>theps <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="at">p1 =</span> p1, <span class="at">p2 =</span> p2, <span class="at">p3 =</span> p3, <span class="at">p4 =</span> p4, <span class="at">p5 =</span> p5)</span>
 <span id="cb42-7"><a href="#cb42-7" aria-hidden="true" tabindex="-1"></a><span class="fu">sort</span>(theps)</span></code></pre></div>
-<pre><code>[1] 0.27 0.30 0.43 0.59 0.88</code></pre>
+<pre><code>  p5   p4   p3   p2   p1 
+0.27 0.30 0.43 0.59 0.88 </code></pre>
 </section>
 <section id="can-we-detect-an-effect-for-any-of-the-five-outcomes" class="slide level2">
 <h2>Can we detect an effect for <em>any</em> of the five outcomes?</h2>
 <p>Can we detect an effect for <em>any</em> of the five outcomes? (i.e., does the hypothesis test for <em>all</em> five outcomes at once produce a small enough <span class="math inline">\(p\)</span>-value?) </p>
-<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="fu">pvalue</span>(<span class="fu">independence_test</span>(Y1 <span class="sc">+</span> Y2 <span class="sc">+</span> Y3 <span class="sc">+</span> Y4 <span class="sc">+</span> Y5 <span class="sc">~</span> <span class="fu">factor</span>(T),</span>
+<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>coin<span class="sc">::</span><span class="fu">pvalue</span>(<span class="fu">independence_test</span>(Y1 <span class="sc">+</span> Y2 <span class="sc">+</span> Y3 <span class="sc">+</span> Y4 <span class="sc">+</span> Y5 <span class="sc">~</span> <span class="fu">factor</span>(T),</span>
 <span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> dat1, <span class="at">teststat =</span> <span class="st">&quot;quadratic&quot;</span></span>
 <span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a>))</span></code></pre></div>
 <pre><code>[1] 0.67</code></pre>
-<p>Which approach is likely to mislead us with too many “statistically significant” results?</p>
+<p>Which approach is likely to mislead us with too many “statistically significant” results (5 tests or 1 omnibus test)?</p>
 </section>
 <section id="comparing-approaches-i" class="slide level2">
 <h2>Comparing approaches I</h2>
@@ -1321,7 +1331,7 @@ P-value distributions when there are no effects for four tests with n=60 and a c
 </table>
 <ul>
 <li><p>The approach using 5 tests produces a <span class="math inline">\(p &lt; .05\)</span> much too often — recall that there are no causal effects at all for any of these outcomes.</p></li>
-<li><p>A test of a single outcome has <span class="math inline">\(p &lt; .05\)</span> no more than 5% of the simulations.</p></li>
+<li><p>A test of a single outcome (here <code>Y1</code>) has <span class="math inline">\(p &lt; .05\)</span> no more than 5% of the simulations.</p></li>
 <li><p>The omnibus test also shows a well-controlled error rate.</p></li>
 <li><p>Using a multiple testing correction (here we use the “Holm” correction) also correctly controls the false positive rate.</p></li>
 </ul>
@@ -1330,13 +1340,16 @@ P-value distributions when there are no effects for four tests with n=60 and a c
 <h2>The Holm correction</h2>
 <p>FYI, here is how to use the Holm correction (Notice what happens to the <span class="math inline">\(p\)</span>-values):</p>
 <div class="sourceCode" id="cb47"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a>theps</span></code></pre></div>
-<pre><code>[1] 0.88 0.59 0.43 0.30 0.27</code></pre>
+<pre><code>  p1   p2   p3   p4   p5 
+0.88 0.59 0.43 0.30 0.27 </code></pre>
 <div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="fu">p.adjust</span>(theps, <span class="at">method =</span> <span class="st">&quot;holm&quot;</span>)</span></code></pre></div>
-<pre><code>[1] 1 1 1 1 1</code></pre>
+<pre><code>p1 p2 p3 p4 p5 
+ 1  1  1  1  1 </code></pre>
 <div class="sourceCode" id="cb51"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="do">## To show what happens with &quot;significant&quot; p-values</span></span>
-<span id="cb51-2"><a href="#cb51-2" aria-hidden="true" tabindex="-1"></a>theps_new <span class="ot">&lt;-</span> <span class="fu">c</span>(theps, .<span class="dv">01</span>)</span>
+<span id="cb51-2"><a href="#cb51-2" aria-hidden="true" tabindex="-1"></a>theps_new <span class="ot">&lt;-</span> <span class="fu">sort</span>(<span class="fu">c</span>(theps, <span class="at">newlowp =</span> .<span class="dv">01</span>))</span>
 <span id="cb51-3"><a href="#cb51-3" aria-hidden="true" tabindex="-1"></a><span class="fu">p.adjust</span>(theps_new, <span class="at">method =</span> <span class="st">&quot;holm&quot;</span>)</span></code></pre></div>
-<pre><code>[1] 1.00 1.00 1.00 1.00 1.00 0.06</code></pre>
+<pre><code>newlowp      p5      p4      p3      p2      p1 
+   0.06    1.00    1.00    1.00    1.00    1.00 </code></pre>
 </section>
 <section id="multiple-hypothesis-testing-multiple-treatment-arms" class="slide level2 allowframebreaks">
 <h2 class="allowframebreaks">Multiple hypothesis testing: Multiple treatment arms</h2>
@@ -1345,6 +1358,10 @@ P-value distributions when there are no effects for four tests with n=60 and a c
 <li><p>With 5 arms, “the effect of arm 1” could mean many different things: “Is the average potential outcome under arm 1 bigger than arm 2?” “Are the potential outcomes of arm 1 bigger than the average potential outcomes of all of the other arms?”</p></li>
 <li><p>If we just focus on pairwise comparisons across arms, we could have <span class="math inline">\(((5 \times 5) - 5)/2 = 10\)</span> unique tests!</p></li>
 </ul>
+</section>
+<section id="multiple-hypothesis-testing-multiple-treatment-arms-1" class="slide level2 allowframebreaks">
+<h2 class="allowframebreaks">Multiple hypothesis testing: Multiple treatment arms</h2>
+<p>Here are some potential and observed outcomes and <code>T</code> with multiple values.</p>
 <pre><code>   ID T Y_T_1  Y_T_2  Y_T_3  Y_T_4  Y_T_5      Y
 1 001 3  0.19  0.366  0.546 -0.626 -0.125  0.546
 2 002 3 -0.43  0.931 -2.233  1.309  1.078 -2.233
@@ -1352,7 +1369,10 @@ P-value distributions when there are no effects for four tests with n=60 and a c
 4 004 5  1.79  0.052  0.544 -1.608 -0.452 -0.452
 5 005 2  1.00 -0.848 -1.192 -1.308 -1.027 -0.848
 6 006 3  1.11 -0.368 -0.018 -0.045  0.068 -0.018</code></pre>
-<p>Here are the 10 pairwise tests with and without adjustment for multiple testing. Notice how one “significant” result changes with adjustment.</p>
+</section>
+<section id="multiple-hypothesis-testing-multiple-treatment-arms-2" class="slide level2 allowframebreaks">
+<h2 class="allowframebreaks">Multiple hypothesis testing: Multiple treatment arms</h2>
+<p>Here are the 10 pairwise tests with and without adjustment for multiple testing. Notice how one “significant” result (<span class="math inline">\(p=.01\)</span>) changes with adjustment.</p>
 <pre><code>   Comparison      Stat p.value p.adjust
 1   1 - 2 = 0     1.435   0.231   1.0000
 2   1 - 3 = 0    0.8931  0.3447   1.0000
@@ -1371,7 +1391,7 @@ P-value distributions when there are no effects for four tests with n=60 and a c
 <ol type="1">
 <li>do all of the pairwise tests and choose the best one (a bad idea);</li>
 <li>do all the pairwise tests and choose the best one after adjusting the p-values for multiple testing (a fine idea but one with very low statistical power);</li>
-<li>test the hypothesis of no relationship between any arm and the outcome (a fine idea);</li>
+<li>test the hypothesis of no relationship between <em>any arm</em> (an omnibus test) and the outcome (a fine idea);</li>
 <li>choose one arm to focus on in advance (a fine idea).</li>
 </ol>
 <table>
