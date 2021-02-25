@@ -1,0 +1,1047 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="generator" content="pandoc">
+  <meta name="author" content="Natalia Garbiras-Díaz" />
+  <meta name="dcterms.date" content="2019-04-10" />
+  <title>Estimation, ATE, SE</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <link rel="stylesheet" href="LearningDaysATE_files/reveal.js-3.3.0.1/css/reveal.css"/>
+
+
+<style type="text/css">
+code.sourceCode > span { display: inline-block; line-height: 1.25; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<link rel="stylesheet" href="LearningDaysATE_files/reveal.js-3.3.0.1/css/theme/simple.css" id="theme">
+
+
+  <!-- some tweaks to reveal css -->
+  <style type="text/css">
+    .reveal h1 { font-size: 2.0em; }
+    .reveal h2 { font-size: 1.5em;  }
+    .reveal h3 { font-size: 1.25em;	}
+    .reveal h4 { font-size: 1em;	}
+
+    .reveal .slides>section,
+    .reveal .slides>section>section {
+      padding: 0px 0px;
+    }
+
+
+
+    .reveal table {
+      border-width: 1px;
+      border-spacing: 2px;
+      border-style: dotted;
+      border-color: gray;
+      border-collapse: collapse;
+      font-size: 0.7em;
+    }
+
+    .reveal table th {
+      border-width: 1px;
+      padding-left: 10px;
+      padding-right: 25px;
+      font-weight: bold;
+      border-style: dotted;
+      border-color: gray;
+    }
+
+    .reveal table td {
+      border-width: 1px;
+      padding-left: 10px;
+      padding-right: 25px;
+      border-style: dotted;
+      border-color: gray;
+    }
+
+
+  </style>
+
+    <style type="text/css">code{white-space: pre;}</style>
+
+
+<!-- Printing and PDF exports -->
+<script id="paper-css" type="application/dynamic-css">
+
+/* Default Print Stylesheet Template
+   by Rob Glazebrook of CSSnewbie.com
+   Last Updated: June 4, 2008
+
+   Feel free (nay, compelled) to edit, append, and
+   manipulate this file as you see fit. */
+
+
+@media print {
+
+	/* SECTION 1: Set default width, margin, float, and
+	   background. This prevents elements from extending
+	   beyond the edge of the printed page, and prevents
+	   unnecessary background images from printing */
+	html {
+		background: #fff;
+		width: auto;
+		height: auto;
+		overflow: visible;
+	}
+	body {
+		background: #fff;
+		font-size: 20pt;
+		width: auto;
+		height: auto;
+		border: 0;
+		margin: 0 5%;
+		padding: 0;
+		overflow: visible;
+		float: none !important;
+	}
+
+	/* SECTION 2: Remove any elements not needed in print.
+	   This would include navigation, ads, sidebars, etc. */
+	.nestedarrow,
+	.controls,
+	.fork-reveal,
+	.share-reveal,
+	.state-background,
+	.reveal .progress,
+	.reveal .backgrounds {
+		display: none !important;
+	}
+
+	/* SECTION 3: Set body font face, size, and color.
+	   Consider using a serif font for readability. */
+	body, p, td, li, div {
+		font-size: 20pt!important;
+		font-family: Georgia, "Times New Roman", Times, serif !important;
+		color: #000;
+	}
+
+	/* SECTION 4: Set heading font face, sizes, and color.
+	   Differentiate your headings from your body text.
+	   Perhaps use a large sans-serif for distinction. */
+	h1,h2,h3,h4,h5,h6 {
+		color: #000!important;
+		height: auto;
+		line-height: normal;
+		font-family: Georgia, "Times New Roman", Times, serif !important;
+		text-shadow: 0 0 0 #000 !important;
+		text-align: left;
+		letter-spacing: normal;
+	}
+	/* Need to reduce the size of the fonts for printing */
+	h1 { font-size: 28pt !important;  }
+	h2 { font-size: 24pt !important; }
+	h3 { font-size: 22pt !important; }
+	h4 { font-size: 22pt !important; font-variant: small-caps; }
+	h5 { font-size: 21pt !important; }
+	h6 { font-size: 20pt !important; font-style: italic; }
+
+	/* SECTION 5: Make hyperlinks more usable.
+	   Ensure links are underlined, and consider appending
+	   the URL to the end of the link for usability. */
+	a:link,
+	a:visited {
+		color: #000 !important;
+		font-weight: bold;
+		text-decoration: underline;
+	}
+	/*
+	.reveal a:link:after,
+	.reveal a:visited:after {
+		content: " (" attr(href) ") ";
+		color: #222 !important;
+		font-size: 90%;
+	}
+	*/
+
+
+	/* SECTION 6: more reveal.js specific additions by @skypanther */
+	ul, ol, div, p {
+		visibility: visible;
+		position: static;
+		width: auto;
+		height: auto;
+		display: block;
+		overflow: visible;
+		margin: 0;
+		text-align: left !important;
+	}
+	.reveal pre,
+	.reveal table {
+		margin-left: 0;
+		margin-right: 0;
+	}
+	.reveal pre code {
+		padding: 20px;
+		border: 1px solid #ddd;
+	}
+	.reveal blockquote {
+		margin: 20px 0;
+	}
+	.reveal .slides {
+		position: static !important;
+		width: auto !important;
+		height: auto !important;
+
+		left: 0 !important;
+		top: 0 !important;
+		margin-left: 0 !important;
+		margin-top: 0 !important;
+		padding: 0 !important;
+		zoom: 1 !important;
+
+		overflow: visible !important;
+		display: block !important;
+
+		text-align: left !important;
+		-webkit-perspective: none;
+		   -moz-perspective: none;
+		    -ms-perspective: none;
+		        perspective: none;
+
+		-webkit-perspective-origin: 50% 50%;
+		   -moz-perspective-origin: 50% 50%;
+		    -ms-perspective-origin: 50% 50%;
+		        perspective-origin: 50% 50%;
+	}
+	.reveal .slides section {
+		visibility: visible !important;
+		position: static !important;
+		width: auto !important;
+		height: auto !important;
+		display: block !important;
+		overflow: visible !important;
+
+		left: 0 !important;
+		top: 0 !important;
+		margin-left: 0 !important;
+		margin-top: 0 !important;
+		padding: 60px 20px !important;
+		z-index: auto !important;
+
+		opacity: 1 !important;
+
+		page-break-after: always !important;
+
+		-webkit-transform-style: flat !important;
+		   -moz-transform-style: flat !important;
+		    -ms-transform-style: flat !important;
+		        transform-style: flat !important;
+
+		-webkit-transform: none !important;
+		   -moz-transform: none !important;
+		    -ms-transform: none !important;
+		        transform: none !important;
+
+		-webkit-transition: none !important;
+		   -moz-transition: none !important;
+		    -ms-transition: none !important;
+		        transition: none !important;
+	}
+	.reveal .slides section.stack {
+		padding: 0 !important;
+	}
+	.reveal section:last-of-type {
+		page-break-after: avoid !important;
+	}
+	.reveal section .fragment {
+		opacity: 1 !important;
+		visibility: visible !important;
+
+		-webkit-transform: none !important;
+		   -moz-transform: none !important;
+		    -ms-transform: none !important;
+		        transform: none !important;
+	}
+	.reveal section img {
+		display: block;
+		margin: 15px 0px;
+		background: rgba(255,255,255,1);
+		border: 1px solid #666;
+		box-shadow: none;
+	}
+
+	.reveal section small {
+		font-size: 0.8em;
+	}
+
+}  
+</script>
+
+
+<script id="pdf-css" type="application/dynamic-css">
+    
+/**
+ * This stylesheet is used to print reveal.js
+ * presentations to PDF.
+ *
+ * https://github.com/hakimel/reveal.js#pdf-export
+ */
+
+* {
+	-webkit-print-color-adjust: exact;
+}
+
+body {
+	margin: 0 auto !important;
+	border: 0;
+	padding: 0;
+	float: none !important;
+	overflow: visible;
+}
+
+html {
+	width: 100%;
+	height: 100%;
+	overflow: visible;
+}
+
+/* Remove any elements not needed in print. */
+.nestedarrow,
+.reveal .controls,
+.reveal .progress,
+.reveal .playback,
+.reveal.overview,
+.fork-reveal,
+.share-reveal,
+.state-background {
+	display: none !important;
+}
+
+h1, h2, h3, h4, h5, h6 {
+	text-shadow: 0 0 0 #000 !important;
+}
+
+.reveal pre code {
+	overflow: hidden !important;
+	font-family: Courier, 'Courier New', monospace !important;
+}
+
+ul, ol, div, p {
+	visibility: visible;
+	position: static;
+	width: auto;
+	height: auto;
+	display: block;
+	overflow: visible;
+	margin: auto;
+}
+.reveal {
+	width: auto !important;
+	height: auto !important;
+	overflow: hidden !important;
+}
+.reveal .slides {
+	position: static;
+	width: 100%;
+	height: auto;
+
+	left: auto;
+	top: auto;
+	margin: 0 !important;
+	padding: 0 !important;
+
+	overflow: visible;
+	display: block;
+
+	-webkit-perspective: none;
+	   -moz-perspective: none;
+	    -ms-perspective: none;
+	        perspective: none;
+
+	-webkit-perspective-origin: 50% 50%; /* there isn't a none/auto value but 50-50 is the default */
+	   -moz-perspective-origin: 50% 50%;
+	    -ms-perspective-origin: 50% 50%;
+	        perspective-origin: 50% 50%;
+}
+
+.reveal .slides section {
+	page-break-after: always !important;
+
+	visibility: visible !important;
+	position: relative !important;
+	display: block !important;
+	position: relative !important;
+
+	margin: 0 !important;
+	padding: 0 !important;
+	box-sizing: border-box !important;
+	min-height: 1px;
+
+	opacity: 1 !important;
+
+	-webkit-transform-style: flat !important;
+	   -moz-transform-style: flat !important;
+	    -ms-transform-style: flat !important;
+	        transform-style: flat !important;
+
+	-webkit-transform: none !important;
+	   -moz-transform: none !important;
+	    -ms-transform: none !important;
+	        transform: none !important;
+}
+
+.reveal section.stack {
+	margin: 0 !important;
+	padding: 0 !important;
+	page-break-after: avoid !important;
+	height: auto !important;
+	min-height: auto !important;
+}
+
+.reveal img {
+	box-shadow: none;
+}
+
+.reveal .roll {
+	overflow: visible;
+	line-height: 1em;
+}
+
+/* Slide backgrounds are placed inside of their slide when exporting to PDF */
+.reveal section .slide-background {
+	display: block !important;
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	z-index: -1;
+}
+
+/* All elements should be above the slide-background */
+.reveal section>* {
+	position: relative;
+	z-index: 1;
+}
+
+/* Display slide speaker notes when 'showNotes' is enabled */
+.reveal .speaker-notes-pdf {
+	display: block;
+	width: 100%;
+	max-height: none;
+	left: auto;
+	top: auto;
+	z-index: 100;
+}
+
+/* Display slide numbers when 'slideNumber' is enabled */
+.reveal .slide-number-pdf {
+	display: block;
+	position: absolute;
+	font-size: 14px;
+}
+
+</script>
+
+
+<script>
+var style = document.createElement( 'style' );
+style.type = 'text/css';
+var style_script_id = window.location.search.match( /print-pdf/gi ) ? 'pdf-css' : 'paper-css';
+var style_script = document.getElementById(style_script_id).text;
+style.innerHTML = style_script;
+document.getElementsByTagName('head')[0].appendChild(style);
+</script>
+
+    <link href="LearningDaysATE_files/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
+    <link href="LearningDaysATE_files/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+<section>
+    <h1 class="title">Estimation, ATE, SE</h1>
+    <h2 class="author">Natalia Garbiras-Díaz</h2>
+    <h3 class="date">April 10, 2019</h3>
+</section>
+
+<section><section id="a-simulation-in-r-sample-mean-as-an-unbiased-estimator-of-the-population-mean" class="title-slide slide level1"><h1>A simulation in R: sample mean as an unbiased estimator of the population mean</h1><p>First, we will need to “create” a population (a study group)</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a>population &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">4</span>, <span class="dv">5</span>, <span class="dv">7</span>, <span class="dv">12</span>, <span class="dv">7</span>, <span class="dv">8</span>, <span class="dv">9</span>, <span class="dv">-3</span>, <span class="dv">5</span>, <span class="dv">8</span>, <span class="dv">9</span>, <span class="dv">3</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">6</span>, <span class="dv">10</span>, <span class="dv">4</span>, <span class="dv">6</span>, <span class="dv">7</span>, <span class="dv">8</span>, <span class="dv">9</span>, <span class="dv">2</span>)</span>
+<span id="cb1-2"><a href="#cb1-2"></a></span>
+<span id="cb1-3"><a href="#cb1-3"></a>N &lt;-<span class="st"> </span><span class="kw">length</span>(population) <span class="co"># number of observations in the population</span></span>
+<span id="cb1-4"><a href="#cb1-4"></a>N</span></code></pre></div>
+<pre><code>[1] 23</code></pre>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a>pop_mean &lt;-<span class="st"> </span><span class="kw">mean</span>(population) <span class="co"># population mean</span></span>
+<span id="cb3-2"><a href="#cb3-2"></a>pop_mean</span></code></pre></div>
+<pre><code>[1] 5.869565</code></pre></section><section class="slide level2">
+
+<p>We will draw several random samples of 8 observations (<span class="math inline">\(m\)</span>) each <em>without</em> replacement</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a><span class="kw">set.seed</span>(<span class="dv">12345</span>)</span>
+<span id="cb5-2"><a href="#cb5-2"></a>s1 &lt;-<span class="st"> </span><span class="kw">sample</span>(population, <span class="dt">size =</span> <span class="dv">8</span>, <span class="dt">replace =</span> <span class="ot">FALSE</span>)</span>
+<span id="cb5-3"><a href="#cb5-3"></a></span>
+<span id="cb5-4"><a href="#cb5-4"></a>s2 &lt;-<span class="st"> </span><span class="kw">sample</span>(population, <span class="dt">size =</span> <span class="dv">8</span>, <span class="dt">replace =</span> <span class="ot">FALSE</span>)</span>
+<span id="cb5-5"><a href="#cb5-5"></a></span>
+<span id="cb5-6"><a href="#cb5-6"></a>s3 &lt;-<span class="st"> </span><span class="kw">sample</span>(population, <span class="dt">size =</span> <span class="dv">8</span>, <span class="dt">replace =</span> <span class="ot">FALSE</span>)</span>
+<span id="cb5-7"><a href="#cb5-7"></a></span>
+<span id="cb5-8"><a href="#cb5-8"></a>s4 &lt;-<span class="st"> </span><span class="kw">sample</span>(population, <span class="dt">size =</span> <span class="dv">8</span>, <span class="dt">replace =</span> <span class="ot">FALSE</span>)</span>
+<span id="cb5-9"><a href="#cb5-9"></a></span>
+<span id="cb5-10"><a href="#cb5-10"></a>samples &lt;-<span class="st"> </span><span class="kw">rbind</span>(s1, s2, s3, s4)</span>
+<span id="cb5-11"><a href="#cb5-11"></a></span>
+<span id="cb5-12"><a href="#cb5-12"></a>samples</span></code></pre></div>
+<pre><code>   [,1] [,2] [,3] [,4] [,5] [,6] [,7] [,8]
+s1    3    6    6    9    5    7    8    9
+s2    8   10   -3    9    8    4    3   12
+s3   -3    3    7    5    3    2    8    9
+s4    6    2    5    7    5   12   -3    9</code></pre>
+</section><section class="slide level2">
+
+<p>Remember the population mean: 5.8695652</p>
+<p>And the means of the four samples</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a><span class="kw">apply</span>(samples, <span class="dt">MARGIN =</span> <span class="dv">1</span>, <span class="dt">FUN =</span> mean) <span class="co"># apply function to rows</span></span></code></pre></div>
+<pre><code>   s1    s2    s3    s4 
+6.625 6.375 4.250 5.375 </code></pre>
+<p>By chance each given sample mean may be a little higher or lower than the population mean.</p>
+<p>We can use R to show that the sample mean is an unbiased estimator of the population mean.</p>
+</section><section class="slide level2">
+
+<p>For this, we will write a <em>simulation</em>. We will repeat the sampling process <span class="math inline">\(10,000\)</span> times.</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1"></a>sample_mean &lt;-<span class="st"> </span><span class="ot">NA</span></span>
+<span id="cb9-2"><a href="#cb9-2"></a></span>
+<span id="cb9-3"><a href="#cb9-3"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="dv">10000</span>) {</span>
+<span id="cb9-4"><a href="#cb9-4"></a>  sample &lt;-<span class="st"> </span><span class="kw">sample</span>(population, <span class="dt">size =</span> <span class="dv">8</span>, <span class="dt">replace =</span> <span class="ot">FALSE</span>)</span>
+<span id="cb9-5"><a href="#cb9-5"></a>  sample_mean[i] &lt;-<span class="st"> </span><span class="kw">mean</span>(sample)</span>
+<span id="cb9-6"><a href="#cb9-6"></a>}</span></code></pre></div>
+</section><section class="slide level2">
+
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1"></a><span class="kw">par</span>(<span class="dt">mfrow =</span> <span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">1</span>))</span>
+<span id="cb10-2"><a href="#cb10-2"></a><span class="kw">plot</span>(<span class="kw">density</span>(sample_mean),</span>
+<span id="cb10-3"><a href="#cb10-3"></a>  <span class="dt">col =</span> <span class="st">&quot;blue&quot;</span>, <span class="dt">lwd =</span> <span class="dv">3</span>,</span>
+<span id="cb10-4"><a href="#cb10-4"></a>  <span class="dt">main =</span> <span class="st">&quot;Distribution of sample means&quot;</span></span>
+<span id="cb10-5"><a href="#cb10-5"></a>)</span>
+<span id="cb10-6"><a href="#cb10-6"></a><span class="kw">abline</span>(<span class="dt">v =</span> pop_mean, <span class="dt">col =</span> <span class="st">&quot;red&quot;</span>, <span class="dt">lwd =</span> <span class="dv">2</span>)</span></code></pre></div>
+<p><img src="LearningDaysATE_files/figure-revealjs/unnamed-chunk-5-1.png" width=".9\textwidth" /></p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1"></a>average_sampling_distribution &lt;-<span class="st"> </span><span class="kw">mean</span>(sample_mean)</span>
+<span id="cb11-2"><a href="#cb11-2"></a>average_sampling_distribution</span></code></pre></div>
+<pre><code>[1] 5.865863</code></pre>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1"></a><span class="kw">round</span>(pop_mean, <span class="dv">4</span>)</span></code></pre></div>
+<pre><code>[1] 5.8696</code></pre>
+</section></section>
+<section><section id="lets-now-look-at-the-distribution-of-the-sample-mean-as-m-gets-closer-to-n." class="title-slide slide level1"><h1>Let’s now look at the distribution of the sample mean as <span class="math inline">\(m\)</span> gets closer to N.</h1><p>So far, <span class="math inline">\(m=8\)</span>. We now need a new simulation that adds a new step: we need to vary the size of <em>m</em>. (Remember our population size, <em>N</em>, is 23)</p></section><section class="slide level2">
+
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1"></a>rep &lt;-<span class="st"> </span><span class="dv">10000</span></span>
+<span id="cb15-2"><a href="#cb15-2"></a></span>
+<span id="cb15-3"><a href="#cb15-3"></a><span class="co"># The first loop varies m</span></span>
+<span id="cb15-4"><a href="#cb15-4"></a><span class="cf">for</span> (m <span class="cf">in</span> <span class="dv">9</span><span class="op">:</span><span class="dv">20</span>) {</span>
+<span id="cb15-5"><a href="#cb15-5"></a>  sample_mean &lt;-<span class="st"> </span><span class="ot">NA</span> <span class="co"># creating an object to store the results of the second loop</span></span>
+<span id="cb15-6"><a href="#cb15-6"></a></span>
+<span id="cb15-7"><a href="#cb15-7"></a>  <span class="co"># The second loop goes through the 10,000 simulations</span></span>
+<span id="cb15-8"><a href="#cb15-8"></a>  <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>rep) {</span>
+<span id="cb15-9"><a href="#cb15-9"></a></span>
+<span id="cb15-10"><a href="#cb15-10"></a>    <span class="co"># we first get a random sample of size m from the population</span></span>
+<span id="cb15-11"><a href="#cb15-11"></a>    sample &lt;-<span class="st"> </span><span class="kw">sample</span>(population, <span class="dt">size =</span> m, <span class="dt">replace =</span> <span class="ot">FALSE</span>)</span>
+<span id="cb15-12"><a href="#cb15-12"></a>    <span class="co"># and then calculate and store the sample mean</span></span>
+<span id="cb15-13"><a href="#cb15-13"></a>    sample_mean[i] &lt;-<span class="st"> </span><span class="kw">mean</span>(sample)</span>
+<span id="cb15-14"><a href="#cb15-14"></a>  }</span>
+<span id="cb15-15"><a href="#cb15-15"></a></span>
+<span id="cb15-16"><a href="#cb15-16"></a>  <span class="co"># finally, we plot the distribution of the 10,000 sample means for the relevant m</span></span>
+<span id="cb15-17"><a href="#cb15-17"></a>  <span class="kw">lines</span>(<span class="kw">density</span>(sample_mean),</span>
+<span id="cb15-18"><a href="#cb15-18"></a>    <span class="dt">lwd =</span> <span class="dv">3</span>,</span>
+<span id="cb15-19"><a href="#cb15-19"></a>    <span class="co"># note that this next line of code varies the color of the line according to m</span></span>
+<span id="cb15-20"><a href="#cb15-20"></a>    <span class="co"># so that we can distinguish the different distributions</span></span>
+<span id="cb15-21"><a href="#cb15-21"></a>    <span class="dt">col =</span> <span class="kw">paste0</span>(<span class="st">&quot;grey&quot;</span>, <span class="dv">140</span> <span class="op">-</span><span class="st"> </span>(<span class="dv">7</span> <span class="op">*</span><span class="st"> </span>m))</span>
+<span id="cb15-22"><a href="#cb15-22"></a>  )</span>
+<span id="cb15-23"><a href="#cb15-23"></a>}</span></code></pre></div>
+</section><section class="slide level2">
+
+<p><img src="LearningDaysATE_files/figure-revealjs/unnamed-chunk-7-1.png" width=".9\textwidth" /></p>
+</section></section>
+<section><section id="the-variance-of-the-sample-mean" class="title-slide slide level1"><h1>The variance of the sample mean</h1><p>The standard deviation of the sampling distribution gives us a measure of uncertainty about the mean:</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1"></a>var_sample_mean &lt;-<span class="st"> </span><span class="kw">sum</span>((sample_mean <span class="op">-</span><span class="st"> </span><span class="kw">mean</span>(sample_mean))<span class="op">^</span><span class="dv">2</span>) <span class="op">/</span><span class="st"> </span>(<span class="kw">length</span>(sample_mean))</span>
+<span id="cb16-2"><a href="#cb16-2"></a>se_sample_mean &lt;-<span class="st"> </span><span class="kw">sqrt</span>(var_sample_mean)</span>
+<span id="cb16-3"><a href="#cb16-3"></a>se_sample_mean</span></code></pre></div>
+<pre><code>[1] 0.9367243</code></pre>
+<p>Now, we can calculate this because we created our own population. This is not often the case (e.g., experiments)…</p></section><section class="slide level2">
+
+<p>Remember the formula for the variance of the sample mean for the treatment group is:</p>
+<p><span class="math display">\[\text{Var}(Y^T) = \frac{\sigma^2}{m}\]</span></p>
+<p>We do not know <span class="math inline">\(\sigma^2\)</span>, we can estimate this quantity with the variance of the assigned-to-treatment sample by:</p>
+<p><span class="math display">\[\hat{\sigma}^2= (\frac{1}{m-1})\sum^{m}_{i=1}(Y_i-\bar{Y}^T)^2\]</span></p>
+<p>Same with the variance of the sample mean for those units assigned to control.</p>
+</section></section>
+<section><section id="estimation-of-the-ate" class="title-slide slide level1"><h1>2. Estimation of the ATE</h1><p>We can write a function to estimate the ATE (or simply use the built-in function <code>t.test</code>).</p>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1"></a>diff_means &lt;-<span class="st"> </span><span class="cf">function</span>(y, x) {</span>
+<span id="cb18-2"><a href="#cb18-2"></a></span>
+<span id="cb18-3"><a href="#cb18-3"></a>  <span class="co"># Calculating difference in means</span></span>
+<span id="cb18-4"><a href="#cb18-4"></a>  mean1 &lt;-<span class="st"> </span><span class="kw">mean</span>(y[x <span class="op">==</span><span class="st"> </span><span class="dv">1</span>], <span class="dt">na.rm =</span> T)</span>
+<span id="cb18-5"><a href="#cb18-5"></a>  mean0 &lt;-<span class="st"> </span><span class="kw">mean</span>(y[x <span class="op">==</span><span class="st"> </span><span class="dv">0</span>], <span class="dt">na.rm =</span> T)</span>
+<span id="cb18-6"><a href="#cb18-6"></a>  diff &lt;-<span class="st"> </span>mean1 <span class="op">-</span><span class="st"> </span>mean0</span>
+<span id="cb18-7"><a href="#cb18-7"></a></span>
+<span id="cb18-8"><a href="#cb18-8"></a>  <span class="co"># Calculating number of observations</span></span>
+<span id="cb18-9"><a href="#cb18-9"></a>  N &lt;-<span class="st"> </span><span class="kw">length</span>(<span class="kw">na.omit</span>(y))</span>
+<span id="cb18-10"><a href="#cb18-10"></a></span>
+<span id="cb18-11"><a href="#cb18-11"></a>  <span class="co"># Preparing output</span></span>
+<span id="cb18-12"><a href="#cb18-12"></a>  res &lt;-<span class="st"> </span><span class="kw">c</span>(mean1, mean0, diff, N)</span>
+<span id="cb18-13"><a href="#cb18-13"></a>  <span class="kw">names</span>(res) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;Mean 1&quot;</span>, <span class="st">&quot;Mean 0&quot;</span>, <span class="st">&quot;Difference&quot;</span>, <span class="st">&quot;N&quot;</span>)</span>
+<span id="cb18-14"><a href="#cb18-14"></a></span>
+<span id="cb18-15"><a href="#cb18-15"></a>  <span class="kw">return</span>(<span class="kw">c</span>(res))</span>
+<span id="cb18-16"><a href="#cb18-16"></a>}</span></code></pre></div></section><section class="slide level2">
+
+<p>To try our function, we will use the small dataset in Gerber &amp; Green (2012)</p>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1"></a>gg_data &lt;-<span class="st"> </span><span class="kw">as.data.frame</span>(<span class="kw">cbind</span>(</span>
+<span id="cb19-2"><a href="#cb19-2"></a>  <span class="kw">c</span>(<span class="dv">10</span>, <span class="dv">15</span>, <span class="dv">20</span>, <span class="dv">20</span>, <span class="dv">10</span>, <span class="dv">15</span>, <span class="dv">15</span>),</span>
+<span id="cb19-3"><a href="#cb19-3"></a>  <span class="kw">c</span>(<span class="dv">15</span>, <span class="dv">15</span>, <span class="dv">30</span>, <span class="dv">15</span>, <span class="dv">20</span>, <span class="dv">15</span>, <span class="dv">30</span>)</span>
+<span id="cb19-4"><a href="#cb19-4"></a>))</span>
+<span id="cb19-5"><a href="#cb19-5"></a><span class="kw">names</span>(gg_data) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;Y_i0&quot;</span>, <span class="st">&quot;Y_i1&quot;</span>)</span></code></pre></div>
+</section><section class="slide level2">
+
+<p>We will need to “create” a treatment vector…</p>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1"></a><span class="co"># let&#39;s fix m=3 (units in the treatment group)</span></span>
+<span id="cb20-2"><a href="#cb20-2"></a>treat &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>)</span>
+<span id="cb20-3"><a href="#cb20-3"></a>gg_data<span class="op">$</span>treat &lt;-<span class="st"> </span><span class="kw">sample</span>(treat, <span class="dv">7</span>, <span class="dt">replace =</span> F)</span>
+<span id="cb20-4"><a href="#cb20-4"></a>gg_data<span class="op">$</span>treat</span></code></pre></div>
+<pre><code>[1] 1 1 0 0 1 0 0</code></pre>
+<p>…and a column with the “observed” outcomes</p>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1"></a>gg_data<span class="op">$</span>observed &lt;-<span class="st"> </span><span class="kw">ifelse</span>(gg_data<span class="op">$</span>treat <span class="op">==</span><span class="st"> </span><span class="dv">1</span>, gg_data<span class="op">$</span>Y_i1, gg_data<span class="op">$</span>Y_i0)</span>
+<span id="cb22-2"><a href="#cb22-2"></a><span class="co">## save(gg_data, file=&quot;gg_data.RData&quot;)</span></span></code></pre></div>
+</section><section class="slide level2">
+
+<p>Let’s see how the complete data set looks now:</p>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1"></a><span class="kw">head</span>(gg_data)</span></code></pre></div>
+<pre><code>  Y_i0 Y_i1 treat observed
+1   10   15     1       15
+2   15   15     1       15
+3   20   30     0       20
+4   20   15     0       20
+5   10   20     1       20
+6   15   15     0       15</code></pre>
+</section><section class="slide level2">
+
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1"></a><span class="co"># mean of the treatment group</span></span>
+<span id="cb25-2"><a href="#cb25-2"></a><span class="kw">mean</span>(gg_data<span class="op">$</span>observed[gg_data<span class="op">$</span>treat <span class="op">==</span><span class="st"> </span><span class="dv">1</span>])</span></code></pre></div>
+<pre><code>[1] 16.66667</code></pre>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1"></a><span class="co"># mean of the control group</span></span>
+<span id="cb27-2"><a href="#cb27-2"></a><span class="kw">mean</span>(gg_data<span class="op">$</span>observed[gg_data<span class="op">$</span>treat <span class="op">==</span><span class="st"> </span><span class="dv">0</span>])</span></code></pre></div>
+<pre><code>[1] 17.5</code></pre>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1"></a><span class="co"># difference of means</span></span>
+<span id="cb29-2"><a href="#cb29-2"></a><span class="kw">mean</span>(gg_data<span class="op">$</span>observed[gg_data<span class="op">$</span>treat <span class="op">==</span><span class="st"> </span><span class="dv">1</span>]) <span class="op">-</span><span class="st"> </span><span class="kw">mean</span>(gg_data<span class="op">$</span>observed[gg_data<span class="op">$</span>treat <span class="op">==</span><span class="st"> </span><span class="dv">0</span>])</span></code></pre></div>
+<pre><code>[1] -0.8333333</code></pre>
+<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1"></a><span class="co"># with our function</span></span>
+<span id="cb31-2"><a href="#cb31-2"></a><span class="kw">diff_means</span>(gg_data<span class="op">$</span>observed, gg_data<span class="op">$</span>treat)</span></code></pre></div>
+<pre><code>    Mean 1     Mean 0 Difference          N 
+16.6666667 17.5000000 -0.8333333  7.0000000 </code></pre>
+</section><section class="slide level2">
+
+<p>Now, we can also estimate the same quantity using a regression:</p>
+<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1"></a><span class="kw">lm_robust</span>(observed <span class="op">~</span><span class="st"> </span>treat, <span class="dt">data =</span> gg_data)</span></code></pre></div>
+<pre><code>              Estimate Std. Error    t value     Pr(&gt;|t|)  CI Lower
+(Intercept) 17.5000000   1.443376 12.1243557 6.743204e-05 13.789685
+treat       -0.8333333   2.204793 -0.3779645 7.209712e-01 -6.500934
+             CI Upper DF
+(Intercept) 21.210315  5
+treat        4.834267  5</code></pre>
+<p>But notice that we are not relying on the assumptions of OLS regression. This is just math… the way <span class="math inline">\(\beta\)</span> is estimated.</p>
+</section><section class="slide level2">
+
+</section></section>
+<section><section id="how-can-we-get-a-distribution-of-the-difference-of-means" class="title-slide slide level1"><h1>How can we get a distribution of the difference of means?</h1><p>We can do this with a simulations. For each simulation,</p>
+<ul>
+<li class="fragment">First: We will need to “create” a random treatment vector and generate the column with the associated observed outcomes.</li>
+</ul>
+<ul>
+<li class="fragment">Second: We will have to calculate the difference between the treatment and control means (by hand or using our new function).</li>
+</ul></section><section class="slide level2">
+
+<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1"></a><span class="co"># 1.</span></span>
+<span id="cb35-2"><a href="#cb35-2"></a>gg_data<span class="op">$</span>treat &lt;-<span class="st"> </span><span class="kw">sample</span>(treat, <span class="dv">7</span>, <span class="dt">replace =</span> F)</span>
+<span id="cb35-3"><a href="#cb35-3"></a>gg_data<span class="op">$</span>observed &lt;-<span class="st"> </span><span class="kw">ifelse</span>(gg_data<span class="op">$</span>treat <span class="op">==</span><span class="st"> </span><span class="dv">1</span>, gg_data<span class="op">$</span>Y_i1, gg_data<span class="op">$</span>Y_i0)</span>
+<span id="cb35-4"><a href="#cb35-4"></a></span>
+<span id="cb35-5"><a href="#cb35-5"></a><span class="co"># 2.</span></span>
+<span id="cb35-6"><a href="#cb35-6"></a><span class="kw">diff_means</span>(gg_data<span class="op">$</span>observed, gg_data<span class="op">$</span>treat)</span></code></pre></div>
+<pre><code>    Mean 1     Mean 0 Difference          N 
+     20.00      16.25       3.75       7.00 </code></pre>
+<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1"></a><span class="co"># we should store this! so,</span></span>
+<span id="cb37-2"><a href="#cb37-2"></a>dm &lt;-<span class="st"> </span><span class="kw">diff_means</span>(gg_data<span class="op">$</span>observed, gg_data<span class="op">$</span>treat)</span>
+<span id="cb37-3"><a href="#cb37-3"></a>dm</span></code></pre></div>
+<pre><code>    Mean 1     Mean 0 Difference          N 
+     20.00      16.25       3.75       7.00 </code></pre>
+<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1"></a><span class="co"># but we only want the third element!</span></span>
+<span id="cb39-2"><a href="#cb39-2"></a>dm &lt;-<span class="st"> </span><span class="kw">diff_means</span>(gg_data<span class="op">$</span>observed, gg_data<span class="op">$</span>treat)[<span class="dv">3</span>]</span>
+<span id="cb39-3"><a href="#cb39-3"></a>dm</span></code></pre></div>
+<pre><code>Difference 
+      3.75 </code></pre>
+</section><section class="slide level2">
+
+<p>Now let’s put this in a loop that allows us to repeat the process <span class="math inline">\(10,000\)</span> times (and saves the dom for each)…</p>
+<div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1"></a>dm &lt;-<span class="st"> </span><span class="ot">NA</span> <span class="co"># creating a placeholder to store all our doms...</span></span>
+<span id="cb41-2"><a href="#cb41-2"></a></span>
+<span id="cb41-3"><a href="#cb41-3"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="dv">10000</span>) {</span>
+<span id="cb41-4"><a href="#cb41-4"></a></span>
+<span id="cb41-5"><a href="#cb41-5"></a>  <span class="co"># 1.</span></span>
+<span id="cb41-6"><a href="#cb41-6"></a>  gg_data<span class="op">$</span>treat_sim &lt;-<span class="st"> </span><span class="kw">sample</span>(treat, <span class="dv">7</span>, <span class="dt">replace =</span> F)</span>
+<span id="cb41-7"><a href="#cb41-7"></a>  gg_data<span class="op">$</span>observed &lt;-<span class="st"> </span><span class="kw">ifelse</span>(gg_data<span class="op">$</span>treat_sim <span class="op">==</span><span class="st"> </span><span class="dv">1</span>, gg_data<span class="op">$</span>Y_i1, gg_data<span class="op">$</span>Y_i0)</span>
+<span id="cb41-8"><a href="#cb41-8"></a></span>
+<span id="cb41-9"><a href="#cb41-9"></a>  <span class="co"># 2.</span></span>
+<span id="cb41-10"><a href="#cb41-10"></a>  dm[i] &lt;-<span class="st"> </span><span class="kw">diff_means</span>(gg_data<span class="op">$</span>observed, gg_data<span class="op">$</span>treat_sim)[<span class="dv">3</span>]</span>
+<span id="cb41-11"><a href="#cb41-11"></a>}</span></code></pre></div>
+</section><section class="slide level2">
+
+<p>Finally, let’s plot the distribution</p>
+<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1"></a><span class="kw">hist</span>(dm, <span class="dt">col =</span> <span class="st">&quot;blue&quot;</span>, <span class="dt">main =</span> <span class="st">&quot;Histogram of Difference of Means </span><span class="ch">\n</span><span class="st"> for GGdata&quot;</span>)</span></code></pre></div>
+<p><img src="LearningDaysATE_files/figure-revealjs/unnamed-chunk-20-1.png" width=".9\textwidth" /></p>
+</section></section>
+<section><section id="standard-error-for-the-ate" class="title-slide slide level1"><h1>3. Standard Error for the ATE</h1><p><strong>1. Standard error for the difference in means</strong></p></section><section class="slide level2">
+
+</section></section>
+<section id="standard-error-for-the-difference-in-means" class="title-slide slide level1"><h1>1. Standard error for the difference in means</h1><ul>
+<li><p>The difference in means is an unbiased estimator of the true ATE. However, by chance, in some realizations of our sample that estimate might be off the true ATE.</p></li>
+<li><p>The SE tells us the likely size of the amount off.</p></li>
+</ul></section>
+<section><section id="a-conservative-formula-for-the-widehatse-for-the-widehatate" class="title-slide slide level1"><h1>A conservative formula for the <span class="math inline">\(\widehat{SE}\)</span> for the <span class="math inline">\(\widehat{ATE}\)</span></h1><p><span class="math display">\[\widehat{SE}(\widehat{ATE})= \sqrt{\frac{\widehat{\text{Var}}(Y_i(0))}{N-m} + \frac{\widehat{\text{Var}}(Y_i(1))}{m}}\]</span></p></section><section class="slide level2">
+
+<p>We are going to estimate the SE for the difference in means using the same data.</p>
+<div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1"></a>true_ate &lt;-<span class="st"> </span><span class="kw">mean</span>(gg_data<span class="op">$</span>Y_i1) <span class="op">-</span><span class="st"> </span><span class="kw">mean</span>(gg_data<span class="op">$</span>Y_i0)</span>
+<span id="cb43-2"><a href="#cb43-2"></a>true_ate</span></code></pre></div>
+<pre><code>[1] 5</code></pre>
+<div class="sourceCode" id="cb45"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1"></a>est_ate &lt;-<span class="st"> </span><span class="kw">mean</span>(gg_data<span class="op">$</span>observed[gg_data<span class="op">$</span>treat <span class="op">==</span><span class="st"> </span><span class="dv">1</span>]) <span class="op">-</span><span class="st"> </span><span class="kw">mean</span>(gg_data<span class="op">$</span>observed[gg_data<span class="op">$</span>treat <span class="op">==</span><span class="st"> </span><span class="dv">0</span>])</span>
+<span id="cb45-2"><a href="#cb45-2"></a>est_ate</span></code></pre></div>
+<pre><code>[1] 10</code></pre>
+</section><section class="slide level2">
+
+<div class="sourceCode" id="cb47"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1"></a><span class="co"># generating empty dataframe to put the results</span></span>
+<span id="cb47-2"><a href="#cb47-2"></a>ate &lt;-<span class="st"> </span><span class="kw">as.data.frame</span>(<span class="kw">matrix</span>(<span class="ot">NA</span>, <span class="dv">10000</span>, <span class="dv">2</span>))</span>
+<span id="cb47-3"><a href="#cb47-3"></a><span class="kw">names</span>(ate) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;estimated_ate&quot;</span>, <span class="st">&quot;estimated_se_ate&quot;</span>)</span>
+<span id="cb47-4"><a href="#cb47-4"></a></span>
+<span id="cb47-5"><a href="#cb47-5"></a><span class="co"># sampling</span></span>
+<span id="cb47-6"><a href="#cb47-6"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="dv">10000</span>) {</span>
+<span id="cb47-7"><a href="#cb47-7"></a></span>
+<span id="cb47-8"><a href="#cb47-8"></a>  <span class="co"># generating treatment vector for this replicate</span></span>
+<span id="cb47-9"><a href="#cb47-9"></a>  gg_data<span class="op">$</span>treat_sim &lt;-<span class="st"> </span><span class="dv">0</span></span>
+<span id="cb47-10"><a href="#cb47-10"></a>  gg_data<span class="op">$</span>treat_sim[<span class="kw">sample</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">7</span>, <span class="dv">2</span>, <span class="dt">replace =</span> F)] &lt;-<span class="st"> </span><span class="dv">1</span></span>
+<span id="cb47-11"><a href="#cb47-11"></a></span>
+<span id="cb47-12"><a href="#cb47-12"></a>  treat_mean &lt;-<span class="st"> </span><span class="kw">mean</span>(gg_data<span class="op">$</span>Y_i1[gg_data<span class="op">$</span>treat_sim <span class="op">==</span><span class="st"> </span><span class="dv">1</span>])</span>
+<span id="cb47-13"><a href="#cb47-13"></a>  treat_var &lt;-<span class="st"> </span><span class="kw">var</span>(gg_data<span class="op">$</span>Y_i1[gg_data<span class="op">$</span>treat_sim <span class="op">==</span><span class="st"> </span><span class="dv">1</span>])</span>
+<span id="cb47-14"><a href="#cb47-14"></a></span>
+<span id="cb47-15"><a href="#cb47-15"></a>  control_mean &lt;-<span class="st"> </span><span class="kw">mean</span>(gg_data<span class="op">$</span>Y_i0[gg_data<span class="op">$</span>treat_sim <span class="op">==</span><span class="st"> </span><span class="dv">0</span>])</span>
+<span id="cb47-16"><a href="#cb47-16"></a>  control_var &lt;-<span class="st"> </span><span class="kw">var</span>(gg_data<span class="op">$</span>Y_i0[gg_data<span class="op">$</span>treat_sim <span class="op">==</span><span class="st"> </span><span class="dv">0</span>])</span>
+<span id="cb47-17"><a href="#cb47-17"></a></span>
+<span id="cb47-18"><a href="#cb47-18"></a>  ate[i, <span class="dv">1</span>] &lt;-<span class="st"> </span>treat_mean <span class="op">-</span><span class="st"> </span>control_mean</span>
+<span id="cb47-19"><a href="#cb47-19"></a>  ate[i, <span class="dv">2</span>] &lt;-<span class="st"> </span><span class="kw">sqrt</span>(treat_var <span class="op">/</span><span class="st"> </span><span class="dv">2</span> <span class="op">+</span><span class="st"> </span>control_var <span class="op">/</span><span class="st"> </span><span class="dv">5</span>)</span>
+<span id="cb47-20"><a href="#cb47-20"></a>}</span></code></pre></div>
+</section><section class="slide level2">
+
+<p><img src="LearningDaysATE_files/figure-revealjs/unnamed-chunk-25-1.png" width=".9\textwidth" /></p>
+<ul>
+<li>How could we use this graph to get the SE of the estimated ATE?</li>
+</ul>
+</section><section class="slide level2">
+
+<div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1"></a><span class="co"># The SE of the estimated ATE is the standard deviation of this sampling distribution:</span></span>
+<span id="cb48-2"><a href="#cb48-2"></a>se_sampling &lt;-<span class="st"> </span><span class="kw">sd</span>(ate[, <span class="dv">1</span>])</span>
+<span id="cb48-3"><a href="#cb48-3"></a>se_sampling</span></code></pre></div>
+<pre><code>[1] 4.650395</code></pre>
+</section><section class="slide level2">
+
+<ul>
+<li>But in any given experiment, we don’t have the sampling distribution. Instead, we can estimate the SE (using the conservative formula)</li>
+</ul>
+<div class="sourceCode" id="cb50"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1"></a>treat_var &lt;-<span class="st"> </span><span class="kw">var</span>(gg_data<span class="op">$</span>Y_i1[gg_data<span class="op">$</span>treat <span class="op">==</span><span class="st"> </span><span class="dv">1</span>])</span>
+<span id="cb50-2"><a href="#cb50-2"></a>control_var &lt;-<span class="st"> </span><span class="kw">var</span>(gg_data<span class="op">$</span>Y_i0[gg_data<span class="op">$</span>treat <span class="op">==</span><span class="st"> </span><span class="dv">0</span>])</span>
+<span id="cb50-3"><a href="#cb50-3"></a>est_se_cons &lt;-<span class="st"> </span><span class="kw">sqrt</span>(treat_var <span class="op">/</span><span class="st"> </span><span class="dv">2</span> <span class="op">+</span><span class="st"> </span>control_var <span class="op">/</span><span class="st"> </span><span class="dv">5</span>)</span>
+<span id="cb50-4"><a href="#cb50-4"></a>est_se_cons</span></code></pre></div>
+<pre><code>[1] 6.390097</code></pre>
+</section><section class="slide level2">
+
+<div class="sourceCode" id="cb52"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1"></a><span class="co"># Comparing the true standard error to the conservative formula</span></span>
+<span id="cb52-2"><a href="#cb52-2"></a><span class="kw">print</span>(<span class="kw">c</span>(se_sampling, est_se_cons))</span></code></pre></div>
+<pre><code>[1] 4.650395 6.390097</code></pre>
+</section></section>
+<section><section id="blocked-randomized-experiments" class="title-slide slide level1"><h1>4. Blocked randomized experiments</h1></section><section class="slide level2">
+
+<p>Let’s use the data from yesterday, with the example of water sanitazing devices. We had</p>
+<div class="sourceCode" id="cb54"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1"></a><span class="kw">table</span>(data<span class="op">$</span>complete.rand, data<span class="op">$</span>female)</span></code></pre></div>
+<pre><code>   
+      0   1
+  0 201 199
+  1  99 101</code></pre>
+<div class="sourceCode" id="cb56"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1"></a><span class="co"># Block randomization using randomizr</span></span>
+<span id="cb56-2"><a href="#cb56-2"></a></span>
+<span id="cb56-3"><a href="#cb56-3"></a>data<span class="op">$</span>block.rand &lt;-<span class="st"> </span><span class="kw">block_ra</span>(<span class="dt">blocks =</span> data<span class="op">$</span>female, <span class="dt">prob_each =</span> <span class="kw">c</span>(.<span class="dv">75</span>, <span class="fl">.25</span>))</span>
+<span id="cb56-4"><a href="#cb56-4"></a></span>
+<span id="cb56-5"><a href="#cb56-5"></a><span class="kw">table</span>(data<span class="op">$</span>block.rand, data<span class="op">$</span>female)</span></code></pre></div>
+<pre><code>   
+      0   1
+  0 225 225
+  1  75  75</code></pre>
+<div class="sourceCode" id="cb58"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb58-1"><a href="#cb58-1"></a>data<span class="op">$</span>block.obs &lt;-<span class="st"> </span><span class="kw">with</span>(data, Y1 <span class="op">*</span><span class="st"> </span>block.rand <span class="op">+</span><span class="st"> </span>Y0 <span class="op">*</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">-</span><span class="st"> </span>block.rand))</span>
+<span id="cb58-2"><a href="#cb58-2"></a></span>
+<span id="cb58-3"><a href="#cb58-3"></a><span class="kw">head</span>(data)</span></code></pre></div>
+<pre><code>  ID village female Y0 Y1 complete.rand complete.obs block.rand block.obs
+1  1 vill 01      1 19 12             0           19          0        19
+2  2 vill 01      1 20 13             1           13          0        20
+3  3 vill 01      1 11  4             0           11          1         4
+4  4 vill 01      1  9  2             0            9          0         9
+5  5 vill 01      1 28 21             1           21          0        28
+6  6 vill 01      1 16  9             1            9          0        16</code></pre>
+</section></section>
+<section><section id="how-can-we-analyze-these-data" class="title-slide slide level1"><h1>How can we analyze these data?</h1><ul>
+<li>When analyzing data from blocked randomized experiments, we may ask different questions:
+<ul>
+<li>For instance, what is the ATE among women? Does the ATE vary by gender?</li>
+<li>We may, instead, be interested in the overall ATE.</li>
+</ul></li>
+</ul></section><section class="slide level2">
+
+<ul>
+<li>Since we conducted a complete RA at the block level, we can estimate the ATE for each one of the groups created by our blocking variables</li>
+</ul>
+<div class="sourceCode" id="cb60"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb60-1"><a href="#cb60-1"></a><span class="co"># Recall</span></span>
+<span id="cb60-2"><a href="#cb60-2"></a>effect.male &lt;-<span class="st"> </span><span class="dv">-2</span></span>
+<span id="cb60-3"><a href="#cb60-3"></a>effect.female &lt;-<span class="st"> </span><span class="dv">-7</span></span></code></pre></div>
+<div class="sourceCode" id="cb61"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb61-1"><a href="#cb61-1"></a>female &lt;-<span class="st"> </span><span class="kw">filter</span>(data, data<span class="op">$</span>female <span class="op">==</span><span class="st"> </span><span class="dv">1</span>)</span>
+<span id="cb61-2"><a href="#cb61-2"></a>dom_fem &lt;-<span class="st"> </span><span class="kw">mean</span>(female<span class="op">$</span>block.obs[female<span class="op">$</span>block.rand <span class="op">==</span><span class="st"> </span><span class="dv">1</span>]) <span class="op">-</span><span class="st"> </span><span class="kw">mean</span>(female<span class="op">$</span>block.obs[female<span class="op">$</span>block.rand <span class="op">==</span><span class="st"> </span><span class="dv">0</span>])</span>
+<span id="cb61-3"><a href="#cb61-3"></a>dom_fem</span></code></pre></div>
+<pre><code>[1] -6.888889</code></pre>
+<div class="sourceCode" id="cb63"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb63-1"><a href="#cb63-1"></a>male &lt;-<span class="st"> </span><span class="kw">filter</span>(data, data<span class="op">$</span>female <span class="op">==</span><span class="st"> </span><span class="dv">0</span>)</span>
+<span id="cb63-2"><a href="#cb63-2"></a>dom_male &lt;-<span class="st"> </span><span class="kw">mean</span>(male<span class="op">$</span>block.obs[male<span class="op">$</span>block.rand <span class="op">==</span><span class="st"> </span><span class="dv">1</span>]) <span class="op">-</span><span class="st"> </span><span class="kw">mean</span>(male<span class="op">$</span>block.obs[male<span class="op">$</span>block.rand <span class="op">==</span><span class="st"> </span><span class="dv">0</span>])</span>
+<span id="cb63-3"><a href="#cb63-3"></a>dom_male</span></code></pre></div>
+<pre><code>[1] -2.408889</code></pre>
+</section><section class="slide level2">
+
+<ul>
+<li>Now, we can also estimate the overall ATE by estimating block-level ATEs.</li>
+<li>We then need to ask, how do we want to weight each block-level ATE in order to obtain the overal ATE?</li>
+<li>One way is to weight by the block size:</li>
+</ul>
+<div class="sourceCode" id="cb65"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb65-1"><a href="#cb65-1"></a>block_female &lt;-<span class="st"> </span><span class="kw">sum</span>(data<span class="op">$</span>female <span class="op">==</span><span class="st"> </span><span class="dv">1</span>) <span class="op">/</span><span class="st"> </span><span class="kw">length</span>(data<span class="op">$</span>ID)</span>
+<span id="cb65-2"><a href="#cb65-2"></a>block_male &lt;-<span class="st"> </span><span class="kw">sum</span>(data<span class="op">$</span>female <span class="op">==</span><span class="st"> </span><span class="dv">0</span>) <span class="op">/</span><span class="st"> </span><span class="kw">length</span>(data<span class="op">$</span>ID)</span>
+<span id="cb65-3"><a href="#cb65-3"></a></span>
+<span id="cb65-4"><a href="#cb65-4"></a>ate_overall &lt;-<span class="st"> </span>block_female <span class="op">*</span><span class="st"> </span>dom_fem <span class="op">+</span><span class="st"> </span>block_male <span class="op">*</span><span class="st"> </span>dom_male</span>
+<span id="cb65-5"><a href="#cb65-5"></a>ate_overall</span></code></pre></div>
+<pre><code>[1] -4.648889</code></pre>
+<div class="sourceCode" id="cb67"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb67-1"><a href="#cb67-1"></a>var_fem_treat &lt;-<span class="st"> </span><span class="kw">var</span>(data<span class="op">$</span>block.obs[data<span class="op">$</span>block.rand <span class="op">==</span><span class="st"> </span><span class="dv">1</span> <span class="op">&amp;</span><span class="st"> </span>data<span class="op">$</span>female <span class="op">==</span><span class="st"> </span><span class="dv">1</span>])</span>
+<span id="cb67-2"><a href="#cb67-2"></a>var_fem_control &lt;-<span class="st"> </span><span class="kw">var</span>(data<span class="op">$</span>block.obs[data<span class="op">$</span>block.rand <span class="op">==</span><span class="st"> </span><span class="dv">0</span> <span class="op">&amp;</span><span class="st"> </span>data<span class="op">$</span>female <span class="op">==</span><span class="st"> </span><span class="dv">1</span>])</span>
+<span id="cb67-3"><a href="#cb67-3"></a>var_male_treat &lt;-<span class="st"> </span><span class="kw">var</span>(data<span class="op">$</span>block.obs[data<span class="op">$</span>block.rand <span class="op">==</span><span class="st"> </span><span class="dv">1</span> <span class="op">&amp;</span><span class="st"> </span>data<span class="op">$</span>female <span class="op">==</span><span class="st"> </span><span class="dv">0</span>])</span>
+<span id="cb67-4"><a href="#cb67-4"></a>var_male_control &lt;-<span class="st"> </span><span class="kw">var</span>(data<span class="op">$</span>block.obs[data<span class="op">$</span>block.rand <span class="op">==</span><span class="st"> </span><span class="dv">0</span> <span class="op">&amp;</span><span class="st"> </span>data<span class="op">$</span>female <span class="op">==</span><span class="st"> </span><span class="dv">0</span>])</span>
+<span id="cb67-5"><a href="#cb67-5"></a></span>
+<span id="cb67-6"><a href="#cb67-6"></a>se_est_fem &lt;-<span class="st"> </span><span class="kw">sqrt</span>(var_fem_control <span class="op">/</span><span class="st"> </span><span class="kw">sum</span>(data<span class="op">$</span>block.rand <span class="op">==</span><span class="st"> </span><span class="dv">0</span> <span class="op">&amp;</span><span class="st"> </span>data<span class="op">$</span>female <span class="op">==</span><span class="st"> </span><span class="dv">1</span>) <span class="op">+</span><span class="st"> </span>var_fem_treat <span class="op">/</span><span class="st"> </span><span class="kw">sum</span>(data<span class="op">$</span>block.rand <span class="op">==</span><span class="st"> </span><span class="dv">1</span> <span class="op">&amp;</span><span class="st"> </span>data<span class="op">$</span>female <span class="op">==</span><span class="st"> </span><span class="dv">1</span>))</span>
+<span id="cb67-7"><a href="#cb67-7"></a>se_est_male &lt;-<span class="st"> </span><span class="kw">sqrt</span>(var_male_control <span class="op">/</span><span class="st"> </span><span class="kw">sum</span>(data<span class="op">$</span>block.rand <span class="op">==</span><span class="st"> </span><span class="dv">0</span> <span class="op">&amp;</span><span class="st"> </span>data<span class="op">$</span>female <span class="op">==</span><span class="st"> </span><span class="dv">0</span>) <span class="op">+</span><span class="st"> </span>var_male_treat <span class="op">/</span><span class="st"> </span><span class="kw">sum</span>(data<span class="op">$</span>block.rand <span class="op">==</span><span class="st"> </span><span class="dv">1</span> <span class="op">&amp;</span><span class="st"> </span>data<span class="op">$</span>female <span class="op">==</span><span class="st"> </span><span class="dv">0</span>))</span>
+<span id="cb67-8"><a href="#cb67-8"></a></span>
+<span id="cb67-9"><a href="#cb67-9"></a>se_est_all &lt;-<span class="st"> </span><span class="kw">sqrt</span>((se_est_fem<span class="op">^</span><span class="dv">2</span> <span class="op">*</span><span class="st"> </span>block_female<span class="op">^</span><span class="dv">2</span>) <span class="op">+</span><span class="st"> </span>(se_est_male<span class="op">^</span><span class="dv">2</span> <span class="op">*</span><span class="st"> </span>block_male<span class="op">^</span><span class="dv">2</span>))</span>
+<span id="cb67-10"><a href="#cb67-10"></a>se_est_all</span></code></pre></div>
+<pre><code>[1] 1.035855</code></pre>
+</section><section class="slide level2">
+
+<p>We could have done this using the <code>difference_in_means</code> command from <code>estimatr</code></p>
+<div class="sourceCode" id="cb69"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb69-1"><a href="#cb69-1"></a><span class="kw">difference_in_means</span>(block.obs <span class="op">~</span><span class="st"> </span>block.rand, <span class="dt">blocks =</span> female, <span class="dt">data =</span> data)</span></code></pre></div>
+<pre><code>Design:  Blocked 
+            Estimate Std. Error   t value     Pr(&gt;|t|) CI Lower  CI Upper
+block.rand -4.648889   1.035855 -4.487971 8.632315e-06 -6.68326 -2.614518
+            DF
+block.rand 596</code></pre>
+<div class="sourceCode" id="cb71"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb71-1"><a href="#cb71-1"></a>(<span class="kw">c</span>(ate_overall, se_est_all))</span></code></pre></div>
+<pre><code>[1] -4.648889  1.035855</code></pre>
+</section><section class="slide level2">
+
+<p>Imagine we forget that we blocked:</p>
+<div class="sourceCode" id="cb73"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb73-1"><a href="#cb73-1"></a><span class="kw">lm_robust</span>(block.obs <span class="op">~</span><span class="st"> </span>block.rand, <span class="dt">data =</span> data)</span></code></pre></div>
+<pre><code>             Estimate Std. Error  t value      Pr(&gt;|t|)  CI Lower
+(Intercept) 19.062222  0.5233487 36.42356 6.377196e-154 18.034397
+block.rand  -4.648889  1.0594816 -4.38789  1.352959e-05 -6.729646
+             CI Upper  DF
+(Intercept) 20.090047 598
+block.rand  -2.568132 598</code></pre>
+<div class="sourceCode" id="cb75"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb75-1"><a href="#cb75-1"></a>(<span class="kw">c</span>(ate_overall, se_est_all))</span></code></pre></div>
+<pre><code>[1] -4.648889  1.035855</code></pre>
+</section><section class="slide level2">
+
+<p>We could also get to this quantity using a regression with block dummies (Least Squares Dummy Variables) or with weights (IPW):</p>
+<div class="sourceCode" id="cb77"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb77-1"><a href="#cb77-1"></a><span class="kw">table</span>(data<span class="op">$</span>block.rand, data<span class="op">$</span>female)</span></code></pre></div>
+<pre><code>   
+      0   1
+  0 225 225
+  1  75  75</code></pre>
+<div class="sourceCode" id="cb79"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb79-1"><a href="#cb79-1"></a><span class="co"># Block dummies (LSDV):</span></span>
+<span id="cb79-2"><a href="#cb79-2"></a><span class="co"># the weigths used here are: p_j * (1 - p_j) * n_j)</span></span>
+<span id="cb79-3"><a href="#cb79-3"></a><span class="kw">lm_robust</span>(block.obs <span class="op">~</span><span class="st"> </span>block.rand <span class="op">+</span><span class="st"> </span>female, <span class="dt">data =</span> data)</span></code></pre></div>
+<pre><code>             Estimate Std. Error   t value      Pr(&gt;|t|)  CI Lower
+(Intercept) 20.235556  0.7262745 27.862133 4.391278e-110 18.809192
+block.rand  -4.648889  1.0433060 -4.455921  9.976628e-06 -6.697885
+female      -2.346667  0.9058405 -2.590596  9.815024e-03 -4.125688
+              CI Upper  DF
+(Intercept) 21.6619191 597
+block.rand  -2.5998927 597
+female      -0.5676453 597</code></pre>
+<div class="sourceCode" id="cb81"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb81-1"><a href="#cb81-1"></a>(<span class="kw">c</span>(ate_overall, se_est_all))</span></code></pre></div>
+<pre><code>[1] -4.648889  1.035855</code></pre>
+<div class="sourceCode" id="cb83"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb83-1"><a href="#cb83-1"></a>within_block &lt;-</span>
+<span id="cb83-2"><a href="#cb83-2"></a><span class="st">  </span>data <span class="op">%&gt;%</span></span>
+<span id="cb83-3"><a href="#cb83-3"></a><span class="st">  </span><span class="kw">group_by</span>(female) <span class="op">%&gt;%</span></span>
+<span id="cb83-4"><a href="#cb83-4"></a><span class="st">  </span><span class="kw">summarise</span>(</span>
+<span id="cb83-5"><a href="#cb83-5"></a>    <span class="dt">block_ATE_est =</span> <span class="kw">mean</span>(block.obs[block.rand <span class="op">==</span><span class="st"> </span><span class="dv">1</span>]) <span class="op">-</span><span class="st"> </span><span class="kw">mean</span>(block.obs[block.rand <span class="op">==</span><span class="st"> </span><span class="dv">0</span>]),</span>
+<span id="cb83-6"><a href="#cb83-6"></a>    <span class="dt">n_j =</span> <span class="kw">n</span>(),</span>
+<span id="cb83-7"><a href="#cb83-7"></a>    <span class="dt">p_j =</span> <span class="kw">mean</span>(block.rand),</span>
+<span id="cb83-8"><a href="#cb83-8"></a>    <span class="dt">sample_weight =</span> n_j,</span>
+<span id="cb83-9"><a href="#cb83-9"></a>    <span class="dt">fe_weight =</span> p_j <span class="op">*</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">-</span><span class="st"> </span>p_j) <span class="op">*</span><span class="st"> </span>n_j</span>
+<span id="cb83-10"><a href="#cb83-10"></a>  ) <span class="op">%&gt;%</span></span>
+<span id="cb83-11"><a href="#cb83-11"></a><span class="st">  </span><span class="co"># divide by the sum of the weights</span></span>
+<span id="cb83-12"><a href="#cb83-12"></a><span class="st">  </span><span class="kw">mutate</span>(</span>
+<span id="cb83-13"><a href="#cb83-13"></a>    <span class="dt">sample_weight =</span> sample_weight <span class="op">/</span><span class="st"> </span><span class="kw">sum</span>(sample_weight),</span>
+<span id="cb83-14"><a href="#cb83-14"></a>    <span class="dt">fe_weight =</span> fe_weight <span class="op">/</span><span class="st"> </span><span class="kw">sum</span>(fe_weight)</span>
+<span id="cb83-15"><a href="#cb83-15"></a>  )</span>
+<span id="cb83-16"><a href="#cb83-16"></a></span>
+<span id="cb83-17"><a href="#cb83-17"></a><span class="kw">head</span>(within_block)</span></code></pre></div>
+<pre><code># A tibble: 2 x 6
+  female block_ATE_est   n_j   p_j sample_weight fe_weight
+   &lt;dbl&gt;         &lt;dbl&gt; &lt;int&gt; &lt;dbl&gt;         &lt;dbl&gt;     &lt;dbl&gt;
+1      0         -2.41   300  0.25           0.5       0.5
+2      1         -6.89   300  0.25           0.5       0.5</code></pre>
+<div class="sourceCode" id="cb85"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb85-1"><a href="#cb85-1"></a>within_block <span class="op">%&gt;%</span></span>
+<span id="cb85-2"><a href="#cb85-2"></a><span class="st">  </span><span class="kw">summarize</span>(</span>
+<span id="cb85-3"><a href="#cb85-3"></a>    <span class="dt">LDSV =</span> <span class="kw">weighted.mean</span>(block_ATE_est, fe_weight),</span>
+<span id="cb85-4"><a href="#cb85-4"></a>    <span class="dt">Blocked_DIM =</span> <span class="kw">weighted.mean</span>(block_ATE_est, sample_weight)</span>
+<span id="cb85-5"><a href="#cb85-5"></a>  )</span></code></pre></div>
+<pre><code># A tibble: 1 x 2
+   LDSV Blocked_DIM
+  &lt;dbl&gt;       &lt;dbl&gt;
+1 -4.65       -4.65</code></pre>
+<div class="sourceCode" id="cb87"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb87-1"><a href="#cb87-1"></a><span class="co"># IPW:</span></span>
+<span id="cb87-2"><a href="#cb87-2"></a></span>
+<span id="cb87-3"><a href="#cb87-3"></a>data<span class="op">$</span>cond_prob &lt;-<span class="st"> </span><span class="kw">ifelse</span>(data<span class="op">$</span>block.rand <span class="op">==</span><span class="st"> </span><span class="dv">1</span>, <span class="fl">0.25</span>, <span class="fl">0.75</span>)</span>
+<span id="cb87-4"><a href="#cb87-4"></a><span class="kw">lm_robust</span>(block.obs <span class="op">~</span><span class="st"> </span>block.rand, <span class="dt">weight =</span> <span class="dv">1</span> <span class="op">/</span><span class="st"> </span>cond_prob, <span class="dt">data =</span> data)</span></code></pre></div>
+<pre><code>             Estimate Std. Error  t value      Pr(&gt;|t|)  CI Lower
+(Intercept) 19.062222  0.5233487 36.42356 6.377196e-154 18.034397
+block.rand  -4.648889  1.0594816 -4.38789  1.352959e-05 -6.729646
+             CI Upper  DF
+(Intercept) 20.090047 598
+block.rand  -2.568132 598</code></pre>
+<div class="sourceCode" id="cb89"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb89-1"><a href="#cb89-1"></a>(<span class="kw">c</span>(ate_overall, se_est_all))</span></code></pre></div>
+<pre><code>[1] -4.648889  1.035855</code></pre>
+</section></section>
+    </div>
+  </div>
+
+  <script src="LearningDaysATE_files/reveal.js-3.3.0.1/lib/js/head.min.js"></script>
+  <script src="LearningDaysATE_files/reveal.js-3.3.0.1/js/reveal.js"></script>
+
+  <script>
+
+      // Full list of configuration options available at:
+      // https://github.com/hakimel/reveal.js#configuration
+      Reveal.initialize({
+        // Display the page number of the current slide
+        slideNumber: true,
+        // Push each slide change to the browser history
+        history: true,
+        // Vertical centering of slides
+        center: false,
+        // Opens links in an iframe preview overlay
+        previewLinks: true,
+        // Transition style
+        transition: 'fade', // none/fade/slide/convex/concave/zoom
+        // Transition style for full page slide backgrounds
+        backgroundTransition: 'default', // none/fade/slide/convex/concave/zoom
+
+
+
+        chalkboard: {
+          toggleNotesButton: false,
+          theme: 'whiteboard',
+        },
+
+        keyboard: {
+          67: function() { RevealChalkboard.toggleNotesCanvas() },    // toggle notes canvas when 'c' is pressed
+          66: function() { RevealChalkboard.toggleChalkboard() }, // toggle chalkboard when 'b' is pressed
+          46: function() { RevealChalkboard.clear() },    // clear chalkboard when 'DEL' is pressed
+           8: function() { RevealChalkboard.reset() },    // reset chalkboard data on current slide when 'BACKSPACE' is pressed
+          68: function() { RevealChalkboard.download() }, // downlad recorded chalkboard drawing when 'd' is pressed
+        },
+
+        // Optional reveal.js plugins
+        dependencies: [
+          { src: 'LearningDaysATE_files/reveal.js-3.3.0.1/plugin/notes/notes.js', async: true },
+          { src: 'LearningDaysATE_files/reveal.js-3.3.0.1/plugin/search/search.js', async: true },
+          { src: 'LearningDaysATE_files/reveal.js-3.3.0.1/plugin/chalkboard/chalkboard.js', async: true },
+        ]
+      });
+    </script>
+  <!-- dynamically load mathjax for compatibility with self-contained -->
+  <script>
+    (function () {
+      var script = document.createElement("script");
+      script.type = "text/javascript";
+      script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+      document.getElementsByTagName("head")[0].appendChild(script);
+    })();
+  </script>
+
+<script>
+  (function() {
+    if (window.jQuery) {
+      Reveal.addEventListener( 'slidechanged', function(event) {  
+        window.jQuery(event.previousSlide).trigger('hidden');
+        window.jQuery(event.currentSlide).trigger('shown');
+      });
+    }
+  })();
+</script>
+
+
+  </body>
+</html>

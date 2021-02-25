@@ -1,0 +1,673 @@
+---
+title: "Estimation, ATE, SE"
+author: "Natalia Garbiras-Díaz"
+date: "April 10, 2019"
+output:
+  slidy_presentation:
+      fig_height: 4
+  beamer_presentation:
+    keep_tex: yes
+    toc: yes
+  revealjs::revealjs_presentation:
+    center: no
+    highlight: pygments
+    reveal_options:
+      chalkboard:
+        theme: whiteboard
+        toggleNotesButton: no
+      previewLinks: yes
+      slideNumber: yes
+    reveal_plugins:
+    - notes
+    - search
+    - chalkboard
+    self_contained: no
+    smart: no
+    theme: default
+    transition: fade
+---
+
+
+
+A simulation in R: sample mean as an unbiased estimator of the population mean
+======================================================================
+
+First, we will need to "create" a population (a study group)
+
+```{r setup, include=FALSE}
+library(knitr)
+opts_chunk$set(strip.white=TRUE,
+               width.cutoff=132,
+               size='\\scriptsize',
+               out.width='.9\\textwidth',
+               message=FALSE,
+	       warning=FALSE,
+	       echo=TRUE,
+               comment=NA,
+               tidy='styler',
+               prompt=FALSE,
+	       results='markup')
+```
+
+
+```{r}
+population <- c(4,5,7,12,7,8,9,-3,5,8,9,3,2,3,4,6,10,4,6,7,8,9,2)
+
+N <- length(population) # number of observations in the population
+N
+
+pop_mean <- mean(population) # population mean
+pop_mean
+
+```
+
+----
+
+We will draw several random samples of 8 observations ($m$) each *without* replacement
+
+```{r}
+
+set.seed(12345)
+s1 <- sample(population, size=8, replace = FALSE)
+
+s2 <- sample(population, size=8, replace = FALSE)
+
+s3 <- sample(population, size=8, replace = FALSE)
+
+s4 <- sample(population, size=8, replace = FALSE)
+
+samples <- rbind(s1, s2, s3, s4)
+
+samples
+```
+
+----
+
+Remember the population mean: `r pop_mean`
+
+And the means of the four samples
+
+```{r}
+apply(samples, MARGIN=1, FUN=mean) # apply function to rows
+```
+
+By chance each given sample mean may be a little higher or lower than the population mean.
+
+We can use R to show that the sample mean is an unbiased estimator of the population mean.
+
+----
+
+For this, we will write a *simulation*. We will repeat the sampling process $10,000$ times.
+
+```{r}
+
+sample_mean <- NA
+
+for (i in 1:10000){
+
+  sample <- sample(population, size=8, replace = FALSE)
+  sample_mean[i] <- mean(sample)
+
+}
+
+```
+
+----
+
+```{r}
+par(mfrow=c(1,1))
+plot(density(sample_mean), col="blue", lwd=3,
+     main="Distribution of sample means")
+abline(v=pop_mean, col="red", lwd=2)
+
+average_sampling_distribution<- mean(sample_mean)
+average_sampling_distribution
+round(pop_mean, 4)
+
+```
+
+Let's now look at the distribution of the sample mean as $m$ gets closer to N.
+======================================================================
+
+So far, $m=8$. We now need a new simulation that adds a new step: we need to vary the size of *m*. (Remember our population size, *N*, is `r N`)
+
+----
+
+```{r, eval=FALSE}
+
+rep <- 10000
+
+# The first loop varies m
+for (m in 9:20){
+
+  sample_mean <- NA #creating an object to store the results of the second loop
+
+  # The second loop goes through the 10,000 simulations
+  for (i in 1:rep){
+
+    #we first get a random sample of size m from the population
+    sample <- sample(population, size=m, replace = FALSE)
+    #and then calculate and store the sample mean
+    sample_mean[i] <- mean(sample)
+  }
+
+  #finally, we plot the distribution of the 10,000 sample means for the relevant m
+  lines(density(sample_mean), lwd=3,
+        #note that this next line of code varies the color of the line according to m
+        #so that we can distinguish the different distributions
+        col=paste0("grey",140-(7*m)))
+}
+
+```
+
+---
+
+```{r, echo=FALSE}
+
+plot(density(sample_mean), col="blue", ylim=c(0,1.6),
+     main="Distribution of sample means", lwd=3)
+abline(v=pop_mean, col="red", lwd=3)
+
+rep <- 10000
+
+for (m in 9:20){
+  sample_mean_sim <- NA
+
+  for (i in 1:rep){
+    sample <- sample(population, size=m, replace = FALSE)
+    sample_mean_sim[i] <- mean(sample)
+  }
+
+  lines(density(sample_mean_sim), lwd=3,
+        col=paste0("grey",140-(7*m)))
+}
+
+```
+
+The variance of the sample mean
+=======================================================================
+
+The standard deviation of the sampling distribution gives us a measure of uncertainty about the mean:
+
+```{r}
+
+var_sample_mean<- sum((sample_mean - mean(sample_mean))^2) / (length(sample_mean))
+se_sample_mean<- sqrt(var_sample_mean)
+se_sample_mean
+
+```
+
+Now, we can calculate this because we created our own population. This is not often the case (e.g., experiments)...
+
+---
+
+Remember the formula for the variance of the sample mean for the treatment group is:
+
+$$\text{Var}(Y^T) = \frac{\sigma^2}{m}$$
+
+We do not know $\sigma^2$, we can estimate this quantity with the variance of the assigned-to-treatment sample by:
+
+$$\hat{\sigma}^2= (\frac{1}{m-1})\sum^{m}_{i=1}(Y_i-\bar{Y}^T)^2$$
+
+Same with the variance of the sample mean for those units assigned to control.
+
+2. Estimation of the ATE
+======================================================================
+
+We can write a function to estimate the ATE (or simply use the built-in function `t.test`).
+
+```{r}
+
+diff_means <- function(y, x){
+
+  # Calculating difference in means
+  mean1 <- mean(y[x==1], na.rm=T)
+  mean0 <- mean(y[x==0], na.rm=T)
+  diff <- mean1 - mean0
+
+  # Calculating number of observations
+  N <- length(na.omit(y))
+
+  # Preparing output
+  res <- c(mean1, mean0, diff, N)
+  names(res) <- c("Mean 1", "Mean 0", "Difference", "N")
+
+  return(c(res))
+}
+```
+
+----
+
+To try our function, we will use the small dataset in Gerber & Green (2012)
+
+```{r}
+gg_data <- as.data.frame(cbind(c(10,15,20,20,10,15,15),
+                               c(15,15,30,15,20,15,30)))
+names(gg_data) <- c("Y_i0", "Y_i1")
+
+```
+
+----
+
+We will need to "create" a treatment vector...
+
+```{r}
+# let's fix m=3 (units in the treatment group)
+treat <- c(1, 1, 1, 0, 0, 0, 0)
+gg_data$treat <- sample(treat, 7, replace=F)
+gg_data$treat
+
+```
+
+...and a column with the "observed" outcomes
+
+```{r, echo=FALSE, warning=FALSE, message=FALSE}
+library(here)
+```
+
+```{r}
+gg_data$observed <- ifelse(gg_data$treat==1, gg_data$Y_i1, gg_data$Y_i0)
+##save(gg_data, file="gg_data.RData")
+
+```
+
+----
+
+Let's see how the complete data set looks now:
+
+```{r}
+head(gg_data)
+```
+
+----
+
+```{r}
+# mean of the treatment group
+mean(gg_data$observed[gg_data$treat==1])
+# mean of the control group
+mean(gg_data$observed[gg_data$treat==0])
+
+# difference of means
+mean(gg_data$observed[gg_data$treat==1]) - mean(gg_data$observed[gg_data$treat==0])
+
+# with our function
+diff_means(gg_data$observed, gg_data$treat)
+
+```
+
+---
+
+Now, we can also estimate the same quantity using a regression:
+
+```{r, eval=TRUE,echo=FALSE,warning=FALSE}
+library(estimatr)
+```
+
+```{r}
+lm_robust(observed~treat, data=gg_data)
+```
+
+But notice that we are not relying on the assumptions of OLS regression. This is just math... the way $\beta$ is estimated.
+
+----
+
+How can we get a distribution of the difference of means?
+==============================================
+
+We can do this with a simulations. For each simulation,
+
+> - First: We will need to "create" a random treatment vector and generate the column with the associated observed outcomes.
+
+> - Second: We will have to calculate the difference between the treatment and control means (by hand or using our new function).
+
+---
+
+```{r}
+
+# 1.
+gg_data$treat <- sample(treat, 7, replace=F)
+gg_data$observed <- ifelse(gg_data$treat==1, gg_data$Y_i1, gg_data$Y_i0)
+
+# 2.
+diff_means(gg_data$observed, gg_data$treat)
+# we should store this! so,
+dm <- diff_means(gg_data$observed, gg_data$treat)
+dm
+# but we only want the third element!
+dm <- diff_means(gg_data$observed, gg_data$treat)[3]
+dm
+
+```
+
+----
+
+Now let's put this in a loop that allows us to repeat the process $10,000$ times (and saves the dom for each)...
+
+```{r}
+
+dm <- NA #creating a placeholder to store all our doms...
+
+for (i in 1:10000){
+
+    # 1.
+    gg_data$treat_sim <- sample(treat, 7, replace=F)
+    gg_data$observed <- ifelse(gg_data$treat_sim==1, gg_data$Y_i1, gg_data$Y_i0)
+
+    # 2.
+    dm[i] <- diff_means(gg_data$observed, gg_data$treat_sim)[3]
+
+    }
+
+```
+
+----
+
+Finally, let's plot the distribution
+
+```{r}
+hist(dm, col="blue", main="Histogram of Difference of Means \n for GGdata")
+```
+
+
+3. Standard Error for the ATE
+=====================================================================
+
+**1. Standard error for the difference in means**
+
+```{r, echo=FALSE}
+library(foreign) # to import csv
+library(ggplot2) # for plots using ggplot
+```
+
+---
+
+1. Standard error for the difference in means
+==========================================================
+
++ The difference in means is an unbiased estimator of the true ATE. However, by chance, in some realizations of our sample that estimate might be off the true ATE.
+
++ The SE tells us the likely size of the amount off.
+
+A conservative formula for the $\widehat{SE}$ for the $\widehat{ATE}$
+================================================
+
+$$\widehat{SE}(\widehat{ATE})= \sqrt{\frac{\widehat{\text{Var}}(Y_i(0))}{N-m} + \frac{\widehat{\text{Var}}(Y_i(1))}{m}}$$
+
+---
+
+We are going to estimate the SE for the difference in means using the same data.
+
+```{r, echo=FALSE}
+load("gg_data.RData")
+```
+
+```{r}
+true_ate<-mean(gg_data$Y_i1) - mean(gg_data$Y_i0)
+true_ate
+est_ate<- mean(gg_data$observed[gg_data$treat==1]) - mean(gg_data$observed[gg_data$treat==0])
+est_ate
+
+```
+
+---
+
+```{r}
+
+# generating empty dataframe to put the results
+ate <- as.data.frame(matrix(NA, 10000, 2))
+names(ate) <- c("estimated_ate", "estimated_se_ate")
+
+# sampling
+for (i in 1:10000){
+
+  # generating treatment vector for this replicate
+  gg_data$treat_sim <- 0
+  gg_data$treat_sim[sample(1:7, 2, replace=F)]  <- 1
+
+  treat_mean <- mean(gg_data$Y_i1[gg_data$treat_sim==1])
+  treat_var <- var(gg_data$Y_i1[gg_data$treat_sim==1])
+
+  control_mean <- mean(gg_data$Y_i0[gg_data$treat_sim==0])
+  control_var <- var(gg_data$Y_i0[gg_data$treat_sim==0])
+
+  ate[i,1] <- treat_mean - control_mean
+  ate[i,2] <- sqrt(treat_var/2 + control_var/5)
+}
+
+```
+
+---
+
+```{r, echo=FALSE}
+
+m <- ggplot(ate, aes(x=estimated_ate))
+m +
+  geom_histogram(aes(y = 100 * (..count..)/sum(..count..)), binwidth=.5, alpha=.5) +
+  # geom_histogram(aes(y = ..density..)) +
+  geom_vline(xintercept = mean(ate$estimated_ate), col="red", size=1.25) +
+  theme_bw() +
+  xlab("Estimated ATE") +
+  ylab("Percent")
+
+
+```
+
++ How could we use this graph to get the SE of the estimated ATE?
+
+---
+
+```{r}
+# The SE of the estimated ATE is the standard deviation of this sampling distribution:
+se_sampling<-sd(ate[,1])
+se_sampling
+
+```
+
+---
+
++ But in any given experiment, we don't have the sampling distribution. Instead, we can estimate the SE (using the conservative formula)
+
+```{r}
+
+treat_var <- var(gg_data$Y_i1[gg_data$treat==1])
+control_var <- var(gg_data$Y_i0[gg_data$treat==0])
+est_se_cons<- sqrt(treat_var/2 + control_var/5)
+est_se_cons
+
+```
+
+---
+
+```{r}
+
+# Comparing the true standard error to the conservative formula
+print(c(se_sampling, est_se_cons))
+
+```
+
+4. Blocked randomized experiments
+=====================================================================
+
+```{r,echo=FALSE,warning=FALSE,message=FALSE}
+
+# We need
+library(randomizr)
+library(dplyr)
+rm(list = ls())
+set.seed(12345)
+
+villages <- c("vill 01","vill 02","vill 03","vill 04","vill 05",
+              "vill 06","vill 07","vill 08","vill 09","vill 10")
+
+samples <- c(60,60,60,60,60,
+             60,60,60,60,60)
+
+N <- sum(samples)
+ID <- 1:N
+
+village <- rep(x = villages, times = samples)
+
+female <- rep(c(rep(1,30),rep(0,30)),10)
+days.sick.no.device <- rnbinom(n = N,mu = 10,size = 1) + 7
+
+outbreak.effect <- 5
+outbreak.villages <- sample(x = villages,size = 3)
+Y0 <- ifelse(test = village %in% outbreak.villages,
+             yes = days.sick.no.device + outbreak.effect,
+             no = days.sick.no.device + 0)
+
+effect.male <- -2
+effect.female <- -7
+Y1 <- ifelse(test = female == 1,yes = Y0 + effect.female, no = Y0 + effect.male)
+
+data <- data.frame(
+     ID = ID,
+     village = village,
+     female = female,
+     Y0 = Y0,
+     Y1 = Y1
+)
+
+complete.rand <- c(rep(1,200),
+                 rep(0,N-200))
+
+complete.rand <- sample(complete.rand)
+data$complete.rand <- complete.rand
+data$complete.obs <- with(data,Y1*complete.rand+Y0*(1-complete.rand))
+```
+
+---
+
+Let's use the data from yesterday, with the example of water sanitazing devices. We had
+
+```{r}
+
+table(data$complete.rand,data$female)
+
+# Block randomization using randomizr
+
+data$block.rand <- block_ra(blocks = data$female, prob_each=c(.75,.25))
+
+table(data$block.rand,data$female)
+
+data$block.obs <- with(data,Y1*block.rand+Y0*(1-block.rand))
+
+head(data)
+
+```
+
+
+How can we analyze these data?
+=====================================================================
+
++ When analyzing data from blocked randomized experiments, we may ask different questions:
+    + For instance, what is the ATE among women? Does the ATE vary by gender?
+    + We may, instead, be interested in the overall ATE.
+
+---
+
++ Since we conducted a complete RA at the block level, we can estimate the ATE for each one of the groups created by our blocking variables
+
+```{r, eval=FALSE}
+#Recall
+effect.male <- -2
+effect.female <- -7
+```
+
+
+```{r}
+female<-filter(data, data$female==1)
+dom_fem<-mean(female$block.obs[female$block.rand==1])- mean(female$block.obs[female$block.rand==0])
+dom_fem
+
+male<-filter(data, data$female==0)
+dom_male<-mean(male$block.obs[male$block.rand==1])- mean(male$block.obs[male$block.rand==0])
+dom_male
+
+```
+
+---
+
++ Now, we can also estimate the overall ATE by estimating block-level ATEs.
++ We then need to ask, how do we want to weight each block-level ATE in order to obtain the overal ATE?
++ One way is to weight by the block size:
+
+```{r}
+
+block_female<-  sum(data$female==1)/length(data$ID)
+block_male<-  sum(data$female==0)/length(data$ID)
+
+ate_overall<- block_female*dom_fem + block_male*dom_male
+ate_overall
+var_fem_treat <- var(data$block.obs[data$block.rand==1 & data$female==1])
+var_fem_control <- var(data$block.obs[data$block.rand==0 & data$female==1])
+var_male_treat <- var(data$block.obs[data$block.rand==1 & data$female==0])
+var_male_control <- var(data$block.obs[data$block.rand==0 & data$female==0])
+
+se_est_fem<-sqrt(var_fem_control/sum(data$block.rand==0 & data$female==1) + var_fem_treat/sum(data$block.rand==1 & data$female==1))
+se_est_male<-sqrt(var_male_control/sum(data$block.rand==0 & data$female==0) + var_male_treat/sum(data$block.rand==1 & data$female==0))
+
+se_est_all<- sqrt((se_est_fem^2*block_female^2) + (se_est_male^2*block_male^2))
+se_est_all
+
+```
+
+---
+
+We could have done this using the `difference_in_means` command from `estimatr`
+
+```{r}
+difference_in_means(block.obs~block.rand, blocks=female,data=data)
+(c(ate_overall,se_est_all))
+
+```
+
+---
+
+Imagine we forget that we blocked:
+
+```{r}
+lm_robust(block.obs~block.rand, data=data)
+(c(ate_overall,se_est_all))
+
+```
+
+---
+
+We could also get to this quantity using a regression with block dummies (Least Squares Dummy Variables) or with weights (IPW):
+
+```{r}
+
+table(data$block.rand, data$female)
+
+# Block dummies (LSDV):
+# the weigths used here are: p_j * (1 - p_j) * n_j)
+lm_robust(block.obs~block.rand + female, data=data)
+
+(c(ate_overall,se_est_all))
+
+within_block <-
+  data %>%
+  group_by(female) %>%
+  summarise(block_ATE_est = mean(block.obs[block.rand == 1]) - mean(block.obs[block.rand == 0]),
+            n_j = n(),
+            p_j = mean(block.rand),
+            sample_weight = n_j,
+            fe_weight     = p_j * (1 - p_j) * n_j) %>%
+  # divide by the sum of the weights
+  mutate(sample_weight = sample_weight/sum(sample_weight),
+         fe_weight = fe_weight/sum(fe_weight))
+
+head(within_block)
+
+within_block %>%
+  summarize(LDSV = weighted.mean(block_ATE_est, fe_weight),
+            Blocked_DIM = weighted.mean(block_ATE_est, sample_weight))
+
+# IPW:
+
+data$cond_prob = ifelse(data$block.rand==1, 0.25, 0.75)
+lm_robust(block.obs~block.rand, weight = 1/cond_prob, data=data)
+(c(ate_overall,se_est_all))
+
+```
