@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>0.1 Main Points to Remember About Hypothesis Testing | exercise-hypothesistesting.utf8.md</title>
+  <meta name="description" content="" />
+  <meta name="generator" content="bookdown 0.10 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="0.1 Main Points to Remember About Hypothesis Testing | exercise-hypothesistesting.utf8.md" />
+  <meta property="og:type" content="book" />
+  
+  
+  
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="0.1 Main Points to Remember About Hypothesis Testing | exercise-hypothesistesting.utf8.md" />
+  
+  
+  
+
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+
+
+<script src="libs/jquery/jquery.min.js"></script>
+<link href="libs/gitbook/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook/css/plugin-fontsettings.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">The EGAP Learning Days Guide</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="0.1" data-path=""><a href="#main-points-to-remember-about-hypothesis-testing"><i class="fa fa-check"></i><b>0.1</b> <strong>Main Points to Remember About Hypothesis Testing</strong></a></li>
+<li class="chapter" data-level="0.2" data-path=""><a href="#answers"><i class="fa fa-check"></i><b>0.2</b> <strong>Answers</strong></a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./"></a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<!--bookdown:title:end-->
+<!--bookdown:title:start-->
+<p>#<a href="#ex-hyp">Exercise Hypothesis Testing</a></p>
+<p><strong>Background:</strong> The following example is a stylized example set of data from a hypothetical randomized experiment. In this experiment, we are evaluating the impact of participating in a workshop on experiments on number of hours per week devoted to implementing experiments. Treatment consisted of participation in a workshop like this one. Below are the outcomes we collected.</p>
+<table>
+<thead>
+<tr class="header">
+<th>ID</th>
+<th align="center">Treatment Status</th>
+<th align="right">Hours per week</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1</td>
+<td align="center">Control</td>
+<td align="right">15</td>
+</tr>
+<tr class="even">
+<td>2</td>
+<td align="center">Treatment</td>
+<td align="right">15</td>
+</tr>
+<tr class="odd">
+<td>3</td>
+<td align="center">Control</td>
+<td align="right">20</td>
+</tr>
+<tr class="even">
+<td>4</td>
+<td align="center">Treatment</td>
+<td align="right">35</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Explanation of Data Table:</strong> We are going to reshape our data into a different format for the purposes of this exercise. The following table is a table of “potential outcomes,” which means that each individual has theoretically two potential outcomes. We know what individual 1’s potential outcome is for receiving the control condition, but we have no way of knowing what individual 1’s outcome would have been had it received the treatment condition. Y(C) refers to the potential outcome for a control condition and Y(T) refers to the potential outcome for a treatment condition. As you can see, in individual 1, we observed the Y(C) of 15, but we do not know what individual 1’s Y(T) is.</p>
+<table>
+<colgroup>
+<col width="31%" />
+<col width="46%" />
+<col width="21%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>ID</th>
+<th align="center">Y(C): Hours per week if did not participate in workshop</th>
+<th align="right">Y(T): Hours per week if participated in workshop</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1</td>
+<td align="center">15</td>
+<td align="right">?</td>
+</tr>
+<tr class="even">
+<td>2</td>
+<td align="center">?</td>
+<td align="right">15</td>
+</tr>
+<tr class="odd">
+<td>3</td>
+<td align="center">20</td>
+<td align="right">?</td>
+</tr>
+<tr class="even">
+<td>4</td>
+<td align="center">?</td>
+<td align="right">35</td>
+</tr>
+<tr class="odd">
+<td>Average</td>
+<td align="center"></td>
+<td align="right"></td>
+</tr>
+</tbody>
+</table>
+<ol style="list-style-type: decimal">
+<li><p>Suppose that you are working on this field experiment and you just received this data. Begin by calculating the average observed outcomes for treatment and control individuals. Record them in the table of potential outcomes.</p></li>
+<li>What is your average treatment effect? ____________</li>
+<li><p>Now, we want to see what the average treatment effect would be if we assign treatment to a different pair of individuals. In other words, perhaps individuals 2 and 3 were treated, and the others were assigned to control. However, we don’t know what the treatment outcome would have been for individuals 1 and 3, and we don’t know what the control outcome would have been for individuals 2 and 4. We have to make a hypothesis about what these values are. Let’s write a very common “sharp” null hypothesis: the treatment has no effect for any individual. In other words, the potential outcomes Y(T) are the same as the potential outcomes Y(C). Record these in the following table.</p></li>
+</ol>
+<table>
+<colgroup>
+<col width="31%" />
+<col width="46%" />
+<col width="21%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>ID</th>
+<th align="center">Y(C): Hours per week if did not participate in workshop</th>
+<th align="right">Y(T): Hours per week if participated in workshop</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1</td>
+<td align="center">15</td>
+<td align="right"></td>
+</tr>
+<tr class="even">
+<td>2</td>
+<td align="center">?</td>
+<td align="right">15</td>
+</tr>
+<tr class="odd">
+<td>3</td>
+<td align="center">20</td>
+<td align="right">?</td>
+</tr>
+<tr class="even">
+<td>4</td>
+<td align="center">?</td>
+<td align="right">35</td>
+</tr>
+<tr class="odd">
+<td>Average</td>
+<td align="center"></td>
+<td align="right"></td>
+</tr>
+</tbody>
+</table>
+<ol start="4" style="list-style-type: decimal">
+<li><ol style="list-style-type: lower-alpha">
+<li>Now we have a complete schedule of potential outcomes. Based on the table you just created, what average Y(T) would you observe if Individuals 1 and 2 were in your treatment group? __________</li>
+</ol></li>
+</ol>
+<ol start="2" style="list-style-type: lower-alpha">
+<li>What average Y(C) would you observe if (therefore) individuals 3 and 4 were your control group? __________</li>
+<li>What is the average treatment effect in this scenario? __________</li>
+</ol>
+<ol start="5" style="list-style-type: decimal">
+<li><ol style="list-style-type: lower-alpha">
+<li>Based on the table you just created, what average Y(T) would you observe if individuals 2 and 3 were in your treatment group? __________</li>
+</ol></li>
+</ol>
+<ol start="2" style="list-style-type: lower-alpha">
+<li>What average Y(C) would you observe if (therefore) individuals 1 and 4 were your control group? _________</li>
+<li>What is the average treatment effect in this scenario? __________</li>
+</ol>
+<ol start="6" style="list-style-type: decimal">
+<li>Fill in your answers from Questions 2, 4, and 5 in the table below. We’ve calculated the treatment effects for the other possibilities of the randomization. There are a total of 5 possible combinations of 2 treated individuals and 2 control individuals.</li>
+</ol>
+<table>
+<thead>
+<tr class="header">
+<th>Treated individuals</th>
+<th align="center">Estimated ATE</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1,2</td>
+<td align="center">Question 4c:</td>
+</tr>
+<tr class="even">
+<td>1,3</td>
+<td align="center">17.5-25 = -7.5</td>
+</tr>
+<tr class="odd">
+<td>1,4</td>
+<td align="center">25-17.5 = 7.5</td>
+</tr>
+<tr class="even">
+<td>2,3</td>
+<td align="center">Question 5c:</td>
+</tr>
+<tr class="odd">
+<td>2,4</td>
+<td align="center">Question 2:</td>
+</tr>
+<tr class="even">
+<td>3,4</td>
+<td align="center">27.5-15 = 12.5</td>
+</tr>
+</tbody>
+</table>
+<ol style="list-style-type: lower-alpha">
+<li>Given a reality in which the treatment had no effect for any unit (our sharp null hypothesis), what is the probability that we estimated a treatment effect that is greater than or equal to what we actually observed?__________</li>
+<li>What is the probability that we estimated a treatment effect that is less than what we observed?__________</li>
+<li>Suppose you are responding to the skeptic who advanced the sharp null hypothesis that the treatment has no effect on any individual unit. Your response is: “I _________ (can/cannot) conclusively reject your hypothesis that the treatment effect is 0 for each unit. There is a __________ percent chance that we would have estimated such a large treatment effect, when, in fact, there was no treatment effect.”</li>
+<li>Your response to Question 6b is known as a p-value. Is the p-value you recovered conventionally considered to be statistically significant?__________</li>
+<li>How could you re-design this experiment in order to improve the chances of recovering a statistically significant treatment effect? (Think back to your exercise on power.)__________</li>
+</ol>
+<div id="main-points-to-remember-about-hypothesis-testing" class="section level2">
+<h2><span class="header-section-number">0.1</span> <strong>Main Points to Remember About Hypothesis Testing</strong></h2>
+<ol style="list-style-type: decimal">
+<li>Hypothesis testing is a calculation of the probability that we can reject stated hypotheses about our treatment effect. This provides us with a means of characterizing our certainty that an estimated treatment effect approximates the true treatment effect.</li>
+<li>The most common hypothesis that we test is the sharp null hypothesis, which states that the treatment had absolutely no effect on any individual unit. To test this hypothesis, we calculate the probability that we could have observed the treatment effect we did if the treatment in reality had no effect whatsoever. This probability is known as a p-value. For example, a p-value of .05 is interpreted as a 5% chance that we could observe a treatment effect at least as large as the one we found if the treatment in fact had no effect.</li>
+<li>It is conventional that p-values of .05 or lower are “significant.” This is an arbitrary cutoff, but it is so widely used in statistics that any study that fails to recover a p-value of less than .1 will report that the treatment effect is null. Nonetheless, also make sure to interpret the substance and magnitude of the treatment effect, and avoid focusing solely on statistical significance.</li>
+<li>Type I error is when you reject the null hypothesis when it is actually true. In other words, you conclude that the treatment did have an effect, when in reality, it did not. The significance level can also be interpreted as the probability that we are committing Type I error. (Type II error is when you accept the null hypothesis when it is actually false, in other words, you conclude a null effect when one actually existed.)</li>
+<li>Randomization inference enables us to calculate what the observed treatment effect would have been in every possible randomization of the experiment if we hypothesize that no subject responded to the treatment (our null hypothesis). From this, we can calculate the probability that we would have observed our treatment effect if the true treatment effect was actually zero. If this is a very low probability, then we have more confidence in the significance of our findings from the single randomization we actually observed.</li>
+</ol>
+</div>
+<div id="answers" class="section level2">
+<h2><span class="header-section-number">0.2</span> <strong>Answers</strong></h2>
+<table>
+<colgroup>
+<col width="31%" />
+<col width="46%" />
+<col width="21%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>ID</th>
+<th align="center">Y(C): Hours per week if did not participate in workshop</th>
+<th align="right">Y(T): Hours per week if participated in workshop</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1</td>
+<td align="center">15</td>
+<td align="right">?</td>
+</tr>
+<tr class="even">
+<td>2</td>
+<td align="center">?</td>
+<td align="right">15</td>
+</tr>
+<tr class="odd">
+<td>3</td>
+<td align="center">20</td>
+<td align="right">?</td>
+</tr>
+<tr class="even">
+<td>4</td>
+<td align="center">?</td>
+<td align="right">35</td>
+</tr>
+<tr class="odd">
+<td>Average</td>
+<td align="center">17.5</td>
+<td align="right">25</td>
+</tr>
+</tbody>
+</table>
+<ol style="list-style-type: decimal">
+<li><p>Suppose that you are working on this field experiment and you just received this data. Begin by calculating the average observed outcomes for treatment and control individuals. Record them in the table of potential outcomes.</p></li>
+<li>What is your average treatment effect? <strong>7.5</strong>________</li>
+<li><p>Now, we want to see what the average treatment effect would be if we assign treatment to a different pair of individuals. In other words, perhaps individuals 2 and 3 were treated, and the others were assigned to control. However, we don’t know what the treatment outcome would have been for individuals 1 and 3, and we don’t know what the control outcome would have been for individuals 2 and 4. We have to make a hypothesis about what these values are. Let’s write a very common “sharp” null hypothesis: the treatment has no effect for any individual. In other words, the potential outcomes Y(T) are the same as the potential outcomes Y(C). Record these in the following table.</p></li>
+</ol>
+<table>
+<colgroup>
+<col width="31%" />
+<col width="46%" />
+<col width="21%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>ID</th>
+<th align="center">Y(C): Hours per week if did not participate in workshop</th>
+<th align="right">Y(T): Hours per week if participated in workshop</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1</td>
+<td align="center">15</td>
+<td align="right">15</td>
+</tr>
+<tr class="even">
+<td>2</td>
+<td align="center">15</td>
+<td align="right">15</td>
+</tr>
+<tr class="odd">
+<td>3</td>
+<td align="center">20</td>
+<td align="right">20</td>
+</tr>
+<tr class="even">
+<td>4</td>
+<td align="center">35</td>
+<td align="right">35</td>
+</tr>
+<tr class="odd">
+<td>Average</td>
+<td align="center">21.25</td>
+<td align="right">21.25</td>
+</tr>
+</tbody>
+</table>
+<ol start="4" style="list-style-type: decimal">
+<li><ol style="list-style-type: lower-alpha">
+<li>Now we have a complete schedule of potential outcomes. Based on the table you just created, what average Y(T) would you observe if Individuals 1 and 2 were in your treatment group? ____15______</li>
+</ol></li>
+</ol>
+<ol start="2" style="list-style-type: lower-alpha">
+<li>What average Y(C) would you observe if (therefore) individuals 3 and 4 were your control group? <strong><em>27.5</em></strong>____</li>
+<li>What is the average treatment effect in this scenario? <strong><em>-12.5</em></strong>____</li>
+</ol>
+<ol start="5" style="list-style-type: decimal">
+<li><ol style="list-style-type: lower-alpha">
+<li>Based on the table you just created, what average Y(T) would you observe if individuals 2 and 3 were in your treatment group? <strong><em>17.5</em></strong>____</li>
+</ol></li>
+</ol>
+<ol start="2" style="list-style-type: lower-alpha">
+<li>What average Y(C) would you observe if (therefore) individuals 1 and 4 were your control group? <strong><em>25</em></strong>___</li>
+<li>What is the average treatment effect in this scenario? ____-7.5______</li>
+</ol>
+<ol start="6" style="list-style-type: decimal">
+<li>Fill in your answers from Questions 2, 4, and 5 in the table below. We’ve calculated the treatment effects for the other possibilities of the randomization. There are a total of 5 possible combinations of 2 treated individuals and 2 control individuals.</li>
+</ol>
+<table>
+<thead>
+<tr class="header">
+<th>Treated individuals</th>
+<th align="center">Estimated ATE</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1,2</td>
+<td align="center">Question 4c: -12.5</td>
+</tr>
+<tr class="even">
+<td>1,3</td>
+<td align="center">17.5-25 = -7.5</td>
+</tr>
+<tr class="odd">
+<td>1,4</td>
+<td align="center">25-17.5 = 7.5</td>
+</tr>
+<tr class="even">
+<td>2,3</td>
+<td align="center">Question 5c: -7.5</td>
+</tr>
+<tr class="odd">
+<td>2,4</td>
+<td align="center">Question 2: 7.5</td>
+</tr>
+<tr class="even">
+<td>3,4</td>
+<td align="center">27.5-15 = 12.5</td>
+</tr>
+</tbody>
+</table>
+<ol style="list-style-type: lower-alpha">
+<li>Given a reality in which the treatment had no effect for any unit (our sharp null hypothesis), what is the probability that we estimated a treatment effect that is greater than or equal to what we actually observed?____0.5______</li>
+<li>What is the probability that we estimated a treatment effect that is less than what we observed?_____0.5_____</li>
+<li>Suppose you are responding to the skeptic who advanced the sharp null hypothesis that the treatment has no effect on any individual unit. Your response is: “I <strong><em>cannot</em></strong>___ (can/cannot) conclusively reject your hypothesis that the treatment effect is 0 for each unit. There is a ____50______ percent chance that we would have estimated such a large treatment effect, when, in fact, there was no treatment effect.”</li>
+<li>Your response to Question 6b is known as a p-value. Is the p-value you recovered conventionally considered to be statistically significant?____No______</li>
+<li>How could you re-design this experiment in order to improve the chances of recovering a statistically significant treatment effect? (Think back to your exercise on power.) <strong>Increase N!</strong>_</li>
+</ol>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+
+
+    </div>
+  </div>
+<script src="libs/gitbook/js/app.min.js"></script>
+<script src="libs/gitbook/js/lunr.js"></script>
+<script src="libs/gitbook/js/plugin-search.js"></script>
+<script src="libs/gitbook/js/plugin-sharing.js"></script>
+<script src="libs/gitbook/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook/js/jquery.highlight.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"google": false,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "google", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/egap/learningdays-guide/edit/master/Guide/%s",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"download": null,
+"toc": {
+"collapse": "subsection"
+},
+"search": false
+});
+});
+</script>
+
+</body>
+
+</html>

@@ -1,0 +1,626 @@
+---
+title: "Randomization R"
+output: html_document
+---
+
+#Content
+* **Randomization**
+     + **Randomization strategies**
+     + **Problem set**
+     
+# Randomization
+
+##Randomization Strategies
+
+In this session we will go over different randomization strategies. We start by making a database, which simulates an experiment and includes a full schedule of potential outcomes for each observation. 
+
+```{r, tidy=TRUE, tidy.opts=list(width.cutoff=60),warning=FALSE, message=FALSE}
+
+rm(list = ls())
+set.seed(12345)
+
+# Make a dataset ----------------------------------------------------------
+
+# We are going to look at the example of an experiment where people are randomly
+# assigned to receive a free water sanitation device. We are interested in
+# whether the treatment reduces the number of days in the year that the person 
+# was sick. We will look at different ways the treatment can be assigned.
+
+# We conduct a survey in 10 villages
+
+(villages <- c("vill 01","vill 02","vill 03","vill 04","vill 05",
+              "vill 06","vill 07","vill 08","vill 09","vill 10"))
+
+# We randomly sample 60 people in each village
+
+(samples <- c(60,60,60,60,60,
+             60,60,60,60,60))
+
+# So our total sample size, N, is 10 x 60, or the sum of our samples
+
+(N <- sum(samples))
+
+# Generate a unique number for each person in our total sample
+
+(ID <- 1:N)
+
+# Now let's generate a variable telling us what village each person came 
+# from:
+
+village <- rep(x = villages,    # Repeat the names of the villages
+               times = samples) # 60 times for each village
+
+# Let's look at the ID and village for each person:
+
+head(cbind(ID,village),30)
+
+# Now generate a variable that is 1 if the person is female, and 0 if male
+
+(female <- rep(c(rep(1,30),rep(0,30)),10)) # 30 females in each village sample
+
+# Let's now generate how many days in the year people would have been sick for
+# if they did not receive the water sanitation device. 
+
+(days.sick.no.device <- rnbinom(n = N,mu = 10,size = 1) + 7)
+
+# Let's also imagine that some villages are hit by 
+# an outbreak of a virus that means people in those villages were all sick 
+# 5 times more during the year under study.
+
+# Define the effect of having an outbreak in your village:
+
+(outbreak.effect <- 5)    # the effect is 5 days
+
+# Let's randomly choose 3 of the 10 villages that were hit by the virus
+
+(outbreak.villages <- sample(x = villages,size = 3))
+
+# Add the effect to the people in those villages using an if / else function, 
+# this is the 'control' potential outcome for the people in our experiment
+
+(Y0 <- 
+     ifelse(
+          # Is the person's village in the outbreak list?
+          test = village %in% outbreak.villages,    
+          # If yes, then give that person the outbreak effect
+          yes = days.sick.no.device + outbreak.effect,
+          # If no, then don't increase the number of days they were sick
+          no = days.sick.no.device + 0
+     ))
+
+# Now let's generate the treatment effects, but let's imagine that the treatment
+# is less effective for men on average than it is for women.
+
+# If a male receives the treatment, he gets sick 2 times fewer in a year
+
+(effect.male <- -2) 
+
+# If a female receives the treatment, she gets sick 7 times fewer in a year
+
+(effect.female <- -7)
+
+# We can use the ifelse() function again 
+
+(Y1 <- 
+     ifelse(
+          # Is the person a female?
+          test = female == 1,
+          # If yes, then give that person the female effect
+          yes = Y0 + effect.female,
+          # If no, then give that person the male effect
+          no = Y0 + effect.male
+     ))
+
+# Now we have our experimental dataset: 
+
+data <- data.frame(
+     ID = ID,
+     village = village,
+     female = female,
+     Y0 = Y0,
+     Y1 = Y1
+)
+
+head(data)
+```
+
+With our experimental database ready, we can now go over the code for making random assignments. As you saw earlier today, there are multiple ways in which a researcher/practitioner can assign subjects to treatment conditions. We will explore four of these options: simple random assignment, complete random assignment, clustered random assignment, and blocked random assignment.  
+
+```{r, tidy=TRUE, tidy.opts=list(width.cutoff=60),warning=FALSE, message=FALSE}
+
+# 1. Simple Random Assignment ------------------------------------------------
+
+# Simple random assignment is the same as flipping a coin: every person 
+# receives the treatment with probability of .5, but we don't know in
+# advance how many people will receive treatment 
+
+# Run this code several times, which is the equivalent of flipping a coin
+# 4 times:
+rbinom(n = 4,size = 1,prob = .5)
+
+# Let's assign treatment to our people using simple assignment:
+
+# set the random number seed
+set.seed(12345)
+
+# Generate the simple random assignment 
+# (Notice that in an experiment we have a single trial and, 
+# thus, size=1)
+(simple.ra <- rbinom(n = N,size = 1, prob = .5))
+
+# 330 people ended up in the treatment group
+sum(simple.ra)
+
+# Let's add it to our data
+
+data$simple.ra <- simple.ra
+
+head(data)
+
+# And let's generate the outcome we would have observed under this assignment
+
+data$simple.obs <- with(data,Y1*simple.ra+Y0*(1-simple.ra))
+
+head(data)
+
+# 2. Complete Random Assignment ----------------------------------------------
+
+# Imagine we only had 200 devices to assign to people. In this case, simple 
+# random assignment would be inappropriate, as we are likely to assign too many 
+# (or too few) people to treatment. 
+
+# Complete random assignment lets us determine exactly how many people we want
+# to assign to treatment before we run the randomization.
+
+# Generate a list of 200 1's and 400 0's
+
+(complete.ra <- c(rep(1,200),
+                 rep(0,N-200)))
+
+# And then scramble it randomly using sample()
+
+set.seed(12345)
+# Notice that the default is sampling without replacement
+(complete.ra <- sample(complete.ra)) 
+
+sum(complete.ra)
+
+# Let's add it to the data
+
+data$complete.ra <- complete.ra
+
+head(data)
+
+# And let's generate the outcome we would have observed under this assignment
+
+data$complete.obs <- with(data,Y1*complete.ra+Y0*(1-complete.ra))
+
+head(data)
+
+# 3. Clustered Random Assignment ---------------------------------------------
+
+# Finally, sometimes it might be necessary to assign the treatment at the 
+# village level: i.e. rather than assigning the treatment to individuals, we
+# assign it to whole villages at a time (by 'cluster'). When treatment is not
+# clustered by village, you can have people who are and are not assigned to
+# treatment within a single village, whereas when you assign treatment by
+# village clusters, everyone within a village assigned to treatment is treated.
+
+# Let's imagine we have 300 devices, but we are worried that people will share
+# them with their neighbors, so our treatment and control groups could be 
+# compromised within villages. Instead, we just assign five of the villages
+# to treatment, and the others to control. 
+
+# Firstly, we randomly select 5 villages from our list:
+
+set.seed(12345)
+(treat.vills <- sample(x = villages,size = 5))
+
+# Now we generate a list of treatments by testing whether each person is 
+# within a village in this randomly-selected list.
+
+cluster.ra <- ifelse(
+     # Is the village in the list?
+     test = village%in%treat.vills,  
+     # If yes, give a 1
+     yes = 1,
+     # If no, give a 0
+     no = 0)
+
+#Note, in the above function, %in% returns a logical vector indicating if 
+#the elements in "village" are in the list "treat.vills". 
+
+sum(cluster.ra)
+
+# Let's add it to the data
+
+data$cluster.ra <- cluster.ra
+
+head(data)
+
+# And let's generate the outcome we would have observed under this assignment
+
+data$cluster.obs <- with(data,Y1*cluster.ra+Y0*(1-cluster.ra))
+
+head(data)
+
+# 4. Blocked Random Assignment -----------------------------------------------
+
+# As we saw above, when women receive the treatment, it has a bigger effect. If 
+# proportionally more men than women receive the treatment, then we will 
+# actually underestimate the average effect. Moreover, some villages experienced
+# breakouts, while some didn't. If, just by chance, most of the treated were in 
+# breakout villages, we would underestimate the treatment effect.
+
+# To avoid this situation, we can ensure that equal numbers of people from each
+# village sample, and equal numbers of women and men, are in treatment and
+# control.
+
+# With 10 villages, and 200 devices, we can assign 20 devices to each village.
+# We can look at the data, and see that there are 30 men and 30 women in each
+# village.
+
+table(data$village,data$female)
+
+# Thus, we can assign 10 devices to women and 10 to men in each village.
+
+# Because our data is ordered by village and gender, it is relatively simple to
+# carry out the blocked randomization. For more complex or unbalanced datasets,
+# it is easier to use the pre-made functions in the two packages discussed 
+# below. 
+
+# To do the block randomization, we do complete random assignment of 10 devices
+# in blocks of 30: this ensures that 10 women and 10 men in each village are 
+# assigned to treatment. 
+
+# The vector of assignments we will reshuffle in each gender in each village
+
+(treatment.by.gender <- c(rep(1,10),rep(0,20)))
+
+# "replicate" repeats an expression in R and returns the results AS A VECTOR:
+
+(block.ra <- as.vector(replicate(
+     # Do this twice for each village
+     n = length(villages)*2, 
+     # Scramble the vector of treatments
+     expr = sample(treatment.by.gender))))
+
+# We can see that the treatment is balanced:
+table(female,block.ra)
+table(village,block.ra)
+
+# Add it to the data
+data$block.ra <- block.ra
+
+head(data)
+
+# And let's generate the outcome we would have observed under this assignment
+
+data$block.obs <- with(data,Y1*block.ra+Y0*(1-block.ra))
+
+head(data)
+
+```
+
+With all these random assignment tools, we can now estimate the effects. We will go back to this tomorrow in our R session but let's take a first look. 
+
+```{r, tidy=TRUE, tidy.opts=list(width.cutoff=60),warning=FALSE, message=FALSE}
+
+# Let's estimate the true average treatment effect, which we do not observe: 
+
+true.ATE <- with(data,mean(Y1)-mean(Y0))
+
+# Now let's look at the estimates:
+
+simple.ATE <- with(data,
+     mean(simple.obs[simple.ra==1]) - mean(simple.obs[simple.ra==0]))
+
+
+complete.ATE <- with(data,
+                   mean(complete.obs[complete.ra==1]) - mean(complete.obs[complete.ra==0]))
+
+block.ATE <- with(data,
+                  mean(block.obs[block.ra==1]) - mean(block.obs[block.ra==0]))
+
+cluster.ATE <- with(data,
+                  mean(cluster.obs[cluster.ra==1]) - mean(cluster.obs[cluster.ra==0]))
+
+# Let's compare:
+
+c(true.ATE = true.ATE,
+  simple.ATE = simple.ATE,
+  complete.ATE = complete.ATE,
+  block.ATE = block.ATE,
+  cluster.ATE = cluster.ATE)
+```
+
+Finally, we can do all this in R using the `randomizr` package. Let's see how this works. 
+
+```{r, tidy=TRUE, tidy.opts=list(width.cutoff=60),warning=FALSE, message=FALSE}
+# Demonstration of the randomizr package ----------------------------------
+
+# Install and load the package:
+#install.packages("devtools")           # Uncomment if not installed. Same below
+#devtools::install_github("acoppock/randomizr")
+library(randomizr)
+
+# Simple random assignment:
+simple_ra(N = N,     # total sample size
+          prob = .5) # probability of receiving treatment
+
+# Complete random assignment:
+complete_ra(N = N,   # total sample size
+            m = 200) # amount to assign to treatment
+
+# Clustered random assignment:
+cluster_ra(clust_var = village, # the variable to cluster by
+           m = 5)               # the number of clusters
+
+# Demonstration of the blockTools package ---------------------------------
+#install.packages("blockTools")
+library(blockTools)
+
+# We want to block on gender and village
+
+# Make numbers for the villages
+data$village.number <- as.integer(data$village)
+
+blocks <- block(
+     # the data
+     data = data,
+     # the names of the variables to block on
+     block.vars = c("village.number","female"),
+     # the number of treatmend groups (here 2: treatment and control)
+     n.tr = 2,
+     # the ID variable
+     id.vars = "ID")
+
+blocktools.ra <- assignment(blocks)
+
+blockt.ra <- ifelse(
+     # Is the person assigned to treatment by blocktools?
+     test = data$ID %in% 
+          as.numeric(as.character(as.data.frame(
+               blocktools.ra[[1]])[,"X1.Treatment.2"]
+               )),
+     # If yes, return 1
+     yes = 1,
+     # If no, return 0
+     no = 0
+)
+
+```
+
+
+##2.b. Problem set: 
+
+###Question 1
+
+A researcher plans to ask six participants to contribute time teaching an adult literacy program. Each participant will be asked to donate either 30 or 60 minutes. The researcher is considering three methods for randomizing the treatment. 
+
++ One method is to flip a coin before talking to each participant and to ask for a 30-minute donation if the coin comes up heads or a 60-minute donation if it comes up tails. 
++ The second method is to write "30"" on three playing cards and "60"" on three other, and then shuffle cards. The first participant would be assigned the number on the first card, the second participant would be assigned the number on the second card, and so on. 
++ A third method is to write "30" and "60"" each on three different slips of paper, seal the slips into an envelope, and shuffle the six envelopes before talking to the first subject. The first subject would be assigned the first envelope, the second subject would be assigned the second envelope, and so on.
+
+
+  1. Discuss the strengths and weakness of each approach.
+	
+
+
+
+
+
+	
+  2. In what ways would your answer to (a) change if the number of subjects were 600 instead of 6?
+	
+  
+
+
+
+
+
+
+	
+  3. What is the expected value of the assigned number of minutes if the coin toss method is used? What is the expected value of the assigned number of minutes if the sealed envelope method is used?
+	
+  
+
+
+
+
+
+
+	
+Source: Gerber, Alan S.; Green, Donald P.. 2012. Field Experiments: Design, Analysis, and Interpretation. Norton, p. 47.
+
+###Question 2
+
+You have been hired by the government to work on a field experiment in schools and look at the effect of providing new teaching material on student performance. The project will provide new textbooks and writing materials to 100 primary schools across the country. You have been provided a data set of 200 eligible schools in five districts. A snapshot of the data set looks as follows:
+
+| Region ID | District ID | County ID | School ID | Classroom ID | Student ID | Baseline Test Score |
+|-----------|-------------|-----------|-----------|--------------|------------|---------------------|
+| 1         | 4           | 2         | 16        | 13           | 1          | 88                  |
+| 1         | 4           | 2         | 16        | 13           | 2          | 56                  |
+| 1         | 4           | 2         | 16        | 13           | 3          | 98                  |
+| 1         | 4           | 2         | 16        | 14           | 1          | 76                  |
+| 1         | 4           | 2         | 16        | 14           | 2          | 82                  |
+| 1         | 4           | 6         | 18        | 7            | 1          | 87                  |
+| 1         | 4           | 6         | 18        | 7            | 2          | 68                  |
+
+
+
+  1. Think about randomizing treatment (new materials) at each of the levels in the table below. For each level of randomization fill in what your counterfactual (control group) is. In the third column, list potential spillover effects that may cause a bias in your estimated treatment effect. 
+	
+>**Hint:** If randomization is at the "Student" level, this means that you randomize students who receive materials and students who don't receive materials. If randomization is at the "Classroom" level, you randomly select classrooms that will receive treatment, and all students in that classroom will receive the materials.
+	  
+---------------------------------------------------------
+Randomization                 Control        Treatment  
+                               Group          Control                               
+--------------------------- -------------- --------------
+1.  Student                                           
+    
+    
+    
+    
+2.  Classroom               
+    
+    
+    
+    
+3.  School               
+(All classrooms in 
+school receive 
+materials)
+    
+4. School>Classroom
+(A 2 step randomization 
+process: 100 schools are 
+randomly selected and in 
+each of those 100, 1 
+classroom is randomly 
+selected) 
+
+---------------------------------------------------------
+
+
+
+###Question 3
+
+You have just been hired to work on a field experiment  The data you will be using comes from the Pratham Balsakhi program in Vadodara India and is available at \url{http://runningres.com/exercises}. The variable “town” has been added for the purposes of this assignment and is not original to the data set. To load the data set, find it at: `experiment\assignments\randomize.csv`. Make sure to set your working directory to the appropriate folder in R and use the read.csv command to load the data set into R. 
+
+  1. Before we begin randomizing, let's get some basic information about the data set. Fill in the table below:
+  
+  
+      |            |       Number of Schools          |
+      |------------|----------------------------------|
+      | *Gender*   |                                  |
+      | Kanya      |                                  |
+      | Kumar      |                                  |
+      | Mishra     |                                  |
+      | *Language* |                                  |
+      | Gujarati   |                                  |
+      | Hindi      |                                  |
+      | Marathi    |                                  |  
+	
+
+Based on the table above, what are some considerations you need to keep in mind when you are determining which randomization approach to use?
+
+  
+
+
+
+
+
+
+	
+  2. Your first task is to randomize treatment assignment at the school level for the 124 schools, where each school has a 50/50 chance of being assigned to treatment (i.e. simple randomization) 
+Fill in the tables below with the number of schools for each characteristic: 
+
+
+      |                   | Kanya |  Kumar  | Mishra |
+      |-------------------|:-----:|:-------:|:------:|
+      | Control           |       |         |        |
+      | Treatment         |       |         |        |
+      
+    	
+      
+      |                   | Gujarati |  Hindi  | Marathi |
+      |-------------------|:--------:|:-------:|:-------:|
+      | Control           |          |         |         |
+      | Treatment         |          |         |         |
+	
+
+ 3. Re-randomize treatment assignment, again at the school level using the same method. Fill in the table below. 
+
+
+
+      |                   | Kanya |  Kumar  | Mishra |
+      |-------------------|:-----:|:-------:|:------:|
+      | Control           |       |         |        |
+      | Treatment         |       |         |        |
+      
+      
+      
+      |                   | Gujarati |  Hindi  | Marathi |
+      |-------------------|:--------:|:-------:|:-------:|
+      | Control           |          |         |         |
+      | Treatment         |          |         |         |
+	
+
+	
+ 4. Do the tables in (b) and (c) have all the same values? Why or why not? 
+  
+
+
+
+
+
+
+	
+
+ 5. Now suppose that the team you are working with want to block randomize on gender.  There are three gender categories in this experiment: kanya (girls only), kumar (boys only), and mishra (co-ed). 
+	
+|                   |  Total   | Kanya | Kumar | Mishra |
+|-------------------|:--------:|:-----:|:-----:|:------:|
+| Control           |          |       |       |        |
+| Treatment         |          |       |       |        |
+
+	
+  6. Now suppose that the team you are working with want to block randomize on gender.  There are three gender categories in this experiment: kanya (girls only), kumar (boys only), and mishra (co-ed). 
+	
+|                   |  Total   | Kanya | Kumar | Mishra |
+|-------------------|:--------:|:-----:|:-----:|:------:|
+| Control           |          |       |       |        |
+| Treatment         |          |       |       |        |
+
+	
+  7. How do your tables in (e) and (f) compare to your result tables in in (b) and (c) when you change the seed? Why is this the case?
+  
+
+
+
+
+
+
+	
+  8. For the four randomization processes you ran in questions (b) – (f), fill in the questions below:
+  
+  
+    | Treatment Assignment Percentage |  0% |  25% |  50% |  75% |  100% |
+    |---------------------------------|:---:|:----:|:----:|:----:|:-----:|
+    | Number of schools               |     |      |      |      |       |
+    
+    
+  
+  What is the probability of treatment assignment across units?\_\_\_\_\_\_\_\_\_
+
+  9. You realize that schools in the same town are situated close to one another, and you are concerned about spillover effects. You decide to do a cluster randomization so that all schools in the same town are treated. You first attempt this by doing a simple randomization.
+	
+  + How many towns were selected for the treatment group? \_\_\_\_\_\_\_\_\_
+  + What proportion of total number of towns is the treatment group? \_\_\_\_\_\_\_\_
+	
+  10. You decide instead to randomly select 13 towns for treatment and the remaining 12 towns are assigned to control. (i.e. complete cluster randomization)
+	
+	+ How many towns were selected for the treatment group? \_\_\_\_\_\_\_
+	+ What proportion of total number of towns is the treatment group? \_\_\_\_\_\_
+	
+  11. The team decides that the nature of the treatment makes the concern about spillovers inapplicable, so treatment can be assigned at the school level. However budget constraints mean that there is enough funding to treat only 40 schools. You are tasked with randomly selecting 40 treated schools.). Fill in the table below:
+
+
+	|                   |  Total   | Kanya | Kumar | Mishra |
+  |-------------------|:--------:|:-----:|:-----:|:------:|
+  | Control           |          |       |       |        |
+  |                   |          |       |       |        |
+  | Treatment         |          |       |       |        |
+  |                   |          |       |       |        |
+
+
+	
+  Data source: Glennerster, Rachel; Takavarasha, Kudzai. 2013. Running Randomized Evaluations: A Practical Guide. Princeton, module 4.4. Online resources at `http://runningres.com`
+
+##Main Points to Remember About Randomization
+1. Random assignment helps us identify the causal effect of a variable by creating two groups of observations whose potential outcomes are equal in expectation. This eliminates the selection problem that prevents us from concluding causal lessons from observational research.
+2. An easy way to specify the size of your treatment and control groups is to generate a random number for each of your observations, sort your data according to this variable, and then assign treatment status to the first half (or whatever fraction you prefer) of your list.
+3. This is a good method especially because it limits the ability of implementers to interfere with the ordering of participants and therefore the randomization of treatment.
+4. It is possible to balance your treatment and control groups on factors that are important to you without jeopardizing random assignment. This can be useful for creating treatment and control groups with smaller variances.
+5. It is not necessary that all participants have equal probabilities of assignment to treatment, only that the probability of assignment to treatment is between 0 and 1 and that it is known. If participants have different probabilities of assignment to treatment, you will need to adjust your calculations of the average treatment effect and the standard error taking into account these different probabilities.

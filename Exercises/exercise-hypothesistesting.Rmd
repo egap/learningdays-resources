@@ -1,0 +1,124 @@
+#[Exercise Hypothesis Testing](#ex-hyp)
+
+**Background:** The following example is a stylized example set of data from a hypothetical randomized experiment. In this experiment, we are evaluating the impact of participating in a workshop on experiments on number of hours per week devoted to implementing experiments. Treatment consisted of participation in a workshop like this one. Below are the outcomes we collected.
+
+| ID  | Treatment Status |Hours per week  |
+|----------|:-------------:|------:|
+| 1   | Control   |  15  |
+| 2   | Treatment |  15  |
+| 3   | Control   |  20  |
+| 4   | Treatment |  35  |
+
+**Explanation of Data Table:** We are going to reshape our data into a different format for the purposes of this exercise. The following table is a table of “potential outcomes,” which means that each individual has theoretically two potential outcomes. We know what individual 1's potential outcome is for receiving the control condition, but we have no way of knowing what  individual 1's outcome would have been had it received the treatment condition. Y(C) refers to the potential outcome for a control condition and Y(T) refers to the potential outcome for a treatment condition. As you can see, in individual 1, we observed the Y(C) of 15, but we do not know what individual 1's Y(T) is.
+
+| ID  |  Y(C): Hours per week if did not participate in workshop |  Y(T): Hours per week if participated in workshop  |
+|-----|:------:|------:|
+| 1   | 15 |  ?  |
+| 2   | ?  |  15 | 
+| 3   | 20 |  ?  |
+| 4   | ?  |  35 |
+| Average  |  |  |
+
+
+1.	Suppose that you are working on this field experiment and you just received this data. Begin by calculating the average observed outcomes for treatment and control individuals. Record them in the table of potential outcomes.
+
+2.	What is your average treatment effect? ____________
+3.	Now, we want to see what the average treatment effect would be if we assign treatment to a different pair of individuals. In other words, perhaps individuals 2 and 3 were treated, and the others were assigned to control. However, we don't know what the treatment outcome would have been for individuals 1 and 3, and we don't know what the control outcome would have been for individuals 2 and 4. We have to make a hypothesis about what these values are. Let's write a very common “sharp” null hypothesis: the treatment has no effect for any individual. In other words, the potential outcomes Y(T) are the same as the potential outcomes Y(C). Record these in the following table.
+
+| ID  |  Y(C): Hours per week if did not participate in workshop |  Y(T): Hours per week if participated in workshop  |
+|----------|:-------------:|------:|
+| 1   |  15  |      |
+| 2   |  ?   | 15   |
+| 3   |  20  |  ?   |
+| 4   |  ?   |  35  |
+| Average   |      |
+
+
+4.	(a) Now we have a complete schedule of potential outcomes. Based on the table you just created, what average Y(T) would you observe if Individuals 1 and 2 were in your treatment group? __________
+(b) What average Y(C) would you observe if (therefore) individuals 3 and 4 were your control group? __________
+(c) What is the average treatment effect in this scenario? __________
+
+
+5.	(a) Based on the table you just created, what average Y(T) would you observe if individuals 2 and 3 were in your treatment group? __________
+(b) What average Y(C) would you observe if (therefore) individuals 1 and 4 were your control group? _________
+(c) What is the average treatment effect in this scenario? __________
+
+6.	Fill in your answers from Questions 2, 4, and 5 in the table below. We've calculated the treatment effects for the other possibilities of the randomization. There are a total of 5 possible combinations of 2 treated individuals and 2 control individuals.
+
+| Treated individuals  | Estimated ATE | 
+|---------- |:-------------:|
+| 1,2    |  Question 4c:       |
+| 1,3    |  17.5-25 = -7.5     |
+| 1,4    |  25-17.5 = 7.5      |
+| 2,3    |  Question 5c:       |
+| 2,4    |  Question 2:        |
+| 3,4    |  27.5-15 = 12.5     |
+
+
+a)	Given a reality in which the treatment had no effect for any unit (our sharp null hypothesis), what is the probability that we estimated a treatment effect that is greater than or equal to what we actually observed?__________
+b)	What is the probability that we estimated a treatment effect that is less than what we observed?__________
+c)	Suppose you are responding to the skeptic who advanced the sharp null hypothesis that the treatment has no effect on any individual unit. Your response is: “I _________ (can/cannot) conclusively reject your hypothesis that the treatment effect is 0 for each unit. There is a __________ percent chance that we would have estimated such a large treatment effect, when, in fact, there was no treatment effect.”
+d)	Your response to Question 6b is known as a p-value. Is the p-value you recovered conventionally considered to be statistically significant?__________
+e)	How could you re-design this experiment in order to improve the chances of recovering a statistically significant treatment effect? (Think back to your exercise on power.)__________
+
+## **Main Points to Remember About Hypothesis Testing**
+
+1.	Hypothesis testing is a calculation of the probability that we can reject stated hypotheses about our treatment effect. This provides us with a means of characterizing our certainty that an estimated treatment effect approximates the true treatment effect.
+2.	The most common hypothesis that we test is the sharp null hypothesis, which states that the treatment had absolutely no effect on any individual unit. To test this hypothesis, we calculate the probability that we could have observed the treatment effect we did if the treatment in reality had no effect whatsoever. This probability is known as a p-value. For example, a p-value of .05 is interpreted as a 5% chance that we could observe a treatment effect at least as large as the one we found if the treatment in fact had no effect.
+3.	It is conventional that p-values of .05 or lower are “significant.” This is an arbitrary cutoff, but it is so widely used in statistics that any study that fails to recover a p-value of less than .1 will report that the treatment effect is null. Nonetheless, also make sure to interpret the substance and magnitude of the treatment effect, and avoid focusing solely on statistical significance.
+4.	Type I error is when you reject the null hypothesis when it is actually true. In other words, you conclude that the treatment did have an effect, when in reality, it did not. The significance level can also be interpreted as the probability that we are committing Type I error. (Type II error is when you accept the null hypothesis when it is actually false, in other words, you conclude a null effect when one actually existed.)
+5.	Randomization inference enables us to calculate what the observed treatment effect would have been in every possible randomization of the experiment if we hypothesize that no subject responded to the treatment (our null hypothesis). From this, we can calculate the probability that we would have observed our treatment effect if the true treatment effect was actually zero. If this is a very low probability, then we have more confidence in the significance of our findings from the single randomization we actually observed.
+
+
+## **Answers**
+| ID  |  Y(C): Hours per week if did not participate in workshop |  Y(T): Hours per week if participated in workshop  |
+|----------     |:-------------:|------:|
+| 1             |        15      |  ?  |
+| 2             |        ?       | 15  | 
+| 3             |        20     |  ?  |
+| 4             |        ?       |  35  |
+| Average       |       17.5      |  25   |
+
+
+1.	Suppose that you are working on this field experiment and you just received this data. Begin by calculating the average observed outcomes for treatment and control individuals. Record them in the table of potential outcomes.
+
+2.	What is your average treatment effect? __7.5__________
+3.	Now, we want to see what the average treatment effect would be if we assign treatment to a different pair of individuals. In other words, perhaps individuals 2 and 3 were treated, and the others were assigned to control. However, we don't know what the treatment outcome would have been for individuals 1 and 3, and we don't know what the control outcome would have been for individuals 2 and 4. We have to make a hypothesis about what these values are. Let's write a very common “sharp” null hypothesis: the treatment has no effect for any individual. In other words, the potential outcomes Y(T) are the same as the potential outcomes Y(C). Record these in the following table.
+
+| ID  |  Y(C): Hours per week if did not participate in workshop | Y(T): Hours per week if participated in workshop  |
+|----------     |:-------------: |------:|
+| 1             |        15      |  15  |
+| 2             |        15      | 15   |
+| 3             |        20      |  20  |
+| 4             |        35      |  35  |
+| Average       |      21.25     | 21.25 |
+
+
+4.	(a) Now we have a complete schedule of potential outcomes. Based on the table you just created, what average Y(T) would you observe if Individuals 1 and 2 were in your treatment group? ____**15**______
+(b) What average Y(C) would you observe if (therefore) individuals 3 and 4 were your control group? ___27.5_______
+(c) What is the average treatment effect in this scenario? ___-12.5_______
+
+
+5.	(a) Based on the table you just created, what average Y(T) would you observe if individuals 2 and 3 were in your treatment group? ___17.5_______
+(b) What average Y(C) would you observe if (therefore) individuals 1 and 4 were your control group? ___25______
+(c) What is the average treatment effect in this scenario? ____**-7.5**______
+
+6.	Fill in your answers from Questions 2, 4, and 5 in the table below. We've calculated the treatment effects for the other possibilities of the randomization. There are a total of 5 possible combinations of 2 treated individuals and 2 control individuals.
+
+| Treated individuals  | Estimated ATE | 
+|----------     |:-------------:|
+| 1,2            |    Question 4c:  -12.5   |
+| 1,3            |    17.5-25 = -7.5     |
+| 1,4             |   25-17.5 = 7.5       |
+| 2,3             |    Question 5c:  -7.5   |
+| 2,4           |    Question 2:    7.5 |
+| 3,4       |       27.5-15 = 12.5     |
+
+
+a)	Given a reality in which the treatment had no effect for any unit (our sharp null hypothesis), what is the probability that we estimated a treatment effect that is greater than or equal to what we actually observed?____**0.5**______
+b)	What is the probability that we estimated a treatment effect that is less than what we observed?_____**0.5**_____
+c)	Suppose you are responding to the skeptic who advanced the sharp null hypothesis that the treatment has no effect on any individual unit. Your response is: “I ___cannot______ (can/cannot) conclusively reject your hypothesis that the treatment effect is 0 for each unit. There is a ____**50**______ percent chance that we would have estimated such a large treatment effect, when, in fact, there was no treatment effect.”
+d)	Your response to Question 6b is known as a p-value. Is the p-value you recovered conventionally considered to be statistically significant?____**No**______
+e)	How could you re-design this experiment in order to improve the chances of recovering a statistically significant treatment effect? (Think back to your exercise on power.) __Increase N!___
+
+

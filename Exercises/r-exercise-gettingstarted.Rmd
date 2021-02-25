@@ -1,0 +1,363 @@
+#[Getting Started on R and simple statistics"](#gettingstarted)
+
+* Getting started on R
+     + What is R, how does it function?
+     + Key commands
+* Descriptive statistics and plotting
+     + Hands-on: With your own data...
+
+#1. Getting started on R
+
+##1.a. What is R, how does it function?
+
+R is an open-source (i.e., free access) programming tool. It is object-based: This means that everything in R is an object... even commands are also objects. For example:
+
+```{r,tidy=TRUE}
+mean
+```
+
+In R, you can store objects using the `<-` operator. Make sure you give names to all objects:
+
+```{r}
+my.example <- 4 + 5
+my.example
+```
+
+> "Names must be unique": everytime you give an `object` a `name`, it removes anything that already had that `name` from your environment!
+
+```{r}
+my.name <- dir()
+my.name
+```
+
+Whenever you are not sure about how a command works, you can pull documentation using: `?`
+
+```{r}
+?mean
+```
+
+This tool is very helpful! Familiarize with it and feel comfortable using it... 
+
+##1.b. Key commands: 
+
+In this short session we go over the main commands you are likely to use in these sessions. Note: (*) corresponds to more sophisticated (but very useful) commands. 
+
+###SETTING UP YOUR R SESSION
+
++ First, ask R which working directory you are currently working on. Then, set your local directory: note direction of strokes / (not \\). 
+
+```{r}
+getwd()
+setwd("/Users/nataliagarbirasdiaz/Dropbox/Njala University Workshop on Experiments/Workshop 2016 (Chile)/R_handouts/Day_1_Getting_Started_R")   
+```
+
++ Install any relevant packages (only has to be done once). 
+
+```{r,eval=FALSE}
+install.packages("Hmisc")  
+```
+
++ *Load* any relevant packages.
+
+```{r,message=FALSE,warning=FALSE}
+library(Hmisc)
+```
+
++ Clear R's memory     
+
+```{r}
+rm(list = ls())                                   
+set.seed(20150420)        # OPT: Set a  seed to make replication possible. 
+```
+
+###BASICS ON R 
+
+Good, you're all set to start working on R. Let's explore some of the basic commands you are going to be using these days. 
+
++ Creating and manipulating variables and vectors:
+
+```{r}
+a <- 5                 # "<-"  is the assignment command; it is used to define things. eg:
+a
+
+b <- 1:10              # ":"  is used to define a string of integers
+b
+
+v <- c(1,3,2,4,110,pi) # use c() to make a vector with anything in it
+v
+
+# Extract elements of a vector:
+
+b[1]                   # Returns position 1
+b[6:5]                 # returns positions 6 and 5, in that order
+b[-1]                  # Returns all but the first number  
+
+# Returns all numbers indicated as "TRUE"
+b[c(TRUE, FALSE, TRUE, FALSE, FALSE, TRUE, TRUE, FALSE, FALSE, FALSE)]  
+                                                                          
+# Assign new values to particular elements of a vector
+b[5] <- 0
+b
+```
+
++ Manipulating Matrices:
+
+```{r}
+matrix(1:12, 3, 4)             # Make a 3*4 matrix with numbers 1:12
+matrix(1:12, 4, 3)             # Make a 4*2 matrix with numbers 1:12
+matrix(1:3, 4, 3)              # Make a 4*3 matrix with numbers 1:3, cycling; filling along by column
+matrix(1:3, 4, 3, byrow=TRUE)  # Make a 4*3 matrix with numbers 1:3, cycling, filling  by row
+```
+
++ Adding row names and column names to matrices
+
+```{r}
+M<-matrix(1:12, 3, 4)
+rownames(M) = c("a","b","c")
+colnames(M) = c("A","B","C", "Z")
+M
+```
+
++ Simple Functions on vectors (We'll get back to these functions)
+
+```{r}
+sum(b)                     # sum
+mean(b)                    # mean
+max(b)                     # mean
+min(b)                     # min
+sd(b)                      # standard deviation
+var(b)                     # variance
+```
+
++ Simple transformations on vectors (or numbers, or matrices)
+
+```{r}
+b^2                        # Square the variable
+matrix(1:3, 4, 3)^2        # Square the elements of a matrix 
+b^.5                       # Square root of the variable
+log(b)                     # log of variable
+exp(b)                     # e to the b
+```
+
++ Logical (asks to evaluate conditions)
+
+```{r}
+b==2                       # Is equal to
+b<5                        # Less than
+b>=5                       # Greater than or equal to 
+b<=5 | b/4==2              # OR
+b>2 & b<9                  # AND
+is.na(b)                   # where is data missing
+which(b<5)                 # gives indices of values meeting logical requirement
+```
+
++ Distributions 
+
+```{r}
+rnorm(5)                      # Draws 5 obs. from normal distribution
+rbinom(5, 10, .4)             # Draws from a binomial distribution
+runif(5)                      # Draws from a uniform distribution
+```
+
++ Functions on PAIRS of variables
+
+```{r}
+x  = rnorm(100)               # Create variable "x" with 100 obs. from normal distribution
+y  = x+rnorm(100)
+
+y+x                            # Add variables together (or subtract, multiply etc)
+y>x                            # Logical relation between two variables?
+cor(x,y)                       # Correlation between variables
+t.test(y~(x>.5))               # t-test of null that variables unrelated
+lm(y~x)                        # OLS regression 
+M<- lm(y~x)   
+summary(M)                     # Summary of OLS regression
+y%*%x                          # inner product of variables
+
+# Make a dataframe and view it
+d <- data.frame(x, y)
+```
+
++ Loops (\*): Loops repeat an operation/function over different values of *i*. See examples below:   
+
+```{r}
+x<-0                    
+for(i in 1:10){         # repeat an expression for values of i in 1 to 10. 
+  print(x<x+i)          # print allows you to see the results in the R console.  
+   }
+
+x=0
+while(x <10){           # keep repeating an expression as long as some condition is satisfied
+  print(x^2)
+  x<-x+1
+}
+
+```
+
++ Apply and sapply (*): These two commands are very useful for efficient coding. They apply a function on an array or matrix. NOTE: You can always explore how these two commands work by typing `?apply` or `?sapply`.  
+
+```{r}
+sapply(1:4, function(j) j^2)   # faster way to do loops; this example runs function j^2 on 
+                               # numbers j in 1:4
+M<-matrix(rnorm(40), 4, 10)
+apply(M, 1, mean)              # faster way to do lots of operations on a matrix: here take the mean 
+                               # of every ROW (1)
+apply(M, 2, sd)                # faster way to do lots of operations on a matrix: here take the sd  
+                               # of every COLUMN (2)
+```
+
+#### Writing your own function: 
+
+```{r}
+h <- function(a, b=1) {        # Define any function by 1. assigning arguments (here a,b) and
+                               # 2. giving any default values
+     a^2 -b                    # (here b=1), and then giving the function
+          }             
+h(1)                           # illustration of function
+h(1,2)                         # illustration of function
+
+```
+
+#### Parentheses
+
+```{r}
+# ( )   used for funtions, and for vectors: 
+log(1)
+
+# ( )   also used to keep things in blocks:
+(1+2)/(2+1)
+1+2/2+1
+
+# [ ]   used to extract indices:
+(10:12)[2]
+
+# { } Used to keep blocks together, with final component returned:
+x <- {
+  a<-1
+  b<-2
+  a/b
+}
+
+x
+```
+
+#2. Descriptive statistics and ploting 
+
+We will create two variables that are normally distributed and then will use different tools to characterize these data.
+
+```{r}
+# First, how do we do this?
+y <- rnorm(10)                  # Generate y from a normal distribution 
+x <- rnorm(10)                  # Generate y from a normal distribution 
+```
+
+Now, let's look at the basic descriptive statistics
+
+```{r}
+
+mean(y)
+mean(x)                 
+var(x)
+sd(x)
+max(x)
+min(x)
+summary(x)          # Basic summary statistics
+
+cov(x,y)            # What is cov? 
+mean(y[x>0])        # Estimates the mean of y when x>0
+
+```
+
+Now let's plot both variables. 
+
+```{r,warning=FALSE,message=FALSE}
+
+par(mfrow = c(1,2))             # This lets you put a set of graphs on the same canvas -- here, 2*2
+hist(y)                         # A histogram
+boxplot(y~(x>0))                # Box plots
+dev.off()                       # We tell R that we no longer want to plot in a 1 by 2 canvas. 
+```
+
+```{r}
+plot(x,y)                       # xy plots  
+abline(a=-1, b = 1, col="blue") # Add a sloped line
+abline(v=mean(x), col="red")    # Add a vertical line
+abline(lm(y~x))                 # Add a regression line
+text(0, 0.2, "some text")       # Add text
+title("An exercise")            # Add a title
+
+# A more fancy plot
+x1 <- rnorm(100)
+x2 <- rnorm(100) 
+x3 <- rnorm(100)+x1+x2
+
+plot(density(x1))           # We plot the distribution of x1. 
+
+# How do we plot all three distributions?
+
+plot(density(x1), main="Exercise")   #Notice we can add a title in the same plot command
+lines(density(x2), col="slateblue")
+lines(density(x3), lwd = 2)
+lines(density(x1+x2), lty=2)
+
+##Add a legend 
+legend("topright", legend = c("x1","x2","x3","x1+x2"), 
+       col = c("black", "slateblue", "black","black"),
+       lty = c(1, 1, 1, 2), bg = "gray90")
+
+```
+
+##2.a. Hands-on: with your own data
+
+The following code will help you to import data in `.csv` or `.dta` (Stata):
+
+```{r, eval=FALSE}
+
+#install.packages("foreign")        # This will let you import data from other formats 
+                                    # Uncomment if not installed yet. 
+library(foreign)
+
+#install.packages("readstata13")    # This will let you import data from Stata 13 
+                                    # Uncomment if not installed yet. 
+library(readstata13)
+
+#Stata files: 
+dta<- read.dta("file_path/file_name.dta")     # Insert right directory path
+dta13<- read.dta13("file_path/file_name.dta") # In case you are importing data from Stata 13
+
+# CSV files: 
+dta.csv <-dta.csv("file_path/file_name.dta") # Insert right directory path  
+
+```
+
+Now, fill out the following table with your data:
+
+---------------------------------------------------------------------------------------------------
+Variable                              Treatment group        Control group        Whole Sample
+--------------------------------- --------------------- --------------------- ---------------------
+                                   Mean  SD  Min   Max   Mean  SD  Min   Max   Mean  SD  Min   Max
+**Covariates**                   
+
+Pre-treatment outcome variable   
+(if available)                   
+
+Covariate 1                      
+
+Covariate 2                      
+
+**Outcome variables**            
+
+Outcome variable 1               
+
+Outcome variable 2               
+---------------------------------------------------------------------------------------------------
+
+
+Finally, use your own data to create the following plots:
+
++ Distribution of each one of your primary outcomes of interest
++ Plot the average for each on of your outcome variables by treatment group
+
+
+
+
