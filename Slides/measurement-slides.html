@@ -1,0 +1,939 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="generator" content="pandoc">
+  <meta name="author" content="Fill In Your Name" />
+  <title>Measurement</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <link rel="stylesheet" href="measurement-slides_files/reveal.js-3.3.0.1/css/reveal.css"/>
+
+
+
+<link rel="stylesheet" href="measurement-slides_files/reveal.js-3.3.0.1/css/theme/simple.css" id="theme">
+
+
+  <!-- some tweaks to reveal css -->
+  <style type="text/css">
+    .reveal h1 { font-size: 2.0em; }
+    .reveal h2 { font-size: 1.5em;  }
+    .reveal h3 { font-size: 1.25em;	}
+    .reveal h4 { font-size: 1em;	}
+
+    .reveal .slides>section,
+    .reveal .slides>section>section {
+      padding: 0px 0px;
+    }
+
+
+
+    .reveal table {
+      border-width: 1px;
+      border-spacing: 2px;
+      border-style: dotted;
+      border-color: gray;
+      border-collapse: collapse;
+      font-size: 0.7em;
+    }
+
+    .reveal table th {
+      border-width: 1px;
+      padding-left: 10px;
+      padding-right: 25px;
+      font-weight: bold;
+      border-style: dotted;
+      border-color: gray;
+    }
+
+    .reveal table td {
+      border-width: 1px;
+      padding-left: 10px;
+      padding-right: 25px;
+      border-style: dotted;
+      border-color: gray;
+    }
+
+
+  </style>
+
+    <style type="text/css">code{white-space: pre;}</style>
+
+
+<!-- Printing and PDF exports -->
+<script id="paper-css" type="application/dynamic-css">
+
+/* Default Print Stylesheet Template
+   by Rob Glazebrook of CSSnewbie.com
+   Last Updated: June 4, 2008
+
+   Feel free (nay, compelled) to edit, append, and
+   manipulate this file as you see fit. */
+
+
+@media print {
+
+	/* SECTION 1: Set default width, margin, float, and
+	   background. This prevents elements from extending
+	   beyond the edge of the printed page, and prevents
+	   unnecessary background images from printing */
+	html {
+		background: #fff;
+		width: auto;
+		height: auto;
+		overflow: visible;
+	}
+	body {
+		background: #fff;
+		font-size: 20pt;
+		width: auto;
+		height: auto;
+		border: 0;
+		margin: 0 5%;
+		padding: 0;
+		overflow: visible;
+		float: none !important;
+	}
+
+	/* SECTION 2: Remove any elements not needed in print.
+	   This would include navigation, ads, sidebars, etc. */
+	.nestedarrow,
+	.controls,
+	.fork-reveal,
+	.share-reveal,
+	.state-background,
+	.reveal .progress,
+	.reveal .backgrounds {
+		display: none !important;
+	}
+
+	/* SECTION 3: Set body font face, size, and color.
+	   Consider using a serif font for readability. */
+	body, p, td, li, div {
+		font-size: 20pt!important;
+		font-family: Georgia, "Times New Roman", Times, serif !important;
+		color: #000;
+	}
+
+	/* SECTION 4: Set heading font face, sizes, and color.
+	   Differentiate your headings from your body text.
+	   Perhaps use a large sans-serif for distinction. */
+	h1,h2,h3,h4,h5,h6 {
+		color: #000!important;
+		height: auto;
+		line-height: normal;
+		font-family: Georgia, "Times New Roman", Times, serif !important;
+		text-shadow: 0 0 0 #000 !important;
+		text-align: left;
+		letter-spacing: normal;
+	}
+	/* Need to reduce the size of the fonts for printing */
+	h1 { font-size: 28pt !important;  }
+	h2 { font-size: 24pt !important; }
+	h3 { font-size: 22pt !important; }
+	h4 { font-size: 22pt !important; font-variant: small-caps; }
+	h5 { font-size: 21pt !important; }
+	h6 { font-size: 20pt !important; font-style: italic; }
+
+	/* SECTION 5: Make hyperlinks more usable.
+	   Ensure links are underlined, and consider appending
+	   the URL to the end of the link for usability. */
+	a:link,
+	a:visited {
+		color: #000 !important;
+		font-weight: bold;
+		text-decoration: underline;
+	}
+	/*
+	.reveal a:link:after,
+	.reveal a:visited:after {
+		content: " (" attr(href) ") ";
+		color: #222 !important;
+		font-size: 90%;
+	}
+	*/
+
+
+	/* SECTION 6: more reveal.js specific additions by @skypanther */
+	ul, ol, div, p {
+		visibility: visible;
+		position: static;
+		width: auto;
+		height: auto;
+		display: block;
+		overflow: visible;
+		margin: 0;
+		text-align: left !important;
+	}
+	.reveal pre,
+	.reveal table {
+		margin-left: 0;
+		margin-right: 0;
+	}
+	.reveal pre code {
+		padding: 20px;
+		border: 1px solid #ddd;
+	}
+	.reveal blockquote {
+		margin: 20px 0;
+	}
+	.reveal .slides {
+		position: static !important;
+		width: auto !important;
+		height: auto !important;
+
+		left: 0 !important;
+		top: 0 !important;
+		margin-left: 0 !important;
+		margin-top: 0 !important;
+		padding: 0 !important;
+		zoom: 1 !important;
+
+		overflow: visible !important;
+		display: block !important;
+
+		text-align: left !important;
+		-webkit-perspective: none;
+		   -moz-perspective: none;
+		    -ms-perspective: none;
+		        perspective: none;
+
+		-webkit-perspective-origin: 50% 50%;
+		   -moz-perspective-origin: 50% 50%;
+		    -ms-perspective-origin: 50% 50%;
+		        perspective-origin: 50% 50%;
+	}
+	.reveal .slides section {
+		visibility: visible !important;
+		position: static !important;
+		width: auto !important;
+		height: auto !important;
+		display: block !important;
+		overflow: visible !important;
+
+		left: 0 !important;
+		top: 0 !important;
+		margin-left: 0 !important;
+		margin-top: 0 !important;
+		padding: 60px 20px !important;
+		z-index: auto !important;
+
+		opacity: 1 !important;
+
+		page-break-after: always !important;
+
+		-webkit-transform-style: flat !important;
+		   -moz-transform-style: flat !important;
+		    -ms-transform-style: flat !important;
+		        transform-style: flat !important;
+
+		-webkit-transform: none !important;
+		   -moz-transform: none !important;
+		    -ms-transform: none !important;
+		        transform: none !important;
+
+		-webkit-transition: none !important;
+		   -moz-transition: none !important;
+		    -ms-transition: none !important;
+		        transition: none !important;
+	}
+	.reveal .slides section.stack {
+		padding: 0 !important;
+	}
+	.reveal section:last-of-type {
+		page-break-after: avoid !important;
+	}
+	.reveal section .fragment {
+		opacity: 1 !important;
+		visibility: visible !important;
+
+		-webkit-transform: none !important;
+		   -moz-transform: none !important;
+		    -ms-transform: none !important;
+		        transform: none !important;
+	}
+	.reveal section img {
+		display: block;
+		margin: 15px 0px;
+		background: rgba(255,255,255,1);
+		border: 1px solid #666;
+		box-shadow: none;
+	}
+
+	.reveal section small {
+		font-size: 0.8em;
+	}
+
+}  
+</script>
+
+
+<script id="pdf-css" type="application/dynamic-css">
+    
+/**
+ * This stylesheet is used to print reveal.js
+ * presentations to PDF.
+ *
+ * https://github.com/hakimel/reveal.js#pdf-export
+ */
+
+* {
+	-webkit-print-color-adjust: exact;
+}
+
+body {
+	margin: 0 auto !important;
+	border: 0;
+	padding: 0;
+	float: none !important;
+	overflow: visible;
+}
+
+html {
+	width: 100%;
+	height: 100%;
+	overflow: visible;
+}
+
+/* Remove any elements not needed in print. */
+.nestedarrow,
+.reveal .controls,
+.reveal .progress,
+.reveal .playback,
+.reveal.overview,
+.fork-reveal,
+.share-reveal,
+.state-background {
+	display: none !important;
+}
+
+h1, h2, h3, h4, h5, h6 {
+	text-shadow: 0 0 0 #000 !important;
+}
+
+.reveal pre code {
+	overflow: hidden !important;
+	font-family: Courier, 'Courier New', monospace !important;
+}
+
+ul, ol, div, p {
+	visibility: visible;
+	position: static;
+	width: auto;
+	height: auto;
+	display: block;
+	overflow: visible;
+	margin: auto;
+}
+.reveal {
+	width: auto !important;
+	height: auto !important;
+	overflow: hidden !important;
+}
+.reveal .slides {
+	position: static;
+	width: 100%;
+	height: auto;
+
+	left: auto;
+	top: auto;
+	margin: 0 !important;
+	padding: 0 !important;
+
+	overflow: visible;
+	display: block;
+
+	-webkit-perspective: none;
+	   -moz-perspective: none;
+	    -ms-perspective: none;
+	        perspective: none;
+
+	-webkit-perspective-origin: 50% 50%; /* there isn't a none/auto value but 50-50 is the default */
+	   -moz-perspective-origin: 50% 50%;
+	    -ms-perspective-origin: 50% 50%;
+	        perspective-origin: 50% 50%;
+}
+
+.reveal .slides section {
+	page-break-after: always !important;
+
+	visibility: visible !important;
+	position: relative !important;
+	display: block !important;
+	position: relative !important;
+
+	margin: 0 !important;
+	padding: 0 !important;
+	box-sizing: border-box !important;
+	min-height: 1px;
+
+	opacity: 1 !important;
+
+	-webkit-transform-style: flat !important;
+	   -moz-transform-style: flat !important;
+	    -ms-transform-style: flat !important;
+	        transform-style: flat !important;
+
+	-webkit-transform: none !important;
+	   -moz-transform: none !important;
+	    -ms-transform: none !important;
+	        transform: none !important;
+}
+
+.reveal section.stack {
+	margin: 0 !important;
+	padding: 0 !important;
+	page-break-after: avoid !important;
+	height: auto !important;
+	min-height: auto !important;
+}
+
+.reveal img {
+	box-shadow: none;
+}
+
+.reveal .roll {
+	overflow: visible;
+	line-height: 1em;
+}
+
+/* Slide backgrounds are placed inside of their slide when exporting to PDF */
+.reveal section .slide-background {
+	display: block !important;
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	z-index: -1;
+}
+
+/* All elements should be above the slide-background */
+.reveal section>* {
+	position: relative;
+	z-index: 1;
+}
+
+/* Display slide speaker notes when 'showNotes' is enabled */
+.reveal .speaker-notes-pdf {
+	display: block;
+	width: 100%;
+	max-height: none;
+	left: auto;
+	top: auto;
+	z-index: 100;
+}
+
+/* Display slide numbers when 'slideNumber' is enabled */
+.reveal .slide-number-pdf {
+	display: block;
+	position: absolute;
+	font-size: 14px;
+}
+
+</script>
+
+
+<script>
+var style = document.createElement( 'style' );
+style.type = 'text/css';
+var style_script_id = window.location.search.match( /print-pdf/gi ) ? 'pdf-css' : 'paper-css';
+var style_script = document.getElementById(style_script_id).text;
+style.innerHTML = style_script;
+document.getElementsByTagName('head')[0].appendChild(style);
+</script>
+
+    <script src="measurement-slides_files/header-attrs-2.6/header-attrs.js"></script>
+    <link href="measurement-slides_files/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
+    <link href="measurement-slides_files/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+<section>
+    <h1 class="title">Measurement</h1>
+    <h2 class="author">Fill In Your Name</h2>
+    <h3 class="date">21 February, 2021</h3>
+</section>
+
+<section>
+<section id="a-key-part-of-your-research-design" class="title-slide slide level1">
+<h1>A key part of your research design</h1>
+
+</section>
+<section id="measurement" class="slide level2">
+<h2>Measurement</h2>
+<ul>
+<li><p>Measurement is an essential part of your research design.</p></li>
+<li><p>Measurement follows from your theory of the way you think the world works and how you think your treatment manipulates that world. That is, measurement is a theoretical exercise as much as it is a technical and logistical one.</p></li>
+<li><p>When we record a number, a word, or a letter, in a dataset to <strong>represent</strong> something more or less abstract in the world (like “financial stability,” “hunger,” or “math ability”), we are <strong>measuring</strong>.</p></li>
+</ul>
+</section>
+<section id="poor-measurement-is-problematic" class="slide level2">
+<h2>Poor measurement is problematic</h2>
+<ul>
+<li><p>Problems with measurement can lead you to draw incorrect (causal) inferences from your study (systematic error).</p></li>
+<li><p>Noisy measurement reduces power (random error).</p></li>
+</ul>
+</section>
+<section id="data-collection" class="slide level2">
+<h2>Data collection</h2>
+<ul>
+<li><p>Data collection often takes up a very large portion of the time and financial resources available in the project budget.</p></li>
+<li><p>New data can be a useful research output in its own right and an important foundation for future research. Data is a public good!</p></li>
+</ul>
+</section></section>
+<section>
+<section id="concepts-and-measures" class="title-slide slide level1">
+<h1>Concepts and measures</h1>
+
+</section>
+<section id="from-concept-to-data-or-scores-i" class="slide level2">
+<h2>From concept to data or scores I</h2>
+<p><embed data-src="../Images/adcock_collier_2001_fig.pdf" id="id" class="class" style="width:75.0%;height:75.0%" /></p>
+</section>
+<section id="from-concept-to-data-or-scores-ii" class="slide level2">
+<h2>From concept to data or scores II</h2>
+<ul>
+<li><p>What is an example of a concept, like an outcome, you’d like to change with an experimental treatment?</p></li>
+<li><p>How would you know that a unit (like a person or a village) displayed high or low “ability” or “rank” on that concept? (Was “hungrier” or “more peaceful?”)</p></li>
+<li><p>What might you observe that would make you feel more or less confident that this person was hungrier or less supportive of violence than this other person?</p></li>
+<li><p>What criticisms might you face if you said, “I think that this unit differs from this other unit on my conceptual outcome?”</p></li>
+</ul>
+</section>
+<section id="measurement-validity" class="slide level2">
+<h2>Measurement validity</h2>
+<ul>
+<li><p>We are talking about “measurement <strong>validity</strong>” here.</p></li>
+<li><p>A valid measure is one that we can persuasively argue represents what we say it represents, and it doesn’t represent other aspects of the unit.) (see <span class="citation" data-cites="shadish2002experimental"><a href="#/ref-shadish2002experimental" role="doc-biblioref">Shadish et al.</a> (<a href="#/ref-shadish2002experimental" role="doc-biblioref">2002</a>)</span> for more on validity and reliability of measurement).</p></li>
+</ul>
+</section>
+<section id="question-i" class="slide level2">
+<h2>Question I</h2>
+<ul>
+<li><p><em>“A boat that can make forty miles an hour in still water makes a trip of one hundred miles down a certain stream. If this trip takes two hours, how long will the return trip take?” (from the 1926 SAT in the USA)</em></p></li>
+<li><p>Does this measure “math ability?” “verbal ability?” or knowledge of boating?</p></li>
+</ul>
+</section>
+<section id="question-ii" class="slide level2">
+<h2>Question II</h2>
+<p>Choose the pair of words most like the top pair:</p>
+<p><em>Runner : Marathon</em></p>
+<ol type="a">
+<li><p>envoy : embassy</p></li>
+<li><p>martyr : massacre</p></li>
+<li><p>oarsman : regatta</p></li>
+<li><p>horse : stable</p></li>
+</ol>
+<p>Correct answer is: (c) oarsman : regatta. (from the 1980s SAT in the USA)</p>
+<ul>
+<li>Does this measure knowledge of elite college sports? Or “verbal ability?”</li>
+</ul>
+</section></section>
+<section>
+<section id="what-to-measure" class="title-slide slide level1">
+<h1>What to measure</h1>
+
+</section>
+<section id="you-should-measure-everything" class="slide level2">
+<h2>You should measure everything</h2>
+<ul>
+<li><p>Outcome for all units in your study (for each wave, and any attrition).</p></li>
+<li><p>Treatment (assignment and compliance).</p></li>
+<li><p>Indications that your treatment is received and interpreted as you expect (manipulation check).</p></li>
+<li><p>Indications of possible harm being done by your research.</p></li>
+<li><p>Covariates, including context that might (a) affect how your intervention could work or (b) influence the variability in your outcome.</p></li>
+</ul>
+</section>
+<section id="indicators-should-connect-to-theories-and-mechanisms" class="slide level2">
+<h2>Indicators should connect to theories and mechanisms</h2>
+<ul>
+<li><p>We often have multiple theories for <em>how</em> an intervention might affect an outcome (different mechanisms).</p></li>
+<li><p>Measure indicators that are <em>unique</em> to each mechanism and that can help <em>differentiate</em> between them.</p></li>
+<li><p>Such indicators might include intermediate outcomes that are realized <em>before</em> the final outcome.</p></li>
+<li><p>They may include secondary outcomes such as</p>
+<ul>
+<li><p>outcomes for which we expect effects only under some theories.</p></li>
+<li><p>placebo outcomes for which we expect no effects.</p></li>
+</ul></li>
+</ul>
+</section>
+<section id="indicators" class="slide level2">
+<h2>Indicators</h2>
+<ul>
+<li><p>The ideal case is direct measurement of the concept or phenomenon of interest with no error (rarely possible).</p>
+<ul>
+<li>Treatment assignment under your control is the rare exception and crucial to record.</li>
+</ul></li>
+<li><p>We are often only able to measure <strong>indicators</strong> connected to but not entirely determinative of the underlying concept or phenomenon of interest.</p>
+<ul>
+<li><p>Correct answers to specific problems (indicators) for underlying mathematical aptitude (the actual phenomenon).</p></li>
+<li><p>Days without food (indicators) for hunger (the actual phenomenon).</p></li>
+</ul></li>
+</ul>
+</section>
+<section id="select-valid-indicators" class="slide level2">
+<h2>Select valid indicators</h2>
+<ul>
+<li><p>Reasonable people may disagree on the conceptualization. What do we really mean by mathematical aptitude or hunger? What else might our scores tell us about our people, villages, etc. in addition to what we hope to represent?</p></li>
+<li><p>Select indicators that closely connect to the what we <strong>mean</strong> when we talk about the phenomenon of interest.</p></li>
+<li><p>Select <strong>valid</strong> indicators. Ex. Math measures should not also measure boating knowledge.</p></li>
+</ul>
+</section>
+<section id="select-reliable-indicators" class="slide level2">
+<h2>Select reliable indicators</h2>
+<ul>
+<li><p>Select indicators that are <strong>reliable</strong>.</p></li>
+<li><p>Example: A meter stick should always measure a meter no matter the temperature. A rubber meter stick can produce <strong>unreliable</strong> measurements of the abstract concept of length, especially if used by a 5 year old. A laser might produce more reliable measurements than even a wooden meter stick in the hands of a skilled user of wooden meter sticks.</p></li>
+</ul>
+</section>
+<section id="multiple-measures" class="slide level2">
+<h2>Multiple measures</h2>
+<ul>
+<li><p>If you have <em>multiple indicators for the same phenomenon</em>, you will need to determine how to aggregate these indicators.</p>
+<ul>
+<li>Averaging will not always make sense. Can you think of some cases of this?</li>
+</ul></li>
+<li><p>Having multiple indicators can often improve <strong>reliability</strong> of measurement and perhaps bolster arguments for <strong>validity</strong>.</p></li>
+<li><p>Combining a wooden stick and a laser might be ideal to convince us that we have measured length in a way that we understand as <strong>length</strong> (rather than, as, say, temperature) <em>and</em> that the particular score does not depend crucially on the context of the measurement.</p></li>
+</ul>
+</section></section>
+<section>
+<section id="how-to-measure" class="title-slide slide level1">
+<h1>How to measure</h1>
+
+</section>
+<section id="measurement-tools-and-data-sources" class="slide level2">
+<h2>Measurement tools and data sources</h2>
+<ul>
+<li><p>After we determine what concept to measure and how we might know it when we see it, we need to figure out <strong>how</strong> to measure it.</p></li>
+<li><p>We have various tools and sources:</p>
+<ul>
+<li><p>Survey measures</p></li>
+<li><p>Behavioral measures</p></li>
+<li><p>Administrative data (tax records, election results, etc.)</p></li>
+<li><p>Images/remote sensing</p></li>
+<li><p>Text (speech transcripts, newspapers, etc.)</p></li>
+<li><p>Sensors on wearables, phones, other devices (household items)</p></li>
+<li><p>Others</p></li>
+</ul></li>
+</ul>
+</section>
+<section id="considerations-in-choosing-tools-and-sources" class="slide level2">
+<h2>Considerations in choosing tools and sources</h2>
+<p>Different tools imply different trade-offs:</p>
+<ul>
+<li><p>Validity (Does the score capture the concept and only the concept?)</p></li>
+<li><p>Reliability (Would a scoring procedure used twice yield the same answer?)</p></li>
+<li><p>Bias (systematic error)</p></li>
+<li><p>Precision (random error)</p></li>
+<li><p>Sample for which you can make measurements</p></li>
+<li><p>Timing of the measurements</p></li>
+<li><p>Cost</p></li>
+</ul>
+</section>
+<section id="maintain-symmetry-between-treatment-arms" class="slide level2">
+<h2>Maintain symmetry between treatment arms</h2>
+<ul>
+<li><p>You need to maintain symmetry between treatment and control groups as you do the measurement.</p>
+<ul>
+<li><p>How many times and for how long you interact with participants should be the same across all treatment arms.</p></li>
+<li><p>The questions should be the same.</p></li>
+<li><p>Be particularly careful on these points for indicators used for manipulation checks.</p></li>
+</ul></li>
+<li><p><strong>Measurement should not be the experimental intervention.</strong> We want the only difference between treatment arms to be the intervention, not the measurement.</p></li>
+</ul>
+</section></section>
+<section>
+<section id="measurement-error-and-its-consequences" class="title-slide slide level1">
+<h1>Measurement error and its consequences</h1>
+
+</section>
+<section id="measurement-error-i" class="slide level2">
+<h2>Measurement error I</h2>
+<ul>
+<li><p>We want to avoid/minimize two types of measurement error:</p>
+<ul>
+<li><p>Systematic error (bias)</p></li>
+<li><p>Random error (lack of precision)</p></li>
+</ul></li>
+</ul>
+</section>
+<section id="measurement-error-ii" class="slide level2">
+<h2>Measurement error II</h2>
+<p><img data-src="../Images/bullseye.png" id="id1" class="class" style="width:60.0%;height:60.0%" alt="Bias and Precision" /></p>
+<p><a href="https://www.researchgate.net/figure/Bullseye-charts-representing-precision-and-bias-of-a-measurement-instrument-The-center-of_fig1_326134610">(Source: Precision and Bias of Masurement)</a></p>
+</section>
+<section id="measurement-error-examples" class="slide level2">
+<h2>Measurement error examples</h2>
+<ul>
+<li><p>Systematic error</p>
+<ul>
+<li>A scale that is calibrated incorrectly, so everyone appears to be 2kg lighter than they actually are</li>
+<li>A food diary that consistently under-reports snacks</li>
+<li>Demand effects</li>
+<li>Hawthorne effects</li>
+</ul></li>
+<li><p>Random error</p>
+<ul>
+<li>A shaky hand while marking distance</li>
+</ul></li>
+<li><p>Notice that these are examples of <strong>unreliable</strong> measurement. They could also be <strong>invalid</strong>, but need not be.</p></li>
+</ul>
+</section>
+<section id="consequences-of-mismeasuring-the-treatment" class="slide level2">
+<h2>Consequences of mismeasuring the treatment</h2>
+<ul>
+<li><p>In addition to generating an incorrect description of the level of some phenomenon, measurement error can affect our causal inferences.</p></li>
+<li><p>If the treatment variable is binary (a unit can be in treatment or control only), then measurement error is negatively correlated with the true variable. (A 1 is miscoded as 0, so the error is -1; a 0 is miscoded as 1, so the error is 1.)</p></li>
+<li><p>If you use OLS to calculate estimators of average treatment effects, this kind of error leads to smaller estimates of the causal effect (coefficient on the treatment variable).</p></li>
+</ul>
+</section>
+<section id="consequences-of-random-measurement-error" class="slide level2">
+<h2>Consequences of random measurement error</h2>
+<ul>
+<li><p>In an OLS analysis, greater random error in the outcome variable leads to less precise estimates of the causal effect (coefficient on the treatment variable).</p></li>
+<li><p>Reducing random measurement error in the outcome can increase statistical power (because the outcome has less non-treatment related noise).</p></li>
+</ul>
+</section>
+<section id="consequences-of-systematic-measurement-error-i" class="slide level2">
+<h2>Consequences of systematic measurement error I</h2>
+<ul>
+<li><p>If all measurements are off by the same amount, like -2kg for everyone:</p>
+<ul>
+<li>this makes no difference when treatment effects are defined as differences in potential outcomes,</li>
+</ul>
+<p><span class="math inline">\(\tau_i = Y_i(1)-Y_i(0)\)</span>, <span class="math inline">\(\tilde{\tau_i} = (Y_i(1)-2)-(Y_i(0)-2)\)</span>, so <span class="math inline">\(\tau_i = \tilde{\tau_i}\)</span></p>
+<ul>
+<li>but this is problematic if the treatment effect is defined as the ratio of potential outcomes (<span class="math inline">\(Y_i(1) &gt; 0\)</span> and <span class="math inline">\(Y_i(0) &gt; 0\)</span>).</li>
+</ul>
+<p><span class="math inline">\(\tau_i = Y_i(1)/Y_i(0)\)</span>, <span class="math inline">\(\tilde{\tau_i} = (Y_i(1)-2)/(Y_i(0)-2)\)</span>, so <span class="math inline">\(\tau_i \neq \tilde{\tau_i}\)</span> except when <span class="math inline">\(Y_i(1)=Y_i(0)\)</span>.</p></li>
+<li><p>How far off <span class="math inline">\(\tilde{\tau_i}\)</span> is from <span class="math inline">\(\tau_i\)</span> depends on how large 2 (the error) is relative to the actual values <span class="math inline">\(Y_i(0), Y_i(1)\)</span>.</p></li>
+<li><p>Note: logistic regression coefficients are ratios of potential outcomes.</p></li>
+</ul>
+</section>
+<section id="consequences-of-systematic-measurement-error-ii" class="slide level2">
+<h2>Consequences of systematic measurement error II</h2>
+<ul>
+<li><p>Measurement error may be correlated with the true value of <span class="math inline">\(Y\)</span>.</p></li>
+<li><p>For example, people who engage in frowned-upon, embarrassing, or illegal behavior may under-report that behavior, while those who do not may report their level accurately. (This is known as social desirability bias.)</p>
+<ul>
+<li>This under-reporting may happen with victims of this kind of behavior by others, who blame themselves or fear sanctions by others who would rather not know about the behavior (e.g., victims of intimate partner violence).</li>
+</ul></li>
+<li><p>This makes is more difficult to detect an effect of an intervention designed to reduce this behavior.</p></li>
+</ul>
+</section>
+<section id="consequences-of-systematic-measurement-error-iii" class="slide level2">
+<h2>Consequences of systematic measurement error III</h2>
+<ul>
+<li><p>Another form of social desirability bias may also lead to measurement error being correlated with the treatment.</p></li>
+<li><p>For example, your intervention might aim to reduce hostile attitudes towards members of other social groups. If participants can figure out the goals of your study, they may (subconsciously) try to please the researcher by telling him what he wants to see. Those in the treatment group may under-report their hostility towards other groups compared with the control group.</p></li>
+<li><p>This makes it difficult to know whether the difference in observed outcomes between treatment and control groups is due to the intervention actually reducing hostility or knowledge of the treatment changing reporting of hostility.</p></li>
+</ul>
+</section></section>
+<section>
+<section id="limiting-measurement-error" class="title-slide slide level1">
+<h1>Limiting measurement error</h1>
+
+</section>
+<section id="some-options-for-limiting-measurement-errors" class="slide level2">
+<h2>Some options for limiting measurement errors</h2>
+<ul>
+<li><p>Self-reporting by a subject (on a survey) is more problematic than unobtrusive observation of the subject (“in the wild”) by someone else.</p></li>
+<li><p>Behavioral measures are less subject to social desirability bias.</p></li>
+<li><p>Administrative records for which misreporting has legal penalties might be more accurate.</p></li>
+<li><p>Providing more privacy so that scoring can happen without observation by others or the researcher.</p></li>
+<li><p>Keeping some hypotheses and aims of the study hidden from study participants.</p></li>
+<li><p>If you can’t control measurement error, study it — figure out whether it’s a problem and how large. Consider measurement-oriented pilot studies.</p></li>
+</ul>
+</section>
+<section id="example---administrative-records" class="slide level2">
+<h2>Example - administrative records</h2>
+<ul>
+<li><p>Attendance records for a meeting, instead of asking whether someone attended.</p>
+<ul>
+<li><p>There may only be regular attendance records for meetings that are not of interest to your original target population.</p></li>
+<li><p>You may need to plan ahead for data collection at a future meeting instead.</p></li>
+</ul></li>
+</ul>
+</section>
+<section id="example---behavioral-measures-i" class="slide level2">
+<h2>Example - behavioral measures I</h2>
+<ul>
+<li><p>Ask subjects to induce effort like sign a petition, make a donation, or do some other task which has a small personal cost, instead of asking subjects whether they support a particular issue.</p>
+<ul>
+<li><p>This may only capture subjects who care strongly about that issue.</p></li>
+<li><p>Example: Pedro Vicente’s work on vote-buying in Sao Tome and Principe uses surveys, administrative records, and whether respondents mailed a pre-paid postcard to measure outcomes. See <a href="https://egap.org/resource/brief-20-is-vote-buying-effective/">Brief 20: Is Vote Buying Effective?</a></p></li>
+</ul></li>
+</ul>
+</section>
+<section id="example---behavioral-measures-ii" class="slide level2">
+<h2>Example - behavioral measures II</h2>
+<ul>
+<li><p>Play “lab games” to measure cooperation or generosity towards out-groups, instead of asking subjects whether they would cooperate with others.</p>
+<ul>
+<li>Scacco and Warren’s study of prejudice and discrimination uses variants of dictator games. See <a href="https://www.cambridge.org/core/journals/american-political-science-review/article/can-social-contact-reduce-prejudice-and-discrimination-evidence-from-a-field-experiment-in-nigeria/230FAEB8E4E9E756BF8560FE62E2FBAC">Can Social Contact Reduce Prejudice and Discrimination? Evidence from a Field Experiment in Nigeria</a></li>
+</ul></li>
+</ul>
+</section>
+<section id="example---cover-or-privacy-i" class="slide level2">
+<h2>Example - cover or privacy I</h2>
+<ul>
+<li><p>Provide “cover” so that respondents believe that their responses cannot be traced back to them.</p>
+<ul>
+<li>Randomized response: chance determines whether the respondent should respond to a question truthfully or respond “yes” regardless of the truth. The enumerator does not know which condition chance put the respondent in.</li>
+</ul></li>
+</ul>
+</section>
+<section id="example---cover-or-privacy-ii" class="slide level2">
+<h2>Example - cover or privacy II</h2>
+<ul>
+<li><p>List experiments: give respondents a list of items or statements and ask how many many are true for them. Respondents are randomized into seeing different lists, where one contains an additional sensitive item (e.g., “my husband beats me”). This allows the researcher to estimate the prevalence of a particular item. Note that this approach reduces power for a given sample size.</p></li>
+<li><p>Simple privacy: for questions such as vote choice, ask the respondent to fill out a mock ballot and place it in a locked box instead of responding directly to the enumerator.</p></li>
+</ul>
+</section>
+<section id="example---blinding-respondents-to-hypotheses" class="slide level2">
+<h2>Example - blinding respondents to hypotheses</h2>
+<ul>
+<li>See Scacco and Warren’s study of social contact theory in Kaduna, Nigeria, where participants were recruiting into a computer skills program, not one advertised as a program to reduce prejudice and discrimination.</li>
+</ul>
+</section>
+<section id="how-much-error-is-too-much" class="slide level2">
+<h2>How much error is too much?</h2>
+<ul>
+<li><p>Reducing measurement error is important, but can be quite costly. So how much do you need to do?</p></li>
+<li><p>Depends on the scale and your goals.</p>
+<ul>
+<li><p>Compare size of errors to the size of the treatment effect. Changing attitudes is difficult. Social desirability bias may be large compared with small treatment effects on attitudes.</p></li>
+<li><p>Compare size of errors to the possible range of that outcome. Being one cent off on your bank balance does not appreciably affect our measure of your overall wealth.</p></li>
+</ul></li>
+</ul>
+</section>
+<section id="general-advice-for-measurement-i" class="slide level2">
+<h2>General advice for measurement I</h2>
+<ul>
+<li><p>Start with standard practice for your indicators –indicators that the community of researchers has agreed represent the concept of interest.</p>
+<ul>
+<li>These will have been road-tested for you and comparability of measures across research studies and sites is a virtue.</li>
+</ul></li>
+<li><p>But be careful to consider whether the standard indicators make sense.</p>
+<ul>
+<li><p>For example, how one measures income might differ between rich and poor areas.</p></li>
+<li><p>Similarly, how one measures political attitudes might differ in more or less democratic regimes.</p></li>
+</ul></li>
+</ul>
+</section>
+<section id="general-advice-for-measurement-ii" class="slide level2">
+<h2>General advice for measurement II</h2>
+<ul>
+<li><p>Recall that the boating-related measures of math and verbal ability were standard practice in the 1920s and 1980s in the USA. Remember that you are measuring social constructs and thus must pay attention, as much as you can, to what prior partially or unexamined beliefs you and the community of researchers bring to the study (for some more vivid examples of this issue, see <span class="citation" data-cites="gould1996mismeasure"><a href="#/ref-gould1996mismeasure" role="doc-biblioref">Gould</a> (<a href="#/ref-gould1996mismeasure" role="doc-biblioref">[1981] 1996</a>)</span>).</p></li>
+<li><p>Connect with other researchers in your subject area.</p></li>
+<li><p>Focus on finer measurement in the range of the variable where you expect change.</p></li>
+</ul>
+</section>
+<section id="resources-for-survey-research-and-survey-items" class="slide level2">
+<h2>Resources for survey research and survey items</h2>
+<ul>
+<li>Major data archives are searchable by topic. One major archive is ICPSR:</li>
+</ul>
+<p></p>
+<ul>
+<li>Pew Research Center on Questionnaire Design</li>
+</ul>
+<p></p>
+<ul>
+<li>Tools4Dev on Writing Questions</li>
+</ul>
+<p></p>
+<ul>
+<li>University libraries will often have guides to data resources:</li>
+</ul>
+<p></p>
+</section>
+<section id="references" class="slide level2">
+<h2>References</h2>
+<p><a href="https://egap.org/resource/10-things-to-know-about-measurement-in-experiments/">10 Things to Know About Measurement in Experiments</a></p>
+<div id="refs" class="references csl-bib-body hanging-indent" role="doc-bibliography">
+<div id="ref-adcocoll:2001" class="csl-entry" role="doc-biblioentry">
+Adcock, Robert, and David Collier. 2001. <span>“Measurement Validity: A Shared Standard for Qualitative and Measurement Validity: A Shared Standard for Qualitative and Quantitative Research.”</span> <em>American Political Science Review</em> 95 (3): 529–46.
+</div>
+<div id="ref-gould1996mismeasure" class="csl-entry" role="doc-biblioentry">
+Gould, Stephen Jay. [1981] 1996. <em>The Mismeasure of Man</em>. WW Norton &amp; Company.
+</div>
+<div id="ref-shadish2002experimental" class="csl-entry" role="doc-biblioentry">
+Shadish, William R, Thomas D Cook, Donald Thomas Campbell, and others. 2002. <em>Experimental and Quasi-Experimental Designs for Generalized Causal Inference/William r. Shedish, Thomas d. Cook, Donald t. Campbell.</em> Boston: Houghton Mifflin,.
+</div>
+</div>
+</section></section>
+    </div>
+  </div>
+
+  <script src="measurement-slides_files/reveal.js-3.3.0.1/lib/js/head.min.js"></script>
+  <script src="measurement-slides_files/reveal.js-3.3.0.1/js/reveal.js"></script>
+
+  <script>
+
+      // Full list of configuration options available at:
+      // https://github.com/hakimel/reveal.js#configuration
+      Reveal.initialize({
+        // Display the page number of the current slide
+        slideNumber: true,
+        // Push each slide change to the browser history
+        history: true,
+        // Vertical centering of slides
+        center: false,
+        // Opens links in an iframe preview overlay
+        previewLinks: true,
+        // Transition style
+        transition: 'fade', // none/fade/slide/convex/concave/zoom
+        // Transition style for full page slide backgrounds
+        backgroundTransition: 'default', // none/fade/slide/convex/concave/zoom
+
+
+
+        chalkboard: {
+          toggleNotesButton: false,
+          theme: 'whiteboard',
+        },
+
+        keyboard: {
+          67: function() { RevealChalkboard.toggleNotesCanvas() },    // toggle notes canvas when 'c' is pressed
+          66: function() { RevealChalkboard.toggleChalkboard() }, // toggle chalkboard when 'b' is pressed
+          46: function() { RevealChalkboard.clear() },    // clear chalkboard when 'DEL' is pressed
+           8: function() { RevealChalkboard.reset() },    // reset chalkboard data on current slide when 'BACKSPACE' is pressed
+          68: function() { RevealChalkboard.download() }, // downlad recorded chalkboard drawing when 'd' is pressed
+        },
+
+        // Optional reveal.js plugins
+        dependencies: [
+          { src: 'measurement-slides_files/reveal.js-3.3.0.1/plugin/notes/notes.js', async: true },
+          { src: 'measurement-slides_files/reveal.js-3.3.0.1/plugin/search/search.js', async: true },
+          { src: 'measurement-slides_files/reveal.js-3.3.0.1/plugin/chalkboard/chalkboard.js', async: true },
+        ]
+      });
+    </script>
+  <!-- dynamically load mathjax for compatibility with self-contained -->
+  <script>
+    (function () {
+      var script = document.createElement("script");
+      script.type = "text/javascript";
+      script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+      document.getElementsByTagName("head")[0].appendChild(script);
+    })();
+  </script>
+
+<script>
+  (function() {
+    if (window.jQuery) {
+      Reveal.addEventListener( 'slidechanged', function(event) {  
+        window.jQuery(event.previousSlide).trigger('hidden');
+        window.jQuery(event.currentSlide).trigger('shown');
+      });
+    }
+  })();
+</script>
+
+
+  </body>
+</html>
