@@ -753,7 +753,7 @@ des_plus_est
 
 ```{r diag_clust, cache=TRUE, warning=FALSE}
 set.seed(12346)
-plan(multiprocess)
+plan(multicore)
 diag_clus <- diagnose_design(des_plus_est,bootstrap_sims = 0, sims=1000)
 sim_clus <- get_simulations(diag_clus) # simulate_design(des_plus_est,sims=1000)
 trueclusATE <- thetarget_indiv(dat1)[["estimand"]]
