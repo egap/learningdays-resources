@@ -5,6 +5,7 @@ To install all of the packages needed by the slides you'll need to do the follow
 ```
 install.packages("renv")
 renv::init()
+renv::restor()
 ```
 
 Then to build all slides, for now, do:
