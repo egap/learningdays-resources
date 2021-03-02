@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="generator" content="pandoc">
   <meta name="author" content="Fill In Your Name" />
-  <meta name="dcterms.date" content="2021-02-22" />
+  <meta name="dcterms.date" content="2021-03-01" />
   <title>Hypothesis Testing: Summarizing Information about Causal Effects</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -520,7 +520,7 @@ document.getElementsByTagName('head')[0].appendChild(style);
 <section>
     <h1 class="title">Hypothesis Testing: Summarizing Information about Causal Effects</h1>
     <h2 class="author">Fill In Your Name</h2>
-    <h3 class="date">22 February 2021</h3>
+    <h3 class="date">01 March 2021</h3>
 </section>
 <section id="TOC">
 <ul>
@@ -906,7 +906,7 @@ An example of using the design of the experiment to test a hypothesis with two d
 <li><p>Testing weak null hypotheses, <span class="math inline">\(H_0: \bar{y}_{1} = \bar{y}_{0}\)</span>.</p></li>
 <li><p>Rejecting null hypotheses (and making false positive and/or false negative errors).</p></li>
 <li><p>Maintaining correct false positive error rates when testing more than one hypothesis.</p></li>
-<li><p>Power of hypothesis tests (<a href="https://egap.github.io/learningdays-guide/statistical-power-and-design-diagnosands.html">Module on Statistical Power and Design Diagnosands</a>).</p></li>
+<li><p>Power of hypothesis tests (<a href="https://egap.github.io/learningdays-book/statistical-power-and-design-diagnosands.html">Module on Statistical Power and Design Diagnosands</a>).</p></li>
 </ul>
 </section></section>
 <section>
@@ -1130,13 +1130,13 @@ P-value distributions when there are no effects for four tests with n=60 and a c
 <h2>Some advanced topics connected to hypothesis testing</h2>
 <ul>
 <li><p>Even if a given testing procedure controls the false positive rate for a single test, it may not control the rate for a group of multiple tests. See <a href="https://egap.org/methods-guides/10-things-you-need-know-about-multiple-comparisons">10 Things you need to know about multiple comparisons</a> for a guide to the approaches to controlling such rejection-rates in multiple tests.</p></li>
-<li><p>A <span class="math inline">\(100(1-\alpha)\)</span>% confidence interval can be defined as the range of hypotheses where all of the <span class="math inline">\(p\)</span>-values are greater than or equal to <span class="math inline">\(\alpha\)</span>. This is called inverting the hypothesis test (<span class="citation" data-cites="rosenbaum2010design"><a href="#/ref-rosenbaum2010design" role="doc-biblioref">P. R. Rosenbaum</a> (<a href="#/ref-rosenbaum2010design" role="doc-biblioref">2010</a>)</span>). That is, a confidence interval is a collection of hypothesis tests.</p></li>
+<li><p>A <span class="math inline">\(100(1-\alpha)\)</span>% confidence interval can be defined as the range of hypotheses where all of the <span class="math inline">\(p\)</span>-values are greater than or equal to <span class="math inline">\(\alpha\)</span>. This is called inverting the hypothesis test (<span class="citation" data-cites="rosenbaum2010design"><a href="#/ref-rosenbaum2010design" role="doc-biblioref">Rosenbaum</a> (<a href="#/ref-rosenbaum2010design" role="doc-biblioref">2010</a>)</span>). That is, a confidence interval is a collection of hypothesis tests.</p></li>
 </ul>
 </section>
 <section id="what-else-to-know-about-hypothesis-tests" class="slide level2 allowframebreaks">
 <h2 class="allowframebreaks">What else to know about hypothesis tests</h2>
 <ul>
-<li><p>A point estimate based on hypothesis testing is called a Hodges-Lehmann point estimate (<span class="citation" data-cites="rosenbaum1993hlp"><a href="#/ref-rosenbaum1993hlp" role="doc-biblioref">Paul R. Rosenbaum</a> (<a href="#/ref-rosenbaum1993hlp" role="doc-biblioref">1993</a>)</span>,<span class="citation" data-cites="hodges1963elb"><a href="#/ref-hodges1963elb" role="doc-biblioref">Hodges and Lehmann</a> (<a href="#/ref-hodges1963elb" role="doc-biblioref">1963</a>)</span>).</p></li>
+<li><p>A point estimate based on hypothesis testing is called a Hodges-Lehmann point estimate (<span class="citation" data-cites="rosenbaum1993hlp"><a href="#/ref-rosenbaum1993hlp" role="doc-biblioref">Rosenbaum</a> (<a href="#/ref-rosenbaum1993hlp" role="doc-biblioref">1993</a>)</span>,<span class="citation" data-cites="hodges1963elb"><a href="#/ref-hodges1963elb" role="doc-biblioref">Hodges and Lehmann</a> (<a href="#/ref-hodges1963elb" role="doc-biblioref">1963</a>)</span>).</p></li>
 <li><p>A set of hypothesis tests can be combined into one single hypothesis test (<span class="citation" data-cites="hansen:bowers:2008"><a href="#/ref-hansen:bowers:2008" role="doc-biblioref">Hansen and Bowers</a> (<a href="#/ref-hansen:bowers:2008" role="doc-biblioref">2008</a>)</span>,<span class="citation" data-cites="caughey2017nonparametric"><a href="#/ref-caughey2017nonparametric" role="doc-biblioref">Caughey, Dafoe, and Seawright</a> (<a href="#/ref-caughey2017nonparametric" role="doc-biblioref">2017</a>)</span>).</p></li>
 <li><p>In equivalence testing, one can hypothesize that two test-statistics are equivalent (i.e., the treatment group is the same as the control group) rather than only about one test-statistic (the difference between the two groups is zero) (<span class="citation" data-cites="hartman2018equivalence"><a href="#/ref-hartman2018equivalence" role="doc-biblioref">Hartman and Hidalgo</a> (<a href="#/ref-hartman2018equivalence" role="doc-biblioref">2018</a>)</span>).</p></li>
 <li><p>Since a hypothesis test is a model of potential outcomes, one can use hypothesis testing to learn about complex models, such as models of spillover and propagation of treatment effects across networks (<span class="citation" data-cites="bowers2013reasoning"><a href="#/ref-bowers2013reasoning" role="doc-biblioref">Bowers, Fredrickson, and Panagopoulos</a> (<a href="#/ref-bowers2013reasoning" role="doc-biblioref">2013</a>)</span>, <span class="citation" data-cites="bowers2016research"><a href="#/ref-bowers2016research" role="doc-biblioref">Bowers, Fredrickson, and Aronow</a> (<a href="#/ref-bowers2016research" role="doc-biblioref">2016</a>)</span>, <span class="citation" data-cites="bowers2018models"><a href="#/ref-bowers2018models" role="doc-biblioref">Bowers et al.</a> (<a href="#/ref-bowers2018models" role="doc-biblioref">2018</a>)</span>)</p></li>
@@ -1457,11 +1457,11 @@ Hartman, Erin, and F Daniel Hidalgo. 2018. <span>“An Equivalence Approach to B
 <div id="ref-hodges1963elb" class="csl-entry" role="doc-biblioentry">
 Hodges, J. L., and E. L. Lehmann. 1963. <span>“<span class="nocase">Estimates of location based on rank tests</span>.”</span> <em>Ann. Math. Statist</em> 34: 598–611.
 </div>
-<div id="ref-rosenbaum2010design" class="csl-entry" role="doc-biblioentry">
-Rosenbaum, P R. 2010. <span>“<span class="nocase">Design of observational studies</span>.”</span> <em>Springer Series in Statistics</em>.
-</div>
 <div id="ref-rosenbaum1993hlp" class="csl-entry" role="doc-biblioentry">
 Rosenbaum, Paul R. 1993. <span>“Hodges-Lehmann Point Estimates of Treatment Effect in Observational Studies.”</span> <em>Journal of the American Statistical Association</em> 88 (424): 1250–53.
+</div>
+<div id="ref-rosenbaum2010design" class="csl-entry" role="doc-biblioentry">
+———. 2010. <span>“<span class="nocase">Design of observational studies</span>.”</span> <em>Springer Series in Statistics</em>.
 </div>
 </div>
 </section></section>
