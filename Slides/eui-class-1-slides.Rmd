@@ -1,0 +1,203 @@
+---
+title: "Randomized Experiments in Context, Randomization, Causal Inference"
+author: "Jake Bowers"
+date: "`r format(Sys.time(), '%d %B %Y')`"
+bibliography: ../learningdays-book.bib
+biblio-style: apalike
+link-citations: yes
+colorlinks: yes
+header-includes: |
+   \setbeamertemplate{footline}{\begin{beamercolorbox}{section in head/foot}
+   \insertframenumber/\inserttotalframenumber \end{beamercolorbox}}
+output:
+  beamer_presentation:
+    keep_tex: true
+    toc: true
+    pandoc_args: [ "--toc" ]
+  revealjs::revealjs_presentation:
+    fig_caption: true
+    theme: default
+    highlight: pygments
+    center: false
+    transition: fade
+    smart: false
+    self_contained: false
+    reveal_plugins: ["notes", "search", "chalkboard"]
+    pandoc_args: [ "--toc" ]
+    reveal_options:
+      slideNumber: true
+      previewLinks: true
+      chalkboard:
+        theme: whiteboard
+        toggleNotesButton: false
+---
+
+# Research questions, theories, and research designs
+
+## What makes a research question good?
+
+- The answer to a good research question should produce knowledge that people
+  will care about. 
+  
+- Addressing the question should (help) solve a problem, (help) make a decision, or
+  clarify/challenge our understanding of/explanations about the world.
+
+- That is, a good question arises in the context of a theory and in the context of values.
+
+- But an interesting question is not enough.
+
+## We also need a good research design
+
+ - A good research design is a practical plan for research that makes the best
+  use of available resources and produces a credible answer.
+
+ - The quality of a research design can be assessed by how well it produces
+  results that can be used to guide policy and improve science: 
+  
+    - A great research design produces results that clearly point in certain
+      directions that we care about.
+    
+    - A poor research design produces results that leave us in the dark ---
+      results with confusing interpretation, ambiguity in interpretation.
+
+ - The point of most social and behavioral science experimental research design is to learn
+   about theory not about the world per se.
+
+## The importance of theory {.allowframebreaks}
+
+All research design involves theory, whether implicit or explicit.
+
+ - **Why do the research?** We have implicit theories and values which guide the
+   questions we ask. Our questions are value laden: For example, social
+   scientists studied marijuana use in the 1950s as a form of "deviance", the
+   questions focused on "why are people making such bad decisions?" or "how can
+   policy makers prevent marijuana use?" (see @howardsbecker1998a).
+   
+ - **Why do the research?** We might want to change how scientists explain the world
+  and/or change the policy decisions in (a) one place and time and/or (b) in
+  other places and times.
+  
+ - Research focused on learning the causal effect of $X$ on $Y$ requires a model
+  of the world: *how* might intervention $X$ might have an effect on some
+  outcome $Y$, and *why*, and *how large* might be the effect?  It helps us
+  think about how a different intervention or targeting different recipients
+  might lead to different results.
+
+ - Designing research will often clarify where we are less certain about our
+  theories.  Our theories will point to problems with our design. And questions
+  arising from the process of design may indicate a need for more work on
+  explanation and mechanism.
+
+## Designing or selecting your treatment 
+
+- Your treatment and control need to clearly connect to your
+  research question.
+  
+- The treatment you're interested in might be a bundle of multiple components.
+  If your research question is about one specific component, then the control
+  should be different from the treatment in just that component.  Everything
+  else should be the same.
+  
+## An example
+
+A campaign where someone visits a home to talk with a family for 15 minutes to
+share health information.
+
+  - If you're interested in the effect of the specific information, then your
+      control should still have all the other components (home visit with 15
+      minutes duration, similar visitor, etc.) but have different information.
+      This design will not teach you about the effect of visits, just about the
+      effect of information.
+
+  - If your question focuses on the effect of visits, then you need a control
+      group without a visit.  But this design will not do a good job answering
+      specific questions about information (visits and information are
+      bundled together).
+
+## Interpretation 
+
+- Sometimes it's not possible to separate out a specific component of your
+  treatment.  
+  
+- For example, your partner community health organization that visits homes may
+  not be interested in visiting homes and sharing non-health information. Then your
+  control might be no visit.
+
+- You must be careful to interpret your effects as the effect of the
+  information delivered in this particular way.
+
+- You will not be able to conclude that you have estimated the effect of only
+  the information. 
+  
+    - This might be fine for certain policy purposes: maybe the policy question
+      is about the visits as an implicit bundle of treatments. 
+    
+    - But it is difficult to interpret the results of this design as telling us
+      something clear about information alone.)
+
+
+## The Research Process: Questions, theory, and credibility
+
+ - Research starts with our values and theories about how the world works.
+ 
+ - It continues by articulating questions that can be clearly addressed by observation (in this course, using randomized experimentation).
+
+ - Good questions have consequential answers: changing scientific explanations, changing policy decisions.
+
+ - Good designs tick all the boxes and give readers reason to believe the results.
+
+# Experiments and the Counterfactual Approach to Causal Inference
+
+## Experiments and Counterfactual Causal Inference
+
+\includegraphics[width=.6\textwidth]{Images/MorrowPlots.jpg}
+
+## Did the fertilizer cause more corn to grow?
+
+Each plot either receives the fertilizer or status quo.
+
+What does it mean for fertilizer to **cause** more corn to grow?
+
+One useful way to think about it: if the plot of land had not received fertilizer, then less corn would have grown.
+
+## "X causes Y" is a claim about what didn't happen
+
+- In the counterfactual approach: "If X had not occurred, then Y would not have occurred."
+
+- Experiments help us learn about counterfactual and manipulation-based claims about causation.
+
+- It's not wrong to _conceptualize_ "cause" in another way (for example, whenever I see fertilized fields, I expect more corn.). But it has been productive to work in this counterfactual framework [@brady2008causation].
+
+
+## How to interpret "X causes Y" in this approach
+
+1.  "X causes Y" need not imply that other variables W and V do not cause Y: X is a part of the story, not the whole story. (The whole story is not necessary in order to learn about whether X causes Y).
+
+2.  "X causes Y" requires a **context**: matches cause flame but require oxygen; small classrooms improve test scores but require experienced teachers and funding [@cartwright2012evidence].
+
+3. "X causes Y" can mean "With X, the probability of Y is higher than would be without X." or "Without X there is no Y." Either is compatible with the counterfactual idea.
+
+4.  It is not necessary to know the mechanism to establish that X causes Y. The mechanism can be complex, and it can involve probability: X causes Y sometimes because of A and sometimes because of B.
+
+
+## Exercise: Colds and Honey
+
+- Your friend says drinking honey water reduces the duration of colds.
+
+- If we take a counterfactual approach, what does this statement implicitly
+  claim about the counterfactual? 
+
+- If we saw that people who drank honey water also tended to have shorter
+   colds, would that confirm the causal claim? What other counterfactuals might
+   be possible and why?
+
+
+# Randomization Basics
+
+
+
+# References
+
+## References
+
+
