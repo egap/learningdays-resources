@@ -231,15 +231,18 @@ A unit can be a plot of land at a moment in time, a village, a person, etc.
 
 - We could also write $\tau_i = Y_i(1)/Y_i(0)$ --- how much did person $i$ earn
   after the training program as a ratio?
+
+
+- Or other functions relating the potential outcomes.
 	
 ## Key features of this definition of causal effect
 
-1. You have to define the control condition to define a causal effect.
+1. You have to define two conditions to define a causal effect.
     - Say $T=1$ means a community meeting to discuss public health.  Is $T=0$
       no meeting at all?  Is $T=0$ a community meeting on a different subject?
       Is $T=0$ a flyer on public health?
     - The phrase "causal effect of $T$ on $Y$" doesn't make sense in
-      counterfactual terms without knowing what is means to not have $T$.
+      counterfactual terms without knowing what is means to not have $T$ (for $T=0$).
 
 2. Each individual unit $i$ has its own causal effect $\tau_i$.
 
@@ -251,6 +254,7 @@ $Y_i = T_iY_i(1) + (1-T_i)Y_i(0)$
 
 
 ## Imagine we know both $Y_i(1)$ and $Y_i(0)$ (this is never true!)
+
 | $i$      | $Y_i(1)$ | $Y_i(0)$ | $\tau_i$ |
 |----------:|:----------:|:----------:|:----------:|
 | Andrei   | 1        | 1        | 0        |
@@ -260,9 +264,9 @@ $Y_i = T_iY_i(1) + (1-T_i)Y_i(0)$
 
 - We have the (additive) treatment effect for each individual.
 
-- Note the heterogeneity in the individual-level treatment effects.
+- Note that individual-level treatment effects differ.
 
-- But we only have at most one potential outcome for each individual, which means we don't know these treatment effects.
+- But we only have at most one potential outcome for each individual, which means we don't directly see these treatment effects. We can only **infer** them.
 
 
 ## Average causal effect
@@ -275,16 +279,20 @@ $\overline{\tau_i} = \frac{1}{N} \sum_{i=1}^N ( Y_i(1)-Y_i(0) ) = \overline{Y_i(
 
  - The average causal effect is also known as the average treatment effect (ATE).
  
- - Further explanation on how after we discuss randomization of treatment assignment in the next section.
+ - Further explanation on how after we discuss randomization of treatment assignment.
  
 
 ## Estimands and causal questions
 
-- Before we discuss randomization and how that allows us to estimate the ATE, note that the ATE is a type of estimand.
+- Before we discuss randomization and how that allows us to estimate the ATE, note that the ATE is a type of estimand or aggregation of individual level causal effects.
 
-- An estimand is a quantity you want to learn about (from your data).  It's the target of your research that *you* set.
+- An estimand is a quantity you want to learn about (from your data).  It's the target of your research that *you* set. The ATE is a common estimand. Another might be the difference in log odds:
 
-- Being precise about your research question means being precise about your estimand. For causal questions, this means specifying:
+  \begin{equation}
+  \log\left( \frac{\bar{Y}_i(1)}{1 - \bar{Y}_i(1)} \right) - \log\left( \frac{\bar{Y}_i(0)}{1 - \bar{Y}_i(0)} \right)
+  \end{equation}
+
+- Being precise about your research question means being precise about which summaries of potential outcomes you want to learn about. For causal questions, this means specifying:
    - The outcome
    - The treatment and control conditions
    - The study population
@@ -299,12 +307,12 @@ $\overline{\tau_i} = \frac{1}{N} \sum_{i=1}^N ( Y_i(1)-Y_i(0) ) = \overline{Y_i(
 
 - The local ATE (LATE).  "Local" = those whose treatment status would be changed by an encouragement in an encouragement design (aka CACE, complier average causal effect) or those in the neighborhood of a discontinuity for a regression discontinuity design. 
 
-- Estimands are discussed in detail in [Estimands and Estimators Module](estimation.html).
-
+- Estimands and estimators are discussed in detail tomorrow.
 
 # Randomization of treatment assignment
 
 ## Randomization of treatment assignment
+
 - Randomization means that every observation has a known probability of assignment to experimental conditions *between* 0 and 1.
 
   - No unit in the experimental sample is assigned to treatment with certainty (probability = 1) or to control with certainty (probability = 0).
@@ -325,55 +333,6 @@ $\overline{\tau_i} = \frac{1}{N} \sum_{i=1}^N ( Y_i(1)-Y_i(0) ) = \overline{Y_i(
   - But the size and other characteristics of your sample will affect your power and your ability to extrapolate from your finding to other populations.
 
 - Random sampling (from population): selecting subjects into your sample from a population with known probability.
-
-
-## Randomization is powerful (1)
-
-- We want the ATE, $\overline{\tau_i}= \overline{Y_i(1)-Y_i(0)}$.  
-
-- We will make use of the fact that the average of differences equals the difference of averages:
-
-\centering
-ATE $= \overline{Y_i(1)-Y_i(0)} = \overline{Y_i(1)}-\overline{Y_i(0)}$
-
-## Randomization is powerful (2)
-
-- Let's *randomly assign* some of our units to the treatment condition.  For these treated units, we measure the outcome $Y_i|T_i=1$, which is the same as $Y_i(1)$ for these units.
-
-- Because these units were randomly assigned to treatment, these $Y_i=Y_i(1)$ for the treated units represent the $Y_i(1)$ for all our units.
-
-- In expectation (or on average across repeated experiments (written $E_R[]$)):
-
-\centering
-$E_R[\overline{Y_i}|T_i=1]=\overline{Y_i(1)}$.
-
-- $\overline{Y}|T_i=1$ is an unbiased estimator of the population mean of potential outcomes under treatment.  
-
-- The same logic applies for units randomly assigned to control:  
-
-\centering
-$E_R[\overline{Y_i}|T_i=0]=\overline{Y_i(0)}$.
-
-## Randomization is powerful (3)
-
-<!-- -  The same logic applies when we measure $Y_i$ for the control units ($Y_i|T_i=0$).  So $\overline{Y_i}|T_i=0$, which we can calculate, gives us an unbiased estimate of $\overline{Y_i(0)}$. -->
-
-
-
-- So we can write down an estimator for the ATE:
-
-\centering
-	$\hat{\overline{\tau_i}} = ( \overline{Y_i(1)} | T_i = 1 ) - ( \overline{Y_i(0)} | T_i = 0 )$
-
-- In expectation, or on average across repeated experiments, $\hat{\overline{\tau_i}}$ equals the ATE:
-
-\centering
-	$E_R[Y_i| T_i = 1 ] - E_R[Y_i | T_i = 0] = \overline{Y_i(1)} - \overline{Y_i(0)}$.
-
-
-- So we can just take the difference of these unbiased estimators of $\overline{Y_i(1)}$ and
- $\overline{Y_i(0)}$ to get an unbiased estimate of the ATE.
-
 
 ## Random sampling
 
@@ -414,17 +373,17 @@ To make causal claims with an experiment (or to judge whether we believe a study
 
    - A classic violation is the case of vaccines and their spillover effects.
 
-   - Say I am in the control condition (no vaccine).  If whether I get sick ($Y_i(0)$) depends on other people's treatment status (whether they take the vaccine), it's like I have two different $Y_i(0)$!
+   - Say I am in the control condition (no vaccine).  If whether I get sick ($Y_i(0)$) depends on other people's treatment status (whether they take the vaccine), it's like I have two different $Y_i(0)$ (one for when I'm near a vaccinated person and one for when I am not)!
 
    - SUTVA (= stable unit treatment value assumption)
 
 ## Key assumption: SUTVA, part 2
 
-2. No hidden variations of the treatment
+2. No hidden variations or types of the treatment
 
    - Say treatment is taking a vaccine, but there are two kinds of vaccines and they have different ingredients.
 
-   - An example of a violation is when whether I get sick when I take the vaccine ($Y_i(1)$) depends on which vaccine I got.  We would have two different $Y_i(1)$!
+   - An example of a violation is when whether I get sick when I take the vaccine: $Y_i(1)$) depends on which vaccine I got.  We would have two different $Y_i(1)$ --- one for vaccine 1 and another for vaccine 2!
 
 
 ## Key assumption: Excludability
@@ -435,7 +394,9 @@ To make causal claims with an experiment (or to judge whether we believe a study
   
   - Important to also maintain symmetry between treatment and control groups (e.g., through blinding, having the same data collection procedures for all study subjects, etc.), so that treatment assignment only affects the treatment received, not other things like interactions with researchers that you don't want to define as part of the treatment.
 
+  - Example: people in the treatment group (who know they got a vaccine) rush out to go dancing and then we see more sickness in that group.
 
+  - Example: village not receiving payments (the control group) get targetted by an NGO for increased funds and support.
 
 ## Randomization is powerful (4)
 
@@ -445,6 +406,9 @@ To make causal claims with an experiment (or to judge whether we believe a study
 
 - We have to worry about this if the intervention were not randomized (= an observational study).
 
+## What does randomization do?
+
+R simulation.
 
 # Randomized vs. observational studies
 
@@ -458,19 +422,12 @@ To make causal claims with an experiment (or to judge whether we believe a study
 
    - Treatment is not randomly assigned.  It is observed, but not manipulated.
 
-## Exercise: Learning about your prior knowledge
-
-**Discuss in small groups:**  Help me design the next project to answer
-one of these questions (or one of your own causal questions). Just sketch the
-key features of two designs --- one observational and the other randomized.
-
-**Example research questions:**
-
-  - Do Community-Driven Reconstruction projects increase trust and cooperation in Liberia? [see EGAP Policy Brief 40](https://egap.org/resource/brief-40-development-assistance-and-collective-action-capacity/)
-
-  - Can community monitoring increase clinic utilization and decrease child mortality in Uganda? [see EGAP Policy Brief 58](https://egap.org/resource/does-bottom-up-accountability-work-evidence-from-uganda/)
-  
 ## Exercise: Observational studies vs. Randomized studies
+
+Small group discussion. We have a theory that vaccine hesitance is less about
+ideology and values and more about perceptions of social facts (how many other
+people who are relevant to you who you think have been vaccinated). Sketch two
+research designs to teach us about this theory.
 
 **Tasks:**
 
@@ -479,7 +436,9 @@ key features of two designs --- one observational and the other randomized.
      questions would critical readers ask when you claim that your results
      reflect a causal relationship?
 
-  2. Sketch an ideal experimental study design (including randomization).  What questions would critical readers ask when you claim that your results reflect a causal relationship?
+  2. Sketch an ideal experimental study design (including randomization).  What
+     questions would critical readers ask when you claim that your results
+     reflect a causal relationship?
 
 ## Discuss
 
@@ -487,25 +446,7 @@ key features of two designs --- one observational and the other randomized.
 
  - What were key components and strengths and weaknesses of the observational studies?
 
-
-## Generalizability and external validity
-
-- Randomization brings high internal validity to a study -- confidence that we have learned the causal effect of a treatment on an outcome.
-
-- But the finding from a particular study in one particular place and at one particular time may not hold in other settings (i.e., external validity).
-
-- This is a general concern, not just a concern for randomized studies.
-
-- [EGAP's Metaketa Initiative](https://egap.org/our-work/the-metaketa-initiative/) works to accumulate knowledge by pre-planning a meta-analysis of multiple studies that have high internal validity due to randomization.
-
-
-
-
-
-
-
-
-# Randomization
+# How to Randomize
 
 ## Randomization of treatment assignment
 
@@ -857,4 +798,51 @@ We might focus on an estimand like  $\mathbb{E}[Y(X_1=1, X_2=1)]-\mathbb{E}[Y(X_
 [EGAP Policy Brief 40: Development Assistance and Collective Action Capacity](https://egap.org/resource/brief-40-development-assistance-and-collective-action-capacity/)
 
 [EGAP Policy Brief 58: Does Bottom-Up Accountability Work?](https://egap.org/resource/does-bottom-up-accountability-work-evidence-from-uganda/)
+
+
+
+## Extra: Randomization is powerful (1)
+
+- Say we want the ATE, $\overline{\tau_i}= \overline{Y_i(1)-Y_i(0)}$.  
+
+- We will make use of the fact that the average of differences equals the difference of averages to write it down:
+
+\centering
+ATE $= \overline{Y_i(1)-Y_i(0)} = \overline{Y_i(1)}-\overline{Y_i(0)}$
+
+## Extra: Randomization is powerful (2)
+
+- Let's *randomly assign* some of our units to the treatment condition.  For these treated units, we measure the outcome $Y_i|T_i=1$, which is the same as $Y_i(1)$ for these units.
+
+- Because these units were randomly assigned to treatment, these observed $Y_i=Y_i(1)$ for the treated units represent the $Y_i(1)$ for all our units.
+
+- In expectation (or on average across repeated experiments (written $E_R[]$)):
+
+\centering
+$E_R[\overline{Y_i}|T_i=1]=\overline{Y_i(1)}$.
+
+- $\overline{Y}|T_i=1$ is an unbiased estimator of the population mean of potential outcomes under treatment.  
+
+- The same logic applies for units randomly assigned to control:  
+
+\centering
+$E_R[\overline{Y_i}|T_i=0]=\overline{Y_i(0)}$.
+
+## Extra: Randomization is powerful (3)
+
+ -  The same logic applies when we measure $Y_i$ for the control units ($Y_i|T_i=0$).  So $\overline{Y_i}|T_i=0$, which we can calculate, gives us an unbiased estimate of $\overline{Y_i(0)}$.
+
+- So we can write down an estimator for the ATE:
+
+\centering
+	$\hat{\overline{\tau_i}} = ( \overline{Y_i(1)} | T_i = 1 ) - ( \overline{Y_i(0)} | T_i = 0 )$
+
+- In expectation, or on average across repeated experiments, $\hat{\overline{\tau_i}}$ equals the ATE:
+
+\centering
+	$E_R[Y_i| T_i = 1 ] - E_R[Y_i | T_i = 0] = \overline{Y_i(1)} - \overline{Y_i(0)}$.
+
+
+- So we can just take the difference of these unbiased estimators of $\overline{Y_i(1)}$ and
+ $\overline{Y_i(0)}$ to get an unbiased estimate of the ATE.
 
