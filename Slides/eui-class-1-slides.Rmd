@@ -18,6 +18,7 @@ output:
     keep_tex: true
     toc: true
     pandoc_args: [ "--toc" ]
+    slide_level: 2
   revealjs::revealjs_presentation:
     fig_caption: true
     theme: default
@@ -560,13 +561,13 @@ treatment <- simple_ra(N = N,  # total sample size
 sum(treatment)
 ```
 
-## Complete ramdomization (drawing from an urn)
+## Complete randomization (drawing from an urn)
 
 - A fixed number $m$ out of $N$ units are assigned to treatment. 
 
 - The probability a unit is assigned to treatment is $m/N$.
 
-- This is like having an urn or bowl with $N$ balls, of which $m$ are marked as treatment and $N-m$ are marked as control.  Public lotteries use this method.
+- This is like having an urn or bowl or bag with $N$ balls, of which $m$ are marked as treatment and $N-m$ are marked as control.  Public lotteries use this method.
 
 ## Example code for complete randomization I
 
@@ -606,6 +607,7 @@ sum(treatment)
 # note what happens if you don't specify m!
 ```
 
+Should always give you $m$ treated.
 
 ## Block (or stratified) randomization I
 
@@ -770,9 +772,7 @@ We might focus on an estimand like  $\mathbb{E}[Y(X_1=1, X_2=1)]-\mathbb{E}[Y(X_
     
 
 
-# Some limits
-
-## Limits to randomized studies
+# Some limits to randomized studies
 
 - Ethics --- is this sort of manipulation ethical? Sometimes not.
 
@@ -799,7 +799,7 @@ We might focus on an estimand like  $\mathbb{E}[Y(X_1=1, X_2=1)]-\mathbb{E}[Y(X_
 
 [EGAP Policy Brief 58: Does Bottom-Up Accountability Work?](https://egap.org/resource/does-bottom-up-accountability-work-evidence-from-uganda/)
 
-
+# Extra Stuff
 
 ## Extra: Randomization is powerful (1)
 
