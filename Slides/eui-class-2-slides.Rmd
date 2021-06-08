@@ -672,7 +672,7 @@ legend("topleft",
 
 - When false positive rates are not controlled, what might be going wrong? (Often has to do with asymptotics.)
 
-# Advanced Topics
+# Advanced Topics in Hypothesis Testing
 
 ## Some advanced topics connected to hypothesis testing
 
@@ -1065,14 +1065,14 @@ kableExtra::kable(res2, caption='Approaches to testing in multi-arm experiments.
 # Estimation
 
 
-## Design Based Approach 2: Estimate Averages of Potential Outcomes
+## Based Approach 2: Estimate Averages of Potential Outcomes
 
   1. Notice that the observed $Y_i$ are a sample from the (small, finite) population of unobserved potential outcomes $(y_{i,1},y_{i,0})$.
   2. Decide to focus on the average, $\bar{\tau}$, because sample averages, $\hat{\bar{\tau}}$ are unbiased and consistent estimators of population averages.
   3. Estimate $\bar{\tau}$ with the observed difference in means as $\hat{\bar{\tau}}$.
 
 \centering
-  \includegraphics[width=.8\textwidth]{Images/cartoonNeyman.pdf}
+  \includegraphics[width=.7\textwidth]{Images/cartoonNeyman.pdf}
 
 ## Design Based Approach 2: Estimate Averages of Potential Outcomes
 
@@ -1086,7 +1086,7 @@ Here using Neyman's standard errors (same as HC2 SEs) and Central Limit Theorem 
 
 \smallskip
 
-```{r dim}
+```{r dim, echo=TRUE}
 est1 <- difference_in_means(Y~T,data=dat)
 est1
 ```
