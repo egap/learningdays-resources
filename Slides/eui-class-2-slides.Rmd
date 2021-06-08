@@ -41,17 +41,16 @@ output:
 source('rmd_setup.R')
 # Load all the libraries we need
 library(here)
-library(tidyverse)
 library(kableExtra)
-library(DeclareDesign)
-library(estimatr)
 library(styler)
 library(coin)
 library(multcomp)
 library(devtools)
 library(randomizr)
 library(rcompanion) ## for pairwisePermutationTest()
-
+library(DeclareDesign)
+library(estimatr)
+library(tidyverse)
 ```
 
 ```{r setup2, include=FALSE}
@@ -68,35 +67,19 @@ colorize <- function(x, color) {
 }
 ```
 
-## Plan for the Day
-
- - Review of discussion from yesterday (Advantages, Disadvantages)
-    - "Humans generalize, experiments do not"
-    - "History matters" (so representativeness of samples is always limited)
-    - Causal mechanisms require contexts.
-    - Randomization breaks confounds, but does not balance every covariate every time.
- - Questions about experiments and their role in social science and policy arising after class?
- - How might hypothesis tests help us infer counterfactual causal effects in randomized experiments?
- - How might estimators help us infer counterfactual causal effects in randomized experiments?
-
 # Hypothesizing about partially observed potential outcomes and summarizing evidence against those hypotheses
 
-## General Approaches To Learning About The Unobserved Using Data
-
-\centering
-  \includegraphics[width=.6\textwidth]{Images/MorrowPlots.jpg}
-
-## Two Approaches To Causal Inference: Potential Outcomes
+## Statistical Approaches To Causal Inference: Potential Outcomes
 
   \includegraphics[width=.7\textwidth]{Images/cartoonNeymanBayesFisherCropped.pdf}
 
 Imagine we would observe so many bushels of corn, $Y$, if plot $i$ were randomly assigned to new fertilizer, $Y_{i}
 (Z_i=1)$ (where $Z_i=1$ means "assigned to new fertilizer" and $Z_i=0$ means "assigned status quo fertilizer") and another amount of corn, $Y_{i}(Z_i=0)$, if the same plot were  assigned the status quo fertilizer condition. 
-These $y$ are are *potential* or *partially observed* outcomes.
+These $Y$ are are *potential* or *partially observed* outcomes.
 
-## Three Approaches To To Causal Inference: Notation
+## Statistical Approaches To To Causal Inference: Notation
 
-  - *Treatment* $Z_i=1$ for treatment and $Z_i=0$ for control for units $i$
+  - *Treatment* $T_i=1$ for treatment and $T_i=0$ for control for units $i$
 
   - *One Causal Effect* for unit $i$ is $\tau_i$,  $\tau_i  = f(Y_{i}(1),Y_{i}(0))$. For example,$\tau_i = Y_i(1) - Y_i(0)$
 
@@ -116,7 +99,7 @@ These $y$ are are *potential* or *partially observed* outcomes.
 ## Design Based Approach 1: Compare Models of Potential Outcomes to Data
 
  1. Make a guess (or model of) about $\tau_i$.
- 2. Measure consistency of data with this model given the design and test statistic.
+ 2. Measure consistency of data with this model given the design and test statistic with a $p$-value.
 
 \centering
   \includegraphics[width=.7\textwidth]{Images/cartoonFisher.pdf}
@@ -137,9 +120,9 @@ These $y$ are are *potential* or *partially observed* outcomes.
 
 - The estimation approach provides a best guess but doesn't tell you how much you know about that guess.
   - For example, a best guess with $N=10$ seems to tell us less about the effect than $N=1000$.
-  - For example, a best guess when 95% of $Y=1$ and 5% of $Y=0$ seems to tell us less than when outcomes are evenly split betwee 0 and 1.
+  - For example, a best guess when 95% of $Y=1$ and 5% of $Y=0$ seems to tell us less than when outcomes are evenly split between 0 and 1.
 
-- We nearly always report both since both help us make decisions: "Our best guess of the treatment effect was 5, and we could reject the idea that the effect was 0 ($p$=.01)."
+- We nearly always report both since both help us make decisions: "Our best guess of the treatment effect was 5, and we could reject the idea that the effect was 0 ($p$=.01)." (Is short hand for "I have a big enough sample or enough information (say, not a very rare outcome) that our hypothesized model of no effects would be surprising from the perspective of the observed data --- using a test statistic that is a mean difference.")
 
 
 # Hypothesis Testing Basics
@@ -175,11 +158,11 @@ T <- complete_ra(N)
 ## Y is observed outcomes
 Y <- T * y1 + (1 - T) * y0
 ## The data
-dat <- data.frame(Y = Y, T = T, y0 = y0, tau = tau, y1 = y1)
+dat <- data.frame( T = T, y0 = y0, tau = tau, y1 = y1,Y = Y)
 dat$Ybin <- as.numeric(dat$Y > 100)
 # dat
-# pvalue(oneway_test(Y~factor(T),data=dat,distribution=exact(),alternative="less"))
-# pvalue(wilcox_test(Y~factor(T),data=dat,distribution=exact(),alternative="less"))
+# coin::pvalue(oneway_test(Y~factor(T),data=dat,distribution=exact(),alternative="less"))
+# coin::pvalue(wilcox_test(Y~factor(T),data=dat,distribution=exact(),alternative="less"))
 ```
 
 
@@ -209,8 +192,8 @@ bigdat$Ybin <- as.numeric(bigdat$Y > quantile(bigdat$Y, .85))
 
 Example simulated data with known individual treatment effects (ITE) and potential outcomes
 
-```{r}
-kableExtra::kable(dat, col.names = c("Y", "Treatment", "$Y_{i}(1)$", "ITE", "$Y_{i}(1)$", "$Y>100$"), escape=FALSE)
+```{r datable}
+kableExtra::kable(dat, col.names = c( "Treatment", "$Y_{i}(1)$", "ITE", "$Y_{i}(1)$", "Y", "$Y>100$"), escape=FALSE)
 ```
 
 For example, the sharp, or strong, null hypothesis of no effects is $H_0: Y_{i}(1) = Y_{i}(0)$
@@ -237,17 +220,17 @@ observedMeanRankTT
 
 ## The design links test statistic and hypothesis
 
-What we observe for each person $i$ ($Y_i$) is either what we would have
+The outcome we observe for each person $i$, $Y_i$, is either what we would have
 observed in treatment ($Y_{i}(1)$) **or** what we would have observed in
 control ($Y_{i}(0)$).
 
 $$Y_i = T_i Y_{i}(1) + (1-T_i)* Y_{i}(0)$$
 
-So, if $Y_{i}(1)=Y_{i}(0)$ then $Y_i = Y_{i}(0)$.
+So, if $Y_{i}(1)=Y_{i}(0)$ then algebra tells us that $Y_i = Y_{i}(0)$.
 
 What we *actually observe* is what we *would have observed in the control condition*.
 
-## The design guides creation of a distribution of hypothetical test statistics
+## The design guides creation of a **distribution** of hypothetical test statistics
 
 We need to know how to repeat our experiment:
 
@@ -440,6 +423,8 @@ print(g1)
 
 ## Testing the weak null of no average effects
 
+Reporting a two-sided $p$-value here:
+
 ```{r, echo=TRUE}
 ## By hand:
 varEstATE <- function(Y, T) {
@@ -468,7 +453,7 @@ c(
 
 - How should we interpret $p$=`r  round(pMeanTT,2)`? What about $p$=`r round(pMeanRankTT,2)` (our tests of the sharp null)?
 
-- What does it mean to "reject" $H_0: Y_{i}(1)=y_{i,2}$ at $\alpha=.05$?
+- What does it mean to "reject" $H_0: Y_{i}(1)=Y_{i}(0)$ at $\alpha=.05$?
 
 
 
@@ -496,7 +481,7 @@ Notice:
  
  - In the picture, the observed value of the test statistic is consistent with the hypothesized distribution, but just not super consistent.
  
- - Even if $p < .05$ (or $p < .001$) the observed test statistic must reflect some value on the hypothesized distribution. This means that you can always make an error when you reject a null hypothesis.
+ - Even if $p < .05$ (or $p < .001$) the observed test statistic must reflect some value on the hypothesized distribution. **This means that you can always make an error when you reject a null hypothesis.**
 
 ## False positive and false negative errors 
 
@@ -507,17 +492,17 @@ hypothesized value of zero ($p=.001$)! We reject that hypothesis!" **when the tr
 
 ## A single test of a single hypothesis
 
-- A single test of a single hypothesis should encourage false positive errors rarely (for example, if we set $\alpha=.05$) then we are saying that we are comfortable with our testing procedure making false positive errors in **no more than 5% of tests of a given treatment assignment in a given experiment**.
+- A single test of a single hypothesis should encourage false positive errors rarely. For example, if we set $\alpha=.05$, then we are saying that we are comfortable with our testing procedure making false positive errors in **no more than 5% of tests of a given treatment assignment in a given experiment**.
 
-- Also, a **single test of a single hypothesis** should detect signal when it exists --- it should be have high **statistical power**. In other words, it should not fail to detect a signal when it exists (i.e. should have low false negative error rates).
+- Also, a **single test of a single hypothesis** should detect a signal when it exists --- it should be have high **statistical power**. In other words, it should not fail to detect a signal when it exists (i.e. should have low false negative error rates).
 
 ## Decisions imply errors
+
+You don't have to reject or not-reject. But it is difficult to *act* without deciding.
 
 - If errors are necessary, how can we diagnose them? How do we learn whether our hypothesis-testing procedure might generate too many false positive errors?
 
 - Diagnose by simulation!
-
-
 
 
 ## Diagnosing false positive rates by simulation
@@ -542,10 +527,10 @@ collectPValues <- function(y, z, thedistribution = exact()) {
   ## The four tests
   thelm <- lm(y ~ newz, data = dat)
   ttestP2 <- difference_in_means(y ~ newz, data = dat)
-  owP <- pvalue(oneway_test(y ~ factor(newz), 
+  owP <- coin::pvalue(oneway_test(y ~ factor(newz), 
                             distribution = thedistribution))
   ranky <- rank(y)
-  owRankP <- pvalue(oneway_test(ranky ~ factor(newz), 
+  owRankP <- coin::pvalue(oneway_test(ranky ~ factor(newz), 
                                 distribution = thedistribution))
   ## Return the p-values
   return(c(
@@ -564,7 +549,7 @@ pDist <- replicate(5000, collectPValues(y = dat$Ybin, z = dat$T))
 
 ## Diagnosing false positive rates by simulation
 
-- When there is no effect, a test of the null hypothesis of no effects should
+- After setting the simulation to have no effect, a test of the null hypothesis of no effects should
 produce a **big** p-value. 
 
 - If the test is working well, we should see mostly big p-values and very few small p-values.
@@ -683,7 +668,7 @@ legend("topleft",
     
     2. easily distinguishes signal from noise (casts doubt on falsehoods often).
 
-- We can learn whether our testing procedure controls false positive rates given our design.
+- We can learn whether our testing procedure controls false positive rates given our design using simulation.
 
 - When false positive rates are not controlled, what might be going wrong? (Often has to do with asymptotics.)
 
@@ -926,7 +911,7 @@ thediagnosands <- declare_diagnosands(fwer = mean(p.value < .05))
 ##     sims=10, diagnosands = thediagnosands)
 ```
 
-```{r dd1, echo=TRUE, cache=TRUE}
+```{r dd1tests, echo=TRUE, cache=TRUE}
 des1_sim <- simulate_design(des1_plus, sims = 1000)
 res1 <- des1_sim %>%
   group_by(estimator_label) %>%
@@ -1699,7 +1684,7 @@ thepop <- declare_population(clus_id = add_level(
 
 theys <- declare_potential_outcomes(Y_Z_0 = u, Y_Z_1 = Y_Z_0 + effect)
 
-thetarget_indiv <- declare_estimand(ATE_indiv = mean(Y_Z_1 - Y_Z_0))
+thetarget_indiv <- declare_inquiry(ATE_indiv = mean(Y_Z_1 - Y_Z_0))
 
 ## Complete random assignment to clusters
 theassign <- declare_assignment(clusters = clus_id)
@@ -1707,25 +1692,25 @@ theassign <- declare_assignment(clusters = clus_id)
 thereveal <-   declare_reveal(Y, Z)
 
 ## 7 different estimators
-est1 <-   declare_estimator(Y ~ Z, estimand = "ATE_indiv", clusters = clus_id,
+est1 <-   declare_estimator(Y ~ Z, inquiry = "ATE_indiv", clusters = clus_id,
                     model = lm_robust, label = "Y~Z, CR2 SE")
 
-est2 <- declare_estimator(Y ~ Z, estimand = "ATE_indiv",
+est2 <- declare_estimator(Y ~ Z, inquiry = "ATE_indiv",
                     model = lm_robust, label = "Y~Z, HC2 SE")
 
-est3 <- declare_estimator(Y ~ Z, estimand = "ATE_indiv",
+est3 <- declare_estimator(Y ~ Z, inquiry = "ATE_indiv",
                     model = lm_robust,se_type="classical", label = "Y~Z, IID SE")
 
-est4 <- declare_estimator(Y ~ Z + cl_sizeF, estimand = "ATE_indiv",clusters = clus_id,
+est4 <- declare_estimator(Y ~ Z + cl_sizeF, inquiry = "ATE_indiv",clusters = clus_id,
                     model = lm_robust, label = "Y~Z+clus_size_fixed_effects, CR2 SE")
 
-est5 <- declare_estimator(Y ~ Z, estimand = "ATE_indiv", fixed_effects=~cl_sizeF,clusters = clus_id,
+est5 <- declare_estimator(Y ~ Z, inquiry = "ATE_indiv", fixed_effects=~cl_sizeF,clusters = clus_id,
                     model = lm_robust, label = "Y~Z, fixed_effects=~clus_size_fixed_effects, CR2 SE ")
 
-est6 <-  declare_estimator(Y ~ Z, estimand = "ATE_indiv", covariates=~cl_size,clusters = clus_id,
+est6 <-  declare_estimator(Y ~ Z, inquiry = "ATE_indiv", covariates=~cl_size,clusters = clus_id,
                     model = lm_lin, label = "Y~Z*I(clus_size-mean(clus_size)), CR2 SE")
 
-est7 <-  declare_estimator(Y ~ Z, estimand = "ATE_indiv", weight=cl_size,clusters = clus_id,
+est7 <-  declare_estimator(Y ~ Z, inquiry = "ATE_indiv", weight=cl_size,clusters = clus_id,
                     model = lm_robust, label = "Y~Z, weight=clus_size, CR2 SE")
 
 ### Some experimental stuff here:
@@ -1782,7 +1767,7 @@ Imagine we had data from 10 clusters with either 100 people (for 2 clusters) or 
 
 ```{r}
 tmp <- dplyr::filter(dat1,clus_id %in% c("03","01")) %>% group_by(clus_id) %>%
-    sample_n(3) %>% arrange(clus_id,indiv) %>% select(clus_id,indiv,Y_Z_0,Y_Z_1,Z,Y)
+    sample_n(3) %>% arrange(clus_id,indiv) %>% dplyr::select(clus_id,indiv,Y_Z_0,Y_Z_1,Z,Y)
 
 tmp
 ```
@@ -2114,11 +2099,11 @@ truelo_bin <- thetarget_logodds(dat2)[["estimand"]]
 How should we interpret this plot? (Differences in scales make it difficult.)
   
 ```{r sim_plot_bin, out.width=".95\\textwidth"}
-estimand_dat <- sims_bin %>% group_by(estimand_label) %>% summarize(meanestimand=mean(estimand))
+estimand_dat <- sims_bin %>% group_by(inquiry_label) %>% summarize(meanestimand=mean(estimand))
 sim_plot_bin <- ggplot(sims_bin, aes(y = estimate, x = estimator_label, color = estimator_label)) +
   geom_boxplot() +
   geom_point() +
-  facet_wrap(~estimand_label,scales="free") +
+  facet_wrap(~inquiry_label,scales="free") +
   geom_hline(data=estimand_dat,aes(yintercept=meanestimand)) +
   theme(text = element_text(size=20),
       legend.position="none",legend.title = element_blank())
@@ -2131,7 +2116,7 @@ Which estimator works better on this design and these data?
   
 ```{r bin_sim_res}
 ## Notice that the lin estimator is great but sometimes cannot produce an answer
-res_bin <- sims_bin %>% group_by(estimator_label,estimand_label) %>%
+res_bin <- sims_bin %>% group_by(estimator_label,inquiry_label) %>%
   summarize(bias = mean(estimate - estimand),
             rmse = sqrt(mean((estimate - estimand) ^ 2)),
             power = mean(p.value < .05),
