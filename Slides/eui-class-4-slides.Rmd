@@ -1,37 +1,72 @@
 ---
-title: "Statistical Power"
-author: "Fill In Your Name"
-date: '`r format(Sys.time(), "%d %B, %Y")`'
+title: "Power Analysis: What might you be able to detect?"
+author: "Jake Bowers"
+date: "`r format(Sys.time(), '%d %B %Y')`"
+bibliography: ../learningdays-book.bib
+biblio-style: apalike
+link-citations: yes
+colorlinks: yes
 header-includes: |
-   \setbeamertemplate{footline}{\begin{beamercolorbox}{section in head/foot}
-   \includegraphics[height=.5cm]{../Images/egap-logo.png} \hfill
-   \insertframenumber/\inserttotalframenumber \end{beamercolorbox}}
+  \setbeamertemplate{footline}{\begin{beamercolorbox}{section in head/foot}
+  \insertframenumber/\inserttotalframenumber \end{beamercolorbox}}
+  \usepackage{tikz}
+  \usepackage{tikz-cd}
+  \usepackage{textpos}
+  \usepackage{booktabs,multirow,makecell}
 output:
   beamer_presentation:
-    keep_tex: yes
-    toc: yes
+    keep_tex: true
+    toc: true
+    pandoc_args: [ "--toc" ]
+    slide_level: 2
+    latex_engine: pdflatex
   revealjs::revealjs_presentation:
-    center: no
+    fig_caption: true
+    theme: default
     highlight: pygments
+    center: false
+    transition: fade
+    smart: false
+    self_contained: false
+    reveal_plugins: ["notes", "search", "chalkboard"]
+    pandoc_args: [ "--toc" ]
     reveal_options:
+      slideNumber: true
+      previewLinks: true
       chalkboard:
         theme: whiteboard
-        toggleNotesButton: no
-      previewLinks: yes
-      slideNumber: yes
-    reveal_plugins:
-    - notes
-    - search
-    - chalkboard
-    self_contained: no
-    smart: no
-    theme: default
-    transition: fade
+        toggleNotesButton: false
 ---
 
-```{r setup, include=FALSE, echo=FALSE}
+```{r setup, include=FALSE,echo=FALSE}
 source("rmd_setup.R")
+# Load all the libraries we need
+library(here)
+library(kableExtra)
+library(styler)
+library(coin)
+library(multcomp)
+library(devtools)
+library(randomizr)
+library(rcompanion) ## for pairwisePermutationTest()
+library(DeclareDesign)
 library(DesignLibrary)
+library(estimatr)
+library(tidyverse)
+```
+
+```{r setup2, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+
+## from https://bookdown.org/yihui/rmarkdown-cookbook/font-color.html
+colorize <- function(x, color) {
+  if (knitr::is_latex_output()) {
+    sprintf("\\textcolor{%s}{%s}", color, x)
+  } else if (knitr::is_html_output()) {
+    sprintf("<span style='color: %s;'>%s</span>", color,
+      x)
+  } else x
+}
 ```
 
 # What is power?
@@ -207,7 +242,7 @@ O0 <- declare_potential_outcomes(Y_Z_0 = 5 + u0, Y_Z_1 = Y_Z_0 + tau)
 # design is to assign m units to treatment
 A0 <- declare_assignment(m=round(N/2))
 # estimand is the average difference between Y(Z=1) and Y(Z=0)
-estimand_ate <- declare_estimand(ATE=mean(Y_Z_1 - Y_Z_0))
+estimand_ate <- declare_inquiry(ATE=mean(Y_Z_1 - Y_Z_0))
 R0 <- declare_reveal(Y,Z)
 design0_base <- P0 + A0 + O0 + R0
 
@@ -222,7 +257,7 @@ lm_robust(Y~Z,data=dat0_N100_tau25)$coef # estimate
 
 ```{r ddversion_sim, echo=TRUE, warnings=FALSE}
 E0 <- declare_estimator(Y~Z,model=lm_robust,label="t test 1", 
-                        estimand="ATE")
+                        inquiry="ATE")
 t_test <- function(data) {
        test <- with(data, t.test(x = Y[Z == 1], y = Y[Z == 0]))
        data.frame(statistic = test$statistic, p.value = test$p.value)
@@ -410,7 +445,7 @@ P1 <- declare_population(N = n_clus * n_indivs,
     u0=draw_normal_icc(N=N,clusters=clusters,ICC=.2))
 O1 <- declare_potential_outcomes(Y_Z_0 = 5 + u0, Y_Z_1 = Y_Z_0 + tau)
 A1 <- declare_assignment(clusters=clusters)
-estimand_ate <- declare_estimand(ATE=mean(Y_Z_1 - Y_Z_0))
+estimand_ate <- declare_inquiry(ATE=mean(Y_Z_1 - Y_Z_0))
 R1 <- declare_reveal(Y,Z)
 design1_base <- P1 + A1 + O1 + R1 + estimand_ate
 
@@ -422,13 +457,13 @@ with(test_d1,table(Z,clusters))
 # three estimators, differ in se_type:
 E1a <- declare_estimator(Y~Z,model=lm_robust,clusters=clusters, 
                          se_type="CR2", label="CR2 cluster t test", 
-                         estimand="ATE")
+                         inquiry="ATE")
 E1b <- declare_estimator(Y~Z,model=lm_robust,clusters=clusters, 
                          se_type="CR0", label="CR0 cluster t test", 
-                         estimand="ATE")
+                         inquiry="ATE")
 E1c <- declare_estimator(Y~Z,model=lm_robust,clusters=clusters, 
                          se_type="stata", label="stata RCSE t test", 
-                         estimand="ATE")
+                         inquiry="ATE")
 
 design1_plus <- design1_base + E1a + E1b + E1c
 
@@ -545,3 +580,7 @@ abline(h=.8)
     - Blocking
     
 4. Better measurement of the outcome variable
+
+# References
+
+## References {.allowframebreaks}
