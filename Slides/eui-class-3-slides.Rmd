@@ -293,12 +293,17 @@ No output here. Just define functions and estimators and one estimand.
 ## The estimand
 estimandATE <- declare_inquiry(ATE = mean(Y_Z_1 - Y_Z_0))
 
-## The first estimator is difference-in-means
+## The first estimator is difference-in-means 
+## SEs and p-values and confidence intervals are also produced 
+## by lm_robust
 diff_means <- declare_estimator(Y ~ Z, inquiry = estimandATE, 
   model = lm_robust, se_type = "classical", label = "Diff-Means/OLS")
 ```
 
 ## Using DeclareDesign: define estimand and estimators
+
+We have to write our own estimator function:
+
 ```{r dd2a, echo=TRUE}
 ## The second estimator is top-coded difference-in-means
 diff_means_topcoded_fn <- function(data) {
@@ -310,6 +315,7 @@ diff_means_topcoded_fn <- function(data) {
   res <- tidy(obj) %>% filter(term == "Z")
   return(res)
 }
+
 diff_means_topcoded <- declare_estimator(
   handler = label_estimator(diff_means_topcoded_fn),
   inquiry = estimandATE, label = "Top-coded Diff Means"
@@ -406,7 +412,7 @@ head(sims1[,-c(1:6)])
 ## How do our estimators behave in general for this design?
 
 Our estimates vary across randomizations. Do our two estimators vary in the same ways?
-  How should we interpret this plot?
+  How should we interpret this plot? (Horizontal line at truth).
   
 ```{r sim_plot, out.width=".8\\textwidth"}
 sim_plot <- ggplot(sims1, aes(y = estimate, x = estimator_label, color = estimator_label)) +
@@ -422,7 +428,7 @@ print(sim_plot)
 
 One way to choose among estimators is to choose the one that is **close to the truth** whenever we use it --- regardless of the specific randomization.
 
-An "unbiased" estimator is one for which **average of the estimates across repeated designs** is the  same as the  truth (or $E_R(\hat{\bar{\tau}})=\bar{\tau}$). An unbiased estimator has "no systematic error" but doesn't guarantee closeness to the truth.
+An "unbiased" estimator is one for which **average of the estimates across repeated designs** is the  same as the  truth ($E_R(\hat{\bar{\tau}})=\bar{\tau}$). An unbiased estimator has "no systematic error" but doesn't guarantee closeness to the truth.
 
 Another measure of closeness is **root mean squared error** (RMSE) which  records  squared distances  between the truth and the individual estimates.
 
@@ -447,9 +453,9 @@ Summary:
 
 ## Block-randomized experiments are a collection of mini-experiments
 
-What is the ** ATE** estimand in a block-randomized experiment?
+What is the **ATE** estimand in a block-randomized experiment?
 
-If we think of the unit-level ATE as: $(1/N) \sum_{i=1}^N Y_{i}(1) - Y_{i}(0)$ then we could re-express this equivalently using the ATE in block $j$ is $ATE_j$ as follows:
+If we think of the unit-level ATE as: $(1/N) \sum_{i=1}^N Y_{i}(1) - Y_{i}(0)$ then we could re-express this using the ATE in block $j$ ($ATE_j$) as follows:
 
 \[
 ATE = \frac{1}{J}\sum^J_{j=1} \sum^{N_j}_{i=1} \frac{Y_{i}(1) - Y_{i}(0)}{N_j}  = \sum^J_{j=1} \frac{N_j}{N} ATE_j
@@ -460,7 +466,7 @@ $\widehat{ATE} = \displaystyle\sum^J_{j=1} \frac{N_j}{N} \widehat{ATE}_j$
 
 ## Block-randomized experiments are a collection of mini-experiments
 
-And we could *define* the standard error of the estimator by also just averaging the within-block standard errors (if our blocks are large enough):
+And we could *define* the standard error of the estimator by averaging the within-block standard errors (if our blocks are large enough to calculate within-block standard errors):
 
 $SE(\widehat{ATE}) = \sqrt{\sum^J_{j=1} (\frac{N_{j}}{N})^2SE^2(\widehat{ATE}_j)}$
 
@@ -485,7 +491,7 @@ datb <- dat %>% group_by(b) %>% summarize(nb=n(),pb=mean(Z),estateb=mean(Y[Z==1]
 datb
 ## True ate by block:
 with(dat,mean(y1-y0))
-## This is another way to calculate the true ate
+## This is another way to calculate the true ate as a weighted avg
 with(datb, sum( ateb*(nb/sum(nb))) )
 ```
 
@@ -962,7 +968,7 @@ tidy(glmbin1)[2,]
 
 ## An example of estimation II
 
-What about with covariates?  Why use covariates?
+What about with covariates?  Why use covariates? Why not use covariates?
 
 ```{r estexample2, echo=TRUE}
 lmbin2 <- lm_robust(Y~Z+x1,data=dat2)
@@ -985,7 +991,7 @@ c(dim=coef(lmbin1)[["Z"]],
 
 ## An example of estimation: The Freedman plugin estimators I
 
-No covariate:
+No covariates:
 ```{r pluginest, echo=TRUE }
 freedman_plugin_estfn1 <- function(data){
     glmbin <- glm(Y~Z,data=dat2,family=binomial(link="logit"))
@@ -1000,7 +1006,7 @@ freedman_plugin_estfn1 <- function(data){
 
 ## An example of estimation: The Freedman plugin estimators II
 
-With covariate:
+With covariates:
 ```{r pluginest2, echo=TRUE }
 freedman_plugin_estfn2 <- function(data){
     N <- nrow(data)
