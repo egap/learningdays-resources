@@ -397,14 +397,16 @@ coef(lm_robust(Y_tc ~ Z, data = sim_dat2, se = "classical"))[["Z"]]
 Our estimates vary across randomizations. Do our two estimators vary in the same ways?
   
 ```{r diagnose, echo=TRUE, cache=TRUE}
+
 ## Combine into one DeclareDesign design object
 ## This has the base design, estimand, then our two estimators
 design_plus_ests <- base_design + estimandATE + diff_means + 
     diff_means_topcoded
 ## Run 100 simulations (reassignments of treatment) and 
 ## apply the two estimators (diff_means and diff_means_topcoded)
+set.seed(12345)
 diagnosis1 <- diagnose_design(design_plus_ests, 
-                              bootstrap_sims = 0, sims = 100)
+                              bootstrap_sims = 0, sims = 1000)
 sims1 <- get_simulations(diagnosis1)
 head(sims1[,-c(1:6)])
 ```

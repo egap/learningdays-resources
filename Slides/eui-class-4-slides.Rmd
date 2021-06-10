@@ -1,5 +1,5 @@
 ---
-title: "Power Analysis: What might you be able to detect?"
+title: "Power Analysis"
 author: "Jake Bowers"
 date: "`r format(Sys.time(), '%d %B %Y')`"
 bibliography: ../learningdays-book.bib
@@ -72,17 +72,17 @@ colorize <- function(x, color) {
 # What is power?
 ##  What is power?
 
-- We want to separate signal from noise.
+We want to separate signal from noise.
 
 - Power = probability of rejecting null hypothesis, given true effect $\ne$ 0.
 
-- In other words, it is the ability to detect an effect given that it exists.
+- It is the ability to detect signal from noise (assuming there is a signal).
 
-- Formally: (1 - Type II) error rate.
+- Formally: power = (1 - Type II) error rate.
 
 - Thus, power $\in$ (0, 1).
 
-- Standard thresholds: 0.8 or 0.9.
+- Standard thresholds: 0.8 or 0.9 --- "nearly always detect a signal when one exists"
 
 ## Starting point for power analysis
 
@@ -92,17 +92,21 @@ colorize <- function(x, color) {
 
     - Or helps you figure out a minimal detectable difference given a set sample size.
 
-    - May help you decide whether to run a study.
+    - May help you decide whether to run a study at all.
 
 - It is hard to learn from an under-powered null finding. 
 
     - Was there an effect, but we were unable to detect it? or was there no effect?  We can't say.
 
+    - How should we interpret "The difference in proportion vaccinated between Message A and Control was .02 ($p=.4$)."?
+
 
 ## Power
-- Say there truly is a treatment effect and you run your experiment many times.  How often will you get a statistically significant result?
+- Say there truly is a treatment effect and you run your experiment many times
+  (hypothetically) with the same group of people.  How often will you get a $p
+  \le .05$?
 
-- Some guesswork to answer this question.
+- It depends: 
 
     - How big is your treatment effect?
   
@@ -110,6 +114,7 @@ colorize <- function(x, color) {
   
     - How much noise is there in the measurement of your outcome?
 
+- **We do not know the answers to all those questions in advance. So some guesswork required to answer this question.**
 
 
 ## Approaches to power calculation
@@ -134,7 +139,8 @@ colorize <- function(x, color) {
 
 
 # Analytical calculations of power
-## Analytical calculations of power
+
+## Analytical calculations of power for hypotheses about no average treatment effects
 - Formula:
   \begin{align*}
   \text{Power} &= \Phi\left(\frac{|\tau| \sqrt{N}}{2\sigma}- \Phi^{-1}(1- \frac{\alpha}{2})\right)
@@ -163,9 +169,9 @@ pwr.t.test(n = 40, d = 0.25, sig.level = 0.05,
 ## Limitations to analytical power calculations
 - Only derived for some estimands (ATE/ITT)
 
-- Makes specific assumptions about the data-generating process
+- Makes specific assumptions about the data-generating process (for example, $N$ is large)
 
-- Incompatible with more complex designs
+- Difficult with more complex designs like block randomized designs with different probabilities of assignment in each block.
 
 
 # Simulation-based power calculation
@@ -205,9 +211,11 @@ library("randomizr")
 library("estimatr")
 
 ## Y0 is fixed in most field experiments. 
-## So we only generate it once:
+## So we only generate it once (here making it Normal parallels with analytic approaches):
 make_Y0 <- function(N){  rnorm(n = N) }
 repeat_experiment_and_test <- function(N, Y0, tau){
+    # N is size of experimental pool; Y0 is potential outcome to control
+    # tau is effect size (here, a constant additive effect)
     Z <- complete_ra(N = N)
     Y1 <- Y0 + Z * tau
     Yobs <- Z * Y1 + (1 - Z) * Y0
@@ -228,6 +236,7 @@ power_sim <- function(N,tau,sims){
 }
 
 set.seed(12345)
+## Notice simulation variability with sims=100
 power_sim(N=80,tau=.25,sims=100)
 power_sim(N=80,tau=.25,sims=100)
 ```
@@ -246,7 +255,7 @@ estimand_ate <- declare_inquiry(ATE=mean(Y_Z_1 - Y_Z_0))
 R0 <- declare_reveal(Y,Z)
 design0_base <- P0 + A0 + O0 + R0
 
-## For example:
+## For example with N=100 and tau=.25:
 design0_N100_tau25 <- redesign(design0_base,N=100,tau=.25)
 dat0_N100_tau25 <- draw_data(design0_N100_tau25)
 head(dat0_N100_tau25)
@@ -274,7 +283,9 @@ design0_N100_tau25_sims <- simulate_design(design0_N100_tau25_plus,
 # design0_N100_tau25_sims has 200 rows (2 tests * 100 random assignments)
 # just look at the first 6 rows
 head(design0_N100_tau25_sims)
+```
 
+```{r powsum}
 # for each estimator, power = proportion of simulations with p.value < 0.5
 design0_N100_tau25_sims %>% group_by(estimator_label) %>% 
   summarize(pow=mean(p.value < .05),.groups="drop")
@@ -283,17 +294,18 @@ design0_N100_tau25_sims %>% group_by(estimator_label) %>%
 # Power with covariate adjustment 
 ## Covariate adjustment and power
 
-   - Covariate adjustment can improve power because it mops up variation in the outcome variable.
+   - Covariate/Covariance adjustment can improve power because it mops up variation in the outcome variable.
    
-      - If prognostic, covariate adjustment can reduce variance dramatically.  Lower variance means higher power.
+      - If prognostic (predictive of the outcome), covariate adjustment can reduce variance dramatically.  Lower outcome variance means higher power.
    
       - If non-prognostic, power gains are minimal.
    
    - All covariates must be pre-treatment.  Do not drop observations on account of missingness.  
    
-      - See the module on [threats to internal validity](threats-to-internal-validity-of-randomized-experiments.html) and the [10 things to know about covariate adjustment](http://egap.org/methods-guides/10-things-know-about-covariate-adjustment).
+      - See the   [Theory and Practice module on threats to internal validity](https://egap.github.io/theory_and_practice_of_field_experiments/threats-to-the-internal-validity-of-randomized-experiments.html) and the [10 things to know about covariate adjustment](https://egap.org/resource/10-things-to-know-about-covariate-adjustment).
 
-  - Freedman's bias as n of observations decreases and K covariates increases.
+  - @freedman2008rae pointed out that covariance-adjusted estimators of the ATE are biased.
+  . @lin_agnostic_2013 shows that bias decreases with N.
 
 <!-- ## Covariate adjustment: best practices -->
 <!-- - All covariates must be pre-treatment -->
@@ -363,7 +375,6 @@ power_sim_cov(N=80,tau=.25,sims=100)
 
 # Power for cluster randomization 
 ## Power and clustered designs
-- Recall the [randomization module](randomization.html).
 
 - Given a fixed $N$, a clustered design is weakly less powered than a non-clustered design.
     - The difference is often substantial.
@@ -464,8 +475,11 @@ E1b <- declare_estimator(Y~Z,model=lm_robust,clusters=clusters,
 E1c <- declare_estimator(Y~Z,model=lm_robust,clusters=clusters, 
                          se_type="stata", label="stata RCSE t test", 
                          inquiry="ATE")
+E1d <- declare_estimator(Y~Z,model=lm_robust, 
+                         se_type="classical", label="plain IID OLS t test", 
+                         inquiry="ATE")
 
-design1_plus <- design1_base + E1a + E1b + E1c
+design1_plus <- design1_base + E1a + E1b + E1c + E1d
 
 design1_plus_tosim <- redesign(design1_plus,n_clus=10,n_indivs=100,tau=.25)
 ```
@@ -491,8 +505,8 @@ d1 <- block_cluster_two_arm_designer(N_blocks = 1,
     sd_block = 0,
     sd_cluster = .3,
     ate = .25)
-d1_plus <- d1 + E1b + E1c
-d1_sims <- simulate_design(d1_plus,sims=c(1,1,1000,1,1,1,1,1))
+d1_plus <- d1 + E1b + E1c + E1d
+d1_sims <- simulate_design(d1_plus,sims=c(1,1,1000,1,1,1,1,1,1))
 ```
 
 ```{r ddversion_clus_2_print, echo=TRUE}
@@ -501,7 +515,8 @@ d1_sims %>% group_by(estimator_label) %>% summarize(pow=mean(p.value < .05),
     .groups="drop")
 ```
 
-# Comparative statics
+# Power Ingredients and Their Relationship
+
 ## Comparative Statics
 - Power is:
   - Increasing in $N$
@@ -510,7 +525,7 @@ d1_sims %>% group_by(estimator_label) %>% summarize(pow=mean(p.value < .05),
 
 ## Power by sample size {.allowframebreaks}
 
-```{r powplot_by_n, echo=TRUE}
+```{r powplot_by_n, echo=TRUE,out.width=".7\\textwidth"}
 some_ns <- seq(10,800,by=10)
 pow_by_n <- sapply(some_ns, function(then){
     pwr.t.test(n = then, d = 0.25, sig.level = 0.05)$power
@@ -528,7 +543,7 @@ abline(h=.8)
 
 ## Power by treatment effect size {.allowframebreaks}
 
-```{r powplot_by_tau, echo=TRUE}
+```{r powplot_by_tau, echo=TRUE,out.width=".7\\textwidth"}
 some_taus <- seq(0,1,by=.05)
 pow_by_tau <- sapply(some_taus, function(thetau){
     pwr.t.test(n = 200, d = thetau, sig.level = 0.05)$power
@@ -543,7 +558,7 @@ abline(h=.8)
 
 ## EGAP Power Calculator
 
-- Try the calculator at: https://egap.shinyapps.io/power-app/
+- The calculator at: https://egap.shinyapps.io/power-app/
 
 - For cluster randomization designs, try adjusting:
 
@@ -555,13 +570,22 @@ abline(h=.8)
 
 ## Comments
 
-- Know your outcome variable.
+- Know your outcome variable: what drives its variation regardless of treatment?
 
-- What effects can you realistically expect from your treatment?
+- What effects can you realistically expect from your treatment? What effects
+  are substantively too small? (It may not be worth running *this experiment*
+  at *this moment* if you cannot imagine detecting an effect at least this
+  large.)
 
 - What is the plausible range of variation of the outcome variable?
 
-    - A design with limited possible movement in the outcome variable may not be well-powered.
+    - A design with limited possible movement in the outcome variable may not
+      be well-powered.
+    - See [10 Things Your Null Result Might Mean](https://egap.org/resource/10-things-your-null-result-might-mean/)
+      for discussion of the various reasons a given experiment might have
+      produced a $p > .05$ (if you are using $\alpha = .05$ as a rejection
+      criteria or if you have some substantively small $\hat{\bar{\tau}}$ that
+      might not be reached).
 
 
 ## Conclusion: How to improve your power
@@ -571,15 +595,15 @@ abline(h=.8)
     
     - If clustered, increase the number of clusters if at all possible
 
-2. Strengthen the treatment
+2. Strengthen the treatment effect (What might this mean in your study?)
 
-3. Improve precision
+3. Improve precision by removing extraneous noise from the outcome
 
     - Covariate adjustment
 
     - Blocking
     
-4. Better measurement of the outcome variable
+4. Better measurement of the outcome variable (for example, using indicies to reduce noise in the outcome variable)
 
 # References
 
