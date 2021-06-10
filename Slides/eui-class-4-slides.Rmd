@@ -484,6 +484,8 @@ design1_plus <- design1_base + E1a + E1b + E1c + E1d
 design1_plus_tosim <- redesign(design1_plus,n_clus=10,n_indivs=100,tau=.25)
 ```
 
+## Example: Simulation-based power for cluster randomization (DeclareDesign) {.allowframebreaks} 
+
 ```{r ddversion_clus_sims, echo=TRUE, cache=TRUE, warnings=FALSE}
 ## Only repeat the random assignment, not the creation of Y0. Ignore warning
 ## We would want more simulations in practice.
@@ -496,6 +498,8 @@ design1_sims %>% group_by(estimator_label) %>%
     .groups="drop")
 
 ```
+
+## Example: Simulation-based power for cluster randomization (DeclareDesign) {.allowframebreaks} 
 
 ```{r ddversion_clus_2, echo=TRUE, cache=TRUE, results='hide', warnings=FALSE}
 ## This may be simpler than the above:
@@ -595,7 +599,7 @@ abline(h=.8)
     
     - If clustered, increase the number of clusters if at all possible
 
-2. Strengthen the treatment effect (What might this mean in your study?)
+2. Strengthen the treatment effect ($\tau_i$ and/or $\bar{\tau}$) (What might this mean in your study?)
 
 3. Improve precision by removing extraneous noise from the outcome
 
@@ -604,6 +608,56 @@ abline(h=.8)
     - Blocking
     
 4. Better measurement of the outcome variable (for example, using indicies to reduce noise in the outcome variable)
+
+
+# Pre-Registration of Analysis Plans
+
+## Bias in published research against null results {.allowframebreaks}
+
+A good design executed well will produce credible research, which might be a
+  null result.  We want credible and actionable null results.
+
+- Manuscripts with
+  null results are never submitted for review or put away in a "file drawer"
+  after rejections.
+  
+- We face incentives to change your specifications, measurements, or even
+  hypotheses to get a statistically significant result ($p$-hacking and HARKing) to improve
+  chances of publication.
+   - $p$-hacking: Trying many hypothesis tests increases the chances of a false positive result. (See Class 2 on Hythesis Testing Slides)
+   - HARKing: (Hypotheses written After Results Known) Pretending that you are **testing** hypotheses when you are not (you are generating them --- which is fine but a separate activity).
+
+- Even people not facing these incentives make many decisions when they analyze
+  data: handling missing values and duplicate observations, creating scales,
+  etc. Different seemingly small decisions can produce substantively meaningful
+  differences in published results.
+
+- Overall result:  reduced credibility for individual pieces of research and
+  (rightly) reduced confidence in whether we actually know what we claim to
+  know.
+
+## Pre-registration of analysis plans and research designs I
+
+- Pre-registration is the filing of your research design and hypotheses with a
+  publicly-accessible repository with a credible date stamp.  EGAP hosts one
+  that you can use for free.  Same with OSF. (EGAP registry lives within the
+  larger OSF registry). See also the [OES Analysis Plans](https://oes.gsa.gov/work/).
+
+- **Pre-registration does not preclude later exploratory analyses that were not
+  stated in advance.**  You just have to clearly distinguish between the two.
+
+## Pre-registration of analysis plans and research designs II
+
+- Even if you will be submitting a paper with results to
+  an academic journal or you are primarily interested in a final report with findings
+  for a policy audience, there are important advantages to you and to other
+  researchers from pre-registering your research.
+  
+   - You can learn about other research, completed and in progress; others can
+     learn about yours.  We can learn about studies that produced null results.
+     
+   - It forces you to state your hypotheses and plan of analysis in advance of
+     seeing the results, which limits $p$-hacking and HARKing.
 
 # References
 

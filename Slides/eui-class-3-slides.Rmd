@@ -402,7 +402,7 @@ Our estimates vary across randomizations. Do our two estimators vary in the same
 ## This has the base design, estimand, then our two estimators
 design_plus_ests <- base_design + estimandATE + diff_means + 
     diff_means_topcoded
-## Run 100 simulations (reassignments of treatment) and 
+## Run 1000 simulations (reassignments of treatment) and 
 ## apply the two estimators (diff_means and diff_means_topcoded)
 set.seed(12345)
 diagnosis1 <- diagnose_design(design_plus_ests, 
