@@ -237,8 +237,8 @@ power_sim <- function(N,tau,sims){
 
 set.seed(12345)
 ## Notice simulation variability with sims=100
-power_sim(N=80,tau=.25,sims=100)
-power_sim(N=80,tau=.25,sims=100)
+power_sim(N=80,tau=.25,sims=1000)
+power_sim(N=80,tau=.25,sims=1000)
 ```
 
 ## Example: Using DeclareDesign {.allowframebreaks}
@@ -465,7 +465,7 @@ design1_test <- redesign(design1_base,n_clus=10,n_indivs=100,tau=.25)
 test_d1 <- draw_data(design1_test)
 # confirm all individuals in a cluster have the same treatment assignment
 with(test_d1,table(Z,clusters))
-# three estimators, differ in se_type:
+# four estimators, differ in se_type:
 E1a <- declare_estimator(Y~Z,model=lm_robust,clusters=clusters, 
                          se_type="CR2", label="CR2 cluster t test", 
                          inquiry="ATE")
