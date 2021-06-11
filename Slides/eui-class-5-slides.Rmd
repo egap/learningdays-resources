@@ -76,13 +76,8 @@ colorize <- function(x, color) {
 
  - Non-compliance can teach us about the effect of the "active ingredient" of the treatment.
 
- - Spillovers can mislead us or enable us to learn 
-
- - Hawthorne effects can confuse interpretation of an estimated causal effect.
-
- - Differential treatment of treatment arms can also lead to confusing interpretations.
- 
 # Core assumptions
+
 ## Review of core assumptions
 
   1. Excludability
@@ -91,7 +86,8 @@ colorize <- function(x, color) {
 
   3. Random assignment of subjects treatment
 
-# Attrition
+# Missing data in experiments
+
 ## Attrition (missing data on outcomes)
 
 - Some units may have missing data on outcomes (= units attrit) when:
@@ -143,367 +139,166 @@ colorize <- function(x, color) {
 
 This would cause very similar problem as would missing data on outcomes.
 
+## Summary: Missing data in experiments
+
+ - Missing data on covariates is not a problem: it should be balanced by randomization.
+ - Missing data on outcomes is a problem: it can remove the benefits of the randomization. 
+ - Missing data on treatment assignment is a problem: it can remove the benefits of the randomization.
+
+Given missing data on outcomes:
+
+ - Check to see if treatment predicts missingness
+ - Check to see if missingness patterns relate strongly to covariates.
+ - Report results using bounds (set all outcomes to max and min, report both results)
+ - Report results using sensitivity analysis (like an observational study (see @rosenbaum2017observation)).
+
 # Non-compliance: Causal effects when we do not control the dose
 
-## Non-compliance
+## Non-compliance or Encouragement Designs {.allowframebreaks}
 
   - Sometimes units assigned to treatment don't take it.  They don't comply with their assignment.
   
-      - If all units assigned to control do not take the treatment, but only some units assigned to treatment take the treatment, we have one-sided non-compliance.
+      - If all units assigned to control do not take the treatment, but only some units assigned to treatment take the treatment, we have _one-sided non-compliance_.
   
-  - The effect of treatment assignment is not the same as the effect of receiving the treatment.
+  - The effect of **treatment assignment** (often called the Intent to Treat Effect or ITT)  is not the same as the effect of **receiving a dose of the treatment**.
 
-  - The effect of receiving the treatment is often called the "Local Average Treatment Effect" (LATE) or "Complier Average Causal Effect" (CACE).  
+      - Not random who takes a dose of the treatment. Directly comparing people who take a dose with those who did not ("per protocol" or "as treated" comparisons) is not justified by randomization.
+
+## Non-compliance or Encouragement Designs {.allowframebreaks}
+
+  - The effect of receiving the treatment is often called the "Local Average Treatment Effect" (LATE) or "Complier Average Causal Effect" (CACE) (same quantity).
   
-      - "Local" refers to the idea that the effect only occurs on the people who take the treatment when assigned to treatment (the kinds of people).
+      - "Local" refers to the idea that the effect only occurs on the people
+        who take the treatment when assigned to treatment (the kinds of people
+        who 'comply' with the intentions of the researcher).
 
-  - Two main approaches to estimation: (1) Instrumental variable (in which random assignment may be a good instrument) and (2) Three arm placebo experiments (Nickerson, Kalla and Broockman).
-
-
-## LATE/CACE
-
-
-We need four assumptions to hold in order to estimate LATE/CACE from a randomized experiment.
-  
-  1. The exclusion restriction is that the assignment to treatment only has an effect on the outcome through the receipt of treatment and through no other channels.
-
-  2. The monotonicity assumption is that we do not have any defiers --- units that would take the treatment if assigned to control, but not take the treatment if assigned to treatment.
-  
-  3. That the randomized assignment variable (the "instrument") changes the probability of treatment take up/of the dose (this is the "not too weak instrument" assumption)
- 
-  4. SUTVA
+  - Two main approaches to estimation: 
+     1. Instrumental variable (in which random assignment may be a good instrument and often we estimate the CACE using 2SLS) (See @gerber_field_2012 Chapter 5) and 
+     2. Placebo-controlled experiments (@nickerson2005scalable, example @broockman2016durably). In which we estimate the CACE by comparing outcomes of treated and placebo groups.
 
 
+## How to learn about the CACE/LATE using a Placebo
 
-# 
-## Defining causal effects I
+Imagine a door-to-door communication experiment where some houses are randomly
+assigned to receive a visit and some attitude is measured as an outcome later.
+Note that we now use $Z$ (treatment assigned) and $D$ (treatment taken) instead
+of just $T$.
 
-Imagine a door-to-door communication experiment where some houses are randomly assigned to receive a visit.  Note that we now use $Z$ and $d$ instead of $T$.
+
+\begin{center}
+\begin{tikzcd}[ampersand replacement=\&]
+Z  \arrow[from=1-1,to=1-2, "\ne 0"]  \& D  \arrow[from=1-2,to=1-4] \& \& Y \\
+(x_1 \ldots x_p) \arrow[from=2-1,to=1-1, "\text{0 (randomized)}"]  \arrow[from=2-1,to=1-2] \arrow[from=2-1,to=1-4]
+\end{tikzcd}
+\end{center}
+
 
  - $Z_i$ is random assignment to a visit ($Z_i=1$) or not ($Z_i=0$).
- - $d_{i,Z_i=1}=1$ means that person $i$ would open the door to have a conversation when assigned a visit.
- - $d_{i,Z_i=1}=0$ means that person $i$ would not open the door to have a conversation when assigned a visit.
- - Opening the door is an outcome of the treatment.
+ - $D_i(Z_i=1)=1$ means that person $i$ would open the door to have a conversation when assigned a visit (it is a potential dose)
+ - $D_i(Z_i=1)=0$ means that person $i$ would not open the door to have a conversation when assigned a visit.
+ - $x_1 \ldots x_p$ are background covariates --- confounders of the $D_i \rightarrow Y_i$ relationship.
+
+
+## How to learn about the CACE/LATE using a Placebo
+
 
 \begin{center}
 \begin{tikzcd}[ampersand replacement=\&]
-Z  \arrow[from=1-1,to=1-2, "\ne 0"] \arrow[from=1-1, to=1-4, bend left, "\text{0 (exclusion)}"] \& d  \arrow[from=1-2,to=1-4] \& \& y \\
-(x_1 \ldots x_p) \arrow[from=2-1,to=1-1, "\text{0 (as if randomized)}"]  \arrow[from=2-1,to=1-2] \arrow[from=2-1,to=1-4]
+Z  \arrow[from=1-1,to=1-2, "\ne 0"]  \& D  \arrow[from=1-2,to=1-4] \& \& Y \\
+(x_1 \ldots x_p) \arrow[from=2-1,to=1-1, "\text{0 (randomized)}"]  \arrow[from=2-1,to=1-2] \arrow[from=2-1,to=1-4]
 \end{tikzcd}
 \end{center}
 
 
-## Defining causal effects II
- - $y_{i,Z_i = 1, d_{i,Z_i=1}=1}$ is the potential outcome for people who were assigned a visit and who opened the door. ("Compliers" or "Always-takers")
+ - $Z_i$ is random assignment to a visit ($Z_i=1$) or not ($Z_i=0$).
+ - $D_i(Z_i=1)=1$ means that person $i$ would open the door to have a conversation when assigned a visit (it is a potential dose)
+ - $D_i(Z_i=1)=0$ means that person $i$ would not open the door to have a conversation when assigned a visit.
+ - $x_1 \ldots x_p$ are background covariates --- confounders of the $D_i \rightarrow Y_i$ relationship.
+ - So, $D_i$ is **an intermediate outcome:** $D_i = Z_i * D_i(1) + (1-Z_i) D_i(0)$.
+ - $Y_i(Z_i=1,D_i(Z_i=1)=1)$ is primary outcome when $i$ is assigned to treatment **and** would open the door.
+
+
+## Defining causal effects
+
+So now we have four potential outcomes per person.
+
+ - $Y_{i}(Z_i = 1, D_i=1)$ is the potential outcome for people who were assigned a visit and who opened the door. ("Compliers" or "Always-takers")
  
- - $y_{i,1, d_{i,Z_i=1}=0}$ is the potential outcome for people who were assigned a visit and who did not open the door. ("Never-takers" or "Defiers")
+ - $Y_{i}(1, D_i=0)$ is the potential outcome for people who were assigned a visit and who did not open the door. ("Never-takers" or "Defiers")
  
- - $y_{i,0, d_{i,0}=1}$ is the potential outcome for people who were not assigned a visit and who opened the door. ("Defiers" or "Always-takers")
+ - $Y_{i}(0, D_i=1)$ is the potential outcome for people who were not assigned a visit and who opened the door. ("Defiers" or "Always-takers")
  
- - $y_{i,0, d_{i,0}=0}$ is the potential outcome for people who were not assigned a visit and who would not have opened the door. ("Compliers" or "Never-takers")
-
-## Defining causal effects III
- We could also write $y_{i,Z_i = 0, d_{i,Z_i=1}=1}$ for people who were not assigned a visit but who would have opened the door had they been assigned a visit etc.
-
-In this case we can simplify our potential outcomes:
-
-  - $y_{i,0, d_{i,1}=1} = y_{i,0, d_{i,1}=0} = y_{i,0, d_{i,0}=0}$ because your outcome is the same regardless of how you don't open the door.
-
-
-## Defining causal effects IV
-
-We can simplify the ways in which people get a dose of the treatment like so
-(where $d$ is lower case reflecting the idea that whether you open the door
-when visited or not is a fixed attribute like a potential outcome).
-
- - $Y$ : outcome ($y_{i,Z}$ or $y_{i,Z_i=1}$ for potential outcome to
-   treatment for person $i$, fixed)
- - $X$ : covariate/baseline variable
- - $Z$ : treatment assignment ($Z_i=1$ if assigned to a visit, $Z_i=0$ if not
-   assigned to a visit)
- -  $D$ : treatment received ($D_i=1$ if answered phone, $D_i=0$ if person $i$
-   dd not answer the door) (using $D$ here because $D_i = d_{i,1} Z_{i} + d_{i,0} (1-Z_i)$)
-
-## Defining causal effects V
-
-We have two causal effects of $Z$: $Z \rightarrow Y$ ($\delta$, ITT, ITT$_Y$), and $Z \rightarrow D$ (GG
-call this ITT$_D$).
-
-And different types of people can react differently to the attempt to move the
-dose with the instrument.
-
-\centering
-\begin{tabular}{llcc}
-                       &        & \multicolumn{2}{c}{$Z=1$} \\
-		       &       & $D=0$ & $D=1$ \\
-		       \midrule
-\multirow{2}{*}{$Z=0$} & $D=0$ & Never taker & Complier \\
-                       & $D=1$ & Defier     & Always taker \\
-		       \bottomrule
-\end{tabular}
-
-
-##  Defining causal effects VI
-
-
-The $ITT=ITT_Y=\delta= \bar{y}_{Z=1} - \bar{y}_{Z=0}$.
-
-\medskip
-
-But, in this design, $\bar{y}_{Z=1}=\bar{y}_{1}$ is split into pieces: the outcome of
-those who answered the door (Compliers and Always-takers and Defiers). Write
-$p_C$ for the proportion of compliers in the study.
-
-\begin{equation}
-\bar{y}_{1}=(\bar{y}_{1}|C)p_C + (\bar{y}_{1}|A)p_A + (\bar{y}_1|N)p_N + (\bar{y}_1|D)p_D.
-\end{equation}
-
-And $\bar{y}_{0}$ is also split into pieces:
-
-\begin{equation}
-\bar{y}_{0}=(\bar{y}_{0}|C)p_C + (\bar{y}_{1}|A)p_A + (\bar{y}_{0}|N)p_N + (\bar{y}_0|D)p_D.
-\end{equation}
-
-##  Defining causal effects VII
-
-So, the ITT itself is a combination of the effects of $Z$ on $Y$ within these
-different groups (imagine substituting in and then re-arranging so that we
-have a set of ITTs, one for each type of subject). But, we can still estimate it because we have unbiased
-estimators of $\bar{y}_1$ and $\bar{y}_0$ within each type.
-
-## Learning about the ITT I
-
-First, let's learn about the effect of the policy itself. To write down the
-ITT, we do not need to consider all of the types above.  We have no defiers
-($p_D=0$) and we know the ITT for both Always-takers and Never-takers is 0.
-
-\begin{equation}
-\bar{y}_{1}=(\bar{y}_{1}|C)p_C + (\bar{y}_{1}|A)p_A + (\bar{y}_1|N)p_N
-\end{equation}
-
-\begin{equation}
-\bar{y}_{0}=(\bar{y}_{0}|C)p_C + (\bar{y}_{0}|A)p_A + (\bar{y}_{0}|N)p_N
-\end{equation}
-
-
-## Learning about the ITT II
-
-First, let's learn about the effect of the policy itself. To write down the
-ITT, we do not need to consider all of the types above.  We have no defiers
-($p_D=0$) and we know the ITT for both Always-takers and Never-takers is 0.
-
-
-\begin{align}
-ITT    = & \bar{y}_{1} - \bar{y}_{0} \\
-        = & ( (\bar{y}_{1}|C)p_C + (\bar{y}_{1}|A)p_A + (\bar{y}_1|N)p_N ) - \\
-       & ( (\bar{y}_{0}|C)p_C + (\bar{y}_{0}|A)p_A + (\bar{y}_{0}|N)p_N )  \\
-       \intertext{collecting each type together --- to have an ITT for each type}
-       = & ( (\bar{y}_{1}|C)p_C -  (\bar{y}_{0}|C)p_C )  +   ( (\bar{y}_{1}|A)p_A - (\bar{y}_{1}|A)p_A ) + \\
-       & ( (\bar{y}_1|N)p_N  - (\bar{y}_{0}|N)p_N ) \\
-       = & \left( (\bar{y}_{1}|C) -  (\bar{y}_{0}|C) \right)p_C   +  \\
-       & \left( (\bar{y}_{1}|A)- (\bar{y}_{0}|A) \right)p_A  +  \left( (\bar{y}_1|N) - (\bar{y}_{0}|N) \right)p_N
-\end{align}
-
-## Learning about the ITT III
-
-\begin{align}
-ITT     = &   \bar{y}_{1} - \bar{y}_{0} \\
-        = &  ( (\bar{y}_{1}|C)p_C + (\bar{y}_{1}|A)p_A + (\bar{y}_1|N)p_N ) - \\
-       & ( (\bar{y}_{0}|C)p_C + (\bar{y}_{0}|A)p_A + (\bar{y}_{0}|N)p_N )  \\
-        = &   ( (\bar{y}_{1}|C)p_C -  (\bar{y}_{0}|C)p_C )  +   ( (\bar{y}_{1}|A)p_A - (\bar{y}_{1}|A)p_A ) + \\
-       & ( (\bar{y}_1|N)p_N  - (\bar{y}_{0}|N)p_N ) \\
-        = &   ( (\bar{y}_{1}|C) -  (\bar{y}_{0}|C))p_C   +   ( (\bar{y}_{1}|A)- (\bar{y}_{0}|A))p_A  + \\
-       & ( (\bar{y}_1|N) - (\bar{y}_{0}|N) )p_N
-\end{align}
-
-
-## Learning about the ITT IV
-
-And, if the effect of the dose can only occur for those who open the door, and you can only open the door when assigned to do so then:
-
-\begin{equation}
-( (\bar{y}_{1}|A)- (\bar{y}_{0}|A))p_A = 0  \text{ and } ( (\bar{y}_1|N) - (\bar{y}_{0}|N) )p_N = 0
-\end{equation}
-
-And
-
-\begin{equation}
-ITT =  ( (\bar{y}_{1}|C) -  (\bar{y}_{0}|C))p_C  = ( CACE ) p_C.
-\end{equation}
-
-
-## The complier average causal effect I
-
-We would also like to learn about the causal effect of answering the door and
-having the conversation, the theoretically interesting effect. 
-
-But this comparison is confounded by $x$: a simple $\bar{Y}|D=1 - \bar{Y}|D=0$
-comparison tells us about differences in the outcome due to $x$ in addition to
-the difference caused by $D$. (Numbers below from some simulated data)
-
-\begin{center}
-\begin{tikzcd}[ampersand replacement=\&]
-Z  \arrow[from=1-1,to=1-2] \arrow[from=1-1, to=1-4, bend left, "\text{0 (exclusion)}"] \& D  \arrow[from=1-2,to=1-4] \& \& y \\
-(x_1 \ldots x_p) \arrow[from=2-1,to=1-1, "\text{-.006 (as if randomized)}"]  \arrow[from=2-1,to=1-2, ".06"] \arrow[from=2-1,to=1-4, ".48"]
-\end{tikzcd}
-\end{center}
-
-
-## The complier average causal effect II
-
-```{r cors, eval=FALSE, echo=TRUE, results="hide"}
-with(dat, cor(Y, x)) ## can be any number
-with(dat, cor(d, x)) ## can be any number
-with(dat, cor(Z, x)) ## should be near 0
-```
-
-But we just saw that, in this design, and with these assumptions (including a
-SUTVA assumption) that 
-$ITT =  ( (\bar{y}_{1}|C) -  (\bar{y}_{0}|C))p_C  = (CACE) p_C$, so we can define $CACE=ITT/p_C$.
-
-
-## How to calculate the ITT and CACE/LATE I
-
-```{r simivdesign, echo=FALSE}
-prob_comply <- .8
-tau <- .5
-
-the_pop <- declare_population(N=100,
-    X = sample(1:4, N, replace = TRUE),
-    u = rnorm(N),
-    type = sample(c("Always-Taker", "Never-Taker", "Complier", "Defier"),N, replace = TRUE, 
-        prob = c(.1, 1 - unique(prob_comply), unique(prob_comply), 0))
-)
-
-##  The unobserved potential outcomes,  Y(Z=1) and Y(Z=0) relate to the observed outcome, Y, via treatment assignment and a const  ant additive effect of tau.
-  ## D refers to getting a dose of feedback
-  d_po <- declare_potential_outcomes(
-      D ~ case_when(
-          Z == 0 & type %in% c("Never-Taker", "Complier") ~ 0,
-          Z == 1 & type %in% c("Never-Taker", "Defier") ~ 0,
-          Z == 0 & type %in% c("Always-Taker", "Defier") ~ 1,
-          Z == 1 & type %in% c("Always-Taker", "Complier") ~ 1
-      )
-  )
-
-  y_po <- declare_potential_outcomes(
-    Y ~ tau * sd(u) * D + u,
-    assignment_variables = c("D", "Z")
-  )
-
-## Treatment  assignment for  any given city is a simple fixed  proportion. It should be complete  or  urn-drawing assignment, no  t  simple or  coin-flipping assignment.
-## theassign <- declare_assignment(m=m)
-the_assign<- declare_assignment(assignment_variable = "Z")
-
-## declare_reveal is basically the same as declare_potential_outcomes. I  think they  have this  here  to deal with situations of   missing data or non-compliance.
-# thereveal <- declare_reveal(Y, Z)
-d_reveal <- declare_reveal(D, assignment_variable = "Z")
-y_reveal <- declare_reveal(Y, assignment_variables = c("D", "Z"))
-
-base_design <- the_pop + the_assign +  d_po + y_po + d_reveal + y_reveal
-
-dat0 <- draw_data(base_design)
-
- estimand_cace <- declare_inquiry(
-    CACE = mean((Y_D_1_Z_1 + Y_D_1_Z_0) / 2 -
-      (Y_D_0_Z_1 + Y_D_0_Z_0) / 2),
-    subset = type == "Complier"
-  )
-  estimand_ate <- declare_inquiry(ATE = mean((Y_D_1_Z_1 + Y_D_1_Z_0) / 2 -
-    (Y_D_0_Z_1 + Y_D_0_Z_0) / 2))
-```
-
-Some example data (where we know all potential outcomes):
-
-```{r showdat0}
-tempdat <- dat0[1:2,-1]
-names(tempdat)[5] <- "pZ"
-names(tempdat) <- gsub("_","",names(tempdat))
-kableExtra::kable(tempdat, digits = 2)
-```
-
-## How to calculate the ITT and CACE/LATE II
-
-The ITT and CACE (the parts)
-
-```{r echo=TRUE}
-itt_y <- difference_in_means(Y~Z,data=dat0)
-itt_y
-itt_d <- difference_in_means(D~Z,data=dat0)
-itt_d
-```
-
-## How to calculate the ITT and CACE/LATE III
-
-All together:^[works when $Z \rightarrow D$ is not weak see @imbens2005robust for a cautionary tale]
-
-```{r echo=TRUE}
-cace_est <- iv_robust(Y~D|Z,data=dat0)
-cace_est
-## Notice same as below:
-coef(itt_y)[["Z"]]/coef(itt_d)[["Z"]]
-```
-
-## Summary of Encouragement/Complier/Dose oriented designs:
-
- - Analyze as you randomized, even when you don't control the dose
- - The danger of per-protocol analysis.
-
-
-# Spillovers
-## Spillover and interference between units
-
-- Sometimes we suspect that treatment assigned to one unit affects other units' outcomes.
-
-- If the treatment status of a unit affects another unit's outcome, we have a violation of one of the core assumptions for causal inference.
-
-- You might sample units that are far from each other to prevent the "transmission" of treatment across units.
-
-## Studying spillover effects
-
-- This is not a problem if you design a study to investigate spillovers in which a unit's outcomes may depend on other units' treatment status.
-
-- To investigate spillovers:
-
-    - You might collect outcome data for units that were never eligible for random assignment to treatment but for which nearby units from which spillovers might occur were eligible for treatment.
-
-    - You might use a two-stage randomization design.
-
-    - You might assign collections of units (e.g., districts) to different levels of intensity of treatment (e.g., different proportions of villages in districts assigned to treatment).
-
-# Hawthorne effect
-## Hawthorne effect
-
-- The Hawthorne effect: knowing that one is being observed/studied can lead subjects to behave differently.
-
-- This could create systematic measurement error in both treatment and control groups.
-
-- It could also result from greater attention given to the treatment group, effectively undoing the creation of equivalent treatment and control groups through randomization.
-
-## Good practices
-  
-   - Collect data as unobtrusively as possible.
-   
-   - As much as possible, no one other than the subject him/herself should know his/her treatment status.
-
-   -  Blind enumerators/researchers to subjects' treatment status.
-
-   -  Don't take extra measurements of the treatment group.
-
-# Non-excludability
-## Differences between treatment and control groups other than the treatment
-
-   - Handling the treatment and control groups differently means that observed differences in the outcomes between these groups may be due to the treatment and/or the different handling.
-   
-   - Examples include using different instruments for data collection or additional rounds of data collection for the treatment group in an effort to obtain data on mechanisms.
-   
-   - Remember to design your study and your data instruments to treat all treatment arms the same, other than the treatment itself.
+ - $Y_{i}(0, D_i=0)$ is the potential outcome for people who were not assigned a visit and who did not open the door. ("Compliers" or "Never-takers")
+
+## Defining causal effects
+
+The average causal effect of the "intention to visit people" is the ITT (averaging over whether or not people openned the door): 
+\[
+ITT=ITT_Y=\delta= \bar{Y}(Z=1) - \bar{Y}(Z=0).
+\]
+
+The average causal effect of talking with someone at the door is the average treatment effect on compliers (the type of person who would open the door if visited) or the CACE: 
+\[
+CACE=\bar{Y}(Z_i=1,D_i=1|D_i(1)=1) - \bar{Y}(Z_i=0,D_i=0|D_i(1)=1)
+\]
+
+## How to estimate the CACE using a Placebo Design?
+
+We can estimate the average outcome among those assigned to treatment who
+opened their doors ($\bar{Y}(Z_i=1,D_i=1|D_i(1)=1)$) because there are no
+"always-takers" (i.e. people can only talk with a canvasser if a canvesser
+shows up).
+
+\[
+\hat{\bar{Y}}_i(Z_i=1,D_i=1|D_i(1)=1)=\sum_i \frac{(Z_i D_i Y_i)}{\sum_i D_i}
+\]
+Key here is that we use the design to claim that only compliers open the door when visited.
+
+## How to estimate the CACE using a Placebo Design?
+
+What about  $\bar{Y}(Z_i=0,D_i=0|D_i(1)=1)$? How to learn about the outcome of
+people not assigned treatment but who would have opened their door if visited?
+(Hmm...We don't know whether they would have openned the door because they were not assigned a visit!)
+
+What about a placebo? The Nickerson placebo-controlled design  adds an arm to
+the experiment. For example,  $Z_i=2$, where **the compliance should be the same as
+treatment ($D_i(Z_i=2)=D_i(Z_i=1)$)** and **outcome should be the same as
+control ($Y_i(Z_i=2)=Y_i(Z_i=0)$)**. And where the $Z_i=2$ is independent of
+all $x_1 \ldots x_p$ because of randomization. So people in $Z_i=2$ are not
+systematically different from people in $Z_i=1$.
+
+## How to estimate the CACE using a Placebo Design?
+
+This means that for:
+\[
+CACE=\bar{Y}(Z_i=1,D_i=1|D_i(1)=1) - \bar{Y}(Z_i=0,D_i=0|D_i(1)=1)
+\]
+We can estimate it with 
+\[
+\widehat{CACE}= \left( \sum_i \frac{(I(Z_i=1) D_i Y_i)}{\sum_i I(Z_i=1) D_i} \right) - \left( \sum_i \frac{(I(Z_i=2) D_i Y_i)}{\sum_i I(Z_i=2) D_i} \right)
+\]
+Notice: we can check the assumptions:
+
+  - same compliance pattern (and same complier types between treatment and placebo): $D_i(Z_i=2)=D_i(Z_i=1)$
+  - same outcome pattern between placebo and control: $Y_i(Z_i=2)=Y_i(Z_i=0)$
+
+## Example from Broockman and Kalla
+
+For example see that paper.
+
+## Summary
+
+ - Analyze as you randomized, even when you don't control the dose, to get the
+   ITT (very common in policy contexts).
+ - The danger of per-protocol analysis (comparing based on $D_i$ is an
+   observational study, not a randomized experiment)
+ - If a placebo-controlled study doesn't work for you, you can use an
+   instrumental variable approach (see @gerber_field_2012 chapter 5, or end of
+   the slides from our Estimation day).
 
 # Open Discussion
 
 ## Your questions?
-
-Time for discussion that is not pre-designed by me.
 
 # References
 
