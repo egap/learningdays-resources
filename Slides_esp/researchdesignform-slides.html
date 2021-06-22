@@ -1,0 +1,948 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="generator" content="pandoc">
+  <meta name="author" content="Fill In Your Name" />
+  <meta name="dcterms.date" content="2021-03-01" />
+  <title>Research Design Process and Stages: Questions and Credibility</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <link rel="stylesheet" href="researchdesignform-slides_files/reveal.js-3.3.0.1/css/reveal.css"/>
+
+
+
+<link rel="stylesheet" href="researchdesignform-slides_files/reveal.js-3.3.0.1/css/theme/simple.css" id="theme">
+
+
+  <!-- some tweaks to reveal css -->
+  <style type="text/css">
+    .reveal h1 { font-size: 2.0em; }
+    .reveal h2 { font-size: 1.5em;  }
+    .reveal h3 { font-size: 1.25em;	}
+    .reveal h4 { font-size: 1em;	}
+
+    .reveal .slides>section,
+    .reveal .slides>section>section {
+      padding: 0px 0px;
+    }
+
+
+
+    .reveal table {
+      border-width: 1px;
+      border-spacing: 2px;
+      border-style: dotted;
+      border-color: gray;
+      border-collapse: collapse;
+      font-size: 0.7em;
+    }
+
+    .reveal table th {
+      border-width: 1px;
+      padding-left: 10px;
+      padding-right: 25px;
+      font-weight: bold;
+      border-style: dotted;
+      border-color: gray;
+    }
+
+    .reveal table td {
+      border-width: 1px;
+      padding-left: 10px;
+      padding-right: 25px;
+      border-style: dotted;
+      border-color: gray;
+    }
+
+
+  </style>
+
+    <style type="text/css">code{white-space: pre;}</style>
+
+
+<!-- Printing and PDF exports -->
+<script id="paper-css" type="application/dynamic-css">
+
+/* Default Print Stylesheet Template
+   by Rob Glazebrook of CSSnewbie.com
+   Last Updated: June 4, 2008
+
+   Feel free (nay, compelled) to edit, append, and
+   manipulate this file as you see fit. */
+
+
+@media print {
+
+	/* SECTION 1: Set default width, margin, float, and
+	   background. This prevents elements from extending
+	   beyond the edge of the printed page, and prevents
+	   unnecessary background images from printing */
+	html {
+		background: #fff;
+		width: auto;
+		height: auto;
+		overflow: visible;
+	}
+	body {
+		background: #fff;
+		font-size: 20pt;
+		width: auto;
+		height: auto;
+		border: 0;
+		margin: 0 5%;
+		padding: 0;
+		overflow: visible;
+		float: none !important;
+	}
+
+	/* SECTION 2: Remove any elements not needed in print.
+	   This would include navigation, ads, sidebars, etc. */
+	.nestedarrow,
+	.controls,
+	.fork-reveal,
+	.share-reveal,
+	.state-background,
+	.reveal .progress,
+	.reveal .backgrounds {
+		display: none !important;
+	}
+
+	/* SECTION 3: Set body font face, size, and color.
+	   Consider using a serif font for readability. */
+	body, p, td, li, div {
+		font-size: 20pt!important;
+		font-family: Georgia, "Times New Roman", Times, serif !important;
+		color: #000;
+	}
+
+	/* SECTION 4: Set heading font face, sizes, and color.
+	   Differentiate your headings from your body text.
+	   Perhaps use a large sans-serif for distinction. */
+	h1,h2,h3,h4,h5,h6 {
+		color: #000!important;
+		height: auto;
+		line-height: normal;
+		font-family: Georgia, "Times New Roman", Times, serif !important;
+		text-shadow: 0 0 0 #000 !important;
+		text-align: left;
+		letter-spacing: normal;
+	}
+	/* Need to reduce the size of the fonts for printing */
+	h1 { font-size: 28pt !important;  }
+	h2 { font-size: 24pt !important; }
+	h3 { font-size: 22pt !important; }
+	h4 { font-size: 22pt !important; font-variant: small-caps; }
+	h5 { font-size: 21pt !important; }
+	h6 { font-size: 20pt !important; font-style: italic; }
+
+	/* SECTION 5: Make hyperlinks more usable.
+	   Ensure links are underlined, and consider appending
+	   the URL to the end of the link for usability. */
+	a:link,
+	a:visited {
+		color: #000 !important;
+		font-weight: bold;
+		text-decoration: underline;
+	}
+	/*
+	.reveal a:link:after,
+	.reveal a:visited:after {
+		content: " (" attr(href) ") ";
+		color: #222 !important;
+		font-size: 90%;
+	}
+	*/
+
+
+	/* SECTION 6: more reveal.js specific additions by @skypanther */
+	ul, ol, div, p {
+		visibility: visible;
+		position: static;
+		width: auto;
+		height: auto;
+		display: block;
+		overflow: visible;
+		margin: 0;
+		text-align: left !important;
+	}
+	.reveal pre,
+	.reveal table {
+		margin-left: 0;
+		margin-right: 0;
+	}
+	.reveal pre code {
+		padding: 20px;
+		border: 1px solid #ddd;
+	}
+	.reveal blockquote {
+		margin: 20px 0;
+	}
+	.reveal .slides {
+		position: static !important;
+		width: auto !important;
+		height: auto !important;
+
+		left: 0 !important;
+		top: 0 !important;
+		margin-left: 0 !important;
+		margin-top: 0 !important;
+		padding: 0 !important;
+		zoom: 1 !important;
+
+		overflow: visible !important;
+		display: block !important;
+
+		text-align: left !important;
+		-webkit-perspective: none;
+		   -moz-perspective: none;
+		    -ms-perspective: none;
+		        perspective: none;
+
+		-webkit-perspective-origin: 50% 50%;
+		   -moz-perspective-origin: 50% 50%;
+		    -ms-perspective-origin: 50% 50%;
+		        perspective-origin: 50% 50%;
+	}
+	.reveal .slides section {
+		visibility: visible !important;
+		position: static !important;
+		width: auto !important;
+		height: auto !important;
+		display: block !important;
+		overflow: visible !important;
+
+		left: 0 !important;
+		top: 0 !important;
+		margin-left: 0 !important;
+		margin-top: 0 !important;
+		padding: 60px 20px !important;
+		z-index: auto !important;
+
+		opacity: 1 !important;
+
+		page-break-after: always !important;
+
+		-webkit-transform-style: flat !important;
+		   -moz-transform-style: flat !important;
+		    -ms-transform-style: flat !important;
+		        transform-style: flat !important;
+
+		-webkit-transform: none !important;
+		   -moz-transform: none !important;
+		    -ms-transform: none !important;
+		        transform: none !important;
+
+		-webkit-transition: none !important;
+		   -moz-transition: none !important;
+		    -ms-transition: none !important;
+		        transition: none !important;
+	}
+	.reveal .slides section.stack {
+		padding: 0 !important;
+	}
+	.reveal section:last-of-type {
+		page-break-after: avoid !important;
+	}
+	.reveal section .fragment {
+		opacity: 1 !important;
+		visibility: visible !important;
+
+		-webkit-transform: none !important;
+		   -moz-transform: none !important;
+		    -ms-transform: none !important;
+		        transform: none !important;
+	}
+	.reveal section img {
+		display: block;
+		margin: 15px 0px;
+		background: rgba(255,255,255,1);
+		border: 1px solid #666;
+		box-shadow: none;
+	}
+
+	.reveal section small {
+		font-size: 0.8em;
+	}
+
+}  
+</script>
+
+
+<script id="pdf-css" type="application/dynamic-css">
+    
+/**
+ * This stylesheet is used to print reveal.js
+ * presentations to PDF.
+ *
+ * https://github.com/hakimel/reveal.js#pdf-export
+ */
+
+* {
+	-webkit-print-color-adjust: exact;
+}
+
+body {
+	margin: 0 auto !important;
+	border: 0;
+	padding: 0;
+	float: none !important;
+	overflow: visible;
+}
+
+html {
+	width: 100%;
+	height: 100%;
+	overflow: visible;
+}
+
+/* Remove any elements not needed in print. */
+.nestedarrow,
+.reveal .controls,
+.reveal .progress,
+.reveal .playback,
+.reveal.overview,
+.fork-reveal,
+.share-reveal,
+.state-background {
+	display: none !important;
+}
+
+h1, h2, h3, h4, h5, h6 {
+	text-shadow: 0 0 0 #000 !important;
+}
+
+.reveal pre code {
+	overflow: hidden !important;
+	font-family: Courier, 'Courier New', monospace !important;
+}
+
+ul, ol, div, p {
+	visibility: visible;
+	position: static;
+	width: auto;
+	height: auto;
+	display: block;
+	overflow: visible;
+	margin: auto;
+}
+.reveal {
+	width: auto !important;
+	height: auto !important;
+	overflow: hidden !important;
+}
+.reveal .slides {
+	position: static;
+	width: 100%;
+	height: auto;
+
+	left: auto;
+	top: auto;
+	margin: 0 !important;
+	padding: 0 !important;
+
+	overflow: visible;
+	display: block;
+
+	-webkit-perspective: none;
+	   -moz-perspective: none;
+	    -ms-perspective: none;
+	        perspective: none;
+
+	-webkit-perspective-origin: 50% 50%; /* there isn't a none/auto value but 50-50 is the default */
+	   -moz-perspective-origin: 50% 50%;
+	    -ms-perspective-origin: 50% 50%;
+	        perspective-origin: 50% 50%;
+}
+
+.reveal .slides section {
+	page-break-after: always !important;
+
+	visibility: visible !important;
+	position: relative !important;
+	display: block !important;
+	position: relative !important;
+
+	margin: 0 !important;
+	padding: 0 !important;
+	box-sizing: border-box !important;
+	min-height: 1px;
+
+	opacity: 1 !important;
+
+	-webkit-transform-style: flat !important;
+	   -moz-transform-style: flat !important;
+	    -ms-transform-style: flat !important;
+	        transform-style: flat !important;
+
+	-webkit-transform: none !important;
+	   -moz-transform: none !important;
+	    -ms-transform: none !important;
+	        transform: none !important;
+}
+
+.reveal section.stack {
+	margin: 0 !important;
+	padding: 0 !important;
+	page-break-after: avoid !important;
+	height: auto !important;
+	min-height: auto !important;
+}
+
+.reveal img {
+	box-shadow: none;
+}
+
+.reveal .roll {
+	overflow: visible;
+	line-height: 1em;
+}
+
+/* Slide backgrounds are placed inside of their slide when exporting to PDF */
+.reveal section .slide-background {
+	display: block !important;
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	z-index: -1;
+}
+
+/* All elements should be above the slide-background */
+.reveal section>* {
+	position: relative;
+	z-index: 1;
+}
+
+/* Display slide speaker notes when 'showNotes' is enabled */
+.reveal .speaker-notes-pdf {
+	display: block;
+	width: 100%;
+	max-height: none;
+	left: auto;
+	top: auto;
+	z-index: 100;
+}
+
+/* Display slide numbers when 'slideNumber' is enabled */
+.reveal .slide-number-pdf {
+	display: block;
+	position: absolute;
+	font-size: 14px;
+}
+
+</script>
+
+
+<script>
+var style = document.createElement( 'style' );
+style.type = 'text/css';
+var style_script_id = window.location.search.match( /print-pdf/gi ) ? 'pdf-css' : 'paper-css';
+var style_script = document.getElementById(style_script_id).text;
+style.innerHTML = style_script;
+document.getElementsByTagName('head')[0].appendChild(style);
+</script>
+
+    <script src="researchdesignform-slides_files/header-attrs-2.6/header-attrs.js"></script>
+    <link href="researchdesignform-slides_files/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
+    <link href="researchdesignform-slides_files/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+<section>
+    <h1 class="title">Research Design Process and Stages: Questions and Credibility</h1>
+    <h2 class="author">Fill In Your Name</h2>
+    <h3 class="date">01 March 2021</h3>
+</section>
+<section id="TOC">
+<ul>
+<li><a href="#/research-designs-process-and-stages">Research Designs Process and Stages</a>
+<ul>
+<li><a href="#/what-makes-a-research-question-good">What makes a research question good?</a></li>
+<li><a href="#/we-also-need-a-good-research-design">We also need a good research design</a></li>
+<li><a href="#/the-importance-of-theory">The importance of theory</a></li>
+<li><a href="#/designing-or-selecting-your-treatment">Designing or selecting your treatment</a></li>
+<li><a href="#/an-example">An example</a></li>
+<li><a href="#/interpretation">Interpretation</a></li>
+</ul></li>
+<li><a href="#/the-research-process">The Research Process</a>
+<ul>
+<li><a href="#/an-overview-of-the-research-process">An overview of the research process</a></li>
+</ul></li>
+<li><a href="#/egap-research-design-form">EGAP Research Design Form</a>
+<ul>
+<li><a href="#/egap-research-design-form-1">EGAP Research Design Form</a></li>
+<li><a href="#/sections-of-the-egap-research-design-form">Sections of the EGAP Research Design Form</a></li>
+<li><a href="#/research-question-and-motivation">Research question and motivation</a></li>
+<li><a href="#/sample">Sample</a></li>
+<li><a href="#/treatment">Treatment</a></li>
+<li><a href="#/outcome">Outcome</a></li>
+<li><a href="#/randomization-strategy">Randomization strategy</a></li>
+<li><a href="#/implementation-i">Implementation I</a></li>
+<li><a href="#/implementation-ii">Implementation II</a></li>
+<li><a href="#/power">Power</a></li>
+<li><a href="#/analysis-and-interpretation">Analysis and interpretation</a></li>
+</ul></li>
+<li><a href="#/declaredesign">DeclareDesign</a>
+<ul>
+<li><a href="#/introduction-to-declaredesign">Introduction to DeclareDesign</a></li>
+<li><a href="#/introduction-to-declaredesign-1">Introduction to DeclareDesign</a></li>
+<li><a href="#/model">Model</a></li>
+<li><a href="#/inquiry">Inquiry</a></li>
+<li><a href="#/data">Data</a></li>
+<li><a href="#/answer">Answer</a></li>
+</ul></li>
+<li><a href="#/pre-registration-of-analysis-plans">Pre-Registration of Analysis Plans</a>
+<ul>
+<li><a href="#/bias-in-published-research-against-null-results">Bias in published research against null results</a></li>
+<li><a href="#/towards-review-of-design-rather-than-outcomes">Towards review of design rather than outcomes</a></li>
+<li><a href="#/pre-registration-of-analysis-plans-and-research-designs-i">Pre-registration of analysis plans and research designs I</a></li>
+<li><a href="#/pre-registration-of-analysis-plans-and-research-designs-ii">Pre-registration of analysis plans and research designs II</a></li>
+</ul></li>
+<li><a href="#/summary">Summary</a>
+<ul>
+<li><a href="#/the-research-process-questions-theory-and-credibility">The research process: Questions, theory, and credibility</a></li>
+</ul></li>
+<li><a href="#/references">References</a>
+<ul>
+<li><a href="#/references-1">References</a></li>
+</ul></li>
+</ul>
+</section>
+
+<section>
+<section id="research-designs-process-and-stages" class="title-slide slide level1">
+<h1>Research Designs Process and Stages</h1>
+
+</section>
+<section id="what-makes-a-research-question-good" class="slide level2">
+<h2>What makes a research question good?</h2>
+<ul>
+<li><p>The answer to a good research question should produce knowledge that people will care about.</p></li>
+<li><p>Addressing the question should (help) solve a problem, make a decision, or clarify/challenge our understanding of the world.</p></li>
+<li><p>But an interesting question is not enough.</p></li>
+</ul>
+</section>
+<section id="we-also-need-a-good-research-design" class="slide level2">
+<h2>We also need a good research design</h2>
+<ul>
+<li><p>A good research design is a practical plan for research that makes the best use of available resources and produces a credible answer.</p></li>
+<li><p>The quality of a research design can be assessed by how well it produces results that can be used to guide policy and improve science:</p>
+<ul>
+<li><p>A great research design produces results that clearly point in certain directions that we care about.</p></li>
+<li><p>A poor research design produces results that leave us in the dark — results with confusing interpretation.</p></li>
+</ul></li>
+</ul>
+</section>
+<section id="the-importance-of-theory" class="slide level2 allowframebreaks">
+<h2 class="allowframebreaks">The importance of theory</h2>
+<p>All research design involves theory, whether implicit or explicit.</p>
+<ul>
+<li><p>Why do the research? We have implicit theories and values which guide the questions we ask. Our questions are value laden: For example, social scientists studied marijuana use in the 1950s as a form of “deviance,” the questions focused on “why are people making such bad decisions?” or “how can policy makers prevent marijuana use?” (see <span class="citation" data-cites="howardsbecker1998a"><a href="#/ref-howardsbecker1998a" role="doc-biblioref">Becker</a> (<a href="#/ref-howardsbecker1998a" role="doc-biblioref">1998</a>)</span>).</p></li>
+<li><p>Why do the research? We might want to change how scientists explain the world and/or change the policy decisions in (a) one place and time and/or (b) in other places and times.</p></li>
+<li><p>Research focused on learning the causal effect of <span class="math inline">\(X\)</span> on <span class="math inline">\(Y\)</span> requires a model of the world: <em>how</em> might intervention <span class="math inline">\(X\)</span> might have an effect on some outcome <span class="math inline">\(Y\)</span>, and <em>why</em>, and <em>how large</em> might be the effect. It helps us think about how a different intervention or targeting different recipients might lead to different results.</p></li>
+<li><p>Our theories and models are important not just for generating hypotheses, but for informing <em>design</em> and <em>strategies for inference</em>.</p></li>
+<li><p>Designing research will often clarify where we are less certain about our theories. Our theories will point to problems with our design. And questions arising from the process of design may indicate a need for more work on explanation and mechanism.</p></li>
+</ul>
+</section>
+<section id="designing-or-selecting-your-treatment" class="slide level2">
+<h2>Designing or selecting your treatment</h2>
+<ul>
+<li><p>From this point forward, we will use <span class="math inline">\(T\)</span> for treatment or what we want to learn the effect of. We will use <span class="math inline">\(X\)</span> to refer to background variables.</p></li>
+<li><p>Your treatment (<span class="math inline">\(T\)</span>) and control (not <span class="math inline">\(T\)</span>) need to clearly connect to your research question. (See the module on Measurement.)</p></li>
+<li><p>The treatment you’re interested in might be a bundle of multiple components. If your research question is about one specific component, then the control should be different from the treatment in just that component. Everything else should be the same.</p></li>
+</ul>
+</section>
+<section id="an-example" class="slide level2">
+<h2>An example</h2>
+<p>A campaign where someone visits a home to talk with a family for 15 minutes to share health information.</p>
+<ul>
+<li><p>If you’re interested in the effect of the specific information, then your control should still have all the other components (home visit with 15 minutes duration, similar visitor, etc.) but have different information. This design will not teach you about the effect of visits, just about the effect of information.</p></li>
+<li><p>If your question focuses on the effect of visits, then you need a control group without a visit. But this design will not do a good job answering specific questions about information (visits and information are bundled together).</p></li>
+</ul>
+</section>
+<section id="interpretation" class="slide level2">
+<h2>Interpretation</h2>
+<ul>
+<li><p>Sometimes it’s not possible to separate out a specific component of your treatment.</p></li>
+<li><p>For example, your partner community health organization that visits homes may not be interested in visiting homes and sharing other information. Then your control might be no visit.</p></li>
+<li><p>You must be careful to interpret your effects as the effect of the information delivered in this particular way.</p></li>
+<li><p>You will not be able to conclude that you have estimated the effect of only the information.</p>
+<ul>
+<li><p>This might be fine for certain policy purposes: maybe the policy question is about the visits as an implicit bundle of treatments.</p></li>
+<li><p>But it is difficult to interpret the results of this design as telling us something clear about information alone.)</p></li>
+</ul></li>
+</ul>
+</section></section>
+<section>
+<section id="the-research-process" class="title-slide slide level1">
+<h1>The Research Process</h1>
+
+</section>
+<section id="an-overview-of-the-research-process" class="slide level2">
+<h2>An overview of the research process</h2>
+<ul>
+<li><p>Articulate and fine-tune your question (interrogating why you are asking this question and what will happen given different kinds of possible answers.)</p></li>
+<li><p>Develop your research design.</p></li>
+<li><p>Plan your analysis and state and justify specific hypotheses and register this plan with a credible impersonal date stamp.</p></li>
+<li><p>Implement your intervention and collect data.</p></li>
+<li><p>Analyze your data and write up your results.</p></li>
+</ul>
+</section></section>
+<section>
+<section id="egap-research-design-form" class="title-slide slide level1">
+<h1>EGAP Research Design Form</h1>
+
+</section>
+<section id="egap-research-design-form-1" class="slide level2">
+<h2>EGAP Research Design Form</h2>
+<ul>
+<li><p>We developed a <a href="https://egap.github.io/learningdays-gui/Exercises/design-form.Rmd">research design form</a> that helps provide structure for a good research design</p>
+<ul>
+<li><a href="https://egap.github.io/learningdays-gui/Exercises/design-form.Rmd" class="uri">https://egap.github.io/learningdays-gui/Exercises/design-form.Rmd</a></li>
+</ul></li>
+<li><p>It may help when you are</p>
+<ul>
+<li><p>writing a research proposal when you apply for funding, or</p></li>
+<li><p>when developing a pre-registration plan</p></li>
+</ul></li>
+</ul>
+</section>
+<section id="sections-of-the-egap-research-design-form" class="slide level2">
+<h2>Sections of the EGAP Research Design Form</h2>
+<ul>
+<li>Research question</li>
+<li>Sample</li>
+<li>Treatment</li>
+<li>Outcome</li>
+<li>Randomization strategy</li>
+<li>Implementation</li>
+<li>Power</li>
+<li>Analysis and interpretation</li>
+</ul>
+</section>
+<section id="research-question-and-motivation" class="slide level2">
+<h2>Research question and motivation</h2>
+<ul>
+<li><p>What is the substantive motivation for this research? What problem are you trying to address? What decision are you trying to make?</p></li>
+<li><p>Whose mind are you trying to change, and what do they currently believe?</p></li>
+<li><p>What general theoretical questions can this research help address?</p></li>
+<li><p>State your research question in one sentence.</p></li>
+<li><p>What is your main hypothesis?</p></li>
+</ul>
+</section>
+<section id="sample" class="slide level2">
+<h2>Sample</h2>
+<ul>
+<li><p>Where and when will your study take place?</p></li>
+<li><p>Who/what units are in your study?</p></li>
+<li><p>How is this sample selected?</p></li>
+<li><p>Do some units need to be left out of the study, because they must receive treatment or must be left out of treatment for logistical or other reasons?</p></li>
+<li><p>Do you expect treatment to work differently for certain subgroups?</p></li>
+</ul>
+</section>
+<section id="treatment" class="slide level2">
+<h2>Treatment</h2>
+<ul>
+<li><p>What is your treatment? Will you have multiple treatments?</p></li>
+<li><p>What will your control condition be? Pure control or placebo?</p></li>
+<li><p>Are there any ethical concerns with the treatment?</p></li>
+<li><p>At what level will you randomize treatment?</p></li>
+</ul>
+</section>
+<section id="outcome" class="slide level2">
+<h2>Outcome</h2>
+<ul>
+<li><p>What is your primary outcome?</p></li>
+<li><p>How will you measure it?</p></li>
+<li><p>What data do you need? At what level is the measure available?</p></li>
+<li><p>What are your priors about the outcome? This may come from previous studies or educated guesses.</p></li>
+<li><p>How many rounds of data will you collect?</p></li>
+<li><p>How will you minimize attrition?</p></li>
+<li><p>How will you minimize mismeasurement and untruthful reporting?</p></li>
+</ul>
+</section>
+<section id="randomization-strategy" class="slide level2">
+<h2>Randomization strategy</h2>
+<ul>
+<li><p>What type of randomization strategy will you use? Examples: simple, complete, block, cluster, factorial, two-tier, step-wedge, etc.</p></li>
+<li><p>Make sure this strategy is consistent with the level of randomization (possible clusters) and expected heterogeneity of treatment effects (possible blocks).</p></li>
+<li><p>Specify your blocks and clusters (if any). How many will you have? How large will they be?</p></li>
+<li><p>Is interference a possible concern? If so, how will your sample selection and randomization strategy minimize interference?</p></li>
+</ul>
+</section>
+<section id="implementation-i" class="slide level2">
+<h2>Implementation I</h2>
+<ul>
+<li><p>How will you do the actual randomization? In public, drawing from a bowl? On a computer?</p></li>
+<li><p>Who will implement the treatment?</p></li>
+<li><p>If there is a partner who will implement the treatment, what arrangements do you have?</p></li>
+<li><p>What are the logistical challenges? Any special challenges for control units?</p></li>
+</ul>
+</section>
+<section id="implementation-ii" class="slide level2">
+<h2>Implementation II</h2>
+<ul>
+<li><p>How will you track the quality of implementation?</p></li>
+<li><p>How will you track compliance with the treatment?</p></li>
+<li><p>How will you minimize non-compliance with the treatment (if applicable)?</p></li>
+<li><p>How will you check the quality of your data?</p></li>
+<li><p>How will data be anonymized and stored securely (if applicable)?</p></li>
+</ul>
+</section>
+<section id="power" class="slide level2">
+<h2>Power</h2>
+<ul>
+<li><p>What is your expected effect size?</p>
+<ul>
+<li>This might be from a previous study or a target size below which one would not be interested in future interventions.</li>
+</ul></li>
+<li><p>Power calculation.</p>
+<ul>
+<li>If you have clusters, there are additional concerns with intra-cluster correlation.</li>
+</ul></li>
+</ul>
+</section>
+<section id="analysis-and-interpretation" class="slide level2">
+<h2>Analysis and interpretation</h2>
+<ul>
+<li><p>What is your estimand? (e.g., average treatment effect, complier average causal effect, etc.)</p></li>
+<li><p>What is your estimator? (e.g., difference in means, OLS with block weights, any clustering). Note that this should be closely linked to your randomization design.</p></li>
+<li><p>If you find that your results are consistent with your hypothesis, what alternative explanations might there be? What data would help you distinguish between your explanation and alternative ones?</p></li>
+<li><p>If you find that your results are not consistent with your hypothesis, what data will help you figure out what might have happened?</p></li>
+</ul>
+</section></section>
+<section>
+<section id="declaredesign" class="title-slide slide level1">
+<h1>DeclareDesign</h1>
+
+</section>
+<section id="introduction-to-declaredesign" class="slide level2">
+<h2>Introduction to DeclareDesign</h2>
+<ul>
+<li><p>Declare Design is a software package in R.</p></li>
+<li><p>Helps us be concrete about the stages of research design by allowing us to represent them in code, which then allows us to simulate the stages of research design in order to understand the properties of the statistical estimators and tests that we use.</p></li>
+<li><p>For more see (<a href="https://declaredesign.org/getting-started/" class="uri">https://declaredesign.org/getting-started/</a>)</p></li>
+<li><p>See also the module on Estimands and Estimators that uses DeclareDesign to help determine the correct estimators.</p></li>
+</ul>
+</section>
+<section id="introduction-to-declaredesign-1" class="slide level2">
+<h2>Introduction to DeclareDesign</h2>
+<ul>
+<li><p>See <a href="https://declaredesign.org/" class="uri">https://declaredesign.org/</a></p></li>
+<li><p>Regardless of the method, research designs have four components</p></li>
+<li><p>MIDA:</p>
+<ul>
+<li>M: Model (of how the world works)</li>
+<li>I: Inquiry</li>
+<li>D: Data strategy</li>
+<li>A: Answer strategy</li>
+</ul></li>
+<li><p>Critical insight: Simulation of a research design teaches what answers a research design can find.</p></li>
+<li><p>Working with simulated data <em>before data collection</em> helps prevent errors and oversights.</p></li>
+</ul>
+</section>
+<section id="model" class="slide level2">
+<h2>Model</h2>
+<ul>
+<li><p>A model of how we think the world works, including:</p>
+<ul>
+<li><p><span class="math inline">\(T\)</span>s and <span class="math inline">\(X\)</span>s (treatments or focal causal variables like policy interventions and other background variables)</p></li>
+<li><p><span class="math inline">\(Y\)</span>s (dependent variables)</p></li>
+<li><p>Relations between variables (potential outcomes, functional forms, auxiliary variables and contexts)</p></li>
+<li><p>Probability distribution over <span class="math inline">\(X\)</span>s if not also over <span class="math inline">\(Y\)</span>s.</p></li>
+</ul></li>
+<li><p>This is the theory!</p>
+<ul>
+<li>Codified numerically.</li>
+</ul></li>
+<li><p>The model is wrong by definition. If it were correct, you wouldn’t need to do the study.</p></li>
+<li><p>But without a model, we don’t have a place to start to assess what can be learned.</p></li>
+</ul>
+</section>
+<section id="inquiry" class="slide level2">
+<h2>Inquiry</h2>
+<ul>
+<li><p>An answerable question.</p></li>
+<li><p>What is the effect of a treatment <span class="math inline">\(T\)</span> on an outcome <span class="math inline">\(Y\)</span> ?</p></li>
+<li><p>Usually a quantity of interest, some summary of the data:</p>
+<ul>
+<li><p>Descriptive: What is the mean of <span class="math inline">\(Y\)</span> in treatment, formally.</p></li>
+<li><p>Causal: What would be the average difference of <span class="math inline">\(Y\)</span> if we switched treatment to control? If we claimed that <span class="math inline">\(T\)</span> cannot cause <span class="math inline">\(Y\)</span>, how much evidence do we have about this claim?</p></li>
+<li><p>Quantity is the estimand or hypothesis.</p></li>
+</ul></li>
+<li><p>Not all questions that we want to ask are answerable.</p>
+<ul>
+<li>And the range of inquiries we can ask are limited: how much can we learn from some summary quantity such as the average treatment effect (ATE)?</li>
+</ul></li>
+</ul>
+</section>
+<section id="data" class="slide level2">
+<h2>Data</h2>
+<ul>
+<li><p>Realize (generate) data on the set of variables (all <span class="math inline">\(X\)</span>s, <span class="math inline">\(T\)</span>s and <span class="math inline">\(Y\)</span>s)</p></li>
+<li><p>A function of your model</p></li>
+<li><p>Includes both:</p>
+<ul>
+<li><p>Sampling — how units arrive in your sample</p></li>
+<li><p>Treatment assignment — what values of endogenous variables are revealed</p></li>
+</ul></li>
+</ul>
+</section>
+<section id="answer" class="slide level2">
+<h2>Answer</h2>
+<ul>
+<li><p>Given a realization of the data, generate an answer – an estimate of the quantity of interest (inquiry)</p></li>
+<li><p>This is your estimator or test:</p>
+<ul>
+<li><p>Difference-in-means</p></li>
+<li><p><span class="math inline">\(t\)</span>-test</p></li>
+<li><p>Regression methods</p></li>
+<li><p>etc.</p></li>
+</ul></li>
+<li><p>Answer is an estimate of the quantity of interest or <span class="math inline">\(p\)</span>-value (inquiry/estimand/test)</p></li>
+</ul>
+</section></section>
+<section>
+<section id="pre-registration-of-analysis-plans" class="title-slide slide level1">
+<h1>Pre-Registration of Analysis Plans</h1>
+
+</section>
+<section id="bias-in-published-research-against-null-results" class="slide level2">
+<h2>Bias in published research against null results</h2>
+<ul>
+<li><p>Anticipating or facing difficulties in getting published, manuscripts with null results are never submitted for review or put away in a “file drawer” after several rejections.</p></li>
+<li><p>We all face incentives to change your specifications, measurements, or even hypotheses to get a statistically significant result (<span class="math inline">\(p\)</span>-hacking) to improve chances of publication.</p></li>
+<li><p>Even people not facing these incentives make many decisions when they analyze data: handling missing values and duplicate observations, creating scales, etc. And these choices can be consequential.</p></li>
+<li><p>Overall result: reduced credibility for individual pieces of research and (rightly) reduced confidence in whether we actually know what we claim to know.</p></li>
+</ul>
+</section>
+<section id="towards-review-of-design-rather-than-outcomes" class="slide level2">
+<h2>Towards review of design rather than outcomes</h2>
+<ul>
+<li><p>One part of solving this problem is to focus on the design, rather than the outcomes.</p></li>
+<li><p>The bias against null results can be overcome by reviewing the design, prior to learning the results.</p></li>
+<li><p>A good design executed well will produce credible research, which might be a null result. We want credible and actionable null results.</p></li>
+<li><p>Reviews of designs are also an opportunity to improve the research before it is implemented.</p></li>
+</ul>
+</section>
+<section id="pre-registration-of-analysis-plans-and-research-designs-i" class="slide level2">
+<h2>Pre-registration of analysis plans and research designs I</h2>
+<ul>
+<li><p>Pre-registration is the filing of your research design and hypotheses with a publicly-accessible repository. EGAP hosts one that you can use for free (currently on OSF.io using the EGAP registration form).</p></li>
+<li><p>Pre-registration does not preclude later exploratory analyses that were not stated in advance. You just have to clearly distinguish between the two.</p></li>
+</ul>
+</section>
+<section id="pre-registration-of-analysis-plans-and-research-designs-ii" class="slide level2">
+<h2>Pre-registration of analysis plans and research designs II</h2>
+<ul>
+<li><p>Even if you will be submitting a paper with results rather than a design to an academic journal or you are primarily interested in a final report with findings for a policy audience, there are important advantages to you and to other researchers from pre-registering your research.</p>
+<ul>
+<li><p>You can learn about other research, completed and in progress; others can learn about yours. We can learn about studies that produced null results.</p></li>
+<li><p>It forces you to state your hypotheses and plan of analysis in advance of seeing the results, which limits <span class="math inline">\(p\)</span>-hacking.</p></li>
+</ul></li>
+</ul>
+</section></section>
+<section>
+<section id="summary" class="title-slide slide level1">
+<h1>Summary</h1>
+
+</section>
+<section id="the-research-process-questions-theory-and-credibility" class="slide level2">
+<h2>The research process: Questions, theory, and credibility</h2>
+<ul>
+<li><p>Research starts with our values and theories about how the world works.</p></li>
+<li><p>It continues by articulating questions that can be clearly addressed by observation (in this course, using randomized experimentation).</p></li>
+<li><p>Good questions have consequential answers: changing scientific explanations, changing policy decisions.</p></li>
+<li><p>Good designs tick all the boxes and give readers reason to believe the results.</p></li>
+<li><p>Checklists (like the research design form or pre-registration forms) help avoid careless errors.</p></li>
+<li><p>Pre-registration further increases credibility and thus the odds of your results having an impact on science and policy.</p></li>
+</ul>
+</section></section>
+<section>
+<section id="references" class="title-slide slide level1">
+<h1>References</h1>
+
+</section>
+<section id="references-1" class="slide level2 unnumbered">
+<h2 class="unnumbered">References</h2>
+<div id="refs" class="references csl-bib-body hanging-indent" role="doc-bibliography">
+<div id="ref-howardsbecker1998a" class="csl-entry" role="doc-biblioentry">
+Becker, Howard S. 1998. <em>Tricks of the Trade : How to Think about Your Research While You’re Doing It (Chicago Guides to Writing, Editing, and Publishing)</em>. University Of Chicago Press.
+</div>
+</div>
+</section></section>
+    </div>
+  </div>
+
+  <script src="researchdesignform-slides_files/reveal.js-3.3.0.1/lib/js/head.min.js"></script>
+  <script src="researchdesignform-slides_files/reveal.js-3.3.0.1/js/reveal.js"></script>
+
+  <script>
+
+      // Full list of configuration options available at:
+      // https://github.com/hakimel/reveal.js#configuration
+      Reveal.initialize({
+        // Display the page number of the current slide
+        slideNumber: true,
+        // Push each slide change to the browser history
+        history: true,
+        // Vertical centering of slides
+        center: false,
+        // Opens links in an iframe preview overlay
+        previewLinks: true,
+        // Transition style
+        transition: 'fade', // none/fade/slide/convex/concave/zoom
+        // Transition style for full page slide backgrounds
+        backgroundTransition: 'default', // none/fade/slide/convex/concave/zoom
+
+
+
+        chalkboard: {
+          toggleNotesButton: false,
+          theme: 'whiteboard',
+        },
+
+        keyboard: {
+          67: function() { RevealChalkboard.toggleNotesCanvas() },    // toggle notes canvas when 'c' is pressed
+          66: function() { RevealChalkboard.toggleChalkboard() }, // toggle chalkboard when 'b' is pressed
+          46: function() { RevealChalkboard.clear() },    // clear chalkboard when 'DEL' is pressed
+           8: function() { RevealChalkboard.reset() },    // reset chalkboard data on current slide when 'BACKSPACE' is pressed
+          68: function() { RevealChalkboard.download() }, // downlad recorded chalkboard drawing when 'd' is pressed
+        },
+
+        // Optional reveal.js plugins
+        dependencies: [
+          { src: 'researchdesignform-slides_files/reveal.js-3.3.0.1/plugin/notes/notes.js', async: true },
+          { src: 'researchdesignform-slides_files/reveal.js-3.3.0.1/plugin/search/search.js', async: true },
+          { src: 'researchdesignform-slides_files/reveal.js-3.3.0.1/plugin/chalkboard/chalkboard.js', async: true },
+        ]
+      });
+    </script>
+  <!-- dynamically load mathjax for compatibility with self-contained -->
+  <script>
+    (function () {
+      var script = document.createElement("script");
+      script.type = "text/javascript";
+      script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+      document.getElementsByTagName("head")[0].appendChild(script);
+    })();
+  </script>
+
+<script>
+  (function() {
+    if (window.jQuery) {
+      Reveal.addEventListener( 'slidechanged', function(event) {  
+        window.jQuery(event.previousSlide).trigger('hidden');
+        window.jQuery(event.currentSlide).trigger('shown');
+      });
+    }
+  })();
+</script>
+
+
+  </body>
+</html>
