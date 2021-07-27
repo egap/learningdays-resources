@@ -172,8 +172,8 @@ library("estimatr")
 ## So we only generate it once:
 make_Y0 <- function(N){  rnorm(n = N) }
 repeat_experiment_and_test <- function(N, Y0, tau){
+    Y1 <- Y0 + tau
     Z <- complete_ra(N = N)
-    Y1 <- Y0 + Z * tau
     Yobs <- Z * Y1 + (1 - Z) * Y0
     estimator <- lm_robust(Yobs ~ Z)
     pval <- estimator$p.value[2]
@@ -300,8 +300,8 @@ summary(test_lm)
 
 ## now set up the simulation
 repeat_experiment_and_test_cov <- function(N, tau, Y0, x){
+    Y1 <- Y0 + tau
     Z <- complete_ra(N = N)
-    Y1 <- Y0 + Z * tau
     Yobs <- Z * Y1 + (1 - Z) * Y0
     estimator <- lm_robust(Yobs ~ Z+x,data=data.frame(Y0,Z,x))
     pval <- estimator$p.value[2]
@@ -372,9 +372,9 @@ ICC::ICCbare(y=Y0,x=clus_id,data=test_dat)
 
 
 repeat_experiment_and_test_clus <- function(N, tau, Y0, clus_id){
-   # here we randomize Z at the cluster level
+    Y1 <- Y0 + tau
+    # here we randomize Z at the cluster level
     Z <- cluster_ra(clusters=clus_id)
-    Y1 <- Y0 + Z * tau
     Yobs <- Z * Y1 + (1 - Z) * Y0
     estimator <- lm_robust(Yobs ~ Z, clusters = clus_id,
                     data=data.frame(Y0,Z,clus_id), se_type = "CR2")
