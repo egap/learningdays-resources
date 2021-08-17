@@ -1,7 +1,7 @@
 ---
-title: "Research Design Process and Stages: Questions and Credibility"
+title: "Proceso y Etapas del Diseño de la Investigación: Preguntas y Credibilidad"
 author: "Fill In Your Name"
-date: "`r format(Sys.time(), '%d %B %Y')`"
+date: "`r format(Sys.time(), '%d-%m-%Y')`"
 bibliography: ../learningdays-book.bib
 biblio-style: apalike
 link-citations: yes
@@ -32,418 +32,384 @@ output:
         theme: whiteboard
         toggleNotesButton: false
 ---
-# Research Designs Process and Stages   
-
-## What makes a research question good?
-
-- The answer to a good research question should produce knowledge that people
-  will care about.
+# El Proceso y las Etapas del Diseño de la Investigación
   
-- Addressing the question should (help) solve a problem, make a decision, or
-  clarify/challenge our understanding of the world.
 
-- But an interesting question is not enough.
+## ¿Qué hace a una pregunta de investigación buena?
 
-## We also need a good research design
+-  La respuesta a una buena pregunta de investigación debe generar conocimiento que le interese a la gente.
 
-- A good research design is a practical plan for research that makes the best
-  use of available resources and produces a credible answer.
 
-- The quality of a research design can be assessed by how well it produces
-  results that can be used to guide policy and improve science: 
-  
-    - A great research design produces results that clearly point in certain directions
-    that we care about.
+-  Abordar la pregunta debería (ayudar a) resolver un problema, tomar una decisión o aclarar/desafiar nuestro entendimiento del mundo.
+
+
+- Pero una pregunta interesante no es suficiente
+
+
+## También necesitamos un buen diseño de  investigación
+
+
+
+- Un buen diseño de investigación es un plan práctico de investigación que aprovecha los recursos disponibles y produce una respuesta creíble.
+
+- La calidad de un diseño de investigación se puede evaluar por los resultados que  produce, los cuales pueden  utilizarse para orientar las políticas y contribuir a la ciencia:  
+
+
+    - Un gran diseño de investigación produce resultados que apuntan claramente en ciertas direcciones que son importantes.
     
-    - A poor research design produces results that leave us in the dark --- results with confusing interpretation.
+    - Un diseño de investigación deficiente produce resultados que nos dejan en la oscuridad, resultados con una interpretación confusa.
+  
+    
+## La importancia de la teoría{.allowframebreaks}
 
-## The importance of theory {.allowframebreaks}
+Todo diseño de investigación involucra una teoría, ya sea implícita o explícita.
 
-All research design involves theory, whether implicit or explicit.
-
- - Why do the research? We have implicit theories and values which guide the
-   questions we ask. Our questions are value laden: For example, social
-   scientists studied marijuana use in the 1950s as a form of "deviance", the
-   questions focused on "why are people making such bad decisions?" or "how can
-   policy makers prevent marijuana use?" (see @howardsbecker1998a).
+ - ¿Por qué investigar? Tenemos teorías y valores implícitos que guían las preguntas que hacemos. Nuestras preguntas reflejan nuestros valores; por ejemplo, los científicos sociales estudiaron el consumo de marihuana en la década de 1950 como una forma de "desviación", las preguntas se centraron en "¿por qué la gente está tomando decisiones tan malas?" o "¿cómo pueden los legisladores prevenir el consumo de marihuana?" (ver @howardsbecker1998a).
    
-- Why do the research? We might want to change how scientists explain the world
-  and/or change the policy decisions in (a) one place and time and/or (b) in
-  other places and times.
+- ¿Por qué investigar? Puede que queramos cambiar la forma en la que la ciencia explica el mundo y/o cambiar las decisiones de politicas para (a) un lugar y un momento en el tiempo y/o (b) para otros lugares y momentos en el tiempo.
+
+- La investigación que está centrada en conocer el efecto causal de $X$ en $Y$ requiere un modo del mundo: *cómo* la intervención $X$ podría tener un efecto en alguna variable de interés $Y$, y *por qué* y *qué tan grande* podría ser el efecto. Esto nos ayuda a pensar en cómo una intervención diferente o que se dirija a diferentes destinatarios podría llevar a resultados diferentes.
+
+
+- Nuestras teorías y modelos no son solo importantes para generar hipótesis, sino también para informar  *el diseño* y *las estrategias de inferencia*.
+
+
+- El diseño de la investigación a menudo aclarará dónde tenemos menos certeza acerca de nuestras teorías. Nuestras teorías nos indicarán dónde hay problemas con nuestro diseño. Y las preguntas que surjan del proceso de diseño pueden dejarnos ver la necesidad de trabajar más en la explicación y el mecanismo.
+
+## Diseñando o escogiendo el tratamiento
+
+- Desde este punto en adelante, usaremos $T$ para el tratamiento o el efecto en el que estamos interesados. Usaremos $X$ para referirnos a las variables de fondo.
+
+- El tratamiento ($T$) y control (la ausencia de $T$) deben conectarse claramente a la pregunta de investigación. (Ver el módulo de Medición).
   
-- Research focused on learning the causal effect of $X$ on $Y$ requires a model
-  of the world: *how* might intervention $X$ might have an effect on some
-  outcome $Y$, and *why*, and *how large* might be the effect.  It helps us
-  think about how a different intervention or targeting different recipients
-  might lead to different results.
+- Un tratamiento de interés puede ser un conjunto de varios componentes. Si su pregunta de investigación es sobre un componente específico, entonces el control debe ser diferente del tratamiento solo en ese componente. Todo lo demás debería ser igual.
 
-- Our theories and models are important not just for generating hypotheses, but
-  for informing *design* and *strategies for inference*.
 
-- Designing research will often clarify where we are less certain about our
-  theories.  Our theories will point to problems with our design. And questions
-  arising from the process of design may indicate a need for more work on
-  explanation and mechanism.
+## Un ejemplo
 
-## Designing or selecting your treatment 
+Una campaña en la que alguien visita un hogar para hablar con una familia durante 15 minutos para dar información sobre temas de salud.
 
-- From this point forward, we will use $T$ for treatment or what we want to learn the effect of.  We will use $X$ to refer to background variables.
+  - Si se tiene interés en el efecto de la información en específico, entonces el control debería tener todos los demás componentes (visita domiciliaria con una duración de 15 minutos, visitante similar, etc.) pero variar en la información que se comparte. Este diseño no  enseñará sobre el efecto de las visitas, sino solo sobre el efecto de la información en sí.
 
-- Your treatment ($T$) and control (not $T$) need to clearly connect to your
-  research question. (See the module on Measurement.)
+  - Si su pregunta se centra en el efecto de las visitas, entonces necesita un grupo de control que no recibiba visitas. Pero este diseño no servirá para responder preguntas específicas sobre la información (las visitas y la información están combinadas en un sólo tratamiento).
   
-- The treatment you're interested in might be a bundle of multiple components.
-  If your research question is about one specific component, then the control
-  should be different from the treatment in just that component.  Everything
-  else should be the same.
+## Interpretación
+
+- A veces no es posible aislar un componente específico del tratamiento.
   
-## An example
+- Por ejemplo, puede que la organización de salud comunitaria con la que usted esté asociado para visitar hogares  no esté interesada en visitar hogares y compartir otra información. En ese caso el control podría ser no visitar.
 
-A campaign where someone visits a home to talk with a family for 15 minutes to share health information.
+- Debe tener cuidado de interpretar sus efectos como el efecto de la información impartida de esta manera en particular.
 
-  - If you're interested in the effect of the specific information, then your
-      control should still have all the other components (home visit with 15
-      minutes duration, similar visitor, etc.) but have different information.
-      This design will not teach you about the effect of visits, just about the
-      effect of information.
-
-  - If your question focuses on the effect of visits, then you need a control
-      group without a visit.  But this design will not do a good job answering
-      specific questions about information (visits and information are
-      bundled together).
-
-## Interpretation 
-
-- Sometimes it's not possible to separate out a specific component of your
-  treatment.  
+- No se podrá concluir que se ha estimado el efecto de la información únicamente .
   
-- For example, your partner community health organization that visits homes may not be interested in visiting homes and sharing other information. Then your control might be no visit.
-
-- You must be careful to interpret your effects as the effect of the
-  information delivered in this particular way.
-
-- You will not be able to conclude that you have estimated the effect of only
-  the information. 
-  
-    - This might be fine for certain policy purposes: maybe the policy question is about the visits as an implicit bundle of treatments. 
+    - Puede que esto esté bien para ciertas políticas: quizá la pregunta de políticas pueda referirse a las visitas como un paquete implícito de tratamientos.
     
-    - But it is difficult to interpret the results of this design as telling us something clear about information alone.)
+    - Pero es difícil interpretar los resultados de este diseño como si nos dijera algo claro acerca de la información únicamente.  
+  
+  
 
-# The Research Process
+# El Proceso de Investigación
 
-## An overview of the research process
+## Una descripción general del proceso de investigación
 
-- Articulate and fine-tune your question (interrogating why you are asking this
-  question and what will happen given different kinds of possible answers.)
+- Articular y afinar la pregunta (interrogando por qué se está haciendo esta pregunta y qué sucedería si se dan diferentes tipos de respuestas).
 
-- Develop your research design.
+- Desarrollar el diseño de la investigación.
 
-- Plan your analysis and state and justify specific hypotheses and register
-  this plan with a credible impersonal date stamp.
+- Planificar el análisis, presentar y justificar hipótesis específicas y estampar la fecha en el plan con un sello impersonal creíble.
 
-- Implement your intervention and collect data.
+- Implementar la intervención y recopilar datos.
 
-- Analyze your data and write up your results.
+- Analizar los datos y escribir los resultados
 
-# EGAP Research Design Form
+# El Formulario para Diseño para el Diseño la Investigación de EGAP
 
-## EGAP Research Design Form
+## El Formulario para Diseño para el Investigación de EGAP
 
-- We developed a [research design form](https://egap.github.io/learningdays-gui/Exercises/design-form.Rmd) that helps provide structure for a good research design
+- Desarrollamos un [Formulario para el Diseño de la Investigación](https://egap.github.io/learningdays-gui/Exercises/design-form.Rmd) que ayuda a crear una estructura para un buen diseño de investigación.
 
     - https://egap.github.io/learningdays-gui/Exercises/design-form.Rmd
     
-- It may help when you are 
+- Le puede ayudar a:
 
-  - writing a research proposal when you apply for funding, or 
+  - escribir una propuesta de investigación para soliticar financiación para un proyecto, o
   
-  - when developing a pre-registration plan
+  - a desarrollar un plan de pre-análisis.
 
-## Sections of the EGAP Research Design Form 
+## Secciones del formulario de diseño de investigación EGAP
 
-- Research question
-- Sample
-- Treatment
-- Outcome
-- Randomization strategy
-- Implementation
-- Power
-- Analysis and interpretation
+- Pregunta de investigación
+- Muestra
+- Tratamiento
+- Variable de interés
+- Estrategia de aleatorización
+- Implementación
+- Poder estadístico
+- Análisis e interpretación
 
-## Research question and motivation
+## Pregunta de investigación y motivación
 
-- What is the substantive motivation for this research?  What problem are you
-  trying to address?  What decision are you trying to make?
+- ¿Cuál es la motivación sustantiva de esta investigación? ¿Que problema está tratando de abordar? ¿Qué decisión está tratando de tomar?
   
-- Whose mind are you trying to change, and what do they currently believe?
+- ¿A quiénes está tratando de cambiar de parecer y qué creen esas personas actualmente?
 
-- What general theoretical questions can this research help address?
+- ¿Qué preguntas teóricas se pueden abordar con esta investigación?
 
-- State your research question in one sentence.
+- Concretar pregunta de investigación en una sola oración.
 
-- What is your main hypothesis?
+- ¿Cuál es la hipótesis principal?
 
-## Sample
 
--  Where and when will your study take place?
+## Muestra
 
--  Who/what units are in your study?
+- ¿Dónde y cuándo tendrá lugar el estudio?
 
--  How is this sample selected?
+- ¿Quiénes o cuáles son la unidades que hay en el estudio?
 
--  Do some units need to be left out of the study, because they must receive treatment or must be left out of treatment for logistical or other reasons?
+- ¿Cómo se selecciona la muestra?
 
--  Do you expect treatment to work differently for certain subgroups?
+- ¿Es necesario dejar fuera del estudio a algunas unidades porque deben recibir el tratamiento, o por razones logísticas o de otro tipo, algunas unidades deben quedar por fuera?
 
-## Treatment
+- ¿Se espera que el tratamiento funcione de manera diferente para ciertos subgrupos?
 
-- What is your treatment?  Will you have multiple treatments?
+## Tratamiento
 
-- What will your control condition be?  Pure control or placebo?
+- ¿Cuál es el tratamiento? ¿Habrá múltiples tratamientos?
 
-- Are there any ethical concerns with the treatment?
+- ¿Cuál será el control? ¿Control puro o placebo?
 
-- At what level will you randomize treatment?
+- ¿Existe alguna preocupación ética con el tratamiento?
 
-## Outcome
+- ¿A qué nivel se aleatorizará el tratamiento?
 
-- What is your primary outcome?
+## Variable de Interés
 
-- How will you measure it?
+- ¿Cuál es es la variable de interés principal?
 
-- What data do you need?  At what level is the measure available?
+- ¿Cómo se medirá?
 
-- What are your priors about the outcome?  This may come from previous studies or educated guesses.
+- ¿Qué datos se necesitan? ¿A qué nivel se pueden medir los datos?
 
-- How many rounds of data will you collect?
+- ¿Qué ideas tiene usted sobre la variable de interés previo a la recolección de datos (priors)?  Estas pueden venir de estudios previos o suposiciones bien fundamentadas.
 
-- How will you minimize attrition?
+- ¿Cuántas rondas de recolección de datos habrá?
 
-- How will you minimize mismeasurement and untruthful reporting?
+- ¿Cómo minimizará la deserción?
 
-## Randomization strategy
+- ¿Cómo minimizará la mala medición y las respuestas falsas?
 
-- What type of randomization strategy will you use?  Examples: simple, complete, block, cluster, factorial, two-tier, step-wedge, etc.
+## Estrategia de aleatorización
 
-- Make sure this strategy is consistent with the level of randomization (possible clusters) and expected heterogeneity of treatment effects (possible blocks).
+- ¿Qué tipo de estrategia de aleatorización utilizará? Ejemplos: simple, completo, bloques, conglomerados, factorial, de dos niveles, por etapas, etc.
 
-- Specify your blocks and clusters (if any).  How many will you have?  How large will they be?
+- Asegúrese de que esta estrategia sea coherente con el nivel al que se está aleatorizando (posiblemente conglomerados) y la heterogeneidad que se espera en los efectos del tratamiento (posiblemente bloques).
 
-- Is interference a possible concern?  If so, how will your sample selection and randomization strategy minimize interference?
+- Defina sus bloques y conglomerados (si los hay). ¿Cuántos va a tener? ¿Qué tan grandes serán?
 
-## Implementation I
+- ¿Es posible que haya interferencia? Si es así, ¿cómo le ayudará su muestra y la estrategia de aleatorización a minimizar la interferencia?
 
-- How will you do the actual randomization?  In public, drawing from a bowl?  On a computer?
+## Implementación I
 
-- Who will implement the treatment?
+- ¿Cómo hará la aleatorización en la práctica? ¿En público, sacando una ficha de una urna? ¿En una computadora?
 
-- If there is a partner who will implement the treatment, what arrangements do you have?
+- ¿Quién estará a cargo de implementar el tratamiento?
 
-- What are the logistical challenges?  Any special challenges for control units?
+- Si es un socio el que implementará el tratamiento, ¿qué acuerdos tienen?
 
-## Implementation II
+- ¿Cuáles son los desafíos logísticos? ¿Algún desafío especial para las unidades de control?
 
-- How will you track the quality of implementation?
+## Implementación II
 
-- How will you track compliance with the treatment?
+- ¿Cómo le hará seguimiento a la calidad de la implementación?
 
-- How will you minimize non-compliance with the treatment (if applicable)?
+- ¿Cómo hará seguimiento del cumplimiento del tratamiento?
 
-- How will you check the quality of your data?
+- ¿Cómo minimizará el incumplimiento del tratamiento (si aplica)?
 
-- How will data be anonymized and stored securely (if applicable)?
+- ¿Cómo comprobará la calidad de sus datos?
 
-## Power
+- ¿Cómo se anonimizarán y almacenarán los datos de forma segura (si aplica)?
 
-- What is your expected effect size?  
+## Poder Estadístico
 
-    - This might be from a previous study or a target size below which one would not be interested in future interventions.
+- ¿Cuál es el tamaño esperado del efecto?
 
-- Power calculation.
+    - Esta información puede venir de un estudio anterior o un valor objetivo por debajo del cual uno no estaría interesado en futuras intervenciones.
 
-    - If you have clusters, there are additional concerns with intra-cluster correlation.
+- Cálculo del poder.
 
-## Analysis and interpretation
+    - Si tiene conglomerados, se debe tener en cuenta  la correlación dentro de los conglomerados.
 
-- What is your estimand? (e.g., average treatment effect, complier average causal effect, etc.)
+## Análisis e interpretación
 
-- What is your estimator? (e.g., difference in means, OLS with block weights, any clustering).  Note that this should be closely linked to your randomization design.
+- ¿Cuál es el estimado? (p. ej., efecto promedio del tratamiento, efecto causal promedio del cumplidor, etc.)
 
-- If you find that your results are consistent with your hypothesis, what alternative explanations might there be? What data would help you distinguish between your explanation and alternative ones?
+- ¿Cuál es el estimador? (por ejemplo, diferencia de medias, MCO con pesos de bloque, algún conglomerado). Tenga en cuenta que esto debería estar estrechamente relacionado con su diseño de aleatorización.
 
-- If you find that your results are not consistent with your hypothesis, what data will help you figure out what might have happened?
+- Si encuentra que sus resultados son consistentes con su hipótesis, ¿qué explicaciones alternativas podría haber? ¿Qué datos le ayudarían a distinguir entre su explicación y otras alternativas?
+
+- Si encuentra que sus resultados no son consistentes con su hipótesis, ¿qué datos le ayudarán a averiguar qué pudo haber sucedido?
 
 # DeclareDesign
 
-## Introduction to DeclareDesign
+## Introducción a DeclareDesign
 
-- Declare Design is a software package in R.
+- Declare Design es un paquete de software en R.
 
-- Helps us be concrete about the stages of research design by allowing us
-  to represent them in code, which then allows us to simulate the stages of research design in order to understand the properties of the statistical estimators and tests that we use.
+- Nos ayuda a concretar las etapas del diseño de la investigación al permitirnos representarlas en código, lo que luego nos permitirá simular las etapas del diseño de la investigación para comprender las propiedades de los estimadores estadísticos y las pruebas que utilizamos.
 
-- For more see (https://declaredesign.org/getting-started/)
+- Para obtener más información, consulte (https://declaredesign.org/getting-started/)
 
-- See also the module on Estimands and Estimators that uses DeclareDesign to
-  help determine the correct estimators.
+- También puede consultar el módulo sobre estimaciones y estimadores que utiliza DeclareDesign para ayudar a determinar los estimadores apropiados.
 
-## Introduction to DeclareDesign
+## Introducción a DeclareDesign
 
-- See https://declaredesign.org/
+- Ver https://declaredesign.org/
 
-- Regardless of the method, research designs have four components
+- Independientemente del método, los diseños de investigación tienen cuatro componentes
 
-- MIDA:
-   - M: Model (of how the world works)
-   - I: Inquiry
-   - D: Data strategy
-   - A: Answer strategy
+- MIDR:
+   - M: Modelo (de cómo funciona el mundo)
+   - I: Indagación
+   - D: Datos ¿Cuál es la estrategia?
+   - R: Respuesta ¿Cuál es la estrategia?
 
-- Critical insight: Simulation of a research design teaches what answers a research design can find.
+- Perspectiva crítica: Simular el diseño de investigación nos puede enseñar qué respuestas puede dar un diseño de investigación.
 
-- Working with simulated data *before data collection* helps prevent errors and oversights.
+- Trabajar con datos simulados *antes de la recopilación de datos* ayuda a prevenir errores y descuidos.
 
-## Model
-- A model of how we think the world works, including:
+## Modelo
 
-  - $T$s and $X$s (treatments or focal causal variables like policy interventions and other background variables)
+- Un modelo de cómo pensamos que el mundo funciona, que incluye:
 
-  - $Y$s (dependent variables)
+  - $T$s y $X$s (tratamientos o variables causales focales como intervenciones de políticas y otras variables de fondo)
 
-  - Relations between variables (potential outcomes, functional forms, auxiliary variables and contexts)
+  - $Y$s (variables dependientes)
 
-  - Probability distribution over $X$s if not also over $Y$s.
+  - Relaciones entre variables (salidas potenciales, formas funcionales, variables auxiliares y contextos)
 
-- This is the theory!
+  - Distribución de probabilidad sobre $X$s y quizá también sobre $Y$s.
 
-  - Codified numerically.
+- ¡Esta es la teoría!
+
+  - Codificada numéricamente.
   
-- The model is wrong by definition. If it were correct, you wouldn't need to do the study.
+- Los modelos siempre serán incorrectos por definición. Si fueran correctos, no necesitaríamos realizar un estudio.
 
-- But without a model, we don’t have a place to start to assess what can be learned.
+- Pero sin un modelo no tenemos cómo comenzar a evaluar lo que se puede aprender.
 
-## Inquiry
-- An answerable question.
 
-- What is the effect of a treatment $T$ on an outcome $Y$ ?
 
-- Usually a quantity of interest, some summary of the data:
 
-  - Descriptive: What is the mean of $Y$ in treatment, formally.
+ 
+## Indagación
+
+- Una pregunta con respuesta.
+
+- ¿Cuál es el efecto de un tratamiento $T$ sobre una variable $Y$?
+
+- Suele ser una cantidad de interés que resume los datos:
+
+  - Descriptiva: ¿Cuál es la media de $Y$ en el tratamiento formalmente?.
   
-  - Causal: What would be the average difference of $Y$ if we switched treatment
-    to control? If we claimed that $T$ cannot cause $Y$, how much evidence do we
-    have about this claim?
+  - Causal: ¿Cuál sería la diferencia promedio de $Y$ si cambiáramos el tratamiento por el control? Si afirmamos que $T$ no tiene ningún efecto en $Y$, ¿qué tanta evidencia tendríamos para hacer esta afirmación?
     
-  - Quantity is the estimand or hypothesis.
+  - La cantidad es el estimando o la hipótesis.
   
-- Not all questions that we want to ask are answerable.
+- No todas las preguntas que queremos hacer tienen respuesta.
   
-  - And the range of inquiries we can ask are limited: how much can we learn
-    from some summary quantity such as the average treatment effect (ATE)?
+  - Y la gama de indagaciones que podemos hacer es limitada: ¿cuánto podemos aprender de alguna cantidad que resume los datos, como el efecto de tratamiento promedio (ATE)?
 
-## Data
-- Realize (generate) data on the set of variables (all $X$s, $T$s and $Y$s)
+## Datos
+- Recolectar (generar) datos sobre el conjunto de variables (todas: $X$s, $T$s y $Y$s)
 
-- A function of your model
+- Una función del modelo
 
-- Includes both:
+- Incluye ambos:
 
-  - Sampling --- how units arrive in your sample
+  - Muestreo: ¿cómo llegan las unidades a su muestra?
 
-  - Treatment assignment --- what values of endogenous variables are revealed
+  - Asignación de tratamiento: ¿qué valores de las variables endógenas se revelan?
 
+## Respuesta
 
-## Answer
-- Given a realization of the data, generate an answer -- an estimate of the quantity of interest (inquiry)
+- Generar una respuesta dada la realización de los datos, es decir, una estimación de la cantidad de interés (indagación)
 
-- This is your estimator or test:
+- Este es su estimador o prueba:
 
-  - Difference-in-means
+  - Diferencia de medias
 
-  - $t$-test
+  - prueba $t$
 
-  - Regression methods
+  - Métodos de regresión
 
   - etc.
 
-- Answer is an estimate of the quantity of interest or $p$-value (inquiry/estimand/test)
+- La respuesta es una estimación de la cantidad de interés o valor de $p$ (indagación/estimación /prueba)
 
-# Pre-Registration of Analysis Plans
 
-## Bias in published research against null results
-- Anticipating or facing difficulties in getting published, manuscripts with
-  null results are never submitted for review or put away in a "file drawer"
-  after several rejections.
+
+# Prerregistro del plan de análisis
+
+## Sesgo en la investigación publicada contra resultados nulos
+
+- Anticipándose a las dificultades que hay al publicar, o para no enfrentarse ellas,  manuscritos con resultados nulos no se envían nunca para revisión o se guardan en un "cajón de archivos" después de varios rechazos.
   
-- We all face incentives to change your specifications, measurements, or even
-  hypotheses to get a statistically significant result ($p$-hacking) to improve
-  chances of publication.
+- Todos enfrentamos incentivos para cambiar nuestras especificaciones, medidas o incluso hipótesis para obtener un resultado estadísticamente significativo ($p$-hacking) para mejorar
+  posibilidades de publicación.
 
-- Even people not facing these incentives make many decisions when they analyze
-  data: handling missing values and duplicate observations, creating scales,
-  etc. And these choices can be consequential.
+- Incluso cuando no se enfrentan estos incentivos se toman muchas decisiones al analizar
+  datos: manejo de valores perdidos y observaciones duplicadas, creación de escalas, etc. Y estas elecciones pueden tener consecuencias.
 
-- Overall result:  reduced credibility for individual pieces of research and
-  (rightly) reduced confidence in whether we actually know what we claim to
-  know.
+- Resultado general: menor credibilidad en los trabajos de investigación individuales y (con razón) menor confianza en si realmente sabemos lo que decimos saber.
 
-## Towards review of design rather than outcomes
+## Hacia la revisión del diseño en lugar de los resultados
 
-- One part of solving this problem is to focus on the design, rather than the
-  outcomes.
+- Una parte de la solución de este problema es centrarse en el diseño, más que en los resultados.
   
-- The bias against null results can be overcome by reviewing the design, prior
-  to learning the results.
+- El sesgo contra los resultados nulos se puede combatir revisando el diseño antes de conocer los resultados.
 
-- A good design executed well will produce credible research, which might be a
-  null result.  We want credible and actionable null results.
+- Un buen diseño bien ejecutado producirá una investigación creíble, incluso con resultados nulos. Queremos que los resultados nulos sean creíbles y procesables.
 
-- Reviews of designs are also an opportunity to improve the research before it
-  is implemented.
+- La revisión del diseño también es una oportunidad para mejorar la investigación antes de que sea implementada.
 
-## Pre-registration of analysis plans and research designs I
+## Prerregistro de planes de análisis y diseños de investigación I
 
-- Pre-registration is the filing of your research design and hypotheses with a
-  publicly-accessible repository.  EGAP hosts one that you can use for free
-  (currently on OSF.io using the EGAP registration form).
+- El prerregistro es la presentación de su diseño de investigación e hipótesis en un repositorio de acceso público. EGAP aloja uno que puede usar de forma gratuita (actualmente en OSF.io utilizando el formulario de registro EGAP).
 
-- Pre-registration does not preclude later exploratory analyses that were not
-  stated in advance.  You just have to clearly distinguish between the two.
+- El prerregistro no implica excluir análisis exploratorios posteriores que no fueron registrados con anticipación. Simplemente se debe distinguir claramente entre los dos.
 
-## Pre-registration of analysis plans and research designs II
+## Prerregistro de planes de análisis y diseños de investigación II
 
-- Even if you will be submitting a paper with results rather than a design to
-  an academic journal or you are primarily interested in a final report with findings
-  for a policy audience, there are important advantages to you and to other
-  researchers from pre-registering your research.
+- Incluso si va a enviar un artículo con resultados en lugar de un diseño para una revista académica o está interesado principalmente en un informe final con hallazgos para una audiencia en el campo de  políticas públicas, existen ventajas importantes para usted y para otros investigadores  del prerregistro de su investigación.
   
-   - You can learn about other research, completed and in progress; others can
-     learn about yours.  We can learn about studies that produced null results.
+   - Puede obtener información sobre otras investigaciones, completadas y en curso; otros pueden  aprender sobre su trabajo. Podemos aprender de estudios que produjeron resultados nulos.
      
-   - It forces you to state your hypotheses and plan of analysis in advance of
-     seeing the results, which limits $p$-hacking.
+   - Le obliga a plantear sus hipótesis y plan de análisis antes de ver los resultados, lo que limita el $p$-hacking.
      
+# Resumen
 
-# Summary
+## El proceso de investigación: preguntas, teoría y credibilidad
 
-## The research process: Questions, theory, and credibility
-
- - Research starts with our values and theories about how the world works.
+ - La investigación parte de nuestros valores y teorías sobre cómo funciona el mundo.
  
- - It continues by articulating questions that can be clearly addressed by observation (in this course, using randomized experimentation).
+ - Continúa articulando preguntas que se pueden abordar de forma clara mediante la observación (en este curso, utilizando experimentación aleatoria).
 
- - Good questions have consequential answers: changing scientific explanations, changing policy decisions.
+ - Las buenas preguntas tienen respuestas consecuentes: cambian las explicaciones científicas y/o cambian las decisiones de políticas.
 
- - Good designs tick all the boxes and give readers reason to believe the results.
+
  
- - Checklists (like the research design form or pre-registration forms) help avoid careless errors.
+## El proceso de investigación: preguntas, teoría y credibilidad
 
- - Pre-registration further increases credibility and thus the odds of your results having an impact on science and policy.
+ - Los buenos diseños satisfacen todos los requisitos y dan a los lectores razones para creer en los resultados.
+
+ - Las listas de verificación (como el formulario de diseño de investigación o los formularios de preinscripción) ayudan a evitar errores por descuido.
+
+ - El prerregistro aumenta aún más la credibilidad y, por lo tanto, las probabilidades de que sus resultados tengan un impacto en la ciencia y en las políticas.
 
 
-# References
+# Referencias
 
-## References
-
-
+## Referencias     
+     
