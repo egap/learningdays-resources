@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="generator" content="pandoc">
   <meta name="author" content="Fill In Your Name" />
-  <meta name="dcterms.date" content="2021-03-01" />
+  <meta name="dcterms.date" content="2021-08-16" />
   <title>Estimating Estimands with Estimators</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -509,7 +509,7 @@ style.innerHTML = style_script;
 document.getElementsByTagName('head')[0].appendChild(style);
 </script>
 
-    <script src="estimation-slides_files/header-attrs-2.6/header-attrs.js"></script>
+    <script src="estimation-slides_files/header-attrs-2.7/header-attrs.js"></script>
     <link href="estimation-slides_files/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
     <link href="estimation-slides_files/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
 </head>
@@ -520,7 +520,7 @@ document.getElementsByTagName('head')[0].appendChild(style);
 <section>
     <h1 class="title">Estimating Estimands with Estimators</h1>
     <h2 class="author">Fill In Your Name</h2>
-    <h3 class="date">01 March 2021</h3>
+    <h3 class="date">16 August 2021</h3>
 </section>
 <section id="TOC">
 <ul>
@@ -791,47 +791,51 @@ document.getElementsByTagName('head')[0].appendChild(style);
 <h2>Using DeclareDesign: define estimand and estimators</h2>
 <p>No output here. Just define functions and estimators and one estimand.</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="do">## The estimand</span></span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>estimandATE <span class="ot">&lt;-</span> <span class="fu">declare_estimand</span>(<span class="at">ATE =</span> <span class="fu">mean</span>(Y_Z_1 <span class="sc">-</span> Y_Z_0))</span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="do">## The first estimator is difference-in-means</span></span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>diff_means <span class="ot">&lt;-</span> <span class="fu">declare_estimator</span>(Y <span class="sc">~</span> Z,</span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">estimand =</span> estimandATE,</span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">model =</span> lm_robust, <span class="at">se_type =</span> <span class="st">&quot;classical&quot;</span>, <span class="at">label =</span> <span class="st">&quot;Diff-Means/OLS&quot;</span></span>
-<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>estimandATE <span class="ot">&lt;-</span> <span class="fu">declare_estimand</span>(<span class="at">ATE =</span> <span class="fu">mean</span>(Y_Z_1 <span class="sc">-</span> Y_Z_0))</span></code></pre></div>
+<pre><code>Warning: &#39;declare_estimand&#39; is deprecated.
+Use &#39;declare_inquiry&#39; instead.
+See help(&quot;Deprecated&quot;)</code></pre>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="do">## The first estimator is difference-in-means</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>diff_means <span class="ot">&lt;-</span> <span class="fu">declare_estimator</span>(Y <span class="sc">~</span> Z,</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">estimand =</span> estimandATE,</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">model =</span> lm_robust, <span class="at">se_type =</span> <span class="st">&quot;classical&quot;</span>, <span class="at">label =</span> <span class="st">&quot;Diff-Means/OLS&quot;</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
 </section>
 <section id="using-declaredesign-define-estimand-and-estimators-1" class="slide level2">
 <h2>Using DeclareDesign: define estimand and estimators</h2>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="do">## The second estimator is top-coded difference-in-means</span></span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>diff_means_topcoded_fn <span class="ot">&lt;-</span> <span class="cf">function</span>(data) {</span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  data<span class="sc">$</span>rankY <span class="ot">&lt;-</span> <span class="fu">rank</span>(data<span class="sc">$</span>Y)</span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>  <span class="do">## Code the maximum value of Y as the second to maximum value of Y</span></span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>  data<span class="sc">$</span>newY <span class="ot">&lt;-</span> <span class="fu">with</span>(</span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>    data,</span>
-<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ifelse</span>(rankY <span class="sc">==</span> <span class="fu">max</span>(rankY), Y[rankY <span class="sc">==</span> (<span class="fu">max</span>(rankY) <span class="sc">-</span> <span class="dv">1</span>)], Y)</span>
-<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>  obj <span class="ot">&lt;-</span> <span class="fu">lm_robust</span>(newY <span class="sc">~</span> Z, <span class="at">data =</span> data, <span class="at">se_type =</span> <span class="st">&quot;classical&quot;</span>)</span>
-<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>  res <span class="ot">&lt;-</span> <span class="fu">tidy</span>(obj) <span class="sc">%&gt;%</span> <span class="fu">filter</span>(term <span class="sc">==</span> <span class="st">&quot;Z&quot;</span>)</span>
-<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(res)</span>
-<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>diff_means_topcoded <span class="ot">&lt;-</span> <span class="fu">declare_estimator</span>(</span>
-<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>  <span class="at">handler =</span> <span class="fu">label_estimator</span>(diff_means_topcoded_fn),</span>
-<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>  <span class="at">estimand =</span> estimandATE, <span class="at">label =</span> <span class="st">&quot;Top-coded Diff Means&quot;</span></span>
-<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="do">## The second estimator is top-coded difference-in-means</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>diff_means_topcoded_fn <span class="ot">&lt;-</span> <span class="cf">function</span>(data) {</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  data<span class="sc">$</span>rankY <span class="ot">&lt;-</span> <span class="fu">rank</span>(data<span class="sc">$</span>Y)</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  <span class="do">## Code the maximum value of Y as the second to maximum value of Y</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>  data<span class="sc">$</span>newY <span class="ot">&lt;-</span> <span class="fu">with</span>(</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>    data,</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ifelse</span>(rankY <span class="sc">==</span> <span class="fu">max</span>(rankY), Y[rankY <span class="sc">==</span> (<span class="fu">max</span>(rankY) <span class="sc">-</span> <span class="dv">1</span>)], Y)</span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>  obj <span class="ot">&lt;-</span> <span class="fu">lm_robust</span>(newY <span class="sc">~</span> Z, <span class="at">data =</span> data, <span class="at">se_type =</span> <span class="st">&quot;classical&quot;</span>)</span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>  res <span class="ot">&lt;-</span> <span class="fu">tidy</span>(obj) <span class="sc">%&gt;%</span> <span class="fu">filter</span>(term <span class="sc">==</span> <span class="st">&quot;Z&quot;</span>)</span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(res)</span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>diff_means_topcoded <span class="ot">&lt;-</span> <span class="fu">declare_estimator</span>(</span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>  <span class="at">handler =</span> <span class="fu">label_estimator</span>(diff_means_topcoded_fn),</span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>  <span class="at">estimand =</span> estimandATE, <span class="at">label =</span> <span class="st">&quot;Top-coded Diff Means&quot;</span></span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
 </section>
 <section id="using-declaredesign-define-estimand-and-estimators-2" class="slide level2">
 <h2>Using DeclareDesign: define estimand and estimators</h2>
 <p>Here we show how the DD estimators work using our simulated data.</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Demonstrate that the estimand works:</span></span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="fu">estimandATE</span>(sim_dat1)</span></code></pre></div>
-<pre><code>  estimand_label estimand
-1            ATE       54</code></pre>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Demonstrate that the estimators estimate</span></span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="do">## Estimator 1 (difference in means)</span></span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="fu">diff_means</span>(sim_dat1)[<span class="sc">-</span><span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">10</span>, <span class="dv">11</span>)]</span></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Demonstrate that the estimand works:</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="fu">estimandATE</span>(sim_dat1)</span></code></pre></div>
+<pre><code>  inquiry_label estimand
+1           ATE       54</code></pre>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Demonstrate that the estimators estimate</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="do">## Estimator 1 (difference in means)</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="fu">diff_means</span>(sim_dat1)[<span class="sc">-</span><span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">10</span>, <span class="dv">11</span>)]</span></code></pre></div>
+<pre><code>Warning: The argument &#39;estimand = &#39; is deprecated. Please use &#39;inquiry = &#39; instead.</code></pre>
 <pre><code>  estimate std.error statistic p.value conf.low conf.high df
 1    -39.2     49.41   -0.7934  0.4505   -153.1     74.74  8</code></pre>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Estimator 2 (top-coded difference in means)</span></span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="fu">diff_means_topcoded</span>(sim_dat1)[<span class="sc">-</span><span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">10</span>, <span class="dv">11</span>)]</span></code></pre></div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Estimator 2 (top-coded difference in means)</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="fu">diff_means_topcoded</span>(sim_dat1)[<span class="sc">-</span><span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">10</span>, <span class="dv">11</span>)]</span></code></pre></div>
+<pre><code>Warning: The argument &#39;estimand = &#39; is deprecated. Please use &#39;inquiry = &#39; instead.</code></pre>
 <pre><code>  estimate std.error statistic p.value conf.low conf.high df
 1    -37.2     48.21   -0.7716  0.4625   -148.4     73.98  8</code></pre>
 </section>
@@ -839,69 +843,69 @@ document.getElementsByTagName('head')[0].appendChild(style);
 <h2>Then simulate with one randomization</h2>
 <p>Recall the true ATE:</p>
 <p></p>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>trueATE <span class="ot">&lt;-</span> <span class="fu">with</span>(sim_dat1, <span class="fu">mean</span>(y1 <span class="sc">-</span> y0))</span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="fu">with</span>(sim_dat1, <span class="fu">mean</span>(Y_Z_1 <span class="sc">-</span> Y_Z_0))</span></code></pre></div>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>trueATE <span class="ot">&lt;-</span> <span class="fu">with</span>(sim_dat1, <span class="fu">mean</span>(y1 <span class="sc">-</span> y0))</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="fu">with</span>(sim_dat1, <span class="fu">mean</span>(Y_Z_1 <span class="sc">-</span> Y_Z_0))</span></code></pre></div>
 <pre><code>[1] 54</code></pre>
 <p></p>
 <p>In one experiment (one simulation of the data) here are the simple estimates:</p>
 <p></p>
-<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Two ways to calculate the difference of means estimator</span></span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>est_diff_means_1 <span class="ot">&lt;-</span> <span class="fu">with</span>(sim_dat1, <span class="fu">mean</span>(Y[Z <span class="sc">==</span> <span class="dv">1</span>]) <span class="sc">-</span> <span class="fu">mean</span>(Y[Z <span class="sc">==</span> <span class="dv">0</span>]))</span>
-<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>est_diff_means_2 <span class="ot">&lt;-</span> <span class="fu">coef</span>(<span class="fu">lm_robust</span>(Y <span class="sc">~</span> Z,</span>
-<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> sim_dat1,</span>
-<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">se =</span> <span class="st">&quot;classical&quot;</span></span>
-<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>))[[<span class="st">&quot;Z&quot;</span>]]</span>
-<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(est_diff_means_1, est_diff_means_2)</span></code></pre></div>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Two ways to calculate the difference of means estimator</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>est_diff_means_1 <span class="ot">&lt;-</span> <span class="fu">with</span>(sim_dat1, <span class="fu">mean</span>(Y[Z <span class="sc">==</span> <span class="dv">1</span>]) <span class="sc">-</span> <span class="fu">mean</span>(Y[Z <span class="sc">==</span> <span class="dv">0</span>]))</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>est_diff_means_2 <span class="ot">&lt;-</span> <span class="fu">coef</span>(<span class="fu">lm_robust</span>(Y <span class="sc">~</span> Z,</span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> sim_dat1,</span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">se =</span> <span class="st">&quot;classical&quot;</span></span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>))[[<span class="st">&quot;Z&quot;</span>]]</span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(est_diff_means_1, est_diff_means_2)</span></code></pre></div>
 <pre><code>[1] -39.2 -39.2</code></pre>
 <p></p>
 </section>
 <section id="then-simulate-with-one-randomization-1" class="slide level2">
 <h2>Then simulate with one randomization</h2>
 <p>In one experiment (one simulation of the data) here are the estimates after top-coding:</p>
-<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Two ways to calculate the topcoded difference of means estimator</span></span>
-<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>sim_dat1<span class="sc">$</span>rankY <span class="ot">&lt;-</span> <span class="fu">rank</span>(sim_dat1<span class="sc">$</span>Y)</span>
-<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>sim_dat1<span class="sc">$</span>Y_tc <span class="ot">&lt;-</span> <span class="fu">with</span>(sim_dat1, <span class="fu">ifelse</span>(rankY <span class="sc">==</span> <span class="fu">max</span>(rankY),</span>
-<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>  Y[rankY <span class="sc">==</span> (<span class="fu">max</span>(rankY) <span class="sc">-</span> <span class="dv">1</span>)], Y</span>
-<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>))</span>
-<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>est_topcoded_1 <span class="ot">&lt;-</span> <span class="fu">with</span>(sim_dat1, <span class="fu">mean</span>(Y_tc[Z <span class="sc">==</span> <span class="dv">1</span>]) <span class="sc">-</span> <span class="fu">mean</span>(Y_tc[Z <span class="sc">==</span> <span class="dv">0</span>]))</span>
-<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>est_topcoded_2 <span class="ot">&lt;-</span> <span class="fu">coef</span>(<span class="fu">lm_robust</span>(Y_tc <span class="sc">~</span> Z,</span>
-<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> sim_dat1,</span>
-<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">se =</span> <span class="st">&quot;classical&quot;</span></span>
-<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a>))[[<span class="st">&quot;Z&quot;</span>]]</span>
-<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(est_topcoded_1, est_topcoded_2)</span></code></pre></div>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Two ways to calculate the topcoded difference of means estimator</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>sim_dat1<span class="sc">$</span>rankY <span class="ot">&lt;-</span> <span class="fu">rank</span>(sim_dat1<span class="sc">$</span>Y)</span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>sim_dat1<span class="sc">$</span>Y_tc <span class="ot">&lt;-</span> <span class="fu">with</span>(sim_dat1, <span class="fu">ifelse</span>(rankY <span class="sc">==</span> <span class="fu">max</span>(rankY),</span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>  Y[rankY <span class="sc">==</span> (<span class="fu">max</span>(rankY) <span class="sc">-</span> <span class="dv">1</span>)], Y</span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>))</span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>est_topcoded_1 <span class="ot">&lt;-</span> <span class="fu">with</span>(sim_dat1, <span class="fu">mean</span>(Y_tc[Z <span class="sc">==</span> <span class="dv">1</span>]) <span class="sc">-</span> <span class="fu">mean</span>(Y_tc[Z <span class="sc">==</span> <span class="dv">0</span>]))</span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>est_topcoded_2 <span class="ot">&lt;-</span> <span class="fu">coef</span>(<span class="fu">lm_robust</span>(Y_tc <span class="sc">~</span> Z,</span>
+<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> sim_dat1,</span>
+<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">se =</span> <span class="st">&quot;classical&quot;</span></span>
+<span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a>))[[<span class="st">&quot;Z&quot;</span>]]</span>
+<span id="cb22-11"><a href="#cb22-11" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(est_topcoded_1, est_topcoded_2)</span></code></pre></div>
 <pre><code>[1] -37.2 -37.2</code></pre>
 </section>
 <section id="then-simulate-a-different-randomization-and-estimate-the-ate-with-the-same-estimators" class="slide level2">
 <h2>Then simulate a different randomization and estimate the ATE with the same estimators</h2>
 <p>Now calculate your estimate with the same estimators using a <strong>different</strong> randomization. Notice that the answers differ. The estimators are estimating the <em>same estimand</em> but now they have a different randomization to work with.</p>
-<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co"># do another random assignment of the treatment in DeclareDesign</span></span>
-<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="co"># this produces a new simulated dataset with a different random assignment</span></span>
-<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>sim_dat2 <span class="ot">&lt;-</span> <span class="fu">draw_data</span>(base_design)</span>
-<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a><span class="co"># the first estimator (difference in means)</span></span>
-<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a><span class="fu">coef</span>(<span class="fu">lm_robust</span>(Y <span class="sc">~</span> Z, <span class="at">data =</span> sim_dat2, <span class="at">se =</span> <span class="st">&quot;classical&quot;</span>))[[<span class="st">&quot;Z&quot;</span>]]</span></code></pre></div>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="co"># do another random assignment of the treatment in DeclareDesign</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="co"># this produces a new simulated dataset with a different random assignment</span></span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>sim_dat2 <span class="ot">&lt;-</span> <span class="fu">draw_data</span>(base_design)</span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a><span class="co"># the first estimator (difference in means)</span></span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a><span class="fu">coef</span>(<span class="fu">lm_robust</span>(Y <span class="sc">~</span> Z, <span class="at">data =</span> sim_dat2, <span class="at">se =</span> <span class="st">&quot;classical&quot;</span>))[[<span class="st">&quot;Z&quot;</span>]]</span></code></pre></div>
 <pre><code>[1] 76.8</code></pre>
-<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co"># the second estimator (top-coded difference in means)</span></span>
-<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>sim_dat2<span class="sc">$</span>rankY <span class="ot">&lt;-</span> <span class="fu">rank</span>(sim_dat2<span class="sc">$</span>Y)</span>
-<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>sim_dat2<span class="sc">$</span>Y_tc <span class="ot">&lt;-</span> <span class="fu">with</span>(sim_dat2, <span class="fu">ifelse</span>(rankY <span class="sc">==</span> <span class="fu">max</span>(rankY),</span>
-<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>  Y[rankY <span class="sc">==</span> (<span class="fu">max</span>(rankY) <span class="sc">-</span> <span class="dv">1</span>)], Y</span>
-<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>))</span>
-<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a><span class="fu">coef</span>(<span class="fu">lm_robust</span>(Y_tc <span class="sc">~</span> Z, <span class="at">data =</span> sim_dat2, <span class="at">se =</span> <span class="st">&quot;classical&quot;</span>))[[<span class="st">&quot;Z&quot;</span>]]</span></code></pre></div>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="co"># the second estimator (top-coded difference in means)</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>sim_dat2<span class="sc">$</span>rankY <span class="ot">&lt;-</span> <span class="fu">rank</span>(sim_dat2<span class="sc">$</span>Y)</span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>sim_dat2<span class="sc">$</span>Y_tc <span class="ot">&lt;-</span> <span class="fu">with</span>(sim_dat2, <span class="fu">ifelse</span>(rankY <span class="sc">==</span> <span class="fu">max</span>(rankY),</span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>  Y[rankY <span class="sc">==</span> (<span class="fu">max</span>(rankY) <span class="sc">-</span> <span class="dv">1</span>)], Y</span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>))</span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a><span class="fu">coef</span>(<span class="fu">lm_robust</span>(Y_tc <span class="sc">~</span> Z, <span class="at">data =</span> sim_dat2, <span class="at">se =</span> <span class="st">&quot;classical&quot;</span>))[[<span class="st">&quot;Z&quot;</span>]]</span></code></pre></div>
 <pre><code>[1] 36.25</code></pre>
 </section>
 <section id="how-do-our-estimators-behave-in-general-for-this-design" class="slide level2">
 <h2>How do our estimators behave in general for this design?</h2>
 <p>Our estimates vary across randomizations. Do our two estimators vary in the same ways?</p>
-<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Combine into one DeclareDesign design object</span></span>
-<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="do">## This has the base design, estimand, then our two estimators</span></span>
-<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>design_plus_ests <span class="ot">&lt;-</span> base_design <span class="sc">+</span> estimandATE <span class="sc">+</span> diff_means <span class="sc">+</span></span>
-<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>  diff_means_topcoded</span>
-<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a><span class="do">## Run 100 simulations (reassignments of treatment) and</span></span>
-<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a><span class="do">## apply the two estimators (diff_means and diff_means_topcoded)</span></span>
-<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a>diagnosis1 <span class="ot">&lt;-</span> <span class="fu">diagnose_design</span>(design_plus_ests,</span>
-<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">bootstrap_sims =</span> <span class="dv">0</span>, <span class="at">sims =</span> <span class="dv">100</span></span>
-<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb24-10"><a href="#cb24-10" aria-hidden="true" tabindex="-1"></a>sims1 <span class="ot">&lt;-</span> <span class="fu">get_simulations</span>(diagnosis1)</span>
-<span id="cb24-11"><a href="#cb24-11" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(sims1[, <span class="sc">-</span><span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>)])</span></code></pre></div>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Combine into one DeclareDesign design object</span></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a><span class="do">## This has the base design, estimand, then our two estimators</span></span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>design_plus_ests <span class="ot">&lt;-</span> base_design <span class="sc">+</span> estimandATE <span class="sc">+</span> diff_means <span class="sc">+</span></span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>  diff_means_topcoded</span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a><span class="do">## Run 100 simulations (reassignments of treatment) and</span></span>
+<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a><span class="do">## apply the two estimators (diff_means and diff_means_topcoded)</span></span>
+<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a>diagnosis1 <span class="ot">&lt;-</span> <span class="fu">diagnose_design</span>(design_plus_ests,</span>
+<span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">bootstrap_sims =</span> <span class="dv">0</span>, <span class="at">sims =</span> <span class="dv">100</span></span>
+<span id="cb28-9"><a href="#cb28-9" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb28-10"><a href="#cb28-10" aria-hidden="true" tabindex="-1"></a>sims1 <span class="ot">&lt;-</span> <span class="fu">get_simulations</span>(diagnosis1)</span>
+<span id="cb28-11"><a href="#cb28-11" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(sims1[, <span class="sc">-</span><span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>)])</span></code></pre></div>
 <pre><code>  estimate std.error statistic p.value conf.low conf.high df outcome
 1    -36.8     49.35   -0.7457  0.4772  -150.60     77.00  8       Y
 2    -34.8     48.15   -0.7228  0.4904  -145.82     76.22  8    newY
@@ -983,7 +987,7 @@ ATE = \frac{1}{J}\sum^J_{j=1} \sum^{N_j}_{i=1} \frac{y_{i,1} - y_{i,0}}{N_j}  = 
 <section id="estimating-the-ate-in-block-randomized-experiments" class="slide level2">
 <h2>Estimating the ATE in block-randomized experiments</h2>
 <p>One approach to estimation simply replaces <span class="math inline">\(ATE_j\)</span> with <span class="math inline">\(\widehat{ATE}\)</span> above:</p>
-<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">with</span>(dat, <span class="fu">table</span>(b, Z))</span></code></pre></div>
+<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="fu">with</span>(dat, <span class="fu">table</span>(b, Z))</span></code></pre></div>
 <pre><code>   Z
 b   0 1
   a 4 2
@@ -993,99 +997,99 @@ b   0 1
 <section id="estimating-the-ate-in-block-randomized-experiments-1" class="slide level2">
 <h2>Estimating the ATE in block-randomized experiments</h2>
 <p>One approach to estimation simply replaces <span class="math inline">\(ATE_j\)</span> with <span class="math inline">\(\widehat{ATE}\)</span> above:</p>
-<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>datb <span class="ot">&lt;-</span> dat <span class="sc">%&gt;%</span></span>
-<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(b) <span class="sc">%&gt;%</span></span>
-<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(</span>
-<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">nb =</span> <span class="fu">n</span>(), <span class="at">pb =</span> <span class="fu">mean</span>(Z), <span class="at">estateb =</span> <span class="fu">mean</span>(Y[Z <span class="sc">==</span> <span class="dv">1</span>]) <span class="sc">-</span> <span class="fu">mean</span>(Y[Z <span class="sc">==</span> <span class="dv">0</span>]),</span>
-<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">ateb =</span> <span class="fu">mean</span>(y1 <span class="sc">-</span> y0), <span class="at">.groups =</span> <span class="st">&quot;drop&quot;</span></span>
-<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a>datb</span></code></pre></div>
+<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>datb <span class="ot">&lt;-</span> dat <span class="sc">%&gt;%</span></span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(b) <span class="sc">%&gt;%</span></span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(</span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">nb =</span> <span class="fu">n</span>(), <span class="at">pb =</span> <span class="fu">mean</span>(Z), <span class="at">estateb =</span> <span class="fu">mean</span>(Y[Z <span class="sc">==</span> <span class="dv">1</span>]) <span class="sc">-</span> <span class="fu">mean</span>(Y[Z <span class="sc">==</span> <span class="dv">0</span>]),</span>
+<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">ateb =</span> <span class="fu">mean</span>(y1 <span class="sc">-</span> y0), <span class="at">.groups =</span> <span class="st">&quot;drop&quot;</span></span>
+<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb32-7"><a href="#cb32-7" aria-hidden="true" tabindex="-1"></a>datb</span></code></pre></div>
 <pre><code># A tibble: 2 x 5
   b        nb    pb estateb  ateb
-  &lt;chr&gt; &lt;int&gt; &lt;dbl&gt;   &lt;dbl&gt; &lt;dbl&gt;
+* &lt;chr&gt; &lt;int&gt; &lt;dbl&gt;   &lt;dbl&gt; &lt;dbl&gt;
 1 a         6 0.333    16.8    60
 2 b         4 0.5     246.     45</code></pre>
-<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="do">## True ate by block:</span></span>
-<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a><span class="fu">with</span>(dat, <span class="fu">mean</span>(y1 <span class="sc">-</span> y0))</span></code></pre></div>
+<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="do">## True ate by block:</span></span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a><span class="fu">with</span>(dat, <span class="fu">mean</span>(y1 <span class="sc">-</span> y0))</span></code></pre></div>
 <pre><code>[1] 54</code></pre>
-<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="do">## This is another way to calculate the true ate</span></span>
-<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a><span class="fu">with</span>(datb, <span class="fu">sum</span>(ateb <span class="sc">*</span> (nb <span class="sc">/</span> <span class="fu">sum</span>(nb))))</span></code></pre></div>
+<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="do">## This is another way to calculate the true ate</span></span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a><span class="fu">with</span>(datb, <span class="fu">sum</span>(ateb <span class="sc">*</span> (nb <span class="sc">/</span> <span class="fu">sum</span>(nb))))</span></code></pre></div>
 <pre><code>[1] 54</code></pre>
 </section>
 <section id="estimating-the-ate-in-block-randomized-experiments-2" class="slide level2">
 <h2>Estimating the ATE in block-randomized experiments</h2>
 <p>One approach is to estimate the overall ATE using block-size weights:</p>
-<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Showing that difference_in_means uses the blocksize weight.</span></span>
-<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>e1 <span class="ot">&lt;-</span> <span class="fu">difference_in_means</span>(Y <span class="sc">~</span> Z, <span class="at">blocks =</span> b, <span class="at">data =</span> dat)</span>
-<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>e2 <span class="ot">&lt;-</span> <span class="fu">with</span>(datb, <span class="fu">sum</span>(estateb <span class="sc">*</span> (nb <span class="sc">/</span> <span class="fu">sum</span>(nb))))</span>
-<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(<span class="fu">coef</span>(e1)[[<span class="st">&quot;Z&quot;</span>]], e2)</span></code></pre></div>
+<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Showing that difference_in_means uses the blocksize weight.</span></span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>e1 <span class="ot">&lt;-</span> <span class="fu">difference_in_means</span>(Y <span class="sc">~</span> Z, <span class="at">blocks =</span> b, <span class="at">data =</span> dat)</span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>e2 <span class="ot">&lt;-</span> <span class="fu">with</span>(datb, <span class="fu">sum</span>(estateb <span class="sc">*</span> (nb <span class="sc">/</span> <span class="fu">sum</span>(nb))))</span>
+<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(<span class="fu">coef</span>(e1)[[<span class="st">&quot;Z&quot;</span>]], e2)</span></code></pre></div>
 <pre><code>[1] 108.2 108.2</code></pre>
 </section>
 <section id="estimating-the-ate-in-block-randomized-experiments-3" class="slide level2">
 <h2>Estimating the ATE in block-randomized experiments</h2>
 <p>Notice that this is <strong>not</strong> the same as either of the following:</p>
-<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Ignoring blocks</span></span>
-<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>e3 <span class="ot">&lt;-</span> <span class="fu">lm</span>(Y <span class="sc">~</span> Z, <span class="at">data =</span> dat)</span>
-<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a><span class="fu">coef</span>(e3)[[<span class="st">&quot;Z&quot;</span>]]</span></code></pre></div>
+<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Ignoring blocks</span></span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>e3 <span class="ot">&lt;-</span> <span class="fu">lm</span>(Y <span class="sc">~</span> Z, <span class="at">data =</span> dat)</span>
+<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a><span class="fu">coef</span>(e3)[[<span class="st">&quot;Z&quot;</span>]]</span></code></pre></div>
 <pre><code>[1] 131.8</code></pre>
-<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="do">## With block fixed effects</span></span>
-<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>e4 <span class="ot">&lt;-</span> <span class="fu">lm</span>(Y <span class="sc">~</span> Z <span class="sc">+</span> block, <span class="at">data =</span> dat)</span>
-<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a><span class="fu">coef</span>(e4)[[<span class="st">&quot;Z&quot;</span>]]</span></code></pre></div>
+<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="do">## With block fixed effects</span></span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>e4 <span class="ot">&lt;-</span> <span class="fu">lm</span>(Y <span class="sc">~</span> Z <span class="sc">+</span> block, <span class="at">data =</span> dat)</span>
+<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a><span class="fu">coef</span>(e4)[[<span class="st">&quot;Z&quot;</span>]]</span></code></pre></div>
 <pre><code>[1] 114.8</code></pre>
 <p>How do they differ? (The first ignores the blocks. The second uses a different set of weights that are created by use of “fixed effects” or “indicator” or “dummy” variables.)</p>
 </section>
 <section id="which-estimator-should-we-use" class="slide level2">
 <h2>Which estimator should we use?</h2>
 <p>We now have three estimators each with a different estimate (imagining they all target the same estimand):</p>
-<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(<span class="fu">coef</span>(e1)[[<span class="st">&quot;Z&quot;</span>]], <span class="fu">coef</span>(e3)[[<span class="st">&quot;Z&quot;</span>]], <span class="fu">coef</span>(e4)[[<span class="st">&quot;Z&quot;</span>]])</span></code></pre></div>
+<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(<span class="fu">coef</span>(e1)[[<span class="st">&quot;Z&quot;</span>]], <span class="fu">coef</span>(e3)[[<span class="st">&quot;Z&quot;</span>]], <span class="fu">coef</span>(e4)[[<span class="st">&quot;Z&quot;</span>]])</span></code></pre></div>
 <pre><code>[1] 108.2 131.8 114.8</code></pre>
 <p>Which estimator should we use for this design? We can set up a DeclareDesign simulation to figure this out.</p>
-<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="do">## declare a new base design that includes the block indicator b</span></span>
-<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>base_design_blocks <span class="ot">&lt;-</span></span>
-<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a>  <span class="co"># declare the population</span></span>
-<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">declare_population</span>(dat[, <span class="fu">c</span>(<span class="st">&quot;b&quot;</span>, <span class="st">&quot;y0&quot;</span>, <span class="st">&quot;y1&quot;</span>)]) <span class="sc">+</span></span>
-<span id="cb42-5"><a href="#cb42-5" aria-hidden="true" tabindex="-1"></a>  <span class="co"># tell DD that b indicates block and to assign 2 treated units in each block</span></span>
-<span id="cb42-6"><a href="#cb42-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">declare_assignment</span>(<span class="at">m =</span> <span class="dv">2</span>, <span class="at">blocks =</span> b) <span class="sc">+</span></span>
-<span id="cb42-7"><a href="#cb42-7" aria-hidden="true" tabindex="-1"></a>  <span class="co"># relationship of potential outcomes to observed outcome</span></span>
-<span id="cb42-8"><a href="#cb42-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">declare_potential_outcomes</span>(Y <span class="sc">~</span> Z <span class="sc">*</span> y1 <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">-</span> Z) <span class="sc">*</span> y0) <span class="sc">+</span></span>
-<span id="cb42-9"><a href="#cb42-9" aria-hidden="true" tabindex="-1"></a>  <span class="co"># observed outcome and treatment assignment</span></span>
-<span id="cb42-10"><a href="#cb42-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">declare_reveal</span>(Y, Z)</span></code></pre></div>
+<div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="do">## declare a new base design that includes the block indicator b</span></span>
+<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a>base_design_blocks <span class="ot">&lt;-</span></span>
+<span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a>  <span class="co"># declare the population</span></span>
+<span id="cb46-4"><a href="#cb46-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">declare_population</span>(dat[, <span class="fu">c</span>(<span class="st">&quot;b&quot;</span>, <span class="st">&quot;y0&quot;</span>, <span class="st">&quot;y1&quot;</span>)]) <span class="sc">+</span></span>
+<span id="cb46-5"><a href="#cb46-5" aria-hidden="true" tabindex="-1"></a>  <span class="co"># tell DD that b indicates block and to assign 2 treated units in each block</span></span>
+<span id="cb46-6"><a href="#cb46-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">declare_assignment</span>(<span class="at">m =</span> <span class="dv">2</span>, <span class="at">blocks =</span> b) <span class="sc">+</span></span>
+<span id="cb46-7"><a href="#cb46-7" aria-hidden="true" tabindex="-1"></a>  <span class="co"># relationship of potential outcomes to observed outcome</span></span>
+<span id="cb46-8"><a href="#cb46-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">declare_potential_outcomes</span>(Y <span class="sc">~</span> Z <span class="sc">*</span> y1 <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">-</span> Z) <span class="sc">*</span> y0) <span class="sc">+</span></span>
+<span id="cb46-9"><a href="#cb46-9" aria-hidden="true" tabindex="-1"></a>  <span class="co"># observed outcome and treatment assignment</span></span>
+<span id="cb46-10"><a href="#cb46-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">declare_reveal</span>(Y, Z)</span></code></pre></div>
 </section>
 <section id="which-estimator-should-we-use-1" class="slide level2">
 <h2>Which estimator should we use?</h2>
-<div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="co"># the estimand is the average treatment effect</span></span>
-<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>estimandATEb <span class="ot">&lt;-</span> <span class="fu">declare_estimand</span>(<span class="at">ATE =</span> <span class="fu">mean</span>(Y_Z_1 <span class="sc">-</span> Y_Z_0))</span>
-<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb43-4"><a href="#cb43-4" aria-hidden="true" tabindex="-1"></a><span class="co"># three different estimators</span></span>
-<span id="cb43-5"><a href="#cb43-5" aria-hidden="true" tabindex="-1"></a>est1 <span class="ot">&lt;-</span> <span class="fu">declare_estimator</span>(Y <span class="sc">~</span> Z,</span>
-<span id="cb43-6"><a href="#cb43-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">estimand =</span> estimandATEb, <span class="at">model =</span> lm_robust,</span>
-<span id="cb43-7"><a href="#cb43-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">label =</span> <span class="st">&quot;Ignores Blocks&quot;</span></span>
-<span id="cb43-8"><a href="#cb43-8" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb43-9"><a href="#cb43-9" aria-hidden="true" tabindex="-1"></a>est2 <span class="ot">&lt;-</span> <span class="fu">declare_estimator</span>(Y <span class="sc">~</span> Z,</span>
-<span id="cb43-10"><a href="#cb43-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">estimand =</span> estimandATEb, <span class="at">model =</span> difference_in_means, <span class="at">blocks =</span> b,</span>
-<span id="cb43-11"><a href="#cb43-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">label =</span> <span class="st">&quot;DiM: Block-Size Weights&quot;</span></span>
-<span id="cb43-12"><a href="#cb43-12" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb43-13"><a href="#cb43-13" aria-hidden="true" tabindex="-1"></a>est3 <span class="ot">&lt;-</span> <span class="fu">declare_estimator</span>(Y <span class="sc">~</span> Z,</span>
-<span id="cb43-14"><a href="#cb43-14" aria-hidden="true" tabindex="-1"></a>  <span class="at">estimand =</span> estimandATEb, <span class="at">model =</span> lm_robust,</span>
-<span id="cb43-15"><a href="#cb43-15" aria-hidden="true" tabindex="-1"></a>  <span class="at">weights =</span> (Z <span class="sc">/</span> Z_cond_prob) <span class="sc">+</span> ((<span class="dv">1</span> <span class="sc">-</span> Z) <span class="sc">/</span> (Z_cond_prob)),</span>
-<span id="cb43-16"><a href="#cb43-16" aria-hidden="true" tabindex="-1"></a>  <span class="at">label =</span> <span class="st">&quot;LM: Block Size Weights&quot;</span></span>
-<span id="cb43-17"><a href="#cb43-17" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<div class="sourceCode" id="cb47"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="co"># the estimand is the average treatment effect</span></span>
+<span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a>estimandATEb <span class="ot">&lt;-</span> <span class="fu">declare_estimand</span>(<span class="at">ATE =</span> <span class="fu">mean</span>(Y_Z_1 <span class="sc">-</span> Y_Z_0))</span>
+<span id="cb47-3"><a href="#cb47-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb47-4"><a href="#cb47-4" aria-hidden="true" tabindex="-1"></a><span class="co"># three different estimators</span></span>
+<span id="cb47-5"><a href="#cb47-5" aria-hidden="true" tabindex="-1"></a>est1 <span class="ot">&lt;-</span> <span class="fu">declare_estimator</span>(Y <span class="sc">~</span> Z,</span>
+<span id="cb47-6"><a href="#cb47-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">estimand =</span> estimandATEb, <span class="at">model =</span> lm_robust,</span>
+<span id="cb47-7"><a href="#cb47-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">label =</span> <span class="st">&quot;Ignores Blocks&quot;</span></span>
+<span id="cb47-8"><a href="#cb47-8" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb47-9"><a href="#cb47-9" aria-hidden="true" tabindex="-1"></a>est2 <span class="ot">&lt;-</span> <span class="fu">declare_estimator</span>(Y <span class="sc">~</span> Z,</span>
+<span id="cb47-10"><a href="#cb47-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">estimand =</span> estimandATEb, <span class="at">model =</span> difference_in_means, <span class="at">blocks =</span> b,</span>
+<span id="cb47-11"><a href="#cb47-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">label =</span> <span class="st">&quot;DiM: Block-Size Weights&quot;</span></span>
+<span id="cb47-12"><a href="#cb47-12" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb47-13"><a href="#cb47-13" aria-hidden="true" tabindex="-1"></a>est3 <span class="ot">&lt;-</span> <span class="fu">declare_estimator</span>(Y <span class="sc">~</span> Z,</span>
+<span id="cb47-14"><a href="#cb47-14" aria-hidden="true" tabindex="-1"></a>  <span class="at">estimand =</span> estimandATEb, <span class="at">model =</span> lm_robust,</span>
+<span id="cb47-15"><a href="#cb47-15" aria-hidden="true" tabindex="-1"></a>  <span class="at">weights =</span> (Z <span class="sc">/</span> Z_cond_prob) <span class="sc">+</span> ((<span class="dv">1</span> <span class="sc">-</span> Z) <span class="sc">/</span> (Z_cond_prob)),</span>
+<span id="cb47-16"><a href="#cb47-16" aria-hidden="true" tabindex="-1"></a>  <span class="at">label =</span> <span class="st">&quot;LM: Block Size Weights&quot;</span></span>
+<span id="cb47-17"><a href="#cb47-17" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
 </section>
 <section id="which-estimator-should-we-use-2" class="slide level2">
 <h2>Which estimator should we use?</h2>
-<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="co"># two more estimators</span></span>
-<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a>est4 <span class="ot">&lt;-</span> <span class="fu">declare_estimator</span>(Y <span class="sc">~</span> Z,</span>
-<span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">estimand =</span> estimandATEb,</span>
-<span id="cb44-4"><a href="#cb44-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">model =</span> lm_robust, <span class="at">fixed_effects =</span> <span class="sc">~</span>b, <span class="at">label =</span> <span class="st">&quot;Precision Weights&quot;</span></span>
-<span id="cb44-5"><a href="#cb44-5" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb44-6"><a href="#cb44-6" aria-hidden="true" tabindex="-1"></a>est5 <span class="ot">&lt;-</span> <span class="fu">declare_estimator</span>(Y <span class="sc">~</span> Z <span class="sc">+</span> b,</span>
-<span id="cb44-7"><a href="#cb44-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">estimand =</span> estimandATEb,</span>
-<span id="cb44-8"><a href="#cb44-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">model =</span> lm_robust, <span class="at">label =</span> <span class="st">&quot;Precision Weights (LSDV)&quot;</span></span>
-<span id="cb44-9"><a href="#cb44-9" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb44-10"><a href="#cb44-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-11"><a href="#cb44-11" aria-hidden="true" tabindex="-1"></a><span class="do">## new design object has the base design, the estimand, and five estimators</span></span>
-<span id="cb44-12"><a href="#cb44-12" aria-hidden="true" tabindex="-1"></a>design_blocks <span class="ot">&lt;-</span> base_design_blocks <span class="sc">+</span> estimandATEb <span class="sc">+</span></span>
-<span id="cb44-13"><a href="#cb44-13" aria-hidden="true" tabindex="-1"></a>  est1 <span class="sc">+</span> est2 <span class="sc">+</span> est3 <span class="sc">+</span> est4 <span class="sc">+</span> est5</span></code></pre></div>
+<div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="co"># two more estimators</span></span>
+<span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a>est4 <span class="ot">&lt;-</span> <span class="fu">declare_estimator</span>(Y <span class="sc">~</span> Z,</span>
+<span id="cb48-3"><a href="#cb48-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">estimand =</span> estimandATEb,</span>
+<span id="cb48-4"><a href="#cb48-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">model =</span> lm_robust, <span class="at">fixed_effects =</span> <span class="sc">~</span>b, <span class="at">label =</span> <span class="st">&quot;Precision Weights&quot;</span></span>
+<span id="cb48-5"><a href="#cb48-5" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb48-6"><a href="#cb48-6" aria-hidden="true" tabindex="-1"></a>est5 <span class="ot">&lt;-</span> <span class="fu">declare_estimator</span>(Y <span class="sc">~</span> Z <span class="sc">+</span> b,</span>
+<span id="cb48-7"><a href="#cb48-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">estimand =</span> estimandATEb,</span>
+<span id="cb48-8"><a href="#cb48-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">model =</span> lm_robust, <span class="at">label =</span> <span class="st">&quot;Precision Weights (LSDV)&quot;</span></span>
+<span id="cb48-9"><a href="#cb48-9" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb48-10"><a href="#cb48-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb48-11"><a href="#cb48-11" aria-hidden="true" tabindex="-1"></a><span class="do">## new design object has the base design, the estimand, and five estimators</span></span>
+<span id="cb48-12"><a href="#cb48-12" aria-hidden="true" tabindex="-1"></a>design_blocks <span class="ot">&lt;-</span> base_design_blocks <span class="sc">+</span> estimandATEb <span class="sc">+</span></span>
+<span id="cb48-13"><a href="#cb48-13" aria-hidden="true" tabindex="-1"></a>  est1 <span class="sc">+</span> est2 <span class="sc">+</span> est3 <span class="sc">+</span> est4 <span class="sc">+</span> est5</span></code></pre></div>
 <p>Then we will run 10,000 simulations (reassign treatment 10,000 times) and summarize the estimates produced by each of these five estimators.</p>
 </section>
 <section id="which-estimator-should-we-use-3" class="slide level2">
@@ -1195,6 +1199,22 @@ b   0 1
 </section>
 <section id="an-example-of-estimation" class="slide level2">
 <h2>An example of estimation</h2>
+<pre><code>Warning: &#39;declare_estimand&#39; is deprecated.
+Use &#39;declare_inquiry&#39; instead.
+See help(&quot;Deprecated&quot;)</code></pre>
+<pre><code>Warning: The argument &#39;estimand = &#39; is deprecated. Please use &#39;inquiry = &#39; instead.
+
+Warning: The argument &#39;estimand = &#39; is deprecated. Please use &#39;inquiry = &#39; instead.
+
+Warning: The argument &#39;estimand = &#39; is deprecated. Please use &#39;inquiry = &#39; instead.
+
+Warning: The argument &#39;estimand = &#39; is deprecated. Please use &#39;inquiry = &#39; instead.
+
+Warning: The argument &#39;estimand = &#39; is deprecated. Please use &#39;inquiry = &#39; instead.
+
+Warning: The argument &#39;estimand = &#39; is deprecated. Please use &#39;inquiry = &#39; instead.
+
+Warning: The argument &#39;estimand = &#39; is deprecated. Please use &#39;inquiry = &#39; instead.</code></pre>
 <p>Imagine we had data from 10 clusters with either 100 people (for 2 clusters) or 10 people per cluster (for 8 clusters). The total size of the data is 280.</p>
 <pre><code># A tibble: 6 x 6
 # Groups:   clus_id [2]
@@ -1210,16 +1230,16 @@ b   0 1
 <section id="an-example-of-estimation-1" class="slide level2">
 <h2>An example of estimation</h2>
 <p>Which estimator should we use? Which test should we use? On what basis should we choose among these approaches?</p>
-<div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a>lmc1 <span class="ot">&lt;-</span> <span class="fu">lm_robust</span>(Y <span class="sc">~</span> Z, <span class="at">data =</span> dat1)</span>
-<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a>lmc2 <span class="ot">&lt;-</span> <span class="fu">lm_robust</span>(Y <span class="sc">~</span> Z, <span class="at">clusters =</span> clus_id, <span class="at">data =</span> dat1)</span>
-<span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a>lmc3 <span class="ot">&lt;-</span> <span class="fu">lm_robust</span>(Y <span class="sc">~</span> Z <span class="sc">+</span> cl_sizeF, <span class="at">clusters =</span> clus_id, <span class="at">data =</span> dat1)</span>
-<span id="cb46-4"><a href="#cb46-4" aria-hidden="true" tabindex="-1"></a><span class="fu">tidy</span>(lmc1)[<span class="dv">2</span>, ]</span></code></pre></div>
+<div class="sourceCode" id="cb52"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a>lmc1 <span class="ot">&lt;-</span> <span class="fu">lm_robust</span>(Y <span class="sc">~</span> Z, <span class="at">data =</span> dat1)</span>
+<span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a>lmc2 <span class="ot">&lt;-</span> <span class="fu">lm_robust</span>(Y <span class="sc">~</span> Z, <span class="at">clusters =</span> clus_id, <span class="at">data =</span> dat1)</span>
+<span id="cb52-3"><a href="#cb52-3" aria-hidden="true" tabindex="-1"></a>lmc3 <span class="ot">&lt;-</span> <span class="fu">lm_robust</span>(Y <span class="sc">~</span> Z <span class="sc">+</span> cl_sizeF, <span class="at">clusters =</span> clus_id, <span class="at">data =</span> dat1)</span>
+<span id="cb52-4"><a href="#cb52-4" aria-hidden="true" tabindex="-1"></a><span class="fu">tidy</span>(lmc1)[<span class="dv">2</span>, ]</span></code></pre></div>
 <pre><code>  term estimate std.error statistic p.value conf.low conf.high  df outcome
 2    Z   0.3024    0.1207     2.504 0.01284  0.06471    0.5401 278       Y</code></pre>
-<div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tidy</span>(lmc2)[<span class="dv">2</span>, ]</span></code></pre></div>
+<div class="sourceCode" id="cb54"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tidy</span>(lmc2)[<span class="dv">2</span>, ]</span></code></pre></div>
 <pre><code>  term estimate std.error statistic p.value conf.low conf.high    df outcome
 2    Z   0.3024     1.079    0.2804   0.796   -2.969     3.574 3.282       Y</code></pre>
-<div class="sourceCode" id="cb50"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tidy</span>(lmc3)[<span class="dv">2</span>, ]</span></code></pre></div>
+<div class="sourceCode" id="cb56"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tidy</span>(lmc3)[<span class="dv">2</span>, ]</span></code></pre></div>
 <pre><code>  term estimate std.error statistic p.value conf.low conf.high    df outcome
 2    Z   0.3024     0.306    0.9882  0.4386   -1.194     1.799 1.769       Y</code></pre>
 </section>
@@ -1355,44 +1375,50 @@ b   0 1
 </section>
 <section id="binary-outcomes-set-up-our-data-for-simulation-in-declaredesign" class="slide level2">
 <h2>Binary outcomes: Set up our data for simulation in DeclareDesign</h2>
-<div class="sourceCode" id="cb52"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a><span class="co"># population size</span></span>
-<span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a>N <span class="ot">&lt;-</span> <span class="dv">20</span></span>
-<span id="cb52-3"><a href="#cb52-3" aria-hidden="true" tabindex="-1"></a><span class="co"># declare the population</span></span>
-<span id="cb52-4"><a href="#cb52-4" aria-hidden="true" tabindex="-1"></a>thepop_bin <span class="ot">&lt;-</span> <span class="fu">declare_population</span>(</span>
-<span id="cb52-5"><a href="#cb52-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">N =</span> N, <span class="at">x1 =</span> <span class="fu">draw_binary</span>(<span class="at">prob =</span> .<span class="dv">5</span>, <span class="at">N =</span> N),</span>
-<span id="cb52-6"><a href="#cb52-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">x2 =</span> <span class="fu">rnorm</span>(N)</span>
-<span id="cb52-7"><a href="#cb52-7" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb52-8"><a href="#cb52-8" aria-hidden="true" tabindex="-1"></a><span class="co"># declare the potential outcomes</span></span>
-<span id="cb52-9"><a href="#cb52-9" aria-hidden="true" tabindex="-1"></a>thepo_bin <span class="ot">&lt;-</span> <span class="fu">declare_potential_outcomes</span>(Y <span class="sc">~</span> <span class="fu">rbinom</span>(</span>
-<span id="cb52-10"><a href="#cb52-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">n =</span> N, <span class="at">size =</span> <span class="dv">1</span>,</span>
-<span id="cb52-11"><a href="#cb52-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">prob =</span> <span class="fl">0.5</span> <span class="sc">+</span> <span class="fl">0.05</span> <span class="sc">*</span> Z <span class="sc">+</span> x1 <span class="sc">*</span> .<span class="dv">05</span></span>
-<span id="cb52-12"><a href="#cb52-12" aria-hidden="true" tabindex="-1"></a>))</span>
-<span id="cb52-13"><a href="#cb52-13" aria-hidden="true" tabindex="-1"></a><span class="co"># two possible targets: difference in means or difference in log-odds</span></span>
-<span id="cb52-14"><a href="#cb52-14" aria-hidden="true" tabindex="-1"></a>thetarget_ate <span class="ot">&lt;-</span> <span class="fu">declare_estimand</span>(<span class="at">ate =</span> <span class="fu">mean</span>(Y_Z_1 <span class="sc">-</span> Y_Z_0))</span>
-<span id="cb52-15"><a href="#cb52-15" aria-hidden="true" tabindex="-1"></a>thetarget_logodds <span class="ot">&lt;-</span> <span class="fu">declare_estimand</span>(</span>
-<span id="cb52-16"><a href="#cb52-16" aria-hidden="true" tabindex="-1"></a>  <span class="at">logodds =</span> <span class="fu">log</span>(<span class="fu">mean</span>(Y_Z_1) <span class="sc">/</span> (<span class="dv">1</span> <span class="sc">-</span> <span class="fu">mean</span>(Y_Z_1))) <span class="sc">-</span></span>
-<span id="cb52-17"><a href="#cb52-17" aria-hidden="true" tabindex="-1"></a>    <span class="fu">log</span>(<span class="fu">mean</span>(Y_Z_0) <span class="sc">/</span> (<span class="dv">1</span> <span class="sc">-</span> <span class="fu">mean</span>(Y_Z_0)))</span>
-<span id="cb52-18"><a href="#cb52-18" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<div class="sourceCode" id="cb58"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a><span class="co"># population size</span></span>
+<span id="cb58-2"><a href="#cb58-2" aria-hidden="true" tabindex="-1"></a>N <span class="ot">&lt;-</span> <span class="dv">20</span></span>
+<span id="cb58-3"><a href="#cb58-3" aria-hidden="true" tabindex="-1"></a><span class="co"># declare the population</span></span>
+<span id="cb58-4"><a href="#cb58-4" aria-hidden="true" tabindex="-1"></a>thepop_bin <span class="ot">&lt;-</span> <span class="fu">declare_population</span>(</span>
+<span id="cb58-5"><a href="#cb58-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">N =</span> N, <span class="at">x1 =</span> <span class="fu">draw_binary</span>(<span class="at">prob =</span> .<span class="dv">5</span>, <span class="at">N =</span> N),</span>
+<span id="cb58-6"><a href="#cb58-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">x2 =</span> <span class="fu">rnorm</span>(N)</span>
+<span id="cb58-7"><a href="#cb58-7" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb58-8"><a href="#cb58-8" aria-hidden="true" tabindex="-1"></a><span class="co"># declare the potential outcomes</span></span>
+<span id="cb58-9"><a href="#cb58-9" aria-hidden="true" tabindex="-1"></a>thepo_bin <span class="ot">&lt;-</span> <span class="fu">declare_potential_outcomes</span>(Y <span class="sc">~</span> <span class="fu">rbinom</span>(</span>
+<span id="cb58-10"><a href="#cb58-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">n =</span> N, <span class="at">size =</span> <span class="dv">1</span>,</span>
+<span id="cb58-11"><a href="#cb58-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">prob =</span> <span class="fl">0.5</span> <span class="sc">+</span> <span class="fl">0.05</span> <span class="sc">*</span> Z <span class="sc">+</span> x1 <span class="sc">*</span> .<span class="dv">05</span></span>
+<span id="cb58-12"><a href="#cb58-12" aria-hidden="true" tabindex="-1"></a>))</span>
+<span id="cb58-13"><a href="#cb58-13" aria-hidden="true" tabindex="-1"></a><span class="co"># two possible targets: difference in means or difference in log-odds</span></span>
+<span id="cb58-14"><a href="#cb58-14" aria-hidden="true" tabindex="-1"></a>thetarget_ate <span class="ot">&lt;-</span> <span class="fu">declare_estimand</span>(<span class="at">ate =</span> <span class="fu">mean</span>(Y_Z_1 <span class="sc">-</span> Y_Z_0))</span></code></pre></div>
+<pre><code>Warning: &#39;declare_estimand&#39; is deprecated.
+Use &#39;declare_inquiry&#39; instead.
+See help(&quot;Deprecated&quot;)</code></pre>
+<div class="sourceCode" id="cb60"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a>thetarget_logodds <span class="ot">&lt;-</span> <span class="fu">declare_estimand</span>(</span>
+<span id="cb60-2"><a href="#cb60-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">logodds =</span> <span class="fu">log</span>(<span class="fu">mean</span>(Y_Z_1) <span class="sc">/</span> (<span class="dv">1</span> <span class="sc">-</span> <span class="fu">mean</span>(Y_Z_1))) <span class="sc">-</span></span>
+<span id="cb60-3"><a href="#cb60-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">log</span>(<span class="fu">mean</span>(Y_Z_0) <span class="sc">/</span> (<span class="dv">1</span> <span class="sc">-</span> <span class="fu">mean</span>(Y_Z_0)))</span>
+<span id="cb60-4"><a href="#cb60-4" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<pre><code>Warning: &#39;declare_estimand&#39; is deprecated.
+Use &#39;declare_inquiry&#39; instead.
+See help(&quot;Deprecated&quot;)</code></pre>
 </section>
 <section id="binary-outcomes-set-up-our-data-for-simulation-in-declaredesign-1" class="slide level2">
 <h2>Binary outcomes: Set up our data for simulation in DeclareDesign</h2>
-<div class="sourceCode" id="cb53"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a><span class="co"># declare how treatment is assigned</span></span>
-<span id="cb53-2"><a href="#cb53-2" aria-hidden="true" tabindex="-1"></a><span class="co"># m units are assigned to levels of treatment Z</span></span>
-<span id="cb53-3"><a href="#cb53-3" aria-hidden="true" tabindex="-1"></a>theassign_bin <span class="ot">&lt;-</span> <span class="fu">declare_assignment</span>(<span class="at">m =</span> <span class="fu">floor</span>(N <span class="sc">/</span> <span class="dv">3</span>))</span>
-<span id="cb53-4"><a href="#cb53-4" aria-hidden="true" tabindex="-1"></a><span class="co"># declare what outcome values are revealed for possible values of Z</span></span>
-<span id="cb53-5"><a href="#cb53-5" aria-hidden="true" tabindex="-1"></a>thereveal_bin <span class="ot">&lt;-</span> <span class="fu">declare_reveal</span>(Y, Z)</span>
-<span id="cb53-6"><a href="#cb53-6" aria-hidden="true" tabindex="-1"></a><span class="co"># pull this all together: population, potential outcomes, assignment,</span></span>
-<span id="cb53-7"><a href="#cb53-7" aria-hidden="true" tabindex="-1"></a><span class="do">## outcome values connected to Z</span></span>
-<span id="cb53-8"><a href="#cb53-8" aria-hidden="true" tabindex="-1"></a>des_bin <span class="ot">&lt;-</span> thepop_bin <span class="sc">+</span> thepo_bin <span class="sc">+</span> theassign_bin <span class="sc">+</span> thereveal_bin</span>
-<span id="cb53-9"><a href="#cb53-9" aria-hidden="true" tabindex="-1"></a><span class="co"># then make one draw (randomize treatment once)</span></span>
-<span id="cb53-10"><a href="#cb53-10" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">12345</span>)</span>
-<span id="cb53-11"><a href="#cb53-11" aria-hidden="true" tabindex="-1"></a>dat2 <span class="ot">&lt;-</span> <span class="fu">draw_data</span>(des_bin)</span></code></pre></div>
+<div class="sourceCode" id="cb62"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a><span class="co"># declare how treatment is assigned</span></span>
+<span id="cb62-2"><a href="#cb62-2" aria-hidden="true" tabindex="-1"></a><span class="co"># m units are assigned to levels of treatment Z</span></span>
+<span id="cb62-3"><a href="#cb62-3" aria-hidden="true" tabindex="-1"></a>theassign_bin <span class="ot">&lt;-</span> <span class="fu">declare_assignment</span>(<span class="at">m =</span> <span class="fu">floor</span>(N <span class="sc">/</span> <span class="dv">3</span>))</span>
+<span id="cb62-4"><a href="#cb62-4" aria-hidden="true" tabindex="-1"></a><span class="co"># declare what outcome values are revealed for possible values of Z</span></span>
+<span id="cb62-5"><a href="#cb62-5" aria-hidden="true" tabindex="-1"></a>thereveal_bin <span class="ot">&lt;-</span> <span class="fu">declare_reveal</span>(Y, Z)</span>
+<span id="cb62-6"><a href="#cb62-6" aria-hidden="true" tabindex="-1"></a><span class="co"># pull this all together: population, potential outcomes, assignment,</span></span>
+<span id="cb62-7"><a href="#cb62-7" aria-hidden="true" tabindex="-1"></a><span class="do">## outcome values connected to Z</span></span>
+<span id="cb62-8"><a href="#cb62-8" aria-hidden="true" tabindex="-1"></a>des_bin <span class="ot">&lt;-</span> thepop_bin <span class="sc">+</span> thepo_bin <span class="sc">+</span> theassign_bin <span class="sc">+</span> thereveal_bin</span>
+<span id="cb62-9"><a href="#cb62-9" aria-hidden="true" tabindex="-1"></a><span class="co"># then make one draw (randomize treatment once)</span></span>
+<span id="cb62-10"><a href="#cb62-10" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">12345</span>)</span>
+<span id="cb62-11"><a href="#cb62-11" aria-hidden="true" tabindex="-1"></a>dat2 <span class="ot">&lt;-</span> <span class="fu">draw_data</span>(des_bin)</span></code></pre></div>
 </section>
 <section id="binary-outcomes-estimands-i" class="slide level2">
 <h2>Binary outcomes: Estimands I</h2>
 <p>How would we interpret the following true quantities or estimands? (<code>Y_Z_1</code>, <code>Y_Z_0</code> are potential outcomes, <code>Y</code> is observed, <code>x1</code>, <code>x2</code> are covariates, <code>Z</code> is treatment assignment. Here <span class="math inline">\(N\)</span>=20.</p>
-<div class="sourceCode" id="cb54"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Look at the first 6 observations only:</span></span>
-<span id="cb54-2"><a href="#cb54-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(dat2[, <span class="sc">-</span><span class="dv">7</span>])</span></code></pre></div>
+<div class="sourceCode" id="cb63"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb63-1"><a href="#cb63-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Look at the first 6 observations only:</span></span>
+<span id="cb63-2"><a href="#cb63-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(dat2[, <span class="sc">-</span><span class="dv">7</span>])</span></code></pre></div>
 <pre><code>  ID x1      x2 Y_Z_0 Y_Z_1 Z Y
 1 01  1 -0.1162     0     1 0 0
 2 02  1  1.8173     0     1 1 1
@@ -1404,17 +1430,17 @@ b   0 1
 <section id="binary-outcomes-estimands-ii" class="slide level2">
 <h2>Binary outcomes: Estimands II</h2>
 <p>How would we interpret the following true quantities or estimands? (<code>Y_Z_1</code>, <code>Y_Z_0</code> are potential outcomes, <code>Y</code> is observed, <code>x1</code>, <code>x2</code> are covariates, <code>Z</code> is treatment assignment. Here <span class="math inline">\(N\)</span>=20.</p>
-<div class="sourceCode" id="cb56"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a>ate_bin <span class="ot">&lt;-</span> <span class="fu">with</span>(dat2, <span class="fu">mean</span>(Y_Z_1 <span class="sc">-</span> Y_Z_0))</span>
-<span id="cb56-2"><a href="#cb56-2" aria-hidden="true" tabindex="-1"></a>bary1 <span class="ot">&lt;-</span> <span class="fu">mean</span>(dat2<span class="sc">$</span>Y_Z_1)</span>
-<span id="cb56-3"><a href="#cb56-3" aria-hidden="true" tabindex="-1"></a>bary0 <span class="ot">&lt;-</span> <span class="fu">mean</span>(dat2<span class="sc">$</span>Y_Z_0)</span>
-<span id="cb56-4"><a href="#cb56-4" aria-hidden="true" tabindex="-1"></a>diff_log_odds_bin <span class="ot">&lt;-</span> <span class="fu">with</span>(</span>
-<span id="cb56-5"><a href="#cb56-5" aria-hidden="true" tabindex="-1"></a>  dat2,</span>
-<span id="cb56-6"><a href="#cb56-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">log</span>(bary1 <span class="sc">/</span> (<span class="dv">1</span> <span class="sc">-</span> bary1)) <span class="sc">-</span> <span class="fu">log</span>(bary0 <span class="sc">/</span> (<span class="dv">1</span> <span class="sc">-</span> bary0))</span>
-<span id="cb56-7"><a href="#cb56-7" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb56-8"><a href="#cb56-8" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(</span>
-<span id="cb56-9"><a href="#cb56-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">bary1 =</span> bary1, <span class="at">bary0 =</span> bary0, <span class="at">true_ate =</span> ate_bin,</span>
-<span id="cb56-10"><a href="#cb56-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">true_diff_log_odds =</span> diff_log_odds_bin</span>
-<span id="cb56-11"><a href="#cb56-11" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<div class="sourceCode" id="cb65"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb65-1"><a href="#cb65-1" aria-hidden="true" tabindex="-1"></a>ate_bin <span class="ot">&lt;-</span> <span class="fu">with</span>(dat2, <span class="fu">mean</span>(Y_Z_1 <span class="sc">-</span> Y_Z_0))</span>
+<span id="cb65-2"><a href="#cb65-2" aria-hidden="true" tabindex="-1"></a>bary1 <span class="ot">&lt;-</span> <span class="fu">mean</span>(dat2<span class="sc">$</span>Y_Z_1)</span>
+<span id="cb65-3"><a href="#cb65-3" aria-hidden="true" tabindex="-1"></a>bary0 <span class="ot">&lt;-</span> <span class="fu">mean</span>(dat2<span class="sc">$</span>Y_Z_0)</span>
+<span id="cb65-4"><a href="#cb65-4" aria-hidden="true" tabindex="-1"></a>diff_log_odds_bin <span class="ot">&lt;-</span> <span class="fu">with</span>(</span>
+<span id="cb65-5"><a href="#cb65-5" aria-hidden="true" tabindex="-1"></a>  dat2,</span>
+<span id="cb65-6"><a href="#cb65-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">log</span>(bary1 <span class="sc">/</span> (<span class="dv">1</span> <span class="sc">-</span> bary1)) <span class="sc">-</span> <span class="fu">log</span>(bary0 <span class="sc">/</span> (<span class="dv">1</span> <span class="sc">-</span> bary0))</span>
+<span id="cb65-7"><a href="#cb65-7" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb65-8"><a href="#cb65-8" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(</span>
+<span id="cb65-9"><a href="#cb65-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">bary1 =</span> bary1, <span class="at">bary0 =</span> bary0, <span class="at">true_ate =</span> ate_bin,</span>
+<span id="cb65-10"><a href="#cb65-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">true_diff_log_odds =</span> diff_log_odds_bin</span>
+<span id="cb65-11"><a href="#cb65-11" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
 <pre><code>             bary1              bary0           true_ate true_diff_log_odds 
               0.55               0.55               0.00               0.00 </code></pre>
 </section>
@@ -1429,19 +1455,19 @@ b   0 1
 \bar{\tau} = \bar{y}_{1} - \bar{y}_0
 \end{equation}\]</span></p>
 <p>Recall that <span class="math inline">\(\bar{y}_1\)</span> is the <em>proportion</em> of <span class="math inline">\(y_{1}=1\)</span> in the data.</p>
-<p><span class="citation" data-cites="freedman2008randomization"><a href="#/ref-freedman2008randomization" role="doc-biblioref">Freedman</a> (<a href="#/ref-freedman2008randomization" role="doc-biblioref">2008b</a>)</span> shows us that the logit coefficient estimator is a biased estimator of the difference in log-odds estimand. He also shows an unbiased estimator of that estimand.</p>
+<p><span class="citation" data-cites="freedman2008randomization">Freedman (<a href="#/ref-freedman2008randomization" role="doc-biblioref">2008b</a>)</span> shows us that the logit coefficient estimator is a biased estimator of the difference in log-odds estimand. He also shows an unbiased estimator of that estimand.</p>
 <p>We know that the difference of proportions in the sample should be an unbiased estimator of the difference of proportions.</p>
 </section>
 <section id="an-example-of-estimation-i" class="slide level2">
 <h2>An example of estimation I</h2>
 <p>How should we interpret the following estimates? (What does the difference of means estimator require in terms of assumptions? What does the logistic regression estimator require in terms of assumptions?)</p>
-<div class="sourceCode" id="cb58"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a>lmbin1 <span class="ot">&lt;-</span> <span class="fu">lm_robust</span>(Y <span class="sc">~</span> Z, <span class="at">data =</span> dat2)</span>
-<span id="cb58-2"><a href="#cb58-2" aria-hidden="true" tabindex="-1"></a>glmbin1 <span class="ot">&lt;-</span> <span class="fu">glm</span>(Y <span class="sc">~</span> Z, <span class="at">data =</span> dat2, <span class="at">family =</span> <span class="fu">binomial</span>(<span class="at">link =</span> <span class="st">&quot;logit&quot;</span>))</span>
-<span id="cb58-3"><a href="#cb58-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb58-4"><a href="#cb58-4" aria-hidden="true" tabindex="-1"></a><span class="fu">tidy</span>(lmbin1)[<span class="dv">2</span>, ]</span></code></pre></div>
+<div class="sourceCode" id="cb67"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb67-1"><a href="#cb67-1" aria-hidden="true" tabindex="-1"></a>lmbin1 <span class="ot">&lt;-</span> <span class="fu">lm_robust</span>(Y <span class="sc">~</span> Z, <span class="at">data =</span> dat2)</span>
+<span id="cb67-2"><a href="#cb67-2" aria-hidden="true" tabindex="-1"></a>glmbin1 <span class="ot">&lt;-</span> <span class="fu">glm</span>(Y <span class="sc">~</span> Z, <span class="at">data =</span> dat2, <span class="at">family =</span> <span class="fu">binomial</span>(<span class="at">link =</span> <span class="st">&quot;logit&quot;</span>))</span>
+<span id="cb67-3"><a href="#cb67-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb67-4"><a href="#cb67-4" aria-hidden="true" tabindex="-1"></a><span class="fu">tidy</span>(lmbin1)[<span class="dv">2</span>, ]</span></code></pre></div>
 <pre><code>  term estimate std.error statistic p.value conf.low conf.high df outcome
 2    Z  -0.4048    0.2159    -1.875 0.07716  -0.8584   0.04884 18       Y</code></pre>
-<div class="sourceCode" id="cb60"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tidy</span>(glmbin1)[<span class="dv">2</span>, ]</span></code></pre></div>
+<div class="sourceCode" id="cb69"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb69-1"><a href="#cb69-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tidy</span>(glmbin1)[<span class="dv">2</span>, ]</span></code></pre></div>
 <pre><code># A tibble: 1 x 5
   term  estimate std.error statistic p.value
   &lt;chr&gt;    &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;   &lt;dbl&gt;
@@ -1450,13 +1476,13 @@ b   0 1
 <section id="an-example-of-estimation-ii" class="slide level2">
 <h2>An example of estimation II</h2>
 <p>What about with covariates? Why use covariates?</p>
-<div class="sourceCode" id="cb62"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a>lmbin2 <span class="ot">&lt;-</span> <span class="fu">lm_robust</span>(Y <span class="sc">~</span> Z <span class="sc">+</span> x1, <span class="at">data =</span> dat2)</span>
-<span id="cb62-2"><a href="#cb62-2" aria-hidden="true" tabindex="-1"></a>glmbin2 <span class="ot">&lt;-</span> <span class="fu">glm</span>(Y <span class="sc">~</span> Z <span class="sc">+</span> x1, <span class="at">data =</span> dat2, <span class="at">family =</span> <span class="fu">binomial</span>(<span class="at">link =</span> <span class="st">&quot;logit&quot;</span>))</span>
-<span id="cb62-3"><a href="#cb62-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb62-4"><a href="#cb62-4" aria-hidden="true" tabindex="-1"></a><span class="fu">tidy</span>(lmbin2)[<span class="dv">2</span>, ]</span></code></pre></div>
+<div class="sourceCode" id="cb71"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb71-1"><a href="#cb71-1" aria-hidden="true" tabindex="-1"></a>lmbin2 <span class="ot">&lt;-</span> <span class="fu">lm_robust</span>(Y <span class="sc">~</span> Z <span class="sc">+</span> x1, <span class="at">data =</span> dat2)</span>
+<span id="cb71-2"><a href="#cb71-2" aria-hidden="true" tabindex="-1"></a>glmbin2 <span class="ot">&lt;-</span> <span class="fu">glm</span>(Y <span class="sc">~</span> Z <span class="sc">+</span> x1, <span class="at">data =</span> dat2, <span class="at">family =</span> <span class="fu">binomial</span>(<span class="at">link =</span> <span class="st">&quot;logit&quot;</span>))</span>
+<span id="cb71-3"><a href="#cb71-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb71-4"><a href="#cb71-4" aria-hidden="true" tabindex="-1"></a><span class="fu">tidy</span>(lmbin2)[<span class="dv">2</span>, ]</span></code></pre></div>
 <pre><code>  term estimate std.error statistic p.value conf.low conf.high df outcome
 2    Z  -0.4058    0.2179    -1.862 0.07996  -0.8656   0.05398 17       Y</code></pre>
-<div class="sourceCode" id="cb64"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb64-1"><a href="#cb64-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tidy</span>(glmbin2)[<span class="dv">2</span>, ]</span></code></pre></div>
+<div class="sourceCode" id="cb73"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb73-1"><a href="#cb73-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tidy</span>(glmbin2)[<span class="dv">2</span>, ]</span></code></pre></div>
 <pre><code># A tibble: 1 x 5
   term  estimate std.error statistic p.value
   &lt;chr&gt;    &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;   &lt;dbl&gt;
@@ -1465,76 +1491,76 @@ b   0 1
 <section id="an-example-of-estimation-iii" class="slide level2">
 <h2>An example of estimation III</h2>
 <p>Let’s compare our estimates</p>
-<div class="sourceCode" id="cb66"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb66-1"><a href="#cb66-1" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(</span>
-<span id="cb66-2"><a href="#cb66-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">dim =</span> <span class="fu">coef</span>(lmbin1)[[<span class="st">&quot;Z&quot;</span>]],</span>
-<span id="cb66-3"><a href="#cb66-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">dim_x1 =</span> <span class="fu">coef</span>(lmbin2)[[<span class="st">&quot;Z&quot;</span>]],</span>
-<span id="cb66-4"><a href="#cb66-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">glm =</span> <span class="fu">coef</span>(glmbin1)[[<span class="st">&quot;Z&quot;</span>]],</span>
-<span id="cb66-5"><a href="#cb66-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">glm_x1 =</span> <span class="fu">coef</span>(glmbin2)[[<span class="st">&quot;Z&quot;</span>]]</span>
-<span id="cb66-6"><a href="#cb66-6" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<div class="sourceCode" id="cb75"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb75-1"><a href="#cb75-1" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(</span>
+<span id="cb75-2"><a href="#cb75-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">dim =</span> <span class="fu">coef</span>(lmbin1)[[<span class="st">&quot;Z&quot;</span>]],</span>
+<span id="cb75-3"><a href="#cb75-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">dim_x1 =</span> <span class="fu">coef</span>(lmbin2)[[<span class="st">&quot;Z&quot;</span>]],</span>
+<span id="cb75-4"><a href="#cb75-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">glm =</span> <span class="fu">coef</span>(glmbin1)[[<span class="st">&quot;Z&quot;</span>]],</span>
+<span id="cb75-5"><a href="#cb75-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">glm_x1 =</span> <span class="fu">coef</span>(glmbin2)[[<span class="st">&quot;Z&quot;</span>]]</span>
+<span id="cb75-6"><a href="#cb75-6" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
 <pre><code>    dim  dim_x1     glm  glm_x1 
 -0.4048 -0.4058 -1.8971 -1.9025 </code></pre>
 </section>
 <section id="an-example-of-estimation-the-freedman-plugin-estimators-i" class="slide level2">
 <h2>An example of estimation: The Freedman plugin estimators I</h2>
 <p>No covariate: </p>
-<div class="sourceCode" id="cb68"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb68-1"><a href="#cb68-1" aria-hidden="true" tabindex="-1"></a>freedman_plugin_estfn1 <span class="ot">&lt;-</span> <span class="cf">function</span>(data) {</span>
-<span id="cb68-2"><a href="#cb68-2" aria-hidden="true" tabindex="-1"></a>  glmbin <span class="ot">&lt;-</span> <span class="fu">glm</span>(Y <span class="sc">~</span> Z, <span class="at">data =</span> dat2, <span class="at">family =</span> <span class="fu">binomial</span>(<span class="at">link =</span> <span class="st">&quot;logit&quot;</span>))</span>
-<span id="cb68-3"><a href="#cb68-3" aria-hidden="true" tabindex="-1"></a>  preddat <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">Z =</span> <span class="fu">rep</span>(<span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>), <span class="fu">nrow</span>(dat2)))</span>
-<span id="cb68-4"><a href="#cb68-4" aria-hidden="true" tabindex="-1"></a>  preddat<span class="sc">$</span>yhat <span class="ot">&lt;-</span> <span class="fu">predict</span>(glmbin, <span class="at">newdata =</span> preddat, <span class="at">type =</span> <span class="st">&quot;response&quot;</span>)</span>
-<span id="cb68-5"><a href="#cb68-5" aria-hidden="true" tabindex="-1"></a>  bary1 <span class="ot">&lt;-</span> <span class="fu">mean</span>(preddat<span class="sc">$</span>yhat[preddat<span class="sc">$</span>Z <span class="sc">==</span> <span class="dv">1</span>])</span>
-<span id="cb68-6"><a href="#cb68-6" aria-hidden="true" tabindex="-1"></a>  bary0 <span class="ot">&lt;-</span> <span class="fu">mean</span>(preddat<span class="sc">$</span>yhat[preddat<span class="sc">$</span>Z <span class="sc">==</span> <span class="dv">0</span>])</span>
-<span id="cb68-7"><a href="#cb68-7" aria-hidden="true" tabindex="-1"></a>  diff_log_odds <span class="ot">&lt;-</span> <span class="fu">log</span>(bary1 <span class="sc">/</span> (<span class="dv">1</span> <span class="sc">-</span> bary1)) <span class="sc">-</span> <span class="fu">log</span>(bary0 <span class="sc">/</span> (<span class="dv">1</span> <span class="sc">-</span> bary0))</span>
-<span id="cb68-8"><a href="#cb68-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(<span class="fu">data.frame</span>(<span class="at">estimate =</span> diff_log_odds))</span>
-<span id="cb68-9"><a href="#cb68-9" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb77"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb77-1"><a href="#cb77-1" aria-hidden="true" tabindex="-1"></a>freedman_plugin_estfn1 <span class="ot">&lt;-</span> <span class="cf">function</span>(data) {</span>
+<span id="cb77-2"><a href="#cb77-2" aria-hidden="true" tabindex="-1"></a>  glmbin <span class="ot">&lt;-</span> <span class="fu">glm</span>(Y <span class="sc">~</span> Z, <span class="at">data =</span> dat2, <span class="at">family =</span> <span class="fu">binomial</span>(<span class="at">link =</span> <span class="st">&quot;logit&quot;</span>))</span>
+<span id="cb77-3"><a href="#cb77-3" aria-hidden="true" tabindex="-1"></a>  preddat <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">Z =</span> <span class="fu">rep</span>(<span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>), <span class="fu">nrow</span>(dat2)))</span>
+<span id="cb77-4"><a href="#cb77-4" aria-hidden="true" tabindex="-1"></a>  preddat<span class="sc">$</span>yhat <span class="ot">&lt;-</span> <span class="fu">predict</span>(glmbin, <span class="at">newdata =</span> preddat, <span class="at">type =</span> <span class="st">&quot;response&quot;</span>)</span>
+<span id="cb77-5"><a href="#cb77-5" aria-hidden="true" tabindex="-1"></a>  bary1 <span class="ot">&lt;-</span> <span class="fu">mean</span>(preddat<span class="sc">$</span>yhat[preddat<span class="sc">$</span>Z <span class="sc">==</span> <span class="dv">1</span>])</span>
+<span id="cb77-6"><a href="#cb77-6" aria-hidden="true" tabindex="-1"></a>  bary0 <span class="ot">&lt;-</span> <span class="fu">mean</span>(preddat<span class="sc">$</span>yhat[preddat<span class="sc">$</span>Z <span class="sc">==</span> <span class="dv">0</span>])</span>
+<span id="cb77-7"><a href="#cb77-7" aria-hidden="true" tabindex="-1"></a>  diff_log_odds <span class="ot">&lt;-</span> <span class="fu">log</span>(bary1 <span class="sc">/</span> (<span class="dv">1</span> <span class="sc">-</span> bary1)) <span class="sc">-</span> <span class="fu">log</span>(bary0 <span class="sc">/</span> (<span class="dv">1</span> <span class="sc">-</span> bary0))</span>
+<span id="cb77-8"><a href="#cb77-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(<span class="fu">data.frame</span>(<span class="at">estimate =</span> diff_log_odds))</span>
+<span id="cb77-9"><a href="#cb77-9" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
 </section>
 <section id="an-example-of-estimation-the-freedman-plugin-estimators-ii" class="slide level2">
 <h2>An example of estimation: The Freedman plugin estimators II</h2>
 <p>With covariate: </p>
-<div class="sourceCode" id="cb69"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb69-1"><a href="#cb69-1" aria-hidden="true" tabindex="-1"></a>freedman_plugin_estfn2 <span class="ot">&lt;-</span> <span class="cf">function</span>(data) {</span>
-<span id="cb69-2"><a href="#cb69-2" aria-hidden="true" tabindex="-1"></a>  N <span class="ot">&lt;-</span> <span class="fu">nrow</span>(data)</span>
-<span id="cb69-3"><a href="#cb69-3" aria-hidden="true" tabindex="-1"></a>  glmbin <span class="ot">&lt;-</span> <span class="fu">glm</span>(Y <span class="sc">~</span> Z <span class="sc">+</span> x1, <span class="at">data =</span> data, <span class="at">family =</span> <span class="fu">binomial</span>(<span class="at">link =</span> <span class="st">&quot;logit&quot;</span>))</span>
-<span id="cb69-4"><a href="#cb69-4" aria-hidden="true" tabindex="-1"></a>  preddat <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">Z =</span> <span class="fu">rep</span>(<span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>), <span class="at">each =</span> N))</span>
-<span id="cb69-5"><a href="#cb69-5" aria-hidden="true" tabindex="-1"></a>  preddat<span class="sc">$</span>x1 <span class="ot">&lt;-</span> <span class="fu">rep</span>(data<span class="sc">$</span>x1, <span class="dv">2</span>)</span>
-<span id="cb69-6"><a href="#cb69-6" aria-hidden="true" tabindex="-1"></a>  preddat<span class="sc">$</span>yhat <span class="ot">&lt;-</span> <span class="fu">predict</span>(glmbin, <span class="at">newdata =</span> preddat, <span class="at">type =</span> <span class="st">&quot;response&quot;</span>)</span>
-<span id="cb69-7"><a href="#cb69-7" aria-hidden="true" tabindex="-1"></a>  bary1 <span class="ot">&lt;-</span> <span class="fu">mean</span>(preddat<span class="sc">$</span>yhat[preddat<span class="sc">$</span>Z <span class="sc">==</span> <span class="dv">1</span>])</span>
-<span id="cb69-8"><a href="#cb69-8" aria-hidden="true" tabindex="-1"></a>  bary0 <span class="ot">&lt;-</span> <span class="fu">mean</span>(preddat<span class="sc">$</span>yhat[preddat<span class="sc">$</span>Z <span class="sc">==</span> <span class="dv">0</span>])</span>
-<span id="cb69-9"><a href="#cb69-9" aria-hidden="true" tabindex="-1"></a>  diff_log_odds <span class="ot">&lt;-</span> <span class="fu">log</span>(bary1 <span class="sc">/</span> (<span class="dv">1</span> <span class="sc">-</span> bary1)) <span class="sc">-</span> <span class="fu">log</span>(bary0 <span class="sc">/</span> (<span class="dv">1</span> <span class="sc">-</span> bary0))</span>
-<span id="cb69-10"><a href="#cb69-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(<span class="fu">data.frame</span>(<span class="at">estimate =</span> diff_log_odds))</span>
-<span id="cb69-11"><a href="#cb69-11" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb78"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb78-1"><a href="#cb78-1" aria-hidden="true" tabindex="-1"></a>freedman_plugin_estfn2 <span class="ot">&lt;-</span> <span class="cf">function</span>(data) {</span>
+<span id="cb78-2"><a href="#cb78-2" aria-hidden="true" tabindex="-1"></a>  N <span class="ot">&lt;-</span> <span class="fu">nrow</span>(data)</span>
+<span id="cb78-3"><a href="#cb78-3" aria-hidden="true" tabindex="-1"></a>  glmbin <span class="ot">&lt;-</span> <span class="fu">glm</span>(Y <span class="sc">~</span> Z <span class="sc">+</span> x1, <span class="at">data =</span> data, <span class="at">family =</span> <span class="fu">binomial</span>(<span class="at">link =</span> <span class="st">&quot;logit&quot;</span>))</span>
+<span id="cb78-4"><a href="#cb78-4" aria-hidden="true" tabindex="-1"></a>  preddat <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">Z =</span> <span class="fu">rep</span>(<span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>), <span class="at">each =</span> N))</span>
+<span id="cb78-5"><a href="#cb78-5" aria-hidden="true" tabindex="-1"></a>  preddat<span class="sc">$</span>x1 <span class="ot">&lt;-</span> <span class="fu">rep</span>(data<span class="sc">$</span>x1, <span class="dv">2</span>)</span>
+<span id="cb78-6"><a href="#cb78-6" aria-hidden="true" tabindex="-1"></a>  preddat<span class="sc">$</span>yhat <span class="ot">&lt;-</span> <span class="fu">predict</span>(glmbin, <span class="at">newdata =</span> preddat, <span class="at">type =</span> <span class="st">&quot;response&quot;</span>)</span>
+<span id="cb78-7"><a href="#cb78-7" aria-hidden="true" tabindex="-1"></a>  bary1 <span class="ot">&lt;-</span> <span class="fu">mean</span>(preddat<span class="sc">$</span>yhat[preddat<span class="sc">$</span>Z <span class="sc">==</span> <span class="dv">1</span>])</span>
+<span id="cb78-8"><a href="#cb78-8" aria-hidden="true" tabindex="-1"></a>  bary0 <span class="ot">&lt;-</span> <span class="fu">mean</span>(preddat<span class="sc">$</span>yhat[preddat<span class="sc">$</span>Z <span class="sc">==</span> <span class="dv">0</span>])</span>
+<span id="cb78-9"><a href="#cb78-9" aria-hidden="true" tabindex="-1"></a>  diff_log_odds <span class="ot">&lt;-</span> <span class="fu">log</span>(bary1 <span class="sc">/</span> (<span class="dv">1</span> <span class="sc">-</span> bary1)) <span class="sc">-</span> <span class="fu">log</span>(bary0 <span class="sc">/</span> (<span class="dv">1</span> <span class="sc">-</span> bary0))</span>
+<span id="cb78-10"><a href="#cb78-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(<span class="fu">data.frame</span>(<span class="at">estimate =</span> diff_log_odds))</span>
+<span id="cb78-11"><a href="#cb78-11" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
 <p>Let’s compare our estimates from the six different estimators </p>
 <pre><code>       dim     dim_x1        glm     glm_x1   freedman freeman_x1 
    -0.4048    -0.4058    -1.8971    -1.9025    -1.8971    -1.9020 </code></pre>
 </section>
 <section id="an-example-of-using-declaredesign-to-assess-our-estimators-i" class="slide level2">
 <h2>An example of using DeclareDesign to assess our estimators I</h2>
-<div class="sourceCode" id="cb71"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb71-1"><a href="#cb71-1" aria-hidden="true" tabindex="-1"></a><span class="co"># declare 4 estimators for DD</span></span>
-<span id="cb71-2"><a href="#cb71-2" aria-hidden="true" tabindex="-1"></a><span class="co"># first estimator: linear regression with ATE as target</span></span>
-<span id="cb71-3"><a href="#cb71-3" aria-hidden="true" tabindex="-1"></a>estb1 <span class="ot">&lt;-</span> <span class="fu">declare_estimator</span>(Y <span class="sc">~</span> Z,</span>
-<span id="cb71-4"><a href="#cb71-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">model =</span> lm_robust, <span class="at">label =</span> <span class="st">&quot;lm1:Z&quot;</span>,</span>
-<span id="cb71-5"><a href="#cb71-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">estimand =</span> thetarget_ate</span>
-<span id="cb71-6"><a href="#cb71-6" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb71-7"><a href="#cb71-7" aria-hidden="true" tabindex="-1"></a><span class="co"># second estimator: linear regression with covariate, with ATE as target</span></span>
-<span id="cb71-8"><a href="#cb71-8" aria-hidden="true" tabindex="-1"></a>estb2 <span class="ot">&lt;-</span> <span class="fu">declare_estimator</span>(Y <span class="sc">~</span> Z <span class="sc">+</span> x1,</span>
-<span id="cb71-9"><a href="#cb71-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">model =</span> lm_robust, <span class="at">label =</span> <span class="st">&quot;lm1:Z,x1&quot;</span>,</span>
-<span id="cb71-10"><a href="#cb71-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">estimand =</span> thetarget_ate</span>
-<span id="cb71-11"><a href="#cb71-11" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb71-12"><a href="#cb71-12" aria-hidden="true" tabindex="-1"></a><span class="co"># third estimator: logistic regression, with log odds as target</span></span>
-<span id="cb71-13"><a href="#cb71-13" aria-hidden="true" tabindex="-1"></a>estb3 <span class="ot">&lt;-</span> <span class="fu">declare_estimator</span>(Y <span class="sc">~</span> Z,</span>
-<span id="cb71-14"><a href="#cb71-14" aria-hidden="true" tabindex="-1"></a>  <span class="at">model =</span> glm, <span class="at">family =</span> <span class="fu">binomial</span>(<span class="at">link =</span> <span class="st">&quot;logit&quot;</span>),</span>
-<span id="cb71-15"><a href="#cb71-15" aria-hidden="true" tabindex="-1"></a>  <span class="at">label =</span> <span class="st">&quot;glm1:Z&quot;</span>, <span class="at">estimand =</span> thetarget_logodds</span>
-<span id="cb71-16"><a href="#cb71-16" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb71-17"><a href="#cb71-17" aria-hidden="true" tabindex="-1"></a><span class="co"># fourth estimtor: logistic regression with covariate, with log odds as target</span></span>
-<span id="cb71-18"><a href="#cb71-18" aria-hidden="true" tabindex="-1"></a>estb4 <span class="ot">&lt;-</span> <span class="fu">declare_estimator</span>(Y <span class="sc">~</span> Z <span class="sc">+</span> x1,</span>
-<span id="cb71-19"><a href="#cb71-19" aria-hidden="true" tabindex="-1"></a>  <span class="at">model =</span> glm, <span class="at">family =</span> <span class="fu">binomial</span>(<span class="at">link =</span> <span class="st">&quot;logit&quot;</span>),</span>
-<span id="cb71-20"><a href="#cb71-20" aria-hidden="true" tabindex="-1"></a>  <span class="at">label =</span> <span class="st">&quot;glm1:Z,x1&quot;</span>, <span class="at">estimand =</span> thetarget_logodds</span>
-<span id="cb71-21"><a href="#cb71-21" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<div class="sourceCode" id="cb80"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb80-1"><a href="#cb80-1" aria-hidden="true" tabindex="-1"></a><span class="co"># declare 4 estimators for DD</span></span>
+<span id="cb80-2"><a href="#cb80-2" aria-hidden="true" tabindex="-1"></a><span class="co"># first estimator: linear regression with ATE as target</span></span>
+<span id="cb80-3"><a href="#cb80-3" aria-hidden="true" tabindex="-1"></a>estb1 <span class="ot">&lt;-</span> <span class="fu">declare_estimator</span>(Y <span class="sc">~</span> Z,</span>
+<span id="cb80-4"><a href="#cb80-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">model =</span> lm_robust, <span class="at">label =</span> <span class="st">&quot;lm1:Z&quot;</span>,</span>
+<span id="cb80-5"><a href="#cb80-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">estimand =</span> thetarget_ate</span>
+<span id="cb80-6"><a href="#cb80-6" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb80-7"><a href="#cb80-7" aria-hidden="true" tabindex="-1"></a><span class="co"># second estimator: linear regression with covariate, with ATE as target</span></span>
+<span id="cb80-8"><a href="#cb80-8" aria-hidden="true" tabindex="-1"></a>estb2 <span class="ot">&lt;-</span> <span class="fu">declare_estimator</span>(Y <span class="sc">~</span> Z <span class="sc">+</span> x1,</span>
+<span id="cb80-9"><a href="#cb80-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">model =</span> lm_robust, <span class="at">label =</span> <span class="st">&quot;lm1:Z,x1&quot;</span>,</span>
+<span id="cb80-10"><a href="#cb80-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">estimand =</span> thetarget_ate</span>
+<span id="cb80-11"><a href="#cb80-11" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb80-12"><a href="#cb80-12" aria-hidden="true" tabindex="-1"></a><span class="co"># third estimator: logistic regression, with log odds as target</span></span>
+<span id="cb80-13"><a href="#cb80-13" aria-hidden="true" tabindex="-1"></a>estb3 <span class="ot">&lt;-</span> <span class="fu">declare_estimator</span>(Y <span class="sc">~</span> Z,</span>
+<span id="cb80-14"><a href="#cb80-14" aria-hidden="true" tabindex="-1"></a>  <span class="at">model =</span> glm, <span class="at">family =</span> <span class="fu">binomial</span>(<span class="at">link =</span> <span class="st">&quot;logit&quot;</span>),</span>
+<span id="cb80-15"><a href="#cb80-15" aria-hidden="true" tabindex="-1"></a>  <span class="at">label =</span> <span class="st">&quot;glm1:Z&quot;</span>, <span class="at">estimand =</span> thetarget_logodds</span>
+<span id="cb80-16"><a href="#cb80-16" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb80-17"><a href="#cb80-17" aria-hidden="true" tabindex="-1"></a><span class="co"># fourth estimtor: logistic regression with covariate, with log odds as target</span></span>
+<span id="cb80-18"><a href="#cb80-18" aria-hidden="true" tabindex="-1"></a>estb4 <span class="ot">&lt;-</span> <span class="fu">declare_estimator</span>(Y <span class="sc">~</span> Z <span class="sc">+</span> x1,</span>
+<span id="cb80-19"><a href="#cb80-19" aria-hidden="true" tabindex="-1"></a>  <span class="at">model =</span> glm, <span class="at">family =</span> <span class="fu">binomial</span>(<span class="at">link =</span> <span class="st">&quot;logit&quot;</span>),</span>
+<span id="cb80-20"><a href="#cb80-20" aria-hidden="true" tabindex="-1"></a>  <span class="at">label =</span> <span class="st">&quot;glm1:Z,x1&quot;</span>, <span class="at">estimand =</span> thetarget_logodds</span>
+<span id="cb80-21"><a href="#cb80-21" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
 </section>
 <section id="an-example-of-using-declaredesign-to-assess-our-estimators-ii" class="slide level2">
 <h2>An example of using DeclareDesign to assess our estimators II</h2>
-<div class="sourceCode" id="cb72"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb72-1"><a href="#cb72-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Pull together: des_bin is population, potential outcomes, assignment,</span></span>
-<span id="cb72-2"><a href="#cb72-2" aria-hidden="true" tabindex="-1"></a><span class="co"># outcome values connected to Z.  We add the two targets and four estimators.</span></span>
-<span id="cb72-3"><a href="#cb72-3" aria-hidden="true" tabindex="-1"></a>des_bin_plus_est <span class="ot">&lt;-</span> des_bin <span class="sc">+</span> thetarget_ate <span class="sc">+</span> thetarget_logodds <span class="sc">+</span></span>
-<span id="cb72-4"><a href="#cb72-4" aria-hidden="true" tabindex="-1"></a>  estb1 <span class="sc">+</span> estb2 <span class="sc">+</span> estb3 <span class="sc">+</span> estb4</span></code></pre></div>
+<div class="sourceCode" id="cb81"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb81-1"><a href="#cb81-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Pull together: des_bin is population, potential outcomes, assignment,</span></span>
+<span id="cb81-2"><a href="#cb81-2" aria-hidden="true" tabindex="-1"></a><span class="co"># outcome values connected to Z.  We add the two targets and four estimators.</span></span>
+<span id="cb81-3"><a href="#cb81-3" aria-hidden="true" tabindex="-1"></a>des_bin_plus_est <span class="ot">&lt;-</span> des_bin <span class="sc">+</span> thetarget_ate <span class="sc">+</span> thetarget_logodds <span class="sc">+</span></span>
+<span id="cb81-4"><a href="#cb81-4" aria-hidden="true" tabindex="-1"></a>  estb1 <span class="sc">+</span> estb2 <span class="sc">+</span> estb3 <span class="sc">+</span> estb4</span></code></pre></div>
 </section>
 <section id="using-simulation-to-assess-our-estimators" class="slide level2">
 <h2>Using simulation to assess our estimators</h2>
@@ -1609,7 +1635,7 @@ b   0 1
 </section>
 <section id="covariance-adjustment-estimands" class="slide level2">
 <h2>Covariance adjustment: Estimands</h2>
-<p>In general, simply “controlling for” produces a biased estimator of the ATE <strong>or</strong> ITT estimand. See for example <span class="citation" data-cites="lin_agnostic_2013"><a href="#/ref-lin_agnostic_2013" role="doc-biblioref">Lin</a> (<a href="#/ref-lin_agnostic_2013" role="doc-biblioref">2013</a>)</span> and <span class="citation" data-cites="freedman2008rae"><a href="#/ref-freedman2008rae" role="doc-biblioref">Freedman</a> (<a href="#/ref-freedman2008rae" role="doc-biblioref">2008a</a>)</span>. <span class="citation" data-cites="lin_agnostic_2013"><a href="#/ref-lin_agnostic_2013" role="doc-biblioref">Lin</a> (<a href="#/ref-lin_agnostic_2013" role="doc-biblioref">2013</a>)</span> shows how to reduce this bias and, importantly, that this bias tends to be small as the sample size increases.</p>
+<p>In general, simply “controlling for” produces a biased estimator of the ATE <strong>or</strong> ITT estimand. See for example <span class="citation" data-cites="lin_agnostic_2013">Lin (<a href="#/ref-lin_agnostic_2013" role="doc-biblioref">2013</a>)</span> and <span class="citation" data-cites="freedman2008rae">Freedman (<a href="#/ref-freedman2008rae" role="doc-biblioref">2008a</a>)</span>. <span class="citation" data-cites="lin_agnostic_2013">Lin (<a href="#/ref-lin_agnostic_2013" role="doc-biblioref">2013</a>)</span> shows how to reduce this bias and, importantly, that this bias tends to be small as the sample size increases.</p>
 </section></section>
 <section>
 <section id="conclusion" class="title-slide slide level1">
@@ -1763,13 +1789,20 @@ ITT =  ( (\bar{y}_{1}|C) -  (\bar{y}_{0}|C))p_C  = ( CACE ) p_C.
 </section>
 <section id="the-complier-average-causal-effect-ii" class="slide level2">
 <h2>The complier average causal effect II</h2>
-<div class="sourceCode" id="cb73"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb73-1"><a href="#cb73-1" aria-hidden="true" tabindex="-1"></a><span class="fu">with</span>(dat, <span class="fu">cor</span>(Y, x)) <span class="do">## can be any number</span></span>
-<span id="cb73-2"><a href="#cb73-2" aria-hidden="true" tabindex="-1"></a><span class="fu">with</span>(dat, <span class="fu">cor</span>(d, x)) <span class="do">## can be any number</span></span>
-<span id="cb73-3"><a href="#cb73-3" aria-hidden="true" tabindex="-1"></a><span class="fu">with</span>(dat, <span class="fu">cor</span>(Z, x)) <span class="do">## should be near 0</span></span></code></pre></div>
+<div class="sourceCode" id="cb82"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb82-1"><a href="#cb82-1" aria-hidden="true" tabindex="-1"></a><span class="fu">with</span>(dat, <span class="fu">cor</span>(Y, x)) <span class="do">## can be any number</span></span>
+<span id="cb82-2"><a href="#cb82-2" aria-hidden="true" tabindex="-1"></a><span class="fu">with</span>(dat, <span class="fu">cor</span>(d, x)) <span class="do">## can be any number</span></span>
+<span id="cb82-3"><a href="#cb82-3" aria-hidden="true" tabindex="-1"></a><span class="fu">with</span>(dat, <span class="fu">cor</span>(Z, x)) <span class="do">## should be near 0</span></span></code></pre></div>
 <p>But we just saw that, in this design, and with these assumptions (including a SUTVA assumption) that <span class="math inline">\(ITT = ( (\bar{y}_{1}|C) - (\bar{y}_{0}|C))p_C = (CACE) p_C\)</span>, so we can define <span class="math inline">\(CACE=ITT/p_C\)</span>.</p>
 </section>
 <section id="how-to-calculate-the-itt-and-cacelate-i" class="slide level2">
 <h2>How to calculate the ITT and CACE/LATE I</h2>
+<pre><code>Warning: &#39;declare_estimand&#39; is deprecated.
+Use &#39;declare_inquiry&#39; instead.
+See help(&quot;Deprecated&quot;)
+
+Warning: &#39;declare_estimand&#39; is deprecated.
+Use &#39;declare_inquiry&#39; instead.
+See help(&quot;Deprecated&quot;)</code></pre>
 <p>Some example data (where we know all potential outcomes):</p>
 <table>
 <thead>
@@ -1826,13 +1859,13 @@ ITT =  ( (\bar{y}_{1}|C) -  (\bar{y}_{0}|C))p_C  = ( CACE ) p_C.
 <section id="how-to-calculate-the-itt-and-cacelate-ii" class="slide level2">
 <h2>How to calculate the ITT and CACE/LATE II</h2>
 <p>The ITT and CACE (the parts)</p>
-<div class="sourceCode" id="cb74"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb74-1"><a href="#cb74-1" aria-hidden="true" tabindex="-1"></a>itt_y <span class="ot">&lt;-</span> <span class="fu">difference_in_means</span>(Y <span class="sc">~</span> Z, <span class="at">data =</span> dat0)</span>
-<span id="cb74-2"><a href="#cb74-2" aria-hidden="true" tabindex="-1"></a>itt_y</span></code></pre></div>
+<div class="sourceCode" id="cb84"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb84-1"><a href="#cb84-1" aria-hidden="true" tabindex="-1"></a>itt_y <span class="ot">&lt;-</span> <span class="fu">difference_in_means</span>(Y <span class="sc">~</span> Z, <span class="at">data =</span> dat0)</span>
+<span id="cb84-2"><a href="#cb84-2" aria-hidden="true" tabindex="-1"></a>itt_y</span></code></pre></div>
 <pre><code>Design:  Standard 
   Estimate Std. Error t value Pr(&gt;|t|) CI Lower CI Upper    DF
 Z  0.08725      0.233  0.3745   0.7089  -0.3752   0.5497 97.97</code></pre>
-<div class="sourceCode" id="cb76"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb76-1"><a href="#cb76-1" aria-hidden="true" tabindex="-1"></a>itt_d <span class="ot">&lt;-</span> <span class="fu">difference_in_means</span>(D <span class="sc">~</span> Z, <span class="at">data =</span> dat0)</span>
-<span id="cb76-2"><a href="#cb76-2" aria-hidden="true" tabindex="-1"></a>itt_d</span></code></pre></div>
+<div class="sourceCode" id="cb86"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb86-1"><a href="#cb86-1" aria-hidden="true" tabindex="-1"></a>itt_d <span class="ot">&lt;-</span> <span class="fu">difference_in_means</span>(D <span class="sc">~</span> Z, <span class="at">data =</span> dat0)</span>
+<span id="cb86-2"><a href="#cb86-2" aria-hidden="true" tabindex="-1"></a>itt_d</span></code></pre></div>
 <pre><code>Design:  Standard 
   Estimate Std. Error t value  Pr(&gt;|t|) CI Lower CI Upper    DF
 Z     0.68    0.07307   9.307 8.454e-15   0.5348   0.8252 89.31</code></pre>
@@ -1840,13 +1873,13 @@ Z     0.68    0.07307   9.307 8.454e-15   0.5348   0.8252 89.31</code></pre>
 <section id="how-to-calculate-the-itt-and-cacelate-iii" class="slide level2">
 <h2>How to calculate the ITT and CACE/LATE III</h2>
 <p>All together:<a href="#/fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a></p>
-<div class="sourceCode" id="cb78"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb78-1"><a href="#cb78-1" aria-hidden="true" tabindex="-1"></a>cace_est <span class="ot">&lt;-</span> <span class="fu">iv_robust</span>(Y <span class="sc">~</span> D <span class="sc">|</span> Z, <span class="at">data =</span> dat0)</span>
-<span id="cb78-2"><a href="#cb78-2" aria-hidden="true" tabindex="-1"></a>cace_est</span></code></pre></div>
+<div class="sourceCode" id="cb88"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb88-1"><a href="#cb88-1" aria-hidden="true" tabindex="-1"></a>cace_est <span class="ot">&lt;-</span> <span class="fu">iv_robust</span>(Y <span class="sc">~</span> D <span class="sc">|</span> Z, <span class="at">data =</span> dat0)</span>
+<span id="cb88-2"><a href="#cb88-2" aria-hidden="true" tabindex="-1"></a>cace_est</span></code></pre></div>
 <pre><code>            Estimate Std. Error t value Pr(&gt;|t|) CI Lower CI Upper DF
 (Intercept)   0.3347     0.1912  1.7502  0.08321 -0.04479   0.7142 98
 D             0.1283     0.3404  0.3769  0.70705 -0.54727   0.8039 98</code></pre>
-<div class="sourceCode" id="cb80"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb80-1"><a href="#cb80-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Notice same as below:</span></span>
-<span id="cb80-2"><a href="#cb80-2" aria-hidden="true" tabindex="-1"></a><span class="fu">coef</span>(itt_y)[[<span class="st">&quot;Z&quot;</span>]] <span class="sc">/</span> <span class="fu">coef</span>(itt_d)[[<span class="st">&quot;Z&quot;</span>]]</span></code></pre></div>
+<div class="sourceCode" id="cb90"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb90-1"><a href="#cb90-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Notice same as below:</span></span>
+<span id="cb90-2"><a href="#cb90-2" aria-hidden="true" tabindex="-1"></a><span class="fu">coef</span>(itt_y)[[<span class="st">&quot;Z&quot;</span>]] <span class="sc">/</span> <span class="fu">coef</span>(itt_d)[[<span class="st">&quot;Z&quot;</span>]]</span></code></pre></div>
 <pre><code>[1] 0.1283</code></pre>
 </section>
 <section id="summary-of-encouragementcomplierdose-oriented-designs" class="slide level2">
@@ -1876,7 +1909,7 @@ Lin, Winston. 2013. <span>“Agnostic Notes on Regression Adjustments to Experim
 <section class="footnotes" role="doc-endnotes">
 <hr />
 <ol>
-<li id="fn1" role="doc-endnote"><p>works when <span class="math inline">\(Z \rightarrow D\)</span> is not weak see <span class="citation" data-cites="imbens2005robust"><a href="#/ref-imbens2005robust" role="doc-biblioref">Imbens and Rosenbaum</a> (<a href="#/ref-imbens2005robust" role="doc-biblioref">2005</a>)</span> for a cautionary tale<a href="#/fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn1" role="doc-endnote"><p>works when <span class="math inline">\(Z \rightarrow D\)</span> is not weak see <span class="citation" data-cites="imbens2005robust">Imbens and Rosenbaum (<a href="#/ref-imbens2005robust" role="doc-biblioref">2005</a>)</span> for a cautionary tale<a href="#/fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 </ol>
 </section>
     </div>
@@ -1890,18 +1923,43 @@ Lin, Winston. 2013. <span>“Agnostic Notes on Regression Adjustments to Experim
       // Full list of configuration options available at:
       // https://github.com/hakimel/reveal.js#configuration
       Reveal.initialize({
+        // Display controls in the bottom right corner
+        controls: true,
+        // Display a presentation progress bar
+        progress: true,
         // Display the page number of the current slide
         slideNumber: true,
         // Push each slide change to the browser history
         history: true,
+        // Enable keyboard shortcuts for navigation
+        keyboard: true,
+        // Enable the slide overview mode
+        overview: true,
         // Vertical centering of slides
         center: false,
+        // Enables touch navigation on devices with touch input
+        touch: true,
+        // Turns fragments on and off globally
+        fragments: true,
+        // Flags if we should show a help overlay when the questionmark
+        // key is pressed
+        help: true,
+        // Number of milliseconds between automatically proceeding to the
+        // next slide, disabled when set to 0, this value can be overwritten
+        // by using a data-autoslide attribute on your slides
+        autoSlide: 0,
+        // Stop auto-sliding after user input
+        autoSlideStoppable: true,
         // Opens links in an iframe preview overlay
         previewLinks: true,
         // Transition style
         transition: 'fade', // none/fade/slide/convex/concave/zoom
+        // Transition speed
+        transitionSpeed: 'default', // default/fast/slow
         // Transition style for full page slide backgrounds
         backgroundTransition: 'default', // none/fade/slide/convex/concave/zoom
+        // Number of slides away from the current that are visible
+        viewDistance: 3,
 
 
 
