@@ -224,7 +224,7 @@ pop <- declare_population(small_dat)
 
 # 5 units assigned to treatment; default is simple random assignment with 
 # probability 0.5
-trt_assign <- declare_assignment(m = 5) 
+trt_assign <- declare_assignment(Z = conduct_ra(m = 2, blocks=block)) 
 
 # observed Y is y1 if Z=1 and y0 if Z=0
 pot_out <- declare_potential_outcomes(Y ~ Z * y1 + (1 - Z) * y0)
@@ -254,10 +254,10 @@ No output here. Just define functions and estimators and one estimand.
 
 ```{r dd2, echo=TRUE}
 ## The estimand
-estimandATE <- declare_estimand(ATE = mean(Y_Z_1 - Y_Z_0))
+estimandATE <- declare_inquiry(ATE = mean(Y_Z_1 - Y_Z_0))
 
 ## The first estimator is difference-in-means
-diff_means <- declare_estimator(Y ~ Z, estimand = estimandATE, 
+diff_means <- declare_inquiry(Y ~ Z, estimand = estimandATE, 
   model = lm_robust, se_type = "classical", label = "Diff-Means/OLS")
 ```
 
