@@ -564,7 +564,7 @@ sims2 <- get_simulations(diagnosis2)
 
 How should we interpret this plot?
 
-```{r sim_plot2, warning=FALSE, out.width=".9\\textwidth"}
+```{r sim_plot2, message=FALSE, warning=FALSE, out.width=".9\\textwidth"}
 sim_plot2 <- ggplot(sims2, aes(y = estimate, x = estimator, color = estimator)) +
   geom_boxplot() +
   geom_hline(yintercept = trueATE) +
@@ -761,7 +761,7 @@ des_plus_est <- des + thetarget_indiv + est1 + est2 + est3 + est4 + est5 + est6 
 des_plus_est
 ```
 
-```{r diag_clust, cache=TRUE, warning=FALSE}
+```{r diag_clust, cache=TRUE, warning=FALSE, message=FALSE}
 set.seed(12346)
 plan(multicore)
 diag_clus <- diagnose_design(des_plus_est,bootstrap_sims = 0, sims=1000)
@@ -1023,16 +1023,16 @@ tmle2$estimates$OR
 # declare 4 estimators for DD
 # first estimator: linear regression with ATE as target
 estb1 <- declare_estimator(Y~Z,model=lm_robust,label="lm1:Z",
-                           estimand=thetarget_ate )
+                           inquiry=thetarget_ate )
 # second estimator: linear regression with covariate, with ATE as target
 estb2 <- declare_estimator(Y~Z+x1,model=lm_robust,label="lm1:Z,x1",
-                           estimand=thetarget_ate)
+                           inquiry=thetarget_ate)
 # third estimator: logistic regression, with log odds as target
 estb3 <- declare_estimator(Y~Z,model=glm,family=binomial(link="logit"),
-                           label="glm1:Z",estimand=thetarget_logodds)
+                           label="glm1:Z",inquiry=thetarget_logodds)
 # fourth estimtor: logistic regression with covariate, with log odds as target
 estb4 <- declare_estimator(Y~Z+x1,model=glm,family=binomial(link="logit"),
-                           label="glm1:Z,x1", estimand=thetarget_logodds)
+                           label="glm1:Z,x1", inquiry=thetarget_logodds)
 ```
 
 
@@ -1063,11 +1063,11 @@ truelo_bin <- thetarget_logodds(dat2)[["estimand"]]
 How should we interpret this plot? (Differences in scales make it difficult.)
 
 ```{r sim_plot_bin, out.width=".95\\textwidth"}
-estimand_dat <- sims_bin %>% group_by(inquiry_label) %>% summarize(meanestimand=mean(estimand))
+estimand_dat <- sims_bin %>% group_by(inquiry) %>% summarize(meanestimand=mean(estimand))
 sim_plot_bin <- ggplot(sims_bin, aes(y = estimate, x = estimator, color = estimator)) +
   geom_boxplot() +
   geom_point() +
-  facet_wrap(~inquiry_label,scales="free") +
+  facet_wrap(~inquiry,scales="free") +
   geom_hline(data=estimand_dat,aes(yintercept=meanestimand)) +
   theme(text = element_text(size=20),
       legend.position="none",legend.title = element_blank())
@@ -1080,7 +1080,7 @@ Which estimator works better on this design and these data?
 
 ```{r bin_sim_res}
 ## Notice that the lin estimator is great but sometimes cannot produce an answer
-res_bin <- sims_bin %>% group_by(estimator,inquiry_label) %>%
+res_bin <- sims_bin %>% group_by(estimator,inquiry) %>%
   summarize(bias = mean(estimate - estimand),
             rmse = sqrt(mean((estimate - estimand) ^ 2)),
             power = mean(p.value < .05),
