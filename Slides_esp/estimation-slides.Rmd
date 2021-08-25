@@ -149,6 +149,7 @@ Notice that we need to *know* the potential outcomes and the treatment
 assignment in order to learn whether our proposed estimator does a good job.
 
 ```{r echo=FALSE}
+
 ## First, create some data,
 ##  y0 is potential outcome to control
 N <- 10
@@ -217,16 +218,21 @@ DeclareDesign represents research designs in a few steps shown below:
 # take just the potential outcomes under treatment and control from our
 # fake data
 small_dat <- dat[, c("y0", "y1")]
+
 # DeclareDesign first asks you to declare your population
 pop <- declare_population(small_dat)
 N <- nrow(pop)
+
 # 5 units assigned to treatment; default is simple random assignment with
 # probability 0.5
 trt_assign <- declare_assignment(Z = conduct_ra(N=N,m = 2),legacy=FALSE)
+
 # observed Y is y1 if Z=1 and y0 if Z=0
 pot_out <- declare_potential_outcomes(Y ~ Z * y1 + (1 - Z) * y0)
+
 # specify outcome and assignment variables
 reveal <- declare_reveal(Y, Z)
+
 # the basic research design object includes these four objects
 base_design <- pop + trt_assign + pot_out + reveal
 ```
@@ -238,6 +244,7 @@ DeclareDesign renames `y0` and `y1` by default to `Y_Z_0` and `Y_Z_1`:
 ```{r echo=TRUE}
 ## A simulation is one random assignment of treatment
 sim_dat1 <- draw_data(base_design)
+
 ## Simulated data (just the first 6 lines)
 head(sim_dat1)
 ```
@@ -249,6 +256,7 @@ No output here. Just define functions and estimators and one estimand.
 ```{r dd2, echo=TRUE}
 ## The estimand
 estimandATE <- declare_inquiry(ATE = mean(Y_Z_1 - Y_Z_0))
+
 ## The first estimator is difference-in-means
 diff_means <- declare_estimator(Y ~ Z, inquiry = estimandATE,
   model = lm_robust, se_type = "classical", label = "Diff-Means/OLS")
@@ -279,9 +287,11 @@ Here we show how the DD estimators work using our simulated data.
 ```{r dd3, echo=TRUE}
 ## Demonstrate that the estimand works:
 estimandATE(sim_dat1)
+
 ## Demonstrate that the estimators estimate
 ## Estimator 1 (difference in means)
 diff_means(sim_dat1)[-c(1,2,10,11)]
+
 ## Estimator 2 (top-coded difference in means)
 diff_means_topcoded(sim_dat1)[-c(1,2,10,11)]
 ```
@@ -464,6 +474,7 @@ Notice that this is **not** the same as either of the following:
 ## Ignoring blocks
 e3 <- lm(Y~Z,data=dat)
 coef(e3)[["Z"]]
+
 ## With block fixed effects
 e4 <- lm(Y~Z+block,data=dat)
 coef(e4)[["Z"]]
@@ -501,6 +512,7 @@ base_design_blocks <-
 ```{r blockdd1, echo=TRUE, cache=TRUE}
 # the estimand is the average treatment effect
 estimandATEb <- declare_inquiry(ATE = mean(Y_Z_1 - Y_Z_0))
+
 # three different estimators
 est1 <- declare_estimator(Y ~ Z, inquiry = estimandATEb, model = lm_robust,
     label = "Ignores Blocks")
@@ -520,6 +532,7 @@ est4 <- declare_estimator(Y ~ Z, inquiry = estimandATEb,
     model = lm_robust, fixed_effects=~b, label = "Precision Weights")
 est5 <- declare_estimator(Y ~ Z + b, inquiry = estimandATEb,
     model = lm_robust, label = "Precision Weights (LSDV)")
+
 ## new design object has the base design, the estimand, and five estimators
 design_blocks <- base_design_blocks + estimandATEb +
   est1 + est2 + est3 + est4 + est5
@@ -539,6 +552,7 @@ library(future.apply)
 
 ```{r diagnosis2, echo=FALSE, cache=TRUE}
 ## The next few lines use all of the cores on your computer to speed up the computation
+
 # plan(multicore)
 set.seed(12345)
 diagnosis2 <- diagnose_design(design_blocks, bootstrap_sims = 0, sims = 1000)
@@ -629,26 +643,38 @@ thepop <- declare_population(clus_id = add_level(
             effect = ifelse(cl_size == 100, .1, 1)),
             indiv = add_level(N = cl_size,
                 u = rnorm(N, mean=log(cl_size), sd = effect)))
+
 theys <- declare_potential_outcomes(Y_Z_0 = u, Y_Z_1 = Y_Z_0 + effect)
+
 thetarget_indiv <- declare_inquiry(ATE_indiv = mean(Y_Z_1 - Y_Z_0))
+
 ## Complete random assignment to clusters
 theassign <- declare_assignment(clusters = clus_id)
+
 thereveal <-   declare_reveal(Y, Z)
+
 ## 7 different estimators
 est1 <-   declare_estimator(Y ~ Z, inquiry = "ATE_indiv", clusters = clus_id,
                     model = lm_robust, label = "Y~Z, CR2 SE")
+
 est2 <- declare_estimator(Y ~ Z, inquiry = "ATE_indiv",
                     model = lm_robust, label = "Y~Z, HC2 SE")
+
 est3 <- declare_estimator(Y ~ Z, inquiry = "ATE_indiv",
                     model = lm_robust,se_type="classical", label = "Y~Z, IID SE")
+
 est4 <- declare_estimator(Y ~ Z + cl_sizeF, inquiry = "ATE_indiv",clusters = clus_id,
                     model = lm_robust, label = "Y~Z+clus_size_fixed_effects, CR2 SE")
+
 est5 <- declare_estimator(Y ~ Z, inquiry = "ATE_indiv", fixed_effects=~cl_sizeF,clusters = clus_id,
                     model = lm_robust, label = "Y~Z, fixed_effects=~clus_size_fixed_effects, CR2 SE ")
+
 est6 <-  declare_estimator(Y ~ Z, inquiry = "ATE_indiv", covariates=~cl_size,clusters = clus_id,
                     model = lm_lin, label = "Y~Z*I(clus_size-mean(clus_size)), CR2 SE")
+
 est7 <-  declare_estimator(Y ~ Z, inquiry = "ATE_indiv", weight=cl_size,clusters = clus_id,
                     model = lm_robust, label = "Y~Z, weight=clus_size, CR2 SE")
+
 ### Some experimental stuff here:
 ## remotes::install_github("markmfredrickson/RItools",ref="proj1-balT")
 ## est7tmp <-  balanceTest(Z~Y+cluster(clus_id),data=dat1,report="all")
@@ -672,16 +698,22 @@ est7 <-  declare_estimator(Y ~ Z, inquiry = "ATE_indiv", weight=cl_size,clusters
 ## }
 ##
 ## est7 <- declare_estimator(handler=tidy_estimator(est7fn),label="mlm: rand intercept")
+
 des <- thepop + theys + theassign + thereveal
+
 set.seed(12345)
 dat1 <- draw_data(des)
+
 head(dat1)
+
 table(dat1$clus_id)
 with(dat1,table(clus_id,Z))
 dat1 %>% group_by(clus_id) %>% summarize(mean(Y_Z_1 - Y_Z_0))
+
 ## g1 <- ggplot(data=dat1,aes(x=Y,group=clus_id,fill=clus_id,color=clus_id))+
 ##     geom_density()
 ## g1
+
 est1(dat1)
 est2(dat1)
 est3(dat1)
@@ -689,6 +721,7 @@ est4(dat1)
 est5(dat1)
 est6(dat1)
 est7(dat1)
+
 ```
 
 Imagine we had data from 10 clusters with either 100 people (for 2 clusters) or 10 people per cluster (for 8 clusters). The total size of the data is `r nrow(dat1)`.
@@ -697,6 +730,7 @@ Imagine we had data from 10 clusters with either 100 people (for 2 clusters) or 
 ```{r}
 tmp <- dplyr::filter(dat1,clus_id %in% c("03","01")) %>% group_by(clus_id) %>%
     sample_n(3) %>% arrange(clus_id,indiv) %>% select(clus_id,indiv,Y_Z_0,Y_Z_1,Z,Y)
+
 tmp
 ```
 
@@ -886,6 +920,7 @@ regression estimator require in terms of assumptions?)
 ```{r estexample, echo=TRUE}
 lmbin1 <- lm_robust(Y~Z,data=dat2)
 glmbin1 <- glm(Y~Z,data=dat2,family=binomial(link="logit"))
+
 tidy(lmbin1)[2,]
 tidy(glmbin1)[2,]
 ```
@@ -897,6 +932,7 @@ What about with covariates?  Why use covariates?
 ```{r estexample2, echo=TRUE}
 lmbin2 <- lm_robust(Y~Z+x1,data=dat2)
 glmbin2 <- glm(Y~Z+x1,data=dat2,family=binomial(link="logit"))
+
 tidy(lmbin2)[2,]
 tidy(glmbin2)[2,]
 ```
@@ -967,11 +1003,14 @@ colnames(W) <- paste("W",1:2,sep="")
 tmle1 <- tmle(Y=Y,A=A,W=W,
               family="binomial",Qform=Y~A,gform=A~1,cvQinit=FALSE,
               Q.SL.library = "SL.glm", g.SL.library="SL.glm",g.Delta.SL.library = "SL.glm")
+
 tmle1$estimates$ATE
 tmle1$estimates$OR
+
 tmle2 <- tmle(Y=Y,A=A,W=W,
               family="binomial",Qform=Y~A+W1,gform=A~1,cvQinit=FALSE,#V=0,
               Q.SL.library = "SL.glm", g.SL.library="SL.glm",g.Delta.SL.library = "SL.glm")
+
 tmle2$estimates$ATE
 tmle2$estimates$OR
 ```
@@ -1298,12 +1337,14 @@ $ITT =  ( (\bar{y}_{1}|C) -  (\bar{y}_{0}|C))p_C  = (CACE) p_C$, so we can defin
 ```{r simivdesign, echo=FALSE}
 prob_comply <- .8
 tau <- .5
+
 the_pop <- declare_population(N=100,
     X = sample(1:4, N, replace = TRUE),
     u = rnorm(N),
     type = sample(c("Always-Taker", "Never-Taker", "Complier", "Defier"),N, replace = TRUE,
         prob = c(.1, 1 - unique(prob_comply), unique(prob_comply), 0))
 )
+
 ##  The unobserved potential outcomes,  Y(Z=1) and Y(Z=0) relate to the observed outcome, Y, via treatment assignment and a const  ant additive effect of tau.
 ## D refers to getting a dose of feedback
   d_po <- declare_potential_outcomes(
@@ -1314,19 +1355,25 @@ the_pop <- declare_population(N=100,
           Z == 1 & type %in% c("Always-Taker", "Complier") ~ 1
       )
   )
+
   y_po <- declare_potential_outcomes(
     Y ~ tau * sd(u) * D + u,
     assignment_variables = c("D", "Z")
   )
+
 ## Treatment  assignment for  any given city is a simple fixed  proportion. It should be complete  or  urn-drawing assignment, not  simple or  coin-flipping assignment.
 ## theassign <- declare_assignment(m=m)
 the_assign<- declare_assignment(assignment_variable = "Z")
+
 ## declare_reveal is basically the same as declare_potential_outcomes. I  think they  have this  here  to deal with situations of   missing data or non-compliance.
 # thereveal <- declare_reveal(Y, Z)
 d_reveal <- declare_reveal(D, assignment_variable = "Z")
 y_reveal <- declare_reveal(Y, assignment_variables = c("D", "Z"))
+
 base_design <- the_pop + the_assign +  d_po + y_po + d_reveal + y_reveal
+
 dat0 <- draw_data(base_design)
+
 estimand_cace <- declare_inquiry(
     CACE = mean((Y_D_1_Z_1 + Y_D_1_Z_0) / 2 -
       (Y_D_0_Z_1 + Y_D_0_Z_0) / 2),
