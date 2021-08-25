@@ -87,12 +87,12 @@ library(styler)
 ## Key points about estimation IV
 
  - Estimators should:
- 
-      - avoid systematic error in their guessing of the estimand (be unbiased); 
-   
+
+      - avoid systematic error in their guessing of the estimand (be unbiased);
+
       - vary little in their guesses from experiment to
-   experiment (be precise or efficient); and  
-   
+   experiment (be precise or efficient); and
+
       - perhaps ideally converge to the estimand as they use more and more information (be consistent).
 
 ## Key points about estimation V
@@ -105,7 +105,7 @@ library(styler)
 
 ## Review: Causal effects
 
-Review: Causal inference refers to a comparison of unobserved, fixed, potential outcomes.  
+Review: Causal inference refers to a comparison of unobserved, fixed, potential outcomes.
 
 For example:
 
@@ -122,7 +122,7 @@ $Y_{i}(T_{i}=1) -  Y_{i}(T_{i}=0) \ne 0$ or $Y_{i}(T_{i}=1) \ne Y_{i}(T_{i}=0)$.
 ## How can we learn about causal effects from observed data?
 
  1. Recall: we can **test hypotheses** about the pair of potential outcomes $\{ Y_{i}(T_{i}=1), Y_{i}(T_{i}=0) \}$.
- 
+
  2. We can **define estimands** in terms of $\{ Y_{i}(T_{i}=1), Y_{i}(T_{i}=0) \}$ or $\tau_i$, **develop estimators** for those estimands,
     and then calculate values and standard errors for those estimators.
 
@@ -134,7 +134,7 @@ Two candidates:
 
  1. The difference of means: $\hat{\bar{\tau}} = \frac{\sum_{i=1}^n (T_i Y_i)}{m} -
     \frac{\sum_{i=1}^n ( ( 1 - T_i) Y_i)}{n-m}$.
-    
+
  2. A difference of means after top-coding the highest $Y_i$ observation (a
     kind of "winsorized" mean to prevent extreme values from exerting too much
     influence over our estimator --- to increase *precision*).
@@ -182,7 +182,7 @@ message("The true ATE is ", ATE)
 
 In reality, we would observe only one of the potential outcomes.
 
-Note that each unit has its own treatment effect.  
+Note that each unit has its own treatment effect.
 
 ## First make fake data
 
@@ -210,30 +210,31 @@ set.seed(12345)
 ```
 
 
-## Using DeclareDesign 
+## Using DeclareDesign
 
 DeclareDesign represents research designs in a few steps shown below:
 
 ```{r dd1, echo=TRUE}
-# take just the potential outcomes under treatment and control from our 
+# take just the potential outcomes under treatment and control from our
 # fake data
 small_dat <- dat[, c("y0", "y1")]
 
 # DeclareDesign first asks you to declare your population
 pop <- declare_population(small_dat)
+N <- nrow(pop)
 
-# 5 units assigned to treatment; default is simple random assignment with 
+# 5 units assigned to treatment; default is simple random assignment with
 # probability 0.5
-trt_assign <- declare_assignment(Z = conduct_ra(m = 2, blocks=block)) 
+trt_assign <- declare_assignment(Z = conduct_ra(N=N,m = 2),legacy=FALSE)
 
 # observed Y is y1 if Z=1 and y0 if Z=0
 pot_out <- declare_potential_outcomes(Y ~ Z * y1 + (1 - Z) * y0)
 
 # specify outcome and assignment variables
-reveal <- declare_reveal(Y, Z) 
+reveal <- declare_reveal(Y, Z)
 
 # the basic research design object includes these four objects
-base_design <- pop + trt_assign + pot_out + reveal 
+base_design <- pop + trt_assign + pot_out + reveal
 ```
 
 ## Using DeclareDesign: make fake data
@@ -241,7 +242,7 @@ base_design <- pop + trt_assign + pot_out + reveal
 DeclareDesign renames `y0` and `y1` by default to `Y_Z_0` and `Y_Z_1`:
 
 ```{r echo=TRUE}
-## A simulation is one random assignment of treatment 
+## A simulation is one random assignment of treatment
 sim_dat1 <- draw_data(base_design)
 
 ## Simulated data (just the first 6 lines)
@@ -257,7 +258,7 @@ No output here. Just define functions and estimators and one estimand.
 estimandATE <- declare_inquiry(ATE = mean(Y_Z_1 - Y_Z_0))
 
 ## The first estimator is difference-in-means
-diff_means <- declare_inquiry(Y ~ Z, estimand = estimandATE, 
+diff_means <- declare_estimator(Y ~ Z, inquiry = estimandATE,
   model = lm_robust, se_type = "classical", label = "Diff-Means/OLS")
 ```
 
@@ -275,7 +276,7 @@ diff_means_topcoded_fn <- function(data) {
 }
 diff_means_topcoded <- declare_estimator(
   handler = label_estimator(diff_means_topcoded_fn),
-  estimand = estimandATE, label = "Top-coded Diff Means"
+  inquiry = estimandATE, label = "Top-coded Diff Means"
 )
 ```
 
@@ -299,15 +300,15 @@ diff_means_topcoded(sim_dat1)[-c(1,2,10,11)]
 ## Then simulate with one randomization
 
 Recall the true ATE:
-  
-  ```{r trueATE, echo=TRUE}
+
+```{r trueATE, echo=TRUE}
 trueATE <- with(sim_dat1, mean(y1 - y0))
 with(sim_dat1, mean(Y_Z_1 - Y_Z_0))
 ```
 
 In one experiment (one simulation of the data) here are the simple estimates:
-  
-  ```{r echo=TRUE}
+
+```{r echo=TRUE}
 ## Two ways to calculate the difference of means estimator
 est_diff_means_1 <- with(sim_dat1, mean(Y[Z == 1]) - mean(Y[Z == 0]))
 est_diff_means_2 <- coef(lm_robust(Y ~ Z, data = sim_dat1,
@@ -322,10 +323,10 @@ In one experiment (one simulation of the data) here are the estimates after top-
 ```{r echo=TRUE}
 ## Two ways to calculate the topcoded difference of means estimator
 sim_dat1$rankY <- rank(sim_dat1$Y)
-sim_dat1$Y_tc <- with(sim_dat1, ifelse(rankY == max(rankY), 
+sim_dat1$Y_tc <- with(sim_dat1, ifelse(rankY == max(rankY),
                                        Y[rankY == (max(rankY) - 1)], Y))
 est_topcoded_1 <- with(sim_dat1, mean(Y_tc[Z == 1]) - mean(Y_tc[Z == 0]))
-est_topcoded_2 <- coef(lm_robust(Y_tc ~ Z, data = sim_dat1, 
+est_topcoded_2 <- coef(lm_robust(Y_tc ~ Z, data = sim_dat1,
         se = "classical"))[["Z"]]
 c(est_topcoded_1,est_topcoded_2)
 ```
@@ -337,13 +338,13 @@ Now calculate your estimate with the same estimators using a  **different** rand
 
 ```{r echo=TRUE}
 # do another random assignment of the treatment in DeclareDesign
-# this produces a new simulated dataset with a different random assignment 
+# this produces a new simulated dataset with a different random assignment
 sim_dat2 <- draw_data(base_design)
 # the first estimator (difference in means)
 coef(lm_robust(Y ~ Z, data = sim_dat2, se = "classical"))[["Z"]]
 # the second estimator (top-coded difference in means)
 sim_dat2$rankY <- rank(sim_dat2$Y)
-sim_dat2$Y_tc <- with(sim_dat2, ifelse(rankY == max(rankY), 
+sim_dat2$Y_tc <- with(sim_dat2, ifelse(rankY == max(rankY),
         Y[rankY == (max(rankY) - 1)], Y))
 coef(lm_robust(Y_tc ~ Z, data = sim_dat2, se = "classical"))[["Z"]]
 ```
@@ -352,15 +353,15 @@ coef(lm_robust(Y_tc ~ Z, data = sim_dat2, se = "classical"))[["Z"]]
 ## How do our estimators behave in general for this design?
 
 Our estimates vary across randomizations. Do our two estimators vary in the same ways?
-  
+
 ```{r diagnose, echo=TRUE, cache=TRUE}
 ## Combine into one DeclareDesign design object
 ## This has the base design, estimand, then our two estimators
-design_plus_ests <- base_design + estimandATE + diff_means + 
+design_plus_ests <- base_design + estimandATE + diff_means +
     diff_means_topcoded
-## Run 100 simulations (reassignments of treatment) and 
+## Run 100 simulations (reassignments of treatment) and
 ## apply the two estimators (diff_means and diff_means_topcoded)
-diagnosis1 <- diagnose_design(design_plus_ests, 
+diagnosis1 <- diagnose_design(design_plus_ests,
                               bootstrap_sims = 0, sims = 100)
 sims1 <- get_simulations(diagnosis1)
 head(sims1[,-c(1:6)])
@@ -370,7 +371,7 @@ head(sims1[,-c(1:6)])
 
 Our estimates vary across randomizations. Do our two estimators vary in the same ways?
   How should we interpret this plot?
-  
+
 ```{r sim_plot, out.width=".8\\textwidth"}
 sim_plot <- ggplot(sims1, aes(y = estimate, x = estimator_label, color = estimator_label)) +
   geom_boxplot() +
@@ -401,9 +402,9 @@ kableExtra::kable(reshape_diagnosis(diagnosis1, select = c("Estimator Label", "B
 Summary:
 
  - We have a *choice* of both estimands and estimators
- 
+
  - A good estimator performs well regardless of the particular randomization of a given design. And *performs well* can mean "unbiased" and/or "low mse" (or "consistent" --- which means increasingly close to the truth as the sample size increases).
- 
+
  - We can learn about how a given estimator performs in a given study using simulation.
 
 # Block randomization
@@ -474,7 +475,7 @@ Notice that this is **not** the same as either of the following:
 e3 <- lm(Y~Z,data=dat)
 coef(e3)[["Z"]]
 
-## With block fixed effects 
+## With block fixed effects
 e4 <- lm(Y~Z+block,data=dat)
 coef(e4)[["Z"]]
 ```
@@ -494,11 +495,11 @@ Which estimator should we use for this design?  We can set up a DeclareDesign si
 
 ```{r blockdd0, cache=TRUE, echo=TRUE}
 ## declare a new base design that includes the block indicator b
-base_design_blocks <- 
-    # declare the population 
+base_design_blocks <-
+    # declare the population
     declare_population(dat[, c("b","y0", "y1")]) +
     # tell DD that b indicates block and to assign 2 treated units in each block
-    declare_assignment(m=2,blocks=b) + 
+    declare_assignment(m=2,blocks=b) +
     # relationship of potential outcomes to observed outcome
     declare_potential_outcomes(Y ~ Z * y1 + (1 - Z) * y0)+
     # observed outcome and treatment assignment
@@ -510,15 +511,15 @@ base_design_blocks <-
 
 ```{r blockdd1, echo=TRUE, cache=TRUE}
 # the estimand is the average treatment effect
-estimandATEb <- declare_estimand(ATE = mean(Y_Z_1 - Y_Z_0))
+estimandATEb <- declare_inquiry(ATE = mean(Y_Z_1 - Y_Z_0))
 
 # three different estimators
-est1 <- declare_estimator(Y ~ Z, estimand = estimandATEb, model = lm_robust, 
+est1 <- declare_estimator(Y ~ Z, inquiry = estimandATEb, model = lm_robust,
     label = "Ignores Blocks")
-est2 <- declare_estimator(Y ~ Z, estimand = estimandATEb, model = difference_in_means, blocks=b, 
+est2 <- declare_estimator(Y ~ Z, inquiry = estimandATEb, model = difference_in_means, blocks=b,
     label = "DiM: Block-Size Weights")
-est3 <- declare_estimator(Y ~ Z, estimand = estimandATEb, model=lm_robust, 
-    weights=(Z / Z_cond_prob) + ((1 - Z) / ( Z_cond_prob)), 
+est3 <- declare_estimator(Y ~ Z, inquiry = estimandATEb, model=lm_robust,
+    weights=(Z / Z_cond_prob) + ((1 - Z) / ( Z_cond_prob)),
     label = "LM: Block Size Weights")
 ```
 
@@ -527,13 +528,13 @@ est3 <- declare_estimator(Y ~ Z, estimand = estimandATEb, model=lm_robust,
 
 ```{r blockdd1a, echo=TRUE, cache=TRUE}
 # two more estimators
-est4 <- declare_estimator(Y ~ Z, estimand = estimandATEb, 
+est4 <- declare_estimator(Y ~ Z, inquiry = estimandATEb,
     model = lm_robust, fixed_effects=~b, label = "Precision Weights")
-est5 <- declare_estimator(Y ~ Z + b, estimand = estimandATEb, 
+est5 <- declare_estimator(Y ~ Z + b, inquiry = estimandATEb,
     model = lm_robust, label = "Precision Weights (LSDV)")
 
 ## new design object has the base design, the estimand, and five estimators
-design_blocks <- base_design_blocks + estimandATEb + 
+design_blocks <- base_design_blocks + estimandATEb +
   est1 + est2 + est3 + est4 + est5
 ```
 
@@ -543,7 +544,7 @@ Then we will run 10,000 simulations (reassign treatment 10,000 times) and summar
 
 ```{r futurelibs, echo=FALSE}
 ## This to enable parallel processing when doing the diagnoses.
-## Notice that we have turned on "cache" for some code chunks so that they are not 
+## Notice that we have turned on "cache" for some code chunks so that they are not
 ## re-run each time we change the slides.
 library(future)
 library(future.apply)
@@ -566,8 +567,8 @@ sim_plot2 <- ggplot(sims2, aes(y = estimate, x = estimator_label, color = estima
   geom_boxplot() +
   geom_hline(yintercept = trueATE) +
   geom_point(aes(group = estimator_label)) +
-  theme(text = element_text(size=20),axis.text.x = element_text(angle=45, hjust=1), 
-      legend.position="none",legend.title = element_blank()) + 
+  theme(text = element_text(size=20),axis.text.x = element_text(angle=45, hjust=1),
+      legend.position="none",legend.title = element_blank()) +
   xlab("")
 print(sim_plot2)
 ```
@@ -631,12 +632,12 @@ Overall, it is worth simulating to study the performance of your estimators, tes
 ## see https://declaredesign.org/blog/bias-cluster-randomized-trials.html
 ## for more like this.
 N_clusters <- 10  # number of clusters
-n_indivs <- c(100,10) # possible size of clusters 
+n_indivs <- c(100,10) # possible size of clusters
 thepop <- declare_population(clus_id = add_level(
             # set the number of clusters
             N = N_clusters,
             # 1/5 of clusters have 100 individuals, 4/5 of clusters have 10 individuals
-            cl_size = rep(n_indivs, c(N/5, N - N/5)), 
+            cl_size = rep(n_indivs, c(N/5, N - N/5)),
             cl_sizeF = factor(cl_size),
             # Each cluster has a different mean level (u) and different background variability (sd of u)
             effect = ifelse(cl_size == 100, .1, 1)),
@@ -645,7 +646,7 @@ thepop <- declare_population(clus_id = add_level(
 
 theys <- declare_potential_outcomes(Y_Z_0 = u, Y_Z_1 = Y_Z_0 + effect)
 
-thetarget_indiv <- declare_estimand(ATE_indiv = mean(Y_Z_1 - Y_Z_0))
+thetarget_indiv <- declare_inquiry(ATE_indiv = mean(Y_Z_1 - Y_Z_0))
 
 ## Complete random assignment to clusters
 theassign <- declare_assignment(clusters = clus_id)
@@ -653,25 +654,25 @@ theassign <- declare_assignment(clusters = clus_id)
 thereveal <-   declare_reveal(Y, Z)
 
 ## 7 different estimators
-est1 <-   declare_estimator(Y ~ Z, estimand = "ATE_indiv", clusters = clus_id,
+est1 <-   declare_estimator(Y ~ Z, inquiry = "ATE_indiv", clusters = clus_id,
                     model = lm_robust, label = "Y~Z, CR2 SE")
 
-est2 <- declare_estimator(Y ~ Z, estimand = "ATE_indiv",
+est2 <- declare_estimator(Y ~ Z, inquiry = "ATE_indiv",
                     model = lm_robust, label = "Y~Z, HC2 SE")
 
-est3 <- declare_estimator(Y ~ Z, estimand = "ATE_indiv",
+est3 <- declare_estimator(Y ~ Z, inquiry = "ATE_indiv",
                     model = lm_robust,se_type="classical", label = "Y~Z, IID SE")
 
-est4 <- declare_estimator(Y ~ Z + cl_sizeF, estimand = "ATE_indiv",clusters = clus_id,
+est4 <- declare_estimator(Y ~ Z + cl_sizeF, inquiry = "ATE_indiv",clusters = clus_id,
                     model = lm_robust, label = "Y~Z+clus_size_fixed_effects, CR2 SE")
 
-est5 <- declare_estimator(Y ~ Z, estimand = "ATE_indiv", fixed_effects=~cl_sizeF,clusters = clus_id,
+est5 <- declare_estimator(Y ~ Z, inquiry = "ATE_indiv", fixed_effects=~cl_sizeF,clusters = clus_id,
                     model = lm_robust, label = "Y~Z, fixed_effects=~clus_size_fixed_effects, CR2 SE ")
 
-est6 <-  declare_estimator(Y ~ Z, estimand = "ATE_indiv", covariates=~cl_size,clusters = clus_id,
+est6 <-  declare_estimator(Y ~ Z, inquiry = "ATE_indiv", covariates=~cl_size,clusters = clus_id,
                     model = lm_lin, label = "Y~Z*I(clus_size-mean(clus_size)), CR2 SE")
 
-est7 <-  declare_estimator(Y ~ Z, estimand = "ATE_indiv", weight=cl_size,clusters = clus_id,
+est7 <-  declare_estimator(Y ~ Z, inquiry = "ATE_indiv", weight=cl_size,clusters = clus_id,
                     model = lm_robust, label = "Y~Z, weight=clus_size, CR2 SE")
 
 ### Some experimental stuff here:
@@ -810,7 +811,7 @@ sim_plot3 <- ggplot(sim_clus, aes(y = estimate, x = estimator_label, color = est
   geom_hline(yintercept = trueclusATE) +
   geom_point(aes(group = estimator_label)) +
   theme(text = element_text(size=20),
-      legend.position="none",legend.title = element_blank()) + 
+      legend.position="none",legend.title = element_blank()) +
   ylab("")
 print(sim_plot3)
 ```
@@ -818,11 +819,11 @@ print(sim_plot3)
 ## Summary of estimation and testing in cluster-randomized trials
 
  - Cluster randomized trials pose special problems for standard approaches to estimation and testing.
- 
+
  - If randomization is at the cluster level, then uncertainty arises from the cluster level randomization.
- 
+
  - If we have enough clusters, then one of the "cluster robust" standard errors can help us produce confidence intervals with correct coverage. **Cluster robust standard errors require many clusters**.
- 
+
  - If cluster size (or characteristic) is related to effect size, then we can have bias (and we need to adjust somehow).
 
 
@@ -836,12 +837,12 @@ N <- 20
 thepop_bin <- declare_population(N=N, x1 = draw_binary(prob = .5, N = N),
 x2=rnorm(N))
 # declare the potential outcomes
-thepo_bin <- declare_potential_outcomes(Y ~ rbinom(n = N, size = 1, 
+thepo_bin <- declare_potential_outcomes(Y ~ rbinom(n = N, size = 1,
                                                    prob = 0.5 + 0.05 * Z + x1*.05))
 # two possible targets: difference in means or difference in log-odds
-thetarget_ate <- declare_estimand(ate = mean(Y_Z_1 - Y_Z_0))
-thetarget_logodds <- declare_estimand(
-    logodds = log(mean(Y_Z_1)/(1-mean(Y_Z_1))) - 
+thetarget_ate <- declare_inquiry(ate = mean(Y_Z_1 - Y_Z_0))
+thetarget_logodds <- declare_inquiry(
+    logodds = log(mean(Y_Z_1)/(1-mean(Y_Z_1))) -
     log(mean(Y_Z_0)/(1-mean(Y_Z_0)))
 )
 ```
@@ -883,7 +884,7 @@ outcomes, `Y` is observed, `x1`, `x2` are covariates, `Z` is treatment assignmen
 ate_bin <- with(dat2,mean(Y_Z_1 - Y_Z_0))
 bary1  <- mean(dat2$Y_Z_1)
 bary0 <- mean(dat2$Y_Z_0)
-diff_log_odds_bin <- with(dat2, 
+diff_log_odds_bin <- with(dat2,
     log(bary1/(1-bary1)) - log(bary0/(1-bary0)))
 c(bary1=bary1,bary0=bary0,true_ate=ate_bin,
     true_diff_log_odds= diff_log_odds_bin)
@@ -992,7 +993,7 @@ freeman_x1=freedman_plugin_estfn2(dat2)[["estimate"]]
 
 
 ```{r tmleapproach, eval=FALSE}
-## Here is another approach to using the plugin estimator but allowing for standard errors, etc.. 
+## Here is another approach to using the plugin estimator but allowing for standard errors, etc..
 ## Doesn't require a handwritten function like the ones used above.
 library(tmle)
 Y <- as.matrix(dat2$Y,ncol=1)
@@ -1036,9 +1037,9 @@ estb4 <- declare_estimator(Y~Z+x1,model=glm,family=binomial(link="logit"),
 ## An example of using DeclareDesign to assess our estimators II
 
 ```{r ddbinsetup2, echo=TRUE}
-# Pull together: des_bin is population, potential outcomes, assignment, 
+# Pull together: des_bin is population, potential outcomes, assignment,
 # outcome values connected to Z.  We add the two targets and four estimators.
-des_bin_plus_est <- des_bin + thetarget_ate + thetarget_logodds + 
+des_bin_plus_est <- des_bin + thetarget_ate + thetarget_logodds +
   estb1 + estb2 + estb3 + estb4
 ```
 
@@ -1058,13 +1059,13 @@ truelo_bin <- thetarget_logodds(dat2)[["estimand"]]
 ## Using simulation to assess our estimators
 
 How should we interpret this plot? (Differences in scales make it difficult.)
-  
+
 ```{r sim_plot_bin, out.width=".95\\textwidth"}
-estimand_dat <- sims_bin %>% group_by(estimand_label) %>% summarize(meanestimand=mean(estimand))
+estimand_dat <- sims_bin %>% group_by(inquiry_label) %>% summarize(meanestimand=mean(estimand))
 sim_plot_bin <- ggplot(sims_bin, aes(y = estimate, x = estimator_label, color = estimator_label)) +
   geom_boxplot() +
   geom_point() +
-  facet_wrap(~estimand_label,scales="free") +
+  facet_wrap(~inquiry_label,scales="free") +
   geom_hline(data=estimand_dat,aes(yintercept=meanestimand)) +
   theme(text = element_text(size=20),
       legend.position="none",legend.title = element_blank())
@@ -1074,10 +1075,10 @@ print(sim_plot_bin)
 ## Which estimator is closer to the truth?
 
 Which estimator works better on this design and these data?
-  
+
 ```{r bin_sim_res}
 ## Notice that the lin estimator is great but sometimes cannot produce an answer
-res_bin <- sims_bin %>% group_by(estimator_label,estimand_label) %>%
+res_bin <- sims_bin %>% group_by(estimator_label,inquiry_label) %>%
   summarize(bias = mean(estimate - estimand),
             rmse = sqrt(mean((estimate - estimand) ^ 2)),
             power = mean(p.value < .05),
@@ -1128,19 +1129,19 @@ If our theory suggests that effects should differ by group, how can we assess ev
  - We can **design** for an assessment of this theory by creating a
    block-randomized study --- with blocked defined by the theoretically
    relevant groups.
-   
+
  - We can **plan** for such an assessment by (1) **pre-registering specific
    subgroup analyses** (whether or not we block on that group in the design
    phase) and (2) making sure to measure group membership during baseline data
    collection pre-treatment
-   
-   
+
+
 ## Effects that differ by groups II
  - If we have not planned ahead, subgroup-specific analyses can be useful as
    explorations but should not be understood as confirmatory: they can too
    easily create problems of testing too many hypotheses thus inflated false
    positive rates.
- 
+
  - We **should not use groups formed by treatment**. (This is either "mediation analysis"  or "conditioning on post-treatment variables" and deserves its own module).
 
 # Causal effects when we do not control the dose
@@ -1164,11 +1165,11 @@ Z  \arrow[from=1-1,to=1-2, "\ne 0"] \arrow[from=1-1, to=1-4, bend left, "\text{0
 
 ## Defining causal effects II
  - $y_{i,Z_i = 1, d_{i,Z_i=1}=1}$ is the potential outcome for people who were assigned a visit and who opened the door. ("Compliers" or "Always-takers")
- 
+
  - $y_{i,1, d_{i,Z_i=1}=0}$ is the potential outcome for people who were assigned a visit and who did not open the door. ("Never-takers" or "Defiers")
- 
+
  - $y_{i,0, d_{i,0}=1}$ is the potential outcome for people who were not assigned a visit and who opened the door. ("Defiers" or "Always-takers")
- 
+
  - $y_{i,0, d_{i,0}=0}$ is the potential outcome for people who were not assigned a visit and who would not have opened the door. ("Compliers" or "Never-takers")
 
 ## Defining causal effects III
@@ -1304,7 +1305,7 @@ ITT =  ( (\bar{y}_{1}|C) -  (\bar{y}_{0}|C))p_C  = ( CACE ) p_C.
 ## The complier average causal effect I
 
 We would also like to learn about the causal effect of answering the door and
-having the conversation, the theoretically interesting effect. 
+having the conversation, the theoretically interesting effect.
 
 But this comparison is confounded by $x$: a simple $\bar{Y}|D=1 - \bar{Y}|D=0$
 comparison tells us about differences in the outcome due to $x$ in addition to
@@ -1327,7 +1328,7 @@ with(dat, cor(Z, x)) ## should be near 0
 ```
 
 But we just saw that, in this design, and with these assumptions (including a
-SUTVA assumption) that 
+SUTVA assumption) that
 $ITT =  ( (\bar{y}_{1}|C) -  (\bar{y}_{0}|C))p_C  = (CACE) p_C$, so we can define $CACE=ITT/p_C$.
 
 
@@ -1340,12 +1341,12 @@ tau <- .5
 the_pop <- declare_population(N=100,
     X = sample(1:4, N, replace = TRUE),
     u = rnorm(N),
-    type = sample(c("Always-Taker", "Never-Taker", "Complier", "Defier"),N, replace = TRUE, 
+    type = sample(c("Always-Taker", "Never-Taker", "Complier", "Defier"),N, replace = TRUE,
         prob = c(.1, 1 - unique(prob_comply), unique(prob_comply), 0))
 )
 
 ##  The unobserved potential outcomes,  Y(Z=1) and Y(Z=0) relate to the observed outcome, Y, via treatment assignment and a const  ant additive effect of tau.
-  ## D refers to getting a dose of feedback
+## D refers to getting a dose of feedback
   d_po <- declare_potential_outcomes(
       D ~ case_when(
           Z == 0 & type %in% c("Never-Taker", "Complier") ~ 0,
@@ -1360,7 +1361,7 @@ the_pop <- declare_population(N=100,
     assignment_variables = c("D", "Z")
   )
 
-## Treatment  assignment for  any given city is a simple fixed  proportion. It should be complete  or  urn-drawing assignment, no  t  simple or  coin-flipping assignment.
+## Treatment  assignment for  any given city is a simple fixed  proportion. It should be complete  or  urn-drawing assignment, not  simple or  coin-flipping assignment.
 ## theassign <- declare_assignment(m=m)
 the_assign<- declare_assignment(assignment_variable = "Z")
 
@@ -1373,12 +1374,12 @@ base_design <- the_pop + the_assign +  d_po + y_po + d_reveal + y_reveal
 
 dat0 <- draw_data(base_design)
 
- estimand_cace <- declare_estimand(
+estimand_cace <- declare_inquiry(
     CACE = mean((Y_D_1_Z_1 + Y_D_1_Z_0) / 2 -
       (Y_D_0_Z_1 + Y_D_0_Z_0) / 2),
     subset = type == "Complier"
   )
-  estimand_ate <- declare_estimand(ATE = mean((Y_D_1_Z_1 + Y_D_1_Z_0) / 2 -
+estimand_ate <- declare_inquiry(ATE = mean((Y_D_1_Z_1 + Y_D_1_Z_0) / 2 -
     (Y_D_0_Z_1 + Y_D_0_Z_0) / 2))
 ```
 
