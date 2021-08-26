@@ -1365,7 +1365,7 @@ the_pop <- declare_population(N=100,
 
 ## Treatment  assignment for  any given city is a simple fixed  proportion. It should be complete  or  urn-drawing assignment, not  simple or  coin-flipping assignment.
 ## theassign <- declare_assignment(m=m)
-the_assign<- declare_assignment(assignment_variable = "Z")
+the_assign<- declare_assignment(Z=complete_ra(N))
 
 ## declare_reveal is basically the same as declare_potential_outcomes. I  think they  have this  here  to deal with situations of   missing data or non-compliance.
 # thereveal <- declare_reveal(Y, Z)
@@ -1389,6 +1389,7 @@ Some example data (where we know all potential outcomes):
 
 ```{r showdat0}
 tempdat <- dat0[1:2,-1]
+## Change names to make the table below easier to read
 names(tempdat)[5] <- "pZ"
 names(tempdat) <- gsub("_","",names(tempdat))
 kableExtra::kable(tempdat, digits = 2)
