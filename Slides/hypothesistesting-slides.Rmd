@@ -760,7 +760,7 @@ thedat <- fabricate(
 tau1 <- 0
 tau5 <- tau4 <- tau3 <- tau2 <- tau1
 thepop <- declare_population(thedat)
-theassign <- declare_assignment(m = 50,assignment_variable = "T")
+theassign <- declare_assignment(T= complete_ra(N=N,m = 50))
 po_1 <- declare_potential_outcomes(Y1_T_0 = y0_1, Y1_T_1 = y0_1 + tau1)
 po_2 <- declare_potential_outcomes(Y2_T_0 = y0_2, Y2_T_1 = y0_2 + tau2)
 po_3 <- declare_potential_outcomes(Y3_T_0 = y0_3, Y3_T_1 = y0_3 + tau3)
@@ -778,8 +778,8 @@ des1 <- thepop + theassign +
 
 dat1 <- draw_data(des1)
 options(digits=2)
-head(dat1[,-c(2:6,8,17:23)])
-head(dat1[,c(1,17:23)])
+head(dat1[,-c(2:6,18:22)])
+head(dat1[,c(1,7,18:22)])
 ```
 
 ## Can we detect an effect on outcome `Y1`?
@@ -882,7 +882,7 @@ thediagnosands <- declare_diagnosands(fwer = mean(p.value < .05))
 ```{r dd1, echo=TRUE, cache=TRUE}
 des1_sim <- simulate_design(des1_plus, sims = 1000)
 res1 <- des1_sim %>%
-  group_by(estimator_label) %>%
+  group_by(estimator) %>%
   summarize(fwer = mean(p.value < .05), .groups = "drop")
 ```
 
@@ -928,10 +928,7 @@ bigger than arm 2?", "Are the potential outcomes of arm 1 bigger than the averag
 Here are some potential and observed outcomes and `T` with multiple values.
 
 ```{r multitreatsetup, echo=FALSE}
-theassign_mult <- declare_assignment(
-  num_arms = 5,
-  conditions = c("1", "2", "3", "4", "5"), assignment_variable = T
-)
+theassign_mult <- declare_assignment(T = conduct_ra(N = N, num_arms = 5, conditions = c("1", "2", "3", "4", "5")))
 po_mult <- declare_potential_outcomes(Y ~ y0_1 * (T == "1") + y0_2 * (T == "2") +
   y0_3 * (T == "3") + y0_4 * (T == "4") + y0_5 * (T == "5"),
 conditions = c("1", "2", "3", "4", "5"),
@@ -1009,7 +1006,7 @@ des2_plus <- des2 + ttest_T1_vs_all + overall_T + pairwise_test + pairwise_test_
 thediagnosands <- declare_diagnosands(fwer = mean(p.value < .05))
 des2_sim <- simulate_design(des2_plus, sims = 1000)
 res2 <- des2_sim %>%
-  group_by(estimator_label) %>%
+  group_by(estimator) %>%
   summarize(fwer = mean(p.value < .05), .groups = "drop")
 kableExtra::kable(res2, caption='Approaches to testing in multi-arm experiments.')
 ```
