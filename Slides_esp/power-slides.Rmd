@@ -1,7 +1,7 @@
 ---
-title: "Statistical Power"
+title: "Poder Estadístico"
 author: "Fill In Your Name"
-date: '`r format(Sys.time(), "%d %B, %Y")`'
+date: '`r format(Sys.time(), "%d-%m-%Y")`'
 header-includes: |
    \setbeamertemplate{footline}{\begin{beamercolorbox}{section in head/foot}
    \includegraphics[height=.5cm]{../Images/egap-logo.png} \hfill
@@ -33,40 +33,40 @@ output:
 source("rmd_setup.R")
 ```
 
-# What is power?
-##  What is power?
+# ¿Qué es el poder estadístico?
+##  ¿Qué es el poder estadístico?
 
-- We want to separate signal from noise.
+- Queremos separarar a la señal del ruido.
 
-- Power = probability of rejecting null hypothesis, given true effect $\ne$ 0.
+- Poder = probabilidad de rechazar la hipótesis nula, dado un efecto real $\ne$  0.
 
-- In other words, it is the ability to detect an effect given that it exists.
+- Es otras palabras, es la habilidad de detectar un efecto en el caso de que tal efecto exista.
 
-- Formally: (1 - Type II) error rate.
+- Formalmente: (1 - Type II) tasa de error.
 
-- Thus, power $\in$ (0, 1).
+- Por lo tanto, el poder está $\in$ (0, 1).
 
-- Standard thresholds: 0.8 or 0.9.
+- Márgenes estándar: 0.8 or 0.9.
 
-## Starting point for power analysis
+## Puntos de partida para el análisis de poder
 
-- Power analysis is something we do *before* we run a study.
+- El análisis de poder es algo que hacemos  *antes* de realizar un estudio
 
-    - Helps you figure out the sample you need to detect a given effect size.
+    - Nos ayuda a definir la muestra que se requere para detectar un efecto de un tamaño dado.
 
-    - Or helps you figure out a minimal detectable difference given a set sample size.
+    - O nos ayuda a encontrar cuál es la diferencia detectable mínima dado un tamaño de muestra fijo.
 
-    - May help you decide whether to run a study.
+    - Nos puede ayudar a decidir si hacer el estudio o no.
+    
+- No se puede aprender mucho de un estudio de hallazgos nulos y con poco poder. 
 
-- It is hard to learn from an under-powered null finding. 
-
-    - Was there an effect, but we were unable to detect it? or was there no effect?  We can't say.
+    - ¿ Hay en realidad un efecto, pero no pudimos detectarlo? ¿O en realidad no hay efecto?  No podemos diferenciar.
 
 
-## Power
-- Say there truly is a treatment effect and you run your experiment many times.  How often will you get a statistically significant result?
+## Poder
+- Supongamos que el tratamiento sí produce un efecto y que realizamos el experimento muchas veces. ¿Qué tan frecuentemente obtendríamos resultados estadísticamente significativos?
 
-- Some guesswork to answer this question.
+- Cantidades estimadas que nos pueden pueden ayudar a resolver esta pregunta:
 
     - How big is your treatment effect?
   
@@ -76,20 +76,19 @@ source("rmd_setup.R")
 
 
 
-## Approaches to power calculation
-- Analytical calculations of power
+## Métodos para calcular el poder estádistico
+- Cálculos analíticos de poder
 
-- Simulation
+- Simulaciones
 
+## Herramientas para el calculo del poder
+- Interactivas
 
-## Power calculation tools
-- Interactive
-
-    - [EGAP Power Calculator](https://egap.shinyapps.io/power-app/)
+    - [EGAP Calculadora de Poder](https://egap.shinyapps.io/power-app/)
 
     - [rpsychologist](https://rpsychologist.com/d3/NHST/)
 
-- R Packages
+- Paquetes de R
 
     - [pwr](https://cran.r-project.org/web/packages/pwr/index.html)
 
@@ -97,26 +96,26 @@ source("rmd_setup.R")
 
 
 
-# Analytical calculations of power
-## Analytical calculations of power
+# Cálculos analíticos de poder
+## Cálculos analíticos de poder
 - Formula:
   \begin{align*}
-  \text{Power} &= \Phi\left(\frac{|\tau| \sqrt{N}}{2\sigma}- \Phi^{-1}(1- \frac{\alpha}{2})\right)
+  \text{Poder} &= \Phi\left(\frac{|\tau| \sqrt{N}}{2\sigma}- \Phi^{-1}(1- \frac{\alpha}{2})\right)
   \end{align*}
 
-- Components:
-  - $\phi$: standard normal CDF is monotonically increasing
-  - $\tau$: the effect size
-  - $N$: the sample size
-  - $\sigma$: the standard deviation of the outcome
-  - $\alpha$: the significance level (typically 0.05)
+- Componentes:
+  - $\phi$: la función acumlada de probabilidad (CDF) de la normal estándar crece monotónicamente
+  - $\tau$: el tamaño del efecto
+  - $N$: el tamaño de la muestra
+  - $\sigma$: la desviación estándar de la variable de interés
+  - $\alpha$: el nivel de significancia (normalmente 0.05)
 
 
-## Example: Analytical calculations of power
+## Ejemplo: Cálculos analíticos de poder
 
 ```{r pwrsimp, echo=TRUE, include=TRUE}
-# Power for a study with 80 obserations and effect 
-# size of 0.25
+# Poder para un estudio con 80 obs y  
+# un tamaño del efecto de 0.25
 library(pwr)
 pwr.t.test(n = 40, d = 0.25, sig.level = 0.05, 
            power = NULL, type = c("two.sample", 
@@ -124,52 +123,53 @@ pwr.t.test(n = 40, d = 0.25, sig.level = 0.05,
 ```
 
 
-## Limitations to analytical power calculations
-- Only derived for some test statistics (differences of means)
+## Limitaciones del cálculo analítico del poder
 
-- Makes specific assumptions about the data-generating process
+- Sólo se puede derivar para algunos estadísticos de prueba (diferencia de medias)
 
-- Incompatible with more complex designs
+- Implica supuestos específicos acerca del proceso de generación de datos
+
+- Incompatible con diseños más complejos
 
 
-# Simulation-based power calculation
-## Simulation-based power calculation
-- Create dataset and simulate research design.
+# Cálculo del Poder basado en la Simulación
+## Cálculo del poder basado en la simulación
+- Fabricar datos y simular el diseño de la investigación 
 
-- Assumptions are necessary for simulation studies, but you make your own.
+- También es necesario hacer supuestos para simular, pero estos los definen ustedes mismos.
 
-- For the DeclareDesign approach, see <https://declaredesign.org/>
+- Para ver cómo se hace esto en DeclareDesign, vea <https://declaredesign.org/>
 
-## Steps
+## Pasos
 
-- Define the sample and the potential outcomes function.
+- Definir la muestra y las funciones de las salidas potenciales.
 
-- Define the treatment assignment procedure.
+- Definir el procedimiento de asignación a tratamientos.
 
-- Create data.
+- Fabricar datos.
 
-- Assign treatment, then estimate the effect.
+- Asignar el tratamiento y luego estimar el efecto
 
-- Do this many times.
+- Repetir estos pasos muchas veces
 
 
 ## Examples
 
-- Complete randomization
+- Aleatorizaciçon completa
 
-- With covariates
+- Con covariables
 
-- With cluster randomization
+- Con aleatorización por conglomerados
 
-## Example: Simulation-based power for complete randomization
+## Ejemplo: Poder basado en simulaciones con aleatorización completa
 
 ```{r powersim, echo=TRUE, include=TRUE}
 # install.packages("randomizr")
 library(randomizr)
 library(estimatr)
 
-## Y0 is fixed in most field experiments. 
-## So we only generate it once:
+## Y0 es fijo en la mayoría  de experimentos . 
+## Entonces sólo hace falta generarlo una vez:
 make_Y0 <- function(N){  rnorm(n = N) }
 repeat_experiment_and_test <- function(N, Y0, tau){
     Y1 <- Y0 + tau
@@ -181,7 +181,7 @@ repeat_experiment_and_test <- function(N, Y0, tau){
 }
 ```
 
-## Example: Simulation-based power for complete randomization
+## Ejemplo: Poder basado en simulaciones con aleatorización completa
 ```{r powersim2, echo=TRUE, include=TRUE}
 power_sim <- function(N,tau,sims){
     Y0 <- make_Y0(N)
@@ -196,21 +196,22 @@ power_sim(N=80,tau=.25,sims=100)
 power_sim(N=80,tau=.25,sims=100)
 ```
 
-## Example: Using DeclareDesign {.allowframebreaks}
+## Ejemplo: Usando DeclareDesign {.allowframebreaks}
 ```{r ddversion, echo=TRUE, message=FALSE, warning=FALSE}
 library(DeclareDesign)
 library(tidyverse)
 P0 <- declare_population(N,u0=rnorm(N))
-# declare Y(Z=1) and Y(Z=0)
+# declarar Y(Z=1) y Y(Z=0)
 O0 <- declare_potential_outcomes(Y_Z_0 = 5 + u0, Y_Z_1 = Y_Z_0 + tau)
-# design is to assign m units to treatment
-A0 <- declare_assignment(m=round(N/2))
-# estimand is the average difference between Y(Z=1) and Y(Z=0)
+#  assigar m unidades al tratamiento
+#A0 <- declare_assignment(m=round(N/2))
+A0 <- declare_assignment(Z=complete_ra(N))
+# inquiry es la diferencia promedio entreY(Z=1) y Y(Z=0)
 estimand_ate <- declare_inquiry(ATE=mean(Y_Z_1 - Y_Z_0))
 R0 <- declare_reveal(Y,Z)
 design0_base <- P0 + A0 + O0 + R0
 
-## For example:
+## Por ejemplo:
 design0_N100_tau25 <- redesign(design0_base,N=100,tau=.25)
 dat0_N100_tau25 <- draw_data(design0_N100_tau25)
 head(dat0_N100_tau25)
@@ -231,34 +232,34 @@ design0_plus_tests <- design0_base + E0 + T0
 
 design0_N100_tau25_plus <- redesign(design0_plus_tests,N=100,tau=.25)
 
-## Only repeat the random assignment, not the creation of Y0. Ignore warning
+## Sólo repetimos la asignación aleatoria, no generamos de nuevo Y0. Ignoren la advertencia
 names(design0_N100_tau25_plus)
 design0_N100_tau25_sims <- simulate_design(design0_N100_tau25_plus,
           sims=c(1,100,1,1,1,1)) # only repeat the random assignment
-# design0_N100_tau25_sims has 200 rows (2 tests * 100 random assignments)
-# just look at the first 6 rows
+# design0_N100_tau25_sims tiene 200 filas (2 pruebas * 100 asignaciones aleatorias)
+# veámos las primeras 6 filas
 head(design0_N100_tau25_sims)
 
-# for each estimator, power = proportion of simulations with p.value < 0.5
-design0_N100_tau25_sims %>% group_by(estimator_label) %>% 
+# para cada estimador, poder = proporción de las simulaciones con p.value < 0.5
+design0_N100_tau25_sims %>% group_by(estimator) %>% 
   summarize(pow=mean(p.value < .05),.groups="drop")
 ```
 
-# Power with covariate adjustment 
-## Covariate adjustment and power
+# Poder con Ajuste de Covariables
+## Ajuste de Covariables y Poder
 
-   - Covariate adjustment can improve power because it mops up variation in the outcome variable.
+   - El ajuste de covariables puede mejorar el poder porque absorbe la variación de la variable de interés.
    
-      - If prognostic, covariate adjustment can reduce variance dramatically.  Lower variance means higher power.
+      - Sí es para pronóstico, el ajuste de covariables puede reducir la varianza significativamente. Una menor varianza se traduce en más poder.
    
-      - If non-prognostic, power gains are minimal.
+      - Sí no es para pronóstico, las ganancias en poder son mínimas.
    
-   - All covariates must be pre-treatment.  Do not drop observations on account of missingness.  
+   - Todas las variables tienen que ser pre-tratamiento.  No eliminen observaciones a cuenta de datos faltantes.
    
-      - See the module on [threats to internal validity](threats-to-internal-validity-of-randomized-experiments.html) and the [10 things to know about covariate adjustment](http://egap.org/methods-guides/10-things-know-about-covariate-adjustment).
+      - Ver el módulo de [amenazas a la validez interna](threats-to-internal-validity-of-randomized-experiments.html) y las [10 cosas que debe saber sobre el ajuste de covariables](http://egap.org/methods-guides/10-things-know-about-covariate-adjustment).
 
-  - Freedman's bias as n of observations decreases and K covariates increases.
-
+  - El sesgo de Freedman a medida que las  n observaciones disminuyen y el número de covariables aumenta.
+  
 <!-- ## Covariate adjustment: best practices -->
 <!-- - All covariates must be pre-treatment -->
 <!--   - Never adjust for post-treatment variables -->
@@ -272,33 +273,33 @@ design0_N100_tau25_sims %>% group_by(estimator_label) %>%
 
 
 
-## Blocking
-- Blocking: randomly assign treatment within blocks
+## Bloques
+- Bloques: asignar el tratamiento al azar dentro de los bloques
 
-   - “Ex-ante” covariate adjustment
+   -  Ajuste de covariables “Ex-ante”
 
-   - Higher precision/efficiency implies more power
+   - Más precisión/eficiencia significa más poder
 
-   - Reduce “conditional bias”: association between treatment assignment and potential outcomes
+   - Reducir “el sesgo condicional”: relación entre el tratamiento y las salidas potenciales
 
-   - Benefits of blocking over covariate adjustment clearest in small experiments
+   - Beneficios de usar bloques en vez de ajuste de covariables más evidente para experimentos pequeños.
 
    
-## Example: Simulation-based power with a covariate {.allowframebreaks} 
+## Ejemplo: Poder basado en simulaciones con una covariable {.allowframebreaks} 
 ```{r powsimcov, echo=TRUE}
-## Y0 is fixed in most field experiments. So we only generate it once
+## Y0 es fijo en la mayoría de experimentos. Solo lo generamos una vez
 make_Y0_cov <- function(N){
     u0 <- rnorm(n = N)
     x <- rpois(n=N,lambda=2)
     Y0 <- .5 * sd(u0) * x + u0
     return(data.frame(Y0=Y0,x=x))
  }
-##  X is moderarely predictive of Y0.
+##  X  predice Y0 moderadamente
 test_dat <- make_Y0_cov(100)
 test_lm  <- lm_robust(Y0~x,data=test_dat)
 summary(test_lm)
 
-## now set up the simulation
+## ahora la simulación
 repeat_experiment_and_test_cov <- function(N, tau, Y0, x){
     Y1 <- Y0 + tau
     Z <- complete_ra(N = N)
@@ -307,8 +308,9 @@ repeat_experiment_and_test_cov <- function(N, tau, Y0, x){
     pval <- estimator$p.value[2]
     return(pval)
 }
-## create the data once, randomly assign treatment sims times
-## report what proportion return p-value < 0.05
+
+## crear los datos una vez, asigna aleatoriamente el tratamiento sims veces
+## reporta qué proporción tiene p <0.05
 power_sim_cov <- function(N,tau,sims){
     dat <- make_Y0_cov(N)
     pvals <- replicate(n=sims, repeat_experiment_and_test_cov(N=N,
@@ -325,35 +327,37 @@ power_sim_cov(N=80,tau=.25,sims=100)
 
 ```
 
-# Power for cluster randomization 
-## Power and clustered designs
-- Recall the [randomization module](randomization.html).
 
-- Given a fixed $N$, a clustered design is weakly less powered than a non-clustered design.
-    - The difference is often substantial.
+# Poder para la Aleatorización por Conglomerados
+## Poder y diseños de conglomerados
+- Recordemos el módulo de [aleatorización](aleatorizacion.html).
 
-- We have to estimate variance correctly:
-    - Clustering standard errors (the usual)
-    - Randomization inference
+- Dado un $N$ fijo, un diseño de conglomerados tiene menos poder que un diseño sin conglomerados
+    - La diferencia suele ser sustancial.
 
-- To increase power:
-    - Better to increase number of clusters than number of units per cluster.
-    - How much clusters reduce power depends critically on the intra-cluster correlation (the ratio of variance within clusters to total variance).
+- Tenemos que estimar la varianza correctamente:
+    - Errores estándar para conglomerados (lo habitual)
+    - Inferencia basada en la aleatorización
 
+- Para aumentar el poder:
+    - Es mejor aumentar el número de conglomerados que el número de unidades por conglomerados.
+    - Cuánto reducen el poder los conglomerados depende fundamentalmente de la correlación intragrupo (la relación entre la varianza dentro de los conglomerados y la varianza total).
+    
 
-## A note on clustering in observational research
-- Often overlooked, leading to (possibly) wildly understated uncertainty.
+## Una nota sobre los conglomerados en la investigación observacional
+ 
+- A menudo se pasa por alto lo que conduce  (posiblemente) a una incertidumbre altamente subestimada.
 
-  - Frequentist inference based on ratio $\hat{\beta}/\hat{se}$
+  - Inferencia frecuentista basada en la proporción $\hat{\beta}/ \hat{se}$
 
-  - If we underestimate $\hat{se}$, we are much more likely to reject $H_0$. (Type-I error rate is too high.)
+  - Si subestimamos $\hat{se}$, es mucho más probable que rechacemos $H_0$. (La tasa de error de tipo I es demasiado alta).
   
-- Many observational designs much less powered than we think they are.
+- Muchos diseños de observación tienen mucha menos poder de lo que pensamos.
 
-## Example: Simulation-based power for cluster randomization {.allowframebreaks} 
+## Ejemplo: Poder basado en la simulación para la aleatorización por conglomerados {.allowframebreaks} 
 
 ```{r powsimclus, echo=TRUE}
-## Y0 is fixed in most field experiments. So we only generate it once
+## Y0 es fijo en la mayoría de experimentos. Solo lo generamos una vez
 make_Y0_clus <- function(n_indivs,n_clus){
     # n_indivs in number of people per cluster
     # n_clus is number of clusters
@@ -400,7 +404,7 @@ power_sim_clus(n_indivs=8,n_clus=100,tau=.25,sims=100)
 
 ```
 
-## Example: Simulation-based power for cluster randomization (DeclareDesign) {.allowframebreaks} 
+## Ejemplo: Poder basado en la simulación para la aleatorización por conglomerados (DeclareDesign) {.allowframebreaks} 
 
 ```{r ddversion_clus, echo=TRUE}
 
@@ -466,14 +470,14 @@ d1_sims %>% group_by(estimator_label) %>% summarize(pow=mean(p.value < .05),
     .groups="drop")
 ```
 
-# Comparative statics
-## Comparative Statics
-- Power is:
-  - Increasing in $N$
-  - Increasing in $|\tau|$
-  - Decreasing in $\sigma$
+# Estática Comparada
+## Estática comparada
+- El poder:
+  - Crece con $N$
+  - Crece con  $|\tau|$
+  - Decrece con $\sigma$
 
-## Power by sample size {.allowframebreaks}
+## Poder segun el tamaño de la muestra {.allowframebreaks}
 
 ```{r powplot_by_n, echo=TRUE}
 some_ns <- seq(10,800,by=10)
@@ -491,7 +495,7 @@ abline(h=.8)
 ```
 
 
-## Power by treatment effect size {.allowframebreaks}
+## Poder segun el tamaño de la muestra {.allowframebreaks}
 
 ```{r powplot_by_tau, echo=TRUE}
 some_taus <- seq(0,1,by=.05)
@@ -506,42 +510,42 @@ abline(h=.8)
 
 
 
-## EGAP Power Calculator
+## Calculadora de Poder de EGAP
 
-- Try the calculator at: https://egap.shinyapps.io/power-app/
+- Pueden usar la calculadora aquí: https://egap.shinyapps.io/power-app/
 
-- For cluster randomization designs, try adjusting:
+- Para diseños por conglomerados puede probar ajustando:
 
-  - Number of clusters
-  - Number of units per clusters
-  - Intra-cluster correlation
-  - Treatment effect
+  - El número de conglomerados
+  - El número de unidades por conglomerados
+  - Correlación Intra-cluster correlation
+  - Efecto del tratamiento
 
 
 ## Comments
 
-- Know your outcome variable.
+- Deben conocer bien la variable de interés
 
-- What effects can you realistically expect from your treatment?
+- ¿Cuáles son los efectos que verdaderamente esperan del tratamiento?
 
-- What is the plausible range of variation of the outcome variable?
+- ¿Cuál es el rango de variación posible que puede tener la variable de interés?
 
-    - A design with limited possible movement in the outcome variable may not be well-powered.
-
-
-## Conclusion: How to improve your power
+    -  Un diseño en el que la variable de interés tenga variación limitada puede tener poco poder
 
 
-1. Increase the $N$
+## Conclusión: Cómo mejorar el poder
+
+
+1. Hagan a $N$  más grande
     
-    - If clustered, increase the number of clusters if at all possible
+    - Si hay conglomerados, aumenten el número de conglomerados de ser posibles 
 
-2. Strengthen the treatment
+2. Intensifiquen el tratamiento
 
-3. Improve precision
+3. Mejoren la precisión
 
-    - Covariate adjustment
+    - Ajuste de covariables
 
-    - Blocking
+    - Bloques
     
-4. Better measurement of the outcome variable
+4. Midan la variable de interés correctamente
