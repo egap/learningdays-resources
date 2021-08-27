@@ -461,7 +461,7 @@ d1_sims <- simulate_design(d1_plus,sims=c(1,1,1000,1,1,1,1,1))
 ```
 
 ```{r ddversion_clus_2_print, echo=TRUE}
-d1_sims %>% group_by(estimator_label) %>% summarize(pow=mean(p.value < .05),
+d1_sims %>% group_by(estimator) %>% summarize(pow=mean(p.value < .05),
     coverage = mean(estimand <= conf.high & estimand >= conf.low),
     .groups="drop")
 ```
