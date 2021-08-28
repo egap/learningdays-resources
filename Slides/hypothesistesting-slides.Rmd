@@ -167,7 +167,7 @@ bigdat$Ybin <- as.numeric(bigdat$Y > quantile(bigdat$Y, .85))
 ## A hypothesis is a statement about or model of a relationship between potential outcomes
 
 ```{r}
-kableExtra::kable(dat, col.names = c("Outcome", "Treatment", "$y_{i,0}$", "ITE", "$y_{i,1}$", "$Y>0$"), escape=FALSE)
+kableExtra::kable(dat, col.names = c("Outcome", "Treatment", "$y_{i,0}$", "ITE", "$y_{i,1}$", "$Y>0$"), escape = FALSE)
 ```
 
 For example, the sharp, or strong, null hypothesis of no effects is $H_0: y_{i,1} = y_{i,0}$
@@ -218,11 +218,15 @@ Then  we repeat it,  calculating the implied test statistic by the hypothesis an
 
 ```{r reps, echo=TRUE, cache=TRUE}
 set.seed(123456)
-possibleMeanDiffsH0 <- replicate(10000, 
-                                 meanTT(ys = Y, z = repeatExperiment(N = 10)))
+possibleMeanDiffsH0 <- replicate(
+  10000,
+  meanTT(ys = Y, z = repeatExperiment(N = 10))
+)
 set.seed(123456)
-possibleMeanRankDiffsH0 <- replicate(10000, 
-                            meanrankTT(ys = Y, z = repeatExperiment(N = 10)))
+possibleMeanRankDiffsH0 <- replicate(
+  10000,
+  meanrankTT(ys = Y, z = repeatExperiment(N = 10))
+)
 ```
 
 ## Plot the randomization distributions under the null
@@ -235,7 +239,7 @@ plot(density(possibleMeanDiffsH0),
   lwd = 2,
   main = "", # Mean Difference Test Statistic",
   xlab = "Mean Differences Consistent with H0",
-  cex.lab=1.25, cex.axis=1
+  cex.lab = 1.25, cex.axis = 1
 )
 rug(possibleMeanDiffsH0)
 rug(observedMeanTT, lwd = 3, ticksize = .51)
@@ -247,14 +251,16 @@ plot(density(possibleMeanRankDiffsH0),
   xlim = c(-10, 10), # range(possibleMeanDiffsH0),
   main = "", # Mean Difference of Ranks Test Statistic",
   xlab = "Mean Difference of Ranks Consistent with H0",
-  cex.lab=1.25, cex.axis=1
+  cex.lab = 1.25, cex.axis = 1
 )
 rug(possibleMeanRankDiffsH0)
 rug(observedMeanRankTT, lwd = 3, ticksize = .9)
 text(observedMeanRankTT, .45, "Observed Test Statistic")
 
-mtext(side = 3, outer = TRUE, cex=1.75,
-    text = expression(paste("Distributions of Test Statistics Consistent with the Design and ", H0:y[i1] == y[i0])))
+mtext(
+  side = 3, outer = TRUE, cex = 1.75,
+  text = expression(paste("Distributions of Test Statistics Consistent with the Design and ", H0:y[i1] == y[i0]))
+)
 ```
 
 ## $p$-values summarize the plots
@@ -274,11 +280,15 @@ pMeanRankTT
 ## using the coin package
 library(coin)
 set.seed(12345)
-pMean2 <- coin::pvalue(oneway_test(Y ~ factor(T), data = dat, 
-                             distribution = approximate(nresample = 1000),alternative = "less"))
+pMean2 <- coin::pvalue(oneway_test(Y ~ factor(T),
+  data = dat,
+  distribution = approximate(nresample = 1000), alternative = "less"
+))
 dat$rankY <- rank(dat$Y)
-pMeanRank2 <- coin::pvalue(oneway_test(rankY ~ factor(T), data = dat, 
-                                 distribution = approximate(nresample = 1000),alternative = "less"))
+pMeanRank2 <- coin::pvalue(oneway_test(rankY ~ factor(T),
+  data = dat,
+  distribution = approximate(nresample = 1000), alternative = "less"
+))
 pMean2
 pMeanRank2
 ```
@@ -288,16 +298,17 @@ pMeanRank2
  First install a development version of the RItools package
 
 ```{r installritools, eval=FALSE, echo=TRUE, results='hide',warnings=FALSE,cache=FALSE}
-#dev_mode() ## dont install the package globally
-renv::install("markmfredrickson/RItools@randomization-distribution", 
-               force = TRUE)
-#dev_mode()
+# dev_mode() ## dont install the package globally
+renv::install("markmfredrickson/RItools@randomization-distribution",
+  force = TRUE
+)
+# dev_mode()
 ```
 
 Then use the `RItest` function.
 
 ```{r useritools, eval=FALSE,echo=TRUE,cache=FALSE}
-#dev_mode()
+# dev_mode()
 library(RItools)
 thedesignA <- simpleRandomSampler(total = N, z = dat$T, b = rep(1, N))
 pMean4 <- RItest(
@@ -310,7 +321,7 @@ pMeanRank4 <- RItest(
 )
 pMean4
 pMeanRank4
-#dev_mode() ## and turn off dev_mode
+# dev_mode() ## and turn off dev_mode
 ```
 
 ```{r ritoolsoutput, echo=TRUE, eval=FALSE, tidy=FALSE}
@@ -377,7 +388,7 @@ lm1P <- summary(lm1)$coef["T", "Pr(>|t|)"]
 ttestP1 <- t.test(Y ~ T, data = dat)$p.value
 library(estimatr)
 ttestP2 <- difference_in_means(Y ~ T, data = dat)
-c(lm1P=lm1P, ttestP1=ttestP1, tttestP2=ttestP2$p.value)
+c(lm1P = lm1P, ttestP1 = ttestP1, tttestP2 = ttestP2$p.value)
 ```
 
 - Why is the OLS $p$-value different? What assumptions do we use to calculate it?
@@ -401,8 +412,8 @@ varEstATE <- function(Y, T) {
 seEstATE <- sqrt(varEstATE(dat$Y, dat$T))
 obsTStat <- observedMeanTT / seEstATE
 c(
-  observedTestStat = observedMeanTT, 
-  stderror = seEstATE, 
+  observedTestStat = observedMeanTT,
+  stderror = seEstATE,
   tstat = obsTStat,
   pval = 2 * min(
     pt(obsTStat, df = 8, lower.tail = TRUE),
@@ -470,9 +481,6 @@ hypothesized value of zero ($p=.001$)! We reject that hypothesis!" **when the tr
 
 - Diagnose by simulation!
 
-
-
-
 ## Diagnosing false positive rates by simulation
 
 - Across repetitions of the design:
@@ -483,7 +491,6 @@ hypothesized value of zero ($p=.001$)! We reject that hypothesis!" **when the tr
 
 - The proportion of small $p$-values should be no larger than $\alpha$ if the test is operating correctly.
 
-
 ## Diagnosing false positive rates by simulation
 
 Example with a binary outcome. Does the test work as it should? What do the p-values look like when there is no effect?
@@ -492,14 +499,20 @@ Example with a binary outcome. Does the test work as it should? What do the p-va
 collectPValues <- function(y, z, thedistribution = exact()) {
   ## Make Y and T have no relationship by re-randomizing T
   newz <- repeatExperiment(length(y))
+  thedata <- data.frame(newz = newz, y = y)
+  thedata$ranky <- rank(y)
+  thedata$newzF <- factor(thedata$newz)
   ## The four tests
-  thelm <- lm(y ~ newz, data = dat)
-  ttestP2 <- difference_in_means(y ~ newz, data = dat)
-  owP <- pvalue(oneway_test(y ~ factor(newz), 
-                            distribution = thedistribution))
-  ranky <- rank(y)
-  owRankP <- pvalue(oneway_test(ranky ~ factor(newz), 
-                                distribution = thedistribution))
+  thelm <- lm(y ~ newz, data = thedata)
+  ttestP2 <- difference_in_means(y ~ newz, data = thedata)
+  owP <- pvalue(oneway_test(y ~ newzF,
+    data = thedata,
+    distribution = thedistribution
+  ))
+  owRankP <- pvalue(oneway_test(ranky ~ newzF,
+    data = thedata,
+    distribution = thedistribution
+  ))
   ## Return the p-values
   return(c(
     lmp = summary(thelm)$coef["newz", "Pr(>|t|)"],
@@ -525,7 +538,7 @@ produce a **big** p-value.
 - A few of the p-values for the four different tests (we did 5000 simulations, just showing 5)
 
 ```{r, echo=FALSE}
-pDist[,1:5]
+pDist[, 1:5]
 ```
 
 ## Diagnosing false positive rates by simulation
@@ -553,14 +566,15 @@ par(mfrow = c(1, 1), mgp = c(2, .75, 0), oma = rep(0, 4), mar = c(3.5, 3.5, 0, 0
 plot(c(0, 1), c(0, 1),
   type = "n",
   xlab = "p-value=p", ylab = "Proportion p-values < p",
-  cex.lab=2, cex.axis=2)
+  cex.lab = 2, cex.axis = 2
+)
 for (i in 1:nrow(pDist)) {
-  lines(ecdf(pDist[i, ]), pch = i, col = i, cex=2,cex.axis=2,lwd=2)
+  lines(ecdf(pDist[i, ]), pch = i, col = i, cex = 2, cex.axis = 2, lwd = 2)
 }
 abline(0, 1, col = "gray")
 legend("topleft",
   legend = c("OLS", "Neyman", "Rand Inf Mean Diff", "Rand Inf Mean Diff Ranks"),
-  pch = 1:5, col = 1:5, lty = 1, bty = "n",cex=2
+  pch = 1:5, col = 1:5, lty = 1, bty = "n", cex = 2
 )
 ```
 
@@ -583,15 +597,15 @@ par(mfrow = c(1, 1), mgp = c(2, .75, 0), oma = rep(0, 4), mar = c(3.5, 3.5, 0, 0
 plot(c(0, 1), c(0, 1),
   type = "n",
   xlab = "p-value=p", ylab = "Proportion p-values < p",
-  cex.lab=2, cex.axis=2
+  cex.lab = 2, cex.axis = 2
 )
 for (i in 1:nrow(pDistBig)) {
-  lines(ecdf(pDistBig[i, ]), pch = i, col = i,cex=2,cex.axis=2,lwd=2)
+  lines(ecdf(pDistBig[i, ]), pch = i, col = i, cex = 2, cex.axis = 2, lwd = 2)
 }
 abline(0, 1, col = "gray")
 legend("topleft",
   legend = c("OLS", "Neyman", "Rand Inf Mean Diff", "Rand Inf Mean Diff Ranks"),
-  pch = 1:5, col = 1:5, lty = 1, bty = "n",cex=2
+  pch = 1:5, col = 1:5, lty = 1, bty = "n", cex = 2
 )
 ```
 
@@ -615,15 +629,15 @@ par(mfrow = c(1, 1), mgp = c(2, .75, 0), oma = rep(0, 4), mar = c(3.5, 3.5, 0, 0
 plot(c(0, 1), c(0, 1),
   type = "n",
   xlab = "p-value=p", ylab = "Proportion p-values < p",
-  cex.lab=2, cex.axis=2
+  cex.lab = 2, cex.axis = 2
 )
 for (i in 1:nrow(pDistBig2)) {
-  lines(ecdf(pDistBig2[i, ]), pch = i, col = alpha(i,.5), cex=2, cex.axis=2)
+  lines(ecdf(pDistBig2[i, ]), pch = i, col = alpha(i, .5), cex = 2, cex.axis = 2)
 }
 abline(0, 1, col = "gray")
 legend("topleft",
   legend = c("OLS", "Neyman", "Rand Inf Mean Diff", "Rand Inf Mean Diff Ranks"),
-  pch = 1:5, col = 1:5, lty = 1, bty = "n", cex=2
+  pch = 1:5, col = 1:5, lty = 1, bty = "n", cex = 2
 )
 ```
 
@@ -760,7 +774,7 @@ thedat <- fabricate(
 tau1 <- 0
 tau5 <- tau4 <- tau3 <- tau2 <- tau1
 thepop <- declare_population(thedat)
-theassign <- declare_assignment(T= complete_ra(N=N,m = 50))
+theassign <- declare_assignment(T = complete_ra(N = N, m = 50))
 po_1 <- declare_potential_outcomes(Y1_T_0 = y0_1, Y1_T_1 = y0_1 + tau1)
 po_2 <- declare_potential_outcomes(Y2_T_0 = y0_2, Y2_T_1 = y0_2 + tau2)
 po_3 <- declare_potential_outcomes(Y3_T_0 = y0_3, Y3_T_1 = y0_3 + tau3)
@@ -777,9 +791,9 @@ des1 <- thepop + theassign +
   reveal_1 + reveal_2 + reveal_3 + reveal_4 + reveal_5
 
 dat1 <- draw_data(des1)
-options(digits=2)
-head(dat1[,-c(2:6,18:22)])
-head(dat1[,c(1,7,18:22)])
+options(digits = 2)
+head(dat1[, -c(2:6, 18:22)])
+head(dat1[, c(1, 7, 18:22)])
 ```
 
 ## Can we detect an effect on outcome `Y1`?
@@ -804,7 +818,7 @@ p2 <- coin::pvalue(oneway_test(Y2 ~ factor(T), data = dat1))
 p3 <- coin::pvalue(oneway_test(Y3 ~ factor(T), data = dat1))
 p4 <- coin::pvalue(oneway_test(Y4 ~ factor(T), data = dat1))
 p5 <- coin::pvalue(oneway_test(Y5 ~ factor(T), data = dat1))
-theps <- c(p1=p1, p2=p2, p3=p3, p4=p4, p5=p5)
+theps <- c(p1 = p1, p2 = p2, p3 = p3, p4 = p4, p5 = p5)
 sort(theps)
 ```
 
@@ -888,7 +902,7 @@ res1 <- des1_sim %>%
 
 ## Comparing approaches II
 ```{r}
-kableExtra::kable(res1,caption='Family wise error rates')
+kableExtra::kable(res1, caption = "Family wise error rates")
 ```
 
  - The approach using 5 tests produces a $p < .05$ much too often ---
@@ -908,7 +922,7 @@ FYI, here is how to use the Holm correction (Notice what happens to the $p$-valu
 theps
 p.adjust(theps, method = "holm")
 ## To show what happens with "significant" p-values
-theps_new <- sort(c(theps, newlowp=.01))
+theps_new <- sort(c(theps, newlowp = .01))
 p.adjust(theps_new, method = "holm")
 ```
 
@@ -937,10 +951,10 @@ assignment_variables = T
 reveal_mult <- declare_reveal(assignment_variables = T)
 des2 <- thepop + theassign_mult + po_mult + reveal_mult
 dat2 <- draw_data(des2)
-options(digits=2)
+options(digits = 2)
 ## T is treatment arm: 1,2,3,4,5
-head(dat2[,-c(2:6,8)])
-options(digits=4)
+head(dat2[, -c(2:6, 8)])
+options(digits = 4)
 ```
 
 ## Multiple hypothesis testing: Multiple treatment arms {.allowframebreaks}
@@ -1008,7 +1022,7 @@ des2_sim <- simulate_design(des2_plus, sims = 1000)
 res2 <- des2_sim %>%
   group_by(estimator) %>%
   summarize(fwer = mean(p.value < .05), .groups = "drop")
-kableExtra::kable(res2, caption='Approaches to testing in multi-arm experiments.')
+kableExtra::kable(res2, caption = "Approaches to testing in multi-arm experiments.")
 ```
 
 ## Summary
