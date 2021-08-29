@@ -16,13 +16,6 @@ header-includes: |
    \usepackage{textpos}
    \usepackage{booktabs,multirow,makecell}
 output:
-  # powerpoint_presentation:
-  #   toc: true
-  beamer_presentation:
-    keep_tex: true
-    toc: true
-    pandoc_args: [ "--toc" ]
-    fig_caption: true
   revealjs::revealjs_presentation:
     fig_caption: true
     theme: default
@@ -39,6 +32,11 @@ output:
       chalkboard:
         theme: whiteboard
         toggleNotesButton: false
+  beamer_presentation:
+    keep_tex: true
+    toc: true
+    pandoc_args: [ "--toc" ]
+    fig_caption: true
 ---
 
 ```{r setup, include=FALSE}
@@ -496,36 +494,40 @@ hypothesized value of zero ($p=.001$)! We reject that hypothesis!" **when the tr
 Example with a binary outcome. Does the test work as it should? What do the p-values look like when there is no effect?
 
 ```{r, echo=TRUE}
-collectPValues <- function(y, z, thedistribution = exact()) {
+collectPValues <- function(y, trt, thedistribution = exact()) {
   ## Make Y and T have no relationship by re-randomizing T
-  newz <- repeatExperiment(length(y))
-  thedata <- data.frame(newz = newz, y = y)
+  new_trt <- repeatExperiment(length(y))
+  thedata <- data.frame(new_trt = new_trt, y = y)
   thedata$ranky <- rank(y)
-  thedata$newzF <- factor(thedata$newz)
+  thedata$new_trtF <- factor(thedata$new_trt)
   ## The four tests
-  thelm <- lm(y ~ newz, data = thedata)
-  ttestP2 <- difference_in_means(y ~ newz, data = thedata)
-  owP <- pvalue(oneway_test(y ~ newzF,
+  thelm <- lm(y ~ new_trt, data = thedata)
+  t_test_CLT <- difference_in_means(y ~ new_trt, data = thedata)
+  t_test_exact <- oneway_test(y ~ new_trtF,
     data = thedata,
     distribution = thedistribution
-  ))
-  owRankP <- pvalue(oneway_test(ranky ~ newzF,
+  )
+  t_test_rank_exact <- oneway_test(ranky ~ new_trtF,
     data = thedata,
     distribution = thedistribution
-  ))
+  )
+  owP <- coin::pvalue(t_test_exact)[[1]]
+  owRankP <- coin::pvalue(t_test_rank_exact)[[1]]
   ## Return the p-values
   return(c(
-    lmp = summary(thelm)$coef["newz", "Pr(>|t|)"],
-    neyp = ttestP2$p.value[[1]],
+    lmp = summary(thelm)$coef["new_trt", "Pr(>|t|)"],
+    neyp = t_test_CLT$p.value[[1]],
     rtp = owP,
     rtpRank = owRankP
   ))
 }
 ```
 
-```{r fprdsim, cache=TRUE}
-set.seed(12345)
-pDist <- replicate(5000, collectPValues(y = dat$Ybin, z = dat$T))
+```{r fprdsim, cache=TRUE, message=FALSE, warning=FALSE, results='hide'}
+set.seed(123456)
+theY <- dat$Ybin
+theT <- dat$T
+pDist <- replicate(5000, collectPValues(y = theY, trt = theT))
 ```
 
 ## Diagnosing false positive rates by simulation
@@ -587,7 +589,7 @@ set.seed(12345)
 ## pDistBig <- replicate(1000,collectPValues(y=bigdat$Ybin,z=bigdat$T,thedistribution=approximate(B=1000)))
 library(parallel)
 pDistBigLst <- mclapply(1:1000, function(i) {
-  collectPValues(y = bigdat$Ybin, z = bigdat$T, thedistribution = approximate(nresample = 1000))
+  collectPValues(y = bigdat$Ybin, trt = bigdat$T, thedistribution = approximate(nresample = 1000))
 }, mc.cores = 8)
 pDistBig <- simplify2array(pDistBigLst)
 ```
@@ -618,7 +620,7 @@ positive rate.
 ```{r fprdsimBig2, cache=TRUE}
 set.seed(123456)
 pDistBigLst2 <- mclapply(1:1000, function(i) {
-  collectPValues(y = bigdat$Y, z = bigdat$T, thedistribution = approximate(nresample = 1000))
+  collectPValues(y = bigdat$Y, trt = bigdat$T, thedistribution = approximate(nresample = 1000))
 }, mc.cores = 8)
 pDistBig2 <- simplify2array(pDistBigLst2)
 ```

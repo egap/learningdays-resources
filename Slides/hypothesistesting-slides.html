@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="generator" content="pandoc">
   <meta name="author" content="Fill In Your Name" />
-  <meta name="dcterms.date" content="2021-08-27" />
+  <meta name="dcterms.date" content="2021-08-29" />
   <title>Hypothesis Testing: Summarizing Information about Causal Effects</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -509,7 +509,7 @@ style.innerHTML = style_script;
 document.getElementsByTagName('head')[0].appendChild(style);
 </script>
 
-    <script src="hypothesistesting-slides_files/header-attrs-2.7/header-attrs.js"></script>
+    <script src="hypothesistesting-slides_files/header-attrs-2.10/header-attrs.js"></script>
     <link href="hypothesistesting-slides_files/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
     <link href="hypothesistesting-slides_files/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
 </head>
@@ -520,7 +520,7 @@ document.getElementsByTagName('head')[0].appendChild(style);
 <section>
     <h1 class="title">Hypothesis Testing: Summarizing Information about Causal Effects</h1>
     <h2 class="author">Fill In Your Name</h2>
-    <h3 class="date">27 August 2021</h3>
+    <h3 class="date">29 August 2021</h3>
 </section>
 <section id="TOC">
 <ul>
@@ -1031,31 +1031,33 @@ One-sided p-value from a Normally distributed test statistic.
 <section id="diagnosing-false-positive-rates-by-simulation-1" class="slide level2">
 <h2>Diagnosing false positive rates by simulation</h2>
 <p>Example with a binary outcome. Does the test work as it should? What do the p-values look like when there is no effect?</p>
-<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>collectPValues <span class="ot">&lt;-</span> <span class="cf">function</span>(y, z, <span class="at">thedistribution =</span> <span class="fu">exact</span>()) {</span>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>collectPValues <span class="ot">&lt;-</span> <span class="cf">function</span>(y, trt, <span class="at">thedistribution =</span> <span class="fu">exact</span>()) {</span>
 <span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>  <span class="do">## Make Y and T have no relationship by re-randomizing T</span></span>
-<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>  newz <span class="ot">&lt;-</span> <span class="fu">repeatExperiment</span>(<span class="fu">length</span>(y))</span>
-<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>  thedata <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">newz =</span> newz, <span class="at">y =</span> y)</span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>  new_trt <span class="ot">&lt;-</span> <span class="fu">repeatExperiment</span>(<span class="fu">length</span>(y))</span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>  thedata <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">new_trt =</span> new_trt, <span class="at">y =</span> y)</span>
 <span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>  thedata<span class="sc">$</span>ranky <span class="ot">&lt;-</span> <span class="fu">rank</span>(y)</span>
-<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>  thedata<span class="sc">$</span>newzF <span class="ot">&lt;-</span> <span class="fu">factor</span>(thedata<span class="sc">$</span>newz)</span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>  thedata<span class="sc">$</span>new_trtF <span class="ot">&lt;-</span> <span class="fu">factor</span>(thedata<span class="sc">$</span>new_trt)</span>
 <span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a>  <span class="do">## The four tests</span></span>
-<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a>  thelm <span class="ot">&lt;-</span> <span class="fu">lm</span>(y <span class="sc">~</span> newz, <span class="at">data =</span> thedata)</span>
-<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a>  ttestP2 <span class="ot">&lt;-</span> <span class="fu">difference_in_means</span>(y <span class="sc">~</span> newz, <span class="at">data =</span> thedata)</span>
-<span id="cb26-10"><a href="#cb26-10" aria-hidden="true" tabindex="-1"></a>  owP <span class="ot">&lt;-</span> <span class="fu">pvalue</span>(<span class="fu">oneway_test</span>(y <span class="sc">~</span> newzF,</span>
+<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a>  thelm <span class="ot">&lt;-</span> <span class="fu">lm</span>(y <span class="sc">~</span> new_trt, <span class="at">data =</span> thedata)</span>
+<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a>  t_test_CLT <span class="ot">&lt;-</span> <span class="fu">difference_in_means</span>(y <span class="sc">~</span> new_trt, <span class="at">data =</span> thedata)</span>
+<span id="cb26-10"><a href="#cb26-10" aria-hidden="true" tabindex="-1"></a>  t_test_exact <span class="ot">&lt;-</span> <span class="fu">oneway_test</span>(y <span class="sc">~</span> new_trtF,</span>
 <span id="cb26-11"><a href="#cb26-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">data =</span> thedata,</span>
 <span id="cb26-12"><a href="#cb26-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">distribution =</span> thedistribution</span>
-<span id="cb26-13"><a href="#cb26-13" aria-hidden="true" tabindex="-1"></a>  ))</span>
-<span id="cb26-14"><a href="#cb26-14" aria-hidden="true" tabindex="-1"></a>  owRankP <span class="ot">&lt;-</span> <span class="fu">pvalue</span>(<span class="fu">oneway_test</span>(ranky <span class="sc">~</span> newzF,</span>
+<span id="cb26-13"><a href="#cb26-13" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb26-14"><a href="#cb26-14" aria-hidden="true" tabindex="-1"></a>  t_test_rank_exact <span class="ot">&lt;-</span> <span class="fu">oneway_test</span>(ranky <span class="sc">~</span> new_trtF,</span>
 <span id="cb26-15"><a href="#cb26-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">data =</span> thedata,</span>
 <span id="cb26-16"><a href="#cb26-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">distribution =</span> thedistribution</span>
-<span id="cb26-17"><a href="#cb26-17" aria-hidden="true" tabindex="-1"></a>  ))</span>
-<span id="cb26-18"><a href="#cb26-18" aria-hidden="true" tabindex="-1"></a>  <span class="do">## Return the p-values</span></span>
-<span id="cb26-19"><a href="#cb26-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(<span class="fu">c</span>(</span>
-<span id="cb26-20"><a href="#cb26-20" aria-hidden="true" tabindex="-1"></a>    <span class="at">lmp =</span> <span class="fu">summary</span>(thelm)<span class="sc">$</span>coef[<span class="st">&quot;newz&quot;</span>, <span class="st">&quot;Pr(&gt;|t|)&quot;</span>],</span>
-<span id="cb26-21"><a href="#cb26-21" aria-hidden="true" tabindex="-1"></a>    <span class="at">neyp =</span> ttestP2<span class="sc">$</span>p.value[[<span class="dv">1</span>]],</span>
-<span id="cb26-22"><a href="#cb26-22" aria-hidden="true" tabindex="-1"></a>    <span class="at">rtp =</span> owP,</span>
-<span id="cb26-23"><a href="#cb26-23" aria-hidden="true" tabindex="-1"></a>    <span class="at">rtpRank =</span> owRankP</span>
-<span id="cb26-24"><a href="#cb26-24" aria-hidden="true" tabindex="-1"></a>  ))</span>
-<span id="cb26-25"><a href="#cb26-25" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<span id="cb26-17"><a href="#cb26-17" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb26-18"><a href="#cb26-18" aria-hidden="true" tabindex="-1"></a>  owP <span class="ot">&lt;-</span> coin<span class="sc">::</span><span class="fu">pvalue</span>(t_test_exact)[[<span class="dv">1</span>]]</span>
+<span id="cb26-19"><a href="#cb26-19" aria-hidden="true" tabindex="-1"></a>  owRankP <span class="ot">&lt;-</span> coin<span class="sc">::</span><span class="fu">pvalue</span>(t_test_rank_exact)[[<span class="dv">1</span>]]</span>
+<span id="cb26-20"><a href="#cb26-20" aria-hidden="true" tabindex="-1"></a>  <span class="do">## Return the p-values</span></span>
+<span id="cb26-21"><a href="#cb26-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(<span class="fu">c</span>(</span>
+<span id="cb26-22"><a href="#cb26-22" aria-hidden="true" tabindex="-1"></a>    <span class="at">lmp =</span> <span class="fu">summary</span>(thelm)<span class="sc">$</span>coef[<span class="st">&quot;new_trt&quot;</span>, <span class="st">&quot;Pr(&gt;|t|)&quot;</span>],</span>
+<span id="cb26-23"><a href="#cb26-23" aria-hidden="true" tabindex="-1"></a>    <span class="at">neyp =</span> t_test_CLT<span class="sc">$</span>p.value[[<span class="dv">1</span>]],</span>
+<span id="cb26-24"><a href="#cb26-24" aria-hidden="true" tabindex="-1"></a>    <span class="at">rtp =</span> owP,</span>
+<span id="cb26-25"><a href="#cb26-25" aria-hidden="true" tabindex="-1"></a>    <span class="at">rtpRank =</span> owRankP</span>
+<span id="cb26-26"><a href="#cb26-26" aria-hidden="true" tabindex="-1"></a>  ))</span>
+<span id="cb26-27"><a href="#cb26-27" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
 </section>
 <section id="diagnosing-false-positive-rates-by-simulation-2" class="slide level2">
 <h2>Diagnosing false positive rates by simulation</h2>
@@ -1064,11 +1066,11 @@ One-sided p-value from a Normally distributed test statistic.
 <li><p>If the test is working well, we should see mostly big p-values and very few small p-values.</p></li>
 <li><p>A few of the p-values for the four different tests (we did 5000 simulations, just showing 5)</p></li>
 </ul>
-<pre><code>          [,1]   [,2] [,3]   [,4] [,5]
-lmp     0.1411 0.1411    1 0.1411    1
-neyp    0.1778 0.1778    1 0.1778    1
-rtp     0.4444 0.4444    1 0.4444    1
-rtpRank 0.4444 0.4444    1 0.4444    1</code></pre>
+<pre><code>        [,1] [,2] [,3] [,4]   [,5]
+lmp        1    1    1    1 0.1411
+neyp       1    1    1    1 0.1778
+rtp        1    1    1    1 0.4444
+rtpRank    1    1    1    1 0.4444</code></pre>
 </section>
 <section id="diagnosing-false-positive-rates-by-simulation-3" class="slide level2">
 <h2>Diagnosing false positive rates by simulation</h2>
@@ -1078,7 +1080,7 @@ rtpRank 0.4444 0.4444    1 0.4444    1</code></pre>
 <span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mean</span>(x <span class="sc">&lt;</span> .<span class="dv">25</span>)</span>
 <span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>})</span></code></pre></div>
 <pre><code>    lmp    neyp     rtp rtpRank 
-  0.445   0.445   0.000   0.000 </code></pre>
+ 0.4536  0.4536  0.0000  0.0000 </code></pre>
 </section>
 <section id="diagnosing-false-positive-rates-by-simulation-4" class="slide level2">
 <h2>Diagnosing false positive rates by simulation</h2>
