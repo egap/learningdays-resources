@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="generator" content="pandoc">
   <meta name="author" content="Fill In Your Name" />
-  <meta name="dcterms.date" content="2021-03-01" />
+  <meta name="dcterms.date" content="2021-08-29" />
   <title>Causal Inference</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -444,7 +444,7 @@ style.innerHTML = style_script;
 document.getElementsByTagName('head')[0].appendChild(style);
 </script>
 
-    <script src="causalinference-slides_files/header-attrs-2.6/header-attrs.js"></script>
+    <script src="causalinference-slides_files/header-attrs-2.10/header-attrs.js"></script>
     <link href="causalinference-slides_files/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
     <link href="causalinference-slides_files/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
 </head>
@@ -455,7 +455,7 @@ document.getElementsByTagName('head')[0].appendChild(style);
 <section>
     <h1 class="title">Causal Inference</h1>
     <h2 class="author">Fill In Your Name</h2>
-    <h3 class="date">01 March 2021</h3>
+    <h3 class="date">29 August 2021</h3>
 </section>
 <section id="TOC">
 <ul>
@@ -891,18 +891,43 @@ Holland, Paul W. 1986. <span>“Statistics and Causal Inference.”</span> <em>J
       // Full list of configuration options available at:
       // https://github.com/hakimel/reveal.js#configuration
       Reveal.initialize({
+        // Display controls in the bottom right corner
+        controls: true,
+        // Display a presentation progress bar
+        progress: true,
         // Display the page number of the current slide
         slideNumber: true,
         // Push each slide change to the browser history
         history: true,
+        // Enable keyboard shortcuts for navigation
+        keyboard: true,
+        // Enable the slide overview mode
+        overview: true,
         // Vertical centering of slides
         center: false,
+        // Enables touch navigation on devices with touch input
+        touch: true,
+        // Turns fragments on and off globally
+        fragments: true,
+        // Flags if we should show a help overlay when the questionmark
+        // key is pressed
+        help: true,
+        // Number of milliseconds between automatically proceeding to the
+        // next slide, disabled when set to 0, this value can be overwritten
+        // by using a data-autoslide attribute on your slides
+        autoSlide: 0,
+        // Stop auto-sliding after user input
+        autoSlideStoppable: true,
         // Opens links in an iframe preview overlay
         previewLinks: true,
         // Transition style
         transition: 'fade', // none/fade/slide/convex/concave/zoom
+        // Transition speed
+        transitionSpeed: 'default', // default/fast/slow
         // Transition style for full page slide backgrounds
         backgroundTransition: 'default', // none/fade/slide/convex/concave/zoom
+        // Number of slides away from the current that are visible
+        viewDistance: 3,
 
 
 

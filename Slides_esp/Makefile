@@ -29,6 +29,11 @@ allhtml: causalinference-slides.html \
 	practice-slides.html
 
 
+## This removes all existing caches and pdf and html files 
+## so that we can re-create them all
+clean:
+	rm -rf *slides_cache && rm *slides.pdf && rm *slides.html && rm -rf figs
+
 causalinference-slides.pdf: causalinference-slides.Rmd
 	Rscript -e "library(rmarkdown); render('causalinference-slides.Rmd')"
 

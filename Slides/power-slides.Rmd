@@ -58,7 +58,7 @@ source("rmd_setup.R")
 
     - May help you decide whether to run a study.
 
-- It is hard to learn from an under-powered null finding. 
+- It is hard to learn from an under-powered null finding.
 
     - Was there an effect, but we were unable to detect it? or was there no effect?  We can't say.
 
@@ -69,9 +69,9 @@ source("rmd_setup.R")
 - Some guesswork to answer this question.
 
     - How big is your treatment effect?
-  
+
     - How many units are treated, measured?
-  
+
     - How much noise is there in the measurement of your outcome?
 
 
@@ -115,11 +115,11 @@ source("rmd_setup.R")
 ## Example: Analytical calculations of power
 
 ```{r pwrsimp, echo=TRUE, include=TRUE}
-# Power for a study with 80 obserations and effect 
+# Power for a study with 80 obserations and effect
 # size of 0.25
 library(pwr)
-pwr.t.test(n = 40, d = 0.25, sig.level = 0.05, 
-           power = NULL, type = c("two.sample", 
+pwr.t.test(n = 40, d = 0.25, sig.level = 0.05,
+           power = NULL, type = c("two.sample",
                       "one.sample", "paired"))
 ```
 
@@ -168,7 +168,7 @@ pwr.t.test(n = 40, d = 0.25, sig.level = 0.05,
 library(randomizr)
 library(estimatr)
 
-## Y0 is fixed in most field experiments. 
+## Y0 is fixed in most field experiments.
 ## So we only generate it once:
 make_Y0 <- function(N){  rnorm(n = N) }
 repeat_experiment_and_test <- function(N, Y0, tau){
@@ -185,7 +185,7 @@ repeat_experiment_and_test <- function(N, Y0, tau){
 ```{r powersim2, echo=TRUE, include=TRUE}
 power_sim <- function(N,tau,sims){
     Y0 <- make_Y0(N)
-    pvals <- replicate(n=sims, 
+    pvals <- replicate(n=sims,
       repeat_experiment_and_test(N=N,Y0=Y0,tau=tau))
     pow <- sum(pvals < .05) / sims
     return(pow)
@@ -204,7 +204,7 @@ P0 <- declare_population(N,u0=rnorm(N))
 # declare Y(Z=1) and Y(Z=0)
 O0 <- declare_potential_outcomes(Y_Z_0 = 5 + u0, Y_Z_1 = Y_Z_0 + tau)
 # design is to assign m units to treatment
-A0 <- declare_assignment(m=round(N/2))
+A0 <- declare_assignment(Z=conduct_ra(N=N, m=round(N/2)))
 # estimand is the average difference between Y(Z=1) and Y(Z=0)
 estimand_ate <- declare_inquiry(ATE=mean(Y_Z_1 - Y_Z_0))
 R0 <- declare_reveal(Y,Z)
@@ -215,12 +215,12 @@ design0_N100_tau25 <- redesign(design0_base,N=100,tau=.25)
 dat0_N100_tau25 <- draw_data(design0_N100_tau25)
 head(dat0_N100_tau25)
 with(dat0_N100_tau25,mean(Y_Z_1 - Y_Z_0)) # true ATE
-with(dat0_N100_tau25,mean(Y[Z==1]) - mean(Y[Z==0])) # estimate 
+with(dat0_N100_tau25,mean(Y[Z==1]) - mean(Y[Z==0])) # estimate
 lm_robust(Y~Z,data=dat0_N100_tau25)$coef # estimate
 ```
 
 ```{r ddversion_sim, echo=TRUE, warnings=FALSE}
-E0 <- declare_estimator(Y~Z,model=lm_robust,label="t test 1", 
+E0 <- declare_estimator(Y~Z,model=lm_robust,label="t test 1",
                         inquiry="ATE")
 t_test <- function(data) {
        test <- with(data, t.test(x = Y[Z == 1], y = Y[Z == 0]))
@@ -240,21 +240,21 @@ design0_N100_tau25_sims <- simulate_design(design0_N100_tau25_plus,
 head(design0_N100_tau25_sims)
 
 # for each estimator, power = proportion of simulations with p.value < 0.5
-design0_N100_tau25_sims %>% group_by(estimator_label) %>% 
+design0_N100_tau25_sims %>% group_by(estimator) %>%
   summarize(pow=mean(p.value < .05),.groups="drop")
 ```
 
-# Power with covariate adjustment 
+# Power with covariate adjustment
 ## Covariate adjustment and power
 
    - Covariate adjustment can improve power because it mops up variation in the outcome variable.
-   
+
       - If prognostic, covariate adjustment can reduce variance dramatically.  Lower variance means higher power.
-   
+
       - If non-prognostic, power gains are minimal.
-   
-   - All covariates must be pre-treatment.  Do not drop observations on account of missingness.  
-   
+
+   - All covariates must be pre-treatment.  Do not drop observations on account of missingness.
+
       - See the module on [threats to internal validity](threats-to-internal-validity-of-randomized-experiments.html) and the [10 things to know about covariate adjustment](http://egap.org/methods-guides/10-things-know-about-covariate-adjustment).
 
   - Freedman's bias as n of observations decreases and K covariates increases.
@@ -283,8 +283,8 @@ design0_N100_tau25_sims %>% group_by(estimator_label) %>%
 
    - Benefits of blocking over covariate adjustment clearest in small experiments
 
-   
-## Example: Simulation-based power with a covariate {.allowframebreaks} 
+
+## Example: Simulation-based power with a covariate {.allowframebreaks}
 ```{r powsimcov, echo=TRUE}
 ## Y0 is fixed in most field experiments. So we only generate it once
 make_Y0_cov <- function(N){
@@ -325,7 +325,7 @@ power_sim_cov(N=80,tau=.25,sims=100)
 
 ```
 
-# Power for cluster randomization 
+# Power for cluster randomization
 ## Power and clustered designs
 - Recall the [randomization module](randomization.html).
 
@@ -347,10 +347,10 @@ power_sim_cov(N=80,tau=.25,sims=100)
   - Frequentist inference based on ratio $\hat{\beta}/\hat{se}$
 
   - If we underestimate $\hat{se}$, we are much more likely to reject $H_0$. (Type-I error rate is too high.)
-  
+
 - Many observational designs much less powered than we think they are.
 
-## Example: Simulation-based power for cluster randomization {.allowframebreaks} 
+## Example: Simulation-based power for cluster randomization {.allowframebreaks}
 
 ```{r powsimclus, echo=TRUE}
 ## Y0 is fixed in most field experiments. So we only generate it once
@@ -365,7 +365,7 @@ make_Y0_clus <- function(n_indivs,n_clus){
  }
 
 test_dat <- make_Y0_clus(n_indivs=10,n_clus=100)
-# confirm that this produces data with 10 in each of 100 clusters 
+# confirm that this produces data with 10 in each of 100 clusters
 table(test_dat$clus_id)
 # confirm ICC
 ICC::ICCbare(y=Y0,x=clus_id,data=test_dat)
@@ -385,7 +385,7 @@ power_sim_clus <- function(n_indivs,n_clus,tau,sims){
     dat <- make_Y0_clus(n_indivs,n_clus)
     N <- n_indivs * n_clus
     # randomize treatment sims times
-    pvals <- replicate(n=sims, 
+    pvals <- replicate(n=sims,
                 repeat_experiment_and_test_clus(N=N,tau=tau,
                                 Y0=dat$Y0,clus_id=dat$clus_id))
     pow <- sum(pvals < .05) / sims
@@ -400,7 +400,7 @@ power_sim_clus(n_indivs=8,n_clus=100,tau=.25,sims=100)
 
 ```
 
-## Example: Simulation-based power for cluster randomization (DeclareDesign) {.allowframebreaks} 
+## Example: Simulation-based power for cluster randomization (DeclareDesign) {.allowframebreaks}
 
 ```{r ddversion_clus, echo=TRUE}
 
@@ -408,7 +408,7 @@ P1 <- declare_population(N = n_clus * n_indivs,
     clusters=gl(n_clus,n_indivs),
     u0=draw_normal_icc(N=N,clusters=clusters,ICC=.2))
 O1 <- declare_potential_outcomes(Y_Z_0 = 5 + u0, Y_Z_1 = Y_Z_0 + tau)
-A1 <- declare_assignment(clusters=clusters)
+A1 <- declare_assignment(Z=conduct_ra(N=N, clusters=clusters))
 estimand_ate <- declare_inquiry(ATE=mean(Y_Z_1 - Y_Z_0))
 R1 <- declare_reveal(Y,Z)
 design1_base <- P1 + A1 + O1 + R1 + estimand_ate
@@ -419,14 +419,14 @@ test_d1 <- draw_data(design1_test)
 # confirm all individuals in a cluster have the same treatment assignment
 with(test_d1,table(Z,clusters))
 # three estimators, differ in se_type:
-E1a <- declare_estimator(Y~Z,model=lm_robust,clusters=clusters, 
-                         se_type="CR2", label="CR2 cluster t test", 
+E1a <- declare_estimator(Y~Z,model=lm_robust,clusters=clusters,
+                         se_type="CR2", label="CR2 cluster t test",
                          inquiry="ATE")
-E1b <- declare_estimator(Y~Z,model=lm_robust,clusters=clusters, 
-                         se_type="CR0", label="CR0 cluster t test", 
+E1b <- declare_estimator(Y~Z,model=lm_robust,clusters=clusters,
+                         se_type="CR0", label="CR0 cluster t test",
                          inquiry="ATE")
-E1c <- declare_estimator(Y~Z,model=lm_robust,clusters=clusters, 
-                         se_type="stata", label="stata RCSE t test", 
+E1c <- declare_estimator(Y~Z,model=lm_robust,clusters=clusters,
+                         se_type="stata", label="stata RCSE t test",
                          inquiry="ATE")
 
 design1_plus <- design1_base + E1a + E1b + E1c
@@ -440,14 +440,14 @@ design1_plus_tosim <- redesign(design1_plus,n_clus=10,n_indivs=100,tau=.25)
 set.seed(12355)
 design1_sims <- simulate_design(design1_plus_tosim,
                     sims=c(1,1000,rep(1,length(design1_plus_tosim)-2)))
-design1_sims %>% group_by(estimator_label) %>% 
+design1_sims %>% group_by(estimator) %>%
   summarize(pow=mean(p.value < .05),
     coverage = mean(estimand <= conf.high & estimand >= conf.low),
     .groups="drop")
 
 ```
 
-```{r ddversion_clus_2, echo=TRUE, cache=TRUE, results='hide', warnings=FALSE}
+```{r ddversion_clus_2, echo=TRUE, cache=TRUE, results='hide', warning=FALSE}
 library(DesignLibrary)
 ## This may be simpler than the above:
 d1 <- block_cluster_two_arm_designer(N_blocks = 1,
@@ -461,7 +461,7 @@ d1_sims <- simulate_design(d1_plus,sims=c(1,1,1000,1,1,1,1,1))
 ```
 
 ```{r ddversion_clus_2_print, echo=TRUE}
-d1_sims %>% group_by(estimator_label) %>% summarize(pow=mean(p.value < .05),
+d1_sims %>% group_by(estimator) %>% summarize(pow=mean(p.value < .05),
     coverage = mean(estimand <= conf.high & estimand >= conf.low),
     .groups="drop")
 ```
@@ -484,7 +484,7 @@ plot(some_ns,pow_by_n,
     xlab="Sample Size",
     ylab="Power")
 abline(h=.8)
-## See https://cran.r-project.org/web/packages/pwr/vignettes/pwr-vignette.html 
+## See https://cran.r-project.org/web/packages/pwr/vignettes/pwr-vignette.html
 ## for fancier plots
 ## ptest <-  pwr.t.test(n = NULL, d = 0.25, sig.level = 0.05, power = .8)
 ## plot(ptest)
@@ -533,7 +533,7 @@ abline(h=.8)
 
 
 1. Increase the $N$
-    
+
     - If clustered, increase the number of clusters if at all possible
 
 2. Strengthen the treatment
@@ -543,5 +543,5 @@ abline(h=.8)
     - Covariate adjustment
 
     - Blocking
-    
+
 4. Better measurement of the outcome variable

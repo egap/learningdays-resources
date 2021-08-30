@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="generator" content="pandoc">
   <meta name="author" content="Fill In Your Name" />
-  <meta name="dcterms.date" content="2021-03-01" />
+  <meta name="dcterms.date" content="2021-08-29" />
   <title>Randomization</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -509,7 +509,7 @@ style.innerHTML = style_script;
 document.getElementsByTagName('head')[0].appendChild(style);
 </script>
 
-    <script src="randomization-slides_files/header-attrs-2.6/header-attrs.js"></script>
+    <script src="randomization-slides_files/header-attrs-2.10/header-attrs.js"></script>
     <link href="randomization-slides_files/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
     <link href="randomization-slides_files/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
 </head>
@@ -520,7 +520,7 @@ document.getElementsByTagName('head')[0].appendChild(style);
 <section>
     <h1 class="title">Randomization</h1>
     <h2 class="author">Fill In Your Name</h2>
-    <h3 class="date">01 March 2021</h3>
+    <h3 class="date">29 August 2021</h3>
 </section>
 <section id="TOC">
 <ul>
@@ -799,7 +799,7 @@ document.getElementsByTagName('head')[0].appendChild(style);
 <section id="best-practices-balance" class="slide level2">
 <h2>Best practices: balance</h2>
 <ul>
-<li>Check overall balance with a D-square test using <code>xBalance</code> in the <code>RItools</code> package (<span class="citation" data-cites="hansen:bowers:2008"><a href="#/ref-hansen:bowers:2008" role="doc-biblioref">Hansen and Bowers</a> (<a href="#/ref-hansen:bowers:2008" role="doc-biblioref">2008</a>)</span>) (large sample randomization inference):</li>
+<li>Check overall balance with a D-square test using <code>xBalance</code> in the <code>RItools</code> package (<span class="citation" data-cites="hansen:bowers:2008">Hansen and Bowers (<a href="#/ref-hansen:bowers:2008" role="doc-biblioref">2008</a>)</span>) (large sample randomization inference):</li>
 </ul>
 <div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">xBalance</span>(treatment <span class="sc">~</span> x1 <span class="sc">+</span> x2, <span class="at">data =</span> dat, <span class="at">report =</span> <span class="st">&quot;chisquare&quot;</span>)</span></code></pre></div>
 <ul>
@@ -905,18 +905,43 @@ Hansen, Ben B., and Jake Bowers. 2008. <span>“Covariate Balance in Simple, Str
       // Full list of configuration options available at:
       // https://github.com/hakimel/reveal.js#configuration
       Reveal.initialize({
+        // Display controls in the bottom right corner
+        controls: true,
+        // Display a presentation progress bar
+        progress: true,
         // Display the page number of the current slide
         slideNumber: true,
         // Push each slide change to the browser history
         history: true,
+        // Enable keyboard shortcuts for navigation
+        keyboard: true,
+        // Enable the slide overview mode
+        overview: true,
         // Vertical centering of slides
         center: false,
+        // Enables touch navigation on devices with touch input
+        touch: true,
+        // Turns fragments on and off globally
+        fragments: true,
+        // Flags if we should show a help overlay when the questionmark
+        // key is pressed
+        help: true,
+        // Number of milliseconds between automatically proceeding to the
+        // next slide, disabled when set to 0, this value can be overwritten
+        // by using a data-autoslide attribute on your slides
+        autoSlide: 0,
+        // Stop auto-sliding after user input
+        autoSlideStoppable: true,
         // Opens links in an iframe preview overlay
         previewLinks: true,
         // Transition style
         transition: 'fade', // none/fade/slide/convex/concave/zoom
+        // Transition speed
+        transitionSpeed: 'default', // default/fast/slow
         // Transition style for full page slide backgrounds
         backgroundTransition: 'default', // none/fade/slide/convex/concave/zoom
+        // Number of slides away from the current that are visible
+        viewDistance: 3,
 
 
 
