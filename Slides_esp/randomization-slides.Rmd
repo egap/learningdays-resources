@@ -47,7 +47,7 @@ source('rmd_setup.R')
 
 ## Aleatorización de la asignación del tratamiento
 
-Comience con unidades grupales que se puedan observar directamente: como las personas que se presentaron a un laboratorio, las aldeas de una región, las personas dispuestas a responder una encuesta.
+Comience con un grupo de unidades que se puedan observar directamente: como las personas que se presentaron a un laboratorio, las aldeas de una región, las personas dispuestas a responder una encuesta.
 
 - Cada observación tiene una probabilidad conocida de asignación al tratamiento entre 0 y 1.
 
@@ -63,55 +63,50 @@ Comience con unidades grupales que se puedan observar directamente: como las per
 
 ## Asignación aleatoria $\neq$ muestreo aleatorio
 
-- Muestreo aleatorio (de la población): selección de sujetos de una población a la muestra con probabilidad conocida. No se puede observar directamente a toda la población y por esto se selecciona una muestra.
+- Muestreo aleatorio (de la población): A partir de una población definida, seleccionar unidades con una probabilidad conocida para formar una muestra. No se puede observar directamente a toda la población y por esto se selecciona una muestra.
 
-- Aleatorización (de tratamiento): asignación de sujetos de un grupo existente de
-  sujetos con probabilidad conocida a condiciones experimentales.
-  - Debe poder obervar los realización de la variable de interés y la asignación del tratamiento para cada sujeto del grupo
-  - Esta asignación aleatoria de tratamiento se puede combinar con cualquier tipo de muestra.
-    (muestra aleatoria, muestra de conveniencia, etc.) o incluso con toda la población
-    (todos los hospitales, todos los jueces).
+- Aleatorización (del tratamiento): Asignar sujetos provenientes de un grupo existente a las distintas condiciones experimentales con un probabilidad conocida.
+
+  - Debe poder observar la realización de la variable de resultado y la asignación del tratamiento para cada sujeto del grupo
+  
+  - Esta asignación aleatoria del tratamiento se puede combinar con cualquier tipo de muestra (muestra aleatoria, muestra de conveniencia, etc.) o incluso con toda la población todos los hospitales, todos los jueces).
 
 ## Asignación aleatoria $\neq$ muestreo aleatorio
 
 
 - La forma en que se selecciona el grupo inicial (o grupo experimental)  importa:
 
-  - un grupo inicial grande se traduce un  experimento grande y más poder estadístico para
-    detectar efectos pequeños.
+  - un grupo inicial grande se traduce en un experimento más grande y en más poder estadístico para detectar efectos pequeños.
 
-  - un grupo inicial seleccionado usando muestreo aleatorio en una población conocida le da validez al argumento de que los efectos podrían ser los mismos o similares si se hiciera este experimento con otra muestra de la misma población.
+  - un grupo inicial seleccionado usando muestreo aleatorio a partir de una población conocida le da validez al argumento de que los efectos podrían ser los mismos o similares si se hiciera este experimento con otra muestra a partir de la misma población.
 
-  - un grupo experimental seleccionado a través de una muestra aleatoria también puede ayudar con el
-    argumento de que el efecto debe ser similar si escala la
-    intervención a toda la población, dependiendo de los factores que producen el
-    equilibrio global.
+  - un grupo experimental seleccionado usando una muestreo aleatorio también  le da soporte al argumento de que el efecto debe ser similar, si escalara la intervención a toda la población, dependiendo de los factores de equilibrio global.
     
 ## La aleatorización está estrechamente relacionada con el diseño de la investigación
-- Ver módulo sobre el [Diseño de la investigación](/research-design.html)
+- Ver módulo sobre [Diseño de investigación](/research-design.html)
 
-- Recuerde que necesita definir y justificar su condición de control:
+- Recuerden que se necesita definir y justificar la condición de control:
    - esta puede ser ninguna intervención
    - o un placebo
 
-## Nivel del tratamiento y de la medición de variables
+## Nivel del tratamiento y de la medición de variables de resultados
 
 - El tratamiento se puede asignar a diferentes niveles: individuos, grupos,
   instituciones, comunidades, períodos de tiempo o muchos niveles diferentes.
 
-- Es posible que se vea limitado en cuanto al nivel en el que pueda _asignar_ el tratamiento y _medir_ las variables.
+- Es posible que no se tenga total libertad al momento de decidir a qué nivel se _asigna_ el tratamiento y a qué nivel se _miden_ las variables de resultado.
 
-  - Ejemplo: Tratamiento al nivel del aula, pero variables al nivel del alumno.
+  - Ejemplo: Tratamiento a nivel aula, pero variables a nivel alumno.
 
-  - Ejemplo: tratamiento al nivel del distrito, pero variables al nivel de la comunidad.
+  - Ejemplo: tratamiento a nivel distrito, pero variables a nivel comunidad.
 
-- El nivel al que se asigna el tratamiento y al que se miden las variables afecta lo que su estudio puede demostrar.
+- El nivel al que se asigna el tratamiento y al que se miden las variables de resultado afecta lo que un estudio puede demostrar.
 
 # Algunos tipos comunes de aleatorización
 
 ## Aleatorización simple (lanzamiento de moneda)
 
-- Para cada unidad, se lanza una moneda para ver si esta será tratada. Luego se miden  los resultados al mismo nivel que la moneda.
+- Para cada unidad, se lanza una moneda para ver si esta será tratada. Luego se miden las variable de resultados distinguiendo entre los valores de la moneda.
 
 - Las monedas no tienen que estar equilibradas (50-50), pero se debe conocer la probabilidad de asignación al tratamiento.
 
@@ -119,17 +114,17 @@ Comience con unidades grupales que se puedan observar directamente: como las per
 
 - Ejemplo: si tiene 6 unidades y lanza una moneda equilibrada por cada una, tiene aproximadamente un 3% de posibilidades de asignar **todas** las unidades al tratamiento o asignar **todas** las unidades al control.
 
-## Código de ejemplo de aleatorización simple I
+## Ejemplo: aleatorización simple I
 ```{r echo=TRUE}
-# Defina una semilla para asegurarse
+# Definir un número de semilla aleatoria  para asegurarse
 # que el código es replicable
 set.seed(12345)
 
-# Defina un tamaño de muestra
+# Definir un tamaño de muestra
 N <- 200
 
-# Cree el vector que define el muestreo aleatorio
-# (Dese cuenta que en un experimento se
+# Crear la asignación aleatoria simple
+# (Tengan en cuenta que en un experimento se
 # tiene solo un intento y por lo tanto size=1)
 # Llamamos simple.ra a nuestro objeto 
 # con N personas en total
@@ -139,10 +134,10 @@ simple.ra <- rbinom(n = N, size = 1, prob = .5)
 sum(simple.ra)
 ```
 
-## Código de ejemplo de aleatorización simple II
+## Ejemplo: Aleatorización simple II
 
 ```{r echo=TRUE}
-# También puede utilizar el paqueter randomizr 
+# También pueden utilizar el paqueter randomizr 
 library(randomizr)
 
 # Para que sea replicable
@@ -158,15 +153,15 @@ treatment <- simple_ra(
 sum(treatment)
 ```
 
-## Aleatorización completa (seleccionando de una urna)
+## Aleatorización completa (sacando bolas de una urna)
 
 - Se asigna al tratamiento un número fijo  $m$ de $N$ unidades.
 
 - La probabilidad de que se asigne una unidad al tratamiento es $m/N$.
 
-- Esto es como tener una urna o tazón con $N$ balotas de las cuales $m$ se marcan como tratamiento y $N-m$ como control. Las loterías públicas utilizan este método.
+- Esto es como tener una urna o tazón con $N$ bolas de las cuales $m$ se marcan como tratamiento y $N-m$ como control. Las loterías públicas utilizan este método.
 
-## Código de ejemplo de aleatorización completa I
+## Ejemplo: Aleatorización completa I
 
 ``` {r echo=TRUE}
 # Defina el tamaño de la muestra  N
@@ -180,13 +175,13 @@ complete.ra <- c(rep(1,m), rep(0,N-m))
 # y después reorganícelo utilizando sample()
 # Por defecto la función hace muestreo sin reemplazo
 
-set.seed(12345) # para replicarlo
+set.seed(12345) # para que sea replicable
 complete.ra <- sample(complete.ra)
 
 sum(complete.ra)
 ```
 
-## Código de ejemplo de aleatorización completa II
+## Ejemplo: Aleatorización completa II
 
 ``` {r echo=TRUE}
 # También puede usar el paquete randomizr 
@@ -210,20 +205,18 @@ sum(treatment)
 
 - Creamos bloques de unidades y seleccionamos unidades al azar dentro de cada bloque por separado. Es como si hicieramos mini-experimentos en cada bloque.
 
-  - Ejemplo: bloque = distrito, unidades = comunidades. Aleatorizamos el tratamiento al nivel de la comunidad **dentro de un distrito** y también medimos nuestras variables al nivel de la comunidad.
+  - Ejemplo: bloque = distrito, unidades = comunidades. Aleatorizamos el tratamiento al nivel de la comunidad **dentro de un distrito** y también medimos nuestras variables de resultado al nivel de la comunidad.
 
-- Los bloques que representan un subgrupo sustancialmente significativo pueden ayudarnos 
-  a entender cómo los efectos pueden diferir por subgrupo.
+- Los bloques que representan un subgrupo sustancialmente significativo pueden ayudarnos a entender cómo los efectos pueden diferir por subgrupo.
   
     - Al controlar el número de sujetos por subgrupo nos aseguramos de tener
     suficientes sujetos en cada grupo.
     
-    - Esto es especialmente útil cuando se tiene un grupo atípico: por simple chance puede que resulten muy pocas unidades de ese grupo en el tratamiento o en el control, incluso si usamos asignación aleatoria (o
-    es puede que haya algún desequilibrio).
+    - Esto es especialmente útil cuando se tiene un grupo atípico: por simple chance puede que resulten muy pocas unidades de ese grupo en el tratamiento o en el control, incluso si hacemos asignación aleatoria (o puede que haya algún desbalance).
 
 ## Aleatorización en bloque (o estratificada) II
 
-- Los bloques homogéneos con respecto a una variable de interés aumentan la precisión de
+- Los bloques homogéneos con respecto a una variable de resultado aumentan la precisión de
   estimación para esa variable en comparación con un experimento sin bloques. (Hablaremos de esto en más detalle en la sección de poder estadístico).
 
 
@@ -231,11 +224,11 @@ sum(treatment)
 
 - Un conglomerado es un **grupo de unidades**. En un estudio aleatorizado por conglomerados, todas las unidades del conglomerado se asignan al mismo estado de tratamiento.
 
-- Se de usar la aleatorización por conglomerados si la intervención se lleva a cabo al nivel de conglomerados.
+- Se debe usar la aleatorización por conglomerados si la intervención se lleva a cabo al nivel de conglomerados.
 
   - Por ejemplo, si la intervención tiene que ver con los patios de recreo de la escuela, entonces la escuela es la unidad de asignación, incluso si la salud de los estudiantes es una variable de interés medida al nivel de los estudiantes.
 
-- Tener menos conglomerados perjudica nuestra capacidad para detectar efectos del tratamiento y puede que conduzca a valores $p$ e intervalos de confianza incorrectos (o incluso estimaciones).
+- Tener pocos conglomerados perjudica nuestra capacidad para detectar efectos del tratamiento y puede que conduzca a valores $p$ e intervalos de confianza incorrectos (o incluso estimaciones incorrectas).
   *Qué tanto* depende de la correlación intra-clúster (ICC o $\rho$).
   
 ## Aleatorización por conglomerados II
@@ -243,7 +236,7 @@ sum(treatment)
 - Es peor entre más alto es el $\rho$ :
 
     - Si $\rho = 0$, la aldea no es relevante en el comportamiento de los individuos.
-    - Si $\rho = 1$, todas las personas de la aldea darían exactamente la misma respuesta. Incluir a otra persona de esta aldea no nos daría información adicional ya que su valor intrínseco para la variable de interés es idéntico al de las personas que ya habían sido seleccionadas.
+    - Si $\rho = 1$, todas las personas de la aldea darían exactamente la misma respuesta. Incluir a otra persona de esta aldea no nos daría información adicional ya que el valor para la variable de resultado es idéntico al de las personas que ya habían sido seleccionadas.
     
 - Dado un número fijo de unidades, un número **máyor de conglomerados** con menos unidades por conglomerado puede ayudar.
 
@@ -251,23 +244,23 @@ sum(treatment)
       
 ## Aleatorización por conglomerados II
 
--  Hay un canje entre propagación y poder.
+-  Hay una disyuntiva entre propagación y poder.
 
-- Si usted no considera que un experimento con 10 unidades es ideal, entonces tampoco debería estar satisfecho con un experimento con 10 conglomerados de 100 unidades. El tamaño de muestra efectivo de este experimento aleatorio de conglomerados está entre 10 y 10 $\times$ 100 = 1000, pero más cerca de 10 cuanto mayor sea el $\rho$.
+- Si ustedes consideran que un experimento con 10 unidades no es ideal, entonces tampoco deberían estar satisfechos con un experimento con 10 conglomerados de 100 unidades cada uno. El tamaño de muestra efectivo de este experimento aleatorio de conglomerados está entre 10 y 10 $\times$ 100 = 1000, pero más cerca de 10 cuanto mayor sea el $\rho$.
       
 ## Usted puede combinar bloques y conglomerados
 
-- Los bloques pueden estar compuestos de conglomerados
+- Puede haber conglomerados dentro de los bloques
 
   - Ejemplo: bloque = distrito, conglomerado = comunidades, unidades = individuos.  Las variables se miden al nivel del individuo.
 
   - Ejemplo: bloque = provincia, conglomerado = distrito, unidades = comunidades.    Las variables se miden al nivel de la comunidad.
 
-- No se puede tener conglomerados compuestos de bloques.
+- No debe haber bloques dentro de los conglomerados
 
 - Para hacer aleatorización por bloques o conglomerados, puede utlizar las funciones `block_ra` y `cluster_ra` del paquete de R, `randomizr`.
 
-- Para diseños más complejos el paquete de R, `DeclareDesign`(<https://declaredesign.org>), le puede ser útil. 
+- Para diseños más complejos el paquete de R, DeclareDesign` (<https://declaredesign.org>), les puede ser útil. 
 
 
 # Buenas prácticas
@@ -285,14 +278,14 @@ sum(treatment)
 
 ## Buenas Prácticas: balance
 
-- Revisar el balance de todo el estudio con una prueba de D cuadrado (D-square test) utilizando la función  `xBalance` en el paquete `RItools`  (@hansen:bowers:2008)(inferencia de aleatorización con muestras grandes):
+- Revisar el balance general del estudio con una prueba  D cuadrado (D-square test) utilizando la función  `xBalance` en el paquete `RItools`  (@hansen:bowers:2008)(inferencia de aleatorización con muestras grandes):
 
 ```{r echo=TRUE, eval=FALSE}
 xBalance(treatment~x1+x2,data=dat,report='chisquare')
 ```
   -  También puede ver `independence_test` del paquete `coin`,  la versión basada en permutaciones
   
-- Use la prueba F con una regresión, tomando a la asignación al tratamiento como variable dependiente y a las covariables como variables explicatorias.
+- Use la prueba F de una regresión, tomando la asignación al tratamiento como variable dependiente y  las covariables como variables explicativas.
 
 
 ```{r echo=TRUE, eval=FALSE}
@@ -304,13 +297,13 @@ anova(lm(treatment~1,data = dat),
 
 - La asignación aleatoria nos da, en valor esperado, **balance general** en las distintas covariables. Esto no garantiza que todas las relaciones entre el tratamiento y las covariables sean cero. De hecho, en un experimento pequeño, la magnitud del desbalance puede llegar ser alta, incluso si la aleatorización se produjo perfectamente.
 
-  - Es común ver pruebas t realizadas de a una en una por covariable. Por simple chance, es posible que obtenga diferencias estadísticamente significativas para una variable. Si usted hace pruebas de balance para 100 variables por separado, para 5 de ella se rechazará la hipótesis nula de que no hay relación, incluso si verdaderamente no hay relación.
+  - Es común ver pruebas t realizadas de a una en una por cada covariable. Por simple chance, es posible ques se obtenga diferencias estadísticamente significativas para una variable. Si se hacen pruebas de balance para 100 variables por separado, para 5 de ella se rechazará la hipótesis nula de que no hay relación, incluso cuando verdaderamente no hay relación.
 
 # Algunos diseños experimentales
 
 ## Acceso
 
-  - Seleccionar al azar un grupo que recibirá tratamiento a través de una lotería o un mecanismo equivalente, que aleatoriza **el acceso** al programa.
+  - Seleccionar al azar un grupo que recibirá tratamiento a través de una lotería o un mecanismo equivalente que aleatoriza **el acceso** al programa.
 
   - Útil cuando no se tiene suficientes recursos para tratar a todos.
 
@@ -319,17 +312,17 @@ anova(lm(treatment~1,data = dat),
      - Puede excluir esas unidades del experimento y realizar una asignación aleatoria entre las unidades restantes que tienen una probabilidad de asignación estrictamente entre (y sin incluir) 0 y 1.
 
 
-## Acceso retrasado (fase inicial o lista de espera)
+## Acceso retrasado (fase transitoria o lista de espera)
 
 - Aleatorizar *el momento* de acceso al programa.
 
 - A menudo no se tiene la capacidad para implementar el tratamiento en muchos lugares a la vez.
 
-- Cuando una intervención puede o debe implementarse en etapas, puede aleatorizar el orden en el que se tratan las unidades.
+- Cuando una intervención puede o debe implementarse en etapas, se puede aleatorizar el orden en el que se tratan las unidades.
 
-- Su grupo de control son las unidades que aún no han sido tratadas.
+- El grupo de control serían las unidades que aún no han sido tratadas.
 
-- Tenga cuidado: la probabilidad de asignación al tratamiento variará con el tiempo porque las unidades que se asignan al tratamiento en las primeras etapas no son elegibles para ser asignadas a tratamiento en etapas posteriores.
+- Tengan cuidado: la probabilidad de asignación al tratamiento variará con el tiempo porque las unidades que se asignan al tratamiento en las primeras etapas no son elegibles para ser asignadas al tratamiento en etapas posteriores.
 
 
 ## Asignación factorial o cruzada
