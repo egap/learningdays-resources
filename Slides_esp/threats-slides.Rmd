@@ -38,147 +38,150 @@ library(knitr)
 knitr::opts_chunk$set(echo = FALSE)
 ```
 
-## Key points for this lecture
+## Puntos clave de esta presentación
 
- - Attrition (missing data on outcomes)
+ - Deserción (variables de interés con datos faltantes)
 
- - Non-compliance
+ - Incumplimiento
 
- - Spillovers
+ - Propagación
 
- - Hawthorne effects
+ - Efectos Hawthorne
 
- - Differential treatment of treatment arms 
+ - Tratamientos diferenciales en los distintos brazos de tratamiento
  
-# Core assumptions
-## Review of core assumptions
+# Supuestos principales
+##  Revisión de los supuestos principales
 
-  1. Excludability
+  1. Exclusión 
 
-  2. Non-interference
+  2. No interferencia
 
-  3. Random assignment of subjects treatment
+  3. Asignación aleatoria de sujetos al tratamiento
 
-# Attrition
-## Attrition (missing data on outcomes)
+# Deserción
+## Deserción (variables de interés con datos faltantes)
 
-- Some units may have missing data on outcomes (= units attrit) when:
+- Algunas unidades pueden tener datos faltantes para las variables de resultado (= las unidades desertan) cuando:
 
-  - some respondents can't be found or refuse to participate in endline data collection.
+  - algunos encuestados no pueden ser encontrados o se niegan a participar en la recolección de datos finales.
   
-  - some records are lost.
+  - se pierden algunos registros.
 
-- This is a problem when treatment affects missingness.
+- Este es problemático cuando los datos faltantes han sido ocasionados por el tratamiento.
 
-  - For example, units in control may be less willing to answer survey questions.
-  - For example, treatment may have caused units to migrate and cannot be reached
+  - Por ejemplo, las unidades asignadas a control pueden estar menos dispuestas a responder las preguntas de la encuesta.
+  - Por ejemplo, el tratamiento puede haber provocado la migración de unidades y no hay forma de acceder a ellas.
 
-- If we analyze the data by dropping units with missing outcomes, then we are no longer comparing similar treatment and control groups.
+- Si analizamos los datos descartando unidades con datos faltantes para la variable de resultado, entonces ya estaríamos comparando grupos de tratamiento y control similares.
 
-## What can we do?
+## ¿Qué podemos hacer?
 
-- Check whether attrition rates are similar in treatment and control groups.
+- Compruebe si las tasas de deserción son similares en los grupos de tratamiento y control.
 
-- Check whether treatment and control groups have similar covariate profiles.
+- Compruebe si las covariables de los grupos de tratamiento y control tienen patrones similares.
 
-- Do not drop observations that are missing outcome data from your analysis.
+- No elimine las observaciones a las que les falten datos para la variable de resultado.
 
-- When outcome data are missing we can sometimes **bound** our estimates of treatment effects.
+- A veces, cuando faltan datos para la variable de resultados, podemos **acotar** nuestras estimaciones del efecto del tratamiento.
 
-## What can we do?
 
-- But the best approach is to try to anticipate and prevent attrition.
+## ¿Qué podemos hacer?
 
-   - Blind people to their treatment status.
+- Pero la mejor solución es tratar de anticipar y prevenir la deserción.
 
-   - Promise to deliver the treatment to the control group after the research is completed.
+   - Personas que no sepan a qué condición del tratamiento fueron asignadas.
 
-   - Plan ex ante to reach all subjects at endline.
+   - Prometerle al grupo control que va a recibir el tratamiento una vez se termine la investigación.
 
-   - Budget for intensive follow-up with a random sample of attriters.
+   - Planificar ex ante para poder contectar los sujetos en para la recolección final de datos.
 
-## Missing data on covariates is not as problematic
+   - Contar con presupuesto para haver seguimiento intensivo a una muestra aleatoria de los sujetos que desierten
 
-- Missing **background covariates** (i.e.,variables for which values do not change as a result of treatment) for some observations is less problematic.
 
-  - We can still learn about the causal effect of an experiment without those covariates, as we saw in the [Hypothesis Testing](hypothesistesting.html) and the [Estimation](estimation.html) modules.
+## Las covariables con datos faltantes no son tan problemáticas
+
+-  Las **covariables de contexto** (es decir, variables cuyos valores no cambian como resultado del tratamiento) con datos faltantes para algunas observaciones son menos problemáticas.
+
+  - Podemos aprender sobre el efecto causal de un experimento sin esas covariables, como vimos en los módulos [Prueba de hipótesis] (hypothesistesting.html) y [Estimación] (estimación.html).
   
-  - We can also use the background covariate as planned by imputing for the missing values.
+  - También podemos usar la covariable de contexto según lo planeado imputando los datos faltantes.
   
-  - We can also condition on that missingness directly.
+  - También podemos condicionar  nuestro análisis directamente a esos datos faltantes
 
 
-# Non-compliance
-## Non-compliance
 
-  - Sometimes units assigned to treatment don't take it.  They don't comply with their assignment.
-  
-      - If all units assigned to control do not take the treatment, but only some units assigned to treatment take the treatment, we have one-sided non-compliance.
-  
-  - The effect of treatment assignment is not the same as the effect of receiving the treatment.
+# Incumplimiento
+## Incumplimiento
 
-  - The effect of receiving the treatment is often called the "Local Average Treatment Effect" (LATE) or "Complier Average Causal Effect" (CACE).  
+  - En algunas ocasiones las unidades que son asignadas al tratamiento terminan no recibiéndolo. Es decir, no cumplen la asignación.
   
-      - "Local" refers to the idea that the effect only occurs on the people who take the treatment when assigned to treatment (the kinds of people).
+      - Cuando todas las unidades asignadas al grupo control no toman el tratamiento, pero sólo algunas unidades asignadas al tratamiento sí lo toman, estamos frente a un caso de incumplimiento unilateral.
+      
+  - El efecto de ser asignado al tratamiento no es el mismo que el de recibir el tratamiento.
+  
+  - El efecto de recibir el tratamiento es comunmente conocido como "efecto local promedio del tratamiento" (Local Average Treatment Effect, LATE) o efecto promedio del tratamiento para el cumplidor (Complier Average Causal Effect, CACE).  
+  
+      - La palabra "local" hace referencia a la idea que el efecto solo ocurre para algunas personas que toman el tratamiento cuando son asignadas a él (el tipo de gente).
 
 
 ## LATE/CACE
 
 
-  - We need two assumptions to hold in order to estimate LATE/CACE from a randomized experiment.
+  - Se requiere que se cumplan dos supuesto para poder estimar el LATE/CACE a partir de un experimento aleatorio.
   
-  1. The exclusion restriction is that the assignment to treatment only has an effect on the outcome through the receipt of treatment and through no other channels.
-
-  2. The monotonicity assumption is that we do not have any defiers -- units that would take the treatment if assigned to control, but not take the treatment if assigned to treatment.
-
+  1. Restricción de exclusión: la asignación del tratamiento solo afecta la variable de resultado a través del "recibo" del tratamiento y no a través de ningún otro canal.
+  2. Supuesto de monotonicidad: no hay unidades que desafían, es decir, unidades que toman el tratamiento solo cuando son asignadas a control pero no toman el tratamiento cuando son asignados a este.
 
 
-# Spillovers
-## Spillover and interference between units
+# Propagación 
+## Propagación e interferencia entre unidades
 
-- Sometimes we suspect that treatment assigned to one unit affects other units' outcomes.
 
-- If the treatment status of a unit affects another unit's outcome, we have a violation of one of the core assumptions for causal inference.
+- A veces tendremos sospechas de que la asignación al tratamiento de una unidad afecta los resultados de otras unidades.
 
-- You might sample units that are far from each other to prevent the "transmission" of treatment across units.
+- Si el tratamiento de una unidad afecta el resultado de otra unidad, estamos frente a un caso de  violación de uno de los supuestos básicos de la inferencia causal.
 
-## Studying spillover effects
+- Podemos seleccionar unidades que están lejos unas de otras para evitar la "transmisión" del tratamiento entre unidades.
 
-- This is not a problem if you design a study to investigate spillovers in which a unit's outcomes may depend on other units' treatment status.
+## Estudiar los efectos secundarios
 
-- To investigate spillovers:
+- Esto no es un problema si diseña un estudio que permita investigar la propagación, es decir, que los resultados de una unidad pueden depender del tratamiento de otras unidades.
 
-    - You might collect outcome data for units that were never eligible for random assignment to treatment but for which nearby units from which spillovers might occur were eligible for treatment.
+- Para investigar los efectos de propagacióno:
 
-    - You might use a two-stage randomization design.
+    - Podemos recolectar datos de la variable de resultadao para las unidades que nunca fueron elegibles para la asignación aleatoria al tratamiento, pero que estaban cerca de unidades que sí eran elegibles para el tratamiento y que pudieron verse afectadas por efectos de propagación.
 
-    - You might assign collections of units (e.g., districts) to different levels of intensity of treatment (e.g., different proportions of villages in districts assigned to treatment).
+    - Puede utilizar un diseño de asignación aleatoria en dos etapas.
 
-# Hawthorne effect
-## Hawthorne effect
+    - Puede asignar grupos de unidades (p. Ej., Distritos) a diferentes niveles de intensidad de tratamiento (p. Ej., Usar una proporción diferente de aldeas en los distritos asignados al tratamiento).
+    
 
-- The Hawthorne effect: knowing that one is being observed/studied can lead subjects to behave differently.
+# Efecto Hawthorne
+## Efecto Hawthorne
 
-- This could create systematic measurement error in both treatment and control groups.
+- El efecto Hawthorne: saber que están siendo observados/estudiados puede llevar a los sujetos a comportarse de manera diferente.
 
-- It could also result from greater attention given to the treatment group, effectively undoing the creation of equivalent treatment and control groups through randomization.
+- Esto podría crear un error de medición sistemático tanto en los grupos de tratamiento como en los de control.
 
-## Good practices
+- También podría resultar de una mayor atención prestada al grupo de tratamiento, deshaciendo la creación de grupos de tratamiento y control equivalentes creados a través de la asignación aleatoria
+
+## Buenas practicas
   
-   - Collect data as unobtrusively as possible.
+   -  Recolectar datos de la forma más discreta posible.
    
-   - As much as possible, no one other than the subject him/herself should know his/her treatment status.
+   - En la medida de lo posible, nadie más que el propio sujeto debe conocer a qué condición tratamiento fue asignado.
 
-   -  Blind enumerators/researchers to subjects' treatment status.
+   - Encuestadores/investigadores deberían desconocer la condición del tratamiento de los sujetos.
 
-   -  Don't take extra measurements of the treatment group.
+   - No haga mediciones adicionales para el grupo de tratamiento.
 
-# Non-excludability
-## Differences between treatment and control groups other than the treatment
+# No excluibilidad
+## Diferencias entre los grupos de tratamiento y control más allá del tratamiento
 
-   - Handling the treatment and control groups differently means that observed differences in the outcomes between these groups may be due to the treatment and/or the different handling.
+   - Manejar los grupos de tratamiento y control de manera diferente significa que las diferencias observadas en las variable de resultado entre estos grupos pueden deberse al tratamiento y/o al manejo diferente.
    
-   - Examples include using different instruments for data collection or additional rounds of data collection for the treatment group in an effort to obtain data on mechanisms.
+   - Los ejemplos incluyen el uso de diferentes cuestionarios para la recolección de datos o rondas adicionales de recolección de datos para el grupo de tratamiento con la intención de obtener información sobre los mecanismos.
    
-   - Remember to design your study and your data instruments to treat all treatment arms the same, other than the treatment itself.
-
+   - Recuerde diseñar su estudio y sus encuesta para tratar todos los brazos de tratamiento por igual, excepto por el tratamiento en sí.
+   
