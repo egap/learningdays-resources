@@ -4,8 +4,7 @@
   <meta charset="utf-8">
   <meta name="generator" content="pandoc">
   <meta name="author" content="Fill In Your Name" />
-  <meta name="dcterms.date" content="2021-08-29" />
-  <title>Causal Inference</title>
+  <title>Inferencia Causal</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
@@ -453,152 +452,152 @@ document.getElementsByTagName('head')[0].appendChild(style);
     <div class="slides">
 
 <section>
-    <h1 class="title">Causal Inference</h1>
+    <h1 class="title">Inferencia Causal</h1>
     <h2 class="author">Fill In Your Name</h2>
-    <h3 class="date">29 August 2021</h3>
+    <h3 class="date">03-09-2021</h3>
 </section>
 <section id="TOC">
 <ul>
-<li><a href="#/why-should-social-scientists-and-policymakers-care-about-causality">Why should social scientists and policymakers care about causality?</a></li>
-<li><a href="#/counterfactual-approach-to-causal-inference">Counterfactual Approach to Causal Inference</a>
+<li><a href="#/por-qué-a-los-científicos-sociales-y-los-legisladores-les-deberían-importar-la-causalidad">¿Por qué a los científicos sociales y los legisladores les deberían importar la causalidad?</a></li>
+<li><a href="#/enfoque-contrafactual-de-la-inferencia-causal">Enfoque Contrafactual de la Inferencia Causal</a>
 <ul>
-<li><a href="#/recent-changes-in-social-science-research">Recent changes in social science research</a></li>
-<li><a href="#/x-causes-y-is-a-claim-about-what-didnt-happen">“X causes Y” is a claim about what didn’t happen</a></li>
-<li><a href="#/how-to-interpret-x-causes-y-in-this-approach">How to interpret “X causes Y” in this approach</a></li>
-<li><a href="#/how-to-interpret-x-causes-y-in-this-approach-1">How to interpret “X causes Y” in this approach</a></li>
-<li><a href="#/exercise-echinacea">Exercise: Echinacea</a></li>
+<li><a href="#/cambios-recientes-en-la-investigación-en-ciencias-sociales">Cambios recientes en la investigación en ciencias sociales</a></li>
+<li><a href="#/x-causa-y-es-una-afirmación-sobre-lo-que-no-sucedió">“X causa Y” es una afirmación sobre lo que no sucedió</a></li>
+<li><a href="#/cómo-interpretar-x-causa-y-en-este-enfoque">Cómo interpretar “X causa Y” en este enfoque</a></li>
+<li><a href="#/cómo-interpretar-x-causa-y-en-este-enfoque-1">Cómo interpretar “X causa Y” en este enfoque</a></li>
+<li><a href="#/ejercicio-equinácea">Ejercicio: equinácea</a></li>
 </ul></li>
-<li><a href="#/potential-outcomes">Potential Outcomes</a>
+<li><a href="#/salidas-potenciales">Salidas Potenciales</a>
 <ul>
-<li><a href="#/potential-outcomes-1">Potential outcomes</a></li>
-<li><a href="#/definition-of-causal-effect">Definition of causal effect</a></li>
-<li><a href="#/key-features-of-this-definition-of-causal-effect">Key features of this definition of causal effect</a></li>
-<li><a href="#/imagine-we-know-both-y_i1-and-y_i0-this-is-never-true">Imagine we know both <span class="math inline">\(Y_i(1)\)</span> and <span class="math inline">\(Y_i(0)\)</span> (this is never true!)</a></li>
-<li><a href="#/average-causal-effect">Average causal effect</a></li>
-<li><a href="#/estimands-and-causal-questions">Estimands and causal questions</a></li>
-<li><a href="#/other-types-of-estimands-you-may-be-interested-in">Other types of estimands you may be interested in</a></li>
+<li><a href="#/salidas-potenciales-1">Salidas Potenciales</a></li>
+<li><a href="#/definición-de-efecto-causal">Definición de efecto causal</a></li>
+<li><a href="#/características-clave-de-esta-definición-de-efecto-causal">Características clave de esta definición de efecto causal</a></li>
+<li><a href="#/suponga-que-sabemos-el-valor-de-las-dos-cantidades-y_i1-y-y_i0-esto-no-es-posible">Suponga que sabemos el valor de las dos cantidades <span class="math inline">\(Y_i(1)\)</span> y <span class="math inline">\(Y_i(0)\)</span> (¡esto no es posible!)</a></li>
+<li><a href="#/efecto-causal-promedio">Efecto causal promedio</a></li>
+<li><a href="#/estimaciones-y-preguntas-causales">Estimaciones y preguntas causales</a></li>
+<li><a href="#/otros-tipos-de-estimaciones-que-pueden-interesarle">Otros tipos de estimaciones que pueden interesarle</a></li>
 </ul></li>
-<li><a href="#/randomization-of-treatment-assignment">Randomization of treatment assignment</a>
+<li><a href="#/aleatorización-de-la-asignación-del-tratamiento">Aleatorización de la asignación del tratamiento</a>
 <ul>
-<li><a href="#/randomization-of-treatment-assignment-1">Randomization of treatment assignment</a></li>
-<li><a href="#/random-assignment-vs.-random-sampling">Random assignment vs. random sampling</a></li>
-<li><a href="#/randomization-is-powerful-1">Randomization is powerful (1)</a></li>
-<li><a href="#/randomization-is-powerful-2">Randomization is powerful (2)</a></li>
-<li><a href="#/randomization-is-powerful-3">Randomization is powerful (3)</a></li>
-<li><a href="#/random-sampling">Random sampling</a></li>
-<li><a href="#/potential-outcomes-2">Potential outcomes</a></li>
-<li><a href="#/random-assignment-to-red-1-or-blue-0-condition">Random assignment to red (1) or blue (0) condition</a></li>
-<li><a href="#/three-key-assumptions">Three key assumptions</a></li>
-<li><a href="#/key-assumption-sutva-part-1">Key assumption: SUTVA, part 1</a></li>
-<li><a href="#/key-assumption-sutva-part-2">Key assumption: SUTVA, part 2</a></li>
-<li><a href="#/key-assumption-excludability">Key assumption: Excludability</a></li>
-<li><a href="#/randomization-is-powerful-4">Randomization is powerful (4)</a></li>
+<li><a href="#/aleatorización-de-la-asignación-del-tratamiento-1">Aleatorización de la asignación del tratamiento</a></li>
+<li><a href="#/asignación-aleatoria-versus-muestreo-aleatorio">Asignación aleatoria versus muestreo aleatorio</a></li>
+<li><a href="#/la-aleatorización-es-poderosa-1">La aleatorización es poderosa (1)</a></li>
+<li><a href="#/la-aleatorización-es-poderosa-2">La aleatorización es poderosa (2)</a></li>
+<li><a href="#/la-aleatorización-es-poderosa-3">La aleatorización es poderosa (3)</a></li>
+<li><a href="#/muestreo-aleatorio">Muestreo aleatorio</a></li>
+<li><a href="#/salidas-potenciales-2">Salidas potenciales</a></li>
+<li><a href="#/asignación-aleatoria-a-la-condición-roja-1-o-azul-0">Asignación aleatoria a la condición roja (1) o azul (0)</a></li>
+<li><a href="#/tres-supuestos-clave">Tres supuestos clave</a></li>
+<li><a href="#/supuesto-clave-sutva-parte-1">Supuesto clave: SUTVA, parte 1</a></li>
+<li><a href="#/supuesto-clave-sutva-parte-2">Supuesto clave: SUTVA, parte 2</a></li>
+<li><a href="#/supuesto-clave-excludibilidad">Supuesto clave: Excludibilidad</a></li>
+<li><a href="#/la-aleatorización-es-poderosa-4">La aleatorización es poderosa (4)</a></li>
 </ul></li>
-<li><a href="#/randomized-vs.-observational-studies">Randomized vs. observational studies</a>
+<li><a href="#/estudios-aleatorizados-frente-a-observacionales">Estudios aleatorizados frente a observacionales</a>
 <ul>
-<li><a href="#/different-types-of-studies">Different types of studies</a></li>
-<li><a href="#/exercise-learning-about-your-prior-knowledge">Exercise: Learning about your prior knowledge</a></li>
-<li><a href="#/exercise-observational-studies-vs.-randomized-studies">Exercise: Observational studies vs. Randomized studies</a></li>
-<li><a href="#/discuss">Discuss</a></li>
-<li><a href="#/generalizability-and-external-validity">Generalizability and external validity</a></li>
-<li><a href="#/references">References</a></li>
+<li><a href="#/diferentes-tipos-de-estudios">Diferentes tipos de estudios</a></li>
+<li><a href="#/ejercicio-aprendiendo-acerca-de-sus-conocimientos-previos">Ejercicio: aprendiendo acerca de sus conocimientos previos</a></li>
+<li><a href="#/ejercicio-estudios-observacionales-versus-estudios-aleatorizados">Ejercicio: estudios observacionales versus estudios aleatorizados</a></li>
+<li><a href="#/discutir">Discutir</a></li>
+<li><a href="#/generalizabilidad-y-validez-externa">Generalizabilidad y validez externa</a></li>
+<li><a href="#/referencia">Referencia</a></li>
 </ul></li>
 </ul>
 </section>
 
-<section id="why-should-social-scientists-and-policymakers-care-about-causality" class="slide level2">
-<h2>Why should social scientists and policymakers care about causality?</h2>
+<section id="por-qué-a-los-científicos-sociales-y-los-legisladores-les-deberían-importar-la-causalidad" class="slide level2">
+<h2>¿Por qué a los científicos sociales y los legisladores les deberían importar la causalidad?</h2>
 <ul>
-<li>[Discussion with your own examples.]</li>
+<li>[Discusión con ejemplos propios .]</li>
 </ul>
 </section>
 <section>
-<section id="counterfactual-approach-to-causal-inference" class="title-slide slide level1">
-<h1>Counterfactual Approach to Causal Inference</h1>
+<section id="enfoque-contrafactual-de-la-inferencia-causal" class="title-slide slide level1">
+<h1>Enfoque Contrafactual de la Inferencia Causal</h1>
 
 </section>
-<section id="recent-changes-in-social-science-research" class="slide level2">
-<h2>Recent changes in social science research</h2>
+<section id="cambios-recientes-en-la-investigación-en-ciencias-sociales" class="slide level2">
+<h2>Cambios recientes en la investigación en ciencias sociales</h2>
 <ul>
-<li><p>Historically, reverse causality and omitted variable bias have been problematic for a lot of social science research aimed at making causal claims.</p></li>
-<li><p>Recently, the counterfactual approach has been embraced in the social sciences as a framework for causal inference.</p></li>
-<li><p>This represents a big shift in research:</p>
+<li><p>Históricamente, la causalidad inversa y el sesgo causado por variable omitidas han sido problemáticos para muchas investigaciones de las ciencias sociales que buscan hacer afirmaciones causales.</p></li>
+<li><p>Recientemente, el enfoque contrafactual ha sido adoptado en las ciencias sociales como marco para la inferencia causal.</p></li>
+<li><p>Esto representa un gran cambio en la investigación:</p>
 <ul>
-<li><p>Being more precise about what we mean by causal effects.</p></li>
-<li><p>Using randomization or designs with as-if randomization.</p></li>
-<li><p>More partnerships between researchers and practitioners.</p></li>
+<li><p>Ser más precisos sobre lo que entendemos por efectos causales.</p></li>
+<li><p>Uso de aleatorización o de diseños que funcionan como si se hubiese aleatorizado</p></li>
+<li><p>Más colaboraciones entre investigadores y profesionales expertos.</p></li>
 </ul></li>
 </ul>
 </section>
-<section id="x-causes-y-is-a-claim-about-what-didnt-happen" class="slide level2">
-<h2>“X causes Y” is a claim about what didn’t happen</h2>
+<section id="x-causa-y-es-una-afirmación-sobre-lo-que-no-sucedió" class="slide level2">
+<h2>“X causa Y” es una afirmación sobre lo que no sucedió</h2>
 <ul>
-<li><p>In the counterfactual approach: “If X had not occurred, then Y would not have occurred.”</p></li>
-<li><p>Experiments help us learn about counterfactual and manipulation-based claims about causation.</p></li>
-<li><p>It’s not wrong to <em>conceptualize</em> “cause” in another way. But it has been productive to work in this counterfactual framework <span class="citation" data-cites="brady2008causation">(<a href="#/ref-brady2008causation" role="doc-biblioref">Brady 2008</a>)</span>.</p></li>
+<li><p>En el enfoque contrafactual: “Si X no hubiera ocurrido, entonces Y no habría ocurrido”.</p></li>
+<li><p>Los experimentos nos ayudan a aprender acerca de las afirmaciones contrafáctuales y basadas en la manipulación de la causalidad.</p></li>
+<li><p>No está mal <em>conceptualizar</em> la “causa” de otra manera. Pero ha sido productivo trabajar en este marco hipotético <span class="citation" data-cites="brady2008causation">(<a href="#/ref-brady2008causation" role="doc-biblioref">Brady 2008</a>)</span>.</p></li>
 </ul>
 </section>
-<section id="how-to-interpret-x-causes-y-in-this-approach" class="slide level2">
-<h2>How to interpret “X causes Y” in this approach</h2>
+<section id="cómo-interpretar-x-causa-y-en-este-enfoque" class="slide level2">
+<h2>Cómo interpretar “X causa Y” en este enfoque</h2>
 <ol type="1">
-<li><p>“X causes Y” need not imply that W and V do not cause Y: X is a part of the story, not the whole story. (The whole story is not necessary in order to learn about whether X causes Y).</p></li>
-<li><p>“X causes Y” requires a <strong>context</strong>: matches cause flame but require oxygen; small classrooms improve test scores but require experienced teachers and funding <span class="citation" data-cites="cartwright2012evidence">(<a href="#/ref-cartwright2012evidence" role="doc-biblioref">Cartwright and Hardie 2012</a>)</span>.</p></li>
-<li><p>“X causes Y” can mean “With X, the probability of Y is higher than would be without X.” or “Without X there is no Y.” Either is compatible with the counterfactual idea.</p></li>
+<li><p>“X causa Y” no implica necesariamente que W y V no causen Y: X es parte de la historia, no toda la historia. (No se necesita conocer la historia completa para saber si X causa Y).</p></li>
+<li><p>“X causa Y” requiere un <strong>contexto</strong>: los fósforos causan la llama pero requieren oxígeno; las aulas pequeñas mejoran los resultados de las pruebas, pero requieren profesores experimentados y financiación <span class="citation" data-cites="cartwright2012evidence">(<a href="#/ref-cartwright2012evidence" role="doc-biblioref">Cartwright and Hardie 2012</a>)</span>.</p></li>
+<li><p>“X causa Y” puede significar “Si X ocurre, la probabilidad de Y es mayor que sin que X ocurra”. o “Sin que X ocurra no hay Y”. Cualquiera de las dos afirmaciones es compatible con la idea contrafactual.</p></li>
 </ol>
 </section>
-<section id="how-to-interpret-x-causes-y-in-this-approach-1" class="slide level2">
-<h2>How to interpret “X causes Y” in this approach</h2>
+<section id="cómo-interpretar-x-causa-y-en-este-enfoque-1" class="slide level2">
+<h2>Cómo interpretar “X causa Y” en este enfoque</h2>
 <ol start="4" type="1">
-<li><p>It is not necessary to know the mechanism to establish that X causes Y. The mechanism can be complex, and it can involve probability: X causes Y sometimes because of A and sometimes because of B.</p></li>
-<li><p>Counterfactual causation does not require “a spatiotemporally continuous sequence of causal intermediates”</p>
+<li><p>No es necesario conocer el mecanismo para establecer que X causa Y. El mecanismo puede ser complejo y puede involucrar probabilidad: X causa Y a veces debido a A y a veces debido a B.</p></li>
+<li><p>La causalidad contrafactual no requiere “una secuencia espacio-temporal continua de intermediarios causales”</p>
 <ul>
-<li>Ex: Person A plans event Y. Person B’s action would stop Y (say, a random bump from a stranger). Person C doesn’t know about Person A or action Y but stops B (maybe thinks B is going to trip). So, Person A does action Y. And Person C causes action Y (without Person C’s action, Y would not have occurred) <span class="citation" data-cites="holland:1986">(<a href="#/ref-holland:1986" role="doc-biblioref">Holland 1986</a>)</span>.</li>
+<li>Ejemplo: la persona A planea el evento Y. La acción de la persona B detendría a Y (digamos, un golpe aleatorio de un extraño). La persona C no sabe sobre la persona A o la acción Y, pero detiene a B (quizá porque piensa que B se va a tropezar). Entonces, la Persona A realiza la acción Y y la Persona C causa la acción Y (sin la acción de la Persona C, Y no habría ocurrido)<span class="citation" data-cites="holland:1986">(<a href="#/ref-holland:1986" role="doc-biblioref">Holland 1986</a>)</span>.</li>
 </ul></li>
-<li><p>Correlation is not causation.</p></li>
+<li><p>Correlación no es igual a causalidad.</p></li>
 </ol>
 </section>
-<section id="exercise-echinacea" class="slide level2">
-<h2>Exercise: Echinacea</h2>
+<section id="ejercicio-equinácea" class="slide level2">
+<h2>Ejercicio: equinácea</h2>
 <ul>
-<li><p>Your friend says taking echinacea (a traditional remedy) reduces the duration of colds.</p></li>
-<li><p>If we take a counterfactual approach, what does this statement implicitly claim about the counterfactual? What other counterfactuals might be possible and why?</p></li>
+<li><p>Su amigo dice que tomar equinácea (un remedio tradicional) reduce la duración de los resfriados.</p></li>
+<li><p>Si adoptamos un enfoque contrafactual, ¿qué nos dice implícitamente esta afirmación sobre el contrafactual? ¿Qué otros contrafactuales podrían ser posibles y por qué?</p></li>
 </ul>
 </section></section>
 <section>
-<section id="potential-outcomes" class="title-slide slide level1">
-<h1>Potential Outcomes</h1>
+<section id="salidas-potenciales" class="title-slide slide level1">
+<h1>Salidas Potenciales</h1>
 
 </section>
-<section id="potential-outcomes-1" class="slide level2">
-<h2>Potential outcomes</h2>
+<section id="salidas-potenciales-1" class="slide level2">
+<h2>Salidas Potenciales</h2>
 <ul>
-<li><p>For each unit we assume that there are two <strong>post-treatment</strong> outcomes: <span class="math inline">\(Y_i(1)\)</span> and <span class="math inline">\(Y_i(0)\)</span>.</p></li>
-<li><p><span class="math inline">\(Y_i(1)\)</span> is the outcome that <strong>would</strong> obtain <em>if</em> the unit received the treatment (<span class="math inline">\(T_i=1\)</span>).</p></li>
-<li><p><span class="math inline">\(Y_i(0)\)</span> is the outcome that <strong>would</strong> obtain <em>if</em> the unit received the treatment (<span class="math inline">\(T_i=0\)</span>).</p></li>
+<li><p>Para cada unidad asumimos que hay dos <strong>valores posteriores al tratamiento</strong>: <span class="math inline">\(Y_i(1)\)</span> y <span class="math inline">\(Y_i(0)\)</span>.</p></li>
+<li><p><span class="math inline">\(Y_i(1)\)</span> es el resultado que <strong>obtendría</strong> la unidad <em>si</em> recibe el tratamiento (<span class="math inline">\(T_i = 1\)</span>).</p></li>
+<li><p><span class="math inline">\(Y_i(0)\)</span> es el resultado que <strong>obtendría</strong> la unidad <em>si</em> no recibe el tratamiento (<span class="math inline">\(T_i = 0\)</span>).</p></li>
 </ul>
 </section>
-<section id="definition-of-causal-effect" class="slide level2">
-<h2>Definition of causal effect</h2>
+<section id="definición-de-efecto-causal" class="slide level2">
+<h2>Definición de efecto causal</h2>
 <ul>
-<li><p>The <strong>causal effect</strong> of treatment (relative to control) is: <span class="math inline">\(\tau_i = Y_i(1) - Y_i(0)\)</span></p></li>
-<li><p>Note that we’ve moved to using <span class="math inline">\(T\)</span> to indicate our treatment (what we want to learn the effect of). <span class="math inline">\(X\)</span> will be used for background variables.</p></li>
+<li><p>El <strong>efecto causal</strong> del tratamiento (relativo al control) es: <span class="math inline">\(\tau_i = Y_i (1) - Y_i(0)\)</span></p></li>
+<li><p>Tenga en cuenta que hemos pasado a usar <span class="math inline">\(T\)</span> para indicar nuestro tratamiento (del cuál queremos saber el efecto). <span class="math inline">\(X\)</span> se utilizará para las variables explicatiorias.</p></li>
 </ul>
 </section>
-<section id="key-features-of-this-definition-of-causal-effect" class="slide level2">
-<h2>Key features of this definition of causal effect</h2>
+<section id="características-clave-de-esta-definición-de-efecto-causal" class="slide level2">
+<h2>Características clave de esta definición de efecto causal</h2>
 <ol type="1">
-<li><p>You have to define the control condition to define a causal effect.</p>
+<li><p>Debe definir la condición de control para definir un efecto causal.</p>
 <ul>
-<li>Say <span class="math inline">\(T=1\)</span> means a community meeting to discuss public health. Is <span class="math inline">\(T=0\)</span> no meeting at all? Is <span class="math inline">\(T=0\)</span> a community meeting on a different subject? Is <span class="math inline">\(T=0\)</span> a flyer on public health?</li>
-<li>The phrase ``causal effect of <span class="math inline">\(T\)</span> on <span class="math inline">\(Y\)</span>’’ doesn’t make sense without knowing what is means to not have <span class="math inline">\(T\)</span>.</li>
+<li>Digamos que <span class="math inline">\(T = 1\)</span> significa una reunión comunitaria para discutir la salud pública. ¿<span class="math inline">\(T = 0\)</span> no hay reunión en absoluto? ¿Es <span class="math inline">\(T = 0\)</span> una reunión comunitaria sobre un tema diferente? ¿Es <span class="math inline">\(T = 0\)</span> un volante sobre salud pública?</li>
+<li>La frase `` efecto causal de <span class="math inline">\(T\)</span> en <span class="math inline">\(Y\)</span> ’’ no tiene sentido sin saber qué significa no tener <span class="math inline">\(T\)</span>.</li>
 </ul></li>
-<li><p>Each individual unit <span class="math inline">\(i\)</span> has its own causal effect <span class="math inline">\(\tau_i\)</span>.</p></li>
-<li><p>But we can’t measure the individual-level causal effect, because we can’t observe both <span class="math inline">\(Y_i(1)\)</span> and <span class="math inline">\(Y_i(0)\)</span> at the same time. This is known as the <strong>fundamental problem of causal inference</strong>. What we observe is <span class="math inline">\(Y_i\)</span>:</p></li>
+<li><p>Cada unidad individual <span class="math inline">\(i\)</span> tiene su propio efecto causal <span class="math inline">\(\tau_i\)</span>.</p></li>
+<li><p>Pero no podemos medir el efecto causal a nivel individual, porque no podemos observar <span class="math inline">\(Y_i (1)\)</span> y <span class="math inline">\(Y_i(0)\)</span> al mismo tiempo. Esto se conoce como el <strong>problema fundamental de la inferencia causal</strong>. Lo que observamos es <span class="math inline">\(Y_i\)</span>:</p></li>
 </ol>
 <p><span class="math inline">\(Y_i = T_iY_i(1) + (1-T_i)Y_i(0)\)</span></p>
 </section>
-<section id="imagine-we-know-both-y_i1-and-y_i0-this-is-never-true" class="slide level2">
-<h2>Imagine we know both <span class="math inline">\(Y_i(1)\)</span> and <span class="math inline">\(Y_i(0)\)</span> (this is never true!)</h2>
+<section id="suponga-que-sabemos-el-valor-de-las-dos-cantidades-y_i1-y-y_i0-esto-no-es-posible" class="slide level2">
+<h2>Suponga que sabemos el valor de las dos cantidades <span class="math inline">\(Y_i(1)\)</span> y <span class="math inline">\(Y_i(0)\)</span> (¡esto no es posible!)</h2>
 <table>
 <thead>
 <tr class="header">
@@ -636,128 +635,128 @@ document.getElementsByTagName('head')[0].appendChild(style);
 </tbody>
 </table>
 <ul>
-<li><p>We have the treatment effect for each individual.</p></li>
-<li><p>Note the heterogeneity in the individual-level treatment effects.</p></li>
-<li><p>But we only have at most one potential outcome for each individual, which means we don’t know these treatment effects.</p></li>
+<li><p>Conocemos el efecto del tratamiento para cada individuo.</p></li>
+<li><p>Nótese la heterogeneidad en los efectos del tratamiento a nivel individual.</p></li>
+<li><p>Pero solo sabemos del valor de una de las salidas potenciales para cada individuo como máximo, lo que significa que no conocemos estos efectos del tratamiento.</p></li>
 </ul>
 </section>
-<section id="average-causal-effect" class="slide level2">
-<h2>Average causal effect</h2>
+<section id="efecto-causal-promedio" class="slide level2">
+<h2>Efecto causal promedio</h2>
 <ul>
-<li>While we can’t measure the individual causal effect, <span class="math inline">\(\tau_i = Y_i(1)-Y_i(0)\)</span>, we can randomly assign subjects to treatment and control conditions to estimate the <strong>average causal effect</strong>, <span class="math inline">\(\bar{\tau}_i\)</span>:</li>
+<li>Si bien no podemos medir el efecto causal individual, <span class="math inline">\(\tau_i = Y_i (1)-Y_i (0)\)</span>, podemos asignar sujetos al azar a las condiciones de tratamiento y control para estimar el <strong>efecto causal promedio</strong>, <span class="math inline">\(\bar{\tau}_i\)</span>:</li>
 </ul>
-<p><span class="math inline">\(\overline{\tau_i} = \frac{1}{N} \sum_{i=1}^N ( Y_i(1)-Y_i(0) ) = \overline{Y_i(1)-Y_i(0)}\)</span></p>
+<p><span class="math inline">\(\overline{\tau_i} = \frac{1}{N}\sum_{i = 1}^N (Y_i (1) -Y_i (0)) = \overline{Y_i (1) -Y_i (0)}\)</span></p>
 <ul>
-<li><p>The average causal effect is also known as the average treatment effect (ATE).</p></li>
-<li><p>Further explanation on how after we discuss randomization of treatment assignment in the next section.</p></li>
+<li><p>El efecto causal promedio también se conoce como efecto promedio del tratamiento (Average Treatment Effect, ATE).</p></li>
+<li><p>Explicación adicional sobre cómo calcularlo después de discutir la asignación aleatoria del tratamiento en la siguiente sección.</p></li>
 </ul>
 </section>
-<section id="estimands-and-causal-questions" class="slide level2">
-<h2>Estimands and causal questions</h2>
+<section id="estimaciones-y-preguntas-causales" class="slide level2">
+<h2>Estimaciones y preguntas causales</h2>
 <ul>
-<li><p>Before we discuss randomization and how that allows us to estimate the ATE, note that the ATE is a type of estimand.</p></li>
-<li><p>An estimand is a quantity you want to learn about (from your data). It’s the target of your research that <em>you</em> set.</p></li>
-<li><p>Being precise about your research question means being precise about your estimand. For causal questions, this means specifying:</p>
+<li><p>Antes de discutir la aleatorización y cómo esta nos permite estimar el ATE, tenga en cuenta que el ATE es un tipo de estimando.</p></li>
+<li><p>Un estimando es una cantidad sobre la que se desea aprender (a partir de los datos). Es el objetivo de la investigación que <em>usted</em> estableció.</p></li>
+<li><p>Ser preciso con la la pregunta de investigación significa ser preciso con el estimando. Para preguntas causales, esto significa especificar:</p>
 <ul>
-<li>The outcome</li>
-<li>The treatment and control conditions</li>
-<li>The study population</li>
+<li>La variable de interés</li>
+<li>Las condiciones de tratamiento y control.</li>
+<li>La población de estudio</li>
 </ul></li>
 </ul>
 </section>
-<section id="other-types-of-estimands-you-may-be-interested-in" class="slide level2">
-<h2>Other types of estimands you may be interested in</h2>
+<section id="otros-tipos-de-estimaciones-que-pueden-interesarle" class="slide level2">
+<h2>Otros tipos de estimaciones que pueden interesarle</h2>
 <ul>
-<li><p>The ATE for a particular subgroup, aka conditional average treatment effect (CATE)</p></li>
-<li><p>Differences in CATEs: differences in the average treatment effect for one group as compared with another group.</p></li>
-<li><p>The ATE for just the treated units, aka ATT (average treatment effect on the treated)</p></li>
-<li><p>The local ATE (LATE). “Local” = those whose treatment status would be changed by an encouragement in an encouragement design (aka CACE, complier average causal effect) or those in the neighborhood of a discontinuity for a regression discontinuity design.</p></li>
-<li><p>Estimands are discussed in detail in <a href="estimation.html">Estimands and Estimators Module</a>.</p></li>
+<li><p>El ATE para un subgrupo en particular, también conocido como efecto promedio condicional del tratamiento (CATE, conditional ATE)</p></li>
+<li><p>Diferencias en el CATE: diferencias en el efecto promedio del tratamiento para un grupo en comparación con otro grupo.</p></li>
+<li><p>El ATE solo para las unidades tratadas, también conocido como efecto promedio del tratamiento en los tratados (Average treatment effect on the treated, ATT)</p></li>
+<li><p>El ATE local (Local ATE, LATE). “Local” = aquellos cuyo estado de tratamiento cambiaría por el estímulo de un diseño de estímulo (también conocido como efecto causal promedio del cumplidor o CACE, por sus siglas en inglés: complier average causal effect) o aquellos en el vecindario de una discontinuidad para un diseño de regresión discontinua.</p></li>
+<li><p>Las estimaciones se analizan en detalle en el <a href="estimación.html">Módulo de estimaciones y estimadores</a>.</p></li>
 </ul>
 </section></section>
 <section>
-<section id="randomization-of-treatment-assignment" class="title-slide slide level1">
-<h1>Randomization of treatment assignment</h1>
+<section id="aleatorización-de-la-asignación-del-tratamiento" class="title-slide slide level1">
+<h1>Aleatorización de la asignación del tratamiento</h1>
 
 </section>
-<section id="randomization-of-treatment-assignment-1" class="slide level2">
-<h2>Randomization of treatment assignment</h2>
+<section id="aleatorización-de-la-asignación-del-tratamiento-1" class="slide level2">
+<h2>Aleatorización de la asignación del tratamiento</h2>
 <ul>
-<li><p>Randomization means that every observation has a known probability of assignment to experimental conditions <em>between</em> 0 and 1.</p>
+<li><p>La aleatorización significa que cada observación tiene una probabilidad conocida de asignación a condiciones experimentales <em>entre</em> 0 y 1.</p>
 <ul>
-<li>No unit in the experimental sample is assigned to treatment with certainty (probability = 1) or to control with certainty (probability = 0).</li>
+<li>Ninguna unidad de la muestra experimental se asigna al tratamiento con total certeza (probabilidad = 1) o al control con total certeza (probabilidad = 0).</li>
 </ul></li>
-<li><p>Units can vary in their probability of treatment assignment.</p>
+<li><p>Las probabilidad de asignación al tratamiento puede variar para cada unidad.</p>
 <ul>
-<li><p>For example, the probability might vary by group: women might have a 25% probability of being assigned to treatment while men have a different probability.</p></li>
-<li><p>It can even vary across individuals, though that would complicate your analysis.</p></li>
+<li><p>Por ejemplo, la probabilidad puede variar según el grupo: las mujeres pueden tener un 25% de probabilidad de ser asignadas al tratamiento, mientras que los hombres tienen una probabilidad diferente.</p></li>
+<li><p>Incluso puede variar de una persona a otra, claro está que eso complicaría el análisis.</p></li>
 </ul></li>
 </ul>
 </section>
-<section id="random-assignment-vs.-random-sampling" class="slide level2">
-<h2>Random assignment vs. random sampling</h2>
+<section id="asignación-aleatoria-versus-muestreo-aleatorio" class="slide level2">
+<h2>Asignación aleatoria versus muestreo aleatorio</h2>
 <ul>
-<li><p>Randomization (of treatment): assigning subjects with known probability to experimental conditions.</p>
+<li><p>Aleatorización (del tratamiento): asignación de sujetos con probabilidad conocida a condiciones experimentales.</p>
 <ul>
-<li><p>This random assignment of treatment can be combined with any kind of sample (random sample, convenience sample, etc.).</p></li>
-<li><p>But the size and other characteristics of your sample will affect your power and your ability to extrapolate from your finding to other populations.</p></li>
+<li><p>Esta asignación aleatoria de tratamiento puede combinarse con cualquier tipo de muestra (muestra aleatoria, muestra de conveniencia, etc.).</p></li>
+<li><p>Pero el tamaño y otras características de su muestra afectarán su poder y su capacidad para extrapolar su hallazgo a otras poblaciones.</p></li>
 </ul></li>
-<li><p>Random sampling (from population): selecting subjects into your sample from a population with known probability.</p></li>
+<li><p>Muestreo aleatorio (de la población): selección de sujetos de una población a la muestra con probabilidad conocida.</p></li>
 </ul>
 </section>
-<section id="randomization-is-powerful-1" class="slide level2">
-<h2>Randomization is powerful (1)</h2>
+<section id="la-aleatorización-es-poderosa-1" class="slide level2">
+<h2>La aleatorización es poderosa (1)</h2>
 <ul>
-<li><p>We want the ATE, <span class="math inline">\(\overline{\tau_i}= \overline{Y_i(1)-Y_i(0)}\)</span>.</p></li>
-<li><p>We will make use of the fact that the average of differences equals the difference of averages:</p></li>
+<li><p>Queremos conocer el valor del ATE, <span class="math inline">\(\overline{\tau_i} = \overline{Y_i (1) -Y_i (0)}\)</span>.</p></li>
+<li><p>Aprovecharemos el hecho de que la media de diferencias es igual a la diferencia de medias:</p></li>
 </ul>
-<p>ATE <span class="math inline">\(= \overline{Y_i(1)-Y_i(0)} = \overline{Y_i(1)}-\overline{Y_i(0)}\)</span></p>
+<p>ATE <span class="math inline">\(= \overline{Y_i (1) -Y_i (0)} = \overline{Y_i (1)} - \overline{Y_i (0)}\)</span></p>
 </section>
-<section id="randomization-is-powerful-2" class="slide level2">
-<h2>Randomization is powerful (2)</h2>
+<section id="la-aleatorización-es-poderosa-2" class="slide level2">
+<h2>La aleatorización es poderosa (2)</h2>
 <ul>
-<li><p>Let’s <em>randomly assign</em> some of our units to the treatment condition. For these treated units, we measure the outcome <span class="math inline">\(Y_i|T_i=1\)</span>, which is the same as <span class="math inline">\(Y_i(1)\)</span> for these units.</p></li>
-<li><p>Because these units were randomly assigned to treatment, these <span class="math inline">\(Y_i=Y_i(1)\)</span> for the treated units represent the <span class="math inline">\(Y_i(1)\)</span> for all our units.</p></li>
-<li><p>In expectation (or on average across repeated experiments (written <span class="math inline">\(E_R[]\)</span>)):</p></li>
+<li><p>Asignamos <em>aleatoriamente</em> algunas de nuestras unidades al tratamiento. Para estas unidades tratadas, medimos el resultado <span class="math inline">\(Y_i | T_i = 1\)</span>, que es lo mismo que <span class="math inline">\(Y_i(1)\)</span> para estas unidades que asignamos al tratamiento.</p></li>
+<li><p>Debido a que estas unidades se asignaron al azar al tratamiento, estos <span class="math inline">\(Y_i = Y_i (1)\)</span> para las unidades tratadas representan los <span class="math inline">\(Y_i(1)\)</span> para todas nuestras unidades.</p></li>
+<li><p>En valor esperado (o en promedio a través de experimentos repetidos (escrito <span class="math inline">\(E_R[]\)</span>)):</p></li>
 </ul>
-<p><span class="math inline">\(E_R[\overline{Y_i}|T_i=1]=\overline{Y_i(1)}\)</span>.</p>
+<p><span class="math inline">\(E_R [\overline {Y_i} | T_i = 1] = \overline{Y_i (1)}\)</span>.</p>
 <ul>
-<li><p><span class="math inline">\(\overline{Y}|T_i=1\)</span> is an unbiased estimator of the population mean of potential outcomes under treatment.</p></li>
-<li><p>The same logic applies for units randomly assigned to control:</p></li>
+<li><p><span class="math inline">\(\overline {Y} | T_i = 1\)</span> es un estimador insesgado de la media poblacional de resultados potenciales bajo el tratamiento.</p></li>
+<li><p>La misma lógica se aplica a las unidades asignadas aleatoriamente al control:</p></li>
 </ul>
-<p><span class="math inline">\(E_R[\overline{Y_i}|T_i=0]=\overline{Y_i(0)}\)</span>.</p>
+<p><span class="math inline">\(E_R[\overline{Y_i}| T_i = 0] = \overline{Y_i (0)}\)</span>.</p>
 </section>
-<section id="randomization-is-powerful-3" class="slide level2">
-<h2>Randomization is powerful (3)</h2>
+<section id="la-aleatorización-es-poderosa-3" class="slide level2">
+<h2>La aleatorización es poderosa (3)</h2>
 <!-- -  The same logic applies when we measure $Y_i$ for the control units ($Y_i|T_i=0$).  So $\overline{Y_i}|T_i=0$, which we can calculate, gives us an unbiased estimate of $\overline{Y_i(0)}$. -->
 <ul>
-<li>So we can write down an estimator for the ATE:</li>
+<li>Entonces podemos escribir el estimador para el ATE:</li>
 </ul>
-<p><span class="math inline">\(\hat{\overline{\tau_i}} = ( \overline{Y_i(1)} | T_i = 1 ) - ( \overline{Y_i(0)} | T_i = 0 )\)</span></p>
+<p><span class="math inline">\(\hat{\overline{\tau_i}} = (\overline {Y_i(1)} | T_i = 1) - (\overline {Y_i (0)} | T_i = 0)\)</span></p>
 <ul>
-<li>In expectation, or on average across repeated experiments, <span class="math inline">\(\hat{\overline{\tau_i}}\)</span> equals the ATE:</li>
+<li>En valor esperado, o en promedio en experimentos repetidos, <span class="math inline">\(\hat{\overline {\tau_i}}\)</span> es igual al ATE:</li>
 </ul>
-<p><span class="math inline">\(E_R[Y_i| T_i = 1 ] - E_R[Y_i | T_i = 0] = \overline{Y_i(1)} - \overline{Y_i(0)}\)</span>.</p>
+<p><span class="math inline">\(E_R[Y_i | T_i = 1] - E_R [Y_i | T_i = 0] = \overline {Y_i (1)} - \overline{Y_i (0)}\)</span>.</p>
 <ul>
-<li>So we can just take the difference of these unbiased estimators of <span class="math inline">\(\overline{Y_i(1)}\)</span> and <span class="math inline">\(\overline{Y_i(0)}\)</span> to get an unbiased estimate of the ATE.</li>
+<li>Entonces podemos tomar la diferencia de estos estimadores insesgados de <span class="math inline">\(\overline{Y_i (1)}\)</span> y <span class="math inline">\(\overline{Y_i(0)}\)</span> para obtener una estimación insesgada del ATE.</li>
 </ul>
 </section>
-<section id="random-sampling" class="slide level2">
-<h2>Random sampling</h2>
+<section id="muestreo-aleatorio" class="slide level2">
+<h2>Muestreo aleatorio</h2>
 <div class="figure">
-<img src="../Images/randomsampling.png" alt="Random sample of households" width="70%" />
+<img src="../Images/randomsampling.png" alt="Muestreo Aleatorio de Hogares" width="70%" />
 <p class="caption">
-Random sample of households
+Muestreo Aleatorio de Hogares
 </p>
 </div>
 </section>
-<section id="potential-outcomes-2" class="slide level2">
-<h2>Potential outcomes</h2>
-<p>Each household <span class="math inline">\(i\)</span> has <span style="color: red;"><span class="math inline">\(Y_i(1)\)</span></span> and <span style="color: blue;"><span class="math inline">\(Y_i(0)\)</span></span>.</p>
+<section id="salidas-potenciales-2" class="slide level2">
+<h2>Salidas potenciales</h2>
+<p>Cada hogar <span class="math inline">\(i\)</span> tiene <span style="color: red;"><span class="math inline">\(Y_i(1)\)</span></span> and <span style="color: blue;"><span class="math inline">\(Y_i(0)\)</span></span>.</p>
 <p><img src="../Images/randomsampling_redblue_plain.png" width="80%" /></p>
 </section>
-<section id="random-assignment-to-red-1-or-blue-0-condition" class="slide level2">
-<h2>Random assignment to red (1) or blue (0) condition</h2>
+<section id="asignación-aleatoria-a-la-condición-roja-1-o-azul-0" class="slide level2">
+<h2>Asignación aleatoria a la condición roja (1) o azul (0)</h2>
 <div class="figure">
 <img src="../Images/randomassignment.png" alt="Random assignment of this random sample of households" width="70%" />
 <p class="caption">
@@ -765,109 +764,109 @@ Random assignment of this random sample of households
 </p>
 </div>
 </section>
-<section id="three-key-assumptions" class="slide level2">
-<h2>Three key assumptions</h2>
-<p>To make causal claims with an experiment (or to judge whether we believe a study’s claims), we need three core assumptions:</p>
+<section id="tres-supuestos-clave" class="slide level2">
+<h2>Tres supuestos clave</h2>
+<p>Para hacer afirmaciones causales con un experimento (o para juzgar si creemos en las afirmaciones de un estudio), necesitamos tres supuestos básicos:</p>
 <ul>
-<li><p>Random assignment of subjects to treatment, which implies that receiving the treatment is statistically independent of subjects’ potential outcomes.</p></li>
-<li><p>Stable unit treatment value assumption (SUTVA).</p></li>
-<li><p>Excludability, which means that a subject’s potential outcomes respond only to the defined treatment, not other extraneous factors that may be correlated with treatment.</p></li>
+<li><p>Asignación aleatoria de sujetos al tratamiento, lo que implica que recibir el tratamiento es estadísticamente independiente de las salidas potenciales de los sujetos.</p></li>
+<li><p>Supuesto de estabilidad del valor bajo tratamiento para cada unidad (Stable unit treatment value assumption, SUTVA).</p></li>
+<li><p>Excluibilidad, que significa que los valores potenciales de un sujeto responden solo al tratamiento definido y no a otros factores externos que pueden estar correlacionados con el tratamiento.</p></li>
 </ul>
 </section>
-<section id="key-assumption-sutva-part-1" class="slide level2">
-<h2>Key assumption: SUTVA, part 1</h2>
+<section id="supuesto-clave-sutva-parte-1" class="slide level2">
+<h2>Supuesto clave: SUTVA, parte 1</h2>
 <ol type="1">
-<li><p>No interference – A subject’s potential outcome reflects only whether that subject receives the treatment himself/herself. It is not affected by how treatments happen to be allocated to other subjects.</p>
+<li><p>No interferencia: el valor potencial de un sujeto refleja solo si ese sujeto recibe el tratamiento. No se ve afectado por cómo se asigna el tratamiento a otros sujetos.</p>
 <ul>
-<li><p>A classic violation is the case of vaccines and their spillover effects.</p></li>
-<li><p>Say I am in the control condition (no vaccine). If whether I get sick (<span class="math inline">\(Y_i(0)\)</span>) depends on other people’s treatment status (whether they take the vaccine), it’s like I have two different <span class="math inline">\(Y_i(0)\)</span>!</p></li>
-<li><p>SUTVA (= stable unit treatment value assumption)</p></li>
+<li><p>Una violación clásica es el caso de las vacunas y sus efectos secundarios.</p></li>
+<li><p>Imagine que yo fui asignado a la condición de control (sin vacuna). Que me enferme (<span class="math inline">\(Y_i (0)\)</span>), depende de la asignación al tratamiento de otras personas (en caso de que sí tomen la vacuna), ¡es como si tuviera dos <span class="math inline">\(Y_i(0)\)</span> diferentes!</p></li>
+<li><p>SUTVA (= Supuesto de estabilidad del valor bajo el tratamiento para cada unidad )</p></li>
 </ul></li>
 </ol>
 </section>
-<section id="key-assumption-sutva-part-2" class="slide level2">
-<h2>Key assumption: SUTVA, part 2</h2>
+<section id="supuesto-clave-sutva-parte-2" class="slide level2">
+<h2>Supuesto clave: SUTVA, parte 2</h2>
 <ol start="2" type="1">
-<li><p>No hidden variations of the treatment</p>
+<li><p>No hay variaciones ocultas del tratamiento</p>
 <ul>
-<li><p>Say treatment is taking a vaccine, but there are two kinds of vaccines and they have different ingredients.</p></li>
-<li><p>An example of a violation is when whether I get sick when I take the vaccine (<span class="math inline">\(Y_i(1)\)</span>) depends on which vaccine I got. We would have two different <span class="math inline">\(Y_i(1)\)</span>!</p></li>
+<li><p>Digamos que el tratamiento es vacunarse, pero hay dos tipos de vacunas y tienen diferentes ingredientes.</p></li>
+<li><p>Un ejemplo de una violación al supuesto es que el enfermarme luego de haberme puesto la vacuna (<span class="math inline">\(Y_i(1)\)</span>) dependa de la vacuna que recibí. ¡Habría dos <span class="math inline">\(Y_i(1)\)</span> diferentes!</p></li>
 </ul></li>
 </ol>
 </section>
-<section id="key-assumption-excludability" class="slide level2">
-<h2>Key assumption: Excludability</h2>
+<section id="supuesto-clave-excludibilidad" class="slide level2">
+<h2>Supuesto clave: Excludibilidad</h2>
 <ul>
-<li><p>Treatment assignment has no effect on outcomes except through its effect on whether treatment was received.</p>
+<li><p>La asignación al tratamiento no tiene ningún efecto sobre los resultados, excepto el que puede tener si el tratamiento se recibió.</p>
 <ul>
-<li><p>Important to define the treatment precisely.</p></li>
-<li><p>Important to also maintain symmetry between treatment and control groups (e.g., through blinding, having the same data collection procedures for all study subjects, etc.), so that treatment assignment only affects the treatment received, not other things like interactions with researchers that you don’t want to define as part of the treatment.</p></li>
+<li><p>Es importante definir el tratamiento con precisión.</p></li>
+<li><p>Es importante también mantener la simetría entre los grupos de tratamiento y control (por ejemplo, ocultando cuál fue la asignación al tratamiento, tener los mismos procedimientos de recopilación de datos para todos los sujetos del estudio, etc.), de modo que la asignación al tratamiento solo afecte el tratamiento recibido, no otras cosas como las interacciones con los investigadores que no deberían ser parte del tratamiento.</p></li>
 </ul></li>
 </ul>
 </section>
-<section id="randomization-is-powerful-4" class="slide level2">
-<h2>Randomization is powerful (4)</h2>
+<section id="la-aleatorización-es-poderosa-4" class="slide level2">
+<h2>La aleatorización es poderosa (4)</h2>
 <ul>
-<li><p>If the intervention is randomized, then who receives or doesn’t receive the intervention is not related to the characteristics of the potential recipients.</p></li>
-<li><p>Randomization makes those who were randomly selected to not receive the intervention to be good stand-ins for the counterfactuals for those who were randomly selected to receive the treatment, and vice versa.</p></li>
-<li><p>We have to worry about this if the intervention were not randomized (= an observational study).</p></li>
+<li><p>Si la intervención es aleatoria, entonces quién recibe o no la intervención no está relacionado con las características personales de los posibles destinatarios.</p></li>
+<li><p>La aleatorización hace que aquellos que fueron seleccionados al azar para no recibir la intervención sean buenos sustitutos del contrafactual para aquellos que fueron seleccionados al azar para recibir el tratamiento, y viceversa.</p></li>
+<li><p>Nos debemos preocupar por esto si la intervención no fue aleatorizada (= un estudio observacional).</p></li>
 </ul>
 </section></section>
 <section>
-<section id="randomized-vs.-observational-studies" class="title-slide slide level1">
-<h1>Randomized vs. observational studies</h1>
+<section id="estudios-aleatorizados-frente-a-observacionales" class="title-slide slide level1">
+<h1>Estudios aleatorizados frente a observacionales</h1>
 
 </section>
-<section id="different-types-of-studies" class="slide level2">
-<h2>Different types of studies</h2>
+<section id="diferentes-tipos-de-estudios" class="slide level2">
+<h2>Diferentes tipos de estudios</h2>
 <ul>
-<li><p>Randomized studies</p>
+<li><p>Estudios aleatorizados</p>
 <ul>
-<li>Randomize treatment, then go measure outcomes</li>
+<li>Aleatorizar el tratamiento y luego medir los resultados</li>
 </ul></li>
-<li><p>Observational studies</p>
+<li><p>Estudios observacionales</p>
 <ul>
-<li>Treatment is not randomly assigned. It is observed, but not manipulated.</li>
+<li>El tratamiento no se asigna al azar. Se observa, pero no se manipula.</li>
 </ul></li>
 </ul>
 </section>
-<section id="exercise-learning-about-your-prior-knowledge" class="slide level2">
-<h2>Exercise: Learning about your prior knowledge</h2>
-<p><strong>Discuss in small groups:</strong> Help me design the next project to answer one of these questions (or one of your own causal questions). Just sketch the key features of two designs — one observational and the other randomized.</p>
-<p><strong>Example research questions:</strong></p>
+<section id="ejercicio-aprendiendo-acerca-de-sus-conocimientos-previos" class="slide level2">
+<h2>Ejercicio: aprendiendo acerca de sus conocimientos previos</h2>
+<p><strong>Discutir en grupos pequeños:</strong> Ayúdeme a diseñar el próximo proyecto para responder una de estas preguntas (o una de sus propias preguntas causales). Solo plantee las características claves de dos diseños: uno observacional y el otro aleatorio.</p>
+<p><strong>Preguntas de investigación de ejemplo:</strong></p>
 <ul>
-<li><p>Do Community-Driven Reconstruction projects increase trust and cooperation in Liberia? <a href="https://egap.org/resource/brief-40-development-assistance-and-collective-action-capacity/">see EGAP Policy Brief 40</a></p></li>
-<li><p>Can community monitoring increase clinic utilization and decrease child mortality in Uganda? <a href="https://egap.org/resource/does-bottom-up-accountability-work-evidence-from-uganda/">see EGAP Policy Brief 58</a></p></li>
+<li><p>¿Aumentan la confianza y la coperación los proyectos de reconstrucción impulsados por la comunidad en Liberia? Ver: <a href="https://egap.org/resource/brief-40-development-assistance-and-collective-action-capacity/">Nota 40 de políticas de EGAP</a></p></li>
+<li><p>¿Puede el monitoreo comunitario aumentar el uso de clínicas y disminuir la mortalidad infantil en Uganda? Puede ver: <a href="https://egap.org/resource/does-bottom-up-accountability-work-evidence-from-uganda/">Nota 58 de políticas de EGAP</a></p></li>
 </ul>
 </section>
-<section id="exercise-observational-studies-vs.-randomized-studies" class="slide level2">
-<h2>Exercise: Observational studies vs. Randomized studies</h2>
-<p><strong>Tasks:</strong></p>
+<section id="ejercicio-estudios-observacionales-versus-estudios-aleatorizados" class="slide level2">
+<h2>Ejercicio: estudios observacionales versus estudios aleatorizados</h2>
+<p><strong>Tareas:</strong></p>
 <ol type="1">
-<li><p>Sketch an ideal observational study design (no randomization, no researcher control but infinite resources for data collection). What questions would critical readers ask when you claim that your results reflect a causal relationship?</p></li>
-<li><p>Sketch an ideal experimental study design (including randomization). What questions would critical readers ask when you claim that your results reflect a causal relationship?</p></li>
+<li><p>Esboce un diseño de un estudio observacional ideal (sin aleatorización, sin control por parte del investigador pero con recursos infinitos para la recopilación de datos). ¿Cuáles son las preguntas que haría un lector crítico frente su afirmación de que sus resultado reflejan una relación causal?</p></li>
+<li><p>Esboce un diseño de estudio experimental ideal (que incluya aleatorización). ¿Cuáles son las preguntas que haría un lector crítico frente su afirmación de que sus resultado reflejan una relación causal?</p></li>
 </ol>
 </section>
-<section id="discuss" class="slide level2">
-<h2>Discuss</h2>
+<section id="discutir" class="slide level2">
+<h2>Discutir</h2>
 <ul>
-<li><p>What were key components and strengths and weaknesses of the randomized studies?</p></li>
-<li><p>What were key components and strengths and weaknesses of the observational studies?</p></li>
+<li><p>¿Cuáles fueron los componentes clave y las fortalezas y debilidades de los estudios aleatorizados?</p></li>
+<li><p>¿Cuáles fueron los componentes clave y las fortalezas y debilidades de los estudios observacionales?</p></li>
 </ul>
 </section>
-<section id="generalizability-and-external-validity" class="slide level2">
-<h2>Generalizability and external validity</h2>
+<section id="generalizabilidad-y-validez-externa" class="slide level2">
+<h2>Generalizabilidad y validez externa</h2>
 <ul>
-<li><p>Randomization brings high internal validity to a study – confidence that we have learned the causal effect of a treatment on an outcome.</p></li>
-<li><p>But the finding from a particular study in one particular place and at one particular time may not hold in other settings (i.e., external validity).</p></li>
-<li><p>This is a general concern, not just a concern for randomized studies.</p></li>
-<li><p><a href="https://egap.org/our-work/the-metaketa-initiative/">EGAP’s Metaketa Initiative</a> works to accumulate knowledge by pre-planning a meta-analysis of multiple studies that have high internal validity due to randomization.</p></li>
+<li><p>La aleatorización aporta una alta validez interna a un estudio: confianza en que hemos aprendido el efecto causal de un tratamiento en una variable de interés.</p></li>
+<li><p>Pero el hallazgo de un estudio en particular en un lugar particular y en un momento particular puede no ser válido en otros entornos (es decir, validez externa).</p></li>
+<li><p>Esta es una preocupación general, no solo una preocupación para los estudios aleatorizados.</p></li>
+<li><p><a href="https://egap.org/our-work/the-metaketa-initiative/">La iniciativa Metaketa de EGAP’s</a> trabaja para acumular conocimientos mediante la planificación previa de un metanálisis de múltiples estudios que tienen una alta validez interna debido a la aleatorización.</p></li>
 </ul>
 </section>
-<section id="references" class="slide level2">
-<h2>References</h2>
-<p><a href="https://egap.org/resource/brief-40-development-assistance-and-collective-action-capacity/">EGAP Policy Brief 40: Development Assistance and Collective Action Capacity</a></p>
-<p><a href="https://egap.org/resource/does-bottom-up-accountability-work-evidence-from-uganda/">EGAP Policy Brief 58: Does Bottom-Up Accountability Work?</a></p>
+<section id="referencia" class="slide level2">
+<h2>Referencia</h2>
+<p><a href="https://egap.org/resource/brief-40-development-assistance-and-collective-action-capacity/">Nota 40 de políticas de EGAP: Asistencia para el desarollo y la capacidad de acción colectiva</a></p>
+<p><a href="https://egap.org/resource/does-bottom-up-accountability-work-evidence-from-uganda/">Nota 50 de políticas de EGAP: ¿Funciona la rendición de cuentas que parte desde abajo?</a></p>
 <div id="refs" class="references csl-bib-body hanging-indent" role="doc-bibliography">
 <div id="ref-brady2008causation" class="csl-entry" role="doc-biblioentry">
 Brady, Henry E. 2008. <span>“Causation and Explanation in Social Science.”</span> In <em>The Oxford Handbook of Political Science</em>. <a href="https://www.oxfordhandbooks.com/view/10.1093/oxfordhb/9780199286546.001.0001/oxfordhb-9780199286546-e-10">https://www.oxfordhandbooks.com/view/10.1093/oxfordhb/9780199286546.001.0001/oxfordhb-9780199286546-e-10</a>.

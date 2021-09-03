@@ -4,8 +4,7 @@
   <meta charset="utf-8">
   <meta name="generator" content="pandoc">
   <meta name="author" content="Fill In Your Name" />
-  <meta name="dcterms.date" content="2021-08-29" />
-  <title>Randomization</title>
+  <title>Aleatorización</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
@@ -518,376 +517,389 @@ document.getElementsByTagName('head')[0].appendChild(style);
     <div class="slides">
 
 <section>
-    <h1 class="title">Randomization</h1>
+    <h1 class="title">Aleatorización</h1>
     <h2 class="author">Fill In Your Name</h2>
-    <h3 class="date">29 August 2021</h3>
+    <h3 class="date">03-09-2021</h3>
 </section>
 <section id="TOC">
 <ul>
-<li><a href="#/randomization">Randomization</a>
+<li><a href="#/aleatorización">Aleatorización</a>
 <ul>
-<li><a href="#/randomization-of-treatment-assignment">Randomization of treatment assignment</a></li>
-<li><a href="#/random-assignment-neq-random-sampling">Random assignment <span class="math inline">\(\neq\)</span> random sampling</a></li>
-<li><a href="#/random-assignment-neq-random-sampling-1">Random assignment <span class="math inline">\(\neq\)</span> random sampling</a></li>
-<li><a href="#/randomization-is-closely-linked-to-your-research-design">Randomization is closely linked to your research design</a></li>
-<li><a href="#/level-of-treatments-and-outcomes">Level of treatments and outcomes</a></li>
+<li><a href="#/aleatorización-de-la-asignación-del-tratamiento">Aleatorización de la asignación del tratamiento</a></li>
+<li><a href="#/asignación-aleatoria-neq-muestreo-aleatorio">Asignación aleatoria <span class="math inline">\(\neq\)</span> muestreo aleatorio</a></li>
+<li><a href="#/asignación-aleatoria-neq-muestreo-aleatorio-1">Asignación aleatoria <span class="math inline">\(\neq\)</span> muestreo aleatorio</a></li>
+<li><a href="#/la-aleatorización-está-estrechamente-relacionada-con-el-diseño-de-la-investigación">La aleatorización está estrechamente relacionada con el diseño de la investigación</a></li>
+<li><a href="#/nivel-del-tratamiento-y-de-la-medición-de-variables-de-resultados">Nivel del tratamiento y de la medición de variables de resultados</a></li>
 </ul></li>
-<li><a href="#/some-common-types-of-randomization">Some common types of randomization</a>
+<li><a href="#/algunos-tipos-comunes-de-aleatorización">Algunos tipos comunes de aleatorización</a>
 <ul>
-<li><a href="#/simple-randomization-coin-flipping">Simple randomization (coin-flipping)</a></li>
-<li><a href="#/example-code-for-simple-randomization-i">Example code for simple randomization I</a></li>
-<li><a href="#/example-code-for-simple-randomization-ii">Example code for simple randomization II</a></li>
-<li><a href="#/complete-ramdomization-drawing-from-an-urn">Complete ramdomization (drawing from an urn)</a></li>
-<li><a href="#/example-code-for-complete-randomization-i">Example code for complete randomization I</a></li>
-<li><a href="#/example-code-for-complete-randomization-ii">Example code for complete randomization II</a></li>
-<li><a href="#/block-or-stratified-randomization-i">Block (or stratified) randomization I</a></li>
-<li><a href="#/block-or-stratified-randomization-ii">Block (or stratified) randomization II</a></li>
-<li><a href="#/cluster-randomization-i">Cluster randomization I</a></li>
-<li><a href="#/cluster-randomization-ii">Cluster randomization II</a></li>
-<li><a href="#/you-can-combine-blocks-and-clusters">You can combine blocks and clusters</a></li>
+<li><a href="#/aleatorización-simple-lanzamiento-de-moneda">Aleatorización simple (lanzamiento de moneda)</a></li>
+<li><a href="#/ejemplo-aleatorización-simple-i">Ejemplo: aleatorización simple I</a></li>
+<li><a href="#/ejemplo-aleatorización-simple-ii">Ejemplo: Aleatorización simple II</a></li>
+<li><a href="#/aleatorización-completa-sacando-bolas-de-una-urna">Aleatorización completa (sacando bolas de una urna)</a></li>
+<li><a href="#/ejemplo-aleatorización-completa-i">Ejemplo: Aleatorización completa I</a></li>
+<li><a href="#/ejemplo-aleatorización-completa-ii">Ejemplo: Aleatorización completa II</a></li>
+<li><a href="#/aleatorización-en-bloque-o-estratificada-i">Aleatorización en bloque (o estratificada) I</a></li>
+<li><a href="#/aleatorización-en-bloque-o-estratificada-ii">Aleatorización en bloque (o estratificada) II</a></li>
+<li><a href="#/aleatorización-por-conglomerados-i">Aleatorización por conglomerados I</a></li>
+<li><a href="#/aleatorización-por-conglomerados-ii">Aleatorización por conglomerados II</a></li>
+<li><a href="#/aleatorización-por-conglomerados-ii-1">Aleatorización por conglomerados II</a></li>
+<li><a href="#/usted-puede-combinar-bloques-y-conglomerados">Usted puede combinar bloques y conglomerados</a></li>
 </ul></li>
-<li><a href="#/best-practices">Best practices</a>
+<li><a href="#/buenas-prácticas">Buenas prácticas</a>
 <ul>
-<li><a href="#/best-practices-replicability">Best practices: replicability</a></li>
-<li><a href="#/best-practices-balance">Best practices: balance</a></li>
-<li><a href="#/best-practices-balance-1">Best practices: balance</a></li>
+<li><a href="#/buenas-prácticas-replicabilidad">Buenas prácticas: replicabilidad</a></li>
+<li><a href="#/buenas-prácticas-balance">Buenas Prácticas: balance</a></li>
+<li><a href="#/buenas-prácticas-balance-1">Buenas prácticas: balance</a></li>
 </ul></li>
-<li><a href="#/some-experimental-designs">Some experimental designs</a>
+<li><a href="#/algunos-diseños-experimentales">Algunos diseños experimentales</a>
 <ul>
-<li><a href="#/access">Access</a></li>
-<li><a href="#/delayed-access-phase-in-or-wait-list">Delayed access (Phase-in or wait list)</a></li>
-<li><a href="#/factorial-or-crossed-assignment">Factorial or crossed-assignment</a></li>
-<li><a href="#/encouragement">Encouragement</a></li>
+<li><a href="#/acceso">Acceso</a></li>
+<li><a href="#/acceso-retrasado-fase-transitoria-o-lista-de-espera">Acceso retrasado (fase transitoria o lista de espera)</a></li>
+<li><a href="#/asignación-factorial-o-cruzada">Asignación factorial o cruzada</a></li>
+<li><a href="#/estímulo">Estímulo</a></li>
 </ul></li>
-<li><a href="#/some-limits">Some limits</a>
+<li><a href="#/algunos-limites">Algunos limites</a>
 <ul>
-<li><a href="#/limits-to-randomized-studies">Limits to randomized studies</a></li>
-<li><a href="#/references">References</a></li>
+<li><a href="#/límites-para-los-estudios-aleatorizados">Límites para los estudios aleatorizados</a></li>
+<li><a href="#/referencias">Referencias</a></li>
 </ul></li>
 </ul>
 </section>
 
 <section>
-<section id="randomization" class="title-slide slide level1">
-<h1>Randomization</h1>
+<section id="aleatorización" class="title-slide slide level1">
+<h1>Aleatorización</h1>
 
 </section>
-<section id="randomization-of-treatment-assignment" class="slide level2">
-<h2>Randomization of treatment assignment</h2>
-<p>Start with a group units who you can directly observe: like the people who showed up to a lab, villages in a region, respondents willing to take a survey.</p>
+<section id="aleatorización-de-la-asignación-del-tratamiento" class="slide level2 allowframebreaks">
+<h2 class="allowframebreaks">Aleatorización de la asignación del tratamiento</h2>
+<p>Comenzar con un grupo de unidades que se puedan observar directamente, como las personas que se presentaron a un laboratorio, las aldeas de una región, las personas dispuestas a responder una encuesta.</p>
 <ul>
-<li><p>Every observation has a known probability of treatment assignment between 0 and 1.</p>
+<li><p>Cada observación tiene una probabilidad conocida de asignación al tratamiento entre 0 y 1.</p>
 <ul>
-<li>No unit in the experimental sample is assigned to treatment or to control with certainty.</li>
+<li>Ninguna unidad de la muestra experimental está asignada al tratamiento o al control con certeza.</li>
 </ul></li>
-<li><p>Units can vary in their probability of treatment assignment.</p>
+<li><p>Las unidades pueden variar en su probabilidad de asignación al tratamiento.</p>
 <ul>
-<li><p>For example, the probability might vary by group: women might have a 75% probability of being assigned to treatment.</p></li>
-<li><p>Assignment probabilities can even vary across units <strong>as long as you know the probability for each and every unit</strong>, though that would complicate your analysis.</p></li>
-</ul></li>
-</ul>
-</section>
-<section id="random-assignment-neq-random-sampling" class="slide level2">
-<h2>Random assignment <span class="math inline">\(\neq\)</span> random sampling</h2>
-<ul>
-<li><p>Random sampling (from population): selecting subjects into your sample from a population with known probability. You cannot directly observe the whole population so you draw a sample.</p></li>
-<li><p>Randomization (of treatment): assigning subjects from an existing group of subjects with known probability to experimental conditions.</p>
-<ul>
-<li>You need to be able to see outcomes and assign treatment for every subject in the group</li>
-<li>This random assignment of treatment can be combined with any kind of sample (random sample, convenience sample, etc.) or even with the whole population (all the hospitals, all the judges).</li>
+<li><p>Por ejemplo, la probabilidad puede variar según el grupo: las mujeres pueden tener un 75% de probabilidad de ser asignadas al tratamiento.</p></li>
+<li><p>Las probabilidades de asignación pueden incluso variar entre unidades <strong>siempre que se conozca la probabilidad de todas y cada una de las unidades</strong>, aunque igual esto complicaría el análisis.</p></li>
 </ul></li>
 </ul>
 </section>
-<section id="random-assignment-neq-random-sampling-1" class="slide level2">
-<h2>Random assignment <span class="math inline">\(\neq\)</span> random sampling</h2>
+<section id="asignación-aleatoria-neq-muestreo-aleatorio" class="slide level2">
+<h2>Asignación aleatoria <span class="math inline">\(\neq\)</span> muestreo aleatorio</h2>
 <ul>
-<li><p>How you recruit your initial group (or experimental pool) matters:</p>
+<li><p>Muestreo aleatorio (de la población): A partir de una población definida, seleccionar unidades con una probabilidad conocida para formar una muestra. No se puede observar directamente a toda la población y por esto se selecciona una muestra.</p></li>
+<li><p>Aleatorización (del tratamiento): Asignar sujetos provenientes de un grupo existente a las distintas condiciones experimentales con un probabilidad conocida.</p>
 <ul>
-<li><p>a big initial group means a big experiment and more statistical power to detect small effects.</p></li>
-<li><p>an initial group which is a random sample from a known population helps you make the argument that your effects might be the same or similar if you did this experiment with another sample from that population.</p></li>
-<li><p>an experimental pool that is a random sample might also help with the argument that the effect should be similar if you scaled up the intervention to the whole population — depending on the factors driving a global equilibrium.</p></li>
+<li><p>Debe poder observar la realización de la variable de resultado y la asignación del tratamiento para cada sujeto del grupo</p></li>
+<li><p>Esta asignación aleatoria del tratamiento se puede combinar con cualquier tipo de muestra (muestra aleatoria, muestra de conveniencia, etc.) o incluso con toda la población todos los hospitales, todos los jueces).</p></li>
 </ul></li>
 </ul>
 </section>
-<section id="randomization-is-closely-linked-to-your-research-design" class="slide level2">
-<h2>Randomization is closely linked to your research design</h2>
+<section id="asignación-aleatoria-neq-muestreo-aleatorio-1" class="slide level2">
+<h2>Asignación aleatoria <span class="math inline">\(\neq\)</span> muestreo aleatorio</h2>
 <ul>
-<li><p>See module on <a href="/research-design.html">Research Design</a></p></li>
-<li><p>Remember that you need to define and justify your control condition:</p>
+<li><p>La forma en que se selecciona el grupo inicial (o grupo experimental) importa:</p>
 <ul>
-<li>this may be no intervention</li>
-<li>or a placebo</li>
+<li><p>un grupo inicial grande se traduce en un experimento más grande y en más poder estadístico para detectar efectos pequeños.</p></li>
+<li><p>un grupo inicial seleccionado usando muestreo aleatorio a partir de una población conocida le da validez al argumento de que los efectos podrían ser los mismos o similares si se hiciera este experimento con otra muestra a partir de la misma población.</p></li>
+<li><p>un grupo experimental seleccionado usando muestreo aleatorio también le da soporte al argumento de que el efecto debe ser similar si escalara la intervención a toda la población dependiendo de los factores de equilibrio global.</p></li>
 </ul></li>
 </ul>
 </section>
-<section id="level-of-treatments-and-outcomes" class="slide level2">
-<h2>Level of treatments and outcomes</h2>
+<section id="la-aleatorización-está-estrechamente-relacionada-con-el-diseño-de-la-investigación" class="slide level2">
+<h2>La aleatorización está estrechamente relacionada con el diseño de la investigación</h2>
 <ul>
-<li><p>Treatment can be assigned at different levels: individuals, groups, institutions, communities, time periods, or many different levels.</p></li>
-<li><p>You may be constrained in what level you can <em>assign</em> treatment and <em>measure</em> outcomes.</p>
+<li><p>Ver módulo sobre <a href="/research-design.html">Diseño de investigación</a></p></li>
+<li><p>Recuerden que se necesita definir y justificar la condición de control:</p>
 <ul>
-<li><p>Example: Treatment at the classroom level, but outcomes at the student level.</p></li>
-<li><p>Example: Treatment at the district level, but outcomes at the community level.</p></li>
+<li>esta puede ser ninguna intervención</li>
+<li>o un placebo</li>
 </ul></li>
-<li><p>The level at which treatment is assigned and at which outcomes are measured affect what your study can demonstrate.</p></li>
+</ul>
+</section>
+<section id="nivel-del-tratamiento-y-de-la-medición-de-variables-de-resultados" class="slide level2">
+<h2>Nivel del tratamiento y de la medición de variables de resultados</h2>
+<ul>
+<li><p>El tratamiento se puede asignar a diferentes niveles: individuos, grupos, instituciones, comunidades, períodos de tiempo o muchos niveles diferentes.</p></li>
+<li><p>Es posible que no se tenga total libertad al momento de decidir a qué nivel se <em>asigna</em> el tratamiento y a qué nivel se <em>miden</em> las variables de resultado.</p>
+<ul>
+<li><p>Ejemplo: Tratamiento a nivel aula, pero variables a nivel alumno.</p></li>
+<li><p>Ejemplo: tratamiento a nivel distrito, pero variables a nivel comunidad.</p></li>
+</ul></li>
+<li><p>El nivel al que se asigna el tratamiento y al que se miden las variables de resultado afecta lo que un estudio puede demostrar.</p></li>
 </ul>
 </section></section>
 <section>
-<section id="some-common-types-of-randomization" class="title-slide slide level1">
-<h1>Some common types of randomization</h1>
+<section id="algunos-tipos-comunes-de-aleatorización" class="title-slide slide level1">
+<h1>Algunos tipos comunes de aleatorización</h1>
 
 </section>
-<section id="simple-randomization-coin-flipping" class="slide level2">
-<h2>Simple randomization (coin-flipping)</h2>
+<section id="aleatorización-simple-lanzamiento-de-moneda" class="slide level2">
+<h2>Aleatorización simple (lanzamiento de moneda)</h2>
 <ul>
-<li><p>For each unit, flip a coin to see if it will be treated. Then you measure outcomes at the same level as the coin.</p></li>
-<li><p>The coins don’t have to be fair (50-50), but you have to know the probability of treatment assignment.</p></li>
-<li><p>You can’t guarantee a specific number of treated units and control units.</p></li>
-<li><p>Example: If you have 6 units and you flip a fair coin for each, you have about a 3% chance of assigning <strong>all</strong> units to treatment or assigning <strong>all</strong> units to control.</p></li>
+<li><p>Para cada unidad, se lanza una moneda para ver si esta será tratada. Luego se miden las variable de resultados distinguiendo entre los valores de la moneda.</p></li>
+<li><p>Las monedas no tienen que estar equilibradas (50-50), pero se debe conocer la probabilidad de asignación al tratamiento.</p></li>
+<li><p>No se puede garantizar un número específico de unidades tratadas y unidades de control.</p></li>
+<li><p>Ejemplo: si tiene 6 unidades y lanza una moneda equilibrada por cada una, tiene aproximadamente un 3% de posibilidades de asignar <strong>todas</strong> las unidades al tratamiento o asignar <strong>todas</strong> las unidades al control.</p></li>
 </ul>
 </section>
-<section id="example-code-for-simple-randomization-i" class="slide level2">
-<h2>Example code for simple randomization I</h2>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># set the random number seed to make this replicable</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">12345</span>)</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co"># set a sample size</span></span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>N <span class="ot">&lt;-</span> <span class="dv">200</span></span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Generate the simple random assignment</span></span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="co"># (Notice that in an experiment we have a single</span></span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="co"># trial and thus size=1)</span></span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Our object with N people total is called simple.ra</span></span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>simple.ra <span class="ot">&lt;-</span> <span class="fu">rbinom</span>(<span class="at">n =</span> N, <span class="at">size =</span> <span class="dv">1</span>, <span class="at">prob =</span> .<span class="dv">5</span>)</span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="co"># 112 people ended up in the treatment group</span></span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(simple.ra)</span></code></pre></div>
+<section id="ejemplo-aleatorización-simple-i" class="slide level2">
+<h2>Ejemplo: aleatorización simple I</h2>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Definir un número de semilla aleatoria  para asegurarse</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="co"># que el código es replicable</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">12345</span>)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Definir un tamaño de muestra</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>N <span class="ot">&lt;-</span> <span class="dv">200</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Crear la asignación aleatoria simple</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="co"># (Tengan en cuenta que en un experimento se</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="co"># tiene solo un intento y por lo tanto size=1)</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Llamamos simple.ra a nuestro objeto</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="co"># con N personas en total</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>simple.ra <span class="ot">&lt;-</span> <span class="fu">rbinom</span>(<span class="at">n =</span> N, <span class="at">size =</span> <span class="dv">1</span>, <span class="at">prob =</span> .<span class="dv">5</span>)</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="co"># 112 personas fueron asignadas al tratamiento</span></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(simple.ra)</span></code></pre></div>
 <pre><code>[1] 112</code></pre>
 </section>
-<section id="example-code-for-simple-randomization-ii" class="slide level2">
-<h2>Example code for simple randomization II</h2>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># you can also use the randomizr package</span></span>
+<section id="ejemplo-aleatorización-simple-ii" class="slide level2">
+<h2>Ejemplo: Aleatorización simple II</h2>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># También pueden utilizar el paqueter randomizr</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(randomizr)</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="co"># for replicability</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Para que sea replicable</span></span>
 <span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">23456</span>)</span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Simple random assignment uses the simple_ra function</span></span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Our object with N people total is called treatment</span></span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>treatment <span class="ot">&lt;-</span> <span class="fu">simple_ra</span>(</span>
-<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">N =</span> N, <span class="co"># total sample size</span></span>
-<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">prob =</span> .<span class="dv">5</span> <span class="co"># probability of receiving treatment</span></span>
-<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(treatment)</span></code></pre></div>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Para hacer aleatorización simple</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="co"># utilizamos  la función simple_ra</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Nuestro objecto con N personas en total</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="co"># se llama treatment</span></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>treatment <span class="ot">&lt;-</span> <span class="fu">simple_ra</span>(</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">N    =</span> N, <span class="co"># total sample size</span></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">prob =</span> <span class="fl">0.5</span> <span class="co"># probability of receiving treatment</span></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(treatment)</span></code></pre></div>
 <pre><code>[1] 96</code></pre>
 </section>
-<section id="complete-ramdomization-drawing-from-an-urn" class="slide level2">
-<h2>Complete ramdomization (drawing from an urn)</h2>
+<section id="aleatorización-completa-sacando-bolas-de-una-urna" class="slide level2">
+<h2>Aleatorización completa (sacando bolas de una urna)</h2>
 <ul>
-<li><p>A fixed number <span class="math inline">\(m\)</span> out of <span class="math inline">\(N\)</span> units are assigned to treatment.</p></li>
-<li><p>The probability a unit is assigned to treatment is <span class="math inline">\(m/N\)</span>.</p></li>
-<li><p>This is like having an urn or bowl with <span class="math inline">\(N\)</span> balls, of which <span class="math inline">\(m\)</span> are marked as treatment and <span class="math inline">\(N-m\)</span> are marked as control. Public lotteries use this method.</p></li>
+<li><p>Se asigna al tratamiento un número fijo <span class="math inline">\(m\)</span> de <span class="math inline">\(N\)</span> unidades.</p></li>
+<li><p>La probabilidad de que se asigne una unidad al tratamiento es <span class="math inline">\(m/N\)</span>.</p></li>
+<li><p>Esto es como tener una urna o tazón con <span class="math inline">\(N\)</span> bolas de las cuales <span class="math inline">\(m\)</span> se marcan como tratamiento y <span class="math inline">\(N-m\)</span> como control. Las loterías públicas utilizan este método.</p></li>
 </ul>
 </section>
-<section id="example-code-for-complete-randomization-i" class="slide level2">
-<h2>Example code for complete randomization I</h2>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># set sample size N</span></span>
+<section id="ejemplo-aleatorización-completa-i" class="slide level2">
+<h2>Ejemplo: Aleatorización completa I</h2>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Defina el tamaño de la muestra  N</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>N <span class="ot">&lt;-</span> <span class="dv">200</span></span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="co"># set number of treated units m</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Defina la cantidad de unidades tratatadas m</span></span>
 <span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>m <span class="ot">&lt;-</span> <span class="dv">100</span></span>
 <span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="co"># create a vector of m 1&#39;s and N-m 0&#39;s</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Cree un vector de m 1&#39;s y N-m 0&#39;s</span></span>
 <span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>complete.ra <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">rep</span>(<span class="dv">1</span>, m), <span class="fu">rep</span>(<span class="dv">0</span>, N <span class="sc">-</span> m))</span>
 <span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a><span class="co"># And then scramble it randomly using sample()</span></span>
-<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a><span class="co"># The default is sampling without replacement</span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a><span class="co"># y después reorganícelo utilizando sample()</span></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Por defecto la función hace muestreo sin reemplazo</span></span>
 <span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">12345</span>) <span class="co"># for replicability</span></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">12345</span>) <span class="co"># para que sea replicable</span></span>
 <span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>complete.ra <span class="ot">&lt;-</span> <span class="fu">sample</span>(complete.ra)</span>
 <span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(complete.ra)</span></code></pre></div>
 <pre><code>[1] 100</code></pre>
 </section>
-<section id="example-code-for-complete-randomization-ii" class="slide level2">
-<h2>Example code for complete randomization II</h2>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># you can also use the randomizr package</span></span>
+<section id="ejemplo-aleatorización-completa-ii" class="slide level2">
+<h2>Ejemplo: Aleatorización completa II</h2>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># También puede usar el paquete randomizr</span></span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(randomizr)</span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="co"># for replicability</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="co"># para replicar</span></span>
 <span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">23456</span>)</span>
 <span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Complete random assignment:</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Asignación utilizando aleatorización completa</span></span>
 <span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>treatment <span class="ot">&lt;-</span> <span class="fu">complete_ra</span>(</span>
-<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">N =</span> <span class="dv">200</span>, <span class="co"># total sample size</span></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">N =</span> <span class="dv">200</span>, <span class="co"># tamaño de la muestra</span></span>
 <span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">m =</span> <span class="dv">100</span></span>
-<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>) <span class="co"># number to assign to treatment</span></span>
-<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(treatment)</span></code></pre></div>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>) <span class="co"># No. de unidades asignadas al</span></span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a><span class="co"># tratamiento</span></span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(treatment)</span></code></pre></div>
 <pre><code>[1] 100</code></pre>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># note what happens if you don&#39;t specify m!</span></span></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Pruebe que pasa si no se especifica m</span></span></code></pre></div>
 </section>
-<section id="block-or-stratified-randomization-i" class="slide level2">
-<h2>Block (or stratified) randomization I</h2>
+<section id="aleatorización-en-bloque-o-estratificada-i" class="slide level2">
+<h2>Aleatorización en bloque (o estratificada) I</h2>
 <ul>
-<li><p>We create blocks of units and randomize separately within each block. We are doing mini-experiments in each block.</p>
+<li><p>Creamos bloques de unidades y seleccionamos unidades al azar dentro de cada bloque por separado. Es como si hicieramos mini-experimentos en cada bloque.</p>
 <ul>
-<li>Example: block = district, units = communities. We randomize treatment at the community level <strong>within district</strong> and also measure outcomes at the community level.</li>
+<li>Ejemplo: bloque = distrito, unidades = comunidades. Aleatorizamos el tratamiento al nivel de la comunidad <strong>dentro de un distrito</strong> y también medimos nuestras variables de resultado al nivel de la comunidad.</li>
 </ul></li>
-<li><p>Blocks that represent a substantively meaningful subgroup can help you to learn about how effects might differ by subgroup.</p>
+<li><p>Los bloques que representan un subgrupo sustancialmente significativo pueden ayudarnos a entender cómo los efectos pueden diferir por subgrupo.</p>
 <ul>
-<li><p>By controlling number of subjects per subgroup, you ensure that you have enough subjects in each group.</p></li>
-<li><p>Especially useful when you have a rare group — by chance you might get very few of them in treatment or control even under random assignment (or you might have some imbalance).</p></li>
+<li><p>Al controlar el número de sujetos por subgrupo nos aseguramos de tener suficientes sujetos en cada grupo.</p></li>
+<li><p>Esto es especialmente útil cuando se tiene un grupo atípico: por simple chance puede que resulten muy pocas unidades de ese grupo en el tratamiento o en el control, incluso si hacemos asignación aleatoria (o puede que haya algún desbalance).</p></li>
 </ul></li>
 </ul>
 </section>
-<section id="block-or-stratified-randomization-ii" class="slide level2">
-<h2>Block (or stratified) randomization II</h2>
+<section id="aleatorización-en-bloque-o-estratificada-ii" class="slide level2">
+<h2>Aleatorización en bloque (o estratificada) II</h2>
 <ul>
-<li>Blocks that are homogeneous on a given outcome increase precision of estimation for that outcome as compared with the experiment without blocks. (We will address this more in the power analysis section).</li>
+<li>Los bloques homogéneos con respecto a una variable de resultado aumentan la precisión de estimación para esa variable en comparación con un experimento sin bloques. (Hablaremos de esto en más detalle en la sección de poder estadístico).</li>
 </ul>
 </section>
-<section id="cluster-randomization-i" class="slide level2">
-<h2>Cluster randomization I</h2>
+<section id="aleatorización-por-conglomerados-i" class="slide level2">
+<h2>Aleatorización por conglomerados I</h2>
 <ul>
-<li><p>A cluster is a <strong>group of units</strong>. In a cluster-randomized study, all units in the cluster are assigned to the same treatment status.</p></li>
-<li><p>Use cluster randomization if the intervention has to work at the cluster level.</p>
+<li><p>Un conglomerado es un <strong>grupo de unidades</strong>. En un estudio aleatorizado por conglomerados, todas las unidades del conglomerado se asignan al mismo estado de tratamiento.</p></li>
+<li><p>Se debe usar la aleatorización por conglomerados si la intervención se lleva a cabo al nivel de conglomerados.</p>
 <ul>
-<li>For example, if the intervention is about school playgrounds, then the school is the unit of assignment even if student health may be an outcome measured at level of individual students.</li>
+<li>Por ejemplo, si la intervención tiene que ver con los patios de recreo de la escuela, entonces la escuela es la unidad de asignación, incluso si la salud de los estudiantes es una variable de interés medida al nivel de los estudiantes.</li>
 </ul></li>
-<li><p>Having fewer clusters hurts your ability to detect treatment effects and make cause misleading <span class="math inline">\(p\)</span>-values and confidence intervals (or even estimates). <em>How much</em> depends on the intra-cluster correlation (ICC or <span class="math inline">\(\rho\)</span>).</p></li>
+<li><p>Tener pocos conglomerados perjudica nuestra capacidad para detectar efectos del tratamiento y puede que conduzca a valores <span class="math inline">\(p\)</span> e intervalos de confianza incorrectos (o incluso estimaciones incorrectas). <em>Qué tanto</em> depende de la correlación intra-clúster (ICC o <span class="math inline">\(\rho\)</span>).</p></li>
 </ul>
 </section>
-<section id="cluster-randomization-ii" class="slide level2">
-<h2>Cluster randomization II</h2>
+<section id="aleatorización-por-conglomerados-ii" class="slide level2">
+<h2>Aleatorización por conglomerados II</h2>
 <ul>
-<li><p>Higher <span class="math inline">\(\rho\)</span> is worse:</p>
+<li><p>Es peor entre más alto es el <span class="math inline">\(\rho\)</span> :</p>
 <ul>
-<li>When <span class="math inline">\(\rho=0\)</span> then the village doesn’t matter for the behavior of the individuals.</li>
-<li>When <span class="math inline">\(\rho=1\)</span> then every person in the village would give exactly the same answer. Having another person from this village doesn’t give you additional information since his outcome is identical to the person you already had.</li>
+<li>Si <span class="math inline">\(\rho = 0\)</span>, la aldea no es relevante en el comportamiento de los individuos.</li>
+<li>Si <span class="math inline">\(\rho = 1\)</span>, todas las personas de la aldea darían exactamente la misma respuesta. Incluir a otra persona de esta aldea no nos daría información adicional ya que el valor para la variable de resultado es idéntico al de las personas que ya habían sido seleccionadas.</li>
 </ul></li>
-<li><p>For the same number of units, having <strong>more clusters</strong> with fewer units per cluster can help.</p></li>
-<li><p>Trade off spillover and power.</p></li>
-<li><p>If you would not like an experiment with 10 units, then you should not be happy with an experiment with 10 clusters of 100 units. The effective sample size of this cluster randomized experiment is between 10 and 10 <span class="math inline">\(\times\)</span> 100 = 1000, but closer to 10 the higher the <span class="math inline">\(\rho\)</span>.</p></li>
+<li><p>Dado un número fijo de unidades, un número <strong>máyor de conglomerados</strong> con menos unidades por conglomerado puede ayudar.</p></li>
 </ul>
 </section>
-<section id="you-can-combine-blocks-and-clusters" class="slide level2">
-<h2>You can combine blocks and clusters</h2>
+<section id="aleatorización-por-conglomerados-ii-1" class="slide level2">
+<h2>Aleatorización por conglomerados II</h2>
 <ul>
-<li><p>You can have clusters within blocks.</p>
+<li><p>Hay una disyuntiva entre propagación y poder.</p></li>
+<li><p>Si ustedes consideran que un experimento con 10 unidades no es ideal, entonces tampoco deberían estar satisfechos con un experimento con 10 conglomerados de 100 unidades cada uno. El tamaño de muestra efectivo de este experimento aleatorio de conglomerados está entre 10 y 10 <span class="math inline">\(\times\)</span> 100 = 1000, pero más cerca de 10 cuanto mayor sea el <span class="math inline">\(\rho\)</span>.</p></li>
+</ul>
+</section>
+<section id="usted-puede-combinar-bloques-y-conglomerados" class="slide level2">
+<h2>Usted puede combinar bloques y conglomerados</h2>
 <ul>
-<li><p>Example: block = district, cluster = communities, units = individuals. You are measuring outcomes at the individual level.</p></li>
-<li><p>Example: block = province, cluster = district, units = communities. You are measuring outcomes at the community level.</p></li>
+<li><p>Puede haber conglomerados dentro de los bloques</p>
+<ul>
+<li><p>Ejemplo: bloque = distrito, conglomerado = comunidades, unidades = individuos. Las variables se miden al nivel del individuo.</p></li>
+<li><p>Ejemplo: bloque = provincia, conglomerado = distrito, unidades = comunidades. Las variables se miden al nivel de la comunidad.</p></li>
 </ul></li>
-<li><p>You can’t have blocks within clusters.</p></li>
-<li><p>For block and cluster randomization, you can use <code>block_ra</code> and <code>cluster_ra</code> in the <code>randomizr</code> package in R.</p></li>
-<li><p>For more complicated designs, you might find <code>DeclareDesign</code> helpful. (<a href="https://declaredesign.org" class="uri">https://declaredesign.org</a>)</p></li>
+<li><p>No debe haber bloques dentro de los conglomerados</p></li>
+<li><p>Para hacer aleatorización por bloques o conglomerados, puede utlizar las funciones <code>block_ra</code> y <code>cluster_ra</code> del paquete de R, <code>randomizr</code>.</p></li>
+<li><p>Para diseños más complejos el paquete de R, DeclareDesign` (<a href="https://declaredesign.org" class="uri">https://declaredesign.org</a>), les puede ser útil.</p></li>
 </ul>
 </section></section>
 <section>
-<section id="best-practices" class="title-slide slide level1">
-<h1>Best practices</h1>
+<section id="buenas-prácticas" class="title-slide slide level1">
+<h1>Buenas prácticas</h1>
 
 </section>
-<section id="best-practices-replicability" class="slide level2">
-<h2>Best practices: replicability</h2>
+<section id="buenas-prácticas-replicabilidad" class="slide level2">
+<h2>Buenas prácticas: replicabilidad</h2>
 <ul>
-<li><p>EGAP Methods Guide on Randomization (<a href="https://egap.org/resource/10-things-to-know-about-randomization/" class="uri">https://egap.org/resource/10-things-to-know-about-randomization/</a>)</p></li>
-<li><p>Set a seed and save your code and random assignment column</p></li>
-<li><p>Verify</p></li>
-<li><p>Sometimes increased transparency &gt; replicability</p></li>
+<li><p>Guía de métodos de EGAP sobre aleatoriedad (<a href="https://egap.org/resource/10-things-to-know-about-randomization/" class="uri">https://egap.org/resource/10-things-to-know-about-randomization/</a>)</p></li>
+<li><p>Definir una semilla (seed) y guardar el código y la columna con la asignación aleatoria.</p></li>
+<li><p>Verificar</p></li>
+<li><p>En algunas ocasiones mayor transparencia &gt; replicabilidad</p></li>
 </ul>
 </section>
-<section id="best-practices-balance" class="slide level2">
-<h2>Best practices: balance</h2>
+<section id="buenas-prácticas-balance" class="slide level2">
+<h2>Buenas Prácticas: balance</h2>
 <ul>
-<li>Check overall balance with a D-square test using <code>xBalance</code> in the <code>RItools</code> package (<span class="citation" data-cites="hansen:bowers:2008">Hansen and Bowers (<a href="#/ref-hansen:bowers:2008" role="doc-biblioref">2008</a>)</span>) (large sample randomization inference):</li>
+<li>Revisar el balance general del estudio con una prueba D cuadrado (D-square test) utilizando la función <code>xBalance</code> en el paquete <code>RItools</code> (<span class="citation" data-cites="hansen:bowers:2008">Hansen and Bowers (<a href="#/ref-hansen:bowers:2008" role="doc-biblioref">2008</a>)</span>)(inferencia de aleatorización con muestras grandes):</li>
 </ul>
 <div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">xBalance</span>(treatment <span class="sc">~</span> x1 <span class="sc">+</span> x2, <span class="at">data =</span> dat, <span class="at">report =</span> <span class="st">&quot;chisquare&quot;</span>)</span></code></pre></div>
 <ul>
-<li><p>See also the <code>coin</code> package <code>independence_test</code> for permutation based version</p></li>
-<li><p>Use an F-test for a regression of treatment assignment on LHS and covariates on RHS (large sample approximate to randomization inference):</p></li>
+<li><p>También puede ver <code>independence_test</code> del paquete <code>coin</code>, la versión basada en permutaciones</p></li>
+<li><p>Use la prueba F de una regresión, tomando la asignación al tratamiento como variable dependiente y las covariables como variables explicativas.</p></li>
 </ul>
 <div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(<span class="fu">lm</span>(treatment <span class="sc">~</span> <span class="dv">1</span>, <span class="at">data =</span> dat),</span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">lm</span>(treatment <span class="sc">~</span> x1 <span class="sc">+</span> x2 <span class="sc">+</span> x3, <span class="at">data =</span> dat),</span>
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">test =</span> <span class="st">&quot;F&quot;</span></span>
 <span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
 </section>
-<section id="best-practices-balance-1" class="slide level2">
-<h2>Best practices: balance</h2>
+<section id="buenas-prácticas-balance-1" class="slide level2">
+<h2>Buenas prácticas: balance</h2>
 <ul>
-<li><p>Random assignment gives us, in expectation, <strong>overall balance</strong> on the many covariates. It does not guarantee that all covariate to treatment relationships will be zero. In fact, in a small experiment, the magnitudes of imbalance may be high even if the randomization occurred perfectly.</p></li>
-<li><p>You will see t-tests of covariates one by one. Just by chance, you might get statistically significant differences on a variable. If you check balance on 100 variables, you will reject the null of no relationship in 5 of them even if there truly is no relationship.</p></li>
+<li><p>La asignación aleatoria nos da, en valor esperado, <strong>balance general</strong> en las distintas covariables. Esto no garantiza que todas las relaciones entre el tratamiento y las covariables sean cero. De hecho, en un experimento pequeño, la magnitud del desbalance puede llegar ser alta, incluso si la aleatorización se produjo perfectamente.</p>
+<ul>
+<li>Es común ver pruebas t realizadas de a una en una por cada covariable. Por simple chance, es posible ques se obtenga diferencias estadísticamente significativas para una variable. Si se hacen pruebas de balance para 100 variables por separado, para 5 de ella se rechazará la hipótesis nula de que no hay relación, incluso cuando verdaderamente no hay relación.</li>
+</ul></li>
 </ul>
 </section></section>
 <section>
-<section id="some-experimental-designs" class="title-slide slide level1">
-<h1>Some experimental designs</h1>
+<section id="algunos-diseños-experimentales" class="title-slide slide level1">
+<h1>Algunos diseños experimentales</h1>
 
 </section>
-<section id="access" class="slide level2">
-<h2>Access</h2>
+<section id="acceso" class="slide level2">
+<h2>Acceso</h2>
 <ul>
-<li><p>Randomly select a treatment group through a lottery or equivalent mechanism, which randomizes <strong>access</strong> to the program.</p></li>
-<li><p>Useful when you do not have enough resources to treat everyone.</p></li>
-<li><p>Sometimes, some units (peoples, communities) must have access to a program.</p>
+<li><p>Seleccionar al azar un grupo que recibirá tratamiento a través de una lotería o un mecanismo equivalente que aleatoriza <strong>el acceso</strong> al programa.</p></li>
+<li><p>Útil cuando no se tienen suficientes recursos para tratar a todos.</p></li>
+<li><p>A veces algunas unidades (personas, comunidades) deben tener acceso a un programa.</p>
 <ul>
-<li>For example: a partner organization doesn’t want to risk a vulnerable community NOT getting a program (want a guarantee that they will be always be treated).</li>
-<li>You can exclude those units from the experiment, and do random assignment among the remaining units that have a probability of assignment strictly between (and not including) 0 and 1.</li>
+<li>Por ejemplo: una organización asociada no quiere arriesgar que una comunidad vulnerable NO obtenga un programa (quiere una garantía de que siempre serán tratados).</li>
+<li>Puede excluir esas unidades del experimento y realizar una asignación aleatoria entre las unidades restantes que tienen una probabilidad de asignación estrictamente entre (y sin incluir) 0 y 1.</li>
 </ul></li>
 </ul>
 </section>
-<section id="delayed-access-phase-in-or-wait-list" class="slide level2">
-<h2>Delayed access (Phase-in or wait list)</h2>
+<section id="acceso-retrasado-fase-transitoria-o-lista-de-espera" class="slide level2">
+<h2>Acceso retrasado (fase transitoria o lista de espera)</h2>
 <ul>
-<li><p>Randomize <em>timing</em> of access to the program.</p></li>
-<li><p>Often you do not have the capacity to implement the treatment in a lot of places at once.</p></li>
-<li><p>When an intervention can be or must be rolled out in stages, you can randomize the order in which units are treated.</p></li>
-<li><p>Your control group are the as-yet untreated units.</p></li>
-<li><p>Be careful: the probability of assignment to treatment will vary over time because units that are assigned to treatment in earlier stages are not eligible to be assigned to treatment in later stages.</p></li>
+<li><p>Aleatorizar <em>el momento</em> de acceso al programa.</p></li>
+<li><p>A menudo no se tiene la capacidad para implementar el tratamiento en muchos lugares a la vez.</p></li>
+<li><p>Cuando una intervención puede o debe implementarse en etapas, se puede aleatorizar el orden en el que se tratan las unidades.</p></li>
+<li><p>El grupo de control serían las unidades que aún no han sido tratadas.</p></li>
+<li><p>Tengan cuidado: la probabilidad de asignación al tratamiento variará con el tiempo porque las unidades que se asignan al tratamiento en las primeras etapas no son elegibles para ser asignadas al tratamiento en etapas posteriores.</p></li>
 </ul>
 </section>
-<section id="factorial-or-crossed-assignment" class="slide level2">
-<h2>Factorial or crossed-assignment</h2>
+<section id="asignación-factorial-o-cruzada" class="slide level2">
+<h2>Asignación factorial o cruzada</h2>
 <ul>
-<li><p>Factorial design enables testing of more than one treatment.</p></li>
-<li><p>You can analyze one treatment at a time.</p></li>
-<li><p>Or combinations thereof.</p></li>
-<li><p>Example:</p></li>
+<li><p>El diseño factorial permite evaluar más de un tratamiento.</p></li>
+<li><p>Puede analizar un tratamiento a la vez.</p></li>
+<li><p>O combinaciones de los mismos.</p></li>
+<li><p>Ejemplo:</p></li>
 </ul>
-<p>We might focus on an estimand like <span class="math inline">\(\mathbb{E}[Y(X_1=1, X_2=1)]-\mathbb{E}[Y(X_1=0, X_2=0)]\)</span>.</p>
+<p>Podríamos interesarnos en un estimando como <span class="math inline">\(\mathbb{E}[Y(X_1=1, X_2=1)]-\mathbb{E}[Y(X_1=0, X_2=0)]\)</span>.</p>
 </section>
-<section id="encouragement" class="slide level2">
-<h2>Encouragement</h2>
+<section id="estímulo" class="slide level2">
+<h2>Estímulo</h2>
 <ul>
-<li><p>Randomize <strong>encouragement</strong> to take the treatment, such as an invitation or subsidy to participate in a program.</p></li>
-<li><p>Useful when you cannot force a subject to participate.</p></li>
-<li><p>Estimands:</p>
+<li><p>Aleatorizar el <strong>estímulo</strong> para tomar el tratamiento, como una invitación o un subsidio para participar en un programa.</p></li>
+<li><p>Útil cuando no se puede obligar a un sujeto a participar.</p></li>
+<li><p>Estimaciones:</p>
 <ul>
-<li><p>the ATE of the encouragement for your experimental sample.</p></li>
-<li><p>the ATE of participation (not the encouragement) for the units who would participate when encouraged and wouldn’t participate when not encouraged (compliers).</p></li>
+<li><p>el ATE del estímulo para la muestra experimental.</p></li>
+<li><p>el ATE de la participación (no el estímulo) para las unidades que participarían sólo cuando reciben el estímulo y no participarían cuando no lo reciben (cumplidores).</p></li>
 </ul></li>
-<li><p>Instrumental variables analysis for the complier ATE, with the assignment as the instrument. Note the exclusion restriction.</p></li>
+<li><p>Análisis de variables instrumentales para el ATE del cumplidor con la asignación como instrumento. Tenga en cuenta la restricción de exclusión.</p></li>
 </ul>
 </section></section>
 <section>
-<section id="some-limits" class="title-slide slide level1">
-<h1>Some limits</h1>
+<section id="algunos-limites" class="title-slide slide level1">
+<h1>Algunos limites</h1>
 
 </section>
-<section id="limits-to-randomized-studies" class="slide level2">
-<h2>Limits to randomized studies</h2>
+<section id="límites-para-los-estudios-aleatorizados" class="slide level2">
+<h2>Límites para los estudios aleatorizados</h2>
 <ul>
-<li><p>Ethics — is this sort of manipulation ethical? Sometimes not.</p></li>
-<li><p>Must be done in real time, ahead of the intervention roll-out.</p></li>
-<li><p>Reduced flexibility for a partner organization (problem for any prospective evaluation).</p></li>
-<li><p>Limits to the size of the experimental pool.</p></li>
-<li><p>Cost.</p></li>
-<li><p>The power constraint — you need a lot of units (problem for many statistical approaches).</p></li>
-<li><p>Violations of the key assumptions (spillovers; violation of the second key assumption for <a href="causalinference.html">Causal Inference</a>).</p></li>
-<li><p>External validity (problem for any evaluation and social science in general).</p></li>
+<li><p>Ética: ¿Es ético este tipo de manipulación? A veces no lo será.</p></li>
+<li><p>Debe realizarse en tiempo real antes de que comience la intervención.</p></li>
+<li><p>Se reduce la flexibilidad para las organizaciones asociadas (problema para cualquier evaluación prospectiva).</p></li>
+<li><p>Límites al tamaño del grupo experimental.</p></li>
+<li><p>Costo.</p></li>
+<li><p>Restricción al poder estadístico: se necesitan muchas unidades (problema para muchos métodos estadísticos).</p></li>
+<li><p>Violaciones de los supuestos clave (propagación; violación del segundo supuesto clave de la <a href="causalinference.html">Inferencia causal</a>).</p></li>
+<li><p>Validez externa (problema para cualquier evaluación y ciencias sociales en general).</p></li>
 </ul>
 </section>
-<section id="references" class="slide level2 unnumbered">
-<h2 class="unnumbered">References</h2>
+<section id="referencias" class="slide level2 unnumbered">
+<h2 class="unnumbered">Referencias</h2>
 <div id="refs" class="references csl-bib-body hanging-indent" role="doc-bibliography">
 <div id="ref-hansen:bowers:2008" class="csl-entry" role="doc-biblioentry">
 Hansen, Ben B., and Jake Bowers. 2008. <span>“Covariate Balance in Simple, Stratified and Clustered Comparative Studies.”</span> <em>Statistical Science</em> 23 (2): 219–36.

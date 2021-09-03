@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="generator" content="pandoc">
   <meta name="author" content="Fill In Your Name" />
-  <title>Statistical Power</title>
+  <title>Poder Estadístico</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
@@ -517,47 +517,47 @@ document.getElementsByTagName('head')[0].appendChild(style);
     <div class="slides">
 
 <section>
-    <h1 class="title">Statistical Power</h1>
+    <h1 class="title">Poder Estadístico</h1>
     <h2 class="author">Fill In Your Name</h2>
-    <h3 class="date">29 August, 2021</h3>
+    <h3 class="date">03-09-2021</h3>
 </section>
 
 <section>
-<section id="what-is-power" class="title-slide slide level1">
-<h1>What is power?</h1>
+<section id="qué-es-el-poder-estadístico" class="title-slide slide level1">
+<h1>¿Qué es el poder estadístico?</h1>
 
 </section>
-<section id="what-is-power-1" class="slide level2">
-<h2>What is power?</h2>
+<section id="qué-es-el-poder-estadístico-1" class="slide level2">
+<h2>¿Qué es el poder estadístico?</h2>
 <ul>
-<li><p>We want to separate signal from noise.</p></li>
-<li><p>Power = probability of rejecting null hypothesis, given true effect <span class="math inline">\(\ne\)</span> 0.</p></li>
-<li><p>In other words, it is the ability to detect an effect given that it exists.</p></li>
-<li><p>Formally: (1 - Type II) error rate.</p></li>
-<li><p>Thus, power <span class="math inline">\(\in\)</span> (0, 1).</p></li>
-<li><p>Standard thresholds: 0.8 or 0.9.</p></li>
+<li><p>Queremos separarar a la señal del ruido.</p></li>
+<li><p>Poder = probabilidad de rechazar la hipótesis nula, dado un efecto real <span class="math inline">\(\ne\)</span> 0.</p></li>
+<li><p>Es otras palabras, es la habilidad de detectar un efecto en el caso de que tal efecto exista.</p></li>
+<li><p>Formalmente: (1 - Type II) tasa de error.</p></li>
+<li><p>Por lo tanto, el poder está <span class="math inline">\(\in\)</span> (0, 1).</p></li>
+<li><p>Márgenes estándar: 0.8 or 0.9.</p></li>
 </ul>
 </section>
-<section id="starting-point-for-power-analysis" class="slide level2">
-<h2>Starting point for power analysis</h2>
+<section id="puntos-de-partida-para-el-análisis-de-poder" class="slide level2">
+<h2>Puntos de partida para el análisis de poder</h2>
 <ul>
-<li><p>Power analysis is something we do <em>before</em> we run a study.</p>
+<li><p>El análisis de poder es algo que hacemos <em>antes</em> de realizar un estudio</p>
 <ul>
-<li><p>Helps you figure out the sample you need to detect a given effect size.</p></li>
-<li><p>Or helps you figure out a minimal detectable difference given a set sample size.</p></li>
-<li><p>May help you decide whether to run a study.</p></li>
+<li><p>Nos ayuda a definir la muestra que se requere para detectar un efecto de un tamaño dado.</p></li>
+<li><p>O nos ayuda a encontrar cuál es la diferencia detectable mínima dado un tamaño de muestra fijo.</p></li>
+<li><p>Nos puede ayudar a decidir si hacer el estudio o no.</p></li>
 </ul></li>
-<li><p>It is hard to learn from an under-powered null finding.</p>
+<li><p>No se puede aprender mucho de un estudio de hallazgos nulos y con poco poder.</p>
 <ul>
-<li>Was there an effect, but we were unable to detect it? or was there no effect? We can’t say.</li>
+<li>¿ Hay en realidad un efecto, pero no pudimos detectarlo? ¿O en realidad no hay efecto? No podemos diferenciar.</li>
 </ul></li>
 </ul>
 </section>
-<section id="power" class="slide level2">
-<h2>Power</h2>
+<section id="poder" class="slide level2">
+<h2>Poder</h2>
 <ul>
-<li><p>Say there truly is a treatment effect and you run your experiment many times. How often will you get a statistically significant result?</p></li>
-<li><p>Some guesswork to answer this question.</p>
+<li><p>Supongamos que el tratamiento sí produce un efecto y que realizamos el experimento muchas veces. ¿Qué tan frecuentemente obtendríamos resultados estadísticamente significativos?</p></li>
+<li><p>Cantidades estimadas que nos pueden pueden ayudar a resolver esta pregunta:</p>
 <ul>
 <li><p>How big is your treatment effect?</p></li>
 <li><p>How many units are treated, measured?</p></li>
@@ -565,22 +565,22 @@ document.getElementsByTagName('head')[0].appendChild(style);
 </ul></li>
 </ul>
 </section>
-<section id="approaches-to-power-calculation" class="slide level2">
-<h2>Approaches to power calculation</h2>
+<section id="métodos-para-calcular-el-poder-estádistico" class="slide level2">
+<h2>Métodos para calcular el poder estádistico</h2>
 <ul>
-<li><p>Analytical calculations of power</p></li>
-<li><p>Simulation</p></li>
+<li><p>Cálculos analíticos de poder</p></li>
+<li><p>Simulaciones</p></li>
 </ul>
 </section>
-<section id="power-calculation-tools" class="slide level2">
-<h2>Power calculation tools</h2>
+<section id="herramientas-para-el-calculo-del-poder" class="slide level2">
+<h2>Herramientas para el calculo del poder</h2>
 <ul>
-<li><p>Interactive</p>
+<li><p>Interactivas</p>
 <ul>
-<li><p><a href="https://egap.shinyapps.io/power-app/">EGAP Power Calculator</a></p></li>
+<li><p><a href="https://egap.shinyapps.io/power-app/">EGAP Calculadora de Poder</a></p></li>
 <li><p><a href="https://rpsychologist.com/d3/NHST/">rpsychologist</a></p></li>
 </ul></li>
-<li><p>R Packages</p>
+<li><p>Paquetes de R</p>
 <ul>
 <li><p><a href="https://cran.r-project.org/web/packages/pwr/index.html">pwr</a></p></li>
 <li><p><a href="https://cran.r-project.org/web/packages/DeclareDesign/index.html">DeclareDesign</a>, see also <a href="https://declaredesign.org/" class="uri">https://declaredesign.org/</a></p></li>
@@ -588,30 +588,30 @@ document.getElementsByTagName('head')[0].appendChild(style);
 </ul>
 </section></section>
 <section>
-<section id="analytical-calculations-of-power" class="title-slide slide level1">
-<h1>Analytical calculations of power</h1>
+<section id="cálculos-analíticos-de-poder" class="title-slide slide level1">
+<h1>Cálculos analíticos de poder</h1>
 
 </section>
-<section id="analytical-calculations-of-power-1" class="slide level2">
-<h2>Analytical calculations of power</h2>
+<section id="cálculos-analíticos-de-poder-1" class="slide level2">
+<h2>Cálculos analíticos de poder</h2>
 <ul>
 <li><p>Formula: <span class="math display">\[\begin{align*}
-\text{Power} &amp;= \Phi\left(\frac{|\tau| \sqrt{N}}{2\sigma}- \Phi^{-1}(1- \frac{\alpha}{2})\right)
+\text{Poder} &amp;= \Phi\left(\frac{|\tau| \sqrt{N}}{2\sigma}- \Phi^{-1}(1- \frac{\alpha}{2})\right)
 \end{align*}\]</span></p></li>
-<li><p>Components:</p>
+<li><p>Componentes:</p>
 <ul>
-<li><span class="math inline">\(\phi\)</span>: standard normal CDF is monotonically increasing</li>
-<li><span class="math inline">\(\tau\)</span>: the effect size</li>
-<li><span class="math inline">\(N\)</span>: the sample size</li>
-<li><span class="math inline">\(\sigma\)</span>: the standard deviation of the outcome</li>
-<li><span class="math inline">\(\alpha\)</span>: the significance level (typically 0.05)</li>
+<li><span class="math inline">\(\phi\)</span>: la función acumlada de probabilidad (CDF) de la normal estándar crece monotónicamente</li>
+<li><span class="math inline">\(\tau\)</span>: el tamaño del efecto</li>
+<li><span class="math inline">\(N\)</span>: el tamaño de la muestra</li>
+<li><span class="math inline">\(\sigma\)</span>: la desviación estándar de la variable de interés</li>
+<li><span class="math inline">\(\alpha\)</span>: el nivel de significancia (normalmente 0.05)</li>
 </ul></li>
 </ul>
 </section>
-<section id="example-analytical-calculations-of-power" class="slide level2">
-<h2>Example: Analytical calculations of power</h2>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Power for a study with 80 obserations and effect</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="co"># size of 0.25</span></span>
+<section id="ejemplo-cálculos-analíticos-de-poder" class="slide level2">
+<h2>Ejemplo: Cálculos analíticos de poder</h2>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Poder para un estudio con 80 obs y</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="co"># un tamaño del efecto de 0.25</span></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(pwr)</span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">pwr.t.test</span>(</span>
 <span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">n =</span> <span class="dv">40</span>, <span class="at">d =</span> <span class="fl">0.25</span>, <span class="at">sig.level =</span> <span class="fl">0.05</span>,</span>
@@ -631,53 +631,53 @@ document.getElementsByTagName('head')[0].appendChild(style);
 
 NOTE: n is number in *each* group</code></pre>
 </section>
-<section id="limitations-to-analytical-power-calculations" class="slide level2">
-<h2>Limitations to analytical power calculations</h2>
+<section id="limitaciones-del-cálculo-analítico-del-poder" class="slide level2">
+<h2>Limitaciones del cálculo analítico del poder</h2>
 <ul>
-<li><p>Only derived for some test statistics (differences of means)</p></li>
-<li><p>Makes specific assumptions about the data-generating process</p></li>
-<li><p>Incompatible with more complex designs</p></li>
+<li><p>Sólo se puede derivar para algunos estadísticos de prueba (diferencia de medias)</p></li>
+<li><p>Implica supuestos específicos acerca del proceso de generación de datos</p></li>
+<li><p>Incompatible con diseños más complejos</p></li>
 </ul>
 </section></section>
 <section>
-<section id="simulation-based-power-calculation" class="title-slide slide level1">
-<h1>Simulation-based power calculation</h1>
+<section id="cálculo-del-poder-basado-en-la-simulación" class="title-slide slide level1">
+<h1>Cálculo del Poder basado en la Simulación</h1>
 
 </section>
-<section id="simulation-based-power-calculation-1" class="slide level2">
-<h2>Simulation-based power calculation</h2>
+<section id="cálculo-del-poder-basado-en-la-simulación-1" class="slide level2">
+<h2>Cálculo del poder basado en la simulación</h2>
 <ul>
-<li><p>Create dataset and simulate research design.</p></li>
-<li><p>Assumptions are necessary for simulation studies, but you make your own.</p></li>
-<li><p>For the DeclareDesign approach, see <a href="https://declaredesign.org/" class="uri">https://declaredesign.org/</a></p></li>
+<li><p>Fabricar datos y simular el diseño de la investigación</p></li>
+<li><p>También es necesario hacer supuestos para simular, pero estos los definen ustedes mismos.</p></li>
+<li><p>Para ver cómo se hace esto en DeclareDesign, vea <a href="https://declaredesign.org/" class="uri">https://declaredesign.org/</a></p></li>
 </ul>
 </section>
-<section id="steps" class="slide level2">
-<h2>Steps</h2>
+<section id="pasos" class="slide level2">
+<h2>Pasos</h2>
 <ul>
-<li><p>Define the sample and the potential outcomes function.</p></li>
-<li><p>Define the treatment assignment procedure.</p></li>
-<li><p>Create data.</p></li>
-<li><p>Assign treatment, then estimate the effect.</p></li>
-<li><p>Do this many times.</p></li>
+<li><p>Definir la muestra y las funciones de las salidas potenciales.</p></li>
+<li><p>Definir el procedimiento de asignación a tratamientos.</p></li>
+<li><p>Fabricar datos.</p></li>
+<li><p>Asignar el tratamiento y luego estimar el efecto</p></li>
+<li><p>Repetir estos pasos muchas veces</p></li>
 </ul>
 </section>
 <section id="examples" class="slide level2">
 <h2>Examples</h2>
 <ul>
-<li><p>Complete randomization</p></li>
-<li><p>With covariates</p></li>
-<li><p>With cluster randomization</p></li>
+<li><p>Aleatorizaciçon completa</p></li>
+<li><p>Con covariables</p></li>
+<li><p>Con aleatorización por conglomerados</p></li>
 </ul>
 </section>
-<section id="example-simulation-based-power-for-complete-randomization" class="slide level2">
-<h2>Example: Simulation-based power for complete randomization</h2>
+<section id="ejemplo-poder-basado-en-simulaciones-con-aleatorización-completa" class="slide level2">
+<h2>Ejemplo: Poder basado en simulaciones con aleatorización completa</h2>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># install.packages(&quot;randomizr&quot;)</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(randomizr)</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(estimatr)</span>
 <span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="do">## Y0 is fixed in most field experiments.</span></span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="do">## So we only generate it once:</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="do">## Y0 es fijo en la mayoría  de experimentos .</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="do">## Entonces sólo hace falta generarlo una vez:</span></span>
 <span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>make_Y0 <span class="ot">&lt;-</span> <span class="cf">function</span>(N) {</span>
 <span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rnorm</span>(<span class="at">n =</span> N)</span>
 <span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>}</span>
@@ -690,8 +690,8 @@ NOTE: n is number in *each* group</code></pre>
 <span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(pval)</span>
 <span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
 </section>
-<section id="example-simulation-based-power-for-complete-randomization-1" class="slide level2">
-<h2>Example: Simulation-based power for complete randomization</h2>
+<section id="ejemplo-poder-basado-en-simulaciones-con-aleatorización-completa-1" class="slide level2">
+<h2>Ejemplo: Poder basado en simulaciones con aleatorización completa</h2>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>power_sim <span class="ot">&lt;-</span> <span class="cf">function</span>(N, tau, sims) {</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  Y0 <span class="ot">&lt;-</span> <span class="fu">make_Y0</span>(N)</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  pvals <span class="ot">&lt;-</span> <span class="fu">replicate</span>(</span>
@@ -708,24 +708,25 @@ NOTE: n is number in *each* group</code></pre>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">power_sim</span>(<span class="at">N =</span> <span class="dv">80</span>, <span class="at">tau =</span> .<span class="dv">25</span>, <span class="at">sims =</span> <span class="dv">100</span>)</span></code></pre></div>
 <pre><code>[1] 0.21</code></pre>
 </section>
-<section id="example-using-declaredesign" class="slide level2 allowframebreaks">
-<h2 class="allowframebreaks">Example: Using DeclareDesign</h2>
+<section id="ejemplo-usando-declaredesign" class="slide level2 allowframebreaks">
+<h2 class="allowframebreaks">Ejemplo: Usando DeclareDesign</h2>
 <div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(DeclareDesign)</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>P0 <span class="ot">&lt;-</span> <span class="fu">declare_population</span>(N, <span class="at">u0 =</span> <span class="fu">rnorm</span>(N))</span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="co"># declare Y(Z=1) and Y(Z=0)</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="co"># declarar Y(Z=1) y Y(Z=0)</span></span>
 <span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>O0 <span class="ot">&lt;-</span> <span class="fu">declare_potential_outcomes</span>(<span class="at">Y_Z_0 =</span> <span class="dv">5</span> <span class="sc">+</span> u0, <span class="at">Y_Z_1 =</span> Y_Z_0 <span class="sc">+</span> tau)</span>
-<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a><span class="co"># design is to assign m units to treatment</span></span>
-<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>A0 <span class="ot">&lt;-</span> <span class="fu">declare_assignment</span>(<span class="at">Z =</span> <span class="fu">conduct_ra</span>(<span class="at">N =</span> N, <span class="at">m =</span> <span class="fu">round</span>(N <span class="sc">/</span> <span class="dv">2</span>)))</span>
-<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a><span class="co"># estimand is the average difference between Y(Z=1) and Y(Z=0)</span></span>
-<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>estimand_ate <span class="ot">&lt;-</span> <span class="fu">declare_inquiry</span>(<span class="at">ATE =</span> <span class="fu">mean</span>(Y_Z_1 <span class="sc">-</span> Y_Z_0))</span>
-<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>R0 <span class="ot">&lt;-</span> <span class="fu">declare_reveal</span>(Y, Z)</span>
-<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>design0_base <span class="ot">&lt;-</span> P0 <span class="sc">+</span> A0 <span class="sc">+</span> O0 <span class="sc">+</span> R0</span>
-<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a><span class="do">## For example:</span></span>
-<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>design0_N100_tau25 <span class="ot">&lt;-</span> <span class="fu">redesign</span>(design0_base, <span class="at">N =</span> <span class="dv">100</span>, <span class="at">tau =</span> .<span class="dv">25</span>)</span>
-<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>dat0_N100_tau25 <span class="ot">&lt;-</span> <span class="fu">draw_data</span>(design0_N100_tau25)</span>
-<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(dat0_N100_tau25)</span></code></pre></div>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a><span class="co">#  assigar m unidades al tratamiento</span></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a><span class="co"># A0 &lt;- declare_assignment(m=round(N/2))</span></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>A0 <span class="ot">&lt;-</span> <span class="fu">declare_assignment</span>(<span class="at">Z =</span> <span class="fu">conduct_ra</span>(<span class="at">N =</span> N, <span class="at">m =</span> <span class="fu">round</span>(N <span class="sc">/</span> <span class="dv">2</span>)))</span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a><span class="co"># inquiry es la diferencia promedio entreY(Z=1) y Y(Z=0)</span></span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>estimand_ate <span class="ot">&lt;-</span> <span class="fu">declare_inquiry</span>(<span class="at">ATE =</span> <span class="fu">mean</span>(Y_Z_1 <span class="sc">-</span> Y_Z_0))</span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>R0 <span class="ot">&lt;-</span> <span class="fu">declare_reveal</span>(Y, Z)</span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>design0_base <span class="ot">&lt;-</span> P0 <span class="sc">+</span> A0 <span class="sc">+</span> O0 <span class="sc">+</span> R0</span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a><span class="do">## For example:</span></span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>design0_N100_tau25 <span class="ot">&lt;-</span> <span class="fu">redesign</span>(design0_base, <span class="at">N =</span> <span class="dv">100</span>, <span class="at">tau =</span> .<span class="dv">25</span>)</span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>dat0_N100_tau25 <span class="ot">&lt;-</span> <span class="fu">draw_data</span>(design0_N100_tau25)</span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(dat0_N100_tau25)</span></code></pre></div>
 <pre><code>   ID      u0 Z Y_Z_0 Y_Z_1     Y
 1 001 -0.2060 0 4.794 5.044 4.794
 2 002 -0.5875 0 4.413 4.663 4.413
@@ -733,9 +734,9 @@ NOTE: n is number in *each* group</code></pre>
 4 004 -2.5649 0 2.435 2.685 2.435
 5 005 -1.8967 0 3.103 3.353 3.103
 6 006 -1.6401 1 3.360 3.610 3.610</code></pre>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">with</span>(dat0_N100_tau25, <span class="fu">mean</span>(Y_Z_1 <span class="sc">-</span> Y_Z_0)) <span class="co"># true ATE</span></span></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">with</span>(dat0_N100_tau25, <span class="fu">mean</span>(Y_Z_1 <span class="sc">-</span> Y_Z_0)) <span class="co">#  ATE real</span></span></code></pre></div>
 <pre><code>[1] 0.25</code></pre>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">with</span>(dat0_N100_tau25, <span class="fu">mean</span>(Y[Z <span class="sc">==</span> <span class="dv">1</span>]) <span class="sc">-</span> <span class="fu">mean</span>(Y[Z <span class="sc">==</span> <span class="dv">0</span>])) <span class="co"># estimate</span></span></code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">with</span>(dat0_N100_tau25, <span class="fu">mean</span>(Y[Z <span class="sc">==</span> <span class="dv">1</span>]) <span class="sc">-</span> <span class="fu">mean</span>(Y[Z <span class="sc">==</span> <span class="dv">0</span>])) <span class="co"># estimado</span></span></code></pre></div>
 <pre><code>[1] 0.5569</code></pre>
 <div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">lm_robust</span>(Y <span class="sc">~</span> Z, <span class="at">data =</span> dat0_N100_tau25)<span class="sc">$</span>coef <span class="co"># estimate</span></span></code></pre></div>
 <pre><code>(Intercept)           Z 
@@ -752,16 +753,15 @@ NOTE: n is number in *each* group</code></pre>
 <span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a>design0_plus_tests <span class="ot">&lt;-</span> design0_base <span class="sc">+</span> E0 <span class="sc">+</span> T0</span>
 <span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a>design0_N100_tau25_plus <span class="ot">&lt;-</span> <span class="fu">redesign</span>(design0_plus_tests, <span class="at">N =</span> <span class="dv">100</span>, <span class="at">tau =</span> .<span class="dv">25</span>)</span>
-<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a><span class="do">## Only repeat the random assignment, not the creation of Y0. Ignore warning</span></span>
-<span id="cb16-15"><a href="#cb16-15" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(design0_N100_tau25_plus)</span></code></pre></div>
+<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a><span class="do">## Sólo repetimos la asignación aleatoria, no generamos de nuevo Y0. Ignoren la advertencia</span></span>
+<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(design0_N100_tau25_plus)</span></code></pre></div>
 <pre><code>[1] &quot;P0&quot;       &quot;A0&quot;       &quot;O0&quot;       &quot;R0&quot;       &quot;t test 1&quot; &quot;t test 2&quot;</code></pre>
 <div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>design0_N100_tau25_sims <span class="ot">&lt;-</span> <span class="fu">simulate_design</span>(design0_N100_tau25_plus,</span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">sims =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">100</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>)</span>
 <span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>) <span class="co"># only repeat the random assignment</span></span></code></pre></div>
 <pre><code>Warning: We recommend you choose a higher number of simulations than 1 for the top level of simulation.</code></pre>
-<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co"># design0_N100_tau25_sims has 200 rows (2 tests * 100 random assignments)</span></span>
-<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="co"># just look at the first 6 rows</span></span>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co"># design0_N100_tau25_sims tiene 200 filas (2 pruebas * 100 asignaciones aleatorias)</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="co"># veámos las primeras 6 filas</span></span>
 <span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(design0_N100_tau25_sims)</span></code></pre></div>
 <pre><code>                   design   N  tau sim_ID estimator term estimate std.error statistic p.value conf.low conf.high df outcome inquiry
 1 design0_N100_tau25_plus 100 0.25      1  t test 1    Z   0.1108    0.2150    0.5153 0.60752  -0.3158    0.5374 98       Y     ATE
@@ -777,7 +777,7 @@ NOTE: n is number in *each* group</code></pre>
 4           1           2
 5           1           3
 6           1           3</code></pre>
-<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co"># for each estimator, power = proportion of simulations with p.value &lt; 0.5</span></span>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co"># para cada estimador, poder = proporción de las simulaciones con p.value &lt; 0.5</span></span>
 <span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>design0_N100_tau25_sims <span class="sc">%&gt;%</span></span>
 <span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(estimator) <span class="sc">%&gt;%</span></span>
 <span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">pow =</span> <span class="fu">mean</span>(p.value <span class="sc">&lt;</span> .<span class="dv">05</span>), <span class="at">.groups =</span> <span class="st">&quot;drop&quot;</span>)</span></code></pre></div>
@@ -788,23 +788,23 @@ NOTE: n is number in *each* group</code></pre>
 2 t test 2    0.2</code></pre>
 </section></section>
 <section>
-<section id="power-with-covariate-adjustment" class="title-slide slide level1">
-<h1>Power with covariate adjustment</h1>
+<section id="poder-con-ajuste-de-covariables" class="title-slide slide level1">
+<h1>Poder con Ajuste de Covariables</h1>
 
 </section>
-<section id="covariate-adjustment-and-power" class="slide level2">
-<h2>Covariate adjustment and power</h2>
+<section id="ajuste-de-covariables-y-poder" class="slide level2">
+<h2>Ajuste de Covariables y Poder</h2>
 <ul>
-<li><p>Covariate adjustment can improve power because it mops up variation in the outcome variable.</p>
+<li><p>El ajuste de covariables puede mejorar el poder porque absorbe la variación de la variable de interés.</p>
 <ul>
-<li><p>If prognostic, covariate adjustment can reduce variance dramatically. Lower variance means higher power.</p></li>
-<li><p>If non-prognostic, power gains are minimal.</p></li>
+<li><p>Sí es para pronóstico, el ajuste de covariables puede reducir la varianza significativamente. Una menor varianza se traduce en más poder.</p></li>
+<li><p>Sí no es para pronóstico, las ganancias en poder son mínimas.</p></li>
 </ul></li>
-<li><p>All covariates must be pre-treatment. Do not drop observations on account of missingness.</p>
+<li><p>Todas las variables tienen que ser pre-tratamiento. No eliminen observaciones a cuenta de datos faltantes.</p>
 <ul>
-<li>See the module on <a href="threats-to-internal-validity-of-randomized-experiments.html">threats to internal validity</a> and the <a href="http://egap.org/methods-guides/10-things-know-about-covariate-adjustment">10 things to know about covariate adjustment</a>.</li>
+<li>Ver el módulo de <a href="threats-to-internal-validity-of-randomized-experiments.html">amenazas a la validez interna</a> y las <a href="http://egap.org/methods-guides/10-things-know-about-covariate-adjustment">10 cosas que debe saber sobre el ajuste de covariables</a>.</li>
 </ul></li>
-<li><p>Freedman’s bias as n of observations decreases and K covariates increases.</p></li>
+<li><p>El sesgo de Freedman a medida que las n observaciones disminuyen y el número de covariables aumenta.</p></li>
 </ul>
 <!-- ## Covariate adjustment: best practices -->
 <!-- - All covariates must be pre-treatment -->
@@ -817,28 +817,28 @@ NOTE: n is number in *each* group</code></pre>
 <!--   - Impute mean/median for pretreatment variable -->
 <!--   - Include missingness indicator and impute some value in the missing variable -->
 </section>
-<section id="blocking" class="slide level2">
-<h2>Blocking</h2>
+<section id="bloques" class="slide level2">
+<h2>Bloques</h2>
 <ul>
-<li><p>Blocking: randomly assign treatment within blocks</p>
+<li><p>Bloques: asignar el tratamiento al azar dentro de los bloques</p>
 <ul>
-<li><p>“Ex-ante” covariate adjustment</p></li>
-<li><p>Higher precision/efficiency implies more power</p></li>
-<li><p>Reduce “conditional bias”: association between treatment assignment and potential outcomes</p></li>
-<li><p>Benefits of blocking over covariate adjustment clearest in small experiments</p></li>
+<li><p>Ajuste de covariables “Ex-ante”</p></li>
+<li><p>Más precisión/eficiencia significa más poder</p></li>
+<li><p>Reducir “el sesgo condicional”: relación entre el tratamiento y las salidas potenciales</p></li>
+<li><p>Beneficios de usar bloques en vez de ajuste de covariables más evidente para experimentos pequeños.</p></li>
 </ul></li>
 </ul>
 </section>
-<section id="example-simulation-based-power-with-a-covariate" class="slide level2 allowframebreaks">
-<h2 class="allowframebreaks">Example: Simulation-based power with a covariate</h2>
-<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Y0 is fixed in most field experiments. So we only generate it once</span></span>
+<section id="ejemplo-poder-basado-en-simulaciones-con-una-covariable" class="slide level2 allowframebreaks">
+<h2 class="allowframebreaks">Ejemplo: Poder basado en simulaciones con una covariable</h2>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Y0 es fijo en la mayoría de experimentos. Solo lo generamos una vez</span></span>
 <span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>make_Y0_cov <span class="ot">&lt;-</span> <span class="cf">function</span>(N) {</span>
 <span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>  u0 <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="at">n =</span> N)</span>
 <span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>  x <span class="ot">&lt;-</span> <span class="fu">rpois</span>(<span class="at">n =</span> N, <span class="at">lambda =</span> <span class="dv">2</span>)</span>
 <span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>  Y0 <span class="ot">&lt;-</span> .<span class="dv">5</span> <span class="sc">*</span> <span class="fu">sd</span>(u0) <span class="sc">*</span> x <span class="sc">+</span> u0</span>
 <span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(<span class="fu">data.frame</span>(<span class="at">Y0 =</span> Y0, <span class="at">x =</span> x))</span>
 <span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a><span class="do">##  X is moderarely predictive of Y0.</span></span>
+<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a><span class="do">##  X  predice Y0 moderadamente</span></span>
 <span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a>test_dat <span class="ot">&lt;-</span> <span class="fu">make_Y0_cov</span>(<span class="dv">100</span>)</span>
 <span id="cb24-10"><a href="#cb24-10" aria-hidden="true" tabindex="-1"></a>test_lm <span class="ot">&lt;-</span> <span class="fu">lm_robust</span>(Y0 <span class="sc">~</span> x, <span class="at">data =</span> test_dat)</span>
 <span id="cb24-11"><a href="#cb24-11" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(test_lm)</span></code></pre></div>
@@ -855,7 +855,7 @@ x               0.44     0.0814   5.413 0.000000441    0.279    0.602 98
 
 Multiple R-squared:  0.231 ,    Adjusted R-squared:  0.223 
 F-statistic: 29.3 on 1 and 98 DF,  p-value: 0.000000441</code></pre>
-<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="do">## now set up the simulation</span></span>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="do">## ahora la simulación</span></span>
 <span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>repeat_experiment_and_test_cov <span class="ot">&lt;-</span> <span class="cf">function</span>(N, tau, Y0, x) {</span>
 <span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>  Y1 <span class="ot">&lt;-</span> Y0 <span class="sc">+</span> tau</span>
 <span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>  Z <span class="ot">&lt;-</span> <span class="fu">complete_ra</span>(<span class="at">N =</span> N)</span>
@@ -864,17 +864,18 @@ F-statistic: 29.3 on 1 and 98 DF,  p-value: 0.000000441</code></pre>
 <span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a>  pval <span class="ot">&lt;-</span> estimator<span class="sc">$</span>p.value[<span class="dv">2</span>]</span>
 <span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(pval)</span>
 <span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb26-10"><a href="#cb26-10" aria-hidden="true" tabindex="-1"></a><span class="do">## create the data once, randomly assign treatment sims times</span></span>
-<span id="cb26-11"><a href="#cb26-11" aria-hidden="true" tabindex="-1"></a><span class="do">## report what proportion return p-value &lt; 0.05</span></span>
-<span id="cb26-12"><a href="#cb26-12" aria-hidden="true" tabindex="-1"></a>power_sim_cov <span class="ot">&lt;-</span> <span class="cf">function</span>(N, tau, sims) {</span>
-<span id="cb26-13"><a href="#cb26-13" aria-hidden="true" tabindex="-1"></a>  dat <span class="ot">&lt;-</span> <span class="fu">make_Y0_cov</span>(N)</span>
-<span id="cb26-14"><a href="#cb26-14" aria-hidden="true" tabindex="-1"></a>  pvals <span class="ot">&lt;-</span> <span class="fu">replicate</span>(<span class="at">n =</span> sims, <span class="fu">repeat_experiment_and_test_cov</span>(</span>
-<span id="cb26-15"><a href="#cb26-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">N =</span> N,</span>
-<span id="cb26-16"><a href="#cb26-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">tau =</span> tau, <span class="at">Y0 =</span> dat<span class="sc">$</span>Y0, <span class="at">x =</span> dat<span class="sc">$</span>x</span>
-<span id="cb26-17"><a href="#cb26-17" aria-hidden="true" tabindex="-1"></a>  ))</span>
-<span id="cb26-18"><a href="#cb26-18" aria-hidden="true" tabindex="-1"></a>  pow <span class="ot">&lt;-</span> <span class="fu">sum</span>(pvals <span class="sc">&lt;</span> .<span class="dv">05</span>) <span class="sc">/</span> sims</span>
-<span id="cb26-19"><a href="#cb26-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(pow)</span>
-<span id="cb26-20"><a href="#cb26-20" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<span id="cb26-10"><a href="#cb26-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-11"><a href="#cb26-11" aria-hidden="true" tabindex="-1"></a><span class="do">## crear los datos una vez, asigna aleatoriamente el tratamiento sims veces</span></span>
+<span id="cb26-12"><a href="#cb26-12" aria-hidden="true" tabindex="-1"></a><span class="do">## reporta qué proporción tiene p &lt;0.05</span></span>
+<span id="cb26-13"><a href="#cb26-13" aria-hidden="true" tabindex="-1"></a>power_sim_cov <span class="ot">&lt;-</span> <span class="cf">function</span>(N, tau, sims) {</span>
+<span id="cb26-14"><a href="#cb26-14" aria-hidden="true" tabindex="-1"></a>  dat <span class="ot">&lt;-</span> <span class="fu">make_Y0_cov</span>(N)</span>
+<span id="cb26-15"><a href="#cb26-15" aria-hidden="true" tabindex="-1"></a>  pvals <span class="ot">&lt;-</span> <span class="fu">replicate</span>(<span class="at">n =</span> sims, <span class="fu">repeat_experiment_and_test_cov</span>(</span>
+<span id="cb26-16"><a href="#cb26-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">N =</span> N,</span>
+<span id="cb26-17"><a href="#cb26-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">tau =</span> tau, <span class="at">Y0 =</span> dat<span class="sc">$</span>Y0, <span class="at">x =</span> dat<span class="sc">$</span>x</span>
+<span id="cb26-18"><a href="#cb26-18" aria-hidden="true" tabindex="-1"></a>  ))</span>
+<span id="cb26-19"><a href="#cb26-19" aria-hidden="true" tabindex="-1"></a>  pow <span class="ot">&lt;-</span> <span class="fu">sum</span>(pvals <span class="sc">&lt;</span> .<span class="dv">05</span>) <span class="sc">/</span> sims</span>
+<span id="cb26-20"><a href="#cb26-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(pow)</span>
+<span id="cb26-21"><a href="#cb26-21" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
 <div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">12345</span>)</span>
 <span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a><span class="fu">power_sim_cov</span>(<span class="at">N =</span> <span class="dv">80</span>, <span class="at">tau =</span> .<span class="dv">25</span>, <span class="at">sims =</span> <span class="dv">100</span>)</span></code></pre></div>
 <pre><code>[1] 0.13</code></pre>
@@ -882,47 +883,47 @@ F-statistic: 29.3 on 1 and 98 DF,  p-value: 0.000000441</code></pre>
 <pre><code>[1] 0.19</code></pre>
 </section></section>
 <section>
-<section id="power-for-cluster-randomization" class="title-slide slide level1">
-<h1>Power for cluster randomization</h1>
+<section id="poder-para-la-aleatorización-por-conglomerados" class="title-slide slide level1">
+<h1>Poder para la Aleatorización por Conglomerados</h1>
 
 </section>
-<section id="power-and-clustered-designs" class="slide level2">
-<h2>Power and clustered designs</h2>
+<section id="poder-y-diseños-de-conglomerados" class="slide level2">
+<h2>Poder y diseños de conglomerados</h2>
 <ul>
-<li><p>Recall the <a href="randomization.html">randomization module</a>.</p></li>
-<li><p>Given a fixed <span class="math inline">\(N\)</span>, a clustered design is weakly less powered than a non-clustered design.</p>
+<li><p>Recordemos el módulo de <a href="aleatorizacion.html">aleatorización</a>.</p></li>
+<li><p>Dado un <span class="math inline">\(N\)</span> fijo, un diseño de conglomerados tiene menos poder que un diseño sin conglomerados</p>
 <ul>
-<li>The difference is often substantial.</li>
+<li>La diferencia suele ser sustancial.</li>
 </ul></li>
-<li><p>We have to estimate variance correctly:</p>
+<li><p>Tenemos que estimar la varianza correctamente:</p>
 <ul>
-<li>Clustering standard errors (the usual)</li>
-<li>Randomization inference</li>
+<li>Errores estándar para conglomerados (lo habitual)</li>
+<li>Inferencia basada en la aleatorización</li>
 </ul></li>
-<li><p>To increase power:</p>
+<li><p>Para aumentar el poder:</p>
 <ul>
-<li>Better to increase number of clusters than number of units per cluster.</li>
-<li>How much clusters reduce power depends critically on the intra-cluster correlation (the ratio of variance within clusters to total variance).</li>
+<li>Es mejor aumentar el número de conglomerados que el número de unidades por conglomerados.</li>
+<li>Cuánto reducen el poder los conglomerados depende fundamentalmente de la correlación intragrupo (la relación entre la varianza dentro de los conglomerados y la varianza total).</li>
 </ul></li>
 </ul>
 </section>
-<section id="a-note-on-clustering-in-observational-research" class="slide level2">
-<h2>A note on clustering in observational research</h2>
+<section id="una-nota-sobre-los-conglomerados-en-la-investigación-observacional" class="slide level2">
+<h2>Una nota sobre los conglomerados en la investigación observacional</h2>
 <ul>
-<li><p>Often overlooked, leading to (possibly) wildly understated uncertainty.</p>
+<li><p>A menudo se pasa por alto lo que conduce (posiblemente) a una incertidumbre altamente subestimada.</p>
 <ul>
-<li><p>Frequentist inference based on ratio <span class="math inline">\(\hat{\beta}/\hat{se}\)</span></p></li>
-<li><p>If we underestimate <span class="math inline">\(\hat{se}\)</span>, we are much more likely to reject <span class="math inline">\(H_0\)</span>. (Type-I error rate is too high.)</p></li>
+<li><p>Inferencia frecuentista basada en la proporción <span class="math inline">\(\hat{\beta}/ \hat{se}\)</span></p></li>
+<li><p>Si subestimamos <span class="math inline">\(\hat{se}\)</span>, es mucho más probable que rechacemos <span class="math inline">\(H_0\)</span>. (La tasa de error de tipo I es demasiado alta).</p></li>
 </ul></li>
-<li><p>Many observational designs much less powered than we think they are.</p></li>
+<li><p>Muchos diseños de observación tienen mucha menos poder de lo que pensamos.</p></li>
 </ul>
 </section>
-<section id="example-simulation-based-power-for-cluster-randomization" class="slide level2 allowframebreaks">
-<h2 class="allowframebreaks">Example: Simulation-based power for cluster randomization</h2>
-<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Y0 is fixed in most field experiments. So we only generate it once</span></span>
+<section id="ejemplo-poder-basado-en-la-simulación-para-la-aleatorización-por-conglomerados" class="slide level2 allowframebreaks">
+<h2 class="allowframebreaks">Ejemplo: Poder basado en la simulación para la aleatorización por conglomerados</h2>
+<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Y0 es fijo en la mayoría de experimentos. Solo lo generamos una vez</span></span>
 <span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>make_Y0_clus <span class="ot">&lt;-</span> <span class="cf">function</span>(n_indivs, n_clus) {</span>
-<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>  <span class="co"># n_indivs in number of people per cluster</span></span>
-<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>  <span class="co"># n_clus is number of clusters</span></span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>  <span class="co"># n_indivs  número de personas por conglomerados</span></span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>  <span class="co"># n_clus número de conglomerados</span></span>
 <span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a>  clus_id <span class="ot">&lt;-</span> <span class="fu">gl</span>(n_clus, n_indivs)</span>
 <span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a>  N <span class="ot">&lt;-</span> n_clus <span class="sc">*</span> n_indivs</span>
 <span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a>  u0 <span class="ot">&lt;-</span> fabricatr<span class="sc">::</span><span class="fu">draw_normal_icc</span>(<span class="at">N =</span> N, <span class="at">clusters =</span> clus_id, <span class="at">ICC =</span> .<span class="dv">1</span>)</span>
@@ -931,7 +932,7 @@ F-statistic: 29.3 on 1 and 98 DF,  p-value: 0.000000441</code></pre>
 <span id="cb31-10"><a href="#cb31-10" aria-hidden="true" tabindex="-1"></a>}</span>
 <span id="cb31-11"><a href="#cb31-11" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb31-12"><a href="#cb31-12" aria-hidden="true" tabindex="-1"></a>test_dat <span class="ot">&lt;-</span> <span class="fu">make_Y0_clus</span>(<span class="at">n_indivs =</span> <span class="dv">10</span>, <span class="at">n_clus =</span> <span class="dv">100</span>)</span>
-<span id="cb31-13"><a href="#cb31-13" aria-hidden="true" tabindex="-1"></a><span class="co"># confirm that this produces data with 10 in each of 100 clusters</span></span>
+<span id="cb31-13"><a href="#cb31-13" aria-hidden="true" tabindex="-1"></a><span class="co"># confirma que hay 10 personas en cada uno de los 100 conglomerados</span></span>
 <span id="cb31-14"><a href="#cb31-14" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(test_dat<span class="sc">$</span>clus_id)</span></code></pre></div>
 <pre><code>
   1   2   3   4   5   6   7   8   9  10  11  12  13  14  15  16  17  18  19  20  21  22  23  24  25  26  27  28  29  30  31  32  33 
@@ -947,7 +948,7 @@ F-statistic: 29.3 on 1 and 98 DF,  p-value: 0.000000441</code></pre>
 <pre><code>[1] 0.09655</code></pre>
 <div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>repeat_experiment_and_test_clus <span class="ot">&lt;-</span> <span class="cf">function</span>(N, tau, Y0, clus_id) {</span>
 <span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>  Y1 <span class="ot">&lt;-</span> Y0 <span class="sc">+</span> tau</span>
-<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>  <span class="co"># here we randomize Z at the cluster level</span></span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>  <span class="co">#  aqui aleatorizamos al nivel del conglomerados</span></span>
 <span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a>  Z <span class="ot">&lt;-</span> <span class="fu">cluster_ra</span>(<span class="at">clusters =</span> clus_id)</span>
 <span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a>  Yobs <span class="ot">&lt;-</span> Z <span class="sc">*</span> Y1 <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">-</span> Z) <span class="sc">*</span> Y0</span>
 <span id="cb35-6"><a href="#cb35-6" aria-hidden="true" tabindex="-1"></a>  estimator <span class="ot">&lt;-</span> <span class="fu">lm_robust</span>(Yobs <span class="sc">~</span> Z,</span>
@@ -960,7 +961,7 @@ F-statistic: 29.3 on 1 and 98 DF,  p-value: 0.000000441</code></pre>
 <span id="cb35-13"><a href="#cb35-13" aria-hidden="true" tabindex="-1"></a>power_sim_clus <span class="ot">&lt;-</span> <span class="cf">function</span>(n_indivs, n_clus, tau, sims) {</span>
 <span id="cb35-14"><a href="#cb35-14" aria-hidden="true" tabindex="-1"></a>  dat <span class="ot">&lt;-</span> <span class="fu">make_Y0_clus</span>(n_indivs, n_clus)</span>
 <span id="cb35-15"><a href="#cb35-15" aria-hidden="true" tabindex="-1"></a>  N <span class="ot">&lt;-</span> n_indivs <span class="sc">*</span> n_clus</span>
-<span id="cb35-16"><a href="#cb35-16" aria-hidden="true" tabindex="-1"></a>  <span class="co"># randomize treatment sims times</span></span>
+<span id="cb35-16"><a href="#cb35-16" aria-hidden="true" tabindex="-1"></a>  <span class="co"># asignar el tratamiento al azar sims veces</span></span>
 <span id="cb35-17"><a href="#cb35-17" aria-hidden="true" tabindex="-1"></a>  pvals <span class="ot">&lt;-</span> <span class="fu">replicate</span>(</span>
 <span id="cb35-18"><a href="#cb35-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">n =</span> sims,</span>
 <span id="cb35-19"><a href="#cb35-19" aria-hidden="true" tabindex="-1"></a>    <span class="fu">repeat_experiment_and_test_clus</span>(</span>
@@ -977,8 +978,8 @@ F-statistic: 29.3 on 1 and 98 DF,  p-value: 0.000000441</code></pre>
 <div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="fu">power_sim_clus</span>(<span class="at">n_indivs =</span> <span class="dv">8</span>, <span class="at">n_clus =</span> <span class="dv">100</span>, <span class="at">tau =</span> .<span class="dv">25</span>, <span class="at">sims =</span> <span class="dv">100</span>)</span></code></pre></div>
 <pre><code>[1] 0.68</code></pre>
 </section>
-<section id="example-simulation-based-power-for-cluster-randomization-declaredesign" class="slide level2 allowframebreaks">
-<h2 class="allowframebreaks">Example: Simulation-based power for cluster randomization (DeclareDesign)</h2>
+<section id="ejemplo-poder-basado-en-la-simulación-para-la-aleatorización-por-conglomerados-declaredesign" class="slide level2 allowframebreaks">
+<h2 class="allowframebreaks">Ejemplo: Poder basado en la simulación para la aleatorización por conglomerados (DeclareDesign)</h2>
 <div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>P1 <span class="ot">&lt;-</span> <span class="fu">declare_population</span>(</span>
 <span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">N =</span> n_clus <span class="sc">*</span> n_indivs,</span>
 <span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">clusters =</span> <span class="fu">gl</span>(n_clus, n_indivs),</span>
@@ -990,16 +991,16 @@ F-statistic: 29.3 on 1 and 98 DF,  p-value: 0.000000441</code></pre>
 <span id="cb40-9"><a href="#cb40-9" aria-hidden="true" tabindex="-1"></a>R1 <span class="ot">&lt;-</span> <span class="fu">declare_reveal</span>(Y, Z)</span>
 <span id="cb40-10"><a href="#cb40-10" aria-hidden="true" tabindex="-1"></a>design1_base <span class="ot">&lt;-</span> P1 <span class="sc">+</span> A1 <span class="sc">+</span> O1 <span class="sc">+</span> R1 <span class="sc">+</span> estimand_ate</span>
 <span id="cb40-11"><a href="#cb40-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb40-12"><a href="#cb40-12" aria-hidden="true" tabindex="-1"></a><span class="do">## For example:</span></span>
+<span id="cb40-12"><a href="#cb40-12" aria-hidden="true" tabindex="-1"></a><span class="do">## Por ejemplo:</span></span>
 <span id="cb40-13"><a href="#cb40-13" aria-hidden="true" tabindex="-1"></a>design1_test <span class="ot">&lt;-</span> <span class="fu">redesign</span>(design1_base, <span class="at">n_clus =</span> <span class="dv">10</span>, <span class="at">n_indivs =</span> <span class="dv">100</span>, <span class="at">tau =</span> .<span class="dv">25</span>)</span>
 <span id="cb40-14"><a href="#cb40-14" aria-hidden="true" tabindex="-1"></a>test_d1 <span class="ot">&lt;-</span> <span class="fu">draw_data</span>(design1_test)</span>
-<span id="cb40-15"><a href="#cb40-15" aria-hidden="true" tabindex="-1"></a><span class="co"># confirm all individuals in a cluster have the same treatment assignment</span></span>
+<span id="cb40-15"><a href="#cb40-15" aria-hidden="true" tabindex="-1"></a><span class="co"># confirma que todos los individuos en los conglomerados fueron asignados al mismo tratamiento</span></span>
 <span id="cb40-16"><a href="#cb40-16" aria-hidden="true" tabindex="-1"></a><span class="fu">with</span>(test_d1, <span class="fu">table</span>(Z, clusters))</span></code></pre></div>
 <pre><code>   clusters
 Z     1   2   3   4   5   6   7   8   9  10
   0 100   0 100 100 100   0   0 100   0   0
   1   0 100   0   0   0 100 100   0 100 100</code></pre>
-<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="co"># three estimators, differ in se_type:</span></span>
+<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="co"># tres estimadores, se diferencias en se_type:</span></span>
 <span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>E1a <span class="ot">&lt;-</span> <span class="fu">declare_estimator</span>(Y <span class="sc">~</span> Z,</span>
 <span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">model =</span> lm_robust, <span class="at">clusters =</span> clusters,</span>
 <span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">se_type =</span> <span class="st">&quot;CR2&quot;</span>, <span class="at">label =</span> <span class="st">&quot;CR2 cluster t test&quot;</span>,</span>
@@ -1019,8 +1020,8 @@ Z     1   2   3   4   5   6   7   8   9  10
 <span id="cb42-18"><a href="#cb42-18" aria-hidden="true" tabindex="-1"></a>design1_plus <span class="ot">&lt;-</span> design1_base <span class="sc">+</span> E1a <span class="sc">+</span> E1b <span class="sc">+</span> E1c</span>
 <span id="cb42-19"><a href="#cb42-19" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb42-20"><a href="#cb42-20" aria-hidden="true" tabindex="-1"></a>design1_plus_tosim <span class="ot">&lt;-</span> <span class="fu">redesign</span>(design1_plus, <span class="at">n_clus =</span> <span class="dv">10</span>, <span class="at">n_indivs =</span> <span class="dv">100</span>, <span class="at">tau =</span> .<span class="dv">25</span>)</span></code></pre></div>
-<div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Only repeat the random assignment, not the creation of Y0. Ignore warning</span></span>
-<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a><span class="do">## We would want more simulations in practice.</span></span>
+<div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Solo repite la asignación aleatoria, no la creación de Y0. Ignorar la advertencia</span></span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a><span class="do">## Querríamos más simulaciones en la práctica.</span></span>
 <span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">12355</span>)</span>
 <span id="cb43-4"><a href="#cb43-4" aria-hidden="true" tabindex="-1"></a>design1_sims <span class="ot">&lt;-</span> <span class="fu">simulate_design</span>(design1_plus_tosim,</span>
 <span id="cb43-5"><a href="#cb43-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">sims =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">1000</span>, <span class="fu">rep</span>(<span class="dv">1</span>, <span class="fu">length</span>(design1_plus_tosim) <span class="sc">-</span> <span class="dv">2</span>))</span>
@@ -1040,7 +1041,7 @@ Z     1   2   3   4   5   6   7   8   9  10
 2 CR2 cluster t test 0.105    0.936
 3 stata RCSE t test  0.131    0.918</code></pre>
 <div class="sourceCode" id="cb47"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(DesignLibrary)</span>
-<span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a><span class="do">## This may be simpler than the above:</span></span>
+<span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a><span class="do">## Puede que esto sea más simple que lo anterior</span></span>
 <span id="cb47-3"><a href="#cb47-3" aria-hidden="true" tabindex="-1"></a>d1 <span class="ot">&lt;-</span> <span class="fu">block_cluster_two_arm_designer</span>(</span>
 <span id="cb47-4"><a href="#cb47-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">N_blocks =</span> <span class="dv">1</span>,</span>
 <span id="cb47-5"><a href="#cb47-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">N_clusters_in_block =</span> <span class="dv">10</span>,</span>
@@ -1051,13 +1052,14 @@ Z     1   2   3   4   5   6   7   8   9  10
 <span id="cb47-10"><a href="#cb47-10" aria-hidden="true" tabindex="-1"></a>)</span>
 <span id="cb47-11"><a href="#cb47-11" aria-hidden="true" tabindex="-1"></a>d1_plus <span class="ot">&lt;-</span> d1 <span class="sc">+</span> E1b <span class="sc">+</span> E1c</span>
 <span id="cb47-12"><a href="#cb47-12" aria-hidden="true" tabindex="-1"></a>d1_sims <span class="ot">&lt;-</span> <span class="fu">simulate_design</span>(d1_plus, <span class="at">sims =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1000</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>))</span></code></pre></div>
-<div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a>d1_sims <span class="sc">%&gt;%</span></span>
-<span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(estimator) <span class="sc">%&gt;%</span></span>
-<span id="cb48-3"><a href="#cb48-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(</span>
-<span id="cb48-4"><a href="#cb48-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">pow =</span> <span class="fu">mean</span>(p.value <span class="sc">&lt;</span> .<span class="dv">05</span>),</span>
-<span id="cb48-5"><a href="#cb48-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">coverage =</span> <span class="fu">mean</span>(estimand <span class="sc">&lt;=</span> conf.high <span class="sc">&amp;</span> estimand <span class="sc">&gt;=</span> conf.low),</span>
-<span id="cb48-6"><a href="#cb48-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">.groups =</span> <span class="st">&quot;drop&quot;</span></span>
-<span id="cb48-7"><a href="#cb48-7" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
+<pre><code>Warning: We recommend you choose a higher number of simulations than 1 for the top level of simulation.</code></pre>
+<div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a>d1_sims <span class="sc">%&gt;%</span></span>
+<span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(estimator) <span class="sc">%&gt;%</span></span>
+<span id="cb49-3"><a href="#cb49-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(</span>
+<span id="cb49-4"><a href="#cb49-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">pow =</span> <span class="fu">mean</span>(p.value <span class="sc">&lt;</span> .<span class="dv">05</span>),</span>
+<span id="cb49-5"><a href="#cb49-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">coverage =</span> <span class="fu">mean</span>(estimand <span class="sc">&lt;=</span> conf.high <span class="sc">&amp;</span> estimand <span class="sc">&gt;=</span> conf.low),</span>
+<span id="cb49-6"><a href="#cb49-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">.groups =</span> <span class="st">&quot;drop&quot;</span></span>
+<span id="cb49-7"><a href="#cb49-7" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
 <pre><code># A tibble: 3 × 3
   estimator            pow coverage
   &lt;chr&gt;              &lt;dbl&gt;    &lt;dbl&gt;
@@ -1066,89 +1068,89 @@ Z     1   2   3   4   5   6   7   8   9  10
 3 stata RCSE t test  0.194    0.925</code></pre>
 </section></section>
 <section>
-<section id="comparative-statics" class="title-slide slide level1">
-<h1>Comparative statics</h1>
+<section id="estática-comparada" class="title-slide slide level1">
+<h1>Estática Comparada</h1>
 
 </section>
-<section id="comparative-statics-1" class="slide level2">
-<h2>Comparative Statics</h2>
+<section id="estática-comparada-1" class="slide level2">
+<h2>Estática comparada</h2>
 <ul>
-<li>Power is:
+<li>El poder:
 <ul>
-<li>Increasing in <span class="math inline">\(N\)</span></li>
-<li>Increasing in <span class="math inline">\(|\tau|\)</span></li>
-<li>Decreasing in <span class="math inline">\(\sigma\)</span></li>
+<li>Crece con <span class="math inline">\(N\)</span></li>
+<li>Crece con <span class="math inline">\(|\tau|\)</span></li>
+<li>Decrece con <span class="math inline">\(\sigma\)</span></li>
 </ul></li>
 </ul>
 </section>
-<section id="power-by-sample-size" class="slide level2 allowframebreaks">
-<h2 class="allowframebreaks">Power by sample size</h2>
-<div class="sourceCode" id="cb50"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a>some_ns <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">10</span>, <span class="dv">800</span>, <span class="at">by =</span> <span class="dv">10</span>)</span>
-<span id="cb50-2"><a href="#cb50-2" aria-hidden="true" tabindex="-1"></a>pow_by_n <span class="ot">&lt;-</span> <span class="fu">sapply</span>(some_ns, <span class="cf">function</span>(then) {</span>
-<span id="cb50-3"><a href="#cb50-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pwr.t.test</span>(<span class="at">n =</span> then, <span class="at">d =</span> <span class="fl">0.25</span>, <span class="at">sig.level =</span> <span class="fl">0.05</span>)<span class="sc">$</span>power</span>
-<span id="cb50-4"><a href="#cb50-4" aria-hidden="true" tabindex="-1"></a>})</span>
-<span id="cb50-5"><a href="#cb50-5" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(some_ns, pow_by_n,</span>
-<span id="cb50-6"><a href="#cb50-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">xlab =</span> <span class="st">&quot;Sample Size&quot;</span>,</span>
-<span id="cb50-7"><a href="#cb50-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">ylab =</span> <span class="st">&quot;Power&quot;</span></span>
-<span id="cb50-8"><a href="#cb50-8" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb50-9"><a href="#cb50-9" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">h =</span> .<span class="dv">8</span>)</span></code></pre></div>
+<section id="poder-segun-el-tamaño-de-la-muestra" class="slide level2 allowframebreaks">
+<h2 class="allowframebreaks">Poder segun el tamaño de la muestra</h2>
+<div class="sourceCode" id="cb51"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a>some_ns <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">10</span>, <span class="dv">800</span>, <span class="at">by =</span> <span class="dv">10</span>)</span>
+<span id="cb51-2"><a href="#cb51-2" aria-hidden="true" tabindex="-1"></a>pow_by_n <span class="ot">&lt;-</span> <span class="fu">sapply</span>(some_ns, <span class="cf">function</span>(then) {</span>
+<span id="cb51-3"><a href="#cb51-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pwr.t.test</span>(<span class="at">n =</span> then, <span class="at">d =</span> <span class="fl">0.25</span>, <span class="at">sig.level =</span> <span class="fl">0.05</span>)<span class="sc">$</span>power</span>
+<span id="cb51-4"><a href="#cb51-4" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb51-5"><a href="#cb51-5" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(some_ns, pow_by_n,</span>
+<span id="cb51-6"><a href="#cb51-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">xlab =</span> <span class="st">&quot;Sample Size&quot;</span>,</span>
+<span id="cb51-7"><a href="#cb51-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">ylab =</span> <span class="st">&quot;Power&quot;</span></span>
+<span id="cb51-8"><a href="#cb51-8" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb51-9"><a href="#cb51-9" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">h =</span> .<span class="dv">8</span>)</span></code></pre></div>
 <p><img src="figs/figpowplot_by_n-1.png" width=".8\textwidth"  /></p>
-<div class="sourceCode" id="cb51"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="do">## See https://cran.r-project.org/web/packages/pwr/vignettes/pwr-vignette.html</span></span>
-<span id="cb51-2"><a href="#cb51-2" aria-hidden="true" tabindex="-1"></a><span class="do">## for fancier plots</span></span>
-<span id="cb51-3"><a href="#cb51-3" aria-hidden="true" tabindex="-1"></a><span class="do">## ptest &lt;-  pwr.t.test(n = NULL, d = 0.25, sig.level = 0.05, power = .8)</span></span>
-<span id="cb51-4"><a href="#cb51-4" aria-hidden="true" tabindex="-1"></a><span class="do">## plot(ptest)</span></span></code></pre></div>
+<div class="sourceCode" id="cb52"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Vea https://cran.r-project.org/web/packages/pwr/vignettes/pwr-vignette.html</span></span>
+<span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a><span class="do">## para mejores gráficas</span></span>
+<span id="cb52-3"><a href="#cb52-3" aria-hidden="true" tabindex="-1"></a><span class="do">## ptest &lt;-  pwr.t.test(n = NULL, d = 0.25, sig.level = 0.05, power = .8)</span></span>
+<span id="cb52-4"><a href="#cb52-4" aria-hidden="true" tabindex="-1"></a><span class="do">## plot(ptest)</span></span></code></pre></div>
 </section>
-<section id="power-by-treatment-effect-size" class="slide level2 allowframebreaks">
-<h2 class="allowframebreaks">Power by treatment effect size</h2>
-<div class="sourceCode" id="cb52"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a>some_taus <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="at">by =</span> .<span class="dv">05</span>)</span>
-<span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a>pow_by_tau <span class="ot">&lt;-</span> <span class="fu">sapply</span>(some_taus, <span class="cf">function</span>(thetau) {</span>
-<span id="cb52-3"><a href="#cb52-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pwr.t.test</span>(<span class="at">n =</span> <span class="dv">200</span>, <span class="at">d =</span> thetau, <span class="at">sig.level =</span> <span class="fl">0.05</span>)<span class="sc">$</span>power</span>
-<span id="cb52-4"><a href="#cb52-4" aria-hidden="true" tabindex="-1"></a>})</span>
-<span id="cb52-5"><a href="#cb52-5" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(some_taus, pow_by_tau,</span>
-<span id="cb52-6"><a href="#cb52-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">xlab =</span> <span class="st">&quot;Average Treatment Effect (Standardized)&quot;</span>,</span>
-<span id="cb52-7"><a href="#cb52-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">ylab =</span> <span class="st">&quot;Power&quot;</span></span>
-<span id="cb52-8"><a href="#cb52-8" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb52-9"><a href="#cb52-9" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">h =</span> .<span class="dv">8</span>)</span></code></pre></div>
+<section id="poder-segun-el-tamaño-de-la-muestra-1" class="slide level2 allowframebreaks">
+<h2 class="allowframebreaks">Poder segun el tamaño de la muestra</h2>
+<div class="sourceCode" id="cb53"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a>some_taus <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="at">by =</span> .<span class="dv">05</span>)</span>
+<span id="cb53-2"><a href="#cb53-2" aria-hidden="true" tabindex="-1"></a>pow_by_tau <span class="ot">&lt;-</span> <span class="fu">sapply</span>(some_taus, <span class="cf">function</span>(thetau) {</span>
+<span id="cb53-3"><a href="#cb53-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pwr.t.test</span>(<span class="at">n =</span> <span class="dv">200</span>, <span class="at">d =</span> thetau, <span class="at">sig.level =</span> <span class="fl">0.05</span>)<span class="sc">$</span>power</span>
+<span id="cb53-4"><a href="#cb53-4" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb53-5"><a href="#cb53-5" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(some_taus, pow_by_tau,</span>
+<span id="cb53-6"><a href="#cb53-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">xlab =</span> <span class="st">&quot;Average Treatment Effect (Standardized)&quot;</span>,</span>
+<span id="cb53-7"><a href="#cb53-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">ylab =</span> <span class="st">&quot;Power&quot;</span></span>
+<span id="cb53-8"><a href="#cb53-8" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb53-9"><a href="#cb53-9" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">h =</span> .<span class="dv">8</span>)</span></code></pre></div>
 <p><img src="figs/figpowplot_by_tau-1.png" width=".8\textwidth"  /></p>
 </section>
-<section id="egap-power-calculator" class="slide level2">
-<h2>EGAP Power Calculator</h2>
+<section id="calculadora-de-poder-de-egap" class="slide level2">
+<h2>Calculadora de Poder de EGAP</h2>
 <ul>
-<li><p>Try the calculator at: <a href="https://egap.shinyapps.io/power-app/" class="uri">https://egap.shinyapps.io/power-app/</a></p></li>
-<li><p>For cluster randomization designs, try adjusting:</p>
+<li><p>Pueden usar la calculadora aquí: <a href="https://egap.shinyapps.io/power-app/" class="uri">https://egap.shinyapps.io/power-app/</a></p></li>
+<li><p>Para diseños por conglomerados puede probar ajustando:</p>
 <ul>
-<li>Number of clusters</li>
-<li>Number of units per clusters</li>
-<li>Intra-cluster correlation</li>
-<li>Treatment effect</li>
+<li>El número de conglomerados</li>
+<li>El número de unidades por conglomerados</li>
+<li>Correlación Intra-cluster correlation</li>
+<li>Efecto del tratamiento</li>
 </ul></li>
 </ul>
 </section>
 <section id="comments" class="slide level2">
 <h2>Comments</h2>
 <ul>
-<li><p>Know your outcome variable.</p></li>
-<li><p>What effects can you realistically expect from your treatment?</p></li>
-<li><p>What is the plausible range of variation of the outcome variable?</p>
+<li><p>Deben conocer bien la variable de interés</p></li>
+<li><p>¿Cuáles son los efectos que verdaderamente esperan del tratamiento?</p></li>
+<li><p>¿Cuál es el rango de variación posible que puede tener la variable de interés?</p>
 <ul>
-<li>A design with limited possible movement in the outcome variable may not be well-powered.</li>
+<li>Un diseño en el que la variable de interés tenga variación limitada puede tener poco poder</li>
 </ul></li>
 </ul>
 </section>
-<section id="conclusion-how-to-improve-your-power" class="slide level2">
-<h2>Conclusion: How to improve your power</h2>
+<section id="conclusión-cómo-mejorar-el-poder" class="slide level2">
+<h2>Conclusión: Cómo mejorar el poder</h2>
 <ol type="1">
-<li><p>Increase the <span class="math inline">\(N\)</span></p>
+<li><p>Hagan a <span class="math inline">\(N\)</span> más grande</p>
 <ul>
-<li>If clustered, increase the number of clusters if at all possible</li>
+<li>Si hay conglomerados, aumenten el número de conglomerados de ser posibles</li>
 </ul></li>
-<li><p>Strengthen the treatment</p></li>
-<li><p>Improve precision</p>
+<li><p>Intensifiquen el tratamiento</p></li>
+<li><p>Mejoren la precisión</p>
 <ul>
-<li><p>Covariate adjustment</p></li>
-<li><p>Blocking</p></li>
+<li><p>Ajuste de covariables</p></li>
+<li><p>Bloques</p></li>
 </ul></li>
-<li><p>Better measurement of the outcome variable</p></li>
+<li><p>Midan la variable de interés correctamente</p></li>
 </ol>
 </section></section>
     </div>
