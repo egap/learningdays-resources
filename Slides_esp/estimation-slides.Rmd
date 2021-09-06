@@ -65,9 +65,9 @@ library(styler)
 
 ## Puntos clave para la estimación II
 
-La clave para la estimación en la inferencia causal es elegir un estimando que permita aprender sobre alguna pregunta teórica o de políticas. Para esto, el ATE es una opción, pero otros estimandos comunes también incluyen el ITT, LATE/CACE, ATT o ATE para algún subgrupo (o incluso una diferencia de un efecto causal entre grupos).
+La clave para la estimación en la inferencia causal es elegir un estimando que permita aprender sobre alguna pregunta teórica o de políticas públicas. Para esto, el ATE es una opción, pero otros estimandos comunes también incluyen el ITT, LATE/CACE, ATT o ATE para algún subgrupo (o incluso una diferencia de un efecto causal entre grupos).
 
-  - Un **estimador** es una receta para hacer una estimación sobre el valor de un estimando. Por ejemplo, la diferencia de medias observadas para $m$ unidades tratadas es un estimador de $\bar{\tau}$:
+  - Un **estimador** es una fórmula para hacer una estimación sobre el valor de un estimando. Por ejemplo, la diferencia de medias observadas para $m$ unidades tratadas es un estimador de $\bar{\tau}$:
    $\hat{\bar{\tau}} = \frac{\sum_{i=1}^n (T_i Y_i)}{m} - \frac{\sum_{i=1}^n ( ( 1 - T_i)Y_i)}{(n-m)}$.
 
 ## Puntos clave para la estimación III
@@ -75,7 +75,7 @@ La clave para la estimación en la inferencia causal es elegir un estimando que 
  - El **error estándar** de un estimador en un experimento aleatorio resume cómo variarían las estimaciones si se repitiera el experimento.
 
  - Usamos el **error estándar** para producir **intervalos de confianza** y
-   **valores p**  para que podamos comenzar con un estimador y terminamos con una prueba de hipótesis.
+   **valores p**  para que podamos comenzar con un estimador y terminemos con una prueba de hipótesis.
 
   - Diferentes aleatorizaciones producirán diferentes valores del mismo estimador que busca estimar el mismo estimando. Un **error estándar** resume esta variabilidad en un estimador.
 
@@ -93,7 +93,7 @@ La clave para la estimación en la inferencia causal es elegir un estimando que 
 
 ## Puntos clave sobre la estimación V
 
- -  **Analizar mientras se aleatoriza** en cuanto a la estimación esto significa que (1) nuestros errores estándar deben medir la variabilidad de la aleatorización y (2) y el objetivo de nuestros estimadores deben ser estimandos definidos en términos de salidas potenciales.
+ -  **Analizar conforme se aleatoriza** en cuanto a la estimación esto significa que (1) nuestros errores estándar deben medir la variabilidad de la aleatorización y (2) y el objetivo de nuestros estimadores deben ser estimandos definidos en términos de salidas potenciales.
 
 - No utlizamos **variables de control** cuando analizamos datos provenientes de  experimentos aleatorios. Sin embargo estas covariables pueden hacer que nuestra estimación sea más **precisa**. Esto se denomina **ajuste de covarianza**  (o ajuste de covariables). Tengan en cuenta que es diferente controlar en estudios observacionales a hacer **ajuste de covarianza** en experimentos aleatorios.
 
@@ -113,7 +113,7 @@ Por ejemplo:
 La asignación al tratamiento, $T_i$, tiene un efecto causal para la unidad $i$ al que llamamos $\tau_i$, si
 $Y_{i}(T_{i} = 1) - Y_{i}(T_ {i} = 0) \ne 0$ o $Y_{i}(T_ {i} = 1) \ne Y_{i}(T_ {i} = 0)$.
 
-# Estimandos y estimadores y promedios
+# Estimandos, estimadores y promedios
 
 ## ¿Cómo podemos aprender sobre los efectos causales utilizando los datos observados?
 
@@ -124,7 +124,7 @@ $Y_{i}(T_{i} = 1) - Y_{i}(T_ {i} = 0) \ne 0$ o $Y_{i}(T_ {i} = 1) \ne Y_{i}(T_ {
 
 ## Un estimando y un estimador común: el efecto promedio del tratamiento y la diferencia de medias
 
-Supongamos que estamos interesados en el ATE, o $\bar {\tau} = \sum_{i = 1}^n \ tau_{i}$. ¿Cuál sería un buen estimador?
+Supongamos que estamos interesados en el ATE, o $\bar{\tau}_i = \sum_{i = 1}^n \ \tau_{i}$. ¿Cuál sería un buen estimador?
 
 Dos candidatos:
 
@@ -211,23 +211,23 @@ set.seed(12345)
 
 ## DeclareDesign 
 
-En DeclareDesign se pueden representar diseños de investigación en apenas unos pocos pasos:
+En DeclareDesign se pueden representar diseños de investigación en unos pocos pasos:
 
 ```{r dd1, echo=TRUE}
-# # Seleccionar solamente las salidas potenciales bajo control y tratamiento
+# # Seleccionar las salidas potenciales bajo control y tratamiento
 small_dat <- dat[, c("y0", "y1")]
 
 # El primer paso en DeclareDesign es declarar la población
 pop <- declare_population(small_dat)
 N <- nrow(pop)
 
-# 5 unidades asignadas al tratamiento; DD hace asignación simple con p= .5
+# 5 unidades asignadas al tratamiento; DD hace asignación simple con p=.5
 trt_assign <- declare_assignment(Z = conduct_ra(N=N,m = 2),
                                  legacy=FALSE)
 # El valor observado de Y es y1 si Z=1 y y0 si Z=0
 pot_out <- declare_potential_outcomes(Y ~ Z * y1 + (1 - Z) * y0)
 
-# Especificar variable de intenterés y asignación al tratamiento
+# Especificar variable de interés y asignación al tratamiento
 reveal <- declare_reveal(Y, Z)
 
 # El objeto de diseño de investigación básico
@@ -250,7 +250,7 @@ head(sim_dat1)
 
 ## Utilizando DeclareDesign: definiendo estimandos y estimadores
 
-El siguiente código no produce ninguna salida. Solo define las funciones, los estimadores y un estimando.
+El siguiente código no produce ninguna resultado. Sólo define las funciones, los estimadores y un estimando.
 
 ```{r dd2, echo=TRUE}
 ## El estimando
@@ -390,7 +390,7 @@ print(sim_plot)
 
 ## ¿Cuál estimador se acerca más al valor real?
 
-Un criterio para elegir entre los estimadores es elegir el estimador que siempre esté más **cerca del valor real** , independientemente de la aleatorización específica.
+Un criterio para elegir entre los estimadores es elegir el estimador que siempre esté más **cerca del valor real**, independientemente de la aleatorización específica.
 
 Un estimador "insesgado" es aquel para el que **el promedio de las estimaciones en los diseños repetidos** es igual al valor real (o $E_R (\hat {\bar{\tau}}) = \bar{\tau}$ ). Un estimador insesgado no tiene "ningún error sistemático" pero tampoco nos garantiza que vamos a estar cerca del valor real.
 
@@ -511,8 +511,7 @@ base_design_blocks <-
  # Indicarle a DD que b son bloques  y 
   #2 unidades son tratadas en cada bloque
     declare_assignment(Z=conduct_ra(N=N, m=2,blocks=b), 
-                       Z_cond_prob = 
-      obtain_condition_probabilities(assignment = Z, m = 2)) +
+     Z_cond_prob = obtain_condition_probabilities(assignment = Z, m = 2)) +
     # relación entre salidas potenciales y variables de interés
     declare_potential_outcomes(Y ~ Z * y1 + (1 - Z) * y0)+
     # variable de interés observada y asignación al tratamiento
@@ -599,7 +598,7 @@ print(sim_plot2)
 blocktab <- reshape_diagnosis(diagnosis2, select = c("Estimator", "Bias", "RMSE","SD Estimate", "Mean Se", "Power",  "Coverage"))[,-c(1,2,4,5,6)]
 kableExtra::kable(blocktab,col.names = c("Estimator","Bias","RMSE","SD Est","Mean SE","Power","Coverage"))
 ```
-Como pueden notar la cobertura no es del 95% en todos los casos. La razón por la que usamos 10,000 simulaciones es que el error de simulación es de alrededor de $\pm 2 \sqrt{p (1-p)/10000}$ o, por ejemplo, para una cobertura de .93, una simulación diferente podría fácilmente haber producido  `r .93 -2 * sqrt(.93 * (1-.93) / 10000)` o `r .93 + 2 * sqrt(.93 * (1-.93) / 10000)` (o en raras ocasiones habría retornado coberturas que se encuentren fuera de ese rango sólo por chance).
+Como pueden notar la cobertura no es del 95% en todos los casos. La razón por la que usamos 10,000 simulaciones es que el error de simulación es de alrededor de $\pm 2 \sqrt{p (1-p)/10000}$ o, por ejemplo, para una cobertura de .93, una simulación diferente podría fácilmente haber producido  `r .93 -2 * sqrt(.93 * (1-.93) / 10000)` o `r .93 + 2 * sqrt(.93 * (1-.93) / 10000)` (o en raras ocasiones habría calculado coberturas que se encuentren fuera de ese rango sólo por chance).
 
 
 
@@ -616,7 +615,7 @@ Como pueden notar la cobertura no es del 95% en todos los casos. La razón por l
 - **Esto no es un ejemplo 2:** una intervención se asigna al azar a algunos vecindarios y a otros no, entre las variables de interés se encuentran la confianza en el gobierno a nivel del vecindario y el área total de tierra en el vecindario destinada a jardines. (A veces, un experimento aleatorizado por conglomerados se puede convertir en un experimento aleatorizado simple. O puede contener más de un posible forma para hacer análisis e interpretación).
 
 
-¿En que podrían la distribución de una estadística de prueba y estimadores diferenciarse de un experimento en el que unidades individuales (y no conglomerados) son aletorizados?
+¿En qué podrían diferenciarse la distribución de una estadística de prueba y estimadores en un experimento aleatorizado a nivel individual y en uno de conglomerados?
 
 ## Estimación del ATE en experimentos aleatorizados por conglomerados
 
@@ -626,7 +625,7 @@ Problemas de sesgo en experimentos aleatorizados por conglomerados:
 
 - Pero hay que tener cuidado cuando los conglomerados tienen un número diferente de unidades o si hay muy pocos conglomerados ya que los efectos del tratamiento podrían estar correlacionados con el tamaño del conglomerado.
 
-- Cuando el tamaño del conglomerado está relacionado con las salidas potenciales, el estimador habitual de diferencias de medias es sesgado. <https://declaredesign.org/blog/bias-cluster-randomized-trials.html>
+- Cuando el tamaño del conglomerado está relacionado con las salidas potenciales, el estimador habitual de diferencias de medias está sesgado. <https://declaredesign.org/blog/bias-cluster-randomized-trials.html>
 
 ## Estimación del error estándar para el ATE en experimentos aleatorizados por conglomerados {.allowframebreaks}
 
@@ -740,7 +739,7 @@ est7(dat1)
 
 ```
 
-Suponga que tenemos datos provenientes 10 conglomerados con 100 personas (en 2 conglomerados) o 10 personas por grupo (en 8 conglomerados). El tamaño total de los datos es `r nrow (dat1)`.
+Supongamos que tenemos datos provenientes 10 conglomerados con 100 personas (en 2 conglomerados) o 10 personas por grupo (en 8 conglomerados). El tamaño total de los datos es `r nrow (dat1)`.
 
 
 ```{r}
@@ -752,7 +751,7 @@ tmp
 
 ## Un ejemplo de estimación
 
-¿Cuál estimador deberíamos utilizar? ¿Cuál prueba deberíamos utilizar? ¿En que nos deberíamos basar para elegir entre alternativas?
+¿Cuál estimador deberíamos utilizar? ¿Cuál prueba deberíamos utilizar? ¿En qué nos deberíamos basar para elegir entre alternativas?
 
 ```{r clusest, echo=TRUE}
 lmc1 <- lm_robust(Y~Z,data=dat1)
@@ -841,19 +840,19 @@ print(sim_plot3)
  
 - Si la aleatorización se hace al nivel del conglomerado, la incertidumbre que surge de la aleatorización es también a nivel del conglomerado.
 
-- Cuando tenemos suficientes conglomerados,  los errores estándar "robustos para conglomerados" pueden ayudarnos a producir intervalos de confianza con la cobertura correcta. **Los errores estándar robustos para conglomerados requiere que haya muchos conglomerados**..
+- Cuando tenemos suficientes conglomerados,  los errores estándar "robustos para conglomerados" pueden ayudarnos a producir intervalos de confianza con la cobertura correcta. **Los errores estándar robustos para conglomerados requiere que haya muchos conglomerados**.
 
  -  Si el tamaño del conglomerado (o alguna característica) está relacionado con el tamaño del efecto, entonces la estimación puede estar sesgada (y necesitamos ajustar de alguna manera).
 
 
-# Variables de Interés Binarias
+# Variables de interés binarias
 
 ##  Variables de interés binarias: Definiendo datos en DeclareDesign para las simulaciones 
 
 ```{r setupbin, echo=TRUE}
-# tamaño de la poblacion
+# tamaño de la población
 N <- 20
-# declarar la població
+# declarar la población
 thepop_bin <- declare_population(N=N, x1 = draw_binary(prob = .5, N = N),
 x2=rnorm(N))
 # declarar las salidas potenciales
@@ -871,10 +870,10 @@ thetarget_logodds <- declare_inquiry(
 ##  Variables de interés binarias: Definiendo datos en DeclareDesign para las simulaciones 
 
 ```{r setupbin2, echo=TRUE}
-# declarar como se asigna el tratamiento
+# declarar cómo se asigna el tratamiento
 # m unidades se asignan a los niveles del tratamiento Z
 theassign_bin <- declare_assignment(Z=conduct_ra(N=N, m=floor(N/3)))
-# declarar cuales variables se revelan para distintos niveles de Z
+# declarar cuáles variables se revelan para distintos niveles de Z
 thereveal_bin <- declare_reveal(Y,Z)
 # reuniendo todo: población, salidas potenciales, asignación,
 ## variable Y conectada a Z
@@ -912,7 +911,7 @@ c(bary1=bary1,bary0=bary0,true_ate=ate_bin,
 ```
 ## Variables de interés binarias: Estimandos III
 
-¿Quiere estimar la diferencia en logg-odds?
+¿Quieren estimar la diferencia en logg-odds?
 
 \begin{equation}
 \delta = \log \frac{\bar{y}_{1}}{1-\bar{y}_{1}} - \log \frac{ \bar{y}_0}{1- \bar{y}_0}
@@ -924,7 +923,7 @@ c(bary1=bary1,bary0=bary0,true_ate=ate_bin,
 \bar{\tau} = \bar{y}_{1} - \bar{y}_0
 \end{equation}
 
-Recuerde que $\bar{y}_1$ que es la *proporción* de $y_{1}=1$ en los datos.
+Recuerden que $\bar{y}_1$ que es la *proporción* de $y_{1}=1$ en los datos.
 
 @freedman2008randomization  nos muestra que el estimador del coeficiente logit es un estimador sesgado del estimando de la diferencia en los log-odds. Así mismo también presenta un estimador insesgado para ese mismo estimando.
 
@@ -1100,9 +1099,9 @@ sim_plot_bin <- ggplot(sims_bin, aes(y = estimate, x = estimator, color = estima
 print(sim_plot_bin)
 ```
 
-##  ¿Cuál es el estimador está más cerca al valor real?
+##  ¿Qué estimador está más cerca al valor real?
 
-¿Cuál estimador funciona mejor para este diseño y estos datos?
+¿Qué estimador funciona mejor para este diseño y estos datos?
   
 
 
@@ -1132,7 +1131,7 @@ En general, simplemente "controlar" produce un estimador sesgado del estimando d
 @lin_agnostic_2013  muestran cómo reducir este sesgo y, lo que es más importante, este sesgo tiende a ser pequeño a medida que aumenta el tamaño de la muestra.
 
 
-# Conclusion
+# Conclusión
 
 ## Reflexiones finales sobre los conceptos básicos de la estimación
 
@@ -1145,7 +1144,7 @@ En general, simplemente "controlar" produce un estimador sesgado del estimando d
 - (Contectado los conceptos de estimación y pruebas) Los errores estándar de los estimadores nos permiten calcular intervalos de confianza y valores $p$. Ciertos estimadores tienen
 errores estándar más grandes o más pequeños (o más o menos correctos).
 
-- Puede evaluar la utilidad de un estimador elegido para un estimador dado utilizando una simulación.
+- Pueden evaluar la utilidad de un estimador elegido para un estimador dado utilizando una simulación.
 
 # Efectos causales que varian por grupos o por covariables
 
@@ -1156,9 +1155,10 @@ Si nuestra teoría sugiere que los efectos varian de acuerdo a los grupos, ¿qu�
  - Podemos **diseñar**  una evaluación de esta teoría creando un
    estudio aleatorizado en bloque; los bloques estarían definidos de acuerdo a  los grupos relevantes según la teoría.
 
- - Podemos **planificar** para hacer dicha evaluación mediante (1)   
-**preinscripción específica del análisis de subgrupos** (si bloqueamos o no ese grupo en la
+ - Podemos **planificar** para hacer dicha evaluación mediante (1)  un **pre-registro del análisis de subgrupo** a realizar antes de la realización del experimento y la recolección de datos (si bloqueamos o no ese grupo en la
    fase de diseño) y (2) asegurarse de medir la pertenencia al grupo durante la recolección de datos inicial previa al tratamiento
+
+
 
 
 ## Efectos que varian de acuerdo al  grupo II 
@@ -1212,7 +1212,7 @@ Podemos simplificar las formas en que las personas reciben una dosis del tratami
 cuando se visita o no es un atributo fijo, como una salida potencial).
 
  - $Y$: variable de interés ($y_ {i, Z}$ o $y_ {i, Z_i = 1}$ para la salida potencial de
-   tratamiento por persona $ i $, fijo)
+   tratamiento por persona $i$, fijo)
  - $X$: covariable/variable de referencia
  - $Z$: asignación del tratamiento ($Z_i = 1$ si se asigna a una visita, $Z_i = 0$ si no se
    asigna a una visita)
@@ -1318,7 +1318,7 @@ ITT     = &   \bar{y}_{1} - \bar{y}_{0} \\
 
 ##  Aprendiendo sobre ITT IV
 
-Y si el efecto de la dosis solo puede darse para aquellos que abren la puerta y solo aquellos que fueron asignados al tratamiento pueden abrir la puerta, entonces:
+Y si el efecto de la dosis sólo puede darse para aquellos que abren la puerta y sólo aquellos que fueron asignados al tratamiento pueden abrir la puerta, entonces:
  
 \begin{equation}
 ( (\bar{y}_{1}|A)- (\bar{y}_{0}|A))p_A = 0  \text{ and } ( (\bar{y}_1|N) - (\bar{y}_{0}|N) )p_N = 0
@@ -1446,7 +1446,7 @@ coef(itt_y)[["Z"]]/coef(itt_d)[["Z"]]
 
 ## Resumen de diseños orientados al estímulo/cumplidor/dosis:
 
- - Analizar mientras aleatoriza, incluso cuando no hay control de la dosis
+ - Analizar conforme se aleatoriza, incluso cuando no hay control de la dosis
  - El peligro del análisis por protocolo.
 
 ## Referencias
