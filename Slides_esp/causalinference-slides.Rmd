@@ -108,9 +108,9 @@ colorize <- function(x, color) {
 - Si adoptamos un enfoque contrafactual, ¿qué nos dice implícitamente esta afirmación sobre el contrafactual? ¿Qué otros contrafactuales podrían ser posibles y por qué?
 
 
-# Salidas Potenciales
+# Resultados potenciales
 
-## Salidas Potenciales
+## Resultados potenciales
 
 - Para cada unidad asumimos que hay dos **valores posteriores al tratamiento**: $Y_i(1)$ y $Y_i(0)$.
 
@@ -149,7 +149,7 @@ $$Y_i = T_iY_i(1) + (1-T_i)Y_i(0)$$
 | Deepal   | 0        | 1        | -1       |
 - Conocemos el efecto del tratamiento para cada individuo.
 - Nótese la heterogeneidad en los efectos del tratamiento a nivel individual.
-- Pero solo sabemos del valor de una de las salidas potenciales para cada individuo como máximo, lo que significa que no conocemos estos efectos del tratamiento.
+- Pero solo sabemos del valor de una de las resultados potenciales para cada individuo como máximo, lo que significa que no conocemos estos efectos del tratamiento.
 
 ## Efecto causal promedio
 
@@ -229,7 +229,7 @@ $$E_R[Y_i | T_i = 1] - E_R [Y_i | T_i = 0] = \overline {Y_i (1)} - \overline{Y_i
 knitr::include_graphics("../Images/randomsampling.png")
 ```
 
-## Salidas potenciales
+## Resultados potenciales
 Cada hogar $i$ tiene `r colorize("$Y_i(1)$","red")` y `r colorize("$Y_i(0)$","blue")`.
 
 ```{r randomsamplingred, echo=FALSE, out.width='80%',fig.cap=''}
@@ -246,7 +246,7 @@ knitr::include_graphics("../Images/randomassignment.png")
 
 Para hacer afirmaciones causales con un experimento (o para juzgar si creemos en las afirmaciones de un estudio), necesitamos tres supuestos básicos:
 
- - Asignación aleatoria de sujetos al tratamiento, lo que implica que recibir el tratamiento es estadísticamente independiente de las salidas potenciales de los sujetos.
+ - Asignación aleatoria de sujetos al tratamiento, lo que implica que recibir el tratamiento es estadísticamente independiente de las resultados potenciales de los sujetos.
 
  - Supuesto de estabilidad del valor bajo tratamiento para cada unidad (SEVTU).
 
@@ -255,7 +255,7 @@ Para hacer afirmaciones causales con un experimento (o para juzgar si creemos en
 
 ## Supuesto clave: SEVTU, parte 1
 
-1. No interferencia: la salida potencial de un sujeto refleja solo si ese sujeto recibe el tratamiento. No se ve afectado por cómo se asigna el tratamiento a otros sujetos.
+1. No interferencia: la resultado potencial de un sujeto refleja solo si ese sujeto recibe el tratamiento. No se ve afectado por cómo se asigna el tratamiento a otros sujetos.
 
    - Una violación clásica es el caso de las vacunas y sus efectos secundarios.
 

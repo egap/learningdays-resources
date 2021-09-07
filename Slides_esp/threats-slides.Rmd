@@ -62,7 +62,7 @@ knitr::opts_chunk$set(echo = FALSE)
 # Deserción
 ## Deserción (variables de interés con datos faltantes)
 
-- Algunas unidades pueden tener datos faltantes para las variables de resultado (= las unidades desertan) cuando:
+- Algunas unidades pueden tener datos faltantes para las variables de interés (= las unidades desertan) cuando:
 
   - algunos encuestados no pueden ser encontrados o se niegan a participar en la recolección de datos finales.
   
@@ -73,7 +73,7 @@ knitr::opts_chunk$set(echo = FALSE)
   - Por ejemplo, las unidades asignadas a control pueden estar menos dispuestas a responder las preguntas de la encuesta.
   - Por ejemplo, el tratamiento puede haber provocado la migración de unidades y no hay forma de acceder a ellas.
 
-- Si analizamos los datos descartando unidades con datos faltantes para la variable de resultado, entonces ya estaríamos comparando grupos de tratamiento y control similares.
+- Si analizamos los datos descartando unidades con datos faltantes para la variable de interés, entonces ya estaríamos comparando grupos de tratamiento y control similares.
 
 ## ¿Qué podemos hacer?
 
@@ -81,7 +81,7 @@ knitr::opts_chunk$set(echo = FALSE)
 
 - Compruebe si las covariables de los grupos de tratamiento y control tienen patrones similares.
 
-- No elimine las observaciones a las que les falten datos para la variable de resultado.
+- No elimine las observaciones a las que les falten datos para la variable de interés.
 
 - A veces, cuando faltan datos para la variable de resultados, podemos **acotar** nuestras estimaciones del efecto del tratamiento.
 
@@ -130,7 +130,7 @@ knitr::opts_chunk$set(echo = FALSE)
 
   - Se requiere que se cumplan dos supuesto para poder estimar el LATE/CACE a partir de un experimento aleatorio.
   
-  1. Restricción de exclusión: la asignación del tratamiento solo afecta la variable de resultado a través del "recibo" del tratamiento y no a través de ningún otro canal.
+  1. Restricción de exclusión: la asignación del tratamiento solo afecta la variable de interés a través del "recibo" del tratamiento y no a través de ningún otro canal.
   2. Supuesto de monotonicidad: no hay unidades que desafían, es decir, unidades que toman el tratamiento solo cuando son asignadas a control pero no toman el tratamiento cuando son asignados a este.
 
 
@@ -179,9 +179,10 @@ knitr::opts_chunk$set(echo = FALSE)
 # No excluibilidad
 ## Diferencias entre los grupos de tratamiento y control más allá del tratamiento
 
-   - Manejar los grupos de tratamiento y control de manera diferente significa que las diferencias observadas en las variable de resultado entre estos grupos pueden deberse al tratamiento y/o al manejo diferente.
+   - Manejar los grupos de tratamiento y control de manera diferente significa que las diferencias observadas en las variables de interés entre estos grupos pueden deberse al tratamiento y/o al manejo diferente.
    
    - Los ejemplos incluyen el uso de diferentes cuestionarios para la recolección de datos o rondas adicionales de recolección de datos para el grupo de tratamiento con la intención de obtener información sobre los mecanismos.
    
    - Recuerde diseñar su estudio y sus encuesta para tratar todos los brazos de tratamiento por igual, excepto por el tratamiento en sí.
+   
    
