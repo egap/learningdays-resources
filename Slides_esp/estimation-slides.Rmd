@@ -1,5 +1,5 @@
 ---
-title: "Estimando Estimandos con Estimadores"
+title: "Estimando estimandos con estimadores"
 author: "Fill In Your Name"
 date: "`r format(Sys.time(), '%d-%m-%Y')`"
 output:
@@ -141,7 +141,7 @@ Dos candidatos:
 
 ## Paso 1 de la simulación: generar datos con un ATE conocido
 
-Tengan en cuenta que necesitamos *conocer* las resultados potenciales y la
+Tengan en cuenta que necesitamos *conocer* los resultados potenciales y la
 asignación al tratamiento para saber si el estimador propuesto funciona bien.
 
 ```{r echo=FALSE}
@@ -177,7 +177,7 @@ message("El ATE real es ", ATE)
 ```
 
 
-En la vida real sólo podemos observar una realización de las resultados potenciales. Recuerden que cada unidad tiene su propio efecto bajo el tratamiento.
+En la vida real sólo podemos observar una realización de los resultados potenciales. Recuerden que cada unidad tiene su propio efecto bajo el tratamiento.
 
 ## Primero: generar datos artificiales
 
@@ -214,7 +214,7 @@ set.seed(12345)
 En DeclareDesign se pueden representar diseños de investigación en unos pocos pasos:
 
 ```{r dd1, echo=TRUE}
-# # Seleccionar las resultados potenciales bajo control y tratamiento
+# # Seleccionar los resultados potenciales bajo control y tratamiento
 small_dat <- dat[, c("y0", "y1")]
 
 # El primer paso en DeclareDesign es declarar la población
@@ -227,7 +227,7 @@ trt_assign <- declare_assignment(Z = conduct_ra(N=N,m = 2),
 # El valor observado de Y es y1 si Z=1 y y0 si Z=0
 pot_out <- declare_potential_outcomes(Y ~ Z * y1 + (1 - Z) * y0)
 
-# Especificar variable de interés y asignación al tratamiento
+# Especificar variable de resultado y asignación al tratamiento
 reveal <- declare_reveal(Y, Z)
 
 # El objeto de diseño de investigación básico
@@ -514,7 +514,7 @@ base_design_blocks <-
      Z_cond_prob = obtain_condition_probabilities(assignment = Z, m = 2)) +
     # relación entre resultados potenciales y variables de interés
     declare_potential_outcomes(Y ~ Z * y1 + (1 - Z) * y0)+
-    # variable de interés observada y asignación al tratamiento
+    # variable de resultado observada y asignación al tratamiento
     declare_reveal(Y, Z)
 ```
 
@@ -625,7 +625,7 @@ Problemas de sesgo en experimentos aleatorizados por conglomerados:
 
 - Pero hay que tener cuidado cuando los conglomerados tienen un número diferente de unidades o si hay muy pocos conglomerados ya que los efectos del tratamiento podrían estar correlacionados con el tamaño del conglomerado.
 
-- Cuando el tamaño del conglomerado está relacionado con las resultados potenciales, el estimador habitual de diferencias de medias está sesgado. <https://declaredesign.org/blog/bias-cluster-randomized-trials.html>
+- Cuando el tamaño del conglomerado está relacionado con los resultados potenciales, el estimador habitual de diferencias de medias está sesgado. <https://declaredesign.org/blog/bias-cluster-randomized-trials.html>
 
 ## Estimación del error estándar para el ATE en experimentos aleatorizados por conglomerados {.allowframebreaks}
 
@@ -855,7 +855,7 @@ N <- 20
 # declarar la población
 thepop_bin <- declare_population(N=N, x1 = draw_binary(prob = .5, N = N),
 x2=rnorm(N))
-# declarar las resultados potenciales
+# declarar los resultados potenciales
 thepo_bin <- declare_potential_outcomes(Y ~ rbinom(n = N, size = 1,
                                                    prob = 0.5 + 0.05 * Z + x1*.05))
 # dos cantidades objetivo posibles: 
@@ -1063,7 +1063,7 @@ estb4 <- declare_estimator(Y~Z+x1,model=glm,family=binomial(link="logit"),
 
 ```{r ddbinsetup2, echo=TRUE}
 # Reuniendo todo des_bin es:
-# la pooblación, las resultados potenciales,
+# la pooblación, los resultados potenciales,
 # assignment, los valores realizados de Y conectados a Z.
 #Además, le agregamos dos cantidades objetivo y cuatro estimadores.
 des_bin_plus_est <- des_bin + thetarget_ate + thetarget_logodds +
@@ -1211,7 +1211,7 @@ Podemos simplificar las formas en que las personas reciben una dosis del tratami
 (donde $d$  minúscula refleja la idea de que si alguien abre la puerta
 cuando se visita o no es un atributo fijo, como una resultado potencial).
 
- - $Y$: variable de interés ($y_ {i, Z}$ o $y_ {i, Z_i = 1}$ para la resultado potencial de
+ - $Y$: variable de resultado ($y_ {i, Z}$ o $y_ {i, Z_i = 1}$ para la resultado potencial de
    tratamiento por persona $i$, fijo)
  - $X$: covariable/variable de referencia
  - $Z$: asignación del tratamiento ($Z_i = 1$ si se asigna a una visita, $Z_i = 0$ si no se
@@ -1240,14 +1240,14 @@ dosis junto con el instrumento.
 \end{tabular}
 
 
-##  Defining causal effects VI
+##  Definición de efectos causales  VI
 
 
  $ITT=ITT_Y=\delta= \bar{y}_{Z=1} - \bar{y}_{Z=0}$.
 
 \medskip
 
-Pero, en este diseño, $\bar{y}_{Z = 1} = \bar{y}_{1}$ está dividido en partes: el valor de la variable de interés para
+Pero, en este diseño, $\bar{y}_{Z = 1} = \bar{y}_{1}$ está dividido en partes: el valor de la variable de resultado para
 aquellos que abrieron la puerta (los que cumplen, los que siempre lo toman y los que desafian). Utilizamos
 $p_C$ para definir la proporción de cumplidores en el estudio.
 
@@ -1336,7 +1336,7 @@ ITT =  ( (\bar{y}_{1}|C) -  (\bar{y}_{0}|C))p_C  = ( CACE ) p_C.
 También puede resultarnos interesante aprender sobre el efecto causal de abrir la puerta y el de
 conversar, el efecto teóricamente interesante.
 
-Pero esta comparación está asociada con $x$: una simple $\bar{Y} | D = 1 - \bar {Y} | D = 0$ comparación nos deja ver las diferencias en la variable de interés ocasianadas por $x$ además de
+Pero esta comparación está asociada con $x$: una simple $\bar{Y} | D = 1 - \bar {Y} | D = 0$ comparación nos deja ver las diferencias en la variable de resultado ocasianadas por $x$ además de
 la diferencia causada por $D$. (Los números que se muestran continuación están basados en una simulación)
 
 \begin{center}

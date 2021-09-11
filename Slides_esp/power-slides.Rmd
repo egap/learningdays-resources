@@ -1,5 +1,5 @@
 ---
-title: "Poder Estadístico"
+title: "Poder estadístico"
 author: "Fill In Your Name"
 date: '`r format(Sys.time(), "%d-%m-%Y")`'
 header-includes: |
@@ -36,11 +36,11 @@ source("rmd_setup.R")
 # ¿Qué es el poder estadístico?
 ##  ¿Qué es el poder estadístico?
 
-- Queremos separarar a la señal del ruido.
+- Queremos separar la señal del ruido.
 
 - Poder = probabilidad de rechazar la hipótesis nula, dado un efecto real $\ne$  0.
 
-- Es otras palabras, es la habilidad de detectar un efecto en el caso de que tal efecto exista.
+- En otras palabras, es la habilidad de detectar un efecto en caso que el efecto exista.
 
 - Formalmente: (1 - Type II) tasa de error.
 
@@ -52,27 +52,27 @@ source("rmd_setup.R")
 
 - El análisis de poder es algo que hacemos  *antes* de realizar un estudio
 
-    - Nos ayuda a definir la muestra que se requere para detectar un efecto de un tamaño dado.
+    - Nos ayuda a definir el tamaño de la muestra que se requiere para detectar un efecto de un tamaño dado.
 
-    - O nos ayuda a encontrar cuál es la diferencia detectable mínima dado un tamaño de muestra fijo.
+    - O también nos ayuda a encontrar cuál es el efecto detectable mínimo para un tamaño de muestra fijo.
 
-    - Nos puede ayudar a decidir si hacer el estudio o no.
+    - Esta información nos puede ayudar a decidir si vale la pena hacer el estudio o no.
     
-- No se puede aprender mucho de un estudio de hallazgos nulos y con poco poder. 
+- No se puede aprender mucho de un estudio con hallazgos nulos y  poco poder. 
 
-    - ¿ Hay en realidad un efecto, pero no pudimos detectarlo? ¿O en realidad no hay efecto?  No podemos diferenciar.
+    - ¿Hay en realidad un efecto, pero no pudimos detectarlo? ¿O en realidad no hay efecto?  No podemos diferenciar.
 
 
 ## Poder
 - Supongamos que el tratamiento sí produce un efecto y que realizamos el experimento muchas veces. ¿Qué tan frecuentemente obtendríamos resultados estadísticamente significativos?
 
-- Cantidades estimadas que nos pueden pueden ayudar a resolver esta pregunta:
+- Algunas cantidades estimadas que nos pueden pueden ayudar a resolver esta pregunta:
 
-    - How big is your treatment effect?
+    - ¿Qué tan grande es el efecto?
   
-    - How many units are treated, measured?
+    - ¿Cuántas unidades fueron tratadas? ¿Para cuántas se tomaron datos?
   
-    - How much noise is there in the measurement of your outcome?
+    - ¿Qué tanto ruido hay en las mediciones de su variable de resultado?
 
 
 
@@ -84,7 +84,7 @@ source("rmd_setup.R")
 ## Herramientas para el calculo del poder
 - Interactivas
 
-    - [EGAP Calculadora de Poder](https://egap.shinyapps.io/power-app/)
+    - [EGAP calculadora de poder](https://egap.shinyapps.io/power-app/)
 
     - [rpsychologist](https://rpsychologist.com/d3/NHST/)
 
@@ -98,16 +98,16 @@ source("rmd_setup.R")
 
 # Cálculos analíticos de poder
 ## Cálculos analíticos de poder
-- Formula:
+- Fórmula:
   \begin{align*}
   \text{Poder} &= \Phi\left(\frac{|\tau| \sqrt{N}}{2\sigma}- \Phi^{-1}(1- \frac{\alpha}{2})\right)
   \end{align*}
 
 - Componentes:
-  - $\phi$: la función acumlada de probabilidad (CDF) de la normal estándar crece monotónicamente
+  - $\phi$: la función acumulada de probabilidad (CDF) de la normal estándar crece monotónicamente
   - $\tau$: el tamaño del efecto
   - $N$: el tamaño de la muestra
-  - $\sigma$: la desviación estándar de la variable de interés
+  - $\sigma$: la desviación estándar de la variable dependiente
   - $\alpha$: el nivel de significancia (normalmente 0.05)
 
 
@@ -132,9 +132,10 @@ pwr.t.test(n = 40, d = 0.25, sig.level = 0.05,
 - Incompatible con diseños más complejos
 
 
-# Cálculo del Poder basado en la Simulación
+# Cálculo del poder basado en  simulación
 ## Cálculo del poder basado en la simulación
-- Fabricar datos y simular el diseño de la investigación 
+
+- Debemos crear datos artificiales y simular el diseño de la investigación 
 
 - También es necesario hacer supuestos para simular, pero estos los definen ustedes mismos.
 
@@ -142,18 +143,18 @@ pwr.t.test(n = 40, d = 0.25, sig.level = 0.05,
 
 ## Pasos
 
-- Definir la muestra y las funciones de las resultados potenciales.
+- Definir la muestra y las funciones de los resultados potenciales.
 
 - Definir el procedimiento de asignación a tratamientos.
 
-- Fabricar datos.
+- Crear datos artificiales
 
 - Asignar el tratamiento y luego estimar el efecto
 
 - Repetir estos pasos muchas veces
 
 
-## Examples
+## Ejemplos
 
 - Aleatorizaciçon completa
 
@@ -211,7 +212,7 @@ estimand_ate <- declare_inquiry(ATE=mean(Y_Z_1 - Y_Z_0))
 R0 <- declare_reveal(Y,Z)
 design0_base <- P0 + A0 + O0 + R0
 
-## For example:
+## Por ejemplo:
 design0_N100_tau25 <- redesign(design0_base,N=100,tau=.25)
 dat0_N100_tau25 <- draw_data(design0_N100_tau25)
 head(dat0_N100_tau25)
@@ -244,10 +245,10 @@ design0_N100_tau25_sims %>% group_by(estimator) %>%
   summarize(pow=mean(p.value < .05),.groups="drop")
 ```
 
-# Poder con Ajuste de Covariables
-## Ajuste de Covariables y Poder
+# Poder con ajuste de covariables
+## Ajuste de covariables y poder
 
-   - El ajuste de covariables puede mejorar el poder porque absorbe la variación de la variable de interés.
+   - El ajuste de covariables puede mejorar el poder porque absorbe la variación de la variable de resultado.
    
       - Sí es para pronóstico, el ajuste de covariables puede reducir la varianza significativamente. Una menor varianza se traduce en más poder.
    
@@ -257,7 +258,7 @@ design0_N100_tau25_sims %>% group_by(estimator) %>%
    
       - Ver el módulo de [amenazas a la validez interna](threats-to-internal-validity-of-randomized-experiments.html) y las [10 cosas que debe saber sobre el ajuste de covariables](http://egap.org/methods-guides/10-things-know-about-covariate-adjustment).
 
-  - El sesgo de Freedman a medida que las  n observaciones disminuyen y el número de covariables aumenta.
+  - El sesgo de Freedman a medida que el n muestral disminuye y el número de covariables aumenta.
   
 <!-- ## Covariate adjustment: best practices -->
 <!-- - All covariates must be pre-treatment -->
@@ -275,11 +276,11 @@ design0_N100_tau25_sims %>% group_by(estimator) %>%
 ## Bloques
 - Bloques: asignar el tratamiento al azar dentro de los bloques
 
-   -  Ajuste de covariables “Ex-ante”
+   -  Ajuste de covariables “ex-ante”
 
    - Más precisión/eficiencia significa más poder
 
-   - Reducir “el sesgo condicional”: relación entre el tratamiento y las resultados potenciales
+   - Reducir “el sesgo condicional”: relación entre el tratamiento y los resultados potenciales
 
    - Beneficios de usar bloques en vez de ajuste de covariables más evidente para experimentos pequeños.
 
@@ -327,7 +328,7 @@ power_sim_cov(N=80,tau=.25,sims=100)
 ```
 
 
-# Poder para la Aleatorización por Conglomerados
+# Poder para la aleatorización por conglomerados
 ## Poder y diseños de conglomerados
 - Recordemos el módulo de [aleatorización](aleatorizacion.html).
 
@@ -336,11 +337,11 @@ power_sim_cov(N=80,tau=.25,sims=100)
 
 - Tenemos que estimar la varianza correctamente:
     - Errores estándar para conglomerados (lo habitual)
-    - Inferencia basada en la aleatorización
+    - Inferencia basada en la aleatorización (Randomization inference)
 
 - Para aumentar el poder:
     - Es mejor aumentar el número de conglomerados que el número de unidades por conglomerados.
-    - Cuánto reducen el poder los conglomerados depende fundamentalmente de la correlación intragrupo (la relación entre la varianza dentro de los conglomerados y la varianza total).
+    - Cuánto reducen el poder los conglomerados depende fundamentalmente de la correlación intra-clase (la relación entre la varianza dentro de los conglomerados y la varianza total).
     
 
 ## Una nota sobre los conglomerados en la investigación observacional
@@ -368,12 +369,31 @@ make_Y0_clus <- function(n_indivs,n_clus){
  }
 
 test_dat <- make_Y0_clus(n_indivs=10,n_clus=100)
+
+```
+
+## Ejemplo: Poder basado en la simulación para la aleatorización por conglomerados {.allowframebreaks} 
+
+```{r, echo=TRUE, eval=FALSE}
 # confirma que hay 10 personas en cada uno de los 100 conglomerados 
 table(test_dat$clus_id)
+```
+
+```{r echo=FALSE}
+table(test_dat$clus_id)[1:20]
+table(test_dat$clus_id)[21:40]
+table(test_dat$clus_id)[41:60]
+table(test_dat$clus_id)[61:80]
+table(test_dat$clus_id)[81:99]
+table(test_dat$clus_id)[100]
+```
+
+
+## Ejemplo: Poder basado en la simulación para la aleatorización por conglomerados {.allowframebreaks} 
+
+```{r powsimclus2, echo=TRUE}
 # confirm ICC
 ICC::ICCbare(y=Y0,x=clus_id,data=test_dat)
-
-
 repeat_experiment_and_test_clus <- function(N, tau, Y0, clus_id){
     Y1 <- Y0 + tau
     #  aqui aleatorizamos al nivel del conglomerados
@@ -387,7 +407,6 @@ repeat_experiment_and_test_clus <- function(N, tau, Y0, clus_id){
 power_sim_clus <- function(n_indivs,n_clus,tau,sims){
     dat <- make_Y0_clus(n_indivs,n_clus)
     N <- n_indivs * n_clus
-    # asignar el tratamiento al azar sims veces
     pvals <- replicate(n=sims,
                 repeat_experiment_and_test_clus(N=N,tau=tau,
                                 Y0=dat$Y0,clus_id=dat$clus_id))
@@ -418,9 +437,11 @@ R1 <- declare_reveal(Y,Z)
 design1_base <- P1 + A1 + O1 + R1 + estimand_ate
 
 ## Por ejemplo:
-design1_test <- redesign(design1_base,n_clus=10,n_indivs=100,tau=.25)
+design1_test <- redesign(design1_base, n_clus = 10,
+                         n_indivs = 100,tau = .25)
 test_d1 <- draw_data(design1_test)
-# confirma que todos los individuos en los conglomerados fueron asignados al mismo tratamiento
+# confirma que todos los individuos en los conglomerados fueron 
+# asignados al mismo tratamiento
 with(test_d1,table(Z,clusters))
 # tres estimadores, se diferencias en se_type:
 E1a <- declare_estimator(Y~Z,model=lm_robust,clusters=clusters,
@@ -435,11 +456,13 @@ E1c <- declare_estimator(Y~Z,model=lm_robust,clusters=clusters,
 
 design1_plus <- design1_base + E1a + E1b + E1c
 
-design1_plus_tosim <- redesign(design1_plus,n_clus=10,n_indivs=100,tau=.25)
+design1_plus_tosim <- redesign(design1_plus, n_clus = 10,
+                               n_indivs = 100,tau = .25)
 ```
 
 ```{r ddversion_clus_sims, echo=TRUE, cache=TRUE, warnings=FALSE}
-## Solo repite la asignación aleatoria, no la creación de Y0. Ignorar la advertencia
+## Solo repite la asignación aleatoria, no la creación de Y0. 
+## Ignorar la advertencia
 ## Querríamos más simulaciones en la práctica.
 set.seed(12355)
 design1_sims <- simulate_design(design1_plus_tosim,
@@ -469,12 +492,12 @@ d1_sims %>% group_by(estimator) %>% summarize(pow=mean(p.value < .05),
     .groups="drop")
 ```
 
-# Estática Comparada
+# Estática comparada
 ## Estática comparada
 - El poder:
-  - Crece con $N$
-  - Crece con  $|\tau|$
-  - Decrece con $\sigma$
+  - Crece en función $N$
+  - Crece en función  $|\tau|$
+  - Decrece en función $\sigma$
 
 ## Poder segun el tamaño de la muestra {.allowframebreaks}
 
@@ -487,7 +510,8 @@ plot(some_ns,pow_by_n,
     xlab="Sample Size",
     ylab="Power")
 abline(h=.8)
-## Vea https://cran.r-project.org/web/packages/pwr/vignettes/pwr-vignette.html 
+## Vea:
+## https://cran.r-project.org/web/packages/pwr/vignettes/pwr-vignette.html 
 ## para mejores gráficas 
 ## ptest <-  pwr.t.test(n = NULL, d = 0.25, sig.level = 0.05, power = .8)
 ## plot(ptest)
@@ -502,8 +526,8 @@ pow_by_tau <- sapply(some_taus, function(thetau){
     pwr.t.test(n = 200, d = thetau, sig.level = 0.05)$power
             })
 plot(some_taus,pow_by_tau,
-    xlab="Average Treatment Effect (Standardized)",
-    ylab="Power")
+    xlab="Efecto promedio del tratamiento (Estandarizada)",
+    ylab="Poder")
 abline(h=.8)
 ```
 
@@ -517,27 +541,27 @@ abline(h=.8)
 
   - El número de conglomerados
   - El número de unidades por conglomerados
-  - Correlación Intra-cluster correlation
+  - Correlación Intra-clase
   - Efecto del tratamiento
 
 
 ## Comments
 
-- Deben conocer bien la variable de interés
+- Deben conocer bien la variable de resultado
 
-- ¿Cuáles son los efectos que verdaderamente esperan del tratamiento?
+- ¿Cuáles son los efectos que esperan del tratamiento?
 
-- ¿Cuál es el rango de variación posible que puede tener la variable de interés?
+- ¿Cuál es el rango de variación posible que puede tener la variable de resultado?
 
-    -  Un diseño en el que la variable de interés tenga variación limitada puede tener poco poder
+    -  Un diseño en el que la variable de resultado tenga variación limitada puede tener poco poder
 
 
 ## Conclusión: Cómo mejorar el poder
 
 
-1. Hagan a $N$  más grande
+1. Aumenten el tamaño de la muestra, $N$
     
-    - Si hay conglomerados, aumenten el número de conglomerados de ser posibles 
+    - Si hay conglomerados, aumenten el número de conglomerados de ser posible
 
 2. Intensifiquen el tratamiento
 
@@ -547,4 +571,4 @@ abline(h=.8)
 
     - Bloques
     
-4. Midan la variable de interés correctamente
+4. Midan la variable de resultado correctamente

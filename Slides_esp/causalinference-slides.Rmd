@@ -149,7 +149,7 @@ $$Y_i = T_iY_i(1) + (1-T_i)Y_i(0)$$
 | Deepal   | 0        | 1        | -1       |
 - Conocemos el efecto del tratamiento para cada individuo.
 - Nótese la heterogeneidad en los efectos del tratamiento a nivel individual.
-- Pero solo sabemos del valor de una de las resultados potenciales para cada individuo como máximo, lo que significa que no conocemos estos efectos del tratamiento.
+- Pero solo sabemos del valor de una de los resultados potenciales para cada individuo como máximo, lo que significa que no conocemos estos efectos del tratamiento.
 
 ## Efecto causal promedio
 
@@ -166,7 +166,7 @@ $$\overline{\tau_i} = \frac{1}{N}\sum_{i = 1}^N (Y_i (1) -Y_i (0)) = \overline{Y
 - Antes de discutir la aleatorización y cómo esta nos permite estimar el ATE, tengan en cuenta que el ATE es un tipo de estimando.
 - Un estimando es una cantidad sobre la que se desea aprender (a partir de los datos). Es el objetivo de la investigación que *ustedes* establecieron.
 - Ser preciso con la pregunta de investigación significa ser preciso con el estimando. Para preguntas causales, esto significa especificar:
-   - La variable de interés
+   - La variable de resultado
    - Las condiciones de tratamiento y control.
    - La población de estudio
    
@@ -246,7 +246,7 @@ knitr::include_graphics("../Images/randomassignment.png")
 
 Para hacer afirmaciones causales con un experimento (o para juzgar si creemos en las afirmaciones de un estudio), necesitamos tres supuestos básicos:
 
- - Asignación aleatoria de sujetos al tratamiento, lo que implica que recibir el tratamiento es estadísticamente independiente de las resultados potenciales de los sujetos.
+ - Asignación aleatoria de sujetos al tratamiento, lo que implica que recibir el tratamiento es estadísticamente independiente de los resultados potenciales de los sujetos.
 
  - Supuesto de estabilidad del valor bajo tratamiento para cada unidad (SEVTU).
 
@@ -335,7 +335,7 @@ características claves de dos diseños: uno observacional y el otro aleatorio.
 
 ## Generalizabilidad y validez externa
 
-- La aleatorización aporta una alta validez interna a un estudio: confianza en que hemos aprendido el efecto causal de un tratamiento en una variable de interés.
+- La aleatorización aporta una alta validez interna a un estudio: confianza en que hemos aprendido el efecto causal de un tratamiento en una variable de resultado.
 
 - Pero el hallazgo de un estudio en particular en un lugar particular y en un momento particular puede no ser válido en otros entornos (es decir, validez externa).
 
