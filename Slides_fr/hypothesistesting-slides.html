@@ -1,0 +1,1569 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="generator" content="pandoc">
+  <meta name="author" content="Fill In Your Name" />
+  <meta name="dcterms.date" content="2021-08-29" />
+  <title>Hypothesis Testing: Summarizing Information about Causal Effects</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <link rel="stylesheet" href="hypothesistesting-slides_files/reveal.js-3.3.0.1/css/reveal.css"/>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<link rel="stylesheet" href="hypothesistesting-slides_files/reveal.js-3.3.0.1/css/theme/simple.css" id="theme">
+
+
+  <!-- some tweaks to reveal css -->
+  <style type="text/css">
+    .reveal h1 { font-size: 2.0em; }
+    .reveal h2 { font-size: 1.5em;  }
+    .reveal h3 { font-size: 1.25em;	}
+    .reveal h4 { font-size: 1em;	}
+
+    .reveal .slides>section,
+    .reveal .slides>section>section {
+      padding: 0px 0px;
+    }
+
+
+
+    .reveal table {
+      border-width: 1px;
+      border-spacing: 2px;
+      border-style: dotted;
+      border-color: gray;
+      border-collapse: collapse;
+      font-size: 0.7em;
+    }
+
+    .reveal table th {
+      border-width: 1px;
+      padding-left: 10px;
+      padding-right: 25px;
+      font-weight: bold;
+      border-style: dotted;
+      border-color: gray;
+    }
+
+    .reveal table td {
+      border-width: 1px;
+      padding-left: 10px;
+      padding-right: 25px;
+      border-style: dotted;
+      border-color: gray;
+    }
+
+
+  </style>
+
+    <style type="text/css">code{white-space: pre;}</style>
+
+
+<!-- Printing and PDF exports -->
+<script id="paper-css" type="application/dynamic-css">
+
+/* Default Print Stylesheet Template
+   by Rob Glazebrook of CSSnewbie.com
+   Last Updated: June 4, 2008
+
+   Feel free (nay, compelled) to edit, append, and
+   manipulate this file as you see fit. */
+
+
+@media print {
+
+	/* SECTION 1: Set default width, margin, float, and
+	   background. This prevents elements from extending
+	   beyond the edge of the printed page, and prevents
+	   unnecessary background images from printing */
+	html {
+		background: #fff;
+		width: auto;
+		height: auto;
+		overflow: visible;
+	}
+	body {
+		background: #fff;
+		font-size: 20pt;
+		width: auto;
+		height: auto;
+		border: 0;
+		margin: 0 5%;
+		padding: 0;
+		overflow: visible;
+		float: none !important;
+	}
+
+	/* SECTION 2: Remove any elements not needed in print.
+	   This would include navigation, ads, sidebars, etc. */
+	.nestedarrow,
+	.controls,
+	.fork-reveal,
+	.share-reveal,
+	.state-background,
+	.reveal .progress,
+	.reveal .backgrounds {
+		display: none !important;
+	}
+
+	/* SECTION 3: Set body font face, size, and color.
+	   Consider using a serif font for readability. */
+	body, p, td, li, div {
+		font-size: 20pt!important;
+		font-family: Georgia, "Times New Roman", Times, serif !important;
+		color: #000;
+	}
+
+	/* SECTION 4: Set heading font face, sizes, and color.
+	   Differentiate your headings from your body text.
+	   Perhaps use a large sans-serif for distinction. */
+	h1,h2,h3,h4,h5,h6 {
+		color: #000!important;
+		height: auto;
+		line-height: normal;
+		font-family: Georgia, "Times New Roman", Times, serif !important;
+		text-shadow: 0 0 0 #000 !important;
+		text-align: left;
+		letter-spacing: normal;
+	}
+	/* Need to reduce the size of the fonts for printing */
+	h1 { font-size: 28pt !important;  }
+	h2 { font-size: 24pt !important; }
+	h3 { font-size: 22pt !important; }
+	h4 { font-size: 22pt !important; font-variant: small-caps; }
+	h5 { font-size: 21pt !important; }
+	h6 { font-size: 20pt !important; font-style: italic; }
+
+	/* SECTION 5: Make hyperlinks more usable.
+	   Ensure links are underlined, and consider appending
+	   the URL to the end of the link for usability. */
+	a:link,
+	a:visited {
+		color: #000 !important;
+		font-weight: bold;
+		text-decoration: underline;
+	}
+	/*
+	.reveal a:link:after,
+	.reveal a:visited:after {
+		content: " (" attr(href) ") ";
+		color: #222 !important;
+		font-size: 90%;
+	}
+	*/
+
+
+	/* SECTION 6: more reveal.js specific additions by @skypanther */
+	ul, ol, div, p {
+		visibility: visible;
+		position: static;
+		width: auto;
+		height: auto;
+		display: block;
+		overflow: visible;
+		margin: 0;
+		text-align: left !important;
+	}
+	.reveal pre,
+	.reveal table {
+		margin-left: 0;
+		margin-right: 0;
+	}
+	.reveal pre code {
+		padding: 20px;
+		border: 1px solid #ddd;
+	}
+	.reveal blockquote {
+		margin: 20px 0;
+	}
+	.reveal .slides {
+		position: static !important;
+		width: auto !important;
+		height: auto !important;
+
+		left: 0 !important;
+		top: 0 !important;
+		margin-left: 0 !important;
+		margin-top: 0 !important;
+		padding: 0 !important;
+		zoom: 1 !important;
+
+		overflow: visible !important;
+		display: block !important;
+
+		text-align: left !important;
+		-webkit-perspective: none;
+		   -moz-perspective: none;
+		    -ms-perspective: none;
+		        perspective: none;
+
+		-webkit-perspective-origin: 50% 50%;
+		   -moz-perspective-origin: 50% 50%;
+		    -ms-perspective-origin: 50% 50%;
+		        perspective-origin: 50% 50%;
+	}
+	.reveal .slides section {
+		visibility: visible !important;
+		position: static !important;
+		width: auto !important;
+		height: auto !important;
+		display: block !important;
+		overflow: visible !important;
+
+		left: 0 !important;
+		top: 0 !important;
+		margin-left: 0 !important;
+		margin-top: 0 !important;
+		padding: 60px 20px !important;
+		z-index: auto !important;
+
+		opacity: 1 !important;
+
+		page-break-after: always !important;
+
+		-webkit-transform-style: flat !important;
+		   -moz-transform-style: flat !important;
+		    -ms-transform-style: flat !important;
+		        transform-style: flat !important;
+
+		-webkit-transform: none !important;
+		   -moz-transform: none !important;
+		    -ms-transform: none !important;
+		        transform: none !important;
+
+		-webkit-transition: none !important;
+		   -moz-transition: none !important;
+		    -ms-transition: none !important;
+		        transition: none !important;
+	}
+	.reveal .slides section.stack {
+		padding: 0 !important;
+	}
+	.reveal section:last-of-type {
+		page-break-after: avoid !important;
+	}
+	.reveal section .fragment {
+		opacity: 1 !important;
+		visibility: visible !important;
+
+		-webkit-transform: none !important;
+		   -moz-transform: none !important;
+		    -ms-transform: none !important;
+		        transform: none !important;
+	}
+	.reveal section img {
+		display: block;
+		margin: 15px 0px;
+		background: rgba(255,255,255,1);
+		border: 1px solid #666;
+		box-shadow: none;
+	}
+
+	.reveal section small {
+		font-size: 0.8em;
+	}
+
+}  
+</script>
+
+
+<script id="pdf-css" type="application/dynamic-css">
+    
+/**
+ * This stylesheet is used to print reveal.js
+ * presentations to PDF.
+ *
+ * https://github.com/hakimel/reveal.js#pdf-export
+ */
+
+* {
+	-webkit-print-color-adjust: exact;
+}
+
+body {
+	margin: 0 auto !important;
+	border: 0;
+	padding: 0;
+	float: none !important;
+	overflow: visible;
+}
+
+html {
+	width: 100%;
+	height: 100%;
+	overflow: visible;
+}
+
+/* Remove any elements not needed in print. */
+.nestedarrow,
+.reveal .controls,
+.reveal .progress,
+.reveal .playback,
+.reveal.overview,
+.fork-reveal,
+.share-reveal,
+.state-background {
+	display: none !important;
+}
+
+h1, h2, h3, h4, h5, h6 {
+	text-shadow: 0 0 0 #000 !important;
+}
+
+.reveal pre code {
+	overflow: hidden !important;
+	font-family: Courier, 'Courier New', monospace !important;
+}
+
+ul, ol, div, p {
+	visibility: visible;
+	position: static;
+	width: auto;
+	height: auto;
+	display: block;
+	overflow: visible;
+	margin: auto;
+}
+.reveal {
+	width: auto !important;
+	height: auto !important;
+	overflow: hidden !important;
+}
+.reveal .slides {
+	position: static;
+	width: 100%;
+	height: auto;
+
+	left: auto;
+	top: auto;
+	margin: 0 !important;
+	padding: 0 !important;
+
+	overflow: visible;
+	display: block;
+
+	-webkit-perspective: none;
+	   -moz-perspective: none;
+	    -ms-perspective: none;
+	        perspective: none;
+
+	-webkit-perspective-origin: 50% 50%; /* there isn't a none/auto value but 50-50 is the default */
+	   -moz-perspective-origin: 50% 50%;
+	    -ms-perspective-origin: 50% 50%;
+	        perspective-origin: 50% 50%;
+}
+
+.reveal .slides section {
+	page-break-after: always !important;
+
+	visibility: visible !important;
+	position: relative !important;
+	display: block !important;
+	position: relative !important;
+
+	margin: 0 !important;
+	padding: 0 !important;
+	box-sizing: border-box !important;
+	min-height: 1px;
+
+	opacity: 1 !important;
+
+	-webkit-transform-style: flat !important;
+	   -moz-transform-style: flat !important;
+	    -ms-transform-style: flat !important;
+	        transform-style: flat !important;
+
+	-webkit-transform: none !important;
+	   -moz-transform: none !important;
+	    -ms-transform: none !important;
+	        transform: none !important;
+}
+
+.reveal section.stack {
+	margin: 0 !important;
+	padding: 0 !important;
+	page-break-after: avoid !important;
+	height: auto !important;
+	min-height: auto !important;
+}
+
+.reveal img {
+	box-shadow: none;
+}
+
+.reveal .roll {
+	overflow: visible;
+	line-height: 1em;
+}
+
+/* Slide backgrounds are placed inside of their slide when exporting to PDF */
+.reveal section .slide-background {
+	display: block !important;
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	z-index: -1;
+}
+
+/* All elements should be above the slide-background */
+.reveal section>* {
+	position: relative;
+	z-index: 1;
+}
+
+/* Display slide speaker notes when 'showNotes' is enabled */
+.reveal .speaker-notes-pdf {
+	display: block;
+	width: 100%;
+	max-height: none;
+	left: auto;
+	top: auto;
+	z-index: 100;
+}
+
+/* Display slide numbers when 'slideNumber' is enabled */
+.reveal .slide-number-pdf {
+	display: block;
+	position: absolute;
+	font-size: 14px;
+}
+
+</script>
+
+
+<script>
+var style = document.createElement( 'style' );
+style.type = 'text/css';
+var style_script_id = window.location.search.match( /print-pdf/gi ) ? 'pdf-css' : 'paper-css';
+var style_script = document.getElementById(style_script_id).text;
+style.innerHTML = style_script;
+document.getElementsByTagName('head')[0].appendChild(style);
+</script>
+
+    <script src="hypothesistesting-slides_files/header-attrs-2.10/header-attrs.js"></script>
+    <link href="hypothesistesting-slides_files/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
+    <link href="hypothesistesting-slides_files/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+<section>
+    <h1 class="title">Hypothesis Testing: Summarizing Information about Causal Effects</h1>
+    <h2 class="author">Fill In Your Name</h2>
+    <h3 class="date">29 August 2021</h3>
+</section>
+<section id="TOC">
+<ul>
+<li><a href="#/the-role-of-hypothesis-tests-in-causal-inference">The Role of Hypothesis Tests in Causal Inference</a>
+<ul>
+<li><a href="#/key-points-for-this-lecture">Key points for this lecture</a></li>
+<li><a href="#/the-role-of-hypothesis-tests-in-causal-inference-i">The role of hypothesis tests in causal inference I</a></li>
+<li><a href="#/the-role-of-hypothesis-tests-in-causal-inference-ii">The role of hypothesis tests in causal inference II</a></li>
+<li><a href="#/the-role-of-hypothesis-tests-in-causal-inference-iii">The role of hypothesis tests in causal inference III</a></li>
+</ul></li>
+<li><a href="#/hypothesis-testing-basics">Hypothesis Testing Basics</a>
+<ul>
+<li><a href="#/ingredients-of-a-hypothesis-test">Ingredients of a hypothesis test</a></li>
+<li><a href="#/a-hypothesis-is-a-statement-about-or-model-of-a-relationship-between-potential-outcomes">A hypothesis is a statement about or model of a relationship between potential outcomes</a></li>
+<li><a href="#/test-statistics-summarize-treatment-to-outcome-relationships">Test statistics summarize treatment-to-outcome relationships</a></li>
+<li><a href="#/the-design-links-test-statistic-and-hypothesis">The design links test statistic and hypothesis</a></li>
+<li><a href="#/the-design-guides-creation-of-a-distribution-of-hypothetical-test-statistics">The design guides creation of a distribution of hypothetical test statistics</a></li>
+<li><a href="#/plot-the-randomization-distributions-under-the-null">Plot the randomization distributions under the null</a></li>
+<li><a href="#/p-values-summarize-the-plots"><span class="math inline">\(p\)</span>-values summarize the plots</a></li>
+<li><a href="#/how-to-do-this-in-r-coin">How to do this in R: COIN</a></li>
+<li><a href="#/how-to-do-this-in-r-ritools">How to do this in R: RItools</a></li>
+<li><a href="#/how-to-do-this-in-r-ri2">How to do this in R: RI2</a></li>
+<li><a href="#/next-topics">Next topics</a></li>
+</ul></li>
+<li><a href="#/testing-weak-null-hypotheses">Testing weak null hypotheses</a>
+<ul>
+<li><a href="#/testing-the-weak-null-of-no-average-effects">Testing the weak null of no average effects</a></li>
+<li><a href="#/testing-the-weak-null-of-no-average-effects-1">Testing the weak null of no average effects</a></li>
+<li><a href="#/testing-the-weak-null-of-no-average-effects-2">Testing the weak null of no average effects</a></li>
+</ul></li>
+<li><a href="#/rejecting-null-hypotheses">Rejecting null hypotheses</a>
+<ul>
+<li><a href="#/rejecting-hypotheses-and-making-errors">Rejecting hypotheses and making errors</a></li>
+<li><a href="#/false-positive-rates-in-hypothesis-testing">False positive rates in hypothesis testing</a></li>
+<li><a href="#/false-positive-and-false-negative-errors">False positive and false negative errors</a></li>
+<li><a href="#/a-single-test-of-a-single-hypothesis">A single test of a single hypothesis</a></li>
+<li><a href="#/decisions-imply-errors">Decisions imply errors</a></li>
+<li><a href="#/diagnosing-false-positive-rates-by-simulation">Diagnosing false positive rates by simulation</a></li>
+<li><a href="#/diagnosing-false-positive-rates-by-simulation-1">Diagnosing false positive rates by simulation</a></li>
+<li><a href="#/diagnosing-false-positive-rates-by-simulation-2">Diagnosing false positive rates by simulation</a></li>
+<li><a href="#/diagnosing-false-positive-rates-by-simulation-3">Diagnosing false positive rates by simulation</a></li>
+<li><a href="#/diagnosing-false-positive-rates-by-simulation-4">Diagnosing false positive rates by simulation</a></li>
+<li><a href="#/false-positive-rate-with-n60-and-binary-outcome">False positive rate with <span class="math inline">\(N=60\)</span> and binary outcome</a></li>
+<li><a href="#/false-positive-rate-with-n60-and-continuous-outcome">False positive rate with <span class="math inline">\(N=60\)</span> and continuous outcome</a></li>
+<li><a href="#/summary">Summary</a></li>
+</ul></li>
+<li><a href="#/advanced-topics">Advanced Topics</a>
+<ul>
+<li><a href="#/some-advanced-topics-connected-to-hypothesis-testing">Some advanced topics connected to hypothesis testing</a></li>
+<li><a href="#/what-else-to-know-about-hypothesis-tests">What else to know about hypothesis tests</a></li>
+<li><a href="#/exercise-hypothesis-tests-and-test-statistics">Exercise: Hypothesis Tests and Test Statistics</a></li>
+</ul></li>
+<li><a href="#/testing-many-hypotheses">Testing many hypotheses</a>
+<ul>
+<li><a href="#/when-might-we-test-many-hypotheses">When might we test many hypotheses?</a></li>
+<li><a href="#/false-positive-rates-in-multiple-hypothesis-testing">False positive rates in multiple hypothesis testing</a></li>
+<li><a href="#/discoveries-with-multiple-tests">Discoveries with multiple tests</a></li>
+<li><a href="#/two-main-error-rates-to-control-when-testing-many-hypotheses">Two main error rates to control when testing many hypotheses</a></li>
+<li><a href="#/questions-with-multiple-outcomes">Questions with multiple outcomes</a></li>
+<li><a href="#/multiple-hypothesis-testing-multiple-outcomes">Multiple hypothesis testing: Multiple Outcomes</a></li>
+<li><a href="#/can-we-detect-an-effect-on-outcome-y1">Can we detect an effect on outcome <code>Y1</code>?</a></li>
+<li><a href="#/on-which-of-the-five-outcomes-can-we-detect-an-effect">On which of the five outcomes can we detect an effect?</a></li>
+<li><a href="#/can-we-detect-an-effect-for-any-of-the-five-outcomes">Can we detect an effect for <em>any</em> of the five outcomes?</a></li>
+<li><a href="#/comparing-approaches-i">Comparing approaches I</a></li>
+<li><a href="#/comparing-approaches-ii">Comparing approaches II</a></li>
+<li><a href="#/the-holm-correction">The Holm correction</a></li>
+<li><a href="#/multiple-hypothesis-testing-multiple-treatment-arms">Multiple hypothesis testing: Multiple treatment arms</a></li>
+<li><a href="#/multiple-hypothesis-testing-multiple-treatment-arms-1">Multiple hypothesis testing: Multiple treatment arms</a></li>
+<li><a href="#/multiple-hypothesis-testing-multiple-treatment-arms-2">Multiple hypothesis testing: Multiple treatment arms</a></li>
+<li><a href="#/approaches-to-testing-hypotheses-with-multiple-arms">Approaches to testing hypotheses with multiple arms</a></li>
+<li><a href="#/summary-1">Summary</a></li>
+<li><a href="#/references">References</a></li>
+</ul></li>
+</ul>
+</section>
+
+<section>
+<section id="the-role-of-hypothesis-tests-in-causal-inference" class="title-slide slide level1">
+<h1>The Role of Hypothesis Tests in Causal Inference</h1>
+
+</section>
+<section id="key-points-for-this-lecture" class="slide level2">
+<h2>Key points for this lecture</h2>
+<ul>
+<li><p>Statistical inference (e.g., hypothesis tests and confidence intervals) requires <strong>inference</strong> — reasoning about the unobserved.</p></li>
+<li><p><span class="math inline">\(p\)</span>-values require probability distributions.</p></li>
+<li><p>Randomization (or Design) + a Hypothesis + a Test Statistic Function <span class="math inline">\(\rightarrow\)</span> probability distributions representing the hypothesis (reference distributions)</p></li>
+<li><p>Observed Values of Test Statistics + Reference Distribution <span class="math inline">\(\rightarrow\)</span> <span class="math inline">\(p\)</span>-value.</p></li>
+</ul>
+</section>
+<section id="the-role-of-hypothesis-tests-in-causal-inference-i" class="slide level2">
+<h2>The role of hypothesis tests in causal inference I</h2>
+<ul>
+<li><p>The <strong>fundamental problem of causal inference</strong> says that we can see only one potential outcome for any given unit.</p></li>
+<li><p>So, if a counterfactual causal effect of the treatment, <span class="math inline">\(T\)</span>, for Jake occurs when <span class="math inline">\(y_{\text{Jake},T=1} \ne y_{\text{Jake},T=0}\)</span>, then how can we learn about the causal effect?</p></li>
+<li><p>One solution is the <strong><a href="estimation-slides.Rmd">estimation</a> of averages of causal effects</strong> (the ATE, ITT, LATE).</p></li>
+<li><p>This is what we call Neyman’s approach.</p></li>
+</ul>
+</section>
+<section id="the-role-of-hypothesis-tests-in-causal-inference-ii" class="slide level2">
+<h2>The role of hypothesis tests in causal inference II</h2>
+<ul>
+<li><p>Another solution is to make <strong>claims</strong> or <strong>guesses</strong> about the causal effects.</p></li>
+<li><p>We could say, “I think that the effect on Jake is 5.” or “This experiment had no effect on anyone.” And then we ask “How much evidence does this experiment have about that claim?”</p></li>
+<li><p>This evidence is summarized in a <span class="math inline">\(p\)</span>-value.</p></li>
+<li><p>We call this Fisher’s approach.</p></li>
+</ul>
+</section>
+<section id="the-role-of-hypothesis-tests-in-causal-inference-iii" class="slide level2">
+<h2>The role of hypothesis tests in causal inference III</h2>
+<ul>
+<li><p>The hypothesis testing approach to causal inference doesn’t provide a best guess but instead tells you <em>how much evidence or information the research design provides about a causal claim</em>.</p></li>
+<li><p>The estimation approach provides a best guess but doesn’t tell you how much you know about that guess.</p>
+<ul>
+<li>For example, a best guess with <span class="math inline">\(N=10\)</span> seems to tell us less about the effect than <span class="math inline">\(N=1000\)</span>.</li>
+<li>For example, a best guess when 95% of <span class="math inline">\(Y=1\)</span> and 5% of <span class="math inline">\(Y=0\)</span> seems to tell us less than when outcomes are evenly split betwee 0 and 1.</li>
+</ul></li>
+<li><p>We nearly always report both since both help us make decisions: “Our best guess of the treatment effect was 5, and we could reject the idea that the effect was 0 (<span class="math inline">\(p\)</span>=.01).”</p></li>
+</ul>
+</section></section>
+<section>
+<section id="hypothesis-testing-basics" class="title-slide slide level1">
+<h1>Hypothesis Testing Basics</h1>
+
+</section>
+<section id="ingredients-of-a-hypothesis-test" class="slide level2">
+<h2>Ingredients of a hypothesis test</h2>
+<ul>
+<li><p>A <strong>hypothesis</strong> is a statement about a relationship among potential outcomes.</p></li>
+<li><p>A <strong>test statistic</strong> summarizes the relationship between treatment and observed outcomes.</p></li>
+<li><p>The <strong>design</strong> allows us to link the hypothesis and the test statistic: calculate a test statistic that describes a relationship between potential outcomes.</p></li>
+<li><p>The <strong>design</strong> also tells us how to generate a <em>distribution</em> of possible test statistics implied by the hypothesis.</p></li>
+<li><p>A <strong><span class="math inline">\(p\)</span>-value</strong> describes the relationship between our observed test statistic and the distribution of possible hypothesized test statistics.</p></li>
+</ul>
+</section>
+<section id="a-hypothesis-is-a-statement-about-or-model-of-a-relationship-between-potential-outcomes" class="slide level2">
+<h2>A hypothesis is a statement about or model of a relationship between potential outcomes</h2>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: right;">Outcome</th>
+<th style="text-align: right;">Treatment</th>
+<th style="text-align: right;"><span class="math inline">\(y_{i,0}\)</span></th>
+<th style="text-align: right;">ITE</th>
+<th style="text-align: right;"><span class="math inline">\(y_{i,1}\)</span></th>
+<th style="text-align: right;"><span class="math inline">\(Y&gt;0\)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">10</td>
+<td style="text-align: right;">10</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">30</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">30</td>
+<td style="text-align: right;">30</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">200</td>
+<td style="text-align: right;">200</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">90</td>
+<td style="text-align: right;">91</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">11</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">10</td>
+<td style="text-align: right;">11</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">23</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">20</td>
+<td style="text-align: right;">23</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">34</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">30</td>
+<td style="text-align: right;">34</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">45</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">40</td>
+<td style="text-align: right;">45</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">190</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">190</td>
+<td style="text-align: right;">90</td>
+<td style="text-align: right;">280</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">200</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">200</td>
+<td style="text-align: right;">20</td>
+<td style="text-align: right;">220</td>
+<td style="text-align: right;">1</td>
+</tr>
+</tbody>
+</table>
+<p>For example, the sharp, or strong, null hypothesis of no effects is <span class="math inline">\(H_0: y_{i,1} = y_{i,0}\)</span></p>
+</section>
+<section id="test-statistics-summarize-treatment-to-outcome-relationships" class="slide level2">
+<h2>Test statistics summarize treatment-to-outcome relationships</h2>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="do">## The mean difference test statistic</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>meanTT <span class="ot">&lt;-</span> <span class="cf">function</span>(ys, z) {</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mean</span>(ys[z <span class="sc">==</span> <span class="dv">1</span>]) <span class="sc">-</span> <span class="fu">mean</span>(ys[z <span class="sc">==</span> <span class="dv">0</span>])</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="do">## The difference of mean ranks test statistic</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>meanrankTT <span class="ot">&lt;-</span> <span class="cf">function</span>(ys, z) {</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>  ranky <span class="ot">&lt;-</span> <span class="fu">rank</span>(ys)</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mean</span>(ranky[z <span class="sc">==</span> <span class="dv">1</span>]) <span class="sc">-</span> <span class="fu">mean</span>(ranky[z <span class="sc">==</span> <span class="dv">0</span>])</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>observedMeanTT <span class="ot">&lt;-</span> <span class="fu">meanTT</span>(<span class="at">ys =</span> Y, <span class="at">z =</span> T)</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>observedMeanRankTT <span class="ot">&lt;-</span> <span class="fu">meanrankTT</span>(<span class="at">ys =</span> Y, <span class="at">z =</span> T)</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>observedMeanTT</span></code></pre></div>
+<pre><code>[1] -49.6</code></pre>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>observedMeanRankTT</span></code></pre></div>
+<pre><code>[1] 1</code></pre>
+</section>
+<section id="the-design-links-test-statistic-and-hypothesis" class="slide level2">
+<h2>The design links test statistic and hypothesis</h2>
+<p>What we observe for each person <span class="math inline">\(i\)</span> (<span class="math inline">\(Y_i\)</span>) is either what we would have observed in treatment (<span class="math inline">\(y_{i,1}\)</span>) <strong>or</strong> what we would have observed in control (<span class="math inline">\(y_{i,0}\)</span>).</p>
+<p><span class="math display">\[Y_i = T_i y_{i,1} + (1-T_i)* y_{i,0}\]</span></p>
+<p>So, if <span class="math inline">\(y_{i,1}=y_{i,0}\)</span> then <span class="math inline">\(Y_i = y_{i,0}\)</span>.</p>
+<p>What we <em>actually observe</em> is what we <em>would have observed in the control condition</em>.</p>
+</section>
+<section id="the-design-guides-creation-of-a-distribution-of-hypothetical-test-statistics" class="slide level2">
+<h2>The design guides creation of a distribution of hypothetical test statistics</h2>
+<p>We need to know how to repeat our experiment:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>repeatExperiment <span class="ot">&lt;-</span> <span class="cf">function</span>(N) {</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">complete_ra</span>(N)</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>Then we repeat it, calculating the implied test statistic by the hypothesis and design each time:</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123456</span>)</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>possibleMeanDiffsH0 <span class="ot">&lt;-</span> <span class="fu">replicate</span>(</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="dv">10000</span>,</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">meanTT</span>(<span class="at">ys =</span> Y, <span class="at">z =</span> <span class="fu">repeatExperiment</span>(<span class="at">N =</span> <span class="dv">10</span>))</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123456</span>)</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>possibleMeanRankDiffsH0 <span class="ot">&lt;-</span> <span class="fu">replicate</span>(</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>  <span class="dv">10000</span>,</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">meanrankTT</span>(<span class="at">ys =</span> Y, <span class="at">z =</span> <span class="fu">repeatExperiment</span>(<span class="at">N =</span> <span class="dv">10</span>))</span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+</section>
+<section id="plot-the-randomization-distributions-under-the-null" class="slide level2">
+<h2>Plot the randomization distributions under the null</h2>
+
+<div class="figure" style="text-align: center">
+<img src="figs/figunnamed-chunk-6-1.png" alt="An example of using the design of the experiment to test a hypothesis with two different test statistics." width=".8\textwidth"  />
+<p class="caption">
+An example of using the design of the experiment to test a hypothesis with two different test statistics.
+</p>
+</div>
+</section>
+<section id="p-values-summarize-the-plots" class="slide level2">
+<h2><span class="math inline">\(p\)</span>-values summarize the plots</h2>
+<p>How should we interpret these <span class="math inline">\(p\)</span>-values? (Notice that they are one-tailed.)</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>pMeanTT <span class="ot">&lt;-</span> <span class="fu">mean</span>(possibleMeanDiffsH0 <span class="sc">&gt;=</span> observedMeanTT)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>pMeanRankTT <span class="ot">&lt;-</span> <span class="fu">mean</span>(possibleMeanRankDiffsH0 <span class="sc">&gt;=</span> observedMeanRankTT)</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>pMeanTT</span></code></pre></div>
+<pre><code>[1] 0.7785</code></pre>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>pMeanRankTT</span></code></pre></div>
+<pre><code>[1] 0.3198</code></pre>
+</section>
+<section id="how-to-do-this-in-r-coin" class="slide level2">
+<h2>How to do this in R: COIN</h2>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="do">## using the coin package</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(coin)</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">12345</span>)</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>pMean2 <span class="ot">&lt;-</span> coin<span class="sc">::</span><span class="fu">pvalue</span>(<span class="fu">oneway_test</span>(Y <span class="sc">~</span> <span class="fu">factor</span>(T),</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> dat,</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">distribution =</span> <span class="fu">approximate</span>(<span class="at">nresample =</span> <span class="dv">1000</span>), <span class="at">alternative =</span> <span class="st">&quot;less&quot;</span></span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>))</span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>dat<span class="sc">$</span>rankY <span class="ot">&lt;-</span> <span class="fu">rank</span>(dat<span class="sc">$</span>Y)</span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>pMeanRank2 <span class="ot">&lt;-</span> coin<span class="sc">::</span><span class="fu">pvalue</span>(<span class="fu">oneway_test</span>(rankY <span class="sc">~</span> <span class="fu">factor</span>(T),</span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> dat,</span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">distribution =</span> <span class="fu">approximate</span>(<span class="at">nresample =</span> <span class="dv">1000</span>), <span class="at">alternative =</span> <span class="st">&quot;less&quot;</span></span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a>))</span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a>pMean2</span></code></pre></div>
+<pre><code>[1] 0.783
+99 percent confidence interval:
+ 0.7476 0.8157 </code></pre>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>pMeanRank2</span></code></pre></div>
+<pre><code>[1] 0.323
+99 percent confidence interval:
+ 0.2853 0.3624 </code></pre>
+</section>
+<section id="how-to-do-this-in-r-ritools" class="slide level2 allowframebreaks">
+<h2 class="allowframebreaks">How to do this in R: RItools</h2>
+<p>First install a development version of the RItools package</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># dev_mode() ## dont install the package globally</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>renv<span class="sc">::</span><span class="fu">install</span>(<span class="st">&quot;markmfredrickson/RItools@randomization-distribution&quot;</span>,</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">force =</span> <span class="cn">TRUE</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a><span class="co"># dev_mode()</span></span></code></pre></div>
+<p>Then use the <code>RItest</code> function.</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># dev_mode()</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(RItools)</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>thedesignA <span class="ot">&lt;-</span> <span class="fu">simpleRandomSampler</span>(<span class="at">total =</span> N, <span class="at">z =</span> dat<span class="sc">$</span>T, <span class="at">b =</span> <span class="fu">rep</span>(<span class="dv">1</span>, N))</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>pMean4 <span class="ot">&lt;-</span> <span class="fu">RItest</span>(</span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">y =</span> dat<span class="sc">$</span>Y, <span class="at">z =</span> dat<span class="sc">$</span>T, <span class="at">samples =</span> <span class="dv">1000</span>, <span class="at">test.stat =</span> meanTT,</span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">sampler =</span> thedesignA</span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>pMeanRank4 <span class="ot">&lt;-</span> <span class="fu">RItest</span>(</span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">y =</span> dat<span class="sc">$</span>Y, <span class="at">z =</span> dat<span class="sc">$</span>T, <span class="at">samples =</span> <span class="dv">1000</span>, <span class="at">test.stat =</span> meanrankTT,</span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">sampler =</span> thedesignA</span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a>pMean4</span>
+<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a>pMeanRank4</span>
+<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a><span class="co"># dev_mode() ## and turn off dev_mode</span></span></code></pre></div>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>pMean4</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>Call<span class="sc">:</span>  <span class="fu">RItest</span>(<span class="at">y =</span> dat<span class="sc">$</span>Y, <span class="at">z =</span> dat<span class="sc">$</span>T, <span class="at">test.stat =</span> meanTT, <span class="at">sampler =</span> thedesignA,</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>          <span class="at">samples =</span> <span class="dv">1000</span>)</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>                        Value <span class="fu">Pr</span>(<span class="sc">&gt;</span>x)</span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>Observed Test Statistic <span class="sc">-</span><span class="fl">49.6</span>   <span class="fl">0.78</span></span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>pMeanRank4</span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>Call<span class="sc">:</span>  <span class="fu">RItest</span>(<span class="at">y =</span> dat<span class="sc">$</span>Y, <span class="at">z =</span> dat<span class="sc">$</span>T, <span class="at">test.stat =</span> meanrankTT, <span class="at">sampler =</span> thedesignA,</span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a>          <span class="at">samples =</span> <span class="dv">1000</span>)</span>
+<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a>                        Value <span class="fu">Pr</span>(<span class="sc">&gt;</span>x)</span>
+<span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a>Observed Test Statistic     <span class="dv">1</span>   <span class="fl">0.32</span></span></code></pre></div>
+</section>
+<section id="how-to-do-this-in-r-ri2" class="slide level2">
+<h2>How to do this in R: RI2</h2>
+<p>How should we interpret the two-tailed <span class="math inline">\(p\)</span>-value here?</p>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="do">## using the ri2 package</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ri2)</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>thedesign <span class="ot">&lt;-</span> <span class="fu">declare_ra</span>(<span class="at">N =</span> N)</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>dat<span class="sc">$</span>Z <span class="ot">&lt;-</span> dat<span class="sc">$</span>T</span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>pMean4 <span class="ot">&lt;-</span> <span class="fu">conduct_ri</span>(Y <span class="sc">~</span> Z,</span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">declaration =</span> thedesign,</span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">sharp_hypothesis =</span> <span class="dv">0</span>, <span class="at">data =</span> dat, <span class="at">sims =</span> <span class="dv">1000</span></span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(pMean4)</span></code></pre></div>
+<pre><code>  term estimate two_tailed_p_value
+1    Z    -49.6             0.4444</code></pre>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>pMeanRank4 <span class="ot">&lt;-</span> <span class="fu">conduct_ri</span>(rankY <span class="sc">~</span> Z,</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">declaration =</span> thedesign,</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">sharp_hypothesis =</span> <span class="dv">0</span>, <span class="at">data =</span> dat, <span class="at">sims =</span> <span class="dv">1000</span></span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(pMeanRank4)</span></code></pre></div>
+<pre><code>  term estimate two_tailed_p_value
+1    Z        1             0.6349</code></pre>
+</section>
+<section id="next-topics" class="slide level2">
+<h2>Next topics</h2>
+<ul>
+<li><p>Testing weak null hypotheses, <span class="math inline">\(H_0: \bar{y}_{1} = \bar{y}_{0}\)</span>.</p></li>
+<li><p>Rejecting null hypotheses (and making false positive and/or false negative errors).</p></li>
+<li><p>Maintaining correct false positive error rates when testing more than one hypothesis.</p></li>
+<li><p>Power of hypothesis tests (<a href="https://egap.github.io/learningdays-book/statistical-power-and-design-diagnosands.html">Module on Statistical Power and Design Diagnosands</a>).</p></li>
+</ul>
+</section></section>
+<section>
+<section id="testing-weak-null-hypotheses" class="title-slide slide level1">
+<h1>Testing weak null hypotheses</h1>
+
+</section>
+<section id="testing-the-weak-null-of-no-average-effects" class="slide level2">
+<h2>Testing the weak null of no average effects</h2>
+<ul>
+<li><p>The weak null hypothesis is a claim about aggregates, and it is nearly always stated in terms of averages: <span class="math inline">\(H_0: \bar{y}_{1} = \bar{y}_{0}\)</span></p></li>
+<li><p>The test statistic for this hypothesis is nearly always the simple difference of means (i.e., <code>meanTT()</code> above).</p></li>
+</ul>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>lm1 <span class="ot">&lt;-</span> <span class="fu">lm</span>(Y <span class="sc">~</span> T, <span class="at">data =</span> dat)</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>lm1P <span class="ot">&lt;-</span> <span class="fu">summary</span>(lm1)<span class="sc">$</span>coef[<span class="st">&quot;T&quot;</span>, <span class="st">&quot;Pr(&gt;|t|)&quot;</span>]</span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>ttestP1 <span class="ot">&lt;-</span> <span class="fu">t.test</span>(Y <span class="sc">~</span> T, <span class="at">data =</span> dat)<span class="sc">$</span>p.value</span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(estimatr)</span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>ttestP2 <span class="ot">&lt;-</span> <span class="fu">difference_in_means</span>(Y <span class="sc">~</span> T, <span class="at">data =</span> dat)</span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(<span class="at">lm1P =</span> lm1P, <span class="at">ttestP1 =</span> ttestP1, <span class="at">tttestP2 =</span> ttestP2<span class="sc">$</span>p.value)</span></code></pre></div>
+<pre><code>      lm1P    ttestP1 tttestP2.T 
+    0.3321     0.3587     0.3587 </code></pre>
+<ul>
+<li>Why is the OLS <span class="math inline">\(p\)</span>-value different? What assumptions do we use to calculate it?</li>
+</ul>
+</section>
+<section id="testing-the-weak-null-of-no-average-effects-1" class="slide level2">
+<h2>Testing the weak null of no average effects</h2>
+<p>Both variation and location of <span class="math inline">\(Y\)</span> changes with treatment in this simulation.</p>
+
+<div class="figure">
+<img src="figs/figunnamed-chunk-8-1.png" alt="Boxplot of observed outcomes by treatment status" width=".7\textwidth"  />
+<p class="caption">
+Boxplot of observed outcomes by treatment status
+</p>
+</div>
+</section>
+<section id="testing-the-weak-null-of-no-average-effects-2" class="slide level2">
+<h2>Testing the weak null of no average effects</h2>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="do">## By hand:</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>varEstATE <span class="ot">&lt;-</span> <span class="cf">function</span>(Y, T) {</span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">var</span>(Y[T <span class="sc">==</span> <span class="dv">1</span>]) <span class="sc">/</span> <span class="fu">sum</span>(T) <span class="sc">+</span> <span class="fu">var</span>(Y[T <span class="sc">==</span> <span class="dv">0</span>]) <span class="sc">/</span> <span class="fu">sum</span>(<span class="dv">1</span> <span class="sc">-</span> T)</span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>seEstATE <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(<span class="fu">varEstATE</span>(dat<span class="sc">$</span>Y, dat<span class="sc">$</span>T))</span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>obsTStat <span class="ot">&lt;-</span> observedMeanTT <span class="sc">/</span> seEstATE</span>
+<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(</span>
+<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">observedTestStat =</span> observedMeanTT,</span>
+<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">stderror =</span> seEstATE,</span>
+<span id="cb24-10"><a href="#cb24-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">tstat =</span> obsTStat,</span>
+<span id="cb24-11"><a href="#cb24-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">pval =</span> <span class="dv">2</span> <span class="sc">*</span> <span class="fu">min</span>(</span>
+<span id="cb24-12"><a href="#cb24-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">pt</span>(obsTStat, <span class="at">df =</span> <span class="dv">8</span>, <span class="at">lower.tail =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb24-13"><a href="#cb24-13" aria-hidden="true" tabindex="-1"></a>    <span class="fu">pt</span>(obsTStat, <span class="at">df =</span> <span class="dv">8</span>, <span class="at">lower.tail =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb24-14"><a href="#cb24-14" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb24-15"><a href="#cb24-15" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<pre><code>observedTestStat         stderror            tstat             pval 
+        -49.6000          48.0448          -1.0324           0.3321 </code></pre>
+</section></section>
+<section>
+<section id="rejecting-null-hypotheses" class="title-slide slide level1">
+<h1>Rejecting null hypotheses</h1>
+
+</section>
+<section id="rejecting-hypotheses-and-making-errors" class="slide level2">
+<h2>Rejecting hypotheses and making errors</h2>
+<ul>
+<li><p>“In typical use, the level of the test [<span class="math inline">\(\alpha\)</span>] is a promise about the test’s performance and the size is a fact about its performance…” (Rosenbaum 2010, Glossary)</p></li>
+<li><p><span class="math inline">\(\alpha\)</span> is the probability of rejecting the null hypothesis when the null hypothesis is true.</p></li>
+<li><p>How should we interpret <span class="math inline">\(p\)</span>=0.78? What about <span class="math inline">\(p\)</span>=0.32 (our tests of the sharp null)?</p></li>
+<li><p>What does it mean to “reject” <span class="math inline">\(H_0: y_{i,1}=y_{i,2}\)</span> at <span class="math inline">\(\alpha=.05\)</span>?</p></li>
+</ul>
+</section>
+<section id="false-positive-rates-in-hypothesis-testing" class="slide level2 allowframebreaks">
+<h2 class="allowframebreaks">False positive rates in hypothesis testing</h2>
+
+<div class="figure">
+<img src="figs/fignormp-1.png" alt="One-sided p-value from a Normally distributed test statistic." width=".5\textwidth"  />
+<p class="caption">
+One-sided p-value from a Normally distributed test statistic.
+</p>
+</div>
+<p>Notice:</p>
+<ul>
+<li><p>The curve is centered at the hypothesized value.</p></li>
+<li><p>The curve represents the world of the hypothesis.</p></li>
+<li><p>The <span class="math inline">\(p\)</span>-value is how rare it would be to see the observed test statistic (or a value farther away from the hypothesized value) in the world of the null.</p></li>
+<li><p>In the picture, the observed value of the test statistic is consistent with the hypothesized distribution, but just not super consistent.</p></li>
+<li><p>Even if <span class="math inline">\(p &lt; .05\)</span> (or <span class="math inline">\(p &lt; .001\)</span>) the observed test statistic must reflect some value on the hypothesized distribution. This means that you can always make an error when you reject a null hypothesis.</p></li>
+</ul>
+</section>
+<section id="false-positive-and-false-negative-errors" class="slide level2">
+<h2>False positive and false negative errors</h2>
+<ul>
+<li><p>If we say, “The experimental result is significantly different from the hypothesized value of zero (<span class="math inline">\(p=.001\)</span>)! We reject that hypothesis!” <strong>when the truth is zero</strong> we are making a <strong>false positive error</strong> (claiming to detect something positively when there is no signal, only noise).</p></li>
+<li><p>If we say, “We cannot distinguish this result from zero (<span class="math inline">\(p=.3\)</span>). We cannot reject the hypothesis of zero.” <strong>when the truth is not zero</strong> we are making a <strong>false negative error</strong> (claiming inability to detect something when there is a signal, but it is overwhelmed by noise.)</p></li>
+</ul>
+</section>
+<section id="a-single-test-of-a-single-hypothesis" class="slide level2">
+<h2>A single test of a single hypothesis</h2>
+<ul>
+<li><p>A single test of a single hypothesis should encourage false positive errors rarely (for example, if we set <span class="math inline">\(\alpha=.05\)</span>) then we are saying that we are comfortable with our testing procedure making false positive errors in <strong>no more than 5% of tests of a given treatment assignment in a given experiment</strong>.</p></li>
+<li><p>Also, a <strong>single test of a single hypothesis</strong> should detect signal when it exists — it should be have high <strong>statistical power</strong>. In other words, it should not fail to detect a signal when it exists (i.e. should have low false negative error rates).</p></li>
+</ul>
+</section>
+<section id="decisions-imply-errors" class="slide level2">
+<h2>Decisions imply errors</h2>
+<ul>
+<li><p>If errors are necessary, how can we diagnose them? How do we learn whether our hypothesis-testing procedure might generate too many false positive errors?</p></li>
+<li><p>Diagnose by simulation!</p></li>
+</ul>
+</section>
+<section id="diagnosing-false-positive-rates-by-simulation" class="slide level2">
+<h2>Diagnosing false positive rates by simulation</h2>
+<ul>
+<li><p>Across repetitions of the design:</p>
+<ul>
+<li>Create a true null hypothesis.</li>
+<li>Test the true null.</li>
+<li>The <span class="math inline">\(p\)</span>-value should be large if the test is operating correctly.</li>
+</ul></li>
+<li><p>The proportion of small <span class="math inline">\(p\)</span>-values should be no larger than <span class="math inline">\(\alpha\)</span> if the test is operating correctly.</p></li>
+</ul>
+</section>
+<section id="diagnosing-false-positive-rates-by-simulation-1" class="slide level2">
+<h2>Diagnosing false positive rates by simulation</h2>
+<p>Example with a binary outcome. Does the test work as it should? What do the p-values look like when there is no effect?</p>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>collectPValues <span class="ot">&lt;-</span> <span class="cf">function</span>(y, trt, <span class="at">thedistribution =</span> <span class="fu">exact</span>()) {</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>  <span class="do">## Make Y and T have no relationship by re-randomizing T</span></span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>  new_trt <span class="ot">&lt;-</span> <span class="fu">repeatExperiment</span>(<span class="fu">length</span>(y))</span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>  thedata <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">new_trt =</span> new_trt, <span class="at">y =</span> y)</span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>  thedata<span class="sc">$</span>ranky <span class="ot">&lt;-</span> <span class="fu">rank</span>(y)</span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>  thedata<span class="sc">$</span>new_trtF <span class="ot">&lt;-</span> <span class="fu">factor</span>(thedata<span class="sc">$</span>new_trt)</span>
+<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a>  <span class="do">## The four tests</span></span>
+<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a>  thelm <span class="ot">&lt;-</span> <span class="fu">lm</span>(y <span class="sc">~</span> new_trt, <span class="at">data =</span> thedata)</span>
+<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a>  t_test_CLT <span class="ot">&lt;-</span> <span class="fu">difference_in_means</span>(y <span class="sc">~</span> new_trt, <span class="at">data =</span> thedata)</span>
+<span id="cb26-10"><a href="#cb26-10" aria-hidden="true" tabindex="-1"></a>  t_test_exact <span class="ot">&lt;-</span> <span class="fu">oneway_test</span>(y <span class="sc">~</span> new_trtF,</span>
+<span id="cb26-11"><a href="#cb26-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">data =</span> thedata,</span>
+<span id="cb26-12"><a href="#cb26-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">distribution =</span> thedistribution</span>
+<span id="cb26-13"><a href="#cb26-13" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb26-14"><a href="#cb26-14" aria-hidden="true" tabindex="-1"></a>  t_test_rank_exact <span class="ot">&lt;-</span> <span class="fu">oneway_test</span>(ranky <span class="sc">~</span> new_trtF,</span>
+<span id="cb26-15"><a href="#cb26-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">data =</span> thedata,</span>
+<span id="cb26-16"><a href="#cb26-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">distribution =</span> thedistribution</span>
+<span id="cb26-17"><a href="#cb26-17" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb26-18"><a href="#cb26-18" aria-hidden="true" tabindex="-1"></a>  owP <span class="ot">&lt;-</span> coin<span class="sc">::</span><span class="fu">pvalue</span>(t_test_exact)[[<span class="dv">1</span>]]</span>
+<span id="cb26-19"><a href="#cb26-19" aria-hidden="true" tabindex="-1"></a>  owRankP <span class="ot">&lt;-</span> coin<span class="sc">::</span><span class="fu">pvalue</span>(t_test_rank_exact)[[<span class="dv">1</span>]]</span>
+<span id="cb26-20"><a href="#cb26-20" aria-hidden="true" tabindex="-1"></a>  <span class="do">## Return the p-values</span></span>
+<span id="cb26-21"><a href="#cb26-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(<span class="fu">c</span>(</span>
+<span id="cb26-22"><a href="#cb26-22" aria-hidden="true" tabindex="-1"></a>    <span class="at">lmp =</span> <span class="fu">summary</span>(thelm)<span class="sc">$</span>coef[<span class="st">&quot;new_trt&quot;</span>, <span class="st">&quot;Pr(&gt;|t|)&quot;</span>],</span>
+<span id="cb26-23"><a href="#cb26-23" aria-hidden="true" tabindex="-1"></a>    <span class="at">neyp =</span> t_test_CLT<span class="sc">$</span>p.value[[<span class="dv">1</span>]],</span>
+<span id="cb26-24"><a href="#cb26-24" aria-hidden="true" tabindex="-1"></a>    <span class="at">rtp =</span> owP,</span>
+<span id="cb26-25"><a href="#cb26-25" aria-hidden="true" tabindex="-1"></a>    <span class="at">rtpRank =</span> owRankP</span>
+<span id="cb26-26"><a href="#cb26-26" aria-hidden="true" tabindex="-1"></a>  ))</span>
+<span id="cb26-27"><a href="#cb26-27" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+</section>
+<section id="diagnosing-false-positive-rates-by-simulation-2" class="slide level2">
+<h2>Diagnosing false positive rates by simulation</h2>
+<ul>
+<li><p>When there is no effect, a test of the null hypothesis of no effects should produce a <strong>big</strong> p-value.</p></li>
+<li><p>If the test is working well, we should see mostly big p-values and very few small p-values.</p></li>
+<li><p>A few of the p-values for the four different tests (we did 5000 simulations, just showing 5)</p></li>
+</ul>
+<pre><code>        [,1] [,2] [,3] [,4]   [,5]
+lmp        1    1    1    1 0.1411
+neyp       1    1    1    1 0.1778
+rtp        1    1    1    1 0.4444
+rtpRank    1    1    1    1 0.4444</code></pre>
+</section>
+<section id="diagnosing-false-positive-rates-by-simulation-3" class="slide level2">
+<h2>Diagnosing false positive rates by simulation</h2>
+<p>In fact, if there is no effect, and if we decided to reject the null hypothesis of no effects with <span class="math inline">\(\alpha=.25\)</span>, we would want <strong>no more than 25% of our p-values in this simulation to be less than p=.25</strong>. What do we see here? Which tests appear to have false positive rates that are too high?</p>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Calculate the proportion of p-values less than .25 for each row of pDist</span></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a><span class="fu">apply</span>(pDist, <span class="dv">1</span>, <span class="cf">function</span>(x) {</span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mean</span>(x <span class="sc">&lt;</span> .<span class="dv">25</span>)</span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>})</span></code></pre></div>
+<pre><code>    lmp    neyp     rtp rtpRank 
+ 0.4536  0.4536  0.0000  0.0000 </code></pre>
+</section>
+<section id="diagnosing-false-positive-rates-by-simulation-4" class="slide level2">
+<h2>Diagnosing false positive rates by simulation</h2>
+<p>Compare tests by plotting the proportion of p-values less than any given number. The “randomization inference” tests control the false positive rate (these are the tests of using direct permutation, repeating the experiment).</p>
+
+<div class="figure">
+<img src="figs/figplotecdf-1.png" alt="P-value distributions when there are no effects for four tests with n=10. A test that controls its false positive rate should have points on or below the diagonal line." width=".6\textwidth"  />
+<p class="caption">
+P-value distributions when there are no effects for four tests with n=10. A test that controls its false positive rate should have points on or below the diagonal line.
+</p>
+</div>
+</section>
+<section id="false-positive-rate-with-n60-and-binary-outcome" class="slide level2">
+<h2>False positive rate with <span class="math inline">\(N=60\)</span> and binary outcome</h2>
+<p>In this design only the direct randomization inference-based tests control the false positive rate.</p>
+
+<div class="figure">
+<img src="figs/figplotecdfBig-1.png" alt="P-value distributions when there are no effects for four tests with n=60 and a binary outcome. A test that controls its false positive rate should have points on or below the diagonal line." width=".7\textwidth"  />
+<p class="caption">
+P-value distributions when there are no effects for four tests with n=60 and a binary outcome. A test that controls its false positive rate should have points on or below the diagonal line.
+</p>
+</div>
+</section>
+<section id="false-positive-rate-with-n60-and-continuous-outcome" class="slide level2">
+<h2>False positive rate with <span class="math inline">\(N=60\)</span> and continuous outcome</h2>
+<p>Here, all of the tests do a good job of controlling the false positive rate.</p>
+
+<div class="figure">
+<img src="figs/figplotecdfBig2-1.png" alt="P-value distributions when there are no effects for four tests with n=60 and a continuous outcome. A test that controls its false positive rate should have points on or below the diagonal line." width=".7\textwidth"  />
+<p class="caption">
+P-value distributions when there are no effects for four tests with n=60 and a continuous outcome. A test that controls its false positive rate should have points on or below the diagonal line.
+</p>
+</div>
+</section>
+<section id="summary" class="slide level2">
+<h2>Summary</h2>
+<ul>
+<li><p>A good test:</p>
+<ol type="1">
+<li><p>casts doubt on the truth rarely, and</p></li>
+<li><p>easily distinguishes signal from noise (casts doubt on falsehoods often).</p></li>
+</ol></li>
+<li><p>We can learn whether our testing procedure controls false positive rates given our design.</p></li>
+<li><p>When false positive rates are not controlled, what might be going wrong? (Often has to do with asymptotics.)</p></li>
+</ul>
+</section></section>
+<section>
+<section id="advanced-topics" class="title-slide slide level1">
+<h1>Advanced Topics</h1>
+
+</section>
+<section id="some-advanced-topics-connected-to-hypothesis-testing" class="slide level2">
+<h2>Some advanced topics connected to hypothesis testing</h2>
+<ul>
+<li><p>Even if a given testing procedure controls the false positive rate for a single test, it may not control the rate for a group of multiple tests. See <a href="https://egap.org/methods-guides/10-things-you-need-know-about-multiple-comparisons">10 Things you need to know about multiple comparisons</a> for a guide to the approaches to controlling such rejection-rates in multiple tests.</p></li>
+<li><p>A <span class="math inline">\(100(1-\alpha)\)</span>% confidence interval can be defined as the range of hypotheses where all of the <span class="math inline">\(p\)</span>-values are greater than or equal to <span class="math inline">\(\alpha\)</span>. This is called inverting the hypothesis test (<span class="citation" data-cites="rosenbaum2010design">Rosenbaum (<a href="#/ref-rosenbaum2010design" role="doc-biblioref">2010</a>)</span>). That is, a confidence interval is a collection of hypothesis tests.</p></li>
+</ul>
+</section>
+<section id="what-else-to-know-about-hypothesis-tests" class="slide level2 allowframebreaks">
+<h2 class="allowframebreaks">What else to know about hypothesis tests</h2>
+<ul>
+<li><p>A point estimate based on hypothesis testing is called a Hodges-Lehmann point estimate (<span class="citation" data-cites="rosenbaum1993hlp">Rosenbaum (<a href="#/ref-rosenbaum1993hlp" role="doc-biblioref">1993</a>)</span>,<span class="citation" data-cites="hodges1963elb">Hodges and Lehmann (<a href="#/ref-hodges1963elb" role="doc-biblioref">1963</a>)</span>).</p></li>
+<li><p>A set of hypothesis tests can be combined into one single hypothesis test (<span class="citation" data-cites="hansen:bowers:2008">Hansen and Bowers (<a href="#/ref-hansen:bowers:2008" role="doc-biblioref">2008</a>)</span>,<span class="citation" data-cites="caughey2017nonparametric">Caughey, Dafoe, and Seawright (<a href="#/ref-caughey2017nonparametric" role="doc-biblioref">2017</a>)</span>).</p></li>
+<li><p>In equivalence testing, one can hypothesize that two test-statistics are equivalent (i.e., the treatment group is the same as the control group) rather than only about one test-statistic (the difference between the two groups is zero) (<span class="citation" data-cites="hartman2018equivalence">Hartman and Hidalgo (<a href="#/ref-hartman2018equivalence" role="doc-biblioref">2018</a>)</span>).</p></li>
+<li><p>Since a hypothesis test is a model of potential outcomes, one can use hypothesis testing to learn about complex models, such as models of spillover and propagation of treatment effects across networks (<span class="citation" data-cites="bowers2013reasoning">Bowers, Fredrickson, and Panagopoulos (<a href="#/ref-bowers2013reasoning" role="doc-biblioref">2013</a>)</span>, <span class="citation" data-cites="bowers2016research">Bowers, Fredrickson, and Aronow (<a href="#/ref-bowers2016research" role="doc-biblioref">2016</a>)</span>, <span class="citation" data-cites="bowers2018models">Bowers et al. (<a href="#/ref-bowers2018models" role="doc-biblioref">2018</a>)</span>)</p></li>
+</ul>
+</section>
+<section id="exercise-hypothesis-tests-and-test-statistics" class="slide level2">
+<h2>Exercise: Hypothesis Tests and Test Statistics</h2>
+<ol type="1">
+<li><p>If an intervention was very effective at increasing the variability of an outcome but did not change the mean, would the <span class="math inline">\(p\)</span>-value reported by R or Stata if we used <code>lm_robust()</code> or <code>difference_of_means()</code> or <code>reg</code> or <code>t.test</code> be large or small?</p></li>
+<li><p>If an intervention caused the mean in the control group to be moderately reduced but increased a few outcomes a lot (like a 10 times effect), would the <span class="math inline">\(p\)</span>-value from R <code>lm_robust()</code> or <code>difference_of_means()</code> be large or small?</p></li>
+</ol>
+</section></section>
+<section>
+<section id="testing-many-hypotheses" class="title-slide slide level1">
+<h1>Testing many hypotheses</h1>
+
+</section>
+<section id="when-might-we-test-many-hypotheses" class="slide level2">
+<h2>When might we test many hypotheses?</h2>
+<ul>
+<li><p>Does the effect of an experimental treatment differ between different groups? Could differences in treatment effect arise because of some background characteristics of experimental subjects?</p></li>
+<li><p>Which, among several, strategies for communication were most effective on a single outcome?</p></li>
+<li><p>Which, among several outcomes, were influenced by a single experimental intervention?</p></li>
+</ul>
+</section>
+<section id="false-positive-rates-in-multiple-hypothesis-testing" class="slide level2 fragile">
+<h2 class="fragile">False positive rates in multiple hypothesis testing</h2>
+<p>Say our probability of making a false positive error is .05 in a single test. What happens if we ask: (1) <em>which of these 10 outcomes has a statistically significant relationship with the two arms of treatment</em>? or (2) <em>which of these 10 treatment arms had a statistically significant relationship with the single outcome</em>?</p>
+<ul>
+<li>Prob of false positive error should be less than or equal to .05 in 1 test.</li>
+<li>Prob of one false positive error should be less than or equal to <span class="math inline">\(1 - ( ( 1 - .05 ) \times (1 - .05) ) = .0975\)</span> in 2 tests.</li>
+<li>Prob of at least one false positive error with <span class="math inline">\(\alpha=.05\)</span> in 10 tests should be <span class="math inline">\(\le\)</span> <span class="math inline">\(1 - (1-.05)^{10}=.40\)</span>.</li>
+</ul>
+</section>
+<section id="discoveries-with-multiple-tests" class="slide level2">
+<h2>Discoveries with multiple tests</h2>
+<p><strong>Number of errors committed when testing <span class="math inline">\(m\)</span> null hypotheses</strong> <span class="citation" data-cites="benjamini1995">(<a href="#/ref-benjamini1995" role="doc-biblioref">Benjamini and Hochberg 1995</a> ’s Table 1)</span>. Cells are numbers of tests. <span class="math inline">\(R\)</span> is # of “discoveries” and <span class="math inline">\(V\)</span> is # of false discoveries, <span class="math inline">\(U\)</span> is # of correct non-rejections, and <span class="math inline">\(S\)</span> is # of correct rejections.</p>
+<table>
+<colgroup>
+<col style="width: 39%" />
+<col style="width: 26%" />
+<col style="width: 22%" />
+<col style="width: 11%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th></th>
+<th style="text-align: center;">Declared Non-Significant</th>
+<th style="text-align: center;">Declared Significant</th>
+<th style="text-align: center;">Total</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>True null hypotheses (<span class="math inline">\(H_{true}=0\)</span>)</td>
+<td style="text-align: center;"><pre><code>        U</code></pre></td>
+<td style="text-align: center;"><pre><code>      V</code></pre></td>
+<td style="text-align: center;"><span class="math inline">\(m_0\)</span></td>
+</tr>
+<tr class="even">
+<td>Not true null hyps (<span class="math inline">\(H_{true} \ne 0\)</span>)</td>
+<td style="text-align: center;"><pre><code>        T</code></pre></td>
+<td style="text-align: center;"><pre><code>      S</code></pre></td>
+<td style="text-align: center;">m - <span class="math inline">\(m_0\)</span></td>
+</tr>
+<tr class="odd">
+<td>Total</td>
+<td style="text-align: center;"><pre><code>       m-R</code></pre></td>
+<td style="text-align: center;"><pre><code>      R</code></pre></td>
+<td style="text-align: center;">m</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="two-main-error-rates-to-control-when-testing-many-hypotheses" class="slide level2 allowframebreaks">
+<h2 class="allowframebreaks">Two main error rates to control when testing many hypotheses</h2>
+<ol type="1">
+<li><p><strong>Family wise error rate (FWER)</strong> is <span class="math inline">\(P(V&gt;0)\)</span> (Probability of any false positive error).</p>
+<ul>
+<li><p>We’d like to control this if we plan to make a decision about the results of our multiple tests. The research project is mostly confirmatory.</p></li>
+<li><p>See, for example, the projects of the OES <a href="http://oes.gsa.gov" class="uri">http://oes.gsa.gov</a>: federal agencies will make decisions about programs depending on whether they detect results or not.</p></li>
+</ul></li>
+<li><p><strong>False Discovery Rate (FDR)</strong> is <span class="math inline">\(E(V/R | R&gt;0)\)</span> (Average proportion of false positive errors given some rejections).</p>
+<ul>
+<li><p>We’d like to control this if we are using <em>this</em> experiment to plan <em>the next</em> experiment. We are willing to accept a higher probability of error in the interests of giving us more possibilities for discovery.</p></li>
+<li><p>For example, one could imagine an organization, a government, an NGO, could decide to conduct <em>a series</em> of experiments as a part of a <em>learning agenda</em>: no single experiment determines decision making, more room for exploration.</p></li>
+</ul></li>
+</ol>
+<p>We will focus on FWER but recommend thinking about FDR and learning agendas as a very useful way to go.</p>
+</section>
+<section id="questions-with-multiple-outcomes" class="slide level2">
+<h2>Questions with multiple outcomes</h2>
+<ul>
+<li><p>What is the effect of one treatment on multiple outcomes?</p></li>
+<li><p>On which outcomes (out of many) did the treatment have an effect?</p></li>
+<li><p>The second question, in particular, can lead to the kind of uncontrolled family wise error rate problems that we referred to above.</p></li>
+</ul>
+</section>
+<section id="multiple-hypothesis-testing-multiple-outcomes" class="slide level2">
+<h2>Multiple hypothesis testing: Multiple Outcomes</h2>
+<p>Imagine we had five outcomes and one treatment (showing potential and observed outcomes here):</p>
+<pre><code>   ID T Y1_T_0 Y1_T_1 Y2_T_0 Y2_T_1 Y3_T_0 Y3_T_1 Y4_T_0 Y4_T_1 Y5_T_0 Y5_T_1
+1 001 0   0.19   0.19  0.366  0.366  0.546  0.546 -0.626 -0.626 -0.125 -0.125
+2 002 0  -0.43  -0.43  0.931  0.931 -2.233 -2.233  1.309  1.309  1.078  1.078
+3 003 0   0.91   0.91 -1.907 -1.907  0.288  0.288 -0.133 -0.133 -1.261 -1.261
+4 004 0   1.79   1.79  0.052  0.052  0.544  0.544 -1.608 -1.608 -0.452 -0.452
+5 005 1   1.00   1.00 -0.848 -0.848 -1.192 -1.192 -1.308 -1.308 -1.027 -1.027
+6 006 0   1.11   1.11 -0.368 -0.368 -0.018 -0.018 -0.045 -0.045  0.068  0.068</code></pre>
+<pre><code>   ID T    Y1     Y2     Y3     Y4     Y5
+1 001 0  0.19  0.366  0.546 -0.626 -0.125
+2 002 0 -0.43  0.931 -2.233  1.309  1.078
+3 003 0  0.91 -1.907  0.288 -0.133 -1.261
+4 004 0  1.79  0.052  0.544 -1.608 -0.452
+5 005 1  1.00 -0.848 -1.192 -1.308 -1.027
+6 006 0  1.11 -0.368 -0.018 -0.045  0.068</code></pre>
+</section>
+<section id="can-we-detect-an-effect-on-outcome-y1" class="slide level2">
+<h2>Can we detect an effect on outcome <code>Y1</code>?</h2>
+<p>Can we detect an effect on outcome <code>Y1</code>? (i.e., does the hypothesis test produce a small enough <span class="math inline">\(p\)</span>-value?) </p>
+<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>coin<span class="sc">::</span><span class="fu">pvalue</span>(<span class="fu">oneway_test</span>(Y1 <span class="sc">~</span> <span class="fu">factor</span>(T), <span class="at">data =</span> dat1))</span></code></pre></div>
+<pre><code>[1] 0.88</code></pre>
+<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Notice that the t-test p-value is also a chi-squared test</span></span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a><span class="do">## p-value.</span></span>
+<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a>coin<span class="sc">::</span><span class="fu">pvalue</span>(<span class="fu">independence_test</span>(Y1 <span class="sc">~</span> <span class="fu">factor</span>(T),</span>
+<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> dat1,</span>
+<span id="cb40-5"><a href="#cb40-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">teststat =</span> <span class="st">&quot;quadratic&quot;</span></span>
+<span id="cb40-6"><a href="#cb40-6" aria-hidden="true" tabindex="-1"></a>))</span></code></pre></div>
+<pre><code>[1] 0.88</code></pre>
+</section>
+<section id="on-which-of-the-five-outcomes-can-we-detect-an-effect" class="slide level2">
+<h2>On which of the five outcomes can we detect an effect?</h2>
+<p>On which of the five outcomes can we detect an effect? (i.e., does any of the five hypothesis tests produce a small enough <span class="math inline">\(p\)</span>-value?) </p>
+<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>p1 <span class="ot">&lt;-</span> coin<span class="sc">::</span><span class="fu">pvalue</span>(<span class="fu">oneway_test</span>(Y1 <span class="sc">~</span> <span class="fu">factor</span>(T), <span class="at">data =</span> dat1))</span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>p2 <span class="ot">&lt;-</span> coin<span class="sc">::</span><span class="fu">pvalue</span>(<span class="fu">oneway_test</span>(Y2 <span class="sc">~</span> <span class="fu">factor</span>(T), <span class="at">data =</span> dat1))</span>
+<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a>p3 <span class="ot">&lt;-</span> coin<span class="sc">::</span><span class="fu">pvalue</span>(<span class="fu">oneway_test</span>(Y3 <span class="sc">~</span> <span class="fu">factor</span>(T), <span class="at">data =</span> dat1))</span>
+<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a>p4 <span class="ot">&lt;-</span> coin<span class="sc">::</span><span class="fu">pvalue</span>(<span class="fu">oneway_test</span>(Y4 <span class="sc">~</span> <span class="fu">factor</span>(T), <span class="at">data =</span> dat1))</span>
+<span id="cb42-5"><a href="#cb42-5" aria-hidden="true" tabindex="-1"></a>p5 <span class="ot">&lt;-</span> coin<span class="sc">::</span><span class="fu">pvalue</span>(<span class="fu">oneway_test</span>(Y5 <span class="sc">~</span> <span class="fu">factor</span>(T), <span class="at">data =</span> dat1))</span>
+<span id="cb42-6"><a href="#cb42-6" aria-hidden="true" tabindex="-1"></a>theps <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="at">p1 =</span> p1, <span class="at">p2 =</span> p2, <span class="at">p3 =</span> p3, <span class="at">p4 =</span> p4, <span class="at">p5 =</span> p5)</span>
+<span id="cb42-7"><a href="#cb42-7" aria-hidden="true" tabindex="-1"></a><span class="fu">sort</span>(theps)</span></code></pre></div>
+<pre><code>  p5   p4   p3   p2   p1 
+0.27 0.30 0.43 0.59 0.88 </code></pre>
+</section>
+<section id="can-we-detect-an-effect-for-any-of-the-five-outcomes" class="slide level2">
+<h2>Can we detect an effect for <em>any</em> of the five outcomes?</h2>
+<p>Can we detect an effect for <em>any</em> of the five outcomes? (i.e., does the hypothesis test for <em>all</em> five outcomes at once produce a small enough <span class="math inline">\(p\)</span>-value?) </p>
+<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>coin<span class="sc">::</span><span class="fu">pvalue</span>(<span class="fu">independence_test</span>(Y1 <span class="sc">+</span> Y2 <span class="sc">+</span> Y3 <span class="sc">+</span> Y4 <span class="sc">+</span> Y5 <span class="sc">~</span> <span class="fu">factor</span>(T),</span>
+<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> dat1, <span class="at">teststat =</span> <span class="st">&quot;quadratic&quot;</span></span>
+<span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a>))</span></code></pre></div>
+<pre><code>[1] 0.67</code></pre>
+<p>Which approach is likely to mislead us with too many “statistically significant” results (5 tests or 1 omnibus test)?</p>
+</section>
+<section id="comparing-approaches-i" class="slide level2">
+<h2>Comparing approaches I</h2>
+<p>Let’s do a simulation to learn about these testing approaches.</p>
+<ul>
+<li><p>We will (1) set the true causal effects to be 0, (2) repeatedly re-assign treatment, and (3) each time, do each of those three tests.</p></li>
+<li><p>Since the true effect is 0, we expect <em>most</em> of the <span class="math inline">\(p\)</span>-values to be large. (In fact, we’d like no more than 5% of the <span class="math inline">\(p\)</span>-values to be greater than <span class="math inline">\(p=.05\)</span> if we are using the <span class="math inline">\(\alpha=.05\)</span> accept-reject criterion).</p></li>
+</ul>
+<div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a>des1_sim <span class="ot">&lt;-</span> <span class="fu">simulate_design</span>(des1_plus, <span class="at">sims =</span> <span class="dv">1000</span>)</span>
+<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a>res1 <span class="ot">&lt;-</span> des1_sim <span class="sc">%&gt;%</span></span>
+<span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(estimator) <span class="sc">%&gt;%</span></span>
+<span id="cb46-4"><a href="#cb46-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">fwer =</span> <span class="fu">mean</span>(p.value <span class="sc">&lt;</span> .<span class="dv">05</span>), <span class="at">.groups =</span> <span class="st">&quot;drop&quot;</span>)</span></code></pre></div>
+</section>
+<section id="comparing-approaches-ii" class="slide level2">
+<h2>Comparing approaches II</h2>
+<table>
+<caption>Family wise error rates</caption>
+<thead>
+<tr class="header">
+<th style="text-align: left;">estimator</th>
+<th style="text-align: right;">fwer</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">t-test all</td>
+<td style="text-align: right;">0.22</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">t-test all holm adj</td>
+<td style="text-align: right;">0.04</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">t-test omnibus</td>
+<td style="text-align: right;">0.04</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">t-test Y1</td>
+<td style="text-align: right;">0.05</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><p>The approach using 5 tests produces a <span class="math inline">\(p &lt; .05\)</span> much too often — recall that there are no causal effects at all for any of these outcomes.</p></li>
+<li><p>A test of a single outcome (here <code>Y1</code>) has <span class="math inline">\(p &lt; .05\)</span> no more than 5% of the simulations.</p></li>
+<li><p>The omnibus test also shows a well-controlled error rate.</p></li>
+<li><p>Using a multiple testing correction (here we use the “Holm” correction) also correctly controls the false positive rate.</p></li>
+</ul>
+</section>
+<section id="the-holm-correction" class="slide level2">
+<h2>The Holm correction</h2>
+<p>FYI, here is how to use the Holm correction (Notice what happens to the <span class="math inline">\(p\)</span>-values):</p>
+<div class="sourceCode" id="cb47"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a>theps</span></code></pre></div>
+<pre><code>  p1   p2   p3   p4   p5 
+0.88 0.59 0.43 0.30 0.27 </code></pre>
+<div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="fu">p.adjust</span>(theps, <span class="at">method =</span> <span class="st">&quot;holm&quot;</span>)</span></code></pre></div>
+<pre><code>p1 p2 p3 p4 p5 
+ 1  1  1  1  1 </code></pre>
+<div class="sourceCode" id="cb51"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="do">## To show what happens with &quot;significant&quot; p-values</span></span>
+<span id="cb51-2"><a href="#cb51-2" aria-hidden="true" tabindex="-1"></a>theps_new <span class="ot">&lt;-</span> <span class="fu">sort</span>(<span class="fu">c</span>(theps, <span class="at">newlowp =</span> .<span class="dv">01</span>))</span>
+<span id="cb51-3"><a href="#cb51-3" aria-hidden="true" tabindex="-1"></a><span class="fu">p.adjust</span>(theps_new, <span class="at">method =</span> <span class="st">&quot;holm&quot;</span>)</span></code></pre></div>
+<pre><code>newlowp      p5      p4      p3      p2      p1 
+   0.06    1.00    1.00    1.00    1.00    1.00 </code></pre>
+</section>
+<section id="multiple-hypothesis-testing-multiple-treatment-arms" class="slide level2 allowframebreaks">
+<h2 class="allowframebreaks">Multiple hypothesis testing: Multiple treatment arms</h2>
+<ul>
+<li><p>The same kind of problem can happen when the question is about the differential effects of a multi-armed treatment.</p></li>
+<li><p>With 5 arms, “the effect of arm 1” could mean many different things: “Is the average potential outcome under arm 1 bigger than arm 2?”, “Are the potential outcomes of arm 1 bigger than the average potential outcomes of all of the other arms?”</p></li>
+<li><p>If we just focus on pairwise comparisons across arms, we could have <span class="math inline">\(((5 \times 5) - 5)/2 = 10\)</span> unique tests!</p></li>
+</ul>
+</section>
+<section id="multiple-hypothesis-testing-multiple-treatment-arms-1" class="slide level2 allowframebreaks">
+<h2 class="allowframebreaks">Multiple hypothesis testing: Multiple treatment arms</h2>
+<p>Here are some potential and observed outcomes and <code>T</code> with multiple values.</p>
+<pre><code>   ID T  Y_T_2  Y_T_3  Y_T_4  Y_T_5      Y
+1 001 3  0.366  0.546 -0.626 -0.125  0.546
+2 002 3  0.931 -2.233  1.309  1.078 -2.233
+3 003 4 -1.907  0.288 -0.133 -1.261 -0.133
+4 004 5  0.052  0.544 -1.608 -0.452 -0.452
+5 005 2 -0.848 -1.192 -1.308 -1.027 -0.848
+6 006 3 -0.368 -0.018 -0.045  0.068 -0.018</code></pre>
+</section>
+<section id="multiple-hypothesis-testing-multiple-treatment-arms-2" class="slide level2 allowframebreaks">
+<h2 class="allowframebreaks">Multiple hypothesis testing: Multiple treatment arms</h2>
+<p>Here are the 10 pairwise tests with and without adjustment for multiple testing. Notice how one “significant” result (<span class="math inline">\(p=.01\)</span>) changes with adjustment.</p>
+<pre><code>   Comparison      Stat p.value p.adjust
+1   1 - 2 = 0     1.435   0.231   1.0000
+2   1 - 3 = 0    0.8931  0.3447   1.0000
+3   1 - 4 = 0     6.404 0.01139   0.1139
+4   1 - 5 = 0    0.8216  0.3647   1.0000
+5   2 - 3 = 0   0.05882  0.8084   1.0000
+6   2 - 4 = 0     2.641  0.1041   0.7287
+7   2 - 5 = 0    0.0437  0.8344   1.0000
+8   3 - 4 = 0     3.232 0.07222   0.6500
+9   3 - 5 = 0 0.0003464  0.9852   1.0000
+10  4 - 5 = 0     2.899 0.08861   0.7089</code></pre>
+</section>
+<section id="approaches-to-testing-hypotheses-with-multiple-arms" class="slide level2">
+<h2>Approaches to testing hypotheses with multiple arms</h2>
+<p>We illustrate four different approaches:</p>
+<ol type="1">
+<li>do all of the pairwise tests and choose the best one (a bad idea);</li>
+<li>do all the pairwise tests and choose the best one after adjusting the p-values for multiple testing (a fine idea but one with very low statistical power);</li>
+<li>test the hypothesis of no relationship between <em>any arm</em> (an omnibus test) and the outcome (a fine idea);</li>
+<li>choose one arm to focus on in advance (a fine idea).</li>
+</ol>
+<table>
+<caption>Approaches to testing in multi-arm experiments.</caption>
+<thead>
+<tr class="header">
+<th style="text-align: left;">estimator</th>
+<th style="text-align: right;">fwer</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Choose best pairwise test</td>
+<td style="text-align: right;">0.238</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Choose best pairwise test after adjustment</td>
+<td style="text-align: right;">0.028</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Overall test</td>
+<td style="text-align: right;">0.034</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">t-test T1 vs all</td>
+<td style="text-align: right;">0.018</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="summary-1" class="slide level2">
+<h2>Summary</h2>
+<ul>
+<li><p>Multiple testing problems can arise from multiple outcomes or multiple treatments (or multiple moderators/interaction terms).</p></li>
+<li><p>Procedures for making hypothesis tests and confidence intervals can involve error. Ordinary practice controls the error rates in a single test (or single confidence interval). But multiple tests require extra work to ensure that error rates are controlled.</p></li>
+<li><p>The loss of power arising from adjustment approaches encourages us to consider what <em>questions we want to ask of the data</em>. For example, if we want to know if the treatment had <em>any effect</em>, then a joint test or omnibus test of multiple outcomes will increase our statistical power without requiring adjustment.</p></li>
+</ul>
+</section>
+<section id="references" class="slide level2 unnumbered allowframebreaks">
+<h2 class="unnumbered allowframebreaks">References</h2>
+<div id="refs" class="references csl-bib-body hanging-indent" role="doc-bibliography">
+<div id="ref-benjamini1995" class="csl-entry" role="doc-biblioentry">
+Benjamini, Yoav, and Yosef Hochberg. 1995. <span>“<span class="nocase">Controlling the false discovery rate: a practical and powerful approach to multiple testing</span>.”</span> <em>Journal of the Royal Statistical Society</em> 57 (1): 289–300. <a href="http://www.jstor.org/stable/2346101">http://www.jstor.org/stable/2346101</a>.
+</div>
+<div id="ref-bowers2018models" class="csl-entry" role="doc-biblioentry">
+Bowers, Jake, Bruce A Desmarais, Mark Frederickson, Nahomi Ichino, Hsuan-Wei Lee, and Simi Wang. 2018. <span>“Models, Methods and Network Topology: Experimental Design for the Study of Interference.”</span> <em>Social Networks</em> 54: 196–208.
+</div>
+<div id="ref-bowers2013reasoning" class="csl-entry" role="doc-biblioentry">
+Bowers, Jake, Mark M Fredrickson, and Costas Panagopoulos. 2013. <span>“<span class="nocase">Reasoning about Interference Between Units: A General Framework</span>.”</span> <em>Political Analysis</em> 21 (1): 97–124.
+</div>
+<div id="ref-bowers2016research" class="csl-entry" role="doc-biblioentry">
+Bowers, Jake, Mark Fredrickson, and Peter M Aronow. 2016. <span>“Research Note: A More Powerful Test Statistic for Reasoning about Interference Between Units.”</span> <em>Political Analysis</em> 24 (3): 395–403.
+</div>
+<div id="ref-caughey2017nonparametric" class="csl-entry" role="doc-biblioentry">
+Caughey, Devin, Allan Dafoe, and Jason Seawright. 2017. <span>“Nonparametric Combination (NPC): A Framework for Testing Elaborate Theories.”</span> <em>The Journal of Politics</em> 79 (2): 688–701.
+</div>
+<div id="ref-hansen:bowers:2008" class="csl-entry" role="doc-biblioentry">
+Hansen, Ben B., and Jake Bowers. 2008. <span>“Covariate Balance in Simple, Stratified and Clustered Comparative Studies.”</span> <em>Statistical Science</em> 23 (2): 219–36.
+</div>
+<div id="ref-hartman2018equivalence" class="csl-entry" role="doc-biblioentry">
+Hartman, Erin, and F Daniel Hidalgo. 2018. <span>“An Equivalence Approach to Balance and Placebo Tests.”</span> <em>American Journal of Political Science</em> 62 (4): 1000–1013.
+</div>
+<div id="ref-hodges1963elb" class="csl-entry" role="doc-biblioentry">
+Hodges, J. L., and E. L. Lehmann. 1963. <span>“<span class="nocase">Estimates of location based on rank tests</span>.”</span> <em>Ann. Math. Statist</em> 34: 598–611.
+</div>
+<div id="ref-rosenbaum1993hlp" class="csl-entry" role="doc-biblioentry">
+Rosenbaum, Paul R. 1993. <span>“Hodges-Lehmann Point Estimates of Treatment Effect in Observational Studies.”</span> <em>Journal of the American Statistical Association</em> 88 (424): 1250–53.
+</div>
+<div id="ref-rosenbaum2010design" class="csl-entry" role="doc-biblioentry">
+———. 2010. <span>“<span class="nocase">Design of observational studies</span>.”</span> <em>Springer Series in Statistics</em>.
+</div>
+</div>
+</section></section>
+    </div>
+  </div>
+
+  <script src="hypothesistesting-slides_files/reveal.js-3.3.0.1/lib/js/head.min.js"></script>
+  <script src="hypothesistesting-slides_files/reveal.js-3.3.0.1/js/reveal.js"></script>
+
+  <script>
+
+      // Full list of configuration options available at:
+      // https://github.com/hakimel/reveal.js#configuration
+      Reveal.initialize({
+        // Display controls in the bottom right corner
+        controls: true,
+        // Display a presentation progress bar
+        progress: true,
+        // Display the page number of the current slide
+        slideNumber: true,
+        // Push each slide change to the browser history
+        history: true,
+        // Enable keyboard shortcuts for navigation
+        keyboard: true,
+        // Enable the slide overview mode
+        overview: true,
+        // Vertical centering of slides
+        center: false,
+        // Enables touch navigation on devices with touch input
+        touch: true,
+        // Turns fragments on and off globally
+        fragments: true,
+        // Flags if we should show a help overlay when the questionmark
+        // key is pressed
+        help: true,
+        // Number of milliseconds between automatically proceeding to the
+        // next slide, disabled when set to 0, this value can be overwritten
+        // by using a data-autoslide attribute on your slides
+        autoSlide: 0,
+        // Stop auto-sliding after user input
+        autoSlideStoppable: true,
+        // Opens links in an iframe preview overlay
+        previewLinks: true,
+        // Transition style
+        transition: 'fade', // none/fade/slide/convex/concave/zoom
+        // Transition speed
+        transitionSpeed: 'default', // default/fast/slow
+        // Transition style for full page slide backgrounds
+        backgroundTransition: 'default', // none/fade/slide/convex/concave/zoom
+        // Number of slides away from the current that are visible
+        viewDistance: 3,
+
+
+
+        chalkboard: {
+          toggleNotesButton: false,
+          theme: 'whiteboard',
+        },
+
+        keyboard: {
+          67: function() { RevealChalkboard.toggleNotesCanvas() },    // toggle notes canvas when 'c' is pressed
+          66: function() { RevealChalkboard.toggleChalkboard() }, // toggle chalkboard when 'b' is pressed
+          46: function() { RevealChalkboard.clear() },    // clear chalkboard when 'DEL' is pressed
+           8: function() { RevealChalkboard.reset() },    // reset chalkboard data on current slide when 'BACKSPACE' is pressed
+          68: function() { RevealChalkboard.download() }, // downlad recorded chalkboard drawing when 'd' is pressed
+        },
+
+        // Optional reveal.js plugins
+        dependencies: [
+          { src: 'hypothesistesting-slides_files/reveal.js-3.3.0.1/plugin/notes/notes.js', async: true },
+          { src: 'hypothesistesting-slides_files/reveal.js-3.3.0.1/plugin/search/search.js', async: true },
+          { src: 'hypothesistesting-slides_files/reveal.js-3.3.0.1/plugin/chalkboard/chalkboard.js', async: true },
+        ]
+      });
+    </script>
+  <!-- dynamically load mathjax for compatibility with self-contained -->
+  <script>
+    (function () {
+      var script = document.createElement("script");
+      script.type = "text/javascript";
+      script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+      document.getElementsByTagName("head")[0].appendChild(script);
+    })();
+  </script>
+
+<script>
+  (function() {
+    if (window.jQuery) {
+      Reveal.addEventListener( 'slidechanged', function(event) {  
+        window.jQuery(event.previousSlide).trigger('hidden');
+        window.jQuery(event.currentSlide).trigger('shown');
+      });
+    }
+  })();
+</script>
+
+
+  </body>
+</html>
