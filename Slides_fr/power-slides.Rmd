@@ -1,5 +1,5 @@
 ---
-title: "Le pouvoir statistique"
+title: "La puissance statistique"
 author: "Fill In Your Name"
 date: '`r format(Sys.time(), "%d %B, %Y")`'
 header-includes: |
@@ -33,82 +33,80 @@ output:
 source("rmd_setup.R")
 ```
 
-# What is power?
-##  What is power?
+# Qu'est-ce que la puissance statistique?
+## Qu'est-ce que la puissance statistique?
 
-- We want to separate signal from noise.
+- Nous voulons séparer le signal du bruit.
 
-- Power = probability of rejecting null hypothesis, given true effect $\ne$ 0.
+- Puissance statistique = probabilité de rejeter l'hypothèse nulle, compte tenu de l'effet réel $\ne$ 0.
 
-- In other words, it is the ability to detect an effect given that it exists.
+- En d'autres termes, c'est la capacité à détecter un effet étant donné qu'il existe.
 
-- Formally: (1 - Type II) error rate.
+-  Formellement: (1 - Type II) taux d'erreur.
 
-- Thus, power $\in$ (0, 1).
+- Ainsi, la puissance statistique $\in$ (0, 1).
 
-- Standard thresholds: 0.8 or 0.9.
+- Seuils standards: 0.8 ou 0.9.
 
-## Starting point for power analysis
+## Point de départ pour l'analyse de puissance
 
-- Power analysis is something we do *before* we run a study.
+- L'analyse de puissance est quelque chose que nous faisons *avant* de mener une étude.
 
-    - Helps you figure out the sample you need to detect a given effect size.
+    - aide à déterminer l'échantillon dont vous avez besoin pour détecter une taille d'effet donnée.
 
-    - Or helps you figure out a minimal detectable difference given a set sample size.
+    - ou aide à déterminer une différence détectable minimale compte tenu d'une taille d'échantillon définie.
 
-    - May help you decide whether to run a study.
+    - peut aider à décider si vous souhaitez mener une étude.
 
-- It is hard to learn from an under-powered null finding.
+- Il est difficile d'apprendre d'un résultat non-concluant sous-alimenté.
 
-    - Was there an effect, but we were unable to detect it? or was there no effect?  We can't say.
-
-
-## Power
-- Say there truly is a treatment effect and you run your experiment many times.  How often will you get a statistically significant result?
-
-- Some guesswork to answer this question.
-
-    - How big is your treatment effect?
-
-    - How many units are treated, measured?
-
-    - How much noise is there in the measurement of your outcome?
+    - Y a-t-il eu un effet, mais nous n'avons pas pu le détecter ? N'y a-t-il eu aucun effet ? Impossible à dire.
 
 
+## La puissance statistique
+- Disons qu'il y a vraiment un effet de traitement et que vous exécutez votre expérience plusieurs fois. À quelle fréquence obtiendrez-vous un résultat statistiquement significatif?
 
-## Approaches to power calculation
-- Analytical calculations of power
+- Quelques conjectures pour répondre à cette question.
+
+    - Quelle est l'ampleur de l'effet de votre traitement ?
+
+    - Combien d'unités sont traitées, mesurées ?
+
+    - Combien de bruit y a-t-il dans la mesure de votre résultat ?
+
+
+## Approches pour calculer la puissance statistique
+- Calculs analytiques de puissance
 
 - Simulation
 
 
-## Power calculation tools
-- Interactive
+## Outils de calcul de puissance statistique
+- Interactifs
 
-    - [EGAP Power Calculator](https://egap.shinyapps.io/power-app/)
+    - [Le calculateur de puissance de EGAP](https://egap.shinyapps.io/power-app/)
 
     - [rpsychologist](https://rpsychologist.com/d3/NHST/)
 
-- R Packages
+- Packages R
 
     - [pwr](https://cran.r-project.org/web/packages/pwr/index.html)
 
-    - [DeclareDesign](https://cran.r-project.org/web/packages/DeclareDesign/index.html), see also <https://declaredesign.org/>
+    - [DeclareDesign](https://cran.r-project.org/web/packages/DeclareDesign/index.html), voir aussi <https://declaredesign.org/>
 
 
-
-# Analytical calculations of power
-## Analytical calculations of power
-- Formula:
+# Calculs analytiques de puissance
+## Calculs analytiques de puissance
+- Formule:
   \begin{align*}
   \text{Power} &= \Phi\left(\frac{|\tau| \sqrt{N}}{2\sigma}- \Phi^{-1}(1- \frac{\alpha}{2})\right)
   \end{align*}
 
-- Components:
+- Composants:
   - $\phi$: standard normal CDF is monotonically increasing
-  - $\tau$: the effect size
-  - $N$: the sample size
-  - $\sigma$: the standard deviation of the outcome
+  - $\tau$: la taille de l'effet
+  - $N$: la taille de l'échantillon
+  - $\sigma$: l'écart type du résultat
   - $\alpha$: the significance level (typically 0.05)
 
 
@@ -124,44 +122,44 @@ pwr.t.test(n = 40, d = 0.25, sig.level = 0.05,
 ```
 
 
-## Limitations to analytical power calculations
-- Only derived for some test statistics (differences of means)
+## Limites des calculs de puissance analytique
+- Dérivé uniquement pour certaines statistiques de test (différences de moyennes)
 
-- Makes specific assumptions about the data-generating process
+- Fait des hypothèses spécifiques sur le processus de génération de données
 
-- Incompatible with more complex designs
-
-
-# Simulation-based power calculation
-## Simulation-based power calculation
-- Create dataset and simulate research design.
-
-- Assumptions are necessary for simulation studies, but you make your own.
-
-- For the DeclareDesign approach, see <https://declaredesign.org/>
-
-## Steps
-
-- Define the sample and the potential outcomes function.
-
-- Define the treatment assignment procedure.
-
-- Create data.
-
-- Assign treatment, then estimate the effect.
-
-- Do this many times.
+- Incompatible avec des designs plus complexes
 
 
-## Examples
+# Calcul de puissance par simulation
+## Calcul de puissance par simulation
+- Créer un ensemble de données et simuler le design de recherche.
 
-- Complete randomization
+- Des hypothèses sont nécessaires pour les études de simulation, mais vous faites les vôtres.
 
-- With covariates
+- Pour l'approche DeclareDesign, voir <https://declaredesign.org/>
 
-- With cluster randomization
+## Étapes
 
-## Example: Simulation-based power for complete randomization
+- Définir l'échantillon et la fonction des résultats potentiels.
+
+- Définir la procédure d'attribution du traitement.
+
+- Créer des données.
+
+- Attribuer un traitement, puis estimer l'effet.
+
+- Répéter.
+
+
+## Exemples
+
+- Randomisation complète
+
+- Avec covariants
+
+- Avec randomisation en grappe
+
+## Exemple: Calcul de puissance par simulation pour une randomisation complète
 
 ```{r powersim, echo=TRUE, include=TRUE}
 # install.packages("randomizr")
@@ -181,7 +179,7 @@ repeat_experiment_and_test <- function(N, Y0, tau){
 }
 ```
 
-## Example: Simulation-based power for complete randomization
+## Exemple: Calcul de puissance par simulation pour une randomisation complète
 ```{r powersim2, echo=TRUE, include=TRUE}
 power_sim <- function(N,tau,sims){
     Y0 <- make_Y0(N)
@@ -196,7 +194,7 @@ power_sim(N=80,tau=.25,sims=100)
 power_sim(N=80,tau=.25,sims=100)
 ```
 
-## Example: Using DeclareDesign {.allowframebreaks}
+## Exemple: Avec DeclareDesign {.allowframebreaks}
 ```{r ddversion, echo=TRUE, message=FALSE, warning=FALSE}
 library(DeclareDesign)
 library(tidyverse)
@@ -210,7 +208,7 @@ estimand_ate <- declare_inquiry(ATE=mean(Y_Z_1 - Y_Z_0))
 R0 <- declare_reveal(Y,Z)
 design0_base <- P0 + A0 + O0 + R0
 
-## For example:
+## Par exemple:
 design0_N100_tau25 <- redesign(design0_base,N=100,tau=.25)
 dat0_N100_tau25 <- draw_data(design0_N100_tau25)
 head(dat0_N100_tau25)
@@ -231,15 +229,15 @@ design0_plus_tests <- design0_base + E0 + T0
 
 design0_N100_tau25_plus <- redesign(design0_plus_tests,N=100,tau=.25)
 
-## Only repeat the random assignment, not the creation of Y0. Ignore warning
+## Répète seulement l'assignation aléatoire, pas la création de Y0. Ignorer le warning
 names(design0_N100_tau25_plus)
 design0_N100_tau25_sims <- simulate_design(design0_N100_tau25_plus,
           sims=c(1,100,1,1,1,1)) # only repeat the random assignment
-# design0_N100_tau25_sims has 200 rows (2 tests * 100 random assignments)
+# design0_N100_tau25_sims a 200 lignes (2 tests * 100 assignements aleatoires)
 # just look at the first 6 rows
 head(design0_N100_tau25_sims)
 
-# for each estimator, power = proportion of simulations with p.value < 0.5
+# pour chaque estimateur, puissance = proportion de simulations avec p.value < 0.5
 design0_N100_tau25_sims %>% group_by(estimator) %>%
   summarize(pow=mean(p.value < .05),.groups="drop")
 ```
@@ -259,7 +257,7 @@ design0_N100_tau25_sims %>% group_by(estimator) %>%
 
   - Freedman's bias as n of observations decreases and K covariates increases.
 
-<!-- ## Covariate adjustment: best practices -->
+<!-- Ne pas traduire ## Covariate adjustment: best practices -->
 <!-- - All covariates must be pre-treatment -->
 <!--   - Never adjust for post-treatment variables -->
 <!-- - In practice, if all controls are pre-treatment, you can add whatever controls you want -->
