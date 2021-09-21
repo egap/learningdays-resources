@@ -1,5 +1,5 @@
 ---
-title: "Hypothesis Testing: Summarizing Information about Causal Effects"
+title: "Tests d'hypothèses: résumer les informations sur les effets causals"
 author: "Fill In Your Name"
 date: "`r format(Sys.time(), '%d %B %Y')`"
 bibliography: ../learningdays-book.bib
@@ -54,20 +54,19 @@ library(devtools)
 library(randomizr)
 library(rcompanion) ## for pairwisePermutationTest()
 ```
-# The Role of Hypothesis Tests in Causal Inference
+# Le rôle des tests d'hypothèses dans l'inférence causale
 
-## Key points for this lecture
+## Points principaux
 
-- Statistical inference (e.g., hypothesis tests and confidence
-intervals) requires **inference** --- reasoning about the unobserved.
+- Inférence statistique (e.g., les tests d'hypothèses et les intervalles de confiance) nécessitent **l'inférence** --- i.e. raisonner sur ce qui n'a pas été observé.
 
-- $p$-values require probability distributions.
+- $p$-valeurs nécessitent des distributions de probabilité .
 
-- Randomization (or Design) + a Hypothesis + a Test Statistic Function $\rightarrow$ probability distributions representing the hypothesis (reference distributions)
+- TODO Randomization (or Design) + a Hypothesis + a Test Statistic Function $\rightarrow$ distributions de probabilité représentant l'hypothèse (distributions de référence)
 
-- Observed Values of Test Statistics + Reference Distribution $\rightarrow$ $p$-value.
+- Valeurs observées des tests statistiques + distribution de référence $\rightarrow$ $p$-valeur.
 
-## The role of hypothesis tests in causal inference I
+## Le role des tests d'hypothèses dans l'inférence causale I
 
 - The **fundamental problem of causal inference** says that we can see only one potential outcome for any given unit.
 
@@ -75,9 +74,9 @@ intervals) requires **inference** --- reasoning about the unobserved.
 
 - One solution is the **[estimation](estimation-slides.Rmd) of averages of causal effects** (the ATE, ITT, LATE).
 
-- This is what we call Neyman's approach.
+- C'est l'approche de Neyman.
 
-## The role of hypothesis tests in causal inference II
+## Le role des tests d'hypothèses dans l'inférence causale II
 
 - Another solution is to make **claims** or **guesses** about the causal effects.
 
@@ -88,7 +87,7 @@ intervals) requires **inference** --- reasoning about the unobserved.
 - We call this Fisher's approach.
 
 
-## The role of hypothesis tests in causal inference III
+## Le role des tests d'hypothèses dans l'inférence causale III
 
 - The hypothesis testing approach to causal inference doesn't provide a best guess but instead tells you *how much evidence or information the research design provides about a causal claim*.
 
@@ -99,11 +98,11 @@ intervals) requires **inference** --- reasoning about the unobserved.
 - We nearly always report both since both help us make decisions: "Our best guess of the treatment effect was 5, and we could reject the idea that the effect was 0 ($p$=.01)."
 
 
-# Hypothesis Testing Basics
+# Les basics du test d'hypothèse
 
-## Ingredients of a hypothesis test
+## Ingrédients d'un test d'hypothèse
 
- - A **hypothesis** is a statement about a relationship among potential outcomes.
+ - Une **hypothèse** est un énoncé concernant une relation entre TODO potential outcomes.
 
  - A **test statistic** summarizes the relationship between treatment and observed outcomes.
 

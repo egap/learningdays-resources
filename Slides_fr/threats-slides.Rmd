@@ -1,5 +1,5 @@
 ---
-title: "Threats to the internal validity of randomized experiments"
+title: "Menaces sur la validité interne des expériences aléatoires"
 author: "Fill In Your Name"
 date: "`r format(Sys.time(), '%d %B, %Y')`"
 bibliography: ../learningdays-book.bib
@@ -38,24 +38,24 @@ library(knitr)
 knitr::opts_chunk$set(echo = FALSE)
 ```
 
-## Key points for this lecture
+## Points principaux
 
  - Attrition (missing data on outcomes)
 
- - Non-compliance
+ - Non-conformité
 
- - Spillovers
+ - Effet de débordement
 
- - Hawthorne effects
+ - Effet de Hawthorne
 
  - Differential treatment of treatment arms 
  
-# Core assumptions
-## Review of core assumptions
+# Hypothèses de base
+## Revue des hypothèses de base
 
-  1. Excludability
+  1. Excludability excluabilité
 
-  2. Non-interference
+  2. Non-interférence
 
   3. Random assignment of subjects treatment
 
@@ -75,9 +75,9 @@ knitr::opts_chunk$set(echo = FALSE)
 
 - If we analyze the data by dropping units with missing outcomes, then we are no longer comparing similar treatment and control groups.
 
-## What can we do?
+## Que pouvons-nous faire?
 
-- Check whether attrition rates are similar in treatment and control groups.
+- Vérifiez si les taux d'attrition sont similaires dans les groupes de traitement et de contrôle.
 
 - Check whether treatment and control groups have similar covariate profiles.
 
@@ -85,7 +85,7 @@ knitr::opts_chunk$set(echo = FALSE)
 
 - When outcome data are missing we can sometimes **bound** our estimates of treatment effects.
 
-## What can we do?
+## Que pouvons-nous faire?
 
 - But the best approach is to try to anticipate and prevent attrition.
 
@@ -108,13 +108,13 @@ knitr::opts_chunk$set(echo = FALSE)
   - We can also condition on that missingness directly.
 
 
-# Non-compliance
-## Non-compliance
+# Non-conformité
+## Non-conformité
 
-  - Sometimes units assigned to treatment don't take it.  They don't comply with their assignment.
+  - Parfois, les unités ne prennent pas le traitement. Elles ne remplissent pas à leur mission.
   
-      - If all units assigned to control do not take the treatment, but only some units assigned to treatment take the treatment, we have one-sided non-compliance.
-  
+      - Si toutes les unités affectées au contrôle ne prennent pas le traitement, mais que seules certaines unités affectées au traitement prennent le traitement, nous avons une non-conformité unilatérale.
+
   - The effect of treatment assignment is not the same as the effect of receiving the treatment.
 
   - The effect of receiving the treatment is often called the "Local Average Treatment Effect" (LATE) or "Complier Average Causal Effect" (CACE).  
@@ -129,12 +129,11 @@ knitr::opts_chunk$set(echo = FALSE)
   
   1. The exclusion restriction is that the assignment to treatment only has an effect on the outcome through the receipt of treatment and through no other channels.
 
-  2. The monotonicity assumption is that we do not have any defiers -- units that would take the treatment if assigned to control, but not take the treatment if assigned to treatment.
+  2. L'hypothèse de monotonie est qu'il n'y a pas de rebelles - des unités qui prendraient le traitement si elles étaient assignées au contrôle, mais ne le prendraient pas si elles étaient assignées au traitement.
 
 
-
-# Spillovers
-## Spillover and interference between units
+# Effets de débordement
+## Effets de débordement et interférence entre unités
 
 - Sometimes we suspect that treatment assigned to one unit affects other units' outcomes.
 
@@ -142,43 +141,43 @@ knitr::opts_chunk$set(echo = FALSE)
 
 - You might sample units that are far from each other to prevent the "transmission" of treatment across units.
 
-## Studying spillover effects
+## Étude des effets de débordement
 
 - This is not a problem if you design a study to investigate spillovers in which a unit's outcomes may depend on other units' treatment status.
 
-- To investigate spillovers:
+- Pour étudier les débordements:
 
     - You might collect outcome data for units that were never eligible for random assignment to treatment but for which nearby units from which spillovers might occur were eligible for treatment.
 
-    - You might use a two-stage randomization design.
+    - You might use a two-stage TODO randomization design.
 
     - You might assign collections of units (e.g., districts) to different levels of intensity of treatment (e.g., different proportions of villages in districts assigned to treatment).
 
-# Hawthorne effect
-## Hawthorne effect
+# L'effet Hawthorne
+## L'effet Hawthorne
 
-- The Hawthorne effect: knowing that one is being observed/studied can lead subjects to behave differently.
+- L'effet Hawthorne: se savoir observé ou étudié peut amener le sujet à se comporter différemment.
 
-- This could create systematic measurement error in both treatment and control groups.
+- Cela pourrait créer une erreur de mesure systématique dans les groupes de traitement et de contrôle.
 
-- It could also result from greater attention given to the treatment group, effectively undoing the creation of equivalent treatment and control groups through randomization.
+- Cela pourrait aussi résulter d'une plus grande attention accordée au groupe de traitement, rendant caduques les groupes de traitement et de contrôle obtenus grâce à la randomisation.
 
-## Good practices
+## Bonnes practiques
   
-   - Collect data as unobtrusively as possible.
+   - Collecter les données de la manière la moins intrusive possible.
    
-   - As much as possible, no one other than the subject him/herself should know his/her treatment status.
+   - Autant que possible, personne d'autre que le sujet lui-même ne doit connaître son statut de traitement.
 
-   -  Blind enumerators/researchers to subjects' treatment status.
+   - Ne pas révéler aux énumérateurs ou chercheurs le statut de traitement des sujets.
 
-   -  Don't take extra measurements of the treatment group.
+   - Ne pas prendre de mesures supplémentaires pour le groupe de traitement.
 
-# Non-excludability
-## Differences between treatment and control groups other than the treatment
+# La non-excluabilité
+## Les différences entre les groupes de traitement et de contrôle autres que le traitement
 
-   - Handling the treatment and control groups differently means that observed differences in the outcomes between these groups may be due to the treatment and/or the different handling.
-   
-   - Examples include using different instruments for data collection or additional rounds of data collection for the treatment group in an effort to obtain data on mechanisms.
-   
-   - Remember to design your study and your data instruments to treat all treatment arms the same, other than the treatment itself.
+   - Une gestion différente des groupes de traitement et de contrôle signifie que les différences observées dans les résultats entre ces groupes peuvent être dues au traitement et/ou à cette différence de gestion.
+
+   - Les exemples incluent l'utilisation d'instruments différents pour la collecte de données ou des séries de collecte supplémentaires pour le groupe de traitement dans le but d'obtenir des données sur les mécanismes en jeu.
+
+   - Concever votre étude et vos instruments pour traiter tous les TODO treatment arms de la même manière, à l'exception du traitement lui-même.
 
