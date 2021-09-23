@@ -567,7 +567,7 @@ print(sim_plot2)
 ```
 
 
-## Quel estimateur est le plus proche de la vérité ?
+## Quel estimateur est le plus proche de la vérité?
 
 Quel estimateur fonctionne le mieux pour ce design et ces données?
 
@@ -831,7 +831,7 @@ x2=rnorm(N))
 # déclarer les résultats potentiels
 thepo_bin <- declare_potential_outcomes(Y ~ rbinom(n = N, size = 1,
                                                    prob = 0.5 + 0.05 * Z + x1*.05))
-# two possible targets: difference in means or difference in log-odds deux cibles possibles : différences des moyennes ou différence de log-cotes
+# deux cibles possibles : différences des moyennes ou différence logit (cad différence log-odds)
 thetarget_ate <- declare_inquiry(ate = mean(Y_Z_1 - Y_Z_0))
 thetarget_logodds <- declare_inquiry(
     logodds = log(mean(Y_Z_1)/(1-mean(Y_Z_1))) -
@@ -839,22 +839,21 @@ thetarget_logodds <- declare_inquiry(
 )
 ```
 
-## Binary outcomes: Set up our data for simulation in DeclareDesign
+## Résultats binaires: configurons nos données pour simuler avec DeclareDesign
 ```{r setupbin2, echo=TRUE}
-# declare how treatment is assigned
-# m units are assigned to levels of treatment Z
+# déclarer comment le traitement est assigné
+# m unités sont assignées aux niveaux de traitement Z
 theassign_bin <- declare_assignment(Z=conduct_ra(N=N, m=floor(N/3)))
-# declare what outcome values are revealed for possible values of Z
+# déclarer quelles valeurs de résultat sont révélées pour les valeurs possibles de Z
 thereveal_bin <- declare_reveal(Y,Z)
-# pull this all together: population, potential outcomes, assignment,
-## outcome values connected to Z
+# combiner population, résultats potentiels, assignation et valeurs de résultat liées à Z
 des_bin <- thepop_bin+thepo_bin+theassign_bin+thereveal_bin
-# then make one draw (randomize treatment once)
+# puis faire un tirage (randomiser le traitement une fois)
 set.seed(12345)
 dat2 <- draw_data(des_bin)
 ```
 
-## Binary outcomes: Estimands I
+## Résultats binaires: estimations I
 
 How would we interpret the following true
 quantities or estimands? (`Y_Z_1`, `Y_Z_0` are potential
@@ -866,11 +865,11 @@ head(dat2[,-7])
 ```
 
 
-## Binary outcomes: Estimands II
+## Résultats binaires: estimations II
 
-How would we interpret the following true
-quantities or estimands? (`Y_Z_1`, `Y_Z_0` are potential
-outcomes, `Y` is observed, `x1`, `x2` are covariates, `Z` is treatment assignment. Here $N$=`r nrow(dat2)`.
+Comment interpréterions-nous les vraies quantités ou estimations suivantes ?
+`Y_Z_1`, `Y_Z_0` sont des résultats potentiels, `Y` est l'observation, `x1`, `x2` sont des covariables, `Z` est l'assignation de traitement.
+Voici $N$=`r nrow(dat2)`.
 
 ```{r bin1, echo=TRUE}
 ate_bin <- with(dat2,mean(Y_Z_1 - Y_Z_0))
@@ -882,32 +881,32 @@ c(bary1=bary1,bary0=bary0,true_ate=ate_bin,
     true_diff_log_odds= diff_log_odds_bin)
 ```
 
-## Binary outcomes: Estimands III
+## Résultats binaires: estimations III
 
-Do you want to estimate the difference in log-odds?
+Voulez-vous estimer la différence logit?
 
 \begin{equation}
 \delta = \log \frac{\bar{y}_{1}}{1-\bar{y}_{1}} - \log \frac{ \bar{y}_0}{1- \bar{y}_0}
 \end{equation}
 
-Or the difference in proportions?
+Ou la différence en proportions?
 
 \begin{equation}
 \bar{\tau} = \bar{y}_{1} - \bar{y}_0
 \end{equation}
 
-Recall that $\bar{y}_1$ is the *proportion* of $y_{1}=1$ in the data.
+Rappelons que $\bar{y}_1$ est la *proportion* de $y_{1}=1$ dans les données.
 
-@freedman2008randomization shows us that the logit coefficient estimator is a biased estimator of the difference in log-odds estimand. He also shows an unbiased estimator of that estimand.
+@freedman2008randomization montre que l'estimateur du coefficient logit est un estimateur biaisé de la différence de l'estimation log-odds. Il montre également un estimateur sans biais de cette estimation.
 
-We know that the difference of proportions in the sample should be an unbiased estimator of the difference of proportions.
+Nous savons que la différence de proportions dans l'échantillon devrait être un estimateur sans biais de la différence de proportions.
 
 
-## An example of estimation I
+## Un exemple d'estimation I
 
-How should we interpret the following estimates? (What does the difference of
-means estimator require in terms of assumptions? What does the logistic
-regression estimator require in terms of assumptions?)
+Comment interpréter les estimations suivantes?
+Que requiert l'estimateur de la différence des moyennes en termes d'hypothèses?
+Que requiert l'estimateur de régression logistique en termes d'hypothèses?
 
 ```{r estexample, echo=TRUE}
 lmbin1 <- lm_robust(Y~Z,data=dat2)
@@ -917,9 +916,9 @@ tidy(lmbin1)[2,]
 tidy(glmbin1)[2,]
 ```
 
-## An example of estimation II
+## Un exemple d'estimation II
 
-What about with covariates?  Why use covariates?
+Quid des covariables ? Pourquoi utiliser des covariables ?
 
 ```{r estexample2, echo=TRUE}
 lmbin2 <- lm_robust(Y~Z+x1,data=dat2)
@@ -929,9 +928,9 @@ tidy(lmbin2)[2,]
 tidy(glmbin2)[2,]
 ```
 
-## An example of estimation III
+## Un exemple d'estimation III
 
-Let's compare our estimates
+Comparons nos estimations
 
 ```{r estexample3, echo=TRUE}
 c(dim=coef(lmbin1)[["Z"]],
@@ -940,9 +939,9 @@ c(dim=coef(lmbin1)[["Z"]],
   glm_x1=coef(glmbin2)[["Z"]])
 ```
 
-## An example of estimation: The Freedman plugin estimators I
+## Un exemple d'estimation: les estimateurs de plugin Freedman I
 
-No covariate:
+Sans covariable:
 ```{r pluginest, echo=TRUE }
 freedman_plugin_estfn1 <- function(data){
     glmbin <- glm(Y~Z,data=dat2,family=binomial(link="logit"))
@@ -955,9 +954,9 @@ freedman_plugin_estfn1 <- function(data){
 }
 ```
 
-## An example of estimation: The Freedman plugin estimators II
+## Un exemple d'estimation: les estimateurs de plugin Freedman II
 
-With covariate:
+Avec covariable:
 ```{r pluginest2, echo=TRUE }
 freedman_plugin_estfn2 <- function(data){
     N <- nrow(data)
@@ -972,7 +971,7 @@ freedman_plugin_estfn2 <- function(data){
 }
 ```
 
-Let's compare our estimates from the six different estimators
+Comparons nos estimations à partir des six estimateurs différents
 ```{r echo=FALSE}
 c(dim=coef(lmbin1)[["Z"]],
   dim_x1=coef(lmbin2)[["Z"]],
@@ -985,8 +984,8 @@ freeman_x1=freedman_plugin_estfn2(dat2)[["estimate"]]
 
 
 ```{r tmleapproach, eval=FALSE}
-## Here is another approach to using the plugin estimator but allowing for standard errors, etc..
-## Doesn't require a handwritten function like the ones used above.
+## Voici une autre approche pour utiliser l'estimateur du plugin mais en tenant compte de l'erreur standard, etc.
+## Cela ne nécessite pas de fonction manuscrite comme celles ci-dessus.
 library(tmle)
 Y <- as.matrix(dat2$Y,ncol=1)
 A <- as.matrix(dat2$Z,ncol=1)
@@ -1007,7 +1006,7 @@ tmle2$estimates$ATE
 tmle2$estimates$OR
 ```
 
-## An example of using DeclareDesign to assess our estimators I
+## Un exemple avec DeclareDesign pour évaluer nos estimateurs I
 
 ```{r ddbinsetup, echo=TRUE}
 # declare 4 estimators for DD
@@ -1026,17 +1025,17 @@ estb4 <- declare_estimator(Y~Z+x1,model=glm,family=binomial(link="logit"),
 ```
 
 
-## An example of using DeclareDesign to assess our estimators II
+## Un exemple avec DeclareDesign pour évaluer nos estimateurs II
 
 ```{r ddbinsetup2, echo=TRUE}
-# Pull together: des_bin is population, potential outcomes, assignment,
-# outcome values connected to Z.  We add the two targets and four estimators.
+# des_bin combine population, résultats potentiels, assignation, des_bin et valeurs de résultat liées à Z
+# On ajoute les deux cibles et les quatre estimateurs.
 des_bin_plus_est <- des_bin + thetarget_ate + thetarget_logodds +
   estb1 + estb2 + estb3 + estb4
 ```
 
 ```{r diagnosis_bin, echo=FALSE, cache=TRUE, warning=FALSE, message=FALSE}
-## The next few lines use all of the cores on your computer to speed up the computation
+## Les lignes suivantes utilisent tous les cœurs de votre ordinateur pour accélérer le calcul
 library(future)
 library(future.apply)
 # plan(multiprocess)
@@ -1048,9 +1047,9 @@ truelo_bin <- thetarget_logodds(dat2)[["estimand"]]
 # plan(sequential)
 ```
 
-## Using simulation to assess our estimators
+## Simuler pour évaluer nos estimateurs
 
-How should we interpret this plot? (Differences in scales make it difficult.)
+Comment interpréter cette courbe? (Les différences d'échelle rendent la tâche difficile.)
 
 ```{r sim_plot_bin, out.width=".95\\textwidth"}
 estimand_dat <- sims_bin %>% group_by(inquiry) %>% summarize(meanestimand=mean(estimand))
@@ -1064,12 +1063,12 @@ sim_plot_bin <- ggplot(sims_bin, aes(y = estimate, x = estimator, color = estima
 print(sim_plot_bin)
 ```
 
-## Which estimator is closer to the truth?
+## Quel estimateur est le plus proche de la vérité?
 
-Which estimator works better on this design and these data?
+Quel estimateur fonctionne le mieux pour ce design et ces données?
 
 ```{r bin_sim_res}
-## Notice that the lin estimator is great but sometimes cannot produce an answer
+## Notez que l'estimateur linéaire est excellent mais peut parfois ne pas produire de réponse
 res_bin <- sims_bin %>% group_by(estimator,inquiry) %>%
   summarize(bias = mean(estimate - estimand),
             rmse = sqrt(mean((estimate - estimand) ^ 2)),
@@ -1086,55 +1085,57 @@ kableExtra::kable(res_bin, digits=3,booktabs=TRUE,linesep="",caption="Estimator 
 ```
 
 
-# Other topics in estimation
+# Autres sujets liés à l'estimation
 
-## Covariance adjustment: Estimands
+## L'ajustement de covariance: l'estimande
 
-In general, simply "controlling for" produces a biased estimator of the ATE **or** ITT estimand. See for example @lin_agnostic_2013 and @freedman2008rae.
-@lin_agnostic_2013 shows how to reduce this bias and, importantly, that this bias tends to be small as the sample size increases.
+En général, le simple fait de "contrôler pour" produit un estimateur biaisé de l'estimand ATE **ou** ITT. Voir par exemple @lin_agnostic_2013 et @freedman2008rae.
+@lin_agnostic_2013 montre comment réduire ce biais et, surtout, que ce biais a tendance à être faible à mesure que la taille de l'échantillon augmente.
 
 
 # Conclusion
 
-## Final thoughts on basics of estimation
+## Réflexions finales sur l'estimation
 
-- Counterfactual causal estimands are unobserved functions of potential
-outcomes.
+- Les estimandes causales contrefactuelles sont des fonctions non observées des résultats potentiels.
 
-- Estimators are recipes or computational formulas that use observed data to
-learn about an estimand.
+- Les estimateurs sont des recettes ou des formules de calcul qui utilisent des données observées pour en savoir plus sur un estimande.
 
-- Good estimators produce estimates that are close to the true estimand
+- Les bons estimateurs produisent des estimations proches du vrai estimande.
 
-- (Connecting estimation with testing) Standard errors of estimators allow us
-to calculate confidence intervals and $p$-values. Certain estimators have
-larger or smaller (or more or less correct) standard errors.
+- (Liant l'estimation aux tests) l'erreur type des estimateurs nous permet de calculer les intervalles de confiance et les $p$-valeurs.
+  Certains estimateurs ont une erreur type plus grande ou plus petite (ou plus ou moins correcte).
 
-- You can assess the utility of a chosen estimator for a chosen estimand by simulation.
+- Vous pouvez évaluer l'utilité d'un estimateur choisi pour un estimande choisi par simulation.
 
-# Causal effects that differ by groups or covariates
+# Effets causals diffèrent selon les groupes ou covariables
 
-## Effects that differ by groups I
+## Effets différents selon les groupes I
 
-If our theory suggests that effects should differ by group, how can we assess evidence for or against such claims?
+Si notre théorie suggère que les effets devraient différer selon le groupe, comment pouvons-nous évaluer les preuves pour ou contre une telle affirmation?
 
- - We can **design** for an assessment of this theory by creating a
-   block-randomized study --- with blocked defined by the theoretically
-   relevant groups.
+ - Nous pouvons **concevoir** une évaluation de cette théorie en créant une étude aléatoire par bloc
+   --- avec des blocs définis par des groupes théoriquement pertinents.
 
- - We can **plan** for such an assessment by (1) **pre-registering specific
-   subgroup analyses** (whether or not we block on that group in the design
-   phase) and (2) making sure to measure group membership during baseline data
-   collection pre-treatment
+ - We can **plan** for such an assessment by (1) **pre-registering specific subgroup analyses**
+   (whether or not we block on that group in the design phase)
+   and (2) making sure to measure group membership during baseline data collection pre-treatment
+
+   Nous pouvons **planifier** une telle évaluation en (1) **pré-enregistrant des analyses de sous-groupes spécifiques**
+   (que nous bloquions ou non ce groupe dans la phase de design)
+   et en (2) veillant à mesurer l'appartenance au groupe pendant la collecte des données de base pré-traitement
 
 
-## Effects that differ by groups II
+## Effets différents selon les groupes II
  - If we have not planned ahead, subgroup-specific analyses can be useful as
    explorations but should not be understood as confirmatory: they can too
    easily create problems of testing too many hypotheses thus inflated false
    positive rates.
+   Si on n'a pas prévu à l'avance, les analyses par sous-groupes peuvent être utiles en mode exploratoire mais pas pour avoir des confirmatoires:
+   elles peuvent trop facilement apporter trop d'hypothèses de test et donc gonfler le taux de faux positifs.
 
  - We **should not use groups formed by treatment**. (This is either "mediation analysis"  or "conditioning on post-treatment variables" and deserves its own module).
+Nous **ne devrions pas utiliser des groupes formés par traitement**. (Il s'agit soit d'une "analyse de médiation" soit d'un "conditionnement sur des variables post-traitement" et mérite son propre module).
 
 # Causal effects when we do not control the dose
 
