@@ -1,5 +1,5 @@
 ---
-title: "Estimer les TODO Estimands avec des estimateurs"
+title: "Estimer les estimations avec des estimateurs"
 author: "Fill In Your Name"
 date: "`r format(Sys.time(), '%d %B %Y')`"
 output:
@@ -53,118 +53,111 @@ library(estimatr)
 library(styler)
 ```
 
-# Key points
+# Points clés
 
-## Key points about estimation I
+## Points clés sur l'estimation I
 
-  -  A causal effect, $\tau_i$, is a comparison of unobserved potential outcomes for each unit $i$: examples  $\tau_{i} = Y_{i}(T_{i}=1) -  Y_{i}(T_{i}=0)$ or  $\tau_{i} = \frac{Y_{i}(T_{i}=1)}{ Y_{i}(T_{i}=0)}$.
+  - Un effet causal, $\tau_i$, est une comparaison des résultats potentiels non observés pour chaque unité $i$: exemples  $\tau_{i} = Y_{i}(T_{i}=1) -  Y_{i}(T_{i}=0)$ or  $\tau_{i} = \frac{Y_{i}(T_{i}=1)}{ Y_{i}(T_{i}=0)}$.
 
-  - To learn about $\tau_{i}$, we can treat $\tau_{i}$ as an **estimand** or
-   target quantity to be estimated (discussed here) or as a target quantity to be hypothesized about (session on hypothesis testing).
+  - Pour en savoir plus sur $\tau_{i}$, nous pouvons traiter $\tau_{i}$ comme une **estimation** ou une quantité cible à estimer (discutée ici) ou comme quantité cible hypothétique (session sur les tests d'hypothèse).
 
-  - Many focus on the **average treatment effect (ATE)**, $\bar{\tau}=\sum_{i=1}^n\tau_{i}$, in part, because it allows for easy **estimation**.
+  - Beaucoup se concentrent sur l'**effet de traitement moyen (ATE)**, $\bar{\tau}=\sum_{i=1}^n\tau_{i}$, en partie parce qu'il permet une **estimation**.
 
-## Key points about estimation II
+## Points clés sur l'estimation II
 
- - They key to estimation for causal inference is to choose an estimand that helps you learn about your theoretical or policy question. So, one could use
-   the ATE but other common estimands include the ITT, LATE/CACE, ATT, or ATE
-   for some subgroup (or even a different of causal effects between groups).
+ - La clé de l'estimation pour l'inférence causale consiste à choisir une estimation qui vous aide à en savoir plus sur votre question théorique ou politique. Ainsi, on pourrait utiliser l'ATE mais aussi d'autres estimations courantes telles que l'ITT, LATE/CACE, ATT ou ATE pour certains sous-groupes.
 
-  - An **estimator** is a recipe for calculating a guess about the value of  an estimand. For example, the difference of observed means for $m$ treated units is one estimator of $\bar{\tau}$:
+  - Un **estimateur** est une recette pour calculer approximativement la valeur d'une estimation. Par exemple, la différence des moyennes observées pour $m$ unités traitées est un estimateur de $\bar{\tau}$:
    $\hat{\bar{\tau}} = \frac{\sum_{i=1}^n (T_i Y_i)}{m} - \frac{\sum_{i=1}^n ( ( 1 - T_i)Y_i)}{(n-m)}$.
 
-## Key points about estimation III
+## Points clés sur l'estimation III
 
- - The **standard error** of an estimator in a randomized experiment summarizes how the estimates would vary if the experiment were repeated.
+ - L'**erreur type** d'un estimateur dans une expérience aléatoire résume comment les estimations varieraient si l'expérience était répétée.
 
- - We use the **standard error** to produce **confidence intervals** and
-   **p-values**: so that we can begin with an estimator and end at a hypothesis test.
+ - Nous utilisons l'**erreur type** pour produire des **intervalles de confiance** et les **p-valeurs**
+   afin que de commencer par un estimateur et terminer par un test d'hypothèse.
 
-  - Different randomizations will produce different values of the same estimator targeting the same estimand. A **standard error** summarizes this variability in an estimator.
+  - Différentes randomisations produiront différentes valeurs du même estimateur ciblant la même estimation. L'**erreur type** résume la variabilité de cet estimateur.
 
-  - A $100(1-\alpha)$% **confidence interval** is a collection of hypotheses that cannot be rejected at the $\alpha$ level. We tend to report confidence intervals containing hypotheses about values of our estimand and use our estimator as a test statistic.
+  - Un **intervalle de confiance** de 100(1-\alpha)$%** est un ensemble d'hypothèses qui ne peuvent être rejetées au niveau $\alpha$. Nous avons tendance à rapporter des intervalles de confiance contenant des hypothèses sur les valeurs de notre estimation et à utiliser notre estimateur comme une statistique de test.
 
-## Key points about estimation IV
 
- - Estimators should:
+## Points clés sur l'estimation IV
 
-      - avoid systematic error in their guessing of the estimand (be unbiased);
+ - Les estimateurs doivent:
 
-      - vary little in their guesses from experiment to
-   experiment (be precise or efficient); and
+      - éviter l'erreur systématique dans leur approximation de l'estimation (ie être sans biais);
 
-      - perhaps ideally converge to the estimand as they use more and more information (be consistent).
+      - peu varier d'une expérience à l'autre (être précis ou efficace); et
 
-## Key points about estimation V
+      - peut-être idéalement converger vers l'estimation car ils utilisent de plus en plus d'informations (être cohérent).
 
- - **Analyze as you randomize** in the context of estimation means that (1) our standard errors should measure variability from randomization and (2) our estimators should target estimands defined in terms of potential outcomes.
+## Points clés sur l'estimation V
 
- - We do not **control for** background covariates when we analyze data from randomized experiments. But covariates can make our estimation more **precise**. This is called **covariance adjustment** (or covariate adjustment). **Covariance adjustment** in randomized experiments differs from controlling for in observational studies.
+ - **Analyser au fur et à mesure de la randomisation** dans le contexte de l'estimation signifie que (1) nos erreurs-types doivent mesurer la variabilité à partir de la randomisation et (2) nos estimateurs doivent cibler des estimations définies en termes de résultats potentiels.
 
-# Review
+ - Nous ne **contrôlons pas** les covariables lorsque nous analysons les données d'expériences aléatoires. Mais les covariables peuvent rendre notre estimation plus **précise**. C'est ce qu'on appelle **ajustement de covariance**. **L'ajustement de covariance** dans les expériences aléatoires diffère du contrôle dans les études observationnelles.
 
-## Review: Causal effects
+# Revue
 
-Review: Causal inference refers to a comparison of unobserved, fixed, potential outcomes.
+## Revue: effet causal
+
+Revue: L'inférence causale fait référence à la comparaison de résultats potentiels non observés, fixes.
 
 For example:
 
-  -  the potential,  or possible,  outcome for unit  $i$ when assigned to
-    treatment, $T_i=1$ is  $Y_{i}(T_{i}=1)$.
-  -  the potential,  or possible,  outcome for unit  $i$ when assigned to
-    control, $T_i=0$ is  $Y_{i}(T_{i}=0)$.
+  - le résultat potentiel de l'unité $i$ lorsqu'elle est affectée au traitement, $T_i=1$ est $Y_{i}(T_{i}=1)$.
+  - le résultat potentiel de l'unité $i$ lorsqu'elle est affectée au contrôle, $T_i=0$ est $Y_{i}(T_{i}=0)$.
 
-Treatment assignment, $T_i$, has a causal effect on  unit $i$, that we call $\tau_i$, if
-$Y_{i}(T_{i}=1) -  Y_{i}(T_{i}=0) \ne 0$ or $Y_{i}(T_{i}=1) \ne Y_{i}(T_{i}=0)$.
+L'assignation de traitement, $T_i$, a un effet causal sur l'unité $i$, que nous appelons $\tau_i$, si
+$Y_{i}(T_{i}=1) -  Y_{i}(T_{i}=0) \ne 0$ ou $Y_{i}(T_{i}=1) \ne Y_{i}(T_{i}=0)$.
 
-# Estimands and estimators and averages
+# Estimations, estimateurs et moyennes
 
-## How can we learn about causal effects from observed data?
+## Comment en savoir plus sur les effets causaux à partir des données observées ?
 
- 1. Recall: we can **test hypotheses** about the pair of potential outcomes $\{ Y_{i}(T_{i}=1), Y_{i}(T_{i}=0) \}$.
+ 1. Rappel : nous pouvons **tester les hypothèses** sur la paire de résultats potentiels $\{ Y_{i}(T_{i}=1), Y_{i}(T_{i}=0) \}$.
 
- 2. We can **define estimands** in terms of $\{ Y_{i}(T_{i}=1), Y_{i}(T_{i}=0) \}$ or $\tau_i$, **develop estimators** for those estimands,
-    and then calculate values and standard errors for those estimators.
+ 2. Nous pouvons **définir les estimations** en termes de $\{ Y_{i}(T_{i}=1), Y_{i}(T_{i}=0) \}$ ou $\tau_i$, **développer des estimateurs** pour ces estimations,
+    puis calculer les valeurs et les erreurs types pour ces estimateurs.
 
 ## A common estimand and estimator: The average treatment effect and the difference of means
 
 Say we are interested in the ATE, or $\bar{\tau}=\sum_{i=1}^n \tau_{i}$. What is a good estimator?
 
-Two candidates:
+Deux candidats:
 
- 1. The difference of means: $\hat{\bar{\tau}} = \frac{\sum_{i=1}^n (T_i Y_i)}{m} -
+ 1. La différence des moyennes: $\hat{\bar{\tau}} = \frac{\sum_{i=1}^n (T_i Y_i)}{m} -
     \frac{\sum_{i=1}^n ( ( 1 - T_i) Y_i)}{n-m}$.
 
- 2. A difference of means after top-coding the highest $Y_i$ observation (a
-    kind of "winsorized" mean to prevent extreme values from exerting too much
-    influence over our estimator --- to increase *precision*).
+ 2. La différence des moyennes avec plafonnement de l'observation $Y_i$ la plus haute
+    (une sorte de moyenne "winsorisée" pour éviter que les valeurs extrêmes n'exercent trop d'influence sur notre estimateur --- pour augmenter la *précision*).
 
-How would we know which estimator is best for our particular research design?
+Comment saurons-nous quel estimateur convient le mieux à notre design de recherche?
 
-Let's simulate!
+Simulons-le!
 
-## Simulation Step 1: create some data with a known ATE
+## Étape 1 de la simulation: créer des données avec un ATE connu
 
-Notice that we need to *know* the potential outcomes and the treatment
-assignment in order to learn whether our proposed estimator does a good job.
+Notez que nous devons *connaître* les résultats potentiels et l'assignation de traitement afin de savoir si notre estimateur fait un bon travail.
 
 ```{r echo=FALSE}
 
-## First, create some data,
-##  y0 is potential outcome to control
+## Tout d'abord, créez des données,
+##  y0 est le résultat potentiel du contrôle
 N <- 10
 y0 <- c(0, 0, 0, 1, 1, 3, 4, 5, 190, 200)
-## Each unit has its own treatment effect
+## Chaque unité a son propre effet de traitement
 tau <- c(10, 30, 200, 90, 10, 20, 30, 40, 90, 20)
-## y1 is potential outcome to treatment
+## y1 est le résultat potentiel du traitement
 y1 <- y0 + tau
-## Z is treatment assignment (note we're using Z instead of T)
+## Z est l'assignation de traitement (notez que nous utilisons Z au lieu de T)
 set.seed(12345)
 block <- c("a","a","a","a","a","a","b","b","b","b")
 Z <- c(0,0,0,0,1,1,0,0,1,1)
-## Y is observed outcomes
+## Y est le résultats observé
 Y <- Z * y1 + (1 - Z) * y0
-## The data
+## Les données
 dat <- data.frame(Z = Z, y0 = y0, y1 = y1, tau = tau, b=block,Y=Y)
 ## dat <- dat[,c("Z","y0","y1")]
 ```
@@ -180,94 +173,92 @@ ATE <- with(dat, mean(y1 - y0))
 message("The true ATE is ", ATE)
 ```
 
-In reality, we would observe only one of the potential outcomes.
+En réalité, nous n'observerions qu'un seul des résultats potentiels.
 
-Note that each unit has its own treatment effect.
+Notez que chaque unité a son propre effet de traitement.
 
-## First make fake data
+## Commencez par créer de fausses données
 
-The table in the previous slide was generated in R with:
-
+Le tableau de la slide précédente a été généré en R avec:
 
 ```{r echo=TRUE}
-# We have ten units
+# Nous avons dix unités
 N <- 10
-#  y0 is potential outcome to control
+#  y0 est le résultat potentiel du contrôle
 y0 <- c(0, 0, 0, 1, 1, 3, 4, 5, 190, 200)
-# Each unit has its own treatment effect
+# Chaque unité a son propre effet de traitement
 tau <- c(10, 30, 200, 90, 10, 20, 30, 40, 90, 20)
-# y1 is potential outcome to treatment
+# y1 est le résultat potentiel du traitement
 y1 <- y0 + tau
-# Two blocks, a and b
+# 2 blocs, a et b
 block <- c("a","a","a","a","a","a","b","b","b","b")
-# Z is treatment assignment (Z instead of T in the code)
+# Z est l'assignation de traitement (notez que nous utilisons Z au lieu de T)
 Z <- c(0,0,0,0,1,1,0,0,1,1)
 # Y is observed outcomes
 Y <- Z * y1 + (1 - Z) * y0
-# The data
+# Les données
 dat <- data.frame(Z = Z, y0 = y0, y1 = y1, tau = tau, b=block,Y=Y)
 set.seed(12345)
 ```
 
 
-## Using DeclareDesign
+## Avec DeclareDesign
 
-DeclareDesign represents research designs in a few steps shown below:
+DeclareDesign représente les designs de recherche en quelques étapes illustrées ci-dessous:
 
 ```{r dd1, echo=TRUE}
-# take just the potential outcomes under treatment and control from our
-# fake data
+# prendre uniquement les résultats potentiels du traitement et du contrôle à partir de nos fausses données
 small_dat <- dat[, c("y0", "y1")]
 
-# DeclareDesign first asks you to declare your population
+# DeclareDesign vous demande d'abord de déclarer votre population
 pop <- declare_population(small_dat)
 N <- nrow(small_dat)
 
-# 5 units assigned to treatment; default is simple random assignment with
-# probability 0.5
+# 5 unités affectées au traitement; la valeur par défaut est l'assignation aléatoire simple avec une probabilité de 0,5
 trt_assign <- declare_assignment(Z = conduct_ra(N=N,m = 2),legacy=FALSE)
 
-# observed Y is y1 if Z=1 and y0 if Z=0
+# Y observé est y1 si Z=1 et y0 si Z=0
 pot_out <- declare_potential_outcomes(Y ~ Z * y1 + (1 - Z) * y0)
 
-# specify outcome and assignment variables
+# spécifier les variables de résultat et d'assignation
 reveal <- declare_reveal(Y, Z)
 
-# the basic research design object includes these four objects
+# l'objet de design de recherche basique comprend ces quatre objets
 base_design <- pop + trt_assign + pot_out + reveal
 ```
 
-## Using DeclareDesign: make fake data
+## Avec DeclareDesign: créer de fausses données
 
-DeclareDesign renames `y0` and `y1` by default to `Y_Z_0` and `Y_Z_1`:
+DeclareDesign renomme par défaut `y0` et `y1`: `Y_Z_0` et `Y_Z_1`:
 
 ```{r echo=TRUE}
-## A simulation is one random assignment of treatment
+## Une simulation est une assignation de traitement aléatoire
 sim_dat1 <- draw_data(base_design)
 
-## Simulated data (just the first 6 lines)
+## Données simulées (seulement les 6 premières lignes)
 head(sim_dat1)
 ```
 
-## Using DeclareDesign: define estimand and estimators
+## Avec DeclareDesign: définir l'estimation et les estimateurs
 
-No output here. Just define functions and estimators and one estimand.
+Pas de sortie ici. Il suffit de définir fonctions et estimateurs ainsi qu'une estimation.
 
 ```{r dd2, echo=TRUE}
-## The estimand
+## L'estimation
 estimandATE <- declare_inquiry(ATE = mean(Y_Z_1 - Y_Z_0))
 
-## The first estimator is difference-in-means
+## Le premier estimateur est la différence des moyennes
 diff_means <- declare_estimator(Y ~ Z, inquiry = estimandATE,
   model = lm_robust, se_type = "classical", label = "Diff-Means/OLS")
 ```
 
-## Using DeclareDesign: define estimand and estimators
+## Avec DeclareDesign: définir l'estimation et les estimateurs
+
 ```{r dd2a, echo=TRUE}
-## The second estimator is top-coded difference-in-means
+## Le deuxième estimateur est la différence des moyennes winsorisées
 diff_means_topcoded_fn <- function(data) {
   data$rankY <- rank(data$Y)
-  ## Code the maximum value of Y as the second to maximum value of Y
+  ## Remplacer la valeur maximale de Y par la seconde valeur maximale de Y
   data$newY <- with(data,
     ifelse(rankY == max(rankY), Y[rankY == (max(rankY) - 1)], Y))
   obj <- lm_robust(newY ~ Z, data = data, se_type = "classical")
@@ -280,48 +271,47 @@ diff_means_topcoded <- declare_estimator(
 )
 ```
 
-## Using DeclareDesign: define estimand and estimators
+## Avec DeclareDesign: définir l'estimation et les estimateurs
 
-Here we show how the DD estimators work using our simulated data.
+Nous montrons ici comment fonctionnent les estimateurs avec la méthode des doubles différences en utilisant nos données simulées.
 
 ```{r dd3, echo=TRUE}
-## Demonstrate that the estimand works:
+## Démontrer que l'estimation fonctionne:
 estimandATE(sim_dat1)
 
-## Demonstrate that the estimators estimate
-## Estimator 1 (difference in means)
+## Démontrer que les estimateurs estiment correctement
+## Estimateur 1 (différence des moyennes)
 diff_means(sim_dat1)[-c(1,2,10,11)]
 
-## Estimator 2 (top-coded difference in means)
+## Estimateur 2 (différence des moyennes winsorisée)
 diff_means_topcoded(sim_dat1)[-c(1,2,10,11)]
 ```
 
 
-## Then simulate with one randomization
+## Puis simuler avec une randomisation
 
-Recall the true ATE:
+Rappelons le vrai ATE:
 
 ```{r trueATE, echo=TRUE}
 trueATE <- with(sim_dat1, mean(y1 - y0))
 with(sim_dat1, mean(Y_Z_1 - Y_Z_0))
 ```
 
-In one experiment (one simulation of the data) here are the simple estimates:
+Dans une expérience (une simulation des données), voici les estimations simples:
 
 ```{r echo=TRUE}
-## Two ways to calculate the difference of means estimator
+## Deux façons de calculer l'estimateur de la différence des moyennes
 est_diff_means_1 <- with(sim_dat1, mean(Y[Z == 1]) - mean(Y[Z == 0]))
-est_diff_means_2 <- coef(lm_robust(Y ~ Z, data = sim_dat1,
-        se = "classical"))[["Z"]]
+est_diff_means_2 <- coef(lm_robust(Y ~ Z, data = sim_dat1, se = "classical"))[["Z"]]
 c(est_diff_means_1,est_diff_means_2)
 ```
 
-## Then simulate with one randomization
+## Puis simuler avec une randomisation
 
-In one experiment (one simulation of the data) here are the estimates after top-coding:
+Dans une expérience (une simulation des données), voici les estimations après winsorisation:
 
 ```{r echo=TRUE}
-## Two ways to calculate the topcoded difference of means estimator
+## Deux façons de calculer l'estimateur de la différence des moyennes winsorisées
 sim_dat1$rankY <- rank(sim_dat1$Y)
 sim_dat1$Y_tc <- with(sim_dat1, ifelse(rankY == max(rankY),
                                        Y[rankY == (max(rankY) - 1)], Y))
@@ -332,17 +322,18 @@ c(est_topcoded_1,est_topcoded_2)
 ```
 
 
-## Then simulate a different randomization and estimate the ATE with the same estimators
+## Ensuite simuler une randomisation différente et estimer l'ATE avec les mêmes estimateurs
 
 Now calculate your estimate with the same estimators using a  **different** randomization. Notice that the answers differ. The estimators are estimating the *same estimand* but now they have a different randomization to work with.
+Calculez maintenant votre estimation avec les mêmes estimateurs en utilisant une randomisation **différente**. Notez que les réponses diffèrent. Les estimateurs estiment la *même estimation* mais ils travaillent maintenant avec une randomisation différente.
 
 ```{r echo=TRUE}
-# do another random assignment of the treatment in DeclareDesign
-# this produces a new simulated dataset with a different random assignment
+# faire une autre assignation aléatoire de traitement dans DeclareDesign
+# cela produit un nouveau jeu de données simulées avec une assignation aléatoire différente
 sim_dat2 <- draw_data(base_design)
-# the first estimator (difference in means)
+# le premier estimateur (différence des moyennes simples)
 coef(lm_robust(Y ~ Z, data = sim_dat2, se = "classical"))[["Z"]]
-# the second estimator (top-coded difference in means)
+# le second estimateur (différence des moyennes winsorisées)
 sim_dat2$rankY <- rank(sim_dat2$Y)
 sim_dat2$Y_tc <- with(sim_dat2, ifelse(rankY == max(rankY),
         Y[rankY == (max(rankY) - 1)], Y))
@@ -350,27 +341,26 @@ coef(lm_robust(Y_tc ~ Z, data = sim_dat2, se = "classical"))[["Z"]]
 ```
 
 
-## How do our estimators behave in general for this design?
+## Comment nos estimateurs se comportent-ils en général pour ce design?
 
-Our estimates vary across randomizations. Do our two estimators vary in the same ways?
+Nos estimations varient selon la randomisation. Nos deux estimateurs varient-ils de la même façon ?
 
 ```{r diagnose, echo=TRUE, cache=TRUE}
-## Combine into one DeclareDesign design object
-## This has the base design, estimand, then our two estimators
-design_plus_ests <- base_design + estimandATE + diff_means +
-    diff_means_topcoded
-## Run 100 simulations (reassignments of treatment) and
-## apply the two estimators (diff_means and diff_means_topcoded)
+## Combiner dans un seul objet DeclareDesign
+## Cela a le design de base, l'estimation, puis nos deux estimateurs
+design_plus_ests <- base_design + estimandATE + diff_means + diff_means_topcoded
+## Exécuter 100 simulations (réassignations de traitement) et
+## appliquer les deux estimateurs
 diagnosis1 <- diagnose_design(design_plus_ests,
                               bootstrap_sims = 0, sims = 100)
 sims1 <- get_simulations(diagnosis1)
 head(sims1[,-c(1:6)])
 ```
 
-## How do our estimators behave in general for this design?
+## Comment nos estimateurs se comportent-ils en général pour ce design?
 
-Our estimates vary across randomizations. Do our two estimators vary in the same ways?
-  How should we interpret this plot?
+Nos estimations varient selon la randomisation. Nos deux estimateurs varient-ils de la même façon ?
+Comment interpréter cette courbe?
 
 ```{r sim_plot, out.width=".8\\textwidth"}
 sim_plot <- ggplot(sims1, aes(y = estimate, x = estimator, color = estimator)) +
@@ -382,22 +372,22 @@ print(sim_plot)
 ```
 
 
-## Which estimator is closer to the truth?
+## Quel estimateur est le plus proche de la vérité?
 
-One way to choose among estimators is to choose the one that is **close to the truth** whenever we use it --- regardless of the specific randomization.
+Une façon de choisir parmi les estimateurs est de choisir celui qui est ** proche de la vérité ** chaque fois que nous l'utilisons --- quelle que soit la randomisation choisie.
 
-An "unbiased" estimator is one for which **average of the estimates across repeated designs** is the  same as the  truth (or $E_R(\hat{\bar{\tau}})=\bar{\tau}$). An unbiased estimator has "no systematic error" but doesn't guarantee closeness to the truth.
+Un estimateur "sans biais" est un estimateur pour lequel la **moyenne des estimations pour des designs répétés** est la même que la vérité (ou $E_R(\hat{\bar{\tau}})=\bar{\tau}$). Un estimateur sans biais n'a "pas d'erreur systématique" mais ne garantit pas la proximité avec la vérité.
 
-Another measure of closeness is **root mean squared error** (RMSE) which  records  squared distances  between the truth and the individual estimates.
+Une autre mesure de proximité est la **racine de l'erreur quadratique moyenne** (REQM) qui agrège les distances au carré entre la vérité et les estimations individuelles.
 
-Which estimator is better? (One is closer to the truth on average (RMSE) and is more precise. The other has no systematic error --- is unbiased.)
+Quel estimateur est le meilleur ? (L'un est plus proche de la vérité en moyenne (REQM) et il est plus précis. L'autre n'a pas d'erreur systématique --- il est non-biaisé.)
 
 ```{r}
 kableExtra::kable(reshape_diagnosis(diagnosis1, select = c("Estimator", "Bias", "RMSE", "SD Estimate", "Mean Se", "Power"))[,-c(1,2,4,5,6)])
 ```
 
 
-## Unbiased and biased estimators
+## Estimateurs biaisés et non-biaisés
 
 Summary:
 
@@ -407,108 +397,109 @@ Summary:
 
  - We can learn about how a given estimator performs in a given study using simulation.
 
-# Block randomization
+# Randomisation par bloc
 
-## Block-randomized experiments are a collection of mini-experiments
+## Les expériences aléatoires par bloc sont une collection de mini-expériences
 
-What is the ** ATE** estimand in a block-randomized experiment?
+Quelle est l'**ATE** dans une expérience aléatoire par bloc?
 
 If we think of the unit-level ATE as: $(1/N) \sum_{i=1}^N y_{i,1} - y_{i,0}$ then we could re-express this equivalently using the ATE in block $j$ is $ATE_j$ as follows:
+Si nous considérons l'ATE au niveau de l'unité comme : $(1/N) \sum_{i=1}^N y_{i,1} - y_{i,0}$ alors nous pourrions réexprimer cela de manière équivalente en sachant que l'ATE par bloc $j$ est $ATE_j$ comme suit :
 
 \[
 ATE = \frac{1}{J}\sum^J_{j=1} \sum^{N_j}_{i=1} \frac{y_{i,1} - y_{i,0}}{N_j}  = \sum^J_{j=1} \frac{N_j}{N} ATE_j
 \]
 
-And it would be natural to *estimate* this quantity by plugging in what we can calculate:
+Et il serait naturel d'*estimer* cette quantité en y introduisant ce que l'on peut calculer:
 $\widehat{ATE} = \displaystyle\sum^J_{j=1} \frac{N_j}{N} \widehat{ATE}_j$
 
-## Block-randomized experiments are a collection of mini-experiments
+## Les expériences aléatoires par bloc sont une collection de mini-expériences
 
 And we could *define* the standard error of the estimator by also just averaging the within-block standard errors (if our blocks are large enough):
+Et nous pourrions *définir* l'erreur standard de l'estimateur en faisant la moyenne intra-bloc des erreurs standards (si nos blocs sont suffisamment grands):
 
 $SE(\widehat{ATE}) = \sqrt{\sum^J_{j=1} (\frac{N_{j}}{N})^2SE^2(\widehat{ATE}_j)}$
 
 
-## Estimating the ATE in block-randomized experiments
+## Estimer l'ATE dans les expériences aléatoires par bloc
 
-One approach to estimation simply replaces $ATE_j$ with $\widehat{ATE}$ above:
+Une approche de l'estimation remplace simplement $ATE_j$ par $\widehat{ATE}$ ci-dessus :
 
 ```{r br1, echo=TRUE}
 with(dat,table(b,Z))
 ```
 
-We have 6 units in block `a`, 2 of which are assigned to treatment, and 4 units in block `b`, 2 of which are assignment to treatment.
+Nous avons 6 unités dans le bloc `a`, dont 2 sont assignées au traitement et 4 unités dans le bloc `b`, dont 2 sont assignées au traitement.
 
-## Estimating the ATE in block-randomized experiments
+## Estimer l'ATE dans les expériences aléatoires par bloc
 
-One approach to estimation simply replaces $ATE_j$ with $\widehat{ATE}$ above:
+Une approche de l'estimation remplace simplement $ATE_j$ par $\widehat{ATE}$ ci-dessus :
 
 ```{r br2, echo=TRUE}
 datb <- dat %>% group_by(b) %>% summarize(nb=n(),pb=mean(Z),estateb=mean(Y[Z==1]) - mean(Y[Z==0]),
     ateb=mean(y1-y0),.groups="drop")
 datb
-## True ate by block:
+## le vrai ATE par bloc:
 with(dat,mean(y1-y0))
-## This is another way to calculate the true ate
+## Une autre façon de calculer le vrai ATE
 with(datb, sum( ateb*(nb/sum(nb))) )
 ```
 
 
-## Estimating the ATE in block-randomized experiments
+## Estimer l'ATE dans les expériences aléatoires par bloc
 
-One approach is to estimate the overall ATE using block-size weights:
+Une approche consiste à estimer l'ATE global pondéré par la taille de bloc:
 
 ```{r br3, echo=TRUE}
-## Showing that difference_in_means uses the blocksize weight.
+## Montrer que la difference des moyennes est pondérée par la taille du bloc.
 e1 <- difference_in_means(Y~Z,blocks=b,data=dat)
 e2 <- with(datb, sum( estateb*(nb/sum(nb))) )
 c(coef(e1)[["Z"]],e2)
 ```
 
 
-## Estimating the ATE in block-randomized experiments
+## Estimer l'ATE dans les expériences aléatoires par bloc
 
-Notice that this is **not** the same as either of the following:
+Notez que ce n'est **pas** la même chose que les deux éléments suivants :
 
 ```{r br4, echo=TRUE}
-## Ignoring blocks
+## En ignorerant les blocs
 e3 <- lm(Y~Z,data=dat)
 coef(e3)[["Z"]]
 
-## With block fixed effects
+## Avec les effets de blocs fixes
 e4 <- lm(Y~Z+block,data=dat)
 coef(e4)[["Z"]]
 ```
 
-How do they differ? (The first ignores the blocks. The second uses a different set of weights that are created by use of "fixed effects" or "indicator" or "dummy" variables.)
+En quoi diffèrent-ils ? (Le premier ignore les blocs. Le second utilise un ensemble différent de poids créés à l'aide d'indicateurs, de variables muettes ou de variables à "effets fixes".)
 
-## Which estimator should we use?
+## Quel estimateur doit-on utiliser?
 
-We now have three estimators each with a different estimate (imagining they all target the same estimand):
+Nous avons maintenant trois estimateurs, chacun avec une estimation différente (en imaginant qu'ils ciblent tous la même estimation):
 
 ```{r echo=TRUE}
 c(coef(e1)[["Z"]],coef(e3)[["Z"]], coef(e4)[["Z"]])
 ```
 
-Which estimator should we use for this design?  We can set up a DeclareDesign simulation to figure this out.
-
+Quel estimateur doit-on utiliser pour ce design ? Nous pouvons simulater avec DeclareDesign pour comprendre cela.
 
 ```{r blockdd0, cache=TRUE, echo=TRUE}
-## declare a new base design that includes the block indicator b
+## déclarer une nouveau design de base qui inclut l'indicateur de bloc b
 base_design_blocks <-
-    # declare the population
+    # déclarer la population
     declare_population(dat[, c("b","y0", "y1")]) +
-    # tell DD that b indicates block and to assign 2 treated units in each block
+    # dire à la méthode des doubles différences que b signifie bloc et assigner 2 unités du traitement dans chaque bloc
     declare_assignment(Z=conduct_ra(N=N, m=2,blocks=b), 
                        Z_cond_prob = 
       obtain_condition_probabilities(assignment = Z, m = 2)) +
-    # relationship of potential outcomes to observed outcome
+    # relation entre les résultats potentiels et les résultats observés
     declare_potential_outcomes(Y ~ Z * y1 + (1 - Z) * y0)+
-    # observed outcome and treatment assignment
+    # résultat observé et assignation de traitement
     declare_reveal(Y, Z)
 ```
 
-## Which estimator should we use?
+## Quel estimateur doit-on utiliser?
 
 
 ```{r blockdd1, echo=TRUE, cache=TRUE}
@@ -525,7 +516,7 @@ est3 <- declare_estimator(Y ~ Z, inquiry = estimandATEb, model=lm_robust,
     label = "LM: Block Size Weights")
 ```
 
-## Which estimator should we use?
+## Quel estimateur doit-on utiliser?
 
 
 ```{r blockdd1a, echo=TRUE, cache=TRUE}
@@ -542,18 +533,18 @@ design_blocks <- base_design_blocks + estimandATEb +
 
 Then we will run 10,000 simulations (reassign treatment 10,000 times) and summarize the estimates produced by each of these five estimators.
 
-## Which estimator should we use?
+## Quel estimateur doit-on utiliser?
 
 ```{r futurelibs, echo=FALSE}
-## This to enable parallel processing when doing the diagnoses.
-## Notice that we have turned on "cache" for some code chunks so that they are not
-## re-run each time we change the slides.
+## Ceci permet le traitement parallèle lors des diagnostics.
+## Notez que nous avons activé le "cache" pour certains morceaux de code afin qu'ils ne soient pas
+## réexécuter chaque fois que nous changeons les slides.
 library(future)
 library(future.apply)
 ```
 
 ```{r diagnosis2, echo=FALSE, cache=TRUE}
-## The next few lines use all of the cores on your computer to speed up the computation
+## Les lignes suivantes utilisent tous les cœurs de votre ordinateur pour accélérer le calcul
 
 # plan(multicore)
 set.seed(12345)
@@ -562,7 +553,7 @@ sims2 <- get_simulations(diagnosis2)
 # plan(sequential)
 ```
 
-How should we interpret this plot?
+Comment interpréter cette courbe?
 
 ```{r sim_plot2, message=FALSE, warning=FALSE, out.width=".9\\textwidth"}
 sim_plot2 <- ggplot(sims2, aes(y = estimate, x = estimator, color = estimator)) +
@@ -576,86 +567,86 @@ print(sim_plot2)
 ```
 
 
-## Which estimator is closer to the truth?
+## Quel estimateur est le plus proche de la vérité ?
 
-Which estimator works better on this design and these data?
-
+Quel estimateur fonctionne le mieux pour ce design et ces données?
 
 ```{r blocktab}
 blocktab <- reshape_diagnosis(diagnosis2, select = c("Estimator", "Bias", "RMSE","SD Estimate", "Mean Se", "Power",  "Coverage"))[,-c(1,2,4,5,6)]
 kableExtra::kable(blocktab,col.names = c("Estimator","Bias","RMSE","SD Est","Mean SE","Power","Coverage"))
 ```
 
-Notice that the coverage is not always at 95% in all cases.  We used 10,000 simulations so simulation error is around $\pm 2 \sqrt{p(1-p)/10000}$ or, say, for coverage calculated as .93, a different simulation could have easily produced `r .93 -2*sqrt( .93 * (1-.93)/10000 )` or  `r .93+2*sqrt( .93 * (1-.93)/10000 )` (or would rarely have produced coverage numbers outside that range just by chance).
+Notez que la couverture n'est pas toujours à 95 % dans tous les cas. Nous avons simulé 10 000 fois, donc l'erreur de simulation est d'environ $\pm 2 \sqrt{p(1-p)/10000}$ ou, disons, pour une couverture calculée à .93, une simulation différente aurait pu facilement produire `r .93 -2 *sqrt( .93 * (1-.93)/10000 )` ou `r .93+2*sqrt( .93 * (1-.93)/10000 )` (ou aurait rarement produit des numéros de couverture en dehors de cette plage juste par hasard).
 
 
 
 
 
+# Randomisation par cluster
+
+## Dans les expériences aléatoires en grappe, les unités sont randomisées en groupe (cluster) pour le traitement  {.allowframebreaks}
+
+- **Exemple 1 :** une intervention est randomisée entre les quartiers, donc **tous** les ménages d'un quartier seront affectés à la même condition de traitement, mais différents quartiers seront affectés à des traitements différents.
+- **Exemple 2 :** une intervention est randomisée sur plusieurs personnes et chaque personne est mesurée quatre fois après le traitement. Nos données contiennent donc quatre lignes par personne.
+
+- **Pas un exemple 1 :** Les quartiers sont choisis pour l'étude. Dans chaque quartier, environ la moitié des personnes sont affectées au traitement et l'autre moitié au contrôle. (De quel type d'étude s'agit-il ? Ce n'est pas une étude randomisée en grappe.)
+- **Pas un exemple 2 :** une intervention est randomisée dans certains quartiers et pas dans d'autres, les résultats incluent des mesures de la confiance au niveau du quartier envers le gouvernement et la superficie totale du quartier consacrée aux jardins. (Parfois, une expérience randomisée en grappe peut être transformée en une expérience randomisée simple. Ou elle peut contenir plus d'une approche possible d'analyse et d'interprétation.)
+
+En quoi la distribution des statistiques de test et des estimateurs peut-elle différer d'une expérience où des unités individuelles (et non des clusters) sont randomisées?
+
+## Estimation de l'ATE dans des expériences aléatoires en grappe
+
+Problèmes de biais dans les expériences aléatoires en grappe:
+
+- Lorsque les clusters ont la même taille, l'estimateur habituel de différences des moyennes est sans biais.
+
+- Mais soyez prudent lorsque les clusters ont des tailles différentes ou que vous avez très peu de clusters car alors les effets de traitement peuvent être corrélés avec la taille des clusters.
+
+- Lorsque la taille du cluster est liée aux résultats potentiels, l'estimateur habituel de différences des moyennes est biaisé. <https://declaredesign.org/blog/bias-cluster-randomized-trials.html>
 
 
-# Cluster randomization
+## Estimation de l'erreur standard pour l'ATE dans des expériences aléatoires en grappe {.allowframebreaks}
 
-## In cluster-randomized experiments, units are randomized as a group (cluster) to treatment  {.allowframebreaks}
+- **Inférences statistiques trompeuses :** L'erreur standard par défaut sous-estimera généralement la précision dans de tels designs et produira ainsi des tests avec des taux de faux positifs trop élevés (ou, de manière équivalente, des taux de couverture pour les intervalles de confiance trop faibles).
 
-- **Example 1:** an intervention is randomized across neighborhoods, so **all** households in a neighborhood will be assigned to the same treatment condition, but different neighborhoods will be assigned different treatment conditions.
-- **Example 2:** an intervention is randomized across people and each person is measured four times after treatment, so our data contain four rows per person.
-- **Not An Example 1:** Neighborhoods are chosen for the study. Within each neighborhood about half of the people are assigned to treatment and half to control. (What kind of study is this? It is not a cluster-randomized study.)
-- **Not an Example 2:** an intervention is randomized to some neighborhoods and not to others, the outcomes include measurements of neighborhood-level trust in government and total land area in the neighborhood devoted to gardens. (Sometimes a cluster randomized experiment can be turned into a simple randomized experiment. Or may contain more than one possible approach to analysis and interpretation.)
+- "L'erreur standard robuste pour cluster" implémentée dans les logiciels courants fonctionnent bien **lorsque le nombre de clusters est important** (plus de 50 clusters dans certaines études de simulation).
 
-How might the distribution of test statistics and estimators differ from an experiment where individual units (not clusters) are randomized?
+- L'erreur standard par défaut adaptée aux clusters dans `lm_robust` (l'erreur standard `CR2`) fonctionne mieux que l'approche basique dans Stata (à ce jour).
 
-## Estimating the ATE in cluster-randomized experiments
+- Le "wild bootstrap" aide à contrôler les taux d'erreur mais abandonne beaucoup plus de puissance statistique qu'il n'est peut-être nécessaire dans une étude aléatoire en grappe où l'inférence de randomisation directe est possible.
 
-Bias problems in cluster-randomized experiments:
+- En cas de doute, on peut produire des $p$-valeurs ​​par simulation directe (inférence de randomisation directe) pour voir si elles sont en accord avec l'une des approches de cluster robustes.
 
-- When clusters are the same size, the usual difference-in-means estimator is unbiased.
-
-- But be careful when clusters have different numbers of units or you have very few clusters because then treatment effects may be correlated with cluster size.
-
-- When cluster size is related to potential outcomes, the usual difference-in-means estimator is biased. <https://declaredesign.org/blog/bias-cluster-randomized-trials.html>
-
-## Estimating the SE for the ATE in cluster-randomized experiments  {.allowframebreaks}
-
-- **Misleading statistical inferences:** The default SE will generally underestimate precision in such designs and thus produce tests with false positive rates that are too high (or equivalently confidence intervals coverage rates that are too low).
-
-- The "cluster robust standard errors" implemented in common software work well **when the number of clusters is large** (like more than 50 in some simulation studies).
-
-- The default cluster-appropriate standard errors in `lm_robust` (the `CR2` SEs) work better than the common approach in Stata (as of this writing).
-- The wild bootstrap helps control error rates but gives up statistical power much more than perhaps necessary in a cluster randomized study where direct randomization inference is possible.
-
-- When in doubt, one can produce $p$-values by direct simulation (direct randomization inference) to see if they agree with one of the cluster robust approaches.
-
+Globalement, cela vaut la peine de simuler pour étudier les performances de vos estimateurs, tests et intervalles de confiance si vous avez des inquiétudes ou des doutes.
 Overall, it is worth simulating to study the performance of your estimators, tests, and confidence intervals if you have any worries or doubts.
 
-## An example of estimation
+## Un exemple d'estimation
 
 ```{r makedatclus, echo=FALSE, results="hide"}
-## see https://declaredesign.org/blog/bias-cluster-randomized-trials.html
-## for more like this.
-N_clusters <- 10  # number of clusters
-n_indivs <- c(100,10) # possible size of clusters
+## voir https://declaredesign.org/blog/bias-cluster-randomized-trials.html
+## pour plus d'info.
+N_clusters <- 10  # nombre de cluster
+n_indivs <- c(100,10) # tailles possibles de cluster
 thepop <- declare_population(clus_id = add_level(
-            # set the number of clusters
+            # définir les tailles des clusters
             N = N_clusters,
-            # 1/5 of clusters have 100 individuals, 4/5 of clusters have 10 individuals
+            # 1/5 des clusters ont 100 individus, 4/5 des clusters ont 10 individus
             cl_size = rep(n_indivs, c(N/5, N - N/5)),
             cl_sizeF = factor(cl_size),
-            # Each cluster has a different mean level (u) and different background variability (sd of u)
+            # Chaque cluster a un niveau moyen différent (u) et une variabilité de fond différente (sd de u)
             effect = ifelse(cl_size == 100, .1, 1)),
-            indiv = add_level(N = cl_size,
-                u = rnorm(N, mean=log(cl_size), sd = effect)))
+            indiv = add_level(N = cl_size, u = rnorm(N, mean=log(cl_size), sd = effect)))
 
 theys <- declare_potential_outcomes(Y_Z_0 = u, Y_Z_1 = Y_Z_0 + effect)
 
 thetarget_indiv <- declare_inquiry(ATE_indiv = mean(Y_Z_1 - Y_Z_0))
 
-## Complete random assignment to clusters
+## Assignation aléatoire complète pour les clusters
 theassign <- declare_assignment(Z=conduct_ra(N=N, clusters = clus_id))
 
 thereveal <-   declare_reveal(Y, Z)
 
-## 7 different estimators
+## 7 estimateurs différents
 est1 <-   declare_estimator(Y ~ Z, inquiry = "ATE_indiv", clusters = clus_id,
                     model = lm_robust, label = "Y~Z, CR2 SE")
 
@@ -726,8 +717,7 @@ est7(dat1)
 
 ```
 
-Imagine we had data from 10 clusters with either 100 people (for 2 clusters) or 10 people per cluster (for 8 clusters). The total size of the data is `r nrow(dat1)`.
-
+Imaginez que nous ayons des données de 10 clusters avec soit 100 personnes (pour 2 clusters) soit 10 personnes par cluster (pour 8 clusters). La taille totale des données est `r nrow(dat1)`.
 
 ```{r}
 tmp <- dplyr::filter(dat1,clus_id %in% c("03","01")) %>% group_by(clus_id) %>%
@@ -736,9 +726,9 @@ tmp <- dplyr::filter(dat1,clus_id %in% c("03","01")) %>% group_by(clus_id) %>%
 tmp
 ```
 
-## An example of estimation
+## Un exemple d'estimation
 
-Which estimator should we use? Which test should we use? On what basis should we choose among these approaches?
+Quel estimateur doit-on utiliser ? Quel test doit-on utiliser ? Sur quelle base choisir parmi ces approches ?
 
 ```{r clusest, echo=TRUE}
 lmc1 <- lm_robust(Y~Z,data=dat1)
@@ -750,11 +740,11 @@ tidy(lmc3)[2,]
 ```
 
 
-## Use simulation to assess estimators and tests
+## Simuler pour évaluer les estimateurs et les tests
 
-If you look at the code for the slides you will see that we simulate the design 5000 times, each time calculating an estimate and confidence interval for different estimators of the ATE.
+Si vous regardez le code des slides, vous verrez que nous simulons le design 5000 fois, en calculant à chaque fois une estimation et un intervalle de confiance pour différents estimateurs de l'ATE.
 
-What should we learn from this table? (Coverage? `sd_estimate` versus `mean_se`).
+Que devons-nous apprendre de ce tableau ? (Couverture ? `sd_estimate` vs `mean_se`).
 
 ```{r simdesign, warning=FALSE, results="hide"}
 des_plus_est <- des + thetarget_indiv + est1 + est2 + est3 + est4 + est5 + est6 + est7
@@ -772,7 +762,7 @@ plan(sequential)
 
 
 ```{r cluster_sim_res}
-## Notice that the lin estimator is great but sometimes cannot produce an answer
+## Notez que l'estimateur linéaire est excellent mais peut parfois ne pas produire de réponse
 res_clus <- sim_clus %>% na.omit() %>% group_by(estimator) %>%
     summarize(bias = mean(estimate - estimand),
      rmse = sqrt(mean((estimate - estimand) ^ 2)),
@@ -794,17 +784,17 @@ kableExtra::kable(res_clus[,c(1,5:7)], digits=2,booktabs=TRUE,linesep="",caption
 
 
 
-## Use simulation to assess estimators and tests
+## Simuler pour évaluer les estimateurs et les tests
 
-What should we learn from this table? (Bias? Closeness to truth?)
+Que devons-nous apprendre de ce tableau? (Biais ? Proximité avec la vérité ?)
 
 ```{r showresclus2}
 kableExtra::kable(res_clus[,c(1:3)], digits=3,booktabs=TRUE,linesep="",caption="Estimator and Test Performance in 5000 simulations of the cluster randomized design for different estimators and confidence intervals")
 ```
 
-## Use simulation to assess estimators and tests
+## Simuler pour évaluer les estimateurs et les tests
 
-How should we interpret this plot?
+Comment interpréter cette courbe?
 
 ```{r sim_plot_clus, warning=FALSE, out.width=".95\\textwidth"}
 sim_plot3 <- ggplot(sim_clus, aes(y = estimate, x = estimator, color = estimator)) +
@@ -818,30 +808,30 @@ sim_plot3 <- ggplot(sim_clus, aes(y = estimate, x = estimator, color = estimator
 print(sim_plot3)
 ```
 
-## Summary of estimation and testing in cluster-randomized trials
+## Résumé de l'estimation et des tests dans les essais aléatoires en grappe
 
- - Cluster randomized trials pose special problems for standard approaches to estimation and testing.
+ - Les essais aléatoires en grappe posent des problèmes particuliers pour les approches standards d'estimation et de test.
 
- - If randomization is at the cluster level, then uncertainty arises from the cluster level randomization.
+ - Si la randomisation est au niveau du cluster, alors l'incertitude provient de la randomisation au niveau du cluster.
 
  - If we have enough clusters, then one of the "cluster robust" standard errors can help us produce confidence intervals with correct coverage. **Cluster robust standard errors require many clusters**.
+Si nous avons suffisamment de clusters, alors "L'erreur standard robuste pour cluster" peut nous aider à produire des intervalles de confiance avec une couverture correcte. **L'erreur standard robuste pour cluster nécessite de nombreux clusters**.
 
- - If cluster size (or characteristic) is related to effect size, then we can have bias (and we need to adjust somehow).
+ - Si la taille du cluster (ou caractéristique) est liée à la taille de l'effet, alors nous pouvons avoir un biais (et nous devons ajuster d'une manière ou d'une autre).
 
+# Résultats binaires
 
-# Binary outcomes
-
-## Binary outcomes: Set up our data for simulation in DeclareDesign
+## Résultats binaires: configurons nos données pour simuler avec DeclareDesign
 ```{r setupbin, echo=TRUE}
-# population size
+# taille de la population
 N <- 20
-# declare the population
+# déclarer la population
 thepop_bin <- declare_population(N=N, x1 = draw_binary(prob = .5, N = N),
 x2=rnorm(N))
-# declare the potential outcomes
+# déclarer les résultats potentiels
 thepo_bin <- declare_potential_outcomes(Y ~ rbinom(n = N, size = 1,
                                                    prob = 0.5 + 0.05 * Z + x1*.05))
-# two possible targets: difference in means or difference in log-odds
+# two possible targets: difference in means or difference in log-odds deux cibles possibles : différences des moyennes ou différence de log-cotes
 thetarget_ate <- declare_inquiry(ate = mean(Y_Z_1 - Y_Z_0))
 thetarget_logodds <- declare_inquiry(
     logodds = log(mean(Y_Z_1)/(1-mean(Y_Z_1))) -
