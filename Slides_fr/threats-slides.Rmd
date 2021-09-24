@@ -40,7 +40,7 @@ knitr::opts_chunk$set(echo = FALSE)
 
 ## Points principaux
 
- - Attrition (missing data on outcomes)
+ - Attrition (données manquantes pour les résultats)
 
  - Non-conformité
 
@@ -48,65 +48,66 @@ knitr::opts_chunk$set(echo = FALSE)
 
  - Effet de Hawthorne
 
- - Differential treatment of treatment arms 
+ - Traitement différential pour les bras de traitement
  
 # Hypothèses de base
 ## Revue des hypothèses de base
 
-  1. Excludability excluabilité
+  1. Excluabilité
 
   2. Non-interférence
 
-  3. Random assignment of subjects treatment
+  3. Assignation aléatoire des sujets au traitement
 
 # Attrition
-## Attrition (missing data on outcomes)
+## Attrition (données manquantes pour les résultats)
 
-- Some units may have missing data on outcomes (= units attrit) when:
+- Certaines unités peuvent avoir des données manquantes pour les résultats lorsque :
 
-  - some respondents can't be found or refuse to participate in endline data collection.
-  
-  - some records are lost.
+   - certains répondants sont introuvables ou refusent de participer à la collecte de données finales.
 
-- This is a problem when treatment affects missingness.
+   - certains enregistrements sont perdus.
 
-  - For example, units in control may be less willing to answer survey questions.
-  - For example, treatment may have caused units to migrate and cannot be reached
+- C'est un problème lorsque le traitement affecte la disparition.
 
-- If we analyze the data by dropping units with missing outcomes, then we are no longer comparing similar treatment and control groups.
+   - Par exemple, les unités de contrôle peuvent être moins disposées à répondre aux questions de l'enquête.
+   - Par exemple, le traitement peut avoir fait pousser des unités à émigrer et elles ne sont plus joignables
+
+- Si nous analysons les données en supprimant les unités avec des résultats manquants, alors nous ne comparons plus des groupes de traitement et de contrôle similaires.
 
 ## Que pouvons-nous faire?
 
 - Vérifiez si les taux d'attrition sont similaires dans les groupes de traitement et de contrôle.
 
-- Check whether treatment and control groups have similar covariate profiles.
+- Vérifier si les groupes de traitement et de contrôle ont des profils de covariables similaires.
 
-- Do not drop observations that are missing outcome data from your analysis.
+- Ne pas supprimer de votre analyse les observations pour lesquelles il manque des données sur les résultats.
 
-- When outcome data are missing we can sometimes **bound** our estimates of treatment effects.
+- Lorsque les données sur les résultats sont manquantes, nous pouvons parfois **déterminer** nos estimations de l'effet de traitement.
+
 
 ## Que pouvons-nous faire?
 
-- But the best approach is to try to anticipate and prevent attrition.
+- Mais la meilleure approche est d'essayer d'anticiper et de prévenir l'attrition.
 
-   - Blind people to their treatment status.
+    - Les personnes ne doivent pas connaître leur statut de traitement.
 
-   - Promise to deliver the treatment to the control group after the research is completed.
+    - Promettez de livrer le traitement au groupe témoin une fois la recherche terminée.
 
-   - Plan ex ante to reach all subjects at endline.
+    - Planifier ex ante pour atteindre tous les sujets à la fin.
 
-   - Budget for intensive follow-up with a random sample of attriters.
+    - Budget pour un suivi intensif avec un échantillon aléatoire concerné par l'attrition.
 
-## Missing data on covariates is not as problematic
+## Les données manquantes sur les covariables ne sont pas aussi problématiques
 
-- Missing **background covariates** (i.e.,variables for which values do not change as a result of treatment) for some observations is less problematic.
+- L'absence de **covariables** (c'est-à-dire des variables dont les valeurs ne changent pas à la suite du traitement) pour certaines observations est moins problématique.
 
-  - We can still learn about the causal effect of an experiment without those covariates, as we saw in the [Hypothesis Testing](hypothesistesting.html) and the [Estimation](estimation.html) modules.
-  
-  - We can also use the background covariate as planned by imputing for the missing values.
-  
-  - We can also condition on that missingness directly.
+   - Nous pouvons toujours en apprendre davantage sur l'effet causal d'une expérience sans ces covariables,
+     comme nous l'avons vu dans les modules [tests d'hypothèse](hypothesistesting.html) et [éstimation](estimation.html).
 
+   - On peut aussi utiliser la covariable comme prévu en imputant les valeurs manquantes.
+
+   - On peut aussi conditionner directement cette absence.
 
 # Non-conformité
 ## Non-conformité
@@ -115,22 +116,19 @@ knitr::opts_chunk$set(echo = FALSE)
   
       - Si toutes les unités affectées au contrôle ne prennent pas le traitement, mais que seules certaines unités affectées au traitement prennent le traitement, nous avons une non-conformité unilatérale.
 
-  - The effect of treatment assignment is not the same as the effect of receiving the treatment.
+  - L'effet de l'assignation de traitement n'est pas le même que l'effet de recevoir le traitement.
 
-  - The effect of receiving the treatment is often called the "Local Average Treatment Effect" (LATE) or "Complier Average Causal Effect" (CACE).  
-  
-      - "Local" refers to the idea that the effect only occurs on the people who take the treatment when assigned to treatment (the kinds of people).
+  - L'effet de recevoir le traitement est souvent appelé "effet de traitement moyen local" (LATE) ou "effet causal moyen conforme" (CACE).
 
+       - "Local" fait référence à l'idée que l'effet ne se produit que sur les personnes qui prennent le traitement lorsqu'elles sont assignées au traitement.
 
 ## LATE/CACE
 
+   - Nous avons besoin de deux hypothèses pour estimer LATE/CACE à partir d'une expérience randomisée.
 
-  - We need two assumptions to hold in order to estimate LATE/CACE from a randomized experiment.
-  
-  1. The exclusion restriction is that the assignment to treatment only has an effect on the outcome through the receipt of treatment and through no other channels.
+   1. La restriction d'exclusion est que l'assignation au traitement n'a d'effet sur le résultat que par la réception du traitement et par aucun autre canal.
 
-  2. L'hypothèse de monotonie est qu'il n'y a pas de rebelles - des unités qui prendraient le traitement si elles étaient assignées au contrôle, mais ne le prendraient pas si elles étaient assignées au traitement.
-
+   2. L'hypothèse de monotonie est qu'il n'y a pas de non-conformistes - des unités qui prendraient le traitement si elles étaient attribuées au contrôle, mais ne le prendraient pas si elles étaient attribuées au traitement.
 
 # Effets de débordement
 ## Effets de débordement et interférence entre unités
