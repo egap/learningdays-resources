@@ -576,7 +576,7 @@ Notez que la couverture n'est pas toujours à 95 % dans tous les cas. Nous avons
 
 
 
-# Randomisation par cluster
+# Randomisation par grappe
 
 ## Dans les expériences aléatoires en grappe, les unités sont randomisées en groupe (cluster) pour le traitement  {.allowframebreaks}
 
@@ -1207,11 +1207,14 @@ Et $\bar{y}_{0}$ est divisé en morceaux:
 
 ## Définir l'effet causal VII
 
-So, the ITT itself is a combination of the effects of $Z$ on $Y$ within these different groups (imagine substituting in and then re-arranging so that we have a set of ITTs, one for each type of subject). But, we can still estimate it because we have unbiased estimators of $\bar{y}_1$ and $\bar{y}_0$ within each type.
+Ainsi, l'ITT lui-même est une combinaison des effets de $Z$ sur $Y$ au sein de ces différents groupes
+(imaginez une substitution puis réorganisation de sorte que nous ayons un ensemble d'ITT, un pour chaque type de sujet).
+Mais, nous pouvons toujours l'estimer car nous avons des estimateurs sans biais de $\bar{y}_1$ et $\bar{y}_0$ au sein de chaque type.
 
 ## Comprendre l'ITT I
 
-First, let's learn about the effect of the policy itself. To write down the ITT, we do not need to consider all of the types above.  We have no defiers ($p_D=0$) and we know the ITT for both Always-takers and Never-takers is 0.
+Tout d'abord, découvrons l'effet de la politique elle-même. Pour écrire l'ITT, nous n'avons pas besoin de considérer tous les types ci-dessus.
+Nous n'avons pas de non-conformistes ($p_D=0$) et nous savons que l'ITT pour les toujours-preneurs et les jamais-preneurs est de 0.
 
 \begin{equation}
 \bar{y}_{1}=(\bar{y}_{1}|C)p_C + (\bar{y}_{1}|A)p_A + (\bar{y}_1|N)p_N
@@ -1221,10 +1224,10 @@ First, let's learn about the effect of the policy itself. To write down the ITT,
 \bar{y}_{0}=(\bar{y}_{0}|C)p_C + (\bar{y}_{0}|A)p_A + (\bar{y}_{0}|N)p_N
 \end{equation}
 
-
 ## Comprendre l'ITT II
 
-First, let's learn about the effect of the policy itself. To write down the ITT, we do not need to consider all of the types above.  We have no defiers ($p_D=0$) and we know the ITT for both Always-takers and Never-takers is 0.
+Tout d'abord, découvrons l'effet de la politique elle-même. Pour écrire l'ITT, nous n'avons pas besoin de considérer tous les types ci-dessus.
+Nous n'avons pas de non-conformistes ($p_D=0$) et nous savons que l'ITT pour les toujours-preneurs et les jamais-preneurs est de 0.
 
 \begin{align}
 ITT    = & \bar{y}_{1} - \bar{y}_{0} \\
@@ -1252,7 +1255,7 @@ ITT     = &   \bar{y}_{1} - \bar{y}_{0} \\
 
 ## Comprendre l'ITT IV
 
-And, if the effect of the dose can only occur for those who open the door, and you can only open the door when assigned to do so then:
+Et, si l'effet de la dose ne peut se produire que pour ceux qui ouvrent la porte, et que vous ne pouvez ouvrir la porte que lorsque vous est assigné, alors:
 
 \begin{equation}
 ( (\bar{y}_{1}|A)- (\bar{y}_{0}|A))p_A = 0  \text{ and } ( (\bar{y}_1|N) - (\bar{y}_{0}|N) )p_N = 0
@@ -1264,12 +1267,12 @@ Et
 ITT =  ( (\bar{y}_{1}|C) -  (\bar{y}_{0}|C))p_C  = ( CACE ) p_C.
 \end{equation}
 
-
 ## L’effet causal moyen pour ceux qui se conforment au traitement I
 
-We would also like to learn about the causal effect of answering the door and having the conversation, the theoretically interesting effect.
+Nous aimerions également en savoir plus sur l'effet causal d'ouvrir la porte et d'avoir la conversation, un effet théoriquement intéressant.
 
-But this comparison is confounded by $x$: a simple $\bar{Y}|D=1 - \bar{Y}|D=0$ comparison tells us about differences in the outcome due to $x$ in addition to the difference caused by $D$. (Numbers below from some simulated data)
+Mais cette comparaison est mise à mal par $x$: une simple comparaison $\bar{Y}|D=1 - \bar{Y}|D=0$ nous renseigne sur les différences de résultat dues à $x$ en plus de la différence causée par $D$.
+(Voir les chiffres ci-dessous à partir de certaines données simulées)
 
 \begin{center}
 \begin{tikzcd}[ampersand replacement=\&]
@@ -1287,9 +1290,8 @@ with(dat, cor(d, x)) ## can be any number
 with(dat, cor(Z, x)) ## should be near 0
 ```
 
-But we just saw that, in this design, and with these assumptions (including a SUTVA assumption) that
-$ITT = ( (\bar{y}_{1}|C) -  (\bar{y}_{0}|C))p_C  = (CACE) p_C$, so we can define $CACE=ITT/p_C$.
-
+Mais nous venons de voir que, dans ce design et avec ces hypothèses (y compris l'hypothèse SUTVA) que
+$ITT = ( (\bar{y}_{1}|C) -  (\bar{y}_{0}|C))p_C  = (CACE) p_C$, on peut donc définir $CACE=ITT/p_C$.
 
 ## Comment calculer l'ITT et CACE/LATE I
 
@@ -1300,18 +1302,18 @@ tau <- .5
 the_pop <- declare_population(N=100,
     X = sample(1:4, N, replace = TRUE),
     u = rnorm(N),
-    type = sample(c("Always-Taker", "Never-Taker", "Complier", "Defier"),N, replace = TRUE,
+    type = sample(c("Toujours preneur", "Jamais preneur", "Conformiste", "Non-conformiste"),N, replace = TRUE,
         prob = c(.1, 1 - unique(prob_comply), unique(prob_comply), 0))
 )
 
-##  The unobserved potential outcomes,  Y(Z=1) and Y(Z=0) relate to the observed outcome, Y, via treatment assignment and a const  ant additive effect of tau.
-## D refers to getting a dose of feedback
+## Les résultats potentiels non observés, Y(Z=1) et Y(Z=0) se rapportent au résultat observé, Y, via l'assignation de traitement et un effet additif constant de tau.
+## D fait référence à l'obtention d'une dose de feedback
   d_po <- declare_potential_outcomes(
       D ~ case_when(
-          Z == 0 & type %in% c("Never-Taker", "Complier") ~ 0,
-          Z == 1 & type %in% c("Never-Taker", "Defier") ~ 0,
-          Z == 0 & type %in% c("Always-Taker", "Defier") ~ 1,
-          Z == 1 & type %in% c("Always-Taker", "Complier") ~ 1
+          Z == 0 & type %in% c("Jamais preneur", "Conformiste") ~ 0,
+          Z == 1 & type %in% c("Jamais preneur", "Non-conformiste") ~ 0,
+          Z == 0 & type %in% c("Toujours preneur", "Non-conformiste") ~ 1,
+          Z == 1 & type %in% c("Toujours preneur", "Conformiste") ~ 1
       )
   )
 
@@ -1320,11 +1322,11 @@ the_pop <- declare_population(N=100,
     assignment_variables = c("D", "Z")
   )
 
-## Treatment  assignment for  any given city is a simple fixed  proportion. It should be complete  or  urn-drawing assignment, not  simple or  coin-flipping assignment.
+## L'assignation de traitement pour une ville donnée est une simple proportion fixe. Il devrait s'agir d'une assignation complète (ie, par tirage dans une urne), et non simple (pile ou face).
 ## theassign <- declare_assignment(m=m)
 the_assign<- declare_assignment(Z=complete_ra(N))
 
-## declare_reveal is basically the same as declare_potential_outcomes. Je pense qu'ils ont cela ici pour faire face aux situations de données manquantes ou de non-conformité.
+## declare_reveal est fondamentalement le même que declare_potential_outcomes. Je pense qu'ils ont cela ici pour faire face aux situations de données manquantes ou de non-conformité.
 # thereveal <- declare_reveal(Y, Z)
 d_reveal <- declare_reveal(D, assignment_variable = "Z")
 y_reveal <- declare_reveal(Y, assignment_variables = c("D", "Z"))
@@ -1342,7 +1344,7 @@ estimand_ate <- declare_inquiry(ATE = mean((Y_D_1_Z_1 + Y_D_1_Z_0) / 2 -
     (Y_D_0_Z_1 + Y_D_0_Z_0) / 2))
 ```
 
-Some example data (where we know all potential outcomes):
+Quelques exemples de données (où nous connaissons tous les résultats potentiels):
 
 ```{r showdat0}
 tempdat <- dat0[1:2,-1]
@@ -1354,7 +1356,7 @@ kableExtra::kable(tempdat, digits = 2)
 
 ## Comment calculer l'ITT et CACE/LATE II
 
-The ITT and CACE (the parts)
+L'ITT et le CACE
 
 ```{r echo=TRUE}
 itt_y <- difference_in_means(Y~Z,data=dat0)
@@ -1365,18 +1367,19 @@ itt_d
 
 ## Comment calculer l'ITT et CACE/LATE III
 
-All together:^[works when $Z \rightarrow D$ is not weak see @imbens2005robust for a cautionary tale]
+Tous ensemble ^[fonctionne quand $Z \rightarrow D$ n'est pas faible; voir @imbens2005robust pour les précautions d'usage]
 
 ```{r echo=TRUE}
 cace_est <- iv_robust(Y~D|Z,data=dat0)
 cace_est
-## Notice same as below:
+## Remarquez que c'est identique ci-dessous:
 coef(itt_y)[["Z"]]/coef(itt_d)[["Z"]]
 ```
 
-## Summary of Encouragement/Complier/Dose oriented designs:
+## Résumé des designs incitatifs / conformistes / par dose:
 
- - Analyze as you randomized, even when you don't control the dose
- - The danger of per-protocol analysis.
+ - Analysez au fur et à mesure que vous avez randomisé, même lorsque vous ne contrôlez pas la dose
+ - Le danger de l'analyse par protocole.
+
 
 ## Réferences
