@@ -62,75 +62,73 @@ library(rcompanion) ## for pairwisePermutationTest()
 
 - $p$-valeurs nécessitent des distributions de probabilité .
 
-- TODO Randomization (or Design) + a Hypothesis + a Test Statistic Function $\rightarrow$ distributions de probabilité représentant l'hypothèse (distributions de référence)
+- Randomisation (ou Design) + une hypothèse + une function statistique de test $\rightarrow$ distributions de probabilité représentant l'hypothèse (distributions de référence)
 
 - Valeurs observées des tests statistiques + distribution de référence $\rightarrow$ $p$-valeur.
 
 ## Le role des tests d'hypothèses dans l'inférence causale I
 
-- The **fundamental problem of causal inference** says that we can see only one potential outcome for any given unit.
+- Le **problème fondamental de l'inférence causale** dit que nous ne pouvons voir qu'un seul résultat potentiel pour une unité donnée.
 
-- So, if a counterfactual causal effect of the treatment, $T$, for Jake occurs when  $y_{\text{Jake},T=1} \ne y_{\text{Jake},T=0}$, then how can we learn about the causal  effect?
+- Donc, si un effet causal contrefactuel du traitement, $T$, pour Dupont se produit lorsque $y_{\text{Dupont},T=1} \ne y_{\text{Dupont},T=0}$, alors comment pouvons-nous en savoir plus sur l'effet causal?
 
-- One solution is the **[estimation](estimation-slides.Rmd) of averages of causal effects** (the ATE, ITT, LATE).
+- Une solution est l'**[estimation](estimation-slides.Rmd) des moyennes des effets causaux** (les ATE, ITT, LATE).
 
 - C'est l'approche de Neyman.
 
 ## Le role des tests d'hypothèses dans l'inférence causale II
 
-- Another solution is to make **claims** or **guesses** about the causal effects.
+- Une autre solution consiste à faire des **affirmations** ou **des suppositions** sur les effets de causalité.
 
-- We could say, "I think that the effect on Jake is 5." or "This experiment had no effect on anyone." And then we ask "How much evidence does this experiment have about that claim?"
+- On pourrait dire : "Je pense que l'effet sur Dupont est de 5". ou "Cette expérience n'a eu d'effet sur personne." Et puis nous demandons "Quelles preuves apporte cette expérience à propos de cette affirmation?"
 
-- This evidence is summarized in a $p$-value.
+- La preuve est contenue dans la $p$-valeur .
 
-- We call this Fisher's approach.
-
+-  C'est l'approche de Fisher.
 
 ## Le role des tests d'hypothèses dans l'inférence causale III
 
-- The hypothesis testing approach to causal inference doesn't provide a best guess but instead tells you *how much evidence or information the research design provides about a causal claim*.
+- L'approche du test d'hypothèse pour l'inférence causale ne fournit pas une meilleure estimation, mais indique *la quantité d'informations que le design de recherche fournit pour ce postulat de causalité*.
 
-- The estimation approach provides a best guess but doesn't tell you how much you know about that guess.
-  - For example, a best guess with $N=10$ seems to tell us less about the effect than $N=1000$.
-  - For example, a best guess when 95% of $Y=1$ and 5% of $Y=0$ seems to tell us less than when outcomes are evenly split betwee 0 and 1.
+- L'approche par estimation fournit une meilleure estimation, mais ne vous dit pas ce que vous savez sur cette estimation.
+   - Par exemple, une estimation avec $N=10$ semble en dire moins sur l'effet que $N=1000$.
+   - Par exemple, une estimation avec 95% de $Y=1$ et 5% de $Y=0$ semble en dire moins que lorsque les résultats sont répartis également entre 0 et 1.
 
-- We nearly always report both since both help us make decisions: "Our best guess of the treatment effect was 5, and we could reject the idea that the effect was 0 ($p$=.01)."
+- Nous rapportons presque toujours les deux approches, car les deux nous aident à prendre des décisions : "Notre estimation de l'effet du traitement était de 5, et nous pouvions rejeter l'idée que l'effet était de 0 ($p$=.01)."
 
 
 # Les basics du test d'hypothèse
 
 ## Ingrédients d'un test d'hypothèse
 
- - Une **hypothèse** est un énoncé concernant une relation entre TODO potential outcomes.
+ - Une **hypothèse** est un énoncé concernant une relation entre les résultats potentiels.
 
- - A **test statistic** summarizes the relationship between treatment and observed outcomes.
+- Une **statistique de test** résume la relation entre le traitement et les résultats observés.
 
- - The **design** allows us to link the hypothesis and the test statistic: calculate a test statistic that describes a relationship between potential outcomes.
+- Le **design** permet de lier l'hypothèse et la statistique de test : calculez une statistique de test qui décrit une relation entre des résultats potentiels.
 
- - The **design** also tells us how to generate a *distribution* of possible test statistics implied by the hypothesis.
- 
- - A **$p$-value** describes the relationship between our observed test statistic and the distribution of possible hypothesized test statistics.
+- Le **design** indique aussi comment générer une *distribution* des statistiques de test possibles implicitement liés à l'hypothèse.
 
+- Une **$p$-valeur** décrit la relation entre notre statistique de test observée et la distribution des statistiques de test hypothétiques.
 
 ```{r echo=FALSE}
-## First, create some data,
-##  y0 is potential outcome to control
+## Tout d'abord, créer des données
+##  y0 est le résultat potentiel à contrôler
 N <- 10
 y0 <- c(0, 0, 0, 1, 1, 3, 4, 5, 190, 200)
-## Different individual level treatment effects
+## Différents effets de traitement au niveau individuel
 tau <- c(10, 30, 200, 90, 10, 20, 30, 40, 90, 20)
-## y1 is potential outcome to treatment
+## y1 est le résultat potentiel du traitement
 y1 <- y0 + tau
 # sd(y0)
 # mean(y1)-mean(y0)
 # mean(tau)
-## T is treatment assignment
+## T est l'assignation du traitement
 set.seed(12345)
 T <- complete_ra(N)
-## Y is observed outcomes
+## Y est les résultats observés
 Y <- T * y1 + (1 - T) * y0
-## The data
+## Les données
 dat <- data.frame(Y = Y, T = T, y0 = y0, tau = tau, y1 = y1)
 dat$Ybin <- as.numeric(dat$Y > 100)
 # dat
@@ -140,44 +138,44 @@ dat$Ybin <- as.numeric(dat$Y > 100)
 
 
 ```{r echo=FALSE}
-## Make a bigger dataset
-##  y0 is potential outcome to control
+## créer un dataset plus grand
+##  y0 est le résultat potentiel à contrôler
 bigN <- 60
 set.seed(12345)
 bigdat <- data.frame(y0 = c(rep(0, 20), rnorm(20, mean = 3, sd = .5), rnorm(20, mean = 150, sd = 10)))
-## Different individual level treatment effects
+## Différents effets de traitement au niveau individuel
 bigdat$tau <- c(rnorm(20, mean = 10, sd = 2), rnorm(20, mean = 20, sd = 5), rnorm(20, mean = 5, sd = 10))
-## y1 is potential outcome to treatment
+## y1 est le résultat potentiel du traitement
 bigdat$y1 <- bigdat$y0 + bigdat$tau
 # sd(y0)
 # mean(y1)-mean(y0)
 # mean(tau)
-## T is treatment assignment
+## T est l'assignation du traitement
 set.seed(12345)
 bigdat$T <- complete_ra(bigN)
-## Y is observed outcomes
+## Y est les résultats observés
 bigdat$Y <- with(bigdat, T * y1 + (1 - T) * y0)
-## The data
+## Les données
 bigdat$Ybin <- as.numeric(bigdat$Y > quantile(bigdat$Y, .85))
 ```
 
-## A hypothesis is a statement about or model of a relationship between potential outcomes
+## Une hypothèse est l'énoncé ou le modèle d'une relation entre des résultats potentiels
 
 ```{r}
 kableExtra::kable(dat, col.names = c("Outcome", "Treatment", "$y_{i,0}$", "ITE", "$y_{i,1}$", "$Y>0$"), escape = FALSE)
 ```
 
-For example, the sharp, or strong, null hypothesis of no effects is $H_0: y_{i,1} = y_{i,0}$
+Par exemple, l'hypothèse nulle TODO forte d'absence d'effet est $H_0: y_{i,1} = y_{i,0}$
 
 
-## Test statistics summarize treatment-to-outcome relationships
+## Les statistiques des test résument les relations entre le traitement et les résultats
 
 ```{r, echo=TRUE}
-## The mean difference test statistic
+## La statistique du test des différences moyennes
 meanTT <- function(ys, z) {
   mean(ys[z == 1]) - mean(ys[z == 0])
 }
-## The difference of mean ranks test statistic
+## La statistique du test des différences de rangs moyens (TODO The difference of mean ranks test statistic)
 meanrankTT <- function(ys, z) {
   ranky <- rank(ys)
   mean(ranky[z == 1]) - mean(ranky[z == 0])
@@ -189,21 +187,19 @@ observedMeanTT
 observedMeanRankTT
 ```
 
-## The design links test statistic and hypothesis
+## Le design lie la statistique de test et l'hypothèse
 
-What we observe for each person $i$ ($Y_i$) is either what we would have
-observed in treatment ($y_{i,1}$) **or** what we would have observed in
-control ($y_{i,0}$).
+Ce que nous observons pour chaque personne $i$ ($Y_i$) est soit ce que nous aurions observé en traitement ($y_{i,1}$) **ou** ce que nous aurions observé en contrôle ($y_{i ,0}$).
 
 $$Y_i = T_i y_{i,1} + (1-T_i)* y_{i,0}$$
 
-So, if $y_{i,1}=y_{i,0}$ then $Y_i = y_{i,0}$.
+Donc, si $y_{i,1}=y_{i,0}$ alors $Y_i = y_{i,0}$.
 
-What we *actually observe* is what we *would have observed in the control condition*.
+Ce que nous *observons réellement* est ce que nous *aurions observé dans la condition de contrôle*.
 
-## The design guides creation of a distribution of hypothetical test statistics
+## Le design guide la création d'une distribution de statistiques de tests hypothétiques
 
-We need to know how to repeat our experiment:
+Il faut savoir comment répéter notre expérience:
 
 ```{r, echo=TRUE}
 repeatExperiment <- function(N) {
@@ -211,7 +207,7 @@ repeatExperiment <- function(N) {
 }
 ```
 
-Then  we repeat it,  calculating the implied test statistic by the hypothesis and design each time:
+Ensuite, on répèter notre expérience en calculant à chaque fois une nouvelle statistique de test donnée par l'hypothèse et la design :
 
 ```{r reps, echo=TRUE, cache=TRUE}
 set.seed(123456)
@@ -226,9 +222,9 @@ possibleMeanRankDiffsH0 <- replicate(
 )
 ```
 
-## Plot the randomization distributions under the null
+## Courbe des distributions de randomisation sous l'hypothèse nulle
 
-```{r fig.cap="An example of using the design of the experiment to test a hypothesis with two different test statistics.", results='asis', echo=FALSE, fig.align='center'}
+```{r fig.cap="Utiliser un design d'expérience pour tester une hypothèse avec deux statistiques de test différentes.", results='asis', echo=FALSE, fig.align='center'}
 par(mfrow = c(1, 2), mgp = c(2, .5, 0), mar = c(3, 3, 0, 0), oma = c(0, 0, 3, 0))
 plot(density(possibleMeanDiffsH0),
   ylim = c(0, .04),
@@ -240,7 +236,7 @@ plot(density(possibleMeanDiffsH0),
 )
 rug(possibleMeanDiffsH0)
 rug(observedMeanTT, lwd = 3, ticksize = .51)
-text(observedMeanTT - 4, .022, "Observed Test Statistic")
+text(observedMeanTT - 4, .022, "Statistique de test observée")
 
 plot(density(possibleMeanRankDiffsH0),
   lwd = 2,
@@ -252,7 +248,7 @@ plot(density(possibleMeanRankDiffsH0),
 )
 rug(possibleMeanRankDiffsH0)
 rug(observedMeanRankTT, lwd = 3, ticksize = .9)
-text(observedMeanRankTT, .45, "Observed Test Statistic")
+text(observedMeanRankTT, .45, "Statistique de test observée")
 
 mtext(
   side = 3, outer = TRUE, cex = 1.75,
@@ -260,9 +256,9 @@ mtext(
 )
 ```
 
-## $p$-values summarize the plots
+## Les $p$-valeurs résument les graphiques
 
-How should we interpret these $p$-values? (Notice that they are one-tailed.)
+Comment devrions-nous interpréter ces $p$-valeurs unilatérales?
 
 ```{r calcpvalues, echo=TRUE}
 pMeanTT <- mean(possibleMeanDiffsH0 >= observedMeanTT)
@@ -271,10 +267,10 @@ pMeanTT
 pMeanRankTT
 ```
 
-## How to do this in R: COIN
+## Comment faire cela en R: COIN
 
 ```{r coinexample, echo=TRUE}
-## using the coin package
+## avec le package coin
 library(coin)
 set.seed(12345)
 pMean2 <- coin::pvalue(oneway_test(Y ~ factor(T),
@@ -290,9 +286,9 @@ pMean2
 pMeanRank2
 ```
 
-## How to do this in R: RItools  {.allowframebreaks}
+## Comment faire cela en R: RItools  {.allowframebreaks}
 
- First install a development version of the RItools package
+Installez d'abord une version de développement du package RItools
 
 ```{r installritools, eval=FALSE, echo=TRUE, results='hide',warnings=FALSE,cache=FALSE}
 # dev_mode() ## dont install the package globally
@@ -302,7 +298,7 @@ renv::install("markmfredrickson/RItools@randomization-distribution",
 # dev_mode()
 ```
 
-Then use the `RItest` function.
+Utilisez ensuite la fonction `RItest`.
 
 ```{r useritools, eval=FALSE,echo=TRUE,cache=FALSE}
 # dev_mode()
@@ -318,7 +314,7 @@ pMeanRank4 <- RItest(
 )
 pMean4
 pMeanRank4
-# dev_mode() ## and turn off dev_mode
+# dev_mode() ## et désactiver le dev_mode
 ```
 
 ```{r ritoolsoutput, echo=TRUE, eval=FALSE, tidy=FALSE}
@@ -326,22 +322,20 @@ pMean4
 Call:  RItest(y = dat$Y, z = dat$T, test.stat = meanTT, sampler = thedesignA,
           samples = 1000)
 
-                        Value Pr(>x)
-Observed Test Statistic -49.6   0.78
+                             Value Pr(>x)
+Statistique de test observée -49.6   0.78
 
 pMeanRank4
 Call:  RItest(y = dat$Y, z = dat$T, test.stat = meanrankTT, sampler = thedesignA,
           samples = 1000)
 
-                        Value Pr(>x)
-Observed Test Statistic     1   0.32
+                              Value Pr(>x)
+Statistique de test observée  1   0.32
 ```
 
+## Comment faire cela en R: RI2
 
-
-## How to do this in R: RI2
-
-How should we interpret the two-tailed $p$-value here?
+Comment interpréter la $p$-valeur bilatérale ici ?
 
 ```{r,echo=TRUE}
 ## using the ri2 package
@@ -360,18 +354,24 @@ pMeanRank4 <- conduct_ri(rankY ~ Z,
 summary(pMeanRank4)
 ```
 
-## Next topics
-
- - Testing weak null hypotheses, $H_0: \bar{y}_{1} = \bar{y}_{0}$.
-
  - Rejecting null hypotheses (and making false positive and/or false negative errors).
 
  - Maintaining correct false positive error rates when testing more than one hypothesis.
 
 - Power of hypothesis tests ([Module on Statistical Power and Design Diagnosands](https://egap.github.io/learningdays-book/statistical-power-and-design-diagnosands.html)).
 
+## Sujets suivants
 
-# Testing weak null hypotheses
+  - Tester l'hypothèse nulle faible, $H_0 : \bar{y}_{1} = \bar{y}_{0}$.
+
+  - Rejeter l'hypothèse nulle (et faire des erreurs de faux positifs et/ou de faux négatifs).
+
+  - Maintenir un taux d'erreur correct de faux positifs quand on teste plus d'une hypothèse.
+
+  - Puissance statistique des tests d'hypothèse ([Module sur la puissance statistique et les diagnostics de design](https://egap.github.io/learningdays-book/statistical-power-and-design-diagnosands.html)).
+
+
+# Tester l'hypothèse nulle
 
 ## Testing the weak null of no average effects
 
