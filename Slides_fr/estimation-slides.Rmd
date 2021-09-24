@@ -139,7 +139,7 @@ Simulons-le!
 
 ## Étape 1 de la simulation: créer des données avec un ATE connu
 
-Notez que nous devons *connaître* les résultats potentiels et l'assignation de traitement afin de savoir si notre estimateur fait un bon travail.
+Notez que nous devons *connaître* les résultats potentiels et l'assignation de traitement afin de savoir si notre estimateur performe bien.
 
 ```{r echo=FALSE}
 
@@ -386,16 +386,17 @@ Quel estimateur est le meilleur ? (L'un est plus proche de la vérité en moyenn
 kableExtra::kable(reshape_diagnosis(diagnosis1, select = c("Estimator", "Bias", "RMSE", "SD Estimate", "Mean Se", "Power"))[,-c(1,2,4,5,6)])
 ```
 
-
 ## Estimateurs biaisés et non-biaisés
 
-Summary:
+Résumé:
 
- - We have a *choice* of both estimands and estimators
+  - Nous avons un *choix* d'estimandes et d'estimateurs
 
- - A good estimator performs well regardless of the particular randomization of a given design. And *performs well* can mean "unbiased" and/or "low mse" (or "consistent" --- which means increasingly close to the truth as the sample size increases).
+  - Un bon estimateur performe bien quelle que soit la randomisation particulière d'un design donné.
+    Et *bien performer* peut signifier "être impartial" et/ou "avoir une faible erreur quadratique moyenne"
+    ou "être cohérent" --- ce qui signifie être de plus en plus proche de la vérité à mesure que la taille de l'échantillon augmente.
 
- - We can learn about how a given estimator performs in a given study using simulation.
+  - Nous pouvons apprendre comment un estimateur donné se comporte dans une étude donnée en utilisant la simulation.
 
 # Randomisation par bloc
 
@@ -403,7 +404,6 @@ Summary:
 
 Quelle est l'**ATE** dans une expérience aléatoire par bloc?
 
-If we think of the unit-level ATE as: $(1/N) \sum_{i=1}^N y_{i,1} - y_{i,0}$ then we could re-express this equivalently using the ATE in block $j$ is $ATE_j$ as follows:
 Si nous considérons l'ATE au niveau de l'unité comme : $(1/N) \sum_{i=1}^N y_{i,1} - y_{i,0}$ alors nous pourrions réexprimer cela de manière équivalente en sachant que l'ATE par bloc $j$ est $ATE_j$ comme suit :
 
 \[
@@ -415,11 +415,9 @@ $\widehat{ATE} = \displaystyle\sum^J_{j=1} \frac{N_j}{N} \widehat{ATE}_j$
 
 ## Les expériences aléatoires par bloc sont une collection de mini-expériences
 
-And we could *define* the standard error of the estimator by also just averaging the within-block standard errors (if our blocks are large enough):
 Et nous pourrions *définir* l'erreur standard de l'estimateur en faisant la moyenne intra-bloc des erreurs standards (si nos blocs sont suffisamment grands):
 
 $SE(\widehat{ATE}) = \sqrt{\sum^J_{j=1} (\frac{N_{j}}{N})^2SE^2(\widehat{ATE}_j)}$
-
 
 ## Estimer l'ATE dans les expériences aléatoires par bloc
 
@@ -445,7 +443,6 @@ with(dat,mean(y1-y0))
 with(datb, sum( ateb*(nb/sum(nb))) )
 ```
 
-
 ## Estimer l'ATE dans les expériences aléatoires par bloc
 
 Une approche consiste à estimer l'ATE global pondéré par la taille de bloc:
@@ -456,7 +453,6 @@ e1 <- difference_in_means(Y~Z,blocks=b,data=dat)
 e2 <- with(datb, sum( estateb*(nb/sum(nb))) )
 c(coef(e1)[["Z"]],e2)
 ```
-
 
 ## Estimer l'ATE dans les expériences aléatoires par bloc
 
@@ -520,18 +516,18 @@ est3 <- declare_estimator(Y ~ Z, inquiry = estimandATEb, model=lm_robust,
 
 
 ```{r blockdd1a, echo=TRUE, cache=TRUE}
-# two more estimators
+# deux autres estimateurs
 est4 <- declare_estimator(Y ~ Z, inquiry = estimandATEb,
     model = lm_robust, fixed_effects=~b, label = "Precision Weights")
 est5 <- declare_estimator(Y ~ Z + b, inquiry = estimandATEb,
     model = lm_robust, label = "Precision Weights (LSDV)")
 
-## new design object has the base design, the estimand, and five estimators
+## le nouveau design a le design de base, l'estimande et cinq estimateurs
 design_blocks <- base_design_blocks + estimandATEb +
   est1 + est2 + est3 + est4 + est5
 ```
 
-Then we will run 10,000 simulations (reassign treatment 10,000 times) and summarize the estimates produced by each of these five estimators.
+Ensuite, nous allons exécuter 10 000 simulations (réassigner le traitement 10 000 fois) et résumer les estimations produites par chacun de ces cinq estimateurs.
 
 ## Quel estimateur doit-on utiliser?
 
@@ -577,8 +573,6 @@ kableExtra::kable(blocktab,col.names = c("Estimator","Bias","RMSE","SD Est","Mea
 ```
 
 Notez que la couverture n'est pas toujours à 95 % dans tous les cas. Nous avons simulé 10 000 fois, donc l'erreur de simulation est d'environ $\pm 2 \sqrt{p(1-p)/10000}$ ou, disons, pour une couverture calculée à .93, une simulation différente aurait pu facilement produire `r .93 -2 *sqrt( .93 * (1-.93)/10000 )` ou `r .93+2*sqrt( .93 * (1-.93)/10000 )` (ou aurait rarement produit des numéros de couverture en dehors de cette plage juste par hasard).
-
-
 
 
 
@@ -1117,36 +1111,27 @@ Si notre théorie suggère que les effets devraient différer selon le groupe, c
  - Nous pouvons **concevoir** une évaluation de cette théorie en créant une étude aléatoire par bloc
    --- avec des blocs définis par des groupes théoriquement pertinents.
 
- - We can **plan** for such an assessment by (1) **pre-registering specific subgroup analyses**
-   (whether or not we block on that group in the design phase)
-   and (2) making sure to measure group membership during baseline data collection pre-treatment
-
-   Nous pouvons **planifier** une telle évaluation en (1) **pré-enregistrant des analyses de sous-groupes spécifiques**
-   (que nous bloquions ou non ce groupe dans la phase de design)
+ - Nous pouvons **planifier** une telle évaluation
+   en (1) **pré-enregistrant des analyses de sous-groupes spécifiques** (que nous retenons ou non ce groupe dans la phase de design)
    et en (2) veillant à mesurer l'appartenance au groupe pendant la collecte des données de base pré-traitement
 
 
 ## Effets différents selon les groupes II
- - If we have not planned ahead, subgroup-specific analyses can be useful as
-   explorations but should not be understood as confirmatory: they can too
-   easily create problems of testing too many hypotheses thus inflated false
-   positive rates.
-   Si on n'a pas prévu à l'avance, les analyses par sous-groupes peuvent être utiles en mode exploratoire mais pas pour avoir des confirmatoires:
+ - Si on ne l'a pas prévu en avance, les analyses par sous-groupes peuvent être utiles pour explorer mais pas pour confirmer:
    elles peuvent trop facilement apporter trop d'hypothèses de test et donc gonfler le taux de faux positifs.
 
- - We **should not use groups formed by treatment**. (This is either "mediation analysis"  or "conditioning on post-treatment variables" and deserves its own module).
-Nous **ne devrions pas utiliser des groupes formés par traitement**. (Il s'agit soit d'une "analyse de médiation" soit d'un "conditionnement sur des variables post-traitement" et mérite son propre module).
+ - Nous **ne devrions pas utiliser des groupes formés par traitement**. (Il s'agit soit d'une "analyse de médiation" soit d'un "conditionnement sur les variables post-traitement" et mérite son propre module).
 
-# Causal effects when we do not control the dose
+# Effets causals quand on ne contrôle pas la dose
 
-## Defining causal effects I
+## Définir l'effet causal I
 
-Imagine a door-to-door communication experiment where some houses are randomly assigned to receive a visit.  Note that we now use $Z$ and $d$ instead of $T$.
+Imaginez une expérience de porte-à-porte où certaines maisons sont assignées au hasard pour recevoir une visite. Notez que nous utilisons maintenant $Z$ et $d$ au lieu de $T$.
 
- - $Z_i$ is random assignment to a visit ($Z_i=1$) or not ($Z_i=0$).
- - $d_{i,Z_i=1}=1$ means that person $i$ would open the door to have a conversation when assigned a visit.
- - $d_{i,Z_i=1}=0$ means that person $i$ would not open the door to have a conversation when assigned a visit.
- - Opening the door is an outcome of the treatment.
+- $Z_i$ est l'assignation aléatoire d'une visite ($Z_i=1$) ou non ($Z_i=0$).
+- $d_{i,Z_i=1}=1$ signifie que la personne $i$ ouvrirait la porte pour avoir une conversation lors d'une visite.
+- $d_{i,Z_i=1}=0$ signifie que la personne $i$ n'ouvrirait pas la porte pour avoir une conversation lors d'une visite.
+- L'ouverture de la porte est un résultat du traitement.
 
 \begin{center}
 \begin{tikzcd}[ampersand replacement=\&]
@@ -1156,44 +1141,38 @@ Z  \arrow[from=1-1,to=1-2, "\ne 0"] \arrow[from=1-1, to=1-4, bend left, "\text{0
 \end{center}
 
 
-## Defining causal effects II
- - $y_{i,Z_i = 1, d_{i,Z_i=1}=1}$ is the potential outcome for people who were assigned a visit and who opened the door. ("Compliers" or "Always-takers")
+## Définir l'effet causal II
+  - $y_{i,Z_i = 1, d_{i,Z_i=1}=1}$ est le résultat potentiel pour les personnes qui ont reçu une visite et qui ont ouvert la porte. ("Conformistes" ou "Toujours preneurs")
 
- - $y_{i,1, d_{i,Z_i=1}=0}$ is the potential outcome for people who were assigned a visit and who did not open the door. ("Never-takers" or "Defiers")
+  - $y_{i,1, d_{i,Z_i=1}=0}$ est le résultat potentiel pour les personnes qui ont reçu une visite et qui n'ont pas ouvert la porte. ("Jamais preneurs" ou "Non-conformistes")
 
- - $y_{i,0, d_{i,0}=1}$ is the potential outcome for people who were not assigned a visit and who opened the door. ("Defiers" or "Always-takers")
+  - $y_{i,0, d_{i,0}=1}$ est le résultat potentiel pour les personnes qui n'ont pas reçu de visite et qui ont ouvert la porte. ("Non-conformistes" ou "Toujours preneurs")
 
- - $y_{i,0, d_{i,0}=0}$ is the potential outcome for people who were not assigned a visit and who would not have opened the door. ("Compliers" or "Never-takers")
+  - $y_{i,0, d_{i,0}=0}$ est le résultat potentiel pour les personnes qui n'ont pas reçu de visite et qui n'auraient pas ouvert la porte. ("Conformistes" ou "Jamais preneurs")
 
-## Defining causal effects III
- We could also write $y_{i,Z_i = 0, d_{i,Z_i=1}=1}$ for people who were not assigned a visit but who would have opened the door had they been assigned a visit etc.
+## Définir l'effet causal III
 
-In this case we can simplify our potential outcomes:
+On pourrait aussi écrire $y_{i,Z_i = 0, d_{i,Z_i=1}=1}$ pour les personnes qui n'avaient pas reçu de visite mais qui auraient ouvert la porte si une visite leur avait été attribuée etc.
 
-  - $y_{i,0, d_{i,1}=1} = y_{i,0, d_{i,1}=0} = y_{i,0, d_{i,0}=0}$ because your outcome is the same regardless of how you don't open the door.
+Dans ce cas, nous pouvons simplifier nos résultats potentiels:
 
+   - $y_{i,0, d_{i,1}=1} = y_{i,0, d_{i,1}=0} = y_{i,0, d_{i,0}=0}$ parce que votre résultat est le même quelle que soit la façon dont vous n'ouvrez pas la porte.
 
-## Defining causal effects IV
+## Définir l'effet causal IV
 
-We can simplify the ways in which people get a dose of the treatment like so
-(where $d$ is lower case reflecting the idea that whether you open the door
-when visited or not is a fixed attribute like a potential outcome).
+Nous pouvons simplifier les façons dont les gens reçoivent une dose du traitement comme ceci:
+(où $d$ est en minuscule reflétant l'idée que le fait d'ouvrir ou non la porte est un attribut fixe comme un résultat potentiel).
 
- - $Y$ : outcome ($y_{i,Z}$ or $y_{i,Z_i=1}$ for potential outcome to
-   treatment for person $i$, fixed)
- - $X$ : covariate/baseline variable
- - $Z$ : treatment assignment ($Z_i=1$ if assigned to a visit, $Z_i=0$ if not
-   assigned to a visit)
- -  $D$ : treatment received ($D_i=1$ if answered phone, $D_i=0$ if person $i$
-   dd not answer the door) (using $D$ here because $D_i = d_{i,1} Z_{i} + d_{i,0} (1-Z_i)$)
+  - $Y$ : le résultat ($y_{i,Z}$ ou $y_{i,Z_i=1}$ pour le résultat potentiel du traitement pour la personne $i$, fixe)
+  - $X$ : covariable/variable de référence
+  - $Z$ : assignation de traitement ($Z_i=1$ si assigné à une visite, $Z_i=0$ si non assigné à une visite)
+  - $D$ : traitement reçu ($D_i=1$ si a répondu, $D_i=0$ si la personne $i$ n'a pas répondu) (en utilisant $D$ ici car $D_i = d_{i,1} Z_ {i} + d_{i,0} (1-Z_i)$)
 
-## Defining causal effects V
+## Définir l'effet causal V
 
-We have two causal effects of $Z$: $Z \rightarrow Y$ ($\delta$, ITT, ITT$_Y$), and $Z \rightarrow D$ (GG
-call this ITT$_D$).
+Nous avons deux effets causaux de $Z$ : $Z \rightarrow Y$ ($\delta$, ITT, ITT$_Y$) et $Z \rightarrow D$ (GG appelle cela ITT$_D$).
 
-And different types of people can react differently to the attempt to move the
-dose with the instrument.
+Et différents types de personnes peuvent réagir différemment à la tentative de déplacer la dose avec l'instrument.
 
 \centering
 \begin{tabular}{llcc}
@@ -1206,39 +1185,33 @@ dose with the instrument.
 \end{tabular}
 
 
-##  Defining causal effects VI
+## Définir l'effet causal VI
 
 
-The $ITT=ITT_Y=\delta= \bar{y}_{Z=1} - \bar{y}_{Z=0}$.
+$ITT=ITT_Y=\delta= \bar{y}_{Z=1} - \bar{y}_{Z=0}$
 
 \medskip
 
-But, in this design, $\bar{y}_{Z=1}=\bar{y}_{1}$ is split into pieces: the outcome of
-those who answered the door (Compliers and Always-takers and Defiers). Write
-$p_C$ for the proportion of compliers in the study.
+Mais, dans ce design, $\bar{y}_{Z=1}=\bar{y}_{1}$ est divisé en morceaux: le résultat de ceux qui ont répondu à la porte (conformistes et toujours-preneurs et non-conformistes).
+Écrivez $p_C$ pour la proportion de conformistes dans cette étude.
 
 \begin{equation}
 \bar{y}_{1}=(\bar{y}_{1}|C)p_C + (\bar{y}_{1}|A)p_A + (\bar{y}_1|N)p_N + (\bar{y}_1|D)p_D.
 \end{equation}
 
-And $\bar{y}_{0}$ is also split into pieces:
+Et $\bar{y}_{0}$ est divisé en morceaux:
 
 \begin{equation}
 \bar{y}_{0}=(\bar{y}_{0}|C)p_C + (\bar{y}_{1}|A)p_A + (\bar{y}_{0}|N)p_N + (\bar{y}_0|D)p_D.
 \end{equation}
 
-##  Defining causal effects VII
+## Définir l'effet causal VII
 
-So, the ITT itself is a combination of the effects of $Z$ on $Y$ within these
-different groups (imagine substituting in and then re-arranging so that we
-have a set of ITTs, one for each type of subject). But, we can still estimate it because we have unbiased
-estimators of $\bar{y}_1$ and $\bar{y}_0$ within each type.
+So, the ITT itself is a combination of the effects of $Z$ on $Y$ within these different groups (imagine substituting in and then re-arranging so that we have a set of ITTs, one for each type of subject). But, we can still estimate it because we have unbiased estimators of $\bar{y}_1$ and $\bar{y}_0$ within each type.
 
-## Learning about the ITT I
+## Comprendre l'ITT I
 
-First, let's learn about the effect of the policy itself. To write down the
-ITT, we do not need to consider all of the types above.  We have no defiers
-($p_D=0$) and we know the ITT for both Always-takers and Never-takers is 0.
+First, let's learn about the effect of the policy itself. To write down the ITT, we do not need to consider all of the types above.  We have no defiers ($p_D=0$) and we know the ITT for both Always-takers and Never-takers is 0.
 
 \begin{equation}
 \bar{y}_{1}=(\bar{y}_{1}|C)p_C + (\bar{y}_{1}|A)p_A + (\bar{y}_1|N)p_N
@@ -1249,12 +1222,9 @@ ITT, we do not need to consider all of the types above.  We have no defiers
 \end{equation}
 
 
-## Learning about the ITT II
+## Comprendre l'ITT II
 
-First, let's learn about the effect of the policy itself. To write down the
-ITT, we do not need to consider all of the types above.  We have no defiers
-($p_D=0$) and we know the ITT for both Always-takers and Never-takers is 0.
-
+First, let's learn about the effect of the policy itself. To write down the ITT, we do not need to consider all of the types above.  We have no defiers ($p_D=0$) and we know the ITT for both Always-takers and Never-takers is 0.
 
 \begin{align}
 ITT    = & \bar{y}_{1} - \bar{y}_{0} \\
@@ -1267,7 +1237,7 @@ ITT    = & \bar{y}_{1} - \bar{y}_{0} \\
        & \left( (\bar{y}_{1}|A)- (\bar{y}_{0}|A) \right)p_A  +  \left( (\bar{y}_1|N) - (\bar{y}_{0}|N) \right)p_N
 \end{align}
 
-## Learning about the ITT III
+## Comprendre l'III
 
 \begin{align}
 ITT     = &   \bar{y}_{1} - \bar{y}_{0} \\
@@ -1280,7 +1250,7 @@ ITT     = &   \bar{y}_{1} - \bar{y}_{0} \\
 \end{align}
 
 
-## Learning about the ITT IV
+## Comprendre l'ITT IV
 
 And, if the effect of the dose can only occur for those who open the door, and you can only open the door when assigned to do so then:
 
@@ -1288,21 +1258,18 @@ And, if the effect of the dose can only occur for those who open the door, and y
 ( (\bar{y}_{1}|A)- (\bar{y}_{0}|A))p_A = 0  \text{ and } ( (\bar{y}_1|N) - (\bar{y}_{0}|N) )p_N = 0
 \end{equation}
 
-And
+Et
 
 \begin{equation}
 ITT =  ( (\bar{y}_{1}|C) -  (\bar{y}_{0}|C))p_C  = ( CACE ) p_C.
 \end{equation}
 
 
-## The complier average causal effect I
+## L’effet causal moyen pour ceux qui se conforment au traitement I
 
-We would also like to learn about the causal effect of answering the door and
-having the conversation, the theoretically interesting effect.
+We would also like to learn about the causal effect of answering the door and having the conversation, the theoretically interesting effect.
 
-But this comparison is confounded by $x$: a simple $\bar{Y}|D=1 - \bar{Y}|D=0$
-comparison tells us about differences in the outcome due to $x$ in addition to
-the difference caused by $D$. (Numbers below from some simulated data)
+But this comparison is confounded by $x$: a simple $\bar{Y}|D=1 - \bar{Y}|D=0$ comparison tells us about differences in the outcome due to $x$ in addition to the difference caused by $D$. (Numbers below from some simulated data)
 
 \begin{center}
 \begin{tikzcd}[ampersand replacement=\&]
@@ -1312,7 +1279,7 @@ Z  \arrow[from=1-1,to=1-2] \arrow[from=1-1, to=1-4, bend left, "\text{0 (exclusi
 \end{center}
 
 
-## The complier average causal effect II
+## L’effet causal moyen pour ceux qui se conforment au traitement II
 
 ```{r cors, eval=FALSE, echo=TRUE, results="hide"}
 with(dat, cor(Y, x)) ## can be any number
@@ -1320,12 +1287,11 @@ with(dat, cor(d, x)) ## can be any number
 with(dat, cor(Z, x)) ## should be near 0
 ```
 
-But we just saw that, in this design, and with these assumptions (including a
-SUTVA assumption) that
-$ITT =  ( (\bar{y}_{1}|C) -  (\bar{y}_{0}|C))p_C  = (CACE) p_C$, so we can define $CACE=ITT/p_C$.
+But we just saw that, in this design, and with these assumptions (including a SUTVA assumption) that
+$ITT = ( (\bar{y}_{1}|C) -  (\bar{y}_{0}|C))p_C  = (CACE) p_C$, so we can define $CACE=ITT/p_C$.
 
 
-## How to calculate the ITT and CACE/LATE I
+## Comment calculer l'ITT et CACE/LATE I
 
 ```{r simivdesign, echo=FALSE}
 prob_comply <- .8
@@ -1386,7 +1352,7 @@ names(tempdat) <- gsub("_","",names(tempdat))
 kableExtra::kable(tempdat, digits = 2)
 ```
 
-## How to calculate the ITT and CACE/LATE II
+## Comment calculer l'ITT et CACE/LATE II
 
 The ITT and CACE (the parts)
 
@@ -1397,7 +1363,7 @@ itt_d <- difference_in_means(D~Z,data=dat0)
 itt_d
 ```
 
-## How to calculate the ITT and CACE/LATE III
+## Comment calculer l'ITT et CACE/LATE III
 
 All together:^[works when $Z \rightarrow D$ is not weak see @imbens2005robust for a cautionary tale]
 
