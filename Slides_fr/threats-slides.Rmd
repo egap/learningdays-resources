@@ -133,23 +133,29 @@ knitr::opts_chunk$set(echo = FALSE)
 # Effets de débordement
 ## Effets de débordement et interférence entre unités
 
-- Sometimes we suspect that treatment assigned to one unit affects other units' outcomes.
+- Parfois, nous soupçonnons que le traitement assigné à une unité affecte les résultats des autres unités.
 
-- If the treatment status of a unit affects another unit's outcome, we have a violation of one of the core assumptions for causal inference.
+- Si le statut de traitement d'une unité affecte les résultats d'une autre unité, nous avons une violation de l'une des hypothèses de base pour l'inférence causale.
 
-- You might sample units that are far from each other to prevent the "transmission" of treatment across units.
+- Vous pouvez échantillonner des unités éloignées les unes des autres pour empêcher la "transmission" du traitement entre les unités.
 
 ## Étude des effets de débordement
 
-- This is not a problem if you design a study to investigate spillovers in which a unit's outcomes may depend on other units' treatment status.
+- Ce n'est pas un problème si vous concevez une étude pour étudier les effets de débordement dans lesquelles les résultats d'une unité peuvent dépendre du statut de traitement d'autres unités.
 
 - Pour étudier les débordements:
 
     - You might collect outcome data for units that were never eligible for random assignment to treatment but for which nearby units from which spillovers might occur were eligible for treatment.
 
-    - You might use a two-stage TODO randomization design.
+    - You might use a two-stage randomization design.
 
     - You might assign collections of units (e.g., districts) to different levels of intensity of treatment (e.g., different proportions of villages in districts assigned to treatment).
+
+     - Vous pouvez collecter des données de résultats pour des unités qui n'ont jamais été éligibles pour une assignation de traitement aléatoire mais voisines d'unités éligibles au traitement à partir desquelles des débordements pourraient se produire.
+
+     - Vous pouvez utiliser un design de randomisation en deux étapes.
+
+     - Vous pouvez affecter des ensembles d'unités (par exemple, des districts) à différents niveaux d'intensité de traitement (par exemple, des proportions différentes de villages affectés au traitement par district).
 
 # L'effet Hawthorne
 ## L'effet Hawthorne
@@ -177,5 +183,4 @@ knitr::opts_chunk$set(echo = FALSE)
 
    - Les exemples incluent l'utilisation d'instruments différents pour la collecte de données ou des séries de collecte supplémentaires pour le groupe de traitement dans le but d'obtenir des données sur les mécanismes en jeu.
 
-   - Concever votre étude et vos instruments pour traiter tous les TODO treatment arms de la même manière, à l'exception du traitement lui-même.
-
+   - Concever votre étude et vos instruments pour traiter tous les bras de traitement de la même manière, à l'exception du traitement lui-même.
