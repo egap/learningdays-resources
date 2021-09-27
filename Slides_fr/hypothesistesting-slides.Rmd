@@ -1,5 +1,5 @@
 ---
-title: "Hypothesis Testing: Summarizing Information about Causal Effects"
+title: "Tests d'hypothèses: résumer les informations sur les effets causals"
 author: "Fill In Your Name"
 date: "`r format(Sys.time(), '%d %B %Y')`"
 bibliography: ../learningdays-book.bib
@@ -54,84 +54,81 @@ library(devtools)
 library(randomizr)
 library(rcompanion) ## for pairwisePermutationTest()
 ```
-# The Role of Hypothesis Tests in Causal Inference
+# Le rôle des tests d'hypothèses dans l'inférence causale
 
-## Key points for this lecture
+## Points principaux
 
-- Statistical inference (e.g., hypothesis tests and confidence
-intervals) requires **inference** --- reasoning about the unobserved.
+- Inférence statistique (e.g., les tests d'hypothèses et les intervalles de confiance) nécessitent **l'inférence** --- i.e. raisonner sur ce qui n'a pas été observé.
 
-- $p$-values require probability distributions.
+- $p$-valeurs nécessitent des distributions de probabilité .
 
-- Randomization (or Design) + a Hypothesis + a Test Statistic Function $\rightarrow$ probability distributions representing the hypothesis (reference distributions)
+- Randomisation (ou Design) + une hypothèse + une function statistique de test $\rightarrow$ distributions de probabilité représentant l'hypothèse (distributions de référence)
 
-- Observed Values of Test Statistics + Reference Distribution $\rightarrow$ $p$-value.
+- Valeurs observées des tests statistiques + distribution de référence $\rightarrow$ $p$-valeur.
 
-## The role of hypothesis tests in causal inference I
+## Le role des tests d'hypothèses dans l'inférence causale I
 
-- The **fundamental problem of causal inference** says that we can see only one potential outcome for any given unit.
+- Le **problème fondamental de l'inférence causale** dit que nous ne pouvons voir qu'un seul résultat potentiel pour une unité donnée.
 
-- So, if a counterfactual causal effect of the treatment, $T$, for Jake occurs when  $y_{\text{Jake},T=1} \ne y_{\text{Jake},T=0}$, then how can we learn about the causal  effect?
+- Donc, si un effet causal contrefactuel du traitement, $T$, pour Dupont se produit lorsque $y_{\text{Dupont},T=1} \ne y_{\text{Dupont},T=0}$, alors comment pouvons-nous en savoir plus sur l'effet causal?
 
-- One solution is the **[estimation](estimation-slides.Rmd) of averages of causal effects** (the ATE, ITT, LATE).
+- Une solution est l'**[estimation](estimation-slides.Rmd) des moyennes des effets causaux** (les ATE, ITT, LATE).
 
-- This is what we call Neyman's approach.
+- C'est l'approche de Neyman.
 
-## The role of hypothesis tests in causal inference II
+## Le role des tests d'hypothèses dans l'inférence causale II
 
-- Another solution is to make **claims** or **guesses** about the causal effects.
+- Une autre solution consiste à faire des **affirmations** ou **des suppositions** sur les effets de causalité.
 
-- We could say, "I think that the effect on Jake is 5." or "This experiment had no effect on anyone." And then we ask "How much evidence does this experiment have about that claim?"
+- On pourrait dire : "Je pense que l'effet sur Dupont est de 5". ou "Cette expérience n'a eu d'effet sur personne." Et puis nous demandons "Quelles preuves apporte cette expérience à propos de cette affirmation?"
 
-- This evidence is summarized in a $p$-value.
+- La preuve est contenue dans la $p$-valeur .
 
-- We call this Fisher's approach.
+-  C'est l'approche de Fisher.
 
+## Le role des tests d'hypothèses dans l'inférence causale III
 
-## The role of hypothesis tests in causal inference III
+- L'approche du test d'hypothèse pour l'inférence causale ne fournit pas une meilleure estimation, mais indique *la quantité d'informations que le design de recherche fournit pour ce postulat de causalité*.
 
-- The hypothesis testing approach to causal inference doesn't provide a best guess but instead tells you *how much evidence or information the research design provides about a causal claim*.
+- L'approche par estimation fournit une meilleure estimation, mais ne vous dit pas ce que vous savez sur cette estimation.
+   - Par exemple, une estimation avec $N=10$ semble en dire moins sur l'effet que $N=1000$.
+   - Par exemple, une estimation avec 95% de $Y=1$ et 5% de $Y=0$ semble en dire moins que lorsque les résultats sont répartis également entre 0 et 1.
 
-- The estimation approach provides a best guess but doesn't tell you how much you know about that guess.
-  - For example, a best guess with $N=10$ seems to tell us less about the effect than $N=1000$.
-  - For example, a best guess when 95% of $Y=1$ and 5% of $Y=0$ seems to tell us less than when outcomes are evenly split betwee 0 and 1.
-
-- We nearly always report both since both help us make decisions: "Our best guess of the treatment effect was 5, and we could reject the idea that the effect was 0 ($p$=.01)."
+- Nous rapportons presque toujours les deux approches, car les deux nous aident à prendre des décisions : "Notre estimation de l'effet du traitement était de 5, et nous pouvions rejeter l'idée que l'effet était de 0 ($p$=.01)."
 
 
-# Hypothesis Testing Basics
+# Les basics du test d'hypothèse
 
-## Ingredients of a hypothesis test
+## Ingrédients d'un test d'hypothèse
 
- - A **hypothesis** is a statement about a relationship among potential outcomes.
+ - Une **hypothèse** est un énoncé concernant une relation entre les résultats potentiels.
 
- - A **test statistic** summarizes the relationship between treatment and observed outcomes.
+- Une **statistique de test** résume la relation entre le traitement et les résultats observés.
 
- - The **design** allows us to link the hypothesis and the test statistic: calculate a test statistic that describes a relationship between potential outcomes.
+- Le **design** permet de lier l'hypothèse et la statistique de test : calculez une statistique de test qui décrit une relation entre des résultats potentiels.
 
- - The **design** also tells us how to generate a *distribution* of possible test statistics implied by the hypothesis.
- 
- - A **$p$-value** describes the relationship between our observed test statistic and the distribution of possible hypothesized test statistics.
+- Le **design** indique aussi comment générer une *distribution* des statistiques de test possibles implicitement liés à l'hypothèse.
 
+- Une **$p$-valeur** décrit la relation entre notre statistique de test observée et la distribution des statistiques de test hypothétiques.
 
 ```{r echo=FALSE}
-## First, create some data,
-##  y0 is potential outcome to control
+## Tout d'abord, créer des données
+##  y0 est le résultat potentiel à contrôler
 N <- 10
 y0 <- c(0, 0, 0, 1, 1, 3, 4, 5, 190, 200)
-## Different individual level treatment effects
+## Différents effets de traitement au niveau individuel
 tau <- c(10, 30, 200, 90, 10, 20, 30, 40, 90, 20)
-## y1 is potential outcome to treatment
+## y1 est le résultat potentiel du traitement
 y1 <- y0 + tau
 # sd(y0)
 # mean(y1)-mean(y0)
 # mean(tau)
-## T is treatment assignment
+## T est l'assignation du traitement
 set.seed(12345)
 T <- complete_ra(N)
-## Y is observed outcomes
+## Y est les résultats observés
 Y <- T * y1 + (1 - T) * y0
-## The data
+## Les données
 dat <- data.frame(Y = Y, T = T, y0 = y0, tau = tau, y1 = y1)
 dat$Ybin <- as.numeric(dat$Y > 100)
 # dat
@@ -141,44 +138,44 @@ dat$Ybin <- as.numeric(dat$Y > 100)
 
 
 ```{r echo=FALSE}
-## Make a bigger dataset
-##  y0 is potential outcome to control
+## créer un dataset plus grand
+##  y0 est le résultat potentiel à contrôler
 bigN <- 60
 set.seed(12345)
 bigdat <- data.frame(y0 = c(rep(0, 20), rnorm(20, mean = 3, sd = .5), rnorm(20, mean = 150, sd = 10)))
-## Different individual level treatment effects
+## Différents effets de traitement au niveau individuel
 bigdat$tau <- c(rnorm(20, mean = 10, sd = 2), rnorm(20, mean = 20, sd = 5), rnorm(20, mean = 5, sd = 10))
-## y1 is potential outcome to treatment
+## y1 est le résultat potentiel du traitement
 bigdat$y1 <- bigdat$y0 + bigdat$tau
 # sd(y0)
 # mean(y1)-mean(y0)
 # mean(tau)
-## T is treatment assignment
+## T est l'assignation du traitement
 set.seed(12345)
 bigdat$T <- complete_ra(bigN)
-## Y is observed outcomes
+## Y est les résultats observés
 bigdat$Y <- with(bigdat, T * y1 + (1 - T) * y0)
-## The data
+## Les données
 bigdat$Ybin <- as.numeric(bigdat$Y > quantile(bigdat$Y, .85))
 ```
 
-## A hypothesis is a statement about or model of a relationship between potential outcomes
+## Une hypothèse est l'énoncé ou le modèle d'une relation entre des résultats potentiels
 
 ```{r}
 kableExtra::kable(dat, col.names = c("Outcome", "Treatment", "$y_{i,0}$", "ITE", "$y_{i,1}$", "$Y>0$"), escape = FALSE)
 ```
 
-For example, the sharp, or strong, null hypothesis of no effects is $H_0: y_{i,1} = y_{i,0}$
+Par exemple, l'hypothèse nulle TODO forte d'absence d'effet est $H_0: y_{i,1} = y_{i,0}$
 
 
-## Test statistics summarize treatment-to-outcome relationships
+## Les statistiques des test résument les relations entre le traitement et les résultats
 
 ```{r, echo=TRUE}
-## The mean difference test statistic
+## La statistique du test des différences moyennes
 meanTT <- function(ys, z) {
   mean(ys[z == 1]) - mean(ys[z == 0])
 }
-## The difference of mean ranks test statistic
+## La statistique du test des différences de rangs moyens (TODO The difference of mean ranks test statistic)
 meanrankTT <- function(ys, z) {
   ranky <- rank(ys)
   mean(ranky[z == 1]) - mean(ranky[z == 0])
@@ -190,21 +187,19 @@ observedMeanTT
 observedMeanRankTT
 ```
 
-## The design links test statistic and hypothesis
+## Le design lie la statistique de test et l'hypothèse
 
-What we observe for each person $i$ ($Y_i$) is either what we would have
-observed in treatment ($y_{i,1}$) **or** what we would have observed in
-control ($y_{i,0}$).
+Ce que nous observons pour chaque personne $i$ ($Y_i$) est soit ce que nous aurions observé en traitement ($y_{i,1}$) **ou** ce que nous aurions observé en contrôle ($y_{i ,0}$).
 
 $$Y_i = T_i y_{i,1} + (1-T_i)* y_{i,0}$$
 
-So, if $y_{i,1}=y_{i,0}$ then $Y_i = y_{i,0}$.
+Donc, si $y_{i,1}=y_{i,0}$ alors $Y_i = y_{i,0}$.
 
-What we *actually observe* is what we *would have observed in the control condition*.
+Ce que nous *observons réellement* est ce que nous *aurions observé dans la condition de contrôle*.
 
-## The design guides creation of a distribution of hypothetical test statistics
+## Le design guide la création d'une distribution de statistiques de tests hypothétiques
 
-We need to know how to repeat our experiment:
+Il faut savoir comment répéter notre expérience:
 
 ```{r, echo=TRUE}
 repeatExperiment <- function(N) {
@@ -212,7 +207,7 @@ repeatExperiment <- function(N) {
 }
 ```
 
-Then  we repeat it,  calculating the implied test statistic by the hypothesis and design each time:
+Ensuite, on répèter notre expérience en calculant à chaque fois une nouvelle statistique de test donnée par l'hypothèse et la design :
 
 ```{r reps, echo=TRUE, cache=TRUE}
 set.seed(123456)
@@ -227,9 +222,9 @@ possibleMeanRankDiffsH0 <- replicate(
 )
 ```
 
-## Plot the randomization distributions under the null
+## Courbe des distributions de randomisation sous l'hypothèse nulle
 
-```{r fig.cap="An example of using the design of the experiment to test a hypothesis with two different test statistics.", results='asis', echo=FALSE, fig.align='center'}
+```{r fig.cap="Utiliser un design d'expérience pour tester une hypothèse avec deux statistiques de test différentes.", results='asis', echo=FALSE, fig.align='center'}
 par(mfrow = c(1, 2), mgp = c(2, .5, 0), mar = c(3, 3, 0, 0), oma = c(0, 0, 3, 0))
 plot(density(possibleMeanDiffsH0),
   ylim = c(0, .04),
@@ -241,7 +236,7 @@ plot(density(possibleMeanDiffsH0),
 )
 rug(possibleMeanDiffsH0)
 rug(observedMeanTT, lwd = 3, ticksize = .51)
-text(observedMeanTT - 4, .022, "Observed Test Statistic")
+text(observedMeanTT - 4, .022, "Statistique de test observée")
 
 plot(density(possibleMeanRankDiffsH0),
   lwd = 2,
@@ -253,7 +248,7 @@ plot(density(possibleMeanRankDiffsH0),
 )
 rug(possibleMeanRankDiffsH0)
 rug(observedMeanRankTT, lwd = 3, ticksize = .9)
-text(observedMeanRankTT, .45, "Observed Test Statistic")
+text(observedMeanRankTT, .45, "Statistique de test observée")
 
 mtext(
   side = 3, outer = TRUE, cex = 1.75,
@@ -261,9 +256,9 @@ mtext(
 )
 ```
 
-## $p$-values summarize the plots
+## Les $p$-valeurs résument les graphiques
 
-How should we interpret these $p$-values? (Notice that they are one-tailed.)
+Comment devrions-nous interpréter ces $p$-valeurs unilatérales?
 
 ```{r calcpvalues, echo=TRUE}
 pMeanTT <- mean(possibleMeanDiffsH0 >= observedMeanTT)
@@ -272,10 +267,10 @@ pMeanTT
 pMeanRankTT
 ```
 
-## How to do this in R: COIN
+## Comment faire cela en R: COIN
 
 ```{r coinexample, echo=TRUE}
-## using the coin package
+## avec le package coin
 library(coin)
 set.seed(12345)
 pMean2 <- coin::pvalue(oneway_test(Y ~ factor(T),
@@ -291,9 +286,9 @@ pMean2
 pMeanRank2
 ```
 
-## How to do this in R: RItools  {.allowframebreaks}
+## Comment faire cela en R: RItools  {.allowframebreaks}
 
- First install a development version of the RItools package
+Installez d'abord une version de développement du package RItools
 
 ```{r installritools, eval=FALSE, echo=TRUE, results='hide',warnings=FALSE,cache=FALSE}
 # dev_mode() ## dont install the package globally
@@ -303,7 +298,7 @@ renv::install("markmfredrickson/RItools@randomization-distribution",
 # dev_mode()
 ```
 
-Then use the `RItest` function.
+Utilisez ensuite la fonction `RItest`.
 
 ```{r useritools, eval=FALSE,echo=TRUE,cache=FALSE}
 # dev_mode()
@@ -319,7 +314,7 @@ pMeanRank4 <- RItest(
 )
 pMean4
 pMeanRank4
-# dev_mode() ## and turn off dev_mode
+# dev_mode() ## et désactiver le dev_mode
 ```
 
 ```{r ritoolsoutput, echo=TRUE, eval=FALSE, tidy=FALSE}
@@ -327,22 +322,20 @@ pMean4
 Call:  RItest(y = dat$Y, z = dat$T, test.stat = meanTT, sampler = thedesignA,
           samples = 1000)
 
-                        Value Pr(>x)
-Observed Test Statistic -49.6   0.78
+                             Value Pr(>x)
+Statistique de test observée -49.6   0.78
 
 pMeanRank4
 Call:  RItest(y = dat$Y, z = dat$T, test.stat = meanrankTT, sampler = thedesignA,
           samples = 1000)
 
-                        Value Pr(>x)
-Observed Test Statistic     1   0.32
+                              Value Pr(>x)
+Statistique de test observée  1   0.32
 ```
 
+## Comment faire cela en R: RI2
 
-
-## How to do this in R: RI2
-
-How should we interpret the two-tailed $p$-value here?
+Comment interpréter la $p$-valeur bilatérale ici ?
 
 ```{r,echo=TRUE}
 ## using the ri2 package
@@ -361,24 +354,27 @@ pMeanRank4 <- conduct_ri(rankY ~ Z,
 summary(pMeanRank4)
 ```
 
-## Next topics
-
- - Testing weak null hypotheses, $H_0: \bar{y}_{1} = \bar{y}_{0}$.
-
  - Rejecting null hypotheses (and making false positive and/or false negative errors).
 
  - Maintaining correct false positive error rates when testing more than one hypothesis.
 
 - Power of hypothesis tests ([Module on Statistical Power and Design Diagnosands](https://egap.github.io/learningdays-book/statistical-power-and-design-diagnosands.html)).
 
+## Sujets suivants
 
-# Testing weak null hypotheses
+  - Tester l'hypothèse nulle faible, $H_0 : \bar{y}_{1} = \bar{y}_{0}$.
 
-## Testing the weak null of no average effects
+  - Rejeter l'hypothèse nulle (et faire des erreurs de faux positifs et/ou de faux négatifs).
 
-- The weak null hypothesis is a claim about aggregates, and it is nearly always stated in terms of averages: $H_0: \bar{y}_{1} = \bar{y}_{0}$
+  - Maintenir un taux d'erreur correct de faux positifs quand on teste plus d'une hypothèse.
 
-- The test statistic for this hypothesis is nearly always the simple difference of means (i.e., `meanTT()` above).
+  - Puissance statistique des tests d'hypothèse ([Module sur la puissance statistique et les diagnostics de design](https://egap.github.io/learningdays-book/statistical-power-and-design-diagnosands.html)).
+
+## Tester l'hypothèse nulle faible d'absence d'effet de traitement moyen
+
+- L'hypothèse nulle faible est une affirmation sur les agrégats, et elle est presque toujours exprimée en termes de moyennes : $H_0 : \bar{y}_{1} = \bar{y}_{0}$
+
+- La statistique de test pour cette hypothèse est presque toujours la simple différence de moyennes (c'est-à-dire `meanTT()` ci-dessus).
 
 ```{r simpdiffs, echo=TRUE}
 lm1 <- lm(Y ~ T, data = dat)
@@ -389,21 +385,20 @@ ttestP2 <- difference_in_means(Y ~ T, data = dat)
 c(lm1P = lm1P, ttestP1 = ttestP1, tttestP2 = ttestP2$p.value)
 ```
 
-- Why is the OLS $p$-value different? What assumptions do we use to calculate it?
+- Pourquoi la $p$-valeur pour les moindres carrés est-elle différente ? Quelles hypothèses utilisons-nous pour la calculer?
 
-## Testing the weak null of no average effects
+## Tester l'hypothèse nulle faible d'absence d'effet de traitement moyen
 
-Both variation and location of $Y$ changes with treatment in this simulation.
+La variation et l'emplacement de $Y$ changent avec le traitement dans cette simulation.
 
-```{r fig.cap="Boxplot of observed outcomes by treatment status", results='asis', out.width=".7\\textwidth"}
-boxplot(Y ~ T, data = dat)
+```{r fig.cap="Résultats observés en fonction du statut de traitement", results='asis', out.width=".7\\textwidth"}
+boxplot(Y ~ T, données = dat)
 ```
 
-
-## Testing the weak null of no average effects
+## Tester l'hypothèse nulle faible d'absence d'effet de traitement moyen
 
 ```{r, echo=TRUE}
-## By hand:
+## à la main:
 varEstATE <- function(Y, T) {
   var(Y[T == 1]) / sum(T) + var(Y[T == 0]) / sum(1 - T)
 }
@@ -420,23 +415,22 @@ c(
 )
 ```
 
-# Rejecting null hypotheses
+# Rejeter l'hypothèse nulle
 
-## Rejecting hypotheses and making errors
+## Rejeter l'hypothèse nulle et faire des erreurs
 
-- "In typical use, the level of the test [$\alpha$] is a promise about the test’s performance and the size is a fact about its performance..." (Rosenbaum 2010, Glossary)
+- "Typiquement, le niveau du test [$\alpha$] est une promesse sur les performances du test et la taille est un fait sur ses performances..." (Rosenbaum 2010, Glossaire)
 
-- $\alpha$ is the probability of rejecting the null hypothesis when the null hypothesis is true.
+- $\alpha$ est la probabilité de rejeter l'hypothèse nulle lorsque l'hypothèse nulle est vraie.
 
-- How should we interpret $p$=`r  round(pMeanTT,2)`? What about $p$=`r round(pMeanRankTT,2)` (our tests of the sharp null)?
+- Comment doit-on interpréter $p$=`r round(pMeanTT,2)`? Qu'en est-il de $p$=`r round(pMeanRankTT,2)` (nos tests pour l'hypothèse nulle forte)?
 
-- What does it mean to "reject" $H_0: y_{i,1}=y_{i,2}$ at $\alpha=.05$?
+- Que signifie "rejeter" $H_0 : y_{i,1}=y_{i,2}$ à $\alpha=.05$ ?
 
 
+## Taux de faux positifs dans les tests d'hypothèse {.allowframebreaks}
 
-## False positive rates in hypothesis testing {.allowframebreaks}
-
-```{r normp, echo=FALSE,out.width=".5\\textwidth",fig.cap="One-sided p-value from a Normally distributed test statistic."}
+```{r normp, echo=FALSE,out.width=".5\\textwidth",fig.cap="P-valeur unilatérale d'une statistique de test normalement."}
 library(tidyverse)
 ggplot(NULL, aes(c(-3, 3))) +
   geom_area(stat = "function", fun = dnorm, fill = "#00998a", xlim = c(2, 3)) +
@@ -460,12 +454,31 @@ Notice:
  
  - Even if $p < .05$ (or $p < .001$) the observed test statistic must reflect some value on the hypothesized distribution. This means that you can always make an error when you reject a null hypothesis.
 
+Attention:
+
+  - La courbe est centrée à la valeur hypothétique.
+
+  - La courbe représente le monde de l'hypothèse.
+
+  - La $p$-valeur décrit à quel point il serait rare de voir la statistique de test observée (ou une valeur plus éloignée de la valeur hypothétique) dans le monde de l'hypothèse nulle.
+
+  - Sur la figure, la valeur observée de la statistique de test est cohérente avec la distribution hypothétique, mais pas très cohérente.
+
+  - Même si $p < .05$ (ou $p < .001$) la statistique de test observée doit refléter en partie la distribution hypothétique. Cela signifie que vous pouvez toujours faire une erreur lorsque vous rejetez une hypothèse nulle.
+
 ## False positive and false negative errors 
 
-- If we say, "The experimental result is significantly different from the
-hypothesized value of zero ($p=.001$)! We reject that hypothesis!" **when the truth is zero** we are making a **false positive error** (claiming to detect something positively when there is no signal, only noise).
+- If we say, "The experimental result is significantly different from the hypothesized value of zero ($p=.001$)! We reject that hypothesis!" **when the truth is zero** we are making a **false positive error** (claiming to detect something positively when there is no signal, only noise).
 
 - If we say, "We cannot distinguish this result from zero ($p=.3$). We cannot reject the hypothesis of zero." **when the truth is not zero** we are making a **false negative error** (claiming inability to detect something when there is a signal, but it is overwhelmed by noise.)
+
+## Faux positifs et faux négatifs
+
+- Si nous disons, "le résultat expérimental est significativement différent de la valeur hypothétique de zéro ($p=.001$)! Nous rejetons cette hypothèse!"
+  **lorsque la vérité est zéro** nous faisons une **erreur de faux positifs** (prétendant détecter quelque chose lorsqu'il n'y a pas de signal, seulement du bruit).
+
+- Si nous disons : "Nous ne pouvons pas distinguer ce résultat de zéro ($p=.3$). Nous ne pouvons pas rejeter l'hypothèse de zéro."
+  **lorsque la vérité n'est pas zéro** nous faisons une **erreur de faux négatifs** (prétendant incapacité à détecter quelque chose lorsqu'il y a un signal, mais qu'il est submergé par le bruit.)
 
 ## A single test of a single hypothesis
 
@@ -473,34 +486,43 @@ hypothesized value of zero ($p=.001$)! We reject that hypothesis!" **when the tr
 
 - Also, a **single test of a single hypothesis** should detect signal when it exists --- it should be have high **statistical power**. In other words, it should not fail to detect a signal when it exists (i.e. should have low false negative error rates).
 
-## Decisions imply errors
+## Un test unique d'une seule hypothèse
 
-- If errors are necessary, how can we diagnose them? How do we learn whether our hypothesis-testing procedure might generate too many false positive errors?
+- Un test unique d'une seule hypothèse devrait rarement augmenter le taux de faux positifs
+  (par exemple, si nous définissons $\alpha=.05$) alors nous acceptons que notre procédure de test produise des faux positifs
+  dans **au plus de 5% des tests d'une assignation de traitement donnée dans une expérience donnée**.
 
-- Diagnose by simulation!
+- De plus, un **test unique d'une seule hypothèse** doit détecter le signal lorsqu'il existe --- il doit avoir une **puissance statistique** élevée.
+  En d'autres termes, il ne doit pas manquer la détection du signal lorsqu'il existe (c'est-à-dire qu'il devrait avoir un faible taux de faux négatifs).
 
-## Diagnosing false positive rates by simulation
+## Les décisions impliquent des erreurs
 
-- Across repetitions of the design:
+- Si les erreurs sont nécessaires, comment les diagnostiquer ? Comment savoir si notre procédure de tests d'hypothèses génère trop de faux positifs?
 
-  - Create a true null hypothesis.
-  - Test the true null.
-  - The $p$-value should be large if the test is operating correctly.
+- Diagnostiquez par simulation !
 
-- The proportion of small $p$-values should be no larger than $\alpha$ if the test is operating correctly.
+## Diagnostiquer les taux de faux positifs par simulation
 
-## Diagnosing false positive rates by simulation
+- A travers les répétitions du design :
 
-Example with a binary outcome. Does the test work as it should? What do the p-values look like when there is no effect?
+   - Créer une hypothèse nulle vraie.
+   - Testez cette hypothèse.
+   - La $p$-valeur doit être élevée si le test fonctionne correctement.
+
+- La proportion de petites valeurs $p$ ne doit pas dépasser $\alpha$ si le test fonctionne correctement.
+
+## Diagnostiquer les taux de faux positifs par simulation
+
+Exemple avec un résultat binaire. Le test fonctionne-t-il comme il se doit ? À quoi ressemblent les p-valeurs lorsqu'il n'y a pas d'effet ?
 
 ```{r, echo=TRUE}
 collectPValues <- function(y, trt, thedistribution = exact()) {
-  ## Make Y and T have no relationship by re-randomizing T
+  ## Faire en sorte que Y et T n'aient aucune relation en randomisant T à nouveau
   new_trt <- repeatExperiment(length(y))
   thedata <- data.frame(new_trt = new_trt, y = y)
   thedata$ranky <- rank(y)
   thedata$new_trtF <- factor(thedata$new_trt)
-  ## The four tests
+  ## Les 4 tests
   thelm <- lm(y ~ new_trt, data = thedata)
   t_test_CLT <- difference_in_means(y ~ new_trt, data = thedata)
   t_test_exact <- oneway_test(y ~ new_trtF,
@@ -513,7 +535,7 @@ collectPValues <- function(y, trt, thedistribution = exact()) {
   )
   owP <- coin::pvalue(t_test_exact)[[1]]
   owRankP <- coin::pvalue(t_test_rank_exact)[[1]]
-  ## Return the p-values
+  ## Renvoyer les p-valeurs
   return(c(
     lmp = summary(thelm)$coef["new_trt", "Pr(>|t|)"],
     neyp = t_test_CLT$p.value[[1]],
@@ -530,44 +552,41 @@ theT <- dat$T
 pDist <- replicate(5000, collectPValues(y = theY, trt = theT))
 ```
 
-## Diagnosing false positive rates by simulation
+## Diagnostiquer les taux de faux positifs par simulation
 
-- When there is no effect, a test of the null hypothesis of no effects should
-produce a **big** p-value. 
+- Lorsqu'il n'y a pas d'effet, un test de l'hypothèse nulle d'absence d'effet de traitement doit produire une **grande** p-valeur.
 
-- If the test is working well, we should see mostly big p-values and very few small p-values.
+- Si le test fonctionne bien, nous devrions voir principalement de grandes p-valeurs et très peu de petites p-valeurs.
 
-- A few of the p-values for the four different tests (we did 5000 simulations, just showing 5)
+- Quelques-unes des p-valeurs pour les quatre tests différents (nous avons fait 5000 simulations, en montrant juste 5)
 
 ```{r, echo=FALSE}
 pDist[, 1:5]
 ```
 
-## Diagnosing false positive rates by simulation
+## Diagnostiquer les taux de faux positifs par simulation
 
-In fact, if there is no effect, and if we decided to reject the null hypothesis
-of no effects with $\alpha=.25$, we would want **no more than 25% of our
-p-values in this simulation to be less than p=.25**. What do we see here? Which
-tests appear to have false positive rates that are too high?
+En fait, s'il n'y a pas d'effet, et si nous décidons de rejeter l'hypothèse nulle d'absence d'effet de traitement avec $\alpha=.25$, nous ne voudrions **pas plus de 25% des p-valeurs de cette simulation en dessous de p=.25**.
+Que voit-on ici ? Quels tests semblent avoir des taux de faux positifs trop élevés ?
 
 ```{r pdistsummary, echo=TRUE}
-## Calculate the proportion of p-values less than .25 for each row of pDist
+## Calculer la proportion de p-valeurs inférieures à 0,25 pour chaque ligne de pDist
 apply(pDist, 1, function(x) {
   mean(x < .25)
 })
 ```
 
+## Diagnostiquer les taux de faux positifs par simulation
 
-## Diagnosing false positive rates by simulation
+Comparez les tests en traçant la proportion de p-valeurs inférieures à un nombre donné.
+Les tests "d'inférence de randomisation" contrôlent le taux de faux positifs
+(ce sont les tests avec permutation directe répétant l'expérience).
 
-Compare tests by plotting the proportion of p-values less than any given number. The "randomization inference" tests control the false positive rate (these are the tests of using direct permutation, repeating the experiment).
-
-
-```{r plotecdf, results='asis', echo=FALSE, message=FALSE, warning=FALSE,fig.cap='P-value distributions when there are no effects for four tests with n=10. A test that controls its false positive rate should have points on or below the diagonal line.',out.width='.6\\textwidth'}
+```{r plotecdf, results='asis', echo=FALSE, message=FALSE, warning=FALSE,fig.cap='Distributions des p-valeurs lorsqu'il n'y a aucun effet pour quatre tests avec n=10. Un test qui contrôle son taux de faux positifs doit avoir des points sur ou en dessous de la ligne diagonale.',out.width='.6\\textwidth'}
 par(mfrow = c(1, 1), mgp = c(2, .75, 0), oma = rep(0, 4), mar = c(3.5, 3.5, 0, 0))
 plot(c(0, 1), c(0, 1),
   type = "n",
-  xlab = "p-value=p", ylab = "Proportion p-values < p",
+  xlab = "p-valeur = p", ylab = "Proportion des p-valeurs < p",
   cex.lab = 2, cex.axis = 2
 )
 for (i in 1:nrow(pDist)) {
@@ -575,14 +594,14 @@ for (i in 1:nrow(pDist)) {
 }
 abline(0, 1, col = "gray")
 legend("topleft",
-  legend = c("OLS", "Neyman", "Rand Inf Mean Diff", "Rand Inf Mean Diff Ranks"),
+  legend = c("Moindre carrés", "Neyman", "Diff des moyennes d'inférence de randomisation", "Diff des moyennes d'inférence de randomisation TODO Rand Inf Mean Diff Ranks"),
   pch = 1:5, col = 1:5, lty = 1, bty = "n", cex = 2
 )
 ```
 
-## False positive rate with $N=60$ and binary outcome
+## Taux de faux positifs avec $N=60$ et résultat binaire
 
-In this design only the direct randomization inference-based tests control the false positive rate.
+Dans ce design, seuls les tests basés sur l'inférence de randomisation directe contrôlent le taux de faux positifs.
 
 ```{r fprdsimBig, cache=TRUE}
 set.seed(12345)
@@ -594,11 +613,11 @@ pDistBigLst <- mclapply(1:1000, function(i) {
 pDistBig <- simplify2array(pDistBigLst)
 ```
 
-```{r plotecdfBig, results='asis', echo=FALSE, message=FALSE, warning=FALSE,out.width='.7\\textwidth',fig.cap="P-value distributions when there are no effects for four tests with n=60 and a binary outcome. A test that controls its false positive rate should have points on or below the diagonal line."}
+```{r plotecdfBig, results='asis', echo=FALSE, message=FALSE, warning=FALSE,out.width='.7\\textwidth',fig.cap="Distributions des p-valeurs lorsqu'il n'y a aucun effet pour quatre tests avec n=60 et un résultat binaire. Un test qui contrôle son taux de faux positifs doit avoir des points sur ou en dessous de la ligne diagonale."}
 par(mfrow = c(1, 1), mgp = c(2, .75, 0), oma = rep(0, 4), mar = c(3.5, 3.5, 0, 0))
 plot(c(0, 1), c(0, 1),
   type = "n",
-  xlab = "p-value=p", ylab = "Proportion p-values < p",
+  xlab = "p-valeur = p", ylab = "Proportion des p-valeurs < p",
   cex.lab = 2, cex.axis = 2
 )
 for (i in 1:nrow(pDistBig)) {
@@ -606,16 +625,14 @@ for (i in 1:nrow(pDistBig)) {
 }
 abline(0, 1, col = "gray")
 legend("topleft",
-  legend = c("OLS", "Neyman", "Rand Inf Mean Diff", "Rand Inf Mean Diff Ranks"),
+  legend = c("Moindre carrés", "Neyman", "Diff des moyennes d'inférence de randomisation", "Diff des moyennes d'inférence de randomisation TODO Rand Inf Mean Diff Ranks"),
   pch = 1:5, col = 1:5, lty = 1, bty = "n", cex = 2
 )
 ```
 
-## False positive rate with $N=60$ and continuous outcome
+## Taux de faux positifs avec $N=60$ et résultat continu
 
-Here, all of the tests do a good job of controlling the false
-positive rate.
-
+Ici, tous les tests contrôlent bien le taux de faux positifs.
 
 ```{r fprdsimBig2, cache=TRUE}
 set.seed(123456)
@@ -625,12 +642,12 @@ pDistBigLst2 <- mclapply(1:1000, function(i) {
 pDistBig2 <- simplify2array(pDistBigLst2)
 ```
 
-```{r plotecdfBig2, results='asis', echo=FALSE, message=FALSE, warning=FALSE, out.width='.7\\textwidth',fig.cap='P-value distributions when there are no effects for four tests with n=60 and a continuous outcome. A test that controls its false positive rate should have points on or below the diagonal line.'}
+```{r plotecdfBig2, results='asis', echo=FALSE, message=FALSE, warning=FALSE, out.width='.7\\textwidth',fig.cap='Distributions des p-valeurs lorsqu'il n'y a aucun effet pour quatre tests avec n=60 et un résultat continu. Un test qui contrôle son taux de faux positifs doit avoir des points sur ou en dessous de la ligne diagonale.'}
 library(scales)
 par(mfrow = c(1, 1), mgp = c(2, .75, 0), oma = rep(0, 4), mar = c(3.5, 3.5, 0, 0))
 plot(c(0, 1), c(0, 1),
   type = "n",
-  xlab = "p-value=p", ylab = "Proportion p-values < p",
+  xlab = "p-valeur = p", ylab = "Proportion des p-valeurs < p",
   cex.lab = 2, cex.axis = 2
 )
 for (i in 1:nrow(pDistBig2)) {
@@ -638,44 +655,45 @@ for (i in 1:nrow(pDistBig2)) {
 }
 abline(0, 1, col = "gray")
 legend("topleft",
-  legend = c("OLS", "Neyman", "Rand Inf Mean Diff", "Rand Inf Mean Diff Ranks"),
+  legend = c("Moindre carrés", "Neyman", "Diff des moyennes d'inférence de randomisation", "Diff des moyennes d'inférence de randomisation TODO Rand Inf Mean Diff Ranks"),
   pch = 1:5, col = 1:5, lty = 1, bty = "n", cex = 2
 )
 ```
 
+## Sommaire
 
-## Summary
+- Un bon test :
 
-- A good test: 
+     1. met rarement en doute la vérité, et
 
-    1. casts doubt on the truth rarely, and 
-    
-    2. easily distinguishes signal from noise (casts doubt on falsehoods often).
+     2. distingue facilement le signal du bruit (met souvent en doute les contrevérités).
 
-- We can learn whether our testing procedure controls false positive rates given our design.
+- Nous pouvons savoir si notre procédure de test contrôle le taux de faux positifs compte tenu de notre dsign.
 
-- When false positive rates are not controlled, what might be going wrong? (Often has to do with asymptotics.)
+- Lorsque le taux de faux positifs n'est pas contrôlé, qu'est-ce qui ne va pas ? (probablement l'asymptotique.)
 
-# Advanced Topics
+# Approfondir
 
-## Some advanced topics connected to hypothesis testing
+## Approfondir les tests d'hypothèses
 
- - Even if a given testing procedure controls the false positive rate for a single test, it may not control the rate for a group of multiple tests. See
-   [10 Things you need to know about multiple
-   comparisons](https://egap.org/methods-guides/10-things-you-need-know-about-multiple-comparisons)
-   for a guide to the approaches to controlling such rejection-rates in multiple tests.
+  - Même si une procédure de test donnée contrôle le taux de faux positifs pour un seul test, elle peut ne pas contrôler le taux pour un groupe de tests.
+    Voir [10 choses à savoir sur les comparaisons multiples](https://egap.org/methods-guides/10-things-you-need-know-about-multiple-comparisons)
+    pour les approches de contrôle de taux de rejet dans plusieurs tests.
 
- - A $100(1-\alpha)$\% confidence interval can be defined as the range of hypotheses where all of the $p$-values are greater than or equal to $\alpha$. This is called inverting the hypothesis test (@rosenbaum2010design). That is, a confidence interval is a collection of hypothesis tests.
+  - Un intervalle de confiance de 100(1-\alpha)$\% peut être défini comme la plage d'hypothèses où toutes les $p$-valeurs sont supérieures ou égales à $\alpha$.
+    C'est ce qu'on appelle l'inversion du test d'hypothèse (@rosenbaum2010design). Autrement dit, un intervalle de confiance est un ensemble de tests d'hypothèses.
 
-## What else to know about hypothesis tests  {.allowframebreaks}
+## Que savoir d'autre sur les tests d'hypothèse {.allowframebreaks}
 
- - A point estimate based on hypothesis testing is called a Hodges-Lehmann point estimate (@rosenbaum1993hlp,@hodges1963elb).
 
- - A set of hypothesis tests can be combined into one single hypothesis test (@hansen:bowers:2008,@caughey2017nonparametric).
 
- - In equivalence testing, one can hypothesize that two test-statistics are equivalent (i.e., the treatment group is the same as the control group) rather than only about one test-statistic (the difference between the two groups is zero) (@hartman2018equivalence).
+  - Une estimation ponctuelle basée sur un test d'hypothèse est appelée une estimation ponctuelle de Hodges-Lehmann (@rosenbaum1993hlp,@hodges1963elb).
 
- - Since a hypothesis test is a model of potential outcomes, one can use hypothesis testing to learn about complex models, such as models of spillover and propagation of treatment effects across networks (@bowers2013reasoning, @bowers2016research, @bowers2018models)
+  - Un ensemble de tests d'hypothèse peut être combiné en un seul test d'hypothèse (@hansen:bowers:2008,@caughey2017nonparametric).
+
+  - TODO Pour tester l'équivalence, on peut supposer que deux statistiques de test sont équivalentes (c'est-à-dire que le groupe de traitement est le même que le groupe de contrôle) plutôt qu'une seule (la différence entre les deux groupes est nulle) (@hartman2018equivalence).
+
+  - Étant donné qu'un test d'hypothèse est un modèle de résultats potentiels, on peut utiliser les tests d'hypothèse pour en savoir plus sur des modèles complexes, tels que des modèles de débordement et de propagation des effets de traitement à travers les réseaux (@bowers2013reasoning, @bowers2016research, @bowers2018models)
 
 
 ## Exercise: Hypothesis Tests and Test Statistics
@@ -684,18 +702,21 @@ legend("topleft",
 
  2. If an intervention caused the mean in the control group to be moderately reduced but increased a few outcomes a lot (like a 10 times effect), would the $p$-value from R `lm_robust()` or `difference_of_means()` be large or small?
 
+## Exercice : Tests d'hypothèse et statistiques de test
 
-# Testing many hypotheses
+  1. Si une intervention était très efficace pour augmenter la variabilité d'un résultat mais ne changeait pas la moyenne, la $p$-valeur rapportée par R ou Stata en utilisant `lm_robust()` ou `difference_of_means()` ou ` reg` ou `t.test` est-elle grande ou petite?
 
-## When might we test many hypotheses?
+  2. Si une intervention réduisait modérément la moyenne dans le groupe témoin mais augmentait considérablement quelques résultats (comme un effet 10 fois supérieur), la $p$-valeur de R `lm_robust()` ou `difference_of_means() ` est-elle grande ou petite?
 
-- Does the effect of an experimental treatment differ between different groups? Could differences in treatment effect arise because of some background characteristics of experimental subjects?
+# Tester de nombreuses hypothèses
 
-- Which, among several, strategies for communication were most effective on a single outcome?
+## Quand pouvons-nous tester de nombreuses hypothèses ?
 
-- Which, among several outcomes, were influenced by a single experimental intervention?
+- L'effet d'un traitement expérimental diffère-t-il entre les différents groupes ? Les différences de l'effet du traitement pourraient-elles survenir en raison de certaines caractéristiques de base des sujets expérimentaux ?
 
+- Parmi plusieurs stratégies de communication, lesquelles ont été les plus efficaces sur un résultat particulier?
 
+- Parmi plusieurs résultats, lesquels ont été influencés par une seule intervention expérimentale?
 
 ## False positive rates in multiple hypothesis testing {.fragile}
 
@@ -705,63 +726,62 @@ Say our probability of making a false positive error is .05 in a single test. Wh
  - Prob of one false positive error should be less than or equal to $1 - ( ( 1 - .05 ) \times (1 - .05) ) = .0975$ in 2 tests.
  - Prob of at least one false positive error with $\alpha=.05$ in 10 tests should be $\le$ $1 - (1-.05)^{10}=.40$.
 
+## Taux de faux positifs dans les tests d'hypothèses multiples {.fragile}
+
+Disons que notre probabilité de faux positifs est de 0,05 pour un seul test. Que se passe-t-il si nous demandons:
+(1) lequel de ces 10 résultats a une relation statistiquement significative avec les deux bras de traitement?
+(2) *lequel de ces 10 bras de traitement avait une relation statistiquement significative avec ce résultat particulier*?
+
+  - La probabilité de faux positifs doit être inférieure ou égale à 0,05 dans un test.
+  - La probabilité de faux positifs doit être inférieure ou égale à $1 - ( ( 1 - .05 ) \times (1 - .05) ) = .0975$ dans 2 tests.
+  - La probabilité d'avoir au moins un faux positif avec $\alpha=.05$ dans 10 tests devrait être $\le$ $1 - (1-.05)^{10}=.40$.
+
 ## Discoveries with multiple tests
 
-**Number of errors committed when testing $m$ null hypotheses** [@benjamini1995
-'s Table 1]. Cells are numbers of tests.  $R$ is # of "discoveries" and $V$ is # of false discoveries, $U$ is # of correct
-non-rejections, and $S$ is # of correct rejections.
+**Number of errors committed when testing $m$ null hypotheses** [@benjamini1995's Table 1]. Cells are numbers of tests.  $R$ is # of "discoveries" and $V$ is # of false discoveries, $U$ is # of correct non-rejections, and $S$ is # of correct rejections.
 
-+---------------------------------------+--------------------------+----------------------+-----------+
-|                                       | Declared                 | Declared             |   Total   |
-|                                       | Non-Significant          | Significant          |           |
-+=======================================+:========================:+:====================:+:=========:+
-| True null hypotheses ($H_{true}=0$)   |             U            |           V          |   $m_0$   |
-+---------------------------------------+--------------------------+----------------------+-----------+
-| Not true null hyps ($H_{true} \ne 0$) |             T            |           S          | m - $m_0$ |
-+---------------------------------------+--------------------------+----------------------+-----------+
-| Total                                 |            m-R           |           R          |    m      |
-+---------------------------------------+--------------------------+----------------------+-----------+
+**Nombre d'erreurs commises en testant $m$ hypothèses nulles** [Table 1 de @benjamini1995].
+Les cellules sont le nombre de tests. $R$ est le nombre de "découvertes" et $V$ est le nombre de fausses découvertes,
+$U$ est le nombre de non-rejets corrects et $S$ est le nombre de rejets corrects.
 
++------------------------------------------+--------------------------+----------------------+-----------+
+|                                          | Declarés                 | Declarés             |   Total   |
+|                                          | Non-Significant          | Significant          |           |
++==========================---=============+:========================:+:====================:+:=========:+
+| hypothèse nulle vraie ($H_{true}=0$)     |             U            |           V          |   $m_0$   |
++------------------------------------------+--------------------------+----------------------+-----------+
+| hypothèse nulle fause ($H_{true} \ne 0$) |             T            |           S          | m - $m_0$ |
++------------------------------------------+--------------------------+----------------------+-----------+
+| Total                                    |            m-R           |           R          |    m      |
++------------------------------------------+--------------------------+----------------------+-----------+
 
+## Deux taux d'erreur principaux à contrôler lors du test de nombreuses hypothèses {.allowframebreaks}
 
-## Two main error rates to control when testing many hypotheses {.allowframebreaks}
+1. **Le taux d'erreur par famille (family wise error rate / FWER)** est de $P(V>0)$ (Probabilité de tous les faux positifs).
 
-1. **Family wise error rate (FWER)** is $P(V>0)$ (Probability of any false
-       positive error).
-      
-    - We'd like to control this if we plan to make a decision
-       about the results of our multiple tests. The research project is mostly
-       confirmatory. 
-       
-    - See, for example, the projects of the OES
-       <http://oes.gsa.gov>: federal agencies will make decisions about
-       programs depending on whether they detect results or not.
-       
-2. **False Discovery Rate (FDR)** is  $E(V/R | R>0)$ (Average proportion of
-       false positive errors given some rejections). 
-   
-    - We'd like to control this if we are using *this* experiment to plan *the next* experiment. We are
-       willing to accept a higher probability of error in the interests of
-       giving us more possibilities for discovery. 
+    - à contrôler si nous prévoyons de prendre une décision sur les résultats de nos multiples tests. Le projet de recherche est essentiellement confirmatoire.
 
-    - For example, one could
-       imagine an organization, a government, an NGO, could decide to conduct
-       *a series* of experiments as a part of a *learning agenda*: no single
-       experiment determines decision making, more room for exploration.
+    - voir par exemple les projets de l'OES <http://oes.gsa.gov> : les agences fédérales choisissent quand elles détectent des résultats.
 
-We will focus on FWER but recommend thinking about FDR and learning agendas as a very useful way to go.
+2. **Le taux d'erreurs de type I pour l'hypothèse nulle (false discovery rate / FDR)** est de $E(V/R | R>0)$ (proportion moyenne de faux positifs compte tenu de certains rejets).
 
-## Questions with multiple outcomes
+    - à contrôler si nous utilisons *cette* expérience pour planifier *la prochaine* expérience. Nous sommes prêts à accepter une probabilité d'erreur plus élevée dans l'intérêt de nous donner plus de possibilités de découverte.
 
-- What is the effect of one treatment on multiple outcomes? 
+    - par exemple, on pourrait imaginer une organisation, un gouvernement ou une ONG qui déciderait de mener *une série* d'expériences dans le cadre d'un *programme d'apprentissage* : aucune expérience ne détermine la prise de décision, plus de place pour l'exploration.
 
-- On which outcomes (out of many) did the treatment have an effect? 
+Nous nous concentrerons sur le FWER mais recommandons de penser au FDR pour les programmes d'apprentissage.
 
-- The second question, in particular, can lead to the kind of uncontrolled family wise error rate problems that we referred to above.
+## Questions à résultats multiples
 
-## Multiple hypothesis testing: Multiple Outcomes 
+- Quel est l'effet d'un traitement sur plusieurs résultats ?
 
-Imagine we had five outcomes and one treatment (showing potential and observed outcomes here):
+- Sur quels résultats (parmi beaucoup) le traitement a-t-il eu un effet ?
+
+- La deuxième question, en particulier, peut conduire à problèmes de taux d'erreur par famille (voir ci-dessus).
+
+## Tests d'hypothèses multiples: résultats multiples
+
+Imaginez que nous ayons cinq résultats et un traitement (montrant ici les résultats potentiels et observés) :
 
 ```{r multtesting1}
 set.seed(23)
@@ -798,22 +818,22 @@ head(dat1[, -c(2:6, 18:22)])
 head(dat1[, c(1, 7, 18:22)])
 ```
 
-## Can we detect an effect on outcome `Y1`?
+## Pouvons-nous détecter un effet sur le résultat `Y1`?
 
-Can we detect an effect on outcome `Y1`? (i.e., does the hypothesis test produce a small enough $p$-value?)
+Pouvons-nous détecter un effet sur le résultat `Y1`? (c'est-à-dire, le test d'hypothèse produit-il une $p$-valeur suffisamment petite?)
 ```{r p1, echo=TRUE}
 coin::pvalue(oneway_test(Y1 ~ factor(T), data = dat1))
-## Notice that the t-test p-value is also a chi-squared test
-## p-value.
+## Notez que la p-valeur du test t est également un test du chi carré
 coin::pvalue(independence_test(Y1 ~ factor(T),
   data = dat1,
   teststat = "quadratic"
 ))
 ```
 
-## On which of the five outcomes can we detect an effect?
+## Pour lequel des cinq résultats pouvons-nous détecter un effet?
 
-On which of the five outcomes can we detect an effect? (i.e., does any of the five hypothesis tests produce a small enough $p$-value?)
+Pouvons-nous détecter un effet sur le résultat `Y1`? (c'est-à-dire, l'un des cinq tests d'hypothèse produit-il une $p$-valeur suffisamment petite?)
+
 ```{r pmult, echo=TRUE}
 p1 <- coin::pvalue(oneway_test(Y1 ~ factor(T), data = dat1))
 p2 <- coin::pvalue(oneway_test(Y2 ~ factor(T), data = dat1))
@@ -824,27 +844,25 @@ theps <- c(p1 = p1, p2 = p2, p3 = p3, p4 = p4, p5 = p5)
 sort(theps)
 ```
 
+## Pouvons-nous détecter un effet pour tous les résultats ?
 
-## Can we detect an effect for *any* of the five outcomes?
-
-Can we detect an effect for *any* of the five outcomes? (i.e., does the hypothesis test for *all* five outcomes at once produce a small enough $p$-value?)
+Pouvons-nous détecter un effet pour tous les résultats? (c'est-à-dire, un test d'hypothèse pour tous les résultats ensemble produit-il une $p$-valeur suffisamment petite?)
 ```{r omnibus, echo=TRUE}
 coin::pvalue(independence_test(Y1 + Y2 + Y3 + Y4 + Y5 ~ factor(T),
   data = dat1, teststat = "quadratic"
 ))
 ```
 
-Which approach is likely to mislead us with too many "statistically significant" results (5 tests or 1 omnibus test)?
+Quelle approche est susceptible de nous induire en erreur avec trop de résultats "statistiquement significatifs" (5 tests ou 1 test omnibus)?
 
-## Comparing approaches I
+## Comparer les approches I
 
-Let's do a simulation to learn about these testing approaches.
+Faisons une simulation pour en savoir plus sur ces approches de test.
 
-- We will (1) set the true causal effects to be 0, (2) repeatedly re-assign treatment, and (3) each time, do
-each of those three tests.
+- Nous allons (1) définir les véritables effets causals à 0, (2) réassigner le traitement à plusieurs reprises, et (3) à chaque fois, faire chacun de ces trois tests.
 
-- Since the true effect is 0, we expect *most* of the $p$-values to be large. (In fact, we'd like no more than 5% of
-the $p$-values to be greater than $p=.05$ if we are using the $\alpha=.05$ accept-reject criterion).
+- Puisque le véritable effet est 0, nous nous attendons à ce que *la plupart* des $p$-values soient grandes.
+(En fait, nous ne voulons pas plus de 5% des $p$-values supérieures à $p=.05$ si nous utilisons le critère d'acceptance ou de rejet $\alpha=.05$).
 
 ```{r testsetup1, echo=FALSE, results="hide"}
 ttest_Y1fn <- function(data) {
@@ -890,7 +908,7 @@ ttest_omnibus(dat1)
 ```{r des1setup,echo=FALSE}
 des1_plus <- des1 + ttest_Y1 + ttest_mult + ttest_mult_holm + ttest_omnibus
 thediagnosands <- declare_diagnosands(fwer = mean(p.value < .05))
-### Errors about looking for an estimate
+### Erreurs lors de la recherche d'un estimateur
 ## des1_diag <- diagnose_design(design = des1_plus, bootstrap_sims = 0,
 ##     sims=10, diagnosands = thediagnosands)
 ```
@@ -902,46 +920,43 @@ res1 <- des1_sim %>%
   summarize(fwer = mean(p.value < .05), .groups = "drop")
 ```
 
-## Comparing approaches II
+## Comparer les approches II
 ```{r}
-kableExtra::kable(res1, caption = "Family wise error rates")
+kableExtra::kable(res1, caption = "Taux d'erreur par famille")
 ```
 
- - The approach using 5 tests produces a $p < .05$ much too often ---
-recall that there are no causal effects at all for any of these outcomes.
+- L'approche utilisant 5 tests produit un $p < .05$ beaucoup trop souvent --- rappelons qu'il n'y a aucun effet causal pour aucun de ces résultats.
 
- - A test of a single outcome (here `Y1`) has $p < .05$ no more than 5% of the simulations.
+  - Un test d'un seul résultat (ici `Y1`) a $p < .05$ pour moins de 5% des simulations.
 
- - The omnibus test also shows a well-controlled error rate.
+  - Le test omnibus montre également un taux d'erreur bien maîtrisé.
 
- - Using a multiple testing correction (here we use the "Holm" correction) also correctly controls the false positive rate.
+  - L'utilisation d'une correction de tests multiples (ici nous utilisons la correction "Holm") contrôle également correctement le taux de faux positifs.
 
-## The Holm correction
+## La correction de Holm
 
-FYI, here is how to use the Holm correction (Notice what happens to the $p$-values):
+Comment utiliser la correction Holm (notez ce qui arrive aux $p$-valeurs):
 
 ```{r holmex, echo=TRUE}
 theps
 p.adjust(theps, method = "holm")
-## To show what happens with "significant" p-values
+## Pour montrer ce qui se passe avec des p-valeurs "significatives"
 theps_new <- sort(c(theps, newlowp = .01))
 p.adjust(theps_new, method = "holm")
 ```
 
+## Tests d'hypothèses multiples : bras de traitement multiples {.allowframebreaks}
 
-## Multiple hypothesis testing: Multiple treatment arms {.allowframebreaks}
+- Le même genre de problème peut arriver lorsque la question porte sur l'effet de traitement différentiel multi-bras.
 
-- The same kind of problem can happen when the question is about the differential
-effects of a multi-armed treatment.
+- Avec 5 bras, "l'effet du bras 1" pourrait signifier beaucoup de choses différentes : "Est-ce que les résultats potentiels moyens sont plus grands pour le bras 1 ou 2?",
+"Les résultats potentiels sont-ils plus grands pour le bras 1 comparé à tous les autres?"
 
-- With 5 arms, "the effect of arm 1" could mean many different things: "Is the average potential outcome under arm 1
-bigger than arm 2?", "Are the potential outcomes of arm 1 bigger than the average potential outcomes of all of the other arms?"
+- Si nous nous concentrons uniquement sur les comparaisons par paires de bras, nous pourrions avoir $((5 \times 5) - 5)/2 = 10$ tests uniques!
 
-- If we just focus on pairwise comparisons across arms, we could have $((5 \times 5) - 5)/2 = 10$ unique tests!
+## Tests d'hypothèses multiples : bras de traitement multiples {.allowframebreaks}
 
-## Multiple hypothesis testing: Multiple treatment arms {.allowframebreaks}
-
-Here are some potential and observed outcomes and `T` with multiple values.
+Voici quelques résultats potentiels et observés quand `T` prend plusieurs valeurs.
 
 ```{r multitreatsetup, echo=FALSE}
 theassign_mult <- declare_assignment(T = conduct_ra(N = N, num_arms = 5, conditions = c("1", "2", "3", "4", "5")))
@@ -954,33 +969,28 @@ reveal_mult <- declare_reveal(assignment_variables = T)
 des2 <- thepop + theassign_mult + po_mult + reveal_mult
 dat2 <- draw_data(des2)
 options(digits = 2)
-## T is treatment arm: 1,2,3,4,5
+## T est le bras de traitement: 1,2,3,4,5
 head(dat2[, -c(2:6, 8)])
 options(digits = 4)
 ```
 
-## Multiple hypothesis testing: Multiple treatment arms {.allowframebreaks}
+## Tests d'hypothèses multiples : bras de traitement multiples {.allowframebreaks}
 
-
-Here are the 10 pairwise tests with and without adjustment for multiple
-testing. Notice how one "significant" result ($p=.01$) changes with adjustment.
+Voici les 10 tests par paire avec et sans ajustement pour les tests multiples. Remarquez comment un résultat "significatif" ($p=.01$) change avec l'ajustement.
 
 ```{r}
-## this is an interface to coin's independence_test()
+## ceci est une interface à independence_test() dans coin
 pair_tests1 <- pairwisePermutationTest(Y ~ T, data = dat2, distribution = asymptotic(), method = "holm", teststat = "quadratic")
 pair_tests1
 ```
-## Approaches to testing hypotheses with multiple arms
+## Tests d'hypothèses multiples : bras de traitement multiples
 
-We illustrate four different approaches:
+Nous illustrons quatre approches différentes :
 
-  1.  do all of the pairwise tests and choose the best one (a bad idea);
-  2.  do all the pairwise tests and choose the best one after adjusting
-the p-values for multiple testing (a fine idea but one with very low
-statistical power);
-  3. test the hypothesis of no relationship between *any arm* (an omnibus test)
-and the outcome (a fine idea);
-  4.  choose one arm to focus on in advance (a fine idea).
+   1. faire tous les tests par paire et choisir le meilleur (une mauvaise idée) ;
+   2. faire tous les tests par paire et choisir le meilleur après avoir ajusté les p-valeurs pour les tests multiples (une bonne idée mais avec une très faible puissance statistique) ;
+   3. tester l'hypothèse d'absence de relation pour *tous les bras* (un test omnibus) et le résultat (une bonne idée) ;
+   4. choisissez un bras sur lequel vous concentrer à l'avance (une bonne idée).
 
 ```{r}
 ttest_T1_vs_allfn <- function(data) {
@@ -1011,10 +1021,10 @@ pairwise_tests_adjfn <- function(data) {
 ## coin::pvalue(blah2,method="single-step")
 ##
 
-ttest_T1_vs_all <- declare_test(handler = label_test(ttest_T1_vs_allfn), label = "t-test T1 vs all")
-overall_T <- declare_test(handler = label_test(overall_Tfn), label = "Overall test")
-pairwise_test <- declare_test(handler = label_test(pairwise_testsfn), label = "Choose best pairwise test")
-pairwise_test_adj <- declare_test(handler = label_test(pairwise_tests_adjfn), label = "Choose best pairwise test after adjustment")
+ttest_T1_vs_all <- declare_test(handler = label_test(ttest_T1_vs_allfn), label = "t-test T1 vs tous")
+overall_T <- declare_test(handler = label_test(overall_Tfn), label = "test d'ensembe")
+pairwise_test <- declare_test(handler = label_test(pairwise_testsfn), label = "Choix du meilleur test de paire")
+pairwise_test_adj <- declare_test(handler = label_test(pairwise_tests_adjfn), label = "Choix du meilleur test de paire après ajustement")
 ```
 
 ```{r des2diag, cache=TRUE}
@@ -1029,18 +1039,21 @@ kableExtra::kable(res2, caption = "Approaches to testing in multi-arm experiment
 
 ## Summary
 
-- Multiple testing problems can arise from multiple outcomes or multiple
-  treatments (or multiple moderators/interaction terms).
+- Multiple testing problems can arise from multiple outcomes or multiple  treatments (or multiple moderators/interaction terms).
   
-- Procedures for making hypothesis tests and confidence intervals can involve
-  error. Ordinary practice controls the error rates in a single test (or single
-  confidence interval). But multiple tests require extra work to ensure that
-  error rates are controlled.
+- Procedures for making hypothesis tests and confidence intervals can involve  error. Ordinary practice controls the error rates in a single test (or single  confidence interval). But multiple tests require extra work to ensure that  error rates are controlled.
 
-- The loss of power arising from adjustment approaches encourages us to
-   consider what *questions we want to ask of the data*. For example, if we
-   want to know if the treatment had *any effect*, then a joint test or omnibus
-   test of multiple outcomes will increase our statistical power without
-   requiring adjustment.
+- The loss of power arising from adjustment approaches encourages us to   consider what *questions we want to ask of the data*. For example, if we   want to know if the treatment had *any effect*, then a joint test or omnibus   test of multiple outcomes will increase our statistical power without   requiring adjustment.
 
-## References {.allowframebreaks}
+## Résumé
+
+- Utiliser plusieurs résultats ou plusieurs traitements (ou plusieurs modérateurs/interactions) peut causer des problèmes de test.
+
+- La procédure pour former les tests d'hypothèses et intervalles de confiance peut comporter des erreurs.
+  Normalement on contrôle le taux d'erreur dans un seul test (ou un seul intervalle de confiance).
+  Mais utliser plusieurs tests nécessite plus pour s'assurer que le taux d'erreur est sous contrôle.
+
+- La perte de pouvoir statistique induite par les approches d'ajustement nous incite à réfléchir aux *questions que nous voulons poser sur les données*.
+  Par exemple, si nous voulons savoir si le traitement a eu *un quelconque effet*, alors un test conjoint ou un test omnibus de résultats multiples augmentera notre puissance statistique sans nécessiter d'ajustement.
+
+## Réferences {.allowframebreaks}
