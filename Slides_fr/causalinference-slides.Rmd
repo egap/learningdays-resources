@@ -149,11 +149,11 @@ $Y_i = T_iY_i(1) + (1-T_i)Y_i(0)$
 | Claire   | 0        | 0        | 0        |
 | Deepal   | 0        | 1        | -1       |
 
-- Nous avons l'effet de traitement pour chaque individu.
+- Nous avons l'effet du traitement pour chaque individu.
 
 - Notez l'hétérogénéité des effets du traitement au niveau individuel.
 
-- Mais nous n'avons au plus qu'un résultat potentiel pour chaque individu, ce qui signifie que nous ne connaissons pas ces effets de traitement.
+- Mais nous n'avons au plus qu'un résultat potentiel pour chaque individu, ce qui signifie que nous ne connaissons pas ces effets du traitement.
 
 ## Effet causal moyen
 
@@ -163,33 +163,33 @@ $Y_i = T_iY_i(1) + (1-T_i)Y_i(0)$
 $\overline{\tau_i} = \frac{1}{N} \sum_{i=1}^N ( Y_i(1)-Y_i(0) ) = \overline{Y_i(1)-Y_i(0)}$
 
 
- - L'effet causal moyen est également appelé effet de traitement moyen.
+ - L'effet causal moyen est également appelé effet moyen du traitement.
  
  - Further explanation on how after we discuss randomization of treatment assignment in the next section.
    Plus d'explications sur la randomisation de l'assignation du traitement dans la section suivante.
 
-## Estimations et questions causales
+## Estimandes et questions causales
 
-- Avant de discuter de la randomisation et de la façon dont elle nous permet d'estimer l'effet causal moyen, sachez que l'effet causal moyen est un type d'estimation.
+- Avant de discuter de la randomisation et de la façon dont elle nous permet d'estimer l'effet causal moyen, sachez que l'effet causal moyen est un type d'estimande.
 
-- Une estimation est une quantité que vous souhaitez connaître (à partir de vos données). C'est la cible de votre recherche que *vous* avez défini.
+- Un estimande est une quantité que vous souhaitez connaître (à partir de vos données). C'est la cible de votre recherche que *vous* avez défini.
 
-- Être précis pour votre question de recherche, c'est être précis pour votre estimation. Pour les questions causales, il s'agit de préciser:
+- Être précis pour votre question de recherche, c'est être précis pour votre estimande. Pour les questions causales, il s'agit de préciser:
    - Le résultat
    - Les conditions de traitement et de contrôle
    - La population étudiée
 
-## Other types of estimands you may be interested in
+## D'autres types d'estimandes
 
 - L'effet causal moyen pour un sous-groupe particulier, ie effet causal moyen conditionel
 
-- Différences d'effet causal moyen conditionel: différences d'effet de traitement moyen pour un groupe par rapport à un autre groupe.
+- Différences d'effet causal moyen conditionel: différences d'effet moyen du traitement pour un groupe par rapport à un autre groupe.
 
 - L'effet causal moyen seulement pour le groupe de traitement
 
-- L'effet causal moyen local.  "Local" = ceux dont le statut de traitement serait modifié par un encouragement dans un design incitatif (ie effet causal moyen conforme) ou ceux au voisinage d'un seuil pour une régression sur discontinuité.
+- L'effet causal moyen local. "Local" = ceux dont le statut de traitement serait modifié par un encouragement dans un design incitatif (ie effet causal moyen conforme) ou ceux au voisinage d'un seuil pour une régression sur discontinuité.
 
-- Les estimations sont discutées en détail dans le module [estimations et estimateurs](estimation.html).
+- Les estimandes sont discutés en détail dans le module [estimandes et estimateurs](estimation.html).
 
 
 # Randomisation de l'assignation du traitement
@@ -212,7 +212,7 @@ $\overline{\tau_i} = \frac{1}{N} \sum_{i=1}^N ( Y_i(1)-Y_i(0) ) = \overline{Y_i(
 
   - Cette assignation aléatoire du traitement peut être combinée avec tout type d'échantillon (échantillon aléatoire, échantillon de convenance, etc.).
 
-  - Mais la taille et d'autres caractéristiques de votre échantillon affecteront votre pouvoir et votre capacité à extrapoler votre découverte à d'autres populations.
+  - Mais la taille et d'autres caractéristiques de votre échantillon affecteront votre puissance statistique et votre capacité à extrapoler votre découverte à d'autres populations.
 
 - Échantillonnage aléatoire (à partir de la population) : sélectionner des sujets dans votre échantillon à partir d'une population avec une probabilité connue.
 
@@ -250,19 +250,19 @@ $E_R[\overline{Y_i}|T_i=0]=\overline{Y_i(0)}$.
 
 
 
-- Nous pouvons donc écrire un estimateur pour l'effet de traitement moyen:
+- Nous pouvons donc écrire un estimateur pour l'effet moyen du traitement:
 
 \centering
 	$\hat{\overline{\tau_i}} = ( \overline{Y_i(1)} | T_i = 1 ) - ( \overline{Y_i(0)} | T_i = 0 )$
 
-- En espérance (ou en moyenne sur des expériences répétées, $\hat{\overline{\tau_i}}$ égal l'effet de traitement moyen:
+- En espérance (ou en moyenne sur des expériences répétées, $\hat{\overline{\tau_i}}$ égal l'effet moyen du traitement:
 
 \centering
 	$E_R[Y_i| T_i = 1 ] - E_R[Y_i | T_i = 0] = \overline{Y_i(1)} - \overline{Y_i(0)}$.
 
 
 - Nous pouvons donc simplement prendre la différence de ces estimateurs sans biais $\overline{Y_i(1)}$ et
- $\overline{Y_i(0)}$ pour obtenir une estimation non biaisée de l'effet de traitement moyen.
+ $\overline{Y_i(0)}$ pour obtenir une estimation non biaisée de l'effet moyen du traitement.
 
 
 ## Échantillonnage aléatoire

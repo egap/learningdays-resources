@@ -165,7 +165,7 @@ bigdat$Ybin <- as.numeric(bigdat$Y > quantile(bigdat$Y, .85))
 kableExtra::kable(dat, col.names = c("Outcome", "Treatment", "$y_{i,0}$", "ITE", "$y_{i,1}$", "$Y>0$"), escape = FALSE)
 ```
 
-Par exemple, l'hypothèse nulle TODO forte d'absence d'effet est $H_0: y_{i,1} = y_{i,0}$
+Par exemple, l'hypothèse nulle forte d'absence d'effet est $H_0: y_{i,1} = y_{i,0}$
 
 
 ## Les statistiques des test résument les relations entre le traitement et les résultats
@@ -1053,7 +1053,7 @@ kableExtra::kable(res2, caption = "Approaches to testing in multi-arm experiment
   Normalement on contrôle le taux d'erreur dans un seul test (ou un seul intervalle de confiance).
   Mais utliser plusieurs tests nécessite plus pour s'assurer que le taux d'erreur est sous contrôle.
 
-- La perte de pouvoir statistique induite par les approches d'ajustement nous incite à réfléchir aux *questions que nous voulons poser sur les données*.
+- La perte de puissance statistique induite par les approches d'ajustement nous incite à réfléchir aux *questions que nous voulons poser sur les données*.
   Par exemple, si nous voulons savoir si le traitement a eu *un quelconque effet*, alors un test conjoint ou un test omnibus de résultats multiples augmentera notre puissance statistique sans nécessiter d'ajustement.
 
 ## Réferences {.allowframebreaks}

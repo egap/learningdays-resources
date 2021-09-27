@@ -1,5 +1,5 @@
 ---
-title: "Estimer les estimations avec des estimateurs"
+title: "Estimer les estimandes avec des estimateurs"
 author: "Fill In Your Name"
 date: "`r format(Sys.time(), '%d %B %Y')`"
 output:
@@ -59,15 +59,15 @@ library(styler)
 
   - Un effet causal, $\tau_i$, est une comparaison des résultats potentiels non observés pour chaque unité $i$: exemples  $\tau_{i} = Y_{i}(T_{i}=1) -  Y_{i}(T_{i}=0)$ or  $\tau_{i} = \frac{Y_{i}(T_{i}=1)}{ Y_{i}(T_{i}=0)}$.
 
-  - Pour en savoir plus sur $\tau_{i}$, nous pouvons traiter $\tau_{i}$ comme une **estimation** ou une quantité cible à estimer (discutée ici) ou comme quantité cible hypothétique (session sur les tests d'hypothèse).
+  - Pour en savoir plus sur $\tau_{i}$, nous pouvons traiter $\tau_{i}$ comme un **estimande** ou une quantité cible à estimer (discutée ici) ou comme quantité cible hypothétique (session sur les tests d'hypothèse).
 
-  - Beaucoup se concentrent sur l'**effet de traitement moyen (ATE)**, $\bar{\tau}=\sum_{i=1}^n\tau_{i}$, en partie parce qu'il permet une **estimation**.
+  - Beaucoup se concentrent sur l'**effet moyen du traitement (ATE)**, $\bar{\tau}=\sum_{i=1}^n\tau_{i}$, en partie parce qu'il permet une **estimation**.
 
 ## Points clés sur l'estimation II
 
- - La clé de l'estimation pour l'inférence causale consiste à choisir une estimation qui vous aide à en savoir plus sur votre question théorique ou politique. Ainsi, on pourrait utiliser l'ATE mais aussi d'autres estimations courantes telles que l'ITT, LATE/CACE, ATT ou ATE pour certains sous-groupes.
+ - La clé de l'estimation pour l'inférence causale consiste à choisir un estimande qui vous aide à en savoir plus sur votre question théorique ou politique. Ainsi, on pourrait utiliser l'ATE mais aussi d'autres estimations courantes telles que l'ITT, LATE/CACE, ATT ou ATE pour certains sous-groupes.
 
-  - Un **estimateur** est une recette pour calculer approximativement la valeur d'une estimation. Par exemple, la différence des moyennes observées pour $m$ unités traitées est un estimateur de $\bar{\tau}$:
+  - Un **estimateur** est une recette pour calculer approximativement la valeur d'un estimande. Par exemple, la différence des moyennes observées pour $m$ unités traitées est un estimateur de $\bar{\tau}$:
    $\hat{\bar{\tau}} = \frac{\sum_{i=1}^n (T_i Y_i)}{m} - \frac{\sum_{i=1}^n ( ( 1 - T_i)Y_i)}{(n-m)}$.
 
 ## Points clés sur l'estimation III
@@ -77,26 +77,26 @@ library(styler)
  - Nous utilisons l'**erreur type** pour produire des **intervalles de confiance** et les **p-valeurs**
    afin que de commencer par un estimateur et terminer par un test d'hypothèse.
 
-  - Différentes randomisations produiront différentes valeurs du même estimateur ciblant la même estimation. L'**erreur type** résume la variabilité de cet estimateur.
+  - Différentes randomisations produiront différentes valeurs du même estimateur ciblant le même estimande. L'**erreur type** résume la variabilité de cet estimateur.
 
-  - Un **intervalle de confiance** de 100(1-\alpha)$%** est un ensemble d'hypothèses qui ne peuvent être rejetées au niveau $\alpha$. Nous avons tendance à rapporter des intervalles de confiance contenant des hypothèses sur les valeurs de notre estimation et à utiliser notre estimateur comme une statistique de test.
+  - Un **intervalle de confiance** de 100(1-\alpha)$%** est un ensemble d'hypothèses qui ne peuvent être rejetées au niveau $\alpha$. Nous avons tendance à rapporter des intervalles de confiance contenant des hypothèses sur les valeurs de notre estimande et à utiliser notre estimateur comme une statistique de test.
 
 
 ## Points clés sur l'estimation IV
 
  - Les estimateurs doivent:
 
-      - éviter l'erreur systématique dans leur approximation de l'estimation (ie être sans biais);
+      - éviter l'erreur systématique dans leur approximation de l'estimande (ie être sans biais);
 
       - peu varier d'une expérience à l'autre (être précis ou efficace); et
 
-      - peut-être idéalement converger vers l'estimation car ils utilisent de plus en plus d'informations (être cohérent).
+      - peut-être idéalement converger vers l'estimande car ils utilisent de plus en plus d'informations (être cohérent).
 
 ## Points clés sur l'estimation V
 
- - **Analyser au fur et à mesure de la randomisation** dans le contexte de l'estimation signifie que (1) nos erreurs-types doivent mesurer la variabilité à partir de la randomisation et (2) nos estimateurs doivent cibler des estimations définies en termes de résultats potentiels.
+ - **Analyser au fur et à mesure de la randomisation** dans le contexte de l'estimation signifie que (1) nos erreurs-types doivent mesurer la variabilité à partir de la randomisation et (2) nos estimateurs doivent cibler des estimandes définis en termes de résultats potentiels.
 
- - Nous ne **contrôlons pas** les covariables lorsque nous analysons les données d'expériences aléatoires. Mais les covariables peuvent rendre notre estimation plus **précise**. C'est ce qu'on appelle **ajustement de covariance**. **L'ajustement de covariance** dans les expériences aléatoires diffère du contrôle dans les études observationnelles.
+ - Nous ne **contrôlons pas** les covariables lorsque nous analysons les données d'expériences aléatoires. Mais les covariables peuvent rendre notre estimation plus **précise**. C'est ce qu'on appelle **ajustement de covariable**. **L'ajustement de covariable** dans les expériences aléatoires diffère du contrôle dans les études observationnelles.
 
 # Revue
 
@@ -104,7 +104,7 @@ library(styler)
 
 Revue: L'inférence causale fait référence à la comparaison de résultats potentiels non observés, fixes.
 
-For example:
+Par exemple:
 
   - le résultat potentiel de l'unité $i$ lorsqu'elle est affectée au traitement, $T_i=1$ est $Y_{i}(T_{i}=1)$.
   - le résultat potentiel de l'unité $i$ lorsqu'elle est affectée au contrôle, $T_i=0$ est $Y_{i}(T_{i}=0)$.
@@ -112,18 +112,18 @@ For example:
 L'assignation de traitement, $T_i$, a un effet causal sur l'unité $i$, que nous appelons $\tau_i$, si
 $Y_{i}(T_{i}=1) -  Y_{i}(T_{i}=0) \ne 0$ ou $Y_{i}(T_{i}=1) \ne Y_{i}(T_{i}=0)$.
 
-# Estimations, estimateurs et moyennes
+# Estimandes, estimateurs et moyennes
 
 ## Comment en savoir plus sur les effets causaux à partir des données observées ?
 
  1. Rappel : nous pouvons **tester les hypothèses** sur la paire de résultats potentiels $\{ Y_{i}(T_{i}=1), Y_{i}(T_{i}=0) \}$.
 
- 2. Nous pouvons **définir les estimations** en termes de $\{ Y_{i}(T_{i}=1), Y_{i}(T_{i}=0) \}$ ou $\tau_i$, **développer des estimateurs** pour ces estimations,
+ 2. Nous pouvons **définir les estimandes** en termes de $\{ Y_{i}(T_{i}=1), Y_{i}(T_{i}=0) \}$ ou $\tau_i$, **développer des estimateurs** pour ces estimandes,
     puis calculer les valeurs et les erreurs types pour ces estimateurs.
 
-## A common estimand and estimator: The average treatment effect and the difference of means
+## Un estimatande et un estimateur usuels : l'effet moyen du traitement et la différence des moyennes
 
-Say we are interested in the ATE, or $\bar{\tau}=\sum_{i=1}^n \tau_{i}$. What is a good estimator?
+Soit $\bar{\tau}=\sum_{i=1}^n \tau_{i}$, l'effet moyen du traitement. Quel serait un bon estimateur?
 
 Deux candidats:
 
@@ -239,12 +239,12 @@ sim_dat1 <- draw_data(base_design)
 head(sim_dat1)
 ```
 
-## Avec DeclareDesign: définir l'estimation et les estimateurs
+## Avec DeclareDesign: définir l'estimande et les estimateurs
 
-Pas de sortie ici. Il suffit de définir fonctions et estimateurs ainsi qu'une estimation.
+Pas de sortie ici. Il suffit de définir fonctions et estimateurs ainsi qu'un estimande.
 
 ```{r dd2, echo=TRUE}
-## L'estimation
+## L'estimande
 estimandATE <- declare_inquiry(ATE = mean(Y_Z_1 - Y_Z_0))
 
 ## Le premier estimateur est la différence des moyennes
@@ -252,7 +252,7 @@ diff_means <- declare_estimator(Y ~ Z, inquiry = estimandATE,
   model = lm_robust, se_type = "classical", label = "Diff-Means/OLS")
 ```
 
-## Avec DeclareDesign: définir l'estimation et les estimateurs
+## Avec DeclareDesign: définir l'estimande et les estimateurs
 
 ```{r dd2a, echo=TRUE}
 ## Le deuxième estimateur est la différence des moyennes winsorisées
@@ -271,12 +271,12 @@ diff_means_topcoded <- declare_estimator(
 )
 ```
 
-## Avec DeclareDesign: définir l'estimation et les estimateurs
+## Avec DeclareDesign: définir l'estimande et les estimateurs
 
 Nous montrons ici comment fonctionnent les estimateurs avec la méthode des doubles différences en utilisant nos données simulées.
 
 ```{r dd3, echo=TRUE}
-## Démontrer que l'estimation fonctionne:
+## Démontrer que l'estimande fonctionne:
 estimandATE(sim_dat1)
 
 ## Démontrer que les estimateurs estiment correctement
@@ -347,7 +347,7 @@ Nos estimations varient selon la randomisation. Nos deux estimateurs varient-ils
 
 ```{r diagnose, echo=TRUE, cache=TRUE}
 ## Combiner dans un seul objet DeclareDesign
-## Cela a le design de base, l'estimation, puis nos deux estimateurs
+## Cela a le design de base, l'estimande, puis nos deux estimateurs
 design_plus_ests <- base_design + estimandATE + diff_means + diff_means_topcoded
 ## Exécuter 100 simulations (réassignations de traitement) et
 ## appliquer les deux estimateurs
@@ -402,7 +402,7 @@ Résumé:
 
 ## Les expériences aléatoires par bloc sont une collection de mini-expériences
 
-Quelle est l'**ATE** dans une expérience aléatoire par bloc?
+Quel est l'**effet moyen du traitement** dans une expérience aléatoire par bloc?
 
 Si nous considérons l'ATE au niveau de l'unité comme : $(1/N) \sum_{i=1}^N y_{i,1} - y_{i,0}$ alors nous pourrions réexprimer cela de manière équivalente en sachant que l'ATE par bloc $j$ est $ATE_j$ comme suit :
 
@@ -472,7 +472,7 @@ En quoi diffèrent-ils ? (Le premier ignore les blocs. Le second utilise un ense
 
 ## Quel estimateur doit-on utiliser?
 
-Nous avons maintenant trois estimateurs, chacun avec une estimation différente (en imaginant qu'ils ciblent tous la même estimation):
+Nous avons maintenant trois estimateurs, chacun avec une estimation différente (en imaginant qu'ils ciblent tous le même estimande):
 
 ```{r echo=TRUE}
 c(coef(e1)[["Z"]],coef(e3)[["Z"]], coef(e4)[["Z"]])
@@ -497,12 +497,11 @@ base_design_blocks <-
 
 ## Quel estimateur doit-on utiliser?
 
-
 ```{r blockdd1, echo=TRUE, cache=TRUE}
-# the estimand is the average treatment effect
+# L'estimande est l'effet moyen du traitement
 estimandATEb <- declare_inquiry(ATE = mean(Y_Z_1 - Y_Z_0))
 
-# three different estimators
+# 3 estimateurs différents
 est1 <- declare_estimator(Y ~ Z, inquiry = estimandATEb, model = lm_robust,
     label = "Ignores Blocks")
 est2 <- declare_estimator(Y ~ Z, inquiry = estimandATEb, model = difference_in_means, blocks=b,
@@ -847,21 +846,21 @@ set.seed(12345)
 dat2 <- draw_data(des_bin)
 ```
 
-## Résultats binaires: estimations I
+## Résultats binaires: estimandes I
 
-How would we interpret the following true
-quantities or estimands? (`Y_Z_1`, `Y_Z_0` are potential
-outcomes, `Y` is observed, `x1`, `x2` are covariates, `Z` is treatment assignment. Here $N$=`r nrow(dat2)`.
+Comment interpréterions-nous les vraies quantités ou estimandes suivants?
+(`Y_Z_1`, `Y_Z_0` sont des résultats potentiels, `Y` est l'observation, `x1`, `x2` sont des covariables, `Z` est l'assignation de traitement.
+Voici $N$=`r nrow(dat2)`.
 
 ```{r dat2echo, echo=TRUE}
-## Look at the first 6 observations only:
+## Voici les 6 premières observations seulement:
 head(dat2[,-7])
 ```
 
 
-## Résultats binaires: estimations II
+## Résultats binaires: estimandes II
 
-Comment interpréterions-nous les vraies quantités ou estimations suivantes ?
+Comment interpréterions-nous les vraies quantités ou estimandes suivants?
 `Y_Z_1`, `Y_Z_0` sont des résultats potentiels, `Y` est l'observation, `x1`, `x2` sont des covariables, `Z` est l'assignation de traitement.
 Voici $N$=`r nrow(dat2)`.
 
@@ -875,7 +874,7 @@ c(bary1=bary1,bary0=bary0,true_ate=ate_bin,
     true_diff_log_odds= diff_log_odds_bin)
 ```
 
-## Résultats binaires: estimations III
+## Résultats binaires: estimandes III
 
 Voulez-vous estimer la différence logit?
 
@@ -891,7 +890,7 @@ Ou la différence en proportions?
 
 Rappelons que $\bar{y}_1$ est la *proportion* de $y_{1}=1$ dans les données.
 
-@freedman2008randomization montre que l'estimateur du coefficient logit est un estimateur biaisé de la différence de l'estimation log-odds. Il montre également un estimateur sans biais de cette estimation.
+@freedman2008randomization montre que l'estimateur du coefficient logit est un estimateur biaisé de la différence de l'estimande log-odds. Il montre également un estimateur sans biais de cet estimande.
 
 Nous savons que la différence de proportions dans l'échantillon devrait être un estimateur sans biais de la différence de proportions.
 
@@ -1081,9 +1080,9 @@ kableExtra::kable(res_bin, digits=3,booktabs=TRUE,linesep="",caption="Estimator 
 
 # Autres sujets liés à l'estimation
 
-## L'ajustement de covariance: l'estimande
+## L'ajustement de covariable: l'estimande
 
-En général, le simple fait de "contrôler pour" produit un estimateur biaisé de l'estimand ATE **ou** ITT. Voir par exemple @lin_agnostic_2013 et @freedman2008rae.
+En général, le simple fait de "contrôler pour" produit un estimateur biaisé de l'estimande ATE **ou** ITT. Voir par exemple @lin_agnostic_2013 et @freedman2008rae.
 @lin_agnostic_2013 montre comment réduire ce biais et, surtout, que ce biais a tendance à être faible à mesure que la taille de l'échantillon augmente.
 
 

@@ -211,7 +211,7 @@ design0_base <- P0 + A0 + O0 + R0
 design0_N100_tau25 <- redesign(design0_base,N=100,tau=.25)
 dat0_N100_tau25 <- draw_data(design0_N100_tau25)
 head(dat0_N100_tau25)
-with(dat0_N100_tau25,mean(Y_Z_1 - Y_Z_0)) # effet du traitement moyen réel
+with(dat0_N100_tau25,mean(Y_Z_1 - Y_Z_0)) # effet moyen réel du traitement
 with(dat0_N100_tau25,mean(Y[Z==1]) - mean(Y[Z==0])) # estimatation
 lm_robust(Y~Z,data=dat0_N100_tau25)$coef # estimatation
 ```
@@ -495,7 +495,7 @@ pow_by_tau <- sapply(some_taus, function(thetau){
     pwr.t.test(n = 200, d = thetau, sig.level = 0.05)$power
             })
 plot(some_taus,pow_by_tau,
-    xlab="Effet de traitement moyen (standardisé)",
+    xlab="Effet moyen du traitement (standardisé)",
     ylab="Puissance")
 abline(h=.8)
 ```
