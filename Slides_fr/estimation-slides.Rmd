@@ -57,7 +57,7 @@ library(styler)
 
 ## Points clés sur l'estimation I
 
-  - Un effet causal, $\tau_i$, est une comparaison des résultats potentiels non observés pour chaque unité $i$: exemples  $\tau_{i} = Y_{i}(T_{i}=1) -  Y_{i}(T_{i}=0)$ or  $\tau_{i} = \frac{Y_{i}(T_{i}=1)}{ Y_{i}(T_{i}=0)}$.
+  - Un effet causal, $\tau_i$, est une comparaison des résultats potentiels non observés pour chaque unité $i$ : exemples  $\tau_{i} = Y_{i}(T_{i}=1) -  Y_{i}(T_{i}=0)$ or  $\tau_{i} = \frac{Y_{i}(T_{i}=1)}{ Y_{i}(T_{i}=0)}$.
 
   - Pour en savoir plus sur $\tau_{i}$, nous pouvons traiter $\tau_{i}$ comme un **estimande** ou une quantité cible à estimer (discutée ici) ou comme quantité cible hypothétique (session sur les tests d'hypothèse).
 
@@ -88,7 +88,7 @@ library(styler)
 
       - éviter l'erreur systématique dans leur approximation de l'estimande (ie être sans biais);
 
-      - peu varier d'une expérience à l'autre (être précis ou efficace); et
+      - peu varier d'une expérience à l'autre (être précis ou efficace) ; et
 
       - peut-être idéalement converger vers l'estimande car ils utilisent de plus en plus d'informations (être cohérent).
 
@@ -100,9 +100,9 @@ library(styler)
 
 # Revue
 
-## Revue: effet causal
+## Revue : effet causal
 
-Revue: L'inférence causale fait référence à la comparaison de résultats potentiels non observés, fixes.
+Revue : L'inférence causale fait référence à la comparaison de résultats potentiels non observés, fixes.
 
 Par exemple:
 
@@ -127,7 +127,7 @@ Soit $\bar{\tau}=\sum_{i=1}^n \tau_{i}$, l'effet moyen du traitement. Quel serai
 
 Deux candidats:
 
- 1. La différence des moyennes: $\hat{\bar{\tau}} = \frac{\sum_{i=1}^n (T_i Y_i)}{m} -
+ 1. La différence des moyennes : $\hat{\bar{\tau}} = \frac{\sum_{i=1}^n (T_i Y_i)}{m} -
     \frac{\sum_{i=1}^n ( ( 1 - T_i) Y_i)}{n-m}$.
 
  2. La différence des moyennes avec plafonnement de l'observation $Y_i$ la plus haute
@@ -137,7 +137,7 @@ Comment saurons-nous quel estimateur convient le mieux à notre design de recher
 
 Simulons-le!
 
-## Étape 1 de la simulation: créer des données avec un ATE connu
+## Étape 1 de la simulation : créer des données avec un ATE connu
 
 Notez que nous devons *connaître* les résultats potentiels et l'assignation de traitement afin de savoir si notre estimateur performe bien.
 
@@ -214,7 +214,7 @@ small_dat <- dat[, c("y0", "y1")]
 pop <- declare_population(small_dat)
 N <- nrow(small_dat)
 
-# 5 unités affectées au traitement; la valeur par défaut est l'assignation aléatoire simple avec une probabilité de 0,5
+# 5 unités affectées au traitement ; la valeur par défaut est l'assignation aléatoire simple avec une probabilité de 0,5
 trt_assign <- declare_assignment(Z = conduct_ra(N=N,m = 2),legacy=FALSE)
 
 # Y observé est y1 si Z=1 et y0 si Z=0
@@ -227,9 +227,9 @@ reveal <- declare_reveal(Y, Z)
 base_design <- pop + trt_assign + pot_out + reveal
 ```
 
-## Avec DeclareDesign: créer de fausses données
+## Avec DeclareDesign : créer de fausses données
 
-DeclareDesign renomme par défaut `y0` et `y1`: `Y_Z_0` et `Y_Z_1`:
+DeclareDesign renomme par défaut `y0` et `y1` : `Y_Z_0` et `Y_Z_1`:
 
 ```{r echo=TRUE}
 ## Une simulation est une assignation de traitement aléatoire
@@ -239,7 +239,7 @@ sim_dat1 <- draw_data(base_design)
 head(sim_dat1)
 ```
 
-## Avec DeclareDesign: définir l'estimande et les estimateurs
+## Avec DeclareDesign : définir l'estimande et les estimateurs
 
 Pas de sortie ici. Il suffit de définir fonctions et estimateurs ainsi qu'un estimande.
 
@@ -252,7 +252,7 @@ diff_means <- declare_estimator(Y ~ Z, inquiry = estimandATE,
   model = lm_robust, se_type = "classical", label = "Diff-Means/OLS")
 ```
 
-## Avec DeclareDesign: définir l'estimande et les estimateurs
+## Avec DeclareDesign : définir l'estimande et les estimateurs
 
 ```{r dd2a, echo=TRUE}
 ## Le deuxième estimateur est la différence des moyennes winsorisées
@@ -271,7 +271,7 @@ diff_means_topcoded <- declare_estimator(
 )
 ```
 
-## Avec DeclareDesign: définir l'estimande et les estimateurs
+## Avec DeclareDesign : définir l'estimande et les estimateurs
 
 Nous montrons ici comment fonctionnent les estimateurs avec la méthode des doubles différences en utilisant nos données simulées.
 
@@ -814,7 +814,7 @@ Si nous avons suffisamment de clusters, alors "L'erreur standard robuste pour cl
 
 # Résultats binaires
 
-## Résultats binaires: configurons nos données pour simuler avec DeclareDesign
+## Résultats binaires : configurons nos données pour simuler avec DeclareDesign
 ```{r setupbin, echo=TRUE}
 # taille de la population
 N <- 20
@@ -832,7 +832,7 @@ thetarget_logodds <- declare_inquiry(
 )
 ```
 
-## Résultats binaires: configurons nos données pour simuler avec DeclareDesign
+## Résultats binaires : configurons nos données pour simuler avec DeclareDesign
 ```{r setupbin2, echo=TRUE}
 # déclarer comment le traitement est assigné
 # m unités sont assignées aux niveaux de traitement Z
@@ -846,7 +846,7 @@ set.seed(12345)
 dat2 <- draw_data(des_bin)
 ```
 
-## Résultats binaires: estimandes I
+## Résultats binaires : estimandes I
 
 Comment interpréterions-nous les vraies quantités ou estimandes suivants?
 (`Y_Z_1`, `Y_Z_0` sont des résultats potentiels, `Y` est l'observation, `x1`, `x2` sont des covariables, `Z` est l'assignation de traitement.
@@ -858,7 +858,7 @@ head(dat2[,-7])
 ```
 
 
-## Résultats binaires: estimandes II
+## Résultats binaires : estimandes II
 
 Comment interpréterions-nous les vraies quantités ou estimandes suivants?
 `Y_Z_1`, `Y_Z_0` sont des résultats potentiels, `Y` est l'observation, `x1`, `x2` sont des covariables, `Z` est l'assignation de traitement.
@@ -874,7 +874,7 @@ c(bary1=bary1,bary0=bary0,true_ate=ate_bin,
     true_diff_log_odds= diff_log_odds_bin)
 ```
 
-## Résultats binaires: estimandes III
+## Résultats binaires : estimandes III
 
 Voulez-vous estimer la différence logit?
 
@@ -932,7 +932,7 @@ c(dim=coef(lmbin1)[["Z"]],
   glm_x1=coef(glmbin2)[["Z"]])
 ```
 
-## Un exemple d'estimation: les estimateurs de plugin Freedman I
+## Un exemple d'estimation : les estimateurs de plugin Freedman I
 
 Sans covariable:
 ```{r pluginest, echo=TRUE }
@@ -947,7 +947,7 @@ freedman_plugin_estfn1 <- function(data){
 }
 ```
 
-## Un exemple d'estimation: les estimateurs de plugin Freedman II
+## Un exemple d'estimation : les estimateurs de plugin Freedman II
 
 Avec covariable:
 ```{r pluginest2, echo=TRUE }
@@ -1080,7 +1080,7 @@ kableExtra::kable(res_bin, digits=3,booktabs=TRUE,linesep="",caption="Estimator 
 
 # Autres sujets liés à l'estimation
 
-## L'ajustement de covariable: l'estimande
+## L'ajustement de covariable : l'estimande
 
 En général, le simple fait de "contrôler pour" produit un estimateur biaisé de l'estimande ATE **ou** ITT. Voir par exemple @lin_agnostic_2013 et @freedman2008rae.
 @lin_agnostic_2013 montre comment réduire ce biais et, surtout, que ce biais a tendance à être faible à mesure que la taille de l'échantillon augmente.
@@ -1191,7 +1191,7 @@ $ITT=ITT_Y=\delta= \bar{y}_{Z=1} - \bar{y}_{Z=0}$
 
 \medskip
 
-Mais, dans ce design, $\bar{y}_{Z=1}=\bar{y}_{1}$ est divisé en morceaux: le résultat de ceux qui ont répondu à la porte (conformistes et toujours-preneurs et non-conformistes).
+Mais, dans ce design, $\bar{y}_{Z=1}=\bar{y}_{1}$ est divisé en morceaux : le résultat de ceux qui ont répondu à la porte (conformistes et toujours-preneurs et non-conformistes).
 Écrivez $p_C$ pour la proportion de conformistes dans cette étude.
 
 \begin{equation}
@@ -1270,7 +1270,7 @@ ITT =  ( (\bar{y}_{1}|C) -  (\bar{y}_{0}|C))p_C  = ( CACE ) p_C.
 
 Nous aimerions également en savoir plus sur l'effet causal d'ouvrir la porte et d'avoir la conversation, un effet théoriquement intéressant.
 
-Mais cette comparaison est mise à mal par $x$: une simple comparaison $\bar{Y}|D=1 - \bar{Y}|D=0$ nous renseigne sur les différences de résultat dues à $x$ en plus de la différence causée par $D$.
+Mais cette comparaison est mise à mal par $x$ : une simple comparaison $\bar{Y}|D=1 - \bar{Y}|D=0$ nous renseigne sur les différences de résultat dues à $x$ en plus de la différence causée par $D$.
 (Voir les chiffres ci-dessous à partir de certaines données simulées)
 
 \begin{center}
@@ -1366,7 +1366,7 @@ itt_d
 
 ## Comment calculer l'ITT et CACE/LATE III
 
-Tous ensemble ^[fonctionne quand $Z \rightarrow D$ n'est pas faible; voir @imbens2005robust pour les précautions d'usage]
+Tous ensemble ^[fonctionne quand $Z \rightarrow D$ n'est pas faible ; voir @imbens2005robust pour les précautions d'usage]
 
 ```{r echo=TRUE}
 cace_est <- iv_robust(Y~D|Z,data=dat0)

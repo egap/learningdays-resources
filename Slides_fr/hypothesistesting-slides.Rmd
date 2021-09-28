@@ -165,7 +165,7 @@ bigdat$Ybin <- as.numeric(bigdat$Y > quantile(bigdat$Y, .85))
 kableExtra::kable(dat, col.names = c("Outcome", "Treatment", "$y_{i,0}$", "ITE", "$y_{i,1}$", "$Y>0$"), escape = FALSE)
 ```
 
-Par exemple, l'hypothèse nulle forte d'absence d'effet est $H_0: y_{i,1} = y_{i,0}$
+Par exemple, l'hypothèse nulle forte d'absence d'effet est $H_0 : y_{i,1} = y_{i,0}$
 
 
 ## Les statistiques des test résument les relations entre le traitement et les résultats
@@ -267,7 +267,7 @@ pMeanTT
 pMeanRankTT
 ```
 
-## Comment faire cela en R: COIN
+## Comment faire cela en R : COIN
 
 ```{r coinexample, echo=TRUE}
 ## avec le package coin
@@ -286,7 +286,7 @@ pMean2
 pMeanRank2
 ```
 
-## Comment faire cela en R: RItools  {.allowframebreaks}
+## Comment faire cela en R : RItools  {.allowframebreaks}
 
 Installez d'abord une version de développement du package RItools
 
@@ -333,7 +333,7 @@ Call:  RItest(y = dat$Y, z = dat$T, test.stat = meanrankTT, sampler = thedesignA
 Statistique de test observée  1   0.32
 ```
 
-## Comment faire cela en R: RI2
+## Comment faire cela en R : RI2
 
 Comment interpréter la $p$-valeur bilatérale ici ?
 
@@ -685,8 +685,6 @@ legend("topleft",
 
 ## Que savoir d'autre sur les tests d'hypothèse {.allowframebreaks}
 
-
-
   - Une estimation ponctuelle basée sur un test d'hypothèse est appelée une estimation ponctuelle de Hodges-Lehmann (@rosenbaum1993hlp,@hodges1963elb).
 
   - Un ensemble de tests d'hypothèse peut être combiné en un seul test d'hypothèse (@hansen:bowers:2008,@caughey2017nonparametric).
@@ -694,13 +692,6 @@ legend("topleft",
   - TODO Pour tester l'équivalence, on peut supposer que deux statistiques de test sont équivalentes (c'est-à-dire que le groupe de traitement est le même que le groupe de contrôle) plutôt qu'une seule (la différence entre les deux groupes est nulle) (@hartman2018equivalence).
 
   - Étant donné qu'un test d'hypothèse est un modèle de résultats potentiels, on peut utiliser les tests d'hypothèse pour en savoir plus sur des modèles complexes, tels que des modèles de débordement et de propagation des effets de traitement à travers les réseaux (@bowers2013reasoning, @bowers2016research, @bowers2018models)
-
-
-## Exercise: Hypothesis Tests and Test Statistics
-
- 1. If an intervention was very effective at increasing the variability of an outcome but did not change the mean, would the $p$-value reported by R or Stata if we used `lm_robust()` or `difference_of_means()` or `reg` or `t.test` be large or small?
-
- 2. If an intervention caused the mean in the control group to be moderately reduced but increased a few outcomes a lot (like a 10 times effect), would the $p$-value from R `lm_robust()` or `difference_of_means()` be large or small?
 
 ## Exercice : Tests d'hypothèse et statistiques de test
 
@@ -717,14 +708,6 @@ legend("topleft",
 - Parmi plusieurs stratégies de communication, lesquelles ont été les plus efficaces sur un résultat particulier?
 
 - Parmi plusieurs résultats, lesquels ont été influencés par une seule intervention expérimentale?
-
-## False positive rates in multiple hypothesis testing {.fragile}
-
-Say our probability of making a false positive error is .05 in a single test. What happens if we ask: (1) *which of these 10 outcomes has a statistically significant relationship with the two arms of treatment*? or (2) *which of these 10 treatment arms had a statistically significant relationship with the single outcome*?
-
- - Prob of false positive error should be less than or equal to .05 in 1 test.
- - Prob of one false positive error should be less than or equal to $1 - ( ( 1 - .05 ) \times (1 - .05) ) = .0975$ in 2 tests.
- - Prob of at least one false positive error with $\alpha=.05$ in 10 tests should be $\le$ $1 - (1-.05)^{10}=.40$.
 
 ## Taux de faux positifs dans les tests d'hypothèses multiples {.fragile}
 
@@ -779,7 +762,7 @@ Nous nous concentrerons sur le FWER mais recommandons de penser au FDR pour les 
 
 - La deuxième question, en particulier, peut conduire à problèmes de taux d'erreur par famille (voir ci-dessus).
 
-## Tests d'hypothèses multiples: résultats multiples
+## Tests d'hypothèses multiples : résultats multiples
 
 Imaginez que nous ayons cinq résultats et un traitement (montrant ici les résultats potentiels et observés) :
 
@@ -969,7 +952,7 @@ reveal_mult <- declare_reveal(assignment_variables = T)
 des2 <- thepop + theassign_mult + po_mult + reveal_mult
 dat2 <- draw_data(des2)
 options(digits = 2)
-## T est le bras de traitement: 1,2,3,4,5
+## T est le bras de traitement : 1,2,3,4,5
 head(dat2[, -c(2:6, 8)])
 options(digits = 4)
 ```

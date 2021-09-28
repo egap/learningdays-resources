@@ -100,16 +100,6 @@ Commencez avec un groupe d'unités que vous pouvez observer directement : comme
 
 # Quelques types courants de randomisation
 
-## Simple randomization (coin-flipping)
-
-- For each unit, flip a coin to see if it will be treated. Then you measure outcomes at the same level as the coin.
-
-- The coins don’t have to be fair (50-50), but you have to know the probability of treatment assignment.
-
-- You can’t guarantee a specific number of treated units and control units.
-
-- Example: If you have 6 units and you flip a fair coin for each, you have about a 3% chance of assigning **all** units to treatment or assigning **all** units to control.
-
 ## Randomisation simple (lancer d'une pièce)
 
 - Pour chaque unité, lancez une pièce pour voir si elle sera traitée. Ensuite, vous mesurez les résultats au même niveau que la pièce.
@@ -206,7 +196,7 @@ sum(treatment)
 
 - We create blocks of units and randomize separately within each block. We are doing mini-experiments in each block.
 
-  - Example: block = district, units = communities.  We randomize treatment at the community level **within district** and also measure outcomes at the community level.
+  - Example : block = district, units = communities.  We randomize treatment at the community level **within district** and also measure outcomes at the community level.
 
 - Blocks that represent a substantively meaningful subgroup can help you to
   learn about how effects might differ by subgroup.
@@ -274,7 +264,7 @@ sum(treatment)
 
 # Bonnes pratiques
 
-## Bonnes pratiques: la réplicabilité
+## Bonnes pratiques : la réplicabilité
 
 - Guide des méthodes EGAP sur la randomisation (<https://egap.org/resource/10-things-to-know-about-randomization/>)
 
@@ -285,7 +275,7 @@ sum(treatment)
 - Parfois transparence accrue > réplicabilité
 
 
-## Bonnes pratiques: l'équilibre
+## Bonnes pratiques : l'équilibre
 
 - Vérifiez l'équilibre global avec un test du χ2 en utilisant `xBalance` dans le package `RItools` (@hansen:bowers:2008) (inférence de randomisation d'un grand échantillon):
 
@@ -301,7 +291,7 @@ anova(lm(treatment~1,data = dat),
     lm(treatment~x1+x2+x3,data=dat), test = 'F')
 ```
 
-## Bonnes pratiques: l'équilibre
+## Bonnes pratiques : l'équilibre
 
 - L'assignation aléatoire nous donne, en espérance, l'**équilibre global** sur les nombreuses covariables. Cela ne garantit pas que toutes les covariables au traitement seront 0. En fait, dans une petite expérience, les amplitudes de déséquilibre peuvent être élevées même si la randomisation s'est parfaitement déroulée.
 
@@ -366,26 +356,6 @@ Nous pourrions nous concentrer sur une estimande comme $\mathbb{E}[Y(X_1=1, X_2=
 
 - Analyse des variables instrumentales pour l'ATE des conformistes, avec l'assignation comme instrument. Notez la restriction d'exclusion.
 
-# Some limits
-
-## Limits to randomized studies
-
-- Ethics --- is this sort of manipulation ethical? Sometimes not.
-
-- Must be done in real time, ahead of the intervention roll-out.
-
-- Reduced flexibility for a partner organization (problem for any prospective evaluation).
-
-- Limits to the size of the experimental pool.
-
-- Cost.
-
-- The power constraint --- you need a lot of units (problem for many statistical approaches).
-
-- Violations of the key assumptions (spillovers; violation of the second key assumption for [Causal Inference](causalinference.html)).
-
-- External validity (problem for any evaluation and social science in general).
-
 # Quelques limites
 
 ## Limites aux études aléeatoires
@@ -402,7 +372,7 @@ Nous pourrions nous concentrer sur une estimande comme $\mathbb{E}[Y(X_1=1, X_2=
 
 - La contrainte de puissance statistique --- vous avez besoin de beaucoup d'unités (problème pour de nombreuses approches statistiques).
 
-- Violations des hypothèses clés (effets de débordement ; violation de la deuxième hypothèse clé de l'[inférence causal](causalinference.html)).
+- Violations des hypothèses clés (effets de débordement ; violation de la deuxième hypothèse clé de l'[inférence causal](causalinference.html)).
 
 - Validité externe (problème pour toute évaluation et les sciences sociales en général).
 

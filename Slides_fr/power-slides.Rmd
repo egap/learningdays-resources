@@ -42,11 +42,11 @@ source("rmd_setup.R")
 
 - En d'autres termes, c'est la capacité à détecter un effet étant donné qu'il existe.
 
--  Formellement: (1 - Type II) taux d'erreur.
+-  Formellement : (1 - Type II) taux d'erreur.
 
 - Ainsi, la puissance statistique $\in$ (0, 1).
 
-- Seuils standards: 0.8 ou 0.9.
+- Seuils standards : 0.8 ou 0.9.
 
 ## Point de départ pour l'analyse de puissance
 
@@ -103,11 +103,11 @@ source("rmd_setup.R")
   \end{align*}
 
 - Composants:
-  - $\phi$: TODO standard normal CDF is monotonically increasing
-  - $\tau$: la taille de l'effet
-  - $N$: la taille de l'échantillon
-  - $\sigma$: l'écart type du résultat
-  - $\alpha$: the significance level (typically 0.05)
+  - $\phi$ : TODO standard normal CDF is monotonically increasing
+  - $\tau$ : la taille de l'effet
+  - $N$ : la taille de l'échantillon
+  - $\sigma$ : l'écart type du résultat
+  - $\alpha$ : the significance level (typically 0.05)
 
 
 ## Exemple : calculs analytiques de puissance
@@ -158,7 +158,7 @@ pwr.t.test(n = 40, d = 0.25, sig.level = 0.05,
 
 - Avec randomisation en grappe
 
-## Exemple: Calcul de puissance par simulation pour une randomisation complète
+## Exemple : Calcul de puissance par simulation pour une randomisation complète
 
 ```{r powersim, echo=TRUE, include=TRUE}
 # install.packages("randomizr")
@@ -178,7 +178,7 @@ repeat_experiment_and_test <- function(N, Y0, tau){
 }
 ```
 
-## Exemple: Calcul de puissance par simulation pour une randomisation complète
+## Exemple : Calcul de puissance par simulation pour une randomisation complète
 ```{r powersim2, echo=TRUE, include=TRUE}
 power_sim <- function(N,tau,sims){
     Y0 <- make_Y0(N)
@@ -193,7 +193,7 @@ power_sim(N=80,tau=.25,sims=100)
 power_sim(N=80,tau=.25,sims=100)
 ```
 
-## Exemple: Avec DeclareDesign {.allowframebreaks}
+## Exemple : Avec DeclareDesign {.allowframebreaks}
 ```{r ddversion, echo=TRUE, message=FALSE, warning=FALSE}
 library(DeclareDesign)
 library(tidyverse)
@@ -267,17 +267,17 @@ design0_N100_tau25_sims %>% group_by(estimator) %>%
 <!--   - Impute mean/median for pretreatment variable -->
 <!--   - Include missingness indicator and impute some value in the missing variable -->
 
--  Designer les blocs: assignez au hasard un traitement au sein des blocs
+-  Designer les blocs : assignez au hasard un traitement au sein des blocs
 
     - Ajustement des covariables "ex-ante"
 
     - Une précision/efficacité plus élevée implique plus de puissance statistique
 
-    - Réduire le "biais conditionnel": association entre l'assignation du traitement et les résultats potentiels
+    - Réduire le "biais conditionnel" : association entre l'assignation du traitement et les résultats potentiels
 
     - L'avantage des blocs sur l'ajustement des covariables est plus clair dans les petites expériences
 
-## Exemple: Calcul de puissance par simulation avec une covariable {.allowframebreaks}
+## Exemple : Calcul de puissance par simulation avec une covariable {.allowframebreaks}
 
 ```{r powsimcov, echo=TRUE}
 ## Y0 est fixe dans la plupart des expériences sur le terrain.
@@ -345,7 +345,7 @@ power_sim_cov(N=80,tau=.25,sims=100)
 
 - De nombreux designs d'observation sont beaucoup moins puissants qu'on ne le pense.
 
-## Exemple: Puissance statistique basée sur la simulation pour la randomisation des clusters {.allowframebreaks}
+## Exemple : Puissance statistique basée sur la simulation pour la randomisation des clusters {.allowframebreaks}
 
 ```{r powsimclus, echo=TRUE}
 ## Y0 est fixe dans la plupart des expériences sur le terrain.
@@ -396,7 +396,7 @@ power_sim_clus(n_indivs=8,n_clus=100,tau=.25,sims=100)
 
 ```
 
-## Exemple: Puissance statistique basée sur la simulation pour la randomisation des clusters (DeclareDesign) {.allowframebreaks}
+## Exemple : Puissance statistique basée sur la simulation pour la randomisation des clusters (DeclareDesign) {.allowframebreaks}
 
 ```{r ddversion_clus, echo=TRUE}
 
