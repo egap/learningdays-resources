@@ -230,8 +230,8 @@ plot(density(possibleMeanDiffsH0),
   ylim = c(0, .04),
   xlim = range(possibleMeanDiffsH0),
   lwd = 2,
-  main = "", # Mean Difference Test Statistic",
-  xlab = "Mean Differences Consistent with H0",
+  main = "", # Différence moyenne des statistiques de test",
+  xlab = "Différence moyenne consistante avec H0",
   cex.lab = 1.25, cex.axis = 1
 )
 rug(possibleMeanDiffsH0)
@@ -242,8 +242,8 @@ plot(density(possibleMeanRankDiffsH0),
   lwd = 2,
   ylim = c(0, .45),
   xlim = c(-10, 10), # range(possibleMeanDiffsH0),
-  main = "", # Mean Difference of Ranks Test Statistic",
-  xlab = "Mean Difference of Ranks Consistent with H0",
+  main = "", # Différence moyenne des statistiques de test avec rang",
+  xlab = "Différence moyenne des rangs consistante avec H0",
   cex.lab = 1.25, cex.axis = 1
 )
 rug(possibleMeanRankDiffsH0)
@@ -252,7 +252,7 @@ text(observedMeanRankTT, .45, "Statistique de test observée")
 
 mtext(
   side = 3, outer = TRUE, cex = 1.75,
-  text = expression(paste("Distributions of Test Statistics Consistent with the Design and ", H0:y[i1] == y[i0]))
+  text = expression(paste("Distributions de statistiques de test consistentes avec le design et ", H0:y[i1] == y[i0]))
 )
 ```
 
@@ -582,7 +582,7 @@ Comparez les tests en traçant la proportion de p-valeurs inférieures à un nom
 Les tests "d'inférence de randomisation" contrôlent le taux de faux positifs
 (ce sont les tests avec permutation directe répétant l'expérience).
 
-```{r plotecdf, results='asis', echo=FALSE, message=FALSE, warning=FALSE, fig.cap="Distributions des p-valeurs lorsqu'il n'y a aucun effet pour quatre tests avec n=10. Un test qui contrôle son taux de faux positifs doit avoir des points sur ou en dessous de la ligne diagonale.", out.width='.6\\textwidth'}
+```{r plotecdf, results='asis', echo=FALSE, message=FALSE, warning=FALSE, fig.cap="Distributions des p-valeurs quand il n y a aucun effet pour quatre tests avec n=10. Un test qui contrôle son taux de faux positifs doit avoir des points sur ou en dessous de la ligne diagonale", out.width='.6\\textwidth'}
 par(mfrow = c(1, 1), mgp = c(2, .75, 0), oma = rep(0, 4), mar = c(3.5, 3.5, 0, 0))
 plot(c(0, 1), c(0, 1),
   type = "n",
@@ -613,7 +613,7 @@ pDistBigLst <- mclapply(1:1000, function(i) {
 pDistBig <- simplify2array(pDistBigLst)
 ```
 
-```{r plotecdfBig, results='asis', echo=FALSE, message=FALSE, warning=FALSE,out.width='.7\\textwidth',fig.cap="Distributions des p-valeurs lorsqu'il n'y a aucun effet pour quatre tests avec n=60 et un résultat binaire. Un test qui contrôle son taux de faux positifs doit avoir des points sur ou en dessous de la ligne diagonale."}
+```{r plotecdfBig, results='asis', echo=FALSE, message=FALSE, warning=FALSE,out.width='.7\\textwidth',fig.cap="Distributions des p-valeurs quand il n y a aucun effet pour quatre tests avec n=60 et un résultat binaire. Un test qui contrôle son taux de faux positifs doit avoir des points sur ou en dessous de la ligne diagonale."}
 par(mfrow = c(1, 1), mgp = c(2, .75, 0), oma = rep(0, 4), mar = c(3.5, 3.5, 0, 0))
 plot(c(0, 1), c(0, 1),
   type = "n",
@@ -642,7 +642,7 @@ pDistBigLst2 <- mclapply(1:1000, function(i) {
 pDistBig2 <- simplify2array(pDistBigLst2)
 ```
 
-```{r plotecdfBig2, results='asis', echo=FALSE, message=FALSE, warning=FALSE, out.width='.7\\textwidth',fig.cap='Distributions des p-valeurs lorsqu'il n'y a aucun effet pour quatre tests avec n=60 et un résultat continu. Un test qui contrôle son taux de faux positifs doit avoir des points sur ou en dessous de la ligne diagonale.'}
+```{r plotecdfBig2, results='asis', echo=FALSE, message=FALSE, warning=FALSE, out.width='.7\\textwidth',fig.cap='Distributions des p-valeurs quand il n y a aucun effet pour quatre tests avec n=60 et un résultat continu. Un test qui contrôle son taux de faux positifs doit avoir des points sur ou en dessous de la ligne diagonale.'}
 library(scales)
 par(mfrow = c(1, 1), mgp = c(2, .75, 0), oma = rep(0, 4), mar = c(3.5, 3.5, 0, 0))
 plot(c(0, 1), c(0, 1),

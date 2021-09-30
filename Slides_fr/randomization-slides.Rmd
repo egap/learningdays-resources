@@ -123,7 +123,7 @@ N <- 200
 # (Remarquez que dans une expérience, nous avons un seul
 # essai, donc taille=1)
 # Notre objet avec N personnes au total s'appelle simple.ra
-simple.ra <- rbinom(n = N,taille = 1, prob = .5)
+simple.ra <- rbinom(n = N,size = 1, prob = .5)
 
 # 112 personnes se sont retrouvées dans le groupe de traitement
 sum(simple.ra)
@@ -139,7 +139,7 @@ library(randomizr)
 set.seed(23456)
 # L'assignation aléatoire simple utilise la fonction simple_ra
 # Notre objet avec N personnes au total est appelé traitement
-traitement <- simple_ra(N = N, # taille totale de l'échantillon
+treatment <- simple_ra(N = N, # taille totale de l'échantillon
      prob = .5 # probabilité de recevoir un traitement
 )
 sum(treatment)
