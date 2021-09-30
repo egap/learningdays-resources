@@ -1002,21 +1002,20 @@ tmle2$estimates$OR
 ## Un exemple avec DeclareDesign pour évaluer nos estimateurs I
 
 ```{r ddbinsetup, echo=TRUE}
-# declare 4 estimators for DD
-# first estimator: linear regression with ATE as target
+# déclarer 4 estimateurs pour DeclareDesign
+# premier estimateur : régression linéaire avec l'ATE comme cible
 estb1 <- declare_estimator(Y~Z,model=lm_robust,label="lm1:Z",
                            inquiry=thetarget_ate )
-# second estimator: linear regression with covariate, with ATE as target
+# deuxième estimateur : régression linéaire avec covariable, avec l'ATE comme cible
 estb2 <- declare_estimator(Y~Z+x1,model=lm_robust,label="lm1:Z,x1",
                            inquiry=thetarget_ate)
-# third estimator: logistic regression, with log odds as target
+# troisième estimateur : régression logistique, avec log odds comme cible
 estb3 <- declare_estimator(Y~Z,model=glm,family=binomial(link="logit"),
                            label="glm1:Z",inquiry=thetarget_logodds)
-# fourth estimtor: logistic regression with covariate, with log odds as target
+# quatrième estimateur : régression logistique avec covariable, avec log odds comme cible
 estb4 <- declare_estimator(Y~Z+x1,model=glm,family=binomial(link="logit"),
                            label="glm1:Z,x1", inquiry=thetarget_logodds)
 ```
-
 
 ## Un exemple avec DeclareDesign pour évaluer nos estimateurs II
 
