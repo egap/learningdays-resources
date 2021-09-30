@@ -877,10 +877,10 @@ ttest_omnibusfn <- function(data) {
   return(data.frame(statistic = NA, p.value = thep))
 }
 
-ttest_Y1 <- declare_test(handler = label_test(ttest_Y1fn), label = "t-test Y1")
-ttest_mult <- declare_test(handler = label_test(ttest_multfn), label = "t-test all")
-ttest_mult_holm <- declare_test(handler = label_test(ttest_mult_holmfn), label = "t-test all holm adj")
-ttest_omnibus <- declare_test(handler = label_test(ttest_omnibusfn), label = "t-test omnibus")
+ttest_Y1 <- declare_test(handler = label_test(ttest_Y1fn), label = "test-t pour Y1")
+ttest_mult <- declare_test(handler = label_test(ttest_multfn), label = "test-t pour tous")
+ttest_mult_holm <- declare_test(handler = label_test(ttest_mult_holmfn), label = "test-t pour tous holm adj")
+ttest_omnibus <- declare_test(handler = label_test(ttest_omnibusfn), label = "test-t omnibus")
 ttest_Y1(dat1)
 ttest_mult(dat1)
 ttest_mult_holm(dat1)
