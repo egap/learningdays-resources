@@ -84,7 +84,7 @@ library(styler)
 
 ## Points clés sur l'estimation IV
 
- - Les estimateurs doivent:
+ - Les estimateurs doivent :
 
       - éviter l'erreur systématique dans leur approximation de l'estimande (ie être sans biais);
 
@@ -104,7 +104,7 @@ library(styler)
 
 Revue : L'inférence causale fait référence à la comparaison de résultats potentiels non observés, fixes.
 
-Par exemple:
+Par exemple :
 
   - le résultat potentiel de l'unité $i$ lorsqu'elle est affectée au traitement, $T_i=1$ est $Y_{i}(T_{i}=1)$.
   - le résultat potentiel de l'unité $i$ lorsqu'elle est affectée au contrôle, $T_i=0$ est $Y_{i}(T_{i}=0)$.
@@ -123,9 +123,9 @@ $Y_{i}(T_{i}=1) -  Y_{i}(T_{i}=0) \ne 0$ ou $Y_{i}(T_{i}=1) \ne Y_{i}(T_{i}=0)$.
 
 ## Un estimatande et un estimateur usuels : l'effet moyen du traitement et la différence des moyennes
 
-Soit $\bar{\tau}=\sum_{i=1}^n \tau_{i}$, l'effet moyen du traitement. Quel serait un bon estimateur?
+Soit $\bar{\tau}=\sum_{i=1}^n \tau_{i}$, l'effet moyen du traitement. Quel serait un bon estimateur ?
 
-Deux candidats:
+Deux candidats :
 
  1. La différence des moyennes : $\hat{\bar{\tau}} = \frac{\sum_{i=1}^n (T_i Y_i)}{m} -
     \frac{\sum_{i=1}^n ( ( 1 - T_i) Y_i)}{n-m}$.
@@ -133,9 +133,9 @@ Deux candidats:
  2. La différence des moyennes avec plafonnement de l'observation $Y_i$ la plus haute
     (une sorte de moyenne "winsorisée" pour éviter que les valeurs extrêmes n'exercent trop d'influence sur notre estimateur --- pour augmenter la *précision*).
 
-Comment saurons-nous quel estimateur convient le mieux à notre design de recherche?
+Comment saurons-nous quel estimateur convient le mieux à notre design de recherche ?
 
-Simulons-le!
+Simulons-le !
 
 ## Étape 1 de la simulation : créer des données avec un ATE connu
 
@@ -179,7 +179,7 @@ Notez que chaque unité a son propre effet de traitement.
 
 ## Commencez par créer de fausses données
 
-Le tableau de la slide précédente a été généré en R avec:
+Le tableau de la slide précédente a été généré en R avec :
 
 ```{r echo=TRUE}
 # Nous avons dix unités
@@ -204,7 +204,7 @@ set.seed(12345)
 
 ## Avec DeclareDesign
 
-DeclareDesign représente les designs de recherche en quelques étapes illustrées ci-dessous:
+DeclareDesign représente les designs de recherche en quelques étapes illustrées ci-dessous :
 
 ```{r dd1, echo=TRUE}
 # prendre uniquement les résultats potentiels du traitement et du contrôle à partir de nos fausses données
@@ -276,7 +276,7 @@ diff_means_topcoded <- declare_estimator(
 Nous montrons ici comment fonctionnent les estimateurs avec la méthode des doubles différences en utilisant nos données simulées.
 
 ```{r dd3, echo=TRUE}
-## Démontrer que l'estimande fonctionne:
+## Démontrer que l'estimande fonctionne :
 estimandATE(sim_dat1)
 
 ## Démontrer que les estimateurs estiment correctement
@@ -290,14 +290,14 @@ diff_means_topcoded(sim_dat1)[-c(1,2,10,11)]
 
 ## Puis simuler avec une randomisation
 
-Rappelons le vrai ATE:
+Rappelons le vrai ATE :
 
 ```{r trueATE, echo=TRUE}
 trueATE <- with(sim_dat1, mean(y1 - y0))
 with(sim_dat1, mean(Y_Z_1 - Y_Z_0))
 ```
 
-Dans une expérience (une simulation des données), voici les estimations simples:
+Dans une expérience (une simulation des données), voici les estimations simples :
 
 ```{r echo=TRUE}
 ## Deux façons de calculer l'estimateur de la différence des moyennes
@@ -308,7 +308,7 @@ c(est_diff_means_1,est_diff_means_2)
 
 ## Puis simuler avec une randomisation
 
-Dans une expérience (une simulation des données), voici les estimations après winsorisation:
+Dans une expérience (une simulation des données), voici les estimations après winsorisation :
 
 ```{r echo=TRUE}
 ## Deux façons de calculer l'estimateur de la différence des moyennes winsorisées
@@ -341,7 +341,7 @@ coef(lm_robust(Y_tc ~ Z, data = sim_dat2, se = "classical"))[["Z"]]
 ```
 
 
-## Comment nos estimateurs se comportent-ils en général pour ce design?
+## Comment nos estimateurs se comportent-ils en général pour ce design ?
 
 Nos estimations varient selon la randomisation. Nos deux estimateurs varient-ils de la même façon ?
 
@@ -357,10 +357,10 @@ sims1 <- get_simulations(diagnosis1)
 head(sims1[,-c(1:6)])
 ```
 
-## Comment nos estimateurs se comportent-ils en général pour ce design?
+## Comment nos estimateurs se comportent-ils en général pour ce design ?
 
 Nos estimations varient selon la randomisation. Nos deux estimateurs varient-ils de la même façon ?
-Comment interpréter cette courbe?
+Comment interpréter cette courbe ?
 
 ```{r sim_plot, out.width=".8\\textwidth"}
 sim_plot <- ggplot(sims1, aes(y = estimate, x = estimator, color = estimator)) +
@@ -372,7 +372,7 @@ print(sim_plot)
 ```
 
 
-## Quel estimateur est le plus proche de la vérité?
+## Quel estimateur est le plus proche de la vérité ?
 
 Une façon de choisir parmi les estimateurs est de choisir celui qui est ** proche de la vérité ** chaque fois que nous l'utilisons --- quelle que soit la randomisation choisie.
 
@@ -388,7 +388,7 @@ kableExtra::kable(reshape_diagnosis(diagnosis1, select = c("Estimator", "Bias", 
 
 ## Estimateurs biaisés et non-biaisés
 
-Résumé:
+Résumé :
 
   - Nous avons un *choix* d'estimandes et d'estimateurs
 
@@ -402,7 +402,7 @@ Résumé:
 
 ## Les expériences aléatoires par bloc sont une collection de mini-expériences
 
-Quel est l'**effet moyen du traitement** dans une expérience aléatoire par bloc?
+Quel est l'**effet moyen du traitement** dans une expérience aléatoire par bloc ?
 
 Si nous considérons l'ATE au niveau de l'unité comme : $(1/N) \sum_{i=1}^N y_{i,1} - y_{i,0}$ alors nous pourrions réexprimer cela de manière équivalente en sachant que l'ATE par bloc $j$ est $ATE_j$ comme suit :
 
@@ -410,12 +410,12 @@ Si nous considérons l'ATE au niveau de l'unité comme : $(1/N) \sum_{i=1}^N y_{
 ATE = \frac{1}{J}\sum^J_{j=1} \sum^{N_j}_{i=1} \frac{y_{i,1} - y_{i,0}}{N_j}  = \sum^J_{j=1} \frac{N_j}{N} ATE_j
 \]
 
-Et il serait naturel d'*estimer* cette quantité en y introduisant ce que l'on peut calculer:
+Et il serait naturel d'*estimer* cette quantité en y introduisant ce que l'on peut calculer :
 $\widehat{ATE} = \displaystyle\sum^J_{j=1} \frac{N_j}{N} \widehat{ATE}_j$
 
 ## Les expériences aléatoires par bloc sont une collection de mini-expériences
 
-Et nous pourrions *définir* l'erreur standard de l'estimateur en faisant la moyenne intra-bloc des erreurs standards (si nos blocs sont suffisamment grands):
+Et nous pourrions *définir* l'erreur standard de l'estimateur en faisant la moyenne intra-bloc des erreurs standards (si nos blocs sont suffisamment grands) :
 
 $SE(\widehat{ATE}) = \sqrt{\sum^J_{j=1} (\frac{N_{j}}{N})^2SE^2(\widehat{ATE}_j)}$
 
@@ -437,7 +437,7 @@ Une approche de l'estimation remplace simplement $ATE_j$ par $\widehat{ATE}$ ci-
 datb <- dat %>% group_by(b) %>% summarize(nb=n(),pb=mean(Z),estateb=mean(Y[Z==1]) - mean(Y[Z==0]),
     ateb=mean(y1-y0),.groups="drop")
 datb
-## le vrai ATE par bloc:
+## le vrai ATE par bloc :
 with(dat,mean(y1-y0))
 ## Une autre façon de calculer le vrai ATE
 with(datb, sum( ateb*(nb/sum(nb))) )
@@ -445,7 +445,7 @@ with(datb, sum( ateb*(nb/sum(nb))) )
 
 ## Estimer l'ATE dans les expériences aléatoires par bloc
 
-Une approche consiste à estimer l'ATE global pondéré par la taille de bloc:
+Une approche consiste à estimer l'ATE global pondéré par la taille de bloc :
 
 ```{r br3, echo=TRUE}
 ## Montrer que la difference des moyennes est pondérée par la taille du bloc.
@@ -470,9 +470,9 @@ coef(e4)[["Z"]]
 
 En quoi diffèrent-ils ? (Le premier ignore les blocs. Le second utilise un ensemble différent de poids créés à l'aide d'indicateurs, de variables muettes ou de variables à "effets fixes".)
 
-## Quel estimateur doit-on utiliser?
+## Quel estimateur doit-on utiliser ?
 
-Nous avons maintenant trois estimateurs, chacun avec une estimation différente (en imaginant qu'ils ciblent tous le même estimande):
+Nous avons maintenant trois estimateurs, chacun avec une estimation différente (en imaginant qu'ils ciblent tous le même estimande) :
 
 ```{r echo=TRUE}
 c(coef(e1)[["Z"]],coef(e3)[["Z"]], coef(e4)[["Z"]])
@@ -495,7 +495,7 @@ base_design_blocks <-
     declare_reveal(Y, Z)
 ```
 
-## Quel estimateur doit-on utiliser?
+## Quel estimateur doit-on utiliser ?
 
 ```{r blockdd1, echo=TRUE, cache=TRUE}
 # L'estimande est l'effet moyen du traitement
@@ -511,7 +511,7 @@ est3 <- declare_estimator(Y ~ Z, inquiry = estimandATEb, model=lm_robust,
     label = "LM: Block Size Weights")
 ```
 
-## Quel estimateur doit-on utiliser?
+## Quel estimateur doit-on utiliser ?
 
 
 ```{r blockdd1a, echo=TRUE, cache=TRUE}
@@ -528,7 +528,7 @@ design_blocks <- base_design_blocks + estimandATEb +
 
 Ensuite, nous allons exécuter 10 000 simulations (réassigner le traitement 10 000 fois) et résumer les estimations produites par chacun de ces cinq estimateurs.
 
-## Quel estimateur doit-on utiliser?
+## Quel estimateur doit-on utiliser ?
 
 ```{r futurelibs, echo=FALSE}
 ## Ceci permet le traitement parallèle lors des diagnostics.
@@ -548,7 +548,7 @@ sims2 <- get_simulations(diagnosis2)
 # plan(sequential)
 ```
 
-Comment interpréter cette courbe?
+Comment interpréter cette courbe ?
 
 ```{r sim_plot2, message=FALSE, warning=FALSE, out.width=".9\\textwidth"}
 sim_plot2 <- ggplot(sims2, aes(y = estimate, x = estimator, color = estimator)) +
@@ -562,9 +562,9 @@ print(sim_plot2)
 ```
 
 
-## Quel estimateur est le plus proche de la vérité?
+## Quel estimateur est le plus proche de la vérité ?
 
-Quel estimateur fonctionne le mieux pour ce design et ces données?
+Quel estimateur fonctionne le mieux pour ce design et ces données ?
 
 ```{r blocktab}
 blocktab <- reshape_diagnosis(diagnosis2, select = c("Estimator", "Bias", "RMSE","SD Estimate", "Mean Se", "Power",  "Coverage"))[,-c(1,2,4,5,6)]
@@ -585,11 +585,11 @@ Notez que la couverture n'est pas toujours à 95 % dans tous les cas. Nous avons
 - **Pas un exemple 1 :** Les quartiers sont choisis pour l'étude. Dans chaque quartier, environ la moitié des personnes sont affectées au traitement et l'autre moitié au contrôle. (De quel type d'étude s'agit-il ? Ce n'est pas une étude randomisée en grappe.)
 - **Pas un exemple 2 :** une intervention est randomisée dans certains quartiers et pas dans d'autres, les résultats incluent des mesures de la confiance au niveau du quartier envers le gouvernement et la superficie totale du quartier consacrée aux jardins. (Parfois, une expérience randomisée en grappe peut être transformée en une expérience randomisée simple. Ou elle peut contenir plus d'une approche possible d'analyse et d'interprétation.)
 
-En quoi la distribution des statistiques de test et des estimateurs peut-elle différer d'une expérience où des unités individuelles (et non des clusters) sont randomisées?
+En quoi la distribution des statistiques de test et des estimateurs peut-elle différer d'une expérience où des unités individuelles (et non des clusters) sont randomisées ?
 
 ## Estimation de l'ATE dans des expériences aléatoires en grappe
 
-Problèmes de biais dans les expériences aléatoires en grappe:
+Problèmes de biais dans les expériences aléatoires en grappe :
 
 - Lorsque les clusters ont la même taille, l'estimateur habituel de différences des moyennes est sans biais.
 
@@ -779,7 +779,7 @@ kableExtra::kable(res_clus[,c(1,5:7)], digits=2,booktabs=TRUE,linesep="",caption
 
 ## Simuler pour évaluer les estimateurs et les tests
 
-Que devons-nous apprendre de ce tableau? (Biais ? Proximité avec la vérité ?)
+Que devons-nous apprendre de ce tableau ? (Biais ? Proximité avec la vérité ?)
 
 ```{r showresclus2}
 kableExtra::kable(res_clus[,c(1:3)], digits=3,booktabs=TRUE,linesep="",caption="Estimator and Test Performance in 5000 simulations of the cluster randomized design for different estimators and confidence intervals")
@@ -787,7 +787,7 @@ kableExtra::kable(res_clus[,c(1:3)], digits=3,booktabs=TRUE,linesep="",caption="
 
 ## Simuler pour évaluer les estimateurs et les tests
 
-Comment interpréter cette courbe?
+Comment interpréter cette courbe ?
 
 ```{r sim_plot_clus, warning=FALSE, out.width=".95\\textwidth"}
 sim_plot3 <- ggplot(sim_clus, aes(y = estimate, x = estimator, color = estimator)) +
@@ -848,19 +848,19 @@ dat2 <- draw_data(des_bin)
 
 ## Résultats binaires : estimandes I
 
-Comment interpréterions-nous les vraies quantités ou estimandes suivants?
+Comment interpréterions-nous les vraies quantités ou estimandes suivants ?
 (`Y_Z_1`, `Y_Z_0` sont des résultats potentiels, `Y` est l'observation, `x1`, `x2` sont des covariables, `Z` est l'assignation de traitement.
 Voici $N$=`r nrow(dat2)`.
 
 ```{r dat2echo, echo=TRUE}
-## Voici les 6 premières observations seulement:
+## Voici les 6 premières observations seulement :
 head(dat2[,-7])
 ```
 
 
 ## Résultats binaires : estimandes II
 
-Comment interpréterions-nous les vraies quantités ou estimandes suivants?
+Comment interpréterions-nous les vraies quantités ou estimandes suivants ?
 `Y_Z_1`, `Y_Z_0` sont des résultats potentiels, `Y` est l'observation, `x1`, `x2` sont des covariables, `Z` est l'assignation de traitement.
 Voici $N$=`r nrow(dat2)`.
 
@@ -876,13 +876,13 @@ c(bary1=bary1,bary0=bary0,true_ate=ate_bin,
 
 ## Résultats binaires : estimandes III
 
-Voulez-vous estimer la différence logit?
+Voulez-vous estimer la différence logit ?
 
 \begin{equation}
 \delta = \log \frac{\bar{y}_{1}}{1-\bar{y}_{1}} - \log \frac{ \bar{y}_0}{1- \bar{y}_0}
 \end{equation}
 
-Ou la différence en proportions?
+Ou la différence en proportions ?
 
 \begin{equation}
 \bar{\tau} = \bar{y}_{1} - \bar{y}_0
@@ -897,9 +897,9 @@ Nous savons que la différence de proportions dans l'échantillon devrait être 
 
 ## Un exemple d'estimation I
 
-Comment interpréter les estimations suivantes?
-Que requiert l'estimateur de la différence des moyennes en termes d'hypothèses?
-Que requiert l'estimateur de régression logistique en termes d'hypothèses?
+Comment interpréter les estimations suivantes ?
+Que requiert l'estimateur de la différence des moyennes en termes d'hypothèses ?
+Que requiert l'estimateur de régression logistique en termes d'hypothèses ?
 
 ```{r estexample, echo=TRUE}
 lmbin1 <- lm_robust(Y~Z,data=dat2)
@@ -934,7 +934,7 @@ c(dim=coef(lmbin1)[["Z"]],
 
 ## Un exemple d'estimation : les estimateurs de plugin Freedman I
 
-Sans covariable:
+Sans covariable :
 ```{r pluginest, echo=TRUE }
 freedman_plugin_estfn1 <- function(data){
     glmbin <- glm(Y~Z,data=dat2,family=binomial(link="logit"))
@@ -949,7 +949,7 @@ freedman_plugin_estfn1 <- function(data){
 
 ## Un exemple d'estimation : les estimateurs de plugin Freedman II
 
-Avec covariable:
+Avec covariable :
 ```{r pluginest2, echo=TRUE }
 freedman_plugin_estfn2 <- function(data){
     N <- nrow(data)
@@ -1042,7 +1042,7 @@ truelo_bin <- thetarget_logodds(dat2)[["estimand"]]
 
 ## Simuler pour évaluer nos estimateurs
 
-Comment interpréter cette courbe? (Les différences d'échelle rendent la tâche difficile.)
+Comment interpréter cette courbe ? (Les différences d'échelle rendent la tâche difficile.)
 
 ```{r sim_plot_bin, out.width=".95\\textwidth"}
 estimand_dat <- sims_bin %>% group_by(inquiry) %>% summarize(meanestimand=mean(estimand))
@@ -1056,9 +1056,9 @@ sim_plot_bin <- ggplot(sims_bin, aes(y = estimate, x = estimator, color = estima
 print(sim_plot_bin)
 ```
 
-## Quel estimateur est le plus proche de la vérité?
+## Quel estimateur est le plus proche de la vérité ?
 
-Quel estimateur fonctionne le mieux pour ce design et ces données?
+Quel estimateur fonctionne le mieux pour ce design et ces données ?
 
 ```{r bin_sim_res}
 ## Notez que l'estimateur linéaire est excellent mais peut parfois ne pas produire de réponse
@@ -1105,7 +1105,7 @@ En général, le simple fait de "contrôler pour" produit un estimateur biaisé 
 
 ## Effets différents selon les groupes I
 
-Si notre théorie suggère que les effets devraient différer selon le groupe, comment pouvons-nous évaluer les preuves pour ou contre une telle affirmation?
+Si notre théorie suggère que les effets devraient différer selon le groupe, comment pouvons-nous évaluer les preuves pour ou contre une telle affirmation ?
 
  - Nous pouvons **concevoir** une évaluation de cette théorie en créant une étude aléatoire par bloc
    --- avec des blocs définis par des groupes théoriquement pertinents.

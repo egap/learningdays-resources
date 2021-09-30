@@ -70,7 +70,7 @@ library(rcompanion) ## for pairwisePermutationTest()
 
 - Le **problème fondamental de l'inférence causale** dit que nous ne pouvons voir qu'un seul résultat potentiel pour une unité donnée.
 
-- Donc, si un effet causal contrefactuel du traitement, $T$, pour Dupont se produit lorsque $y_{\text{Dupont},T=1} \ne y_{\text{Dupont},T=0}$, alors comment pouvons-nous en savoir plus sur l'effet causal?
+- Donc, si un effet causal contrefactuel du traitement, $T$, pour Dupont se produit lorsque $y_{\text{Dupont},T=1} \ne y_{\text{Dupont},T=0}$, alors comment pouvons-nous en savoir plus sur l'effet causal ?
 
 - Une solution est l'**[estimation](estimation-slides.Rmd) des moyennes des effets causaux** (les ATE, ITT, LATE).
 
@@ -80,7 +80,7 @@ library(rcompanion) ## for pairwisePermutationTest()
 
 - Une autre solution consiste à faire des **affirmations** ou **des suppositions** sur les effets de causalité.
 
-- On pourrait dire : "Je pense que l'effet sur Dupont est de 5". ou "Cette expérience n'a eu d'effet sur personne." Et puis nous demandons "Quelles preuves apporte cette expérience à propos de cette affirmation?"
+- On pourrait dire : "Je pense que l'effet sur Dupont est de 5". ou "Cette expérience n'a eu d'effet sur personne." Et puis nous demandons "Quelles preuves apporte cette expérience à propos de cette affirmation ?"
 
 - La preuve est contenue dans la $p$-valeur .
 
@@ -258,7 +258,7 @@ mtext(
 
 ## Les $p$-valeurs résument les graphiques
 
-Comment devrions-nous interpréter ces $p$-valeurs unilatérales?
+Comment devrions-nous interpréter ces $p$-valeurs unilatérales ?
 
 ```{r calcpvalues, echo=TRUE}
 pMeanTT <- mean(possibleMeanDiffsH0 >= observedMeanTT)
@@ -385,7 +385,7 @@ ttestP2 <- difference_in_means(Y ~ T, data = dat)
 c(lm1P = lm1P, ttestP1 = ttestP1, tttestP2 = ttestP2$p.value)
 ```
 
-- Pourquoi la $p$-valeur pour les moindres carrés est-elle différente ? Quelles hypothèses utilisons-nous pour la calculer?
+- Pourquoi la $p$-valeur pour les moindres carrés est-elle différente ? Quelles hypothèses utilisons-nous pour la calculer ?
 
 ## Tester l'hypothèse nulle faible d'absence d'effet de traitement moyen
 
@@ -423,7 +423,7 @@ c(
 
 - $\alpha$ est la probabilité de rejeter l'hypothèse nulle lorsque l'hypothèse nulle est vraie.
 
-- Comment doit-on interpréter $p$=`r round(pMeanTT,2)`? Qu'en est-il de $p$=`r round(pMeanRankTT,2)` (nos tests pour l'hypothèse nulle forte)?
+- Comment doit-on interpréter $p$=`r round(pMeanTT,2)` ? Qu'en est-il de $p$=`r round(pMeanRankTT,2)` (nos tests pour l'hypothèse nulle forte) ?
 
 - Que signifie "rejeter" $H_0 : y_{i,1}=y_{i,2}$ à $\alpha=.05$ ?
 
@@ -468,13 +468,13 @@ Attention:
 
 ## False positive and false negative errors 
 
-- If we say, "The experimental result is significantly different from the hypothesized value of zero ($p=.001$)! We reject that hypothesis!" **when the truth is zero** we are making a **false positive error** (claiming to detect something positively when there is no signal, only noise).
+- If we say, "The experimental result is significantly different from the hypothesized value of zero ($p=.001$) ! We reject that hypothesis !" **when the truth is zero** we are making a **false positive error** (claiming to detect something positively when there is no signal, only noise).
 
 - If we say, "We cannot distinguish this result from zero ($p=.3$). We cannot reject the hypothesis of zero." **when the truth is not zero** we are making a **false negative error** (claiming inability to detect something when there is a signal, but it is overwhelmed by noise.)
 
 ## Faux positifs et faux négatifs
 
-- Si nous disons, "le résultat expérimental est significativement différent de la valeur hypothétique de zéro ($p=.001$)! Nous rejetons cette hypothèse!"
+- Si nous disons, "le résultat expérimental est significativement différent de la valeur hypothétique de zéro ($p=.001$) ! Nous rejetons cette hypothèse !"
   **lorsque la vérité est zéro** nous faisons une **erreur de faux positifs** (prétendant détecter quelque chose lorsqu'il n'y a pas de signal, seulement du bruit).
 
 - Si nous disons : "Nous ne pouvons pas distinguer ce résultat de zéro ($p=.3$). Nous ne pouvons pas rejeter l'hypothèse de zéro."
@@ -497,7 +497,7 @@ Attention:
 
 ## Les décisions impliquent des erreurs
 
-- Si les erreurs sont nécessaires, comment les diagnostiquer ? Comment savoir si notre procédure de tests d'hypothèses génère trop de faux positifs?
+- Si les erreurs sont nécessaires, comment les diagnostiquer ? Comment savoir si notre procédure de tests d'hypothèses génère trop de faux positifs ?
 
 - Diagnostiquez par simulation !
 
@@ -695,9 +695,9 @@ legend("topleft",
 
 ## Exercice : Tests d'hypothèse et statistiques de test
 
-  1. Si une intervention était très efficace pour augmenter la variabilité d'un résultat mais ne changeait pas la moyenne, la $p$-valeur rapportée par R ou Stata en utilisant `lm_robust()` ou `difference_of_means()` ou ` reg` ou `t.test` est-elle grande ou petite?
+  1. Si une intervention était très efficace pour augmenter la variabilité d'un résultat mais ne changeait pas la moyenne, la $p$-valeur rapportée par R ou Stata en utilisant `lm_robust()` ou `difference_of_means()` ou ` reg` ou `t.test` est-elle grande ou petite ?
 
-  2. Si une intervention réduisait modérément la moyenne dans le groupe témoin mais augmentait considérablement quelques résultats (comme un effet 10 fois supérieur), la $p$-valeur de R `lm_robust()` ou `difference_of_means() ` est-elle grande ou petite?
+  2. Si une intervention réduisait modérément la moyenne dans le groupe témoin mais augmentait considérablement quelques résultats (comme un effet 10 fois supérieur), la $p$-valeur de R `lm_robust()` ou `difference_of_means() ` est-elle grande ou petite ?
 
 # Tester de nombreuses hypothèses
 
@@ -705,15 +705,15 @@ legend("topleft",
 
 - L'effet d'un traitement expérimental diffère-t-il entre les différents groupes ? Les différences de l'effet du traitement pourraient-elles survenir en raison de certaines caractéristiques de base des sujets expérimentaux ?
 
-- Parmi plusieurs stratégies de communication, lesquelles ont été les plus efficaces sur un résultat particulier?
+- Parmi plusieurs stratégies de communication, lesquelles ont été les plus efficaces sur un résultat particulier ?
 
-- Parmi plusieurs résultats, lesquels ont été influencés par une seule intervention expérimentale?
+- Parmi plusieurs résultats, lesquels ont été influencés par une seule intervention expérimentale ?
 
 ## Taux de faux positifs dans les tests d'hypothèses multiples {.fragile}
 
 Disons que notre probabilité de faux positifs est de 0,05 pour un seul test. Que se passe-t-il si nous demandons:
-(1) lequel de ces 10 résultats a une relation statistiquement significative avec les deux bras de traitement?
-(2) *lequel de ces 10 bras de traitement avait une relation statistiquement significative avec ce résultat particulier*?
+(1) lequel de ces 10 résultats a une relation statistiquement significative avec les deux bras de traitement ?
+(2) *lequel de ces 10 bras de traitement avait une relation statistiquement significative avec ce résultat particulier* ?
 
   - La probabilité de faux positifs doit être inférieure ou égale à 0,05 dans un test.
   - La probabilité de faux positifs doit être inférieure ou égale à $1 - ( ( 1 - .05 ) \times (1 - .05) ) = .0975$ dans 2 tests.
@@ -801,9 +801,9 @@ head(dat1[, -c(2:6, 18:22)])
 head(dat1[, c(1, 7, 18:22)])
 ```
 
-## Pouvons-nous détecter un effet sur le résultat `Y1`?
+## Pouvons-nous détecter un effet sur le résultat `Y1` ?
 
-Pouvons-nous détecter un effet sur le résultat `Y1`? (c'est-à-dire, le test d'hypothèse produit-il une $p$-valeur suffisamment petite?)
+Pouvons-nous détecter un effet sur le résultat `Y1` ? (c'est-à-dire, le test d'hypothèse produit-il une $p$-valeur suffisamment petite ?)
 ```{r p1, echo=TRUE}
 coin::pvalue(oneway_test(Y1 ~ factor(T), data = dat1))
 ## Notez que la p-valeur du test t est également un test du chi carré
@@ -813,9 +813,9 @@ coin::pvalue(independence_test(Y1 ~ factor(T),
 ))
 ```
 
-## Pour lequel des cinq résultats pouvons-nous détecter un effet?
+## Pour lequel des cinq résultats pouvons-nous détecter un effet ?
 
-Pouvons-nous détecter un effet sur le résultat `Y1`? (c'est-à-dire, l'un des cinq tests d'hypothèse produit-il une $p$-valeur suffisamment petite?)
+Pouvons-nous détecter un effet sur le résultat `Y1` ? (c'est-à-dire, l'un des cinq tests d'hypothèse produit-il une $p$-valeur suffisamment petite ?)
 
 ```{r pmult, echo=TRUE}
 p1 <- coin::pvalue(oneway_test(Y1 ~ factor(T), data = dat1))
@@ -829,14 +829,14 @@ sort(theps)
 
 ## Pouvons-nous détecter un effet pour tous les résultats ?
 
-Pouvons-nous détecter un effet pour tous les résultats? (c'est-à-dire, un test d'hypothèse pour tous les résultats ensemble produit-il une $p$-valeur suffisamment petite?)
+Pouvons-nous détecter un effet pour tous les résultats ? (c'est-à-dire, un test d'hypothèse pour tous les résultats ensemble produit-il une $p$-valeur suffisamment petite ?)
 ```{r omnibus, echo=TRUE}
 coin::pvalue(independence_test(Y1 + Y2 + Y3 + Y4 + Y5 ~ factor(T),
   data = dat1, teststat = "quadratic"
 ))
 ```
 
-Quelle approche est susceptible de nous induire en erreur avec trop de résultats "statistiquement significatifs" (5 tests ou 1 test omnibus)?
+Quelle approche est susceptible de nous induire en erreur avec trop de résultats "statistiquement significatifs" (5 tests ou 1 test omnibus) ?
 
 ## Comparer les approches I
 
@@ -932,10 +932,10 @@ p.adjust(theps_new, method = "holm")
 
 - Le même genre de problème peut arriver lorsque la question porte sur l'effet de traitement différentiel multi-bras.
 
-- Avec 5 bras, "l'effet du bras 1" pourrait signifier beaucoup de choses différentes : "Est-ce que les résultats potentiels moyens sont plus grands pour le bras 1 ou 2?",
-"Les résultats potentiels sont-ils plus grands pour le bras 1 comparé à tous les autres?"
+- Avec 5 bras, "l'effet du bras 1" pourrait signifier beaucoup de choses différentes : "Est-ce que les résultats potentiels moyens sont plus grands pour le bras 1 ou 2 ?",
+"Les résultats potentiels sont-ils plus grands pour le bras 1 comparé à tous les autres ?"
 
-- Si nous nous concentrons uniquement sur les comparaisons par paires de bras, nous pourrions avoir $((5 \times 5) - 5)/2 = 10$ tests uniques!
+- Si nous nous concentrons uniquement sur les comparaisons par paires de bras, nous pourrions avoir $((5 \times 5) - 5)/2 = 10$ tests uniques !
 
 ## Tests d'hypothèses multiples : bras de traitement multiples {.allowframebreaks}
 

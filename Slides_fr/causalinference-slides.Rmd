@@ -55,18 +55,18 @@ colorize <- function(x, color) {
 }
 ```
 
-## Pourquoi les chercheurs en sciences sociales et les décideurs politiques doivent-ils se soucier de la causalité?
+## Pourquoi les chercheurs en sciences sociales et les décideurs politiques doivent-ils se soucier de la causalité ?
 
 - [Discussion avec vos propres exemples.]
 
 # Approche contrefactuelle de l'inférence causale
 ## Récents changements dans la recherche en sciences sociales
 
-- Historiquement, la causalité inverse et le biais de variable omise ont posé problémae pour la recherche en sciences sociales qui prétend expliquer les causes.
+- Historiquement, la causalité inverse et le biais de variable omise ont posé problème pour la recherche en sciences sociales qui prétend expliquer les causes.
 
 - Récemment, l'approche contrefactuelle a été adoptée dans les sciences sociales comme cadre d'inférence causale.
 
-- Cela représente un grand changement dans la recherche:
+- Cela représente un grand changement dans la recherche :
 
 	- Être plus précis sur ce que nous entendons par effet causal.
 
@@ -79,20 +79,20 @@ colorize <- function(x, color) {
 
 - Dans l'approche contrefactuelle : "Si X ne s'était pas produit, alors Y ne se serait pas produit."
 
-- Les expériences nous aident à en apprendre davantage sur les affirmations de causalité contrefactuelles ou dues sur la manipulation.
+- Les expériences nous aident à en apprendre davantage sur les affirmations de causalité contrefactuelles ou dues à une manipulation lors d'une expérience.
 
 - Ce n'est pas incorrect de _conceptualiser_ la "cause" d'une autre manière. Mais il a été productif de travailler dans ce cadre contrefactuel [@brady2008causation].
 
 
-## Comment interpréter « X cause Y » dans cette approche
+## Comment interpréter "X cause Y" dans cette approche
 
-1.  "X cause Y" n'implique pas nécessairement que W et V ne causent pas Y. X fait partie de l'histoire, pas ce n'est pas toute l'histoire. (Toute l'histoire n'est pas nécessaire pour savoir si X cause Y).
+1.  "X cause Y" n'implique pas nécessairement que W et V ne causent pas Y. X fait partie de l'histoire, mais ce n'est pas toute l'histoire. (Toute l'histoire n'est pas nécessaire pour savoir si X cause Y).
 
-2.  "X cause Y" nécessite un **contexte**: une allumette provoque une flamme mais cela nécessite de l'oxygène ; les petites salles de classe améliorent les résultats mais nécessitent des enseignants expérimentés et un financement adapté [@cartwright2012evidence].
+2.  "X cause Y" nécessite un **contexte** : une allumette provoque une flamme mais cela nécessite de l'oxygène ; les petites salles de classe améliorent les résultats mais nécessitent des enseignants expérimentés et un financement adapté [@cartwright2012evidence].
 
 3. "X cause Y" peut signifier "Avec X, la probabilité de Y est plus élevée qu'elle ne le serait sans X." ou "Sans X, il n'y a pas de Y." Les deux sont compatibles avec l'idée contrefactuelle.
 
-## Comment interpréter « X cause Y » dans cette approche
+## Comment interpréter "X cause Y" dans cette approche
 
 4. Il n'est pas nécessaire de connaître le mécanisme pour établir que X cause Y. Le mécanisme peut être complexe, et il peut impliquer des probabilités : X cause Y parfois à cause de A et parfois à cause de B.
 
@@ -120,7 +120,7 @@ colorize <- function(x, color) {
 
 ## Définition de l'effet causal
 
-- L'**effet causal** du traitement (par rapport au contrôle) est:
+- L'**effet causal** du traitement (par rapport au contrôle) est :
 	$\tau_i = Y_i(1) - Y_i(0)$
 	
 - Notez que nous utilisons maintenant $T$ pour indiquer notre traitement (ce dont nous voulons apprendre l'effet). $X$ sera utilisé pour les variables d'arrière-plan TODO background variables.
@@ -129,7 +129,7 @@ colorize <- function(x, color) {
 ## Principales caractéristiques de cette définition de l'effet causal
 
 1. Vous devez définir la condition de contrôle pour définir un effet causal.
-    - Disons que $T=1$ signifie une réunion communautaire pour discuter de santé publique. Est-ce que $T=0$ signifie pas réunion? Est-ce que $T=0$ signifie une réunion sur un autre sujet? Est-ce que $T=0$ est un dépliant sur la santé publique?
+    - Disons que $T=1$ signifie une réunion communautaire pour discuter de santé publique. Est-ce que $T=0$ signifie pas réunion ? Est-ce que $T=0$ signifie une réunion sur un autre sujet ? Est-ce que $T=0$ est un dépliant sur la santé publique ?
     - L'expression ``effet causal de $T$ sur $Y$'' n'a pas de sens sans savoir ce que signifie ne pas avoir $T$.
 
 2. Chaque unité $i$ a son propre effet causal $\tau_i$.
@@ -141,7 +141,7 @@ $Y_i = T_iY_i(1) + (1-T_i)Y_i(0)$
 
 
 
-## Imaginons qu'on connaisse à la fois $Y_i(1)$ et $Y_i(0)$ (ce qui n'est jamais vrai!)
+## Imaginons qu'on connaisse à la fois $Y_i(1)$ et $Y_i(0)$ (ce qui n'est jamais vrai !)
 | $i$      | $Y_i(1)$ | $Y_i(0)$ | $\tau_i$ |
 |----------:|:----------:|:----------:|:----------:|
 | Andrei   | 1        | 1        | 0        |
@@ -165,16 +165,15 @@ $\overline{\tau_i} = \frac{1}{N} \sum_{i=1}^N ( Y_i(1)-Y_i(0) ) = \overline{Y_i(
 
  - L'effet causal moyen est également appelé effet moyen du traitement.
  
- - Further explanation on how after we discuss randomization of treatment assignment in the next section.
-   Plus d'explications sur la randomisation de l'assignation du traitement dans la section suivante.
+ - Plus d'explications sur la randomisation de l'assignation du traitement dans la section suivante.
 
 ## Estimandes et questions causales
 
 - Avant de discuter de la randomisation et de la façon dont elle nous permet d'estimer l'effet causal moyen, sachez que l'effet causal moyen est un type d'estimande.
 
-- Un estimande est une quantité que vous souhaitez connaître (à partir de vos données). C'est la cible de votre recherche que *vous* avez défini.
+- Un estimande est une quantité que vous souhaitez connaître (à partir de vos données). C'est la cible de votre recherche que *vous* avez définie.
 
-- Être précis pour votre question de recherche, c'est être précis pour votre estimande. Pour les questions causales, il s'agit de préciser:
+- Être précis pour votre question de recherche, c'est être précis pour votre estimande. Pour les questions causales, il s'agit de préciser :
    - Le résultat
    - Les conditions de traitement et de contrôle
    - La population étudiée
@@ -219,9 +218,9 @@ $\overline{\tau_i} = \frac{1}{N} \sum_{i=1}^N ( Y_i(1)-Y_i(0) ) = \overline{Y_i(
 
 ## La randomisation est puissante (1)
 
-- We want the ATE, $\overline{\tau_i}= \overline{Y_i(1)-Y_i(0)}$.  
+- Nous cherchons l'ATE, $\overline{\tau_i}= \overline{Y_i(1)-Y_i(0)}$.
 
-- We will make use of the fact that the average of differences equals the difference of averages:
+- Nous allons utiliser le fait que la moyenne des différences est égale à la différence des moyennes :
 
 \centering
 ATE $= \overline{Y_i(1)-Y_i(0)} = \overline{Y_i(1)}-\overline{Y_i(0)}$
@@ -232,14 +231,14 @@ ATE $= \overline{Y_i(1)-Y_i(0)} = \overline{Y_i(1)}-\overline{Y_i(0)}$
 
 - Parce que ces unités ont été assignées au hasard au traitement, ces $Y_i=Y_i(1)$ pour les unités traitées représentent les $Y_i(1)$ pour toutes nos unités.
 
-- En espérance (ou en moyenne sur des expériences répétées (écrit $E_R[]$)):
+- En espérance (ou en moyenne sur des expériences répétées (écrit $E_R[]$)) :
 
 \centering
 $E_R[\overline{Y_i}|T_i=1]=\overline{Y_i(1)}$.
 
 - $\overline{Y}|T_i=1$ est un estimateur sans biais de la moyenne des résultats potentiels pour la population sous traitement.
 
-- La même logique s'applique pour les unités affectées aléatoirement au contrôle:
+- La même logique s'applique pour les unités affectées aléatoirement au contrôle :
 
 \centering
 $E_R[\overline{Y_i}|T_i=0]=\overline{Y_i(0)}$.
@@ -250,12 +249,12 @@ $E_R[\overline{Y_i}|T_i=0]=\overline{Y_i(0)}$.
 
 
 
-- Nous pouvons donc écrire un estimateur pour l'effet moyen du traitement:
+- Nous pouvons donc écrire un estimateur pour l'effet moyen du traitement :
 
 \centering
 	$\hat{\overline{\tau_i}} = ( \overline{Y_i(1)} | T_i = 1 ) - ( \overline{Y_i(0)} | T_i = 0 )$
 
-- En espérance (ou en moyenne sur des expériences répétées, $\hat{\overline{\tau_i}}$ égal l'effet moyen du traitement:
+- En espérance (ou en moyenne sur des expériences répétées, $\hat{\overline{\tau_i}}$ égal l'effet moyen du traitement :
 
 \centering
 	$E_R[Y_i| T_i = 1 ] - E_R[Y_i | T_i = 0] = \overline{Y_i(1)} - \overline{Y_i(0)}$.
@@ -280,13 +279,13 @@ knitr::include_graphics("../Images/randomsampling_redblue_plain.png")
 
 ## Assignation aléatoire à la condition rouge (1) ou bleue (0)
 
-```{r randomassignment, echo=FALSE, out.width='70%',fig.cap='Assignation aléatoire Random assignment de cet échantillon aléatoire des foyers'}
+```{r randomassignment, echo=FALSE, out.width='70%',fig.cap='Assignation aléatoire de cet échantillon aléatoire des foyers'}
 knitr::include_graphics("../Images/randomassignment.png")
 ```
 
 ## Trois hypothèses clés
 
-Pour faire des postulats de causalité avec une expérience (ou pour juger si nous croyons aux affirmations d'une étude), nous avons besoin de trois hypothèses de base:
+Pour faire des postulats de causalité avec une expérience (ou pour juger si nous croyons aux affirmations d'une étude), nous avons besoin de trois hypothèses de base :
 
  - Assignation aléatoire des sujets au traitement, ce qui implique que la réception du traitement est statistiquement indépendante des résultats potentiels des sujets.
 
@@ -296,11 +295,11 @@ Pour faire des postulats de causalité avec une expérience (ou pour juger si no
 
 ## Hypothèses clé : SUTVA, partie 1
 
-1. La non-interférence --  Le résultat potentiel d'un sujet reflète uniquement si ce sujet reçoit lui-même le traitement. Il n'est pas affecté par la façon dont les traitements sont attribués à d'autres sujets.
+1. La non-interférence --  Le résultat potentiel d'un sujet reflète uniquement la reception du traitement par ce sujet. Il n'est pas affecté par la façon dont les traitements sont attribués à d'autres sujets.
 
    - Une violation classique est le cas des vaccins et de leurs effets de débordement.
 
-   - Imaginons que je sois dans le groupe contrôle (pas de vaccin). Le risque de tomber malade ($Y_i(0)$) dépend de l'état de traitement des autres personnes (si elles prennent le vaccin ou non), c'est comme si j'avais deux $Y_i(0)$ différents!
+   - Imaginons que je sois dans le groupe contrôle (pas de vaccin). Le risque de tomber malade ($Y_i(0)$) dépend de l'état de traitement des autres personnes (si elles prennent le vaccin ou non), c'est comme si j'avais deux $Y_i(0)$ différents !
 
    - l’hypothèse SUTVA.
 
@@ -309,7 +308,7 @@ Pour faire des postulats de causalité avec une expérience (ou pour juger si no
 2. Pas de variations cachées du traitement
 
    - Disons que le traitement consiste à prendre un vaccin, mais il existe deux types de vaccins et ils ont des compositions différentes.
-   - Un exemple d'infraction est le fait de tomber malade lorsque je prends le vaccin ($Y_i(1)$) dépend du vaccin reçu. Nous aurions deux $Y_i(1)$ différents!
+   - Un exemple d'infraction est le fait de tomber malade lorsque je prends le vaccin ($Y_i(1)$) dépend du vaccin reçu. Nous aurions deux $Y_i(1)$ différents !
 
 ## Hypothèses clé : l'excluabilité
 
@@ -341,31 +340,31 @@ Pour faire des postulats de causalité avec une expérience (ou pour juger si no
 
 ## Exercice : Apprendre de vos connaissances antérieures
 
-**Discutez en petits groupes :** Aidez-moi à concevoir le prochain projet pour répondre
+**Discutez en petits groupes :** concevez le prochain projet pour répondre
 à l'une de ces questions (ou l'une de vos propres questions causales). Esquissez les
 caractéristiques clés de deux designs --- un design observationnel et un design aléatoire.
 
-**Exemples de questions de recherche:**
+**Exemples de questions de recherche :**
 
-  - Les projets communautaires de reconstruction augmentent-ils la confiance et la coopération au Libéria? [Note d'orientation des politiques publiques EGAP 40](https://egap.org/resource/brief-40-development-assistance-and-collective-action-capacity/)
+  - Les projets communautaires de reconstruction augmentent-ils la confiance et la coopération au Libéria ? [Note d'orientation des politiques publiques EGAP 40](https://egap.org/resource/brief-40-development-assistance-and-collective-action-capacity/)
 
-  - Un suivi par la communauté peut-il augmenter le recours aux cliniques et réduire la mortalité infantile en Ouganda? [Note d'orientation des politiques publiques EGAP 58](https://egap.org/resource/does-bottom-up-accountability-work-evidence-from-uganda/)
+  - Un suivi par la communauté peut-il augmenter le recours aux cliniques et réduire la mortalité infantile en Ouganda ? [Note d'orientation des politiques publiques EGAP 58](https://egap.org/resource/does-bottom-up-accountability-work-evidence-from-uganda/)
   
 ## Exercice : études observationnelles vs études aléatoires
 
-**Tâches:**
+**Tâches :**
 
    1. Designez une étude observationnelle idéale (sans randomisation, sans contrôle par les chercheurs mais avec des ressources illimitées pour la collecte des données).
-      Quelles questions poserait un lecteur critique lorsque vous prétendez que vos résultats reflètent une relation causale?
+      Quelles questions poserait un lecteur critique lorsque vous prétendez que vos résultats reflètent une relation causale ?
 
    2. Designez une étude aléatoire idéale (avec randomisation).
-      Quelles questions poserait un lecteur critique lorsque vous prétendez que vos résultats reflètent une relation causale?
+      Quelles questions poserait un lecteur critique lorsque vous prétendez que vos résultats reflètent une relation causale ?
 
 ## Discussion
 
- - Quels étaient les éléments clés, les forces et les faiblesses des études aléatoires?
+ - Quels sont les éléments clés, les forces et les faiblesses des études aléatoires ?
 
- - Quels étaient les éléments clés, les forces et les faiblesses des études observationnelles?
+ - Quels sont les éléments clés, les forces et les faiblesses des études observationnelles ?
 
 ## Généralisabilité et validité externe
 
@@ -381,5 +380,5 @@ caractéristiques clés de deux designs --- un design observationnel et un desig
 
 [Note d'orientation des politiques publiques EGAP 40 : Aide au développement et capacité d'action collective](https://egap.org/resource/brief-40-development-assistance-and-collective-action-capacity/)
 
-[Note d'orientation des politiques publiques EGAP 58 : La responsabilisation bottom-up fonctionne-t-elle?](https://egap.org/resource/does-bottom-up-accountability-work-evidence-from-uganda/)
+[Note d'orientation des politiques publiques EGAP 58 : La responsabilisation bottom-up fonctionne-t-elle ?](https://egap.org/resource/does-bottom-up-accountability-work-evidence-from-uganda/)
 
