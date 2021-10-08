@@ -106,8 +106,8 @@ Revue : L'inférence causale fait référence à la comparaison de résultats po
 
 Par exemple :
 
-  - le résultat potentiel de l'unité $i$ lorsqu'elle est affectée au traitement, $T_i=1$ est $Y_{i}(T_{i}=1)$.
-  - le résultat potentiel de l'unité $i$ lorsqu'elle est affectée au contrôle, $T_i=0$ est $Y_{i}(T_{i}=0)$.
+  - le résultat potentiel de l'unité $i$ lorsqu'elle est assignée au traitement, $T_i=1$ est $Y_{i}(T_{i}=1)$.
+  - le résultat potentiel de l'unité $i$ lorsqu'elle est assignée au contrôle, $T_i=0$ est $Y_{i}(T_{i}=0)$.
 
 L'assignation de traitement, $T_i$, a un effet causal sur l'unité $i$, que nous appelons $\tau_i$, si
 $Y_{i}(T_{i}=1) -  Y_{i}(T_{i}=0) \ne 0$ ou $Y_{i}(T_{i}=1) \ne Y_{i}(T_{i}=0)$.
@@ -214,7 +214,7 @@ small_dat <- dat[, c("y0", "y1")]
 pop <- declare_population(small_dat)
 N <- nrow(small_dat)
 
-# 5 unités affectées au traitement ; la valeur par défaut est l'assignation aléatoire simple avec une probabilité de 0,5
+# 5 unités assignées au traitement ; la valeur par défaut est l'assignation aléatoire simple avec une probabilité de 0,5
 trt_assign <- declare_assignment(Z = conduct_ra(N=N,m = 2),legacy=FALSE)
 
 # Y observé est y1 si Z=1 et y0 si Z=0
@@ -579,10 +579,10 @@ Notez que la couverture n'est pas toujours à 95 % dans tous les cas. Nous avons
 
 ## Dans les expériences aléatoires en grappe, les unités sont randomisées en groupe (cluster) pour le traitement  {.allowframebreaks}
 
-- **Exemple 1 :** une intervention est randomisée entre les quartiers, donc **tous** les ménages d'un quartier seront affectés à la même condition de traitement, mais différents quartiers seront affectés à des traitements différents.
+- **Exemple 1 :** une intervention est randomisée entre les quartiers, donc **tous** les ménages d'un quartier seront assignés à la même condition de traitement, mais différents quartiers seront assignés à des traitements différents.
 - **Exemple 2 :** une intervention est randomisée sur plusieurs personnes et chaque personne est mesurée quatre fois après le traitement. Nos données contiennent donc quatre lignes par personne.
 
-- **Pas un exemple 1 :** Les quartiers sont choisis pour l'étude. Dans chaque quartier, environ la moitié des personnes sont affectées au traitement et l'autre moitié au contrôle. (De quel type d'étude s'agit-il ? Ce n'est pas une étude randomisée en grappe.)
+- **Pas un exemple 1 :** Les quartiers sont choisis pour l'étude. Dans chaque quartier, environ la moitié des personnes sont assignées au traitement et l'autre moitié au contrôle. (De quel type d'étude s'agit-il ? Ce n'est pas une étude randomisée en grappe.)
 - **Pas un exemple 2 :** une intervention est randomisée dans certains quartiers et pas dans d'autres, les résultats incluent des mesures de la confiance au niveau du quartier envers le gouvernement et la superficie totale du quartier consacrée aux jardins. (Parfois, une expérience randomisée en grappe peut être transformée en une expérience randomisée simple. Ou elle peut contenir plus d'une approche possible d'analyse et d'interprétation.)
 
 En quoi la distribution des statistiques de test et des estimateurs peut-elle différer d'une expérience où des unités individuelles (et non des clusters) sont randomisées ?

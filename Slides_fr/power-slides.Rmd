@@ -200,7 +200,7 @@ library(tidyverse)
 P0 <- declare_population(N,u0=rnorm(N))
 # declarer Y(Z=1) et Y(Z=0)
 O0 <- declare_potential_outcomes(Y_Z_0 = 5 + u0, Y_Z_1 = Y_Z_0 + tau)
-# affecter m unités au traitement
+# assigner m unités au traitement
 A0 <- declare_assignment(Z=conduct_ra(N=N, m=round(N/2)))
 # l'estimande est la différence des moyennes entre Y(Z=1) et Y(Z=0)
 estimand_ate <- declare_inquiry(ATE=mean(Y_Z_1 - Y_Z_0))

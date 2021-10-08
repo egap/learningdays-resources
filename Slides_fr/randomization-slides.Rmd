@@ -51,13 +51,13 @@ Commencez avec un groupe d'unités que vous pouvez observer directement : comme
 
 - Chaque observation a une probabilité connue d'assignation au traitement comprise entre 0 et 1.
 
-   - Aucune unité de l'échantillon expérimental n'est affectée au traitement ou au contrôle avec certitude.
+   - Aucune unité de l'échantillon expérimental n'est assignée au traitement ou au contrôle avec certitude.
 
 - Les unités peuvent varier dans leur probabilité d'assignation au traitement.
 
-   - Par exemple, la probabilité peut varier selon le groupe : les femmes peuvent avoir une probabilité de 75\% d'être affectées au traitement.
+   - Par exemple, la probabilité peut varier selon le groupe : les femmes peuvent avoir une probabilité de 75\% d'être assignées au traitement.
 
-   - Les probabilités d'affectation peuvent même varier d'une unité à l'autre **tant que vous connaissez la probabilité pour chaque unité**, bien que cela compliquerait votre analyse.
+   - Les probabilités d'assignation peuvent même varier d'une unité à l'autre **tant que vous connaissez la probabilité pour chaque unité**, bien que cela compliquerait votre analyse.
 
 
 ## Assignation aléatoire $\neq$ échantillonnage aléatoire
@@ -108,7 +108,7 @@ Commencez avec un groupe d'unités que vous pouvez observer directement : comme
 
 - Vous ne pouvez pas garantir un nombre précis d'unités traitées et d'unités de contrôle.
 
-- Exemple : Si vous avez 6 unités et que vous lancez une pièce équitable pour chacune, vous avez environ 3% de chances d'affecter **toutes** unités au traitement ou d'affecter **toutes** unités au contrôle.
+- Exemple : Si vous avez 6 unités et que vous lancez une pièce équitable pour chacune, vous avez environ 3% de chances d'assigner **toutes** unités au traitement ou d'assigner **toutes** unités au contrôle.
 
 ## Exemple de code pour la randomisation simple I
 
@@ -147,9 +147,9 @@ sum(treatment)
 
 ## Ramdomisation complète (tirage d'une urne)
 
-- Un nombre fixe de $m$ sur $N$ d'unités est affecté au traitement.
+- Un nombre fixe de $m$ sur $N$ d'unités est assigné au traitement.
 
-- La probabilité qu'une unité soit affectée au traitement est de $m/N$.
+- La probabilité qu'une unité soit assignée au traitement est de $m/N$.
 
 - C'est comme avoir une urne avec $N$ boules, dont $m$ sont marquées comme traitement et $N-m$ sont marquées comme contrôle. La loterie publique utilise cette méthode.
 
@@ -292,7 +292,7 @@ anova(lm(treatment~1,data = dat),
 
    - Parfois, certaines unités (peuples, communautés) doivent avoir accès à un programme.
       - Par exemple : une organisation partenaire ne veut pas risquer qu'une communauté vulnérable ne bénéficie PAS d'un programme (elle veut la garantie qu'elle sera toujours traitée).
-      - Vous pouvez exclure ces unités de l'expérience et procéder à une affectation aléatoire parmi les unités restantes qui ont une probabilité d'affectation strictement comprise entre 0 et 1 (non inclus).
+      - Vous pouvez exclure ces unités de l'expérience et procéder à une assignation aléatoire parmi les unités restantes qui ont une probabilité d'assignation strictement comprise entre 0 et 1 (non inclus).
 
 ## Accès différé (Accès graduel ou liste d'attente)
 
@@ -304,7 +304,7 @@ anova(lm(treatment~1,data = dat),
 
 - Votre groupe de contrôle sont les unités pas encore traitées.
 
-- Attention : la probabilité d'affectation au traitement variera dans le temps car les unités affectées au traitement à des stades antérieurs ne sont pas éligibles pour être affectées à un traitement à des stades ultérieurs.
+- Attention : la probabilité d'assignation au traitement variera dans le temps car les unités assignées au traitement à des stades antérieurs ne sont pas éligibles pour être assignées à un traitement à des stades ultérieurs.
 
 ## Assignation factorielle ou croisée
 
