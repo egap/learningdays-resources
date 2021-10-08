@@ -57,7 +57,7 @@ library(styler)
 
 ## Points clés sur l'estimation I
 
-  - Un effet causal, $\tau_i$, est une comparaison des résultats potentiels non observés pour chaque unité $i$ : exemples  $\tau_{i} = Y_{i}(T_{i}=1) -  Y_{i}(T_{i}=0)$ or  $\tau_{i} = \frac{Y_{i}(T_{i}=1)}{ Y_{i}(T_{i}=0)}$.
+  - Un effet causal, $\tau_i$, est une comparaison des résultats potentiels non observés pour chaque unité $i$ : exemples  $\tau_{i} = Y_{i}(T_{i}=1) -  Y_{i}(T_{i}=0)$ ou  $\tau_{i} = \frac{Y_{i}(T_{i}=1)}{ Y_{i}(T_{i}=0)}$.
 
   - Pour en savoir plus sur $\tau_{i}$, nous pouvons traiter $\tau_{i}$ comme un **estimande** ou une quantité cible à estimer (discutée ici) ou comme quantité cible hypothétique (session sur les tests d'hypothèse).
 
@@ -79,7 +79,7 @@ library(styler)
 
   - Différentes randomisations produiront différentes valeurs du même estimateur ciblant le même estimande. L'**erreur type** résume la variabilité de cet estimateur.
 
-  - Un **intervalle de confiance** de 100(1-\alpha)$%** est un ensemble d'hypothèses qui ne peuvent être rejetées au niveau $\alpha$. Nous avons tendance à rapporter des intervalles de confiance contenant des hypothèses sur les valeurs de notre estimande et à utiliser notre estimateur comme une statistique de test.
+  - Un **intervalle de confiance** de $100(1-\alpha)$%** est un ensemble d'hypothèses qui ne peuvent être rejetées au niveau $\alpha$. Nous avons tendance à rapporter des intervalles de confiance contenant des hypothèses sur les valeurs de notre estimande et à utiliser notre estimateur comme une statistique de test.
 
 
 ## Points clés sur l'estimation IV
@@ -486,8 +486,8 @@ base_design_blocks <-
     # déclarer la population
     declare_population(dat[, c("b","y0", "y1")]) +
     # dire à la méthode des doubles différences que b signifie bloc et assigner 2 unités du traitement dans chaque bloc
-    declare_assignment(Z=conduct_ra(N=N, m=2,blocks=b), 
-                       Z_cond_prob = 
+    declare_assignment(Z=conduct_ra(N=N, m=2,blocks=b),
+                       Z_cond_prob =
       obtain_condition_probabilities(assignment = Z, m = 2)) +
     # relation entre les résultats potentiels et les résultats observés
     declare_potential_outcomes(Y ~ Z * y1 + (1 - Z) * y0)+
