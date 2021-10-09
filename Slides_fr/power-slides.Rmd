@@ -46,17 +46,17 @@ source("rmd_setup.R")
 
 - Ainsi, la puissance statistique $\in$ (0, 1).
 
-- Seuils standards : 0.8 ou 0.9.
+- Seuils standard : 0.8 ou 0.9.
 
 ## Point de départ pour l'analyse de puissance
 
-- L'analyse de puissance est quelque chose que nous faisons *avant* de mener une étude.
+- L'analyse de puissance est quelque chose que nous faisons *avant* de mener une étude pour aider à :
 
-    - aide à déterminer l'échantillon dont vous avez besoin pour détecter une taille d'effet donnée.
+    - déterminer l'échantillon dont vous avez besoin pour détecter une taille d'effet donnée.
 
-    - ou aide à déterminer une différence détectable minimale compte tenu d'une taille d'échantillon définie.
+    - déterminer une différence détectable minimale compte tenu d'une taille d'échantillon définie.
 
-    - peut aider à décider si vous souhaitez mener une étude.
+    - décider si vous souhaitez mener une étude.
 
 - Il est difficile d'apprendre d'un résultat non-concluant sous-alimenté.
 
@@ -72,11 +72,11 @@ source("rmd_setup.R")
 
     - Combien d'unités sont traitées, mesurées ?
 
-    - Combien de bruit y a-t-il dans la mesure de votre résultat ?
+    - Quelle quantité de bruit y a-t-il dans la mesure de votre résultat ?
 
 
 ## Approches pour calculer la puissance statistique
-- Calculs analytiques de puissance
+- Calcul analytique
 
 - Simulation
 
@@ -95,8 +95,8 @@ source("rmd_setup.R")
     - [DeclareDesign](https://cran.r-project.org/web/packages/DeclareDesign/index.html), voir aussi <https://declaredesign.org/>
 
 
-# Calculs analytiques de puissance
-## Calculs analytiques de puissance
+# Calcul analytique de puissance
+## Calcul analytique de puissance
 - Formule:
   \begin{align*}
   \text{Power} &= \Phi\left(\frac{|\tau| \sqrt{N}}{2\sigma}- \Phi^{-1}(1- \frac{\alpha}{2})\right)
@@ -107,22 +107,23 @@ source("rmd_setup.R")
   - $\tau$ : la taille de l'effet
   - $N$ : la taille de l'échantillon
   - $\sigma$ : l'écart type du résultat
-  - $\alpha$ : the significance level (typically 0.05)
+  - $\alpha$ : le niveau de signification (typiquement 0.05)
 
 
-## Exemple : calculs analytiques de puissance
+## Exemple : calcul analytique de puissance
 
 ```{r pwrsimp, echo=TRUE, include=TRUE}
-# Puissance statistique pour une étude avec 80 observations et un effet de taille de 0.25
+# Puissance statistique pour une étude avec 80 observations
+# et un effet de taille de 0.25
 library(pwr)
 pwr.t.test(n = 40, d = 0.25, sig.level = 0.05,
            power = NULL, type = c("two.sample",
                       "one.sample", "paired"))
 ```
 
+## Limites du calcul de puissance analytique
 
-## Limites des calculs de puissance analytique
-- Dérivé uniquement pour certaines statistiques de test (différences de moyennes)
+- Dérivé uniquement pour certaines statistiques de test (différence des moyennes)
 
 - Fait des hypothèses spécifiques sur le processus de génération de données
 
@@ -145,7 +146,7 @@ pwr.t.test(n = 40, d = 0.25, sig.level = 0.05,
 
 - Créer des données.
 
-- Attribuer un traitement, puis estimer l'effet.
+- Assigner un traitement, puis estimer l'effet.
 
 - Répéter.
 
@@ -154,9 +155,9 @@ pwr.t.test(n = 40, d = 0.25, sig.level = 0.05,
 
 - Randomisation complète
 
-- Avec covariants
+- Avec covariables
 
-- Avec randomisation en grappe
+- Pour une randomisation en grappe
 
 ## Exemple : Calcul de puissance par simulation pour une randomisation complète
 
@@ -228,15 +229,18 @@ design0_plus_tests <- design0_base + E0 + T0
 
 design0_N100_tau25_plus <- redesign(design0_plus_tests,N=100,tau=.25)
 
-## Répète seulement l'assignation aléatoire, pas la création de Y0. Ignorer le warning
+## Répète seulement l'assignation aléatoire, pas la création de Y0.
+## Ignorer le warning
 names(design0_N100_tau25_plus)
 design0_N100_tau25_sims <- simulate_design(design0_N100_tau25_plus,
           sims=c(1,100,1,1,1,1)) # Répète seulement l'assignation aléatoire
-# design0_N100_tau25_sims a 200 lignes (2 tests * 100 assignements aleatoires)
+# design0_N100_tau25_sims a 200 lignes
+# = 2 tests * 100 assignements aleatoires
 # regardons les 6 premières lignes
 head(design0_N100_tau25_sims)
 
-# pour chaque estimateur, puissance = proportion de simulations avec p.value < 0.5
+# pour chaque estimateur,
+# puissance = proportion de simulations avec p.value < 0.5
 design0_N100_tau25_sims %>% group_by(estimator) %>%
   summarize(pow=mean(p.value < .05),.groups="drop")
 ```
@@ -244,38 +248,28 @@ design0_N100_tau25_sims %>% group_by(estimator) %>%
 # Puissance statistique avec ajustement de covariable
 ## Ajustement des covariables et puissance statistique
 
-    - L'ajustement de covariable peut améliorer la puissance statistique car il éponge la variation de la variable de résultat.
+- L'ajustement de covariable peut améliorer la puissance statistique car il atténue la variation du résultat.
+    - S'il est pronostique, l'ajustement de covariables peut réduire considérablement la variance. Une variance plus faible signifie une puissance plus élevée.
 
-       - S'il est pronostique, l'ajustement des covariables peut réduire considérablement la variance. Une variance plus faible signifie une puissance plus élevée.
+    - S'il est non pronostique, les gains de puissance sont minimes.
 
-       - Si non pronostique, les gains de puissance sont minimes.
+- Toutes analyses avec covariables doivent être faites pré-traitement. N'abandonnez pas d'observations pour cause de données manquantes.
 
-    - Toutes analyses avec covariables doivent être faits pré-traitement. N'abandonnez pas d'observations pour cause de données manquantes.
+    - Voir le module sur [les menaces à la validité interne](threats-to-internal-validity-of-randomized-experiments.html) et les [10 choses à savoir sur l'ajustement de covariables](http://egap.org/methods-guides/10-things-know-about-covariate-adjustment).
 
-       - Voir le module sur [les menaces à la validité interne](threats-to-internal-validity-of-randomized-experiments.html) et les [10 choses à savoir sur l'ajustement des covariables](http://egap.org/methods-guides/10-things-know-about-covariate-adjustment).
+- Observez le biais de Freedman tandis que nombre d'observations n diminue et que le nombre de covariables K augmente.
 
-   - Observez le biais de Freedman tandis que les observations n diminuent et que les covariables K augmentent.
+## Découpage par bloc
 
-<!-- Ne pas traduire ## Covariate adjustment: best practices -->
-<!-- - All covariates must be pre-treatment -->
-<!--   - Never adjust for post-treatment variables -->
-<!-- - In practice, if all controls are pre-treatment, you can add whatever controls you want -->
-<!--   - But there is a limit to the number -->
-<!--   - Also see -->
-<!-- - Missingness in pre-treatment covariates -->
-<!--   - Do not drop observations on account of pre-treatment missingness -->
-<!--   - Impute mean/median for pretreatment variable -->
-<!--   - Include missingness indicator and impute some value in the missing variable -->
+-  Découper par bloc : assignez au hasard un traitement au sein des blocs
 
--  Designer les blocs : assignez au hasard un traitement au sein des blocs
-
-    - Ajustement des covariables "ex-ante"
+    - Ajustement de covariables "ex-ante"
 
     - Une précision/efficacité plus élevée implique plus de puissance statistique
 
     - Réduire le "biais conditionnel" : association entre l'assignation du traitement et les résultats potentiels
 
-    - L'avantage des blocs sur l'ajustement des covariables est plus clair dans les petites expériences
+    - L'avantage des blocs sur l'ajustement de covariables est plus clair dans les petites expériences
 
 ## Exemple : Calcul de puissance par simulation avec une covariable {.allowframebreaks}
 
@@ -302,7 +296,8 @@ repeat_experiment_and_test_cov <- function(N, tau, Y0, x){
     pval <- estimator$p.value[2]
     return(pval)
 }
-## créer les données une fois, attribuer au hasard le traitement sims fois
+## créer les données une fois
+## assigner au hasard le traitement sims fois
 ## rapporte quelle proportion renvoie une valeur p < 0,05
 power_sim_cov <- function(N,tau,sims){
     dat <- make_Y0_cov(N)
@@ -333,9 +328,10 @@ power_sim_cov(N=80,tau=.25,sims=100)
 
 - Pour augmenter la puissance :
      - Mieux vaut augmenter le nombre de clusters que le nombre d'unités par cluster.
-     - Dans quelle mesure les clusters réduisent la puissance statistique dépend de manière critique de la corrélation intra-cluster (le rapport de la variance au sein des clusters à la variance totale).
+     - Dans quelle mesure les clusters réduisent la puissance statistique dépend de manière critique de la corrélation intra-cluster
+       (i.e. le rapport de la variance au sein des clusters à la variance totale).
 
-## Le design par cluster dans la recherche observationelle
+## Le design par grappe dans la recherche observationelle
 
 - Souvent négligé, conduisant à (peut-être) une incertitude extrêmement sous-estimée.
 
@@ -351,8 +347,8 @@ power_sim_cov(N=80,tau=.25,sims=100)
 ## Y0 est fixe dans la plupart des expériences sur le terrain.
 ## Nous ne le générons donc qu'une seule fois:
 make_Y0_clus <- function(n_indivs,n_clus){
-    # n_indivs in number of people per cluster
-    # n_clus is number of clusters
+    # n_indivs est le nombre de personnes par grappe
+    # n_clus est le nombre de grappes
     clus_id <- gl(n_clus,n_indivs)
     N <- n_clus * n_indivs
     u0 <- fabricatr::draw_normal_icc(N=N,clusters=clus_id,ICC=.1)
@@ -412,9 +408,10 @@ design1_base <- P1 + A1 + O1 + R1 + estimand_ate
 ## Par exemple:
 design1_test <- redesign(design1_base,n_clus=10,n_indivs=100,tau=.25)
 test_d1 <- draw_data(design1_test)
-# confirmer que tous les individus d'un groupe ont la même assignation de traitement
+# confirmer que tous les individus d'un groupe
+# ont la même assignation de traitement
 with(test_d1,table(Z,clusters))
-# trois estimateurs diffèrent par se_type:
+# les trois estimateurs diffèrent par se_type:
 E1a <- declare_estimator(Y~Z,model=lm_robust,clusters=clusters,
                          se_type="CR2", label="CR2 cluster t test",
                          inquiry="ATE")
@@ -431,7 +428,8 @@ design1_plus_tosim <- redesign(design1_plus,n_clus=10,n_indivs=100,tau=.25)
 ```
 
 ```{r ddversion_clus_sims, echo=TRUE, cache=TRUE, warnings=FALSE}
-## Répète seulement l'assignation aléatoire, pas la création de Y0. Ignorer le warning
+## Répète seulement l'assignation aléatoire, pas la création de Y0.
+## Ignorer le warning
 ## Nous voudrions plus de simulations en pratique.
 set.seed(12355)
 design1_sims <- simulate_design(design1_plus_tosim,
@@ -538,4 +536,4 @@ abline(h=.8)
 
      - Design par bloc
 
-4. Meilleure mesure de la variable de résultat
+4. Meilleure mesure du résultat

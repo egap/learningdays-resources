@@ -355,7 +355,7 @@ power_sim_cov(N=80,tau=.25,sims=100)
 ```{r powsimclus, echo=TRUE}
 ## Y0 is fixed in most field experiments. So we only generate it once
 make_Y0_clus <- function(n_indivs,n_clus){
-    # n_indivs in number of people per cluster
+    # n_indivs is number of people per cluster
     # n_clus is number of clusters
     clus_id <- gl(n_clus,n_indivs)
     N <- n_clus * n_indivs
