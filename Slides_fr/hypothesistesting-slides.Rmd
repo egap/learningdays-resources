@@ -165,7 +165,7 @@ bigdat$Ybin <- as.numeric(bigdat$Y > quantile(bigdat$Y, .85))
 kableExtra::kable(dat, col.names = c("Outcome", "Treatment", "$y_{i,0}$", "ITE", "$y_{i,1}$", "$Y>0$"), escape = FALSE)
 ```
 
-Par exemple, l'hypothèse nulle forte d'absence d'effet est $H_0 : y_{i,1} = y_{i,0}$
+Par exemple, l'hypothèse nulle stricte d'absence d'effet est $H_0 : y_{i,1} = y_{i,0}$
 
 
 ## Les statistiques des test résument les relations entre le traitement et les résultats
@@ -423,7 +423,7 @@ c(
 
 - $\alpha$ est la probabilité de rejeter l'hypothèse nulle lorsque l'hypothèse nulle est vraie.
 
-- Comment doit-on interpréter $p$=`r round(pMeanTT,2)` ? Qu'en est-il de $p$=`r round(pMeanRankTT,2)` (nos tests pour l'hypothèse nulle forte) ?
+- Comment doit-on interpréter $p$=`r round(pMeanTT,2)` ? Qu'en est-il de $p$=`r round(pMeanRankTT,2)` (nos tests pour l'hypothèse nulle stricte) ?
 
 - Que signifie "rejeter" $H_0 : y_{i,1}=y_{i,2}$ à $\alpha=.05$ ?
 
