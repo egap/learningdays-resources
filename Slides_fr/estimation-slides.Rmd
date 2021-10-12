@@ -577,19 +577,19 @@ Notez que la couverture n'est pas toujours à 95 % dans tous les cas. Nous avons
 
 # Randomisation par grappe
 
-## Dans les expériences aléatoires en grappe, les unités sont randomisées en groupe (cluster) pour le traitement  {.allowframebreaks}
+## Dans les expériences aléatoires par grappe, les unités sont randomisées en groupe (cluster) pour le traitement  {.allowframebreaks}
 
 - **Exemple 1 :** une intervention est randomisée entre les quartiers, donc **tous** les ménages d'un quartier seront assignés à la même condition de traitement, mais différents quartiers seront assignés à des traitements différents.
 - **Exemple 2 :** une intervention est randomisée sur plusieurs personnes et chaque personne est mesurée quatre fois après le traitement. Nos données contiennent donc quatre lignes par personne.
 
-- **Pas un exemple 1 :** Les quartiers sont choisis pour l'étude. Dans chaque quartier, environ la moitié des personnes sont assignées au traitement et l'autre moitié au contrôle. (De quel type d'étude s'agit-il ? Ce n'est pas une étude randomisée en grappe.)
-- **Pas un exemple 2 :** une intervention est randomisée dans certains quartiers et pas dans d'autres, les résultats incluent des mesures de la confiance au niveau du quartier envers le gouvernement et la superficie totale du quartier consacrée aux jardins. (Parfois, une expérience randomisée en grappe peut être transformée en une expérience randomisée simple. Ou elle peut contenir plus d'une approche possible d'analyse et d'interprétation.)
+- **Pas un exemple 1 :** Les quartiers sont choisis pour l'étude. Dans chaque quartier, environ la moitié des personnes sont assignées au traitement et l'autre moitié au contrôle. (De quel type d'étude s'agit-il ? Ce n'est pas une étude randomisée par grappe.)
+- **Pas un exemple 2 :** une intervention est randomisée dans certains quartiers et pas dans d'autres, les résultats incluent des mesures de la confiance au niveau du quartier envers le gouvernement et la superficie totale du quartier consacrée aux jardins. (Parfois, une expérience randomisée par grappe peut être transformée en une expérience randomisée simple. Ou elle peut contenir plus d'une approche possible d'analyse et d'interprétation.)
 
 En quoi la distribution des statistiques de test et des estimateurs peut-elle différer d'une expérience où des unités individuelles (et non des clusters) sont randomisées ?
 
-## Estimation de l'ATE dans des expériences aléatoires en grappe
+## Estimation de l'ATE dans des expériences aléatoires par grappe
 
-Problèmes de biais dans les expériences aléatoires en grappe :
+Problèmes de biais dans les expériences aléatoires par grappe :
 
 - Lorsque les clusters ont la même taille, l'estimateur habituel de différences des moyennes est sans biais.
 
@@ -598,7 +598,7 @@ Problèmes de biais dans les expériences aléatoires en grappe :
 - Lorsque la taille du cluster est liée aux résultats potentiels, l'estimateur habituel de différences des moyennes est biaisé. <https://declaredesign.org/blog/bias-cluster-randomized-trials.html>
 
 
-## Estimation de l'erreur standard pour l'ATE dans des expériences aléatoires en grappe {.allowframebreaks}
+## Estimation de l'erreur standard pour l'ATE dans des expériences aléatoires par grappe {.allowframebreaks}
 
 - **Inférences statistiques trompeuses :** L'erreur standard par défaut sous-estimera généralement la précision dans de tels designs et produira ainsi des tests avec des taux de faux positifs trop élevés (ou, de manière équivalente, des taux de couverture pour les intervalles de confiance trop faibles).
 
@@ -606,7 +606,7 @@ Problèmes de biais dans les expériences aléatoires en grappe :
 
 - L'erreur standard par défaut adaptée aux clusters dans `lm_robust` (l'erreur standard `CR2`) fonctionne mieux que l'approche basique dans Stata (à ce jour).
 
-- Le "wild bootstrap" aide à contrôler les taux d'erreur mais abandonne beaucoup plus de puissance statistique qu'il n'est peut-être nécessaire dans une étude aléatoire en grappe où l'inférence de randomisation directe est possible.
+- Le "wild bootstrap" aide à contrôler les taux d'erreur mais abandonne beaucoup plus de puissance statistique qu'il n'est peut-être nécessaire dans une étude aléatoire par grappe où l'inférence de randomisation directe est possible.
 
 - En cas de doute, on peut produire des $p$-valeurs ​​par simulation directe (inférence de randomisation directe) pour voir si elles sont en accord avec l'une des approches de cluster robustes.
 
@@ -737,7 +737,7 @@ tidy(lmc3)[2,]
 
 Si vous regardez le code des slides, vous verrez que nous simulons le design 5000 fois, en calculant à chaque fois une estimation et un intervalle de confiance pour différents estimateurs de l'ATE.
 
-Que devons-nous apprendre de ce tableau ? (Couverture ? `sd_estimate` vs `mean_se`).
+Que devons-nous apprendre de ce tableau ? (Couverture ? `sd_estimate` vs. `mean_se`).
 
 ```{r simdesign, warning=FALSE, results="hide"}
 des_plus_est <- des + thetarget_indiv + est1 + est2 + est3 + est4 + est5 + est6 + est7
@@ -801,9 +801,9 @@ sim_plot3 <- ggplot(sim_clus, aes(y = estimate, x = estimator, color = estimator
 print(sim_plot3)
 ```
 
-## Résumé de l'estimation et des tests dans les essais aléatoires en grappe
+## Résumé de l'estimation et des tests dans les essais aléatoires par grappe
 
- - Les essais aléatoires en grappe posent des problèmes particuliers pour les approches standard d'estimation et de test.
+ - Les essais aléatoires par grappe posent des problèmes particuliers pour les approches standard d'estimation et de test.
 
  - Si la randomisation est au niveau du cluster, alors l'incertitude provient de la randomisation au niveau du cluster.
 
