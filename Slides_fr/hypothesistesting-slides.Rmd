@@ -362,7 +362,7 @@ summary(pMeanRank4)
 
   - Conserver un taux d'erreur correct de faux positifs quand on teste plus d'une hypothèse.
 
-  - Puissance statistique des tests d'hypothèse ([Module sur la puissance statistique et les diagnosandes de design](https://egap.github.io/learningdays-book/statistical-power-and-design-diagnosands.html)).
+  - Puissance statistique des tests d'hypothèses ([Module sur la puissance statistique et les diagnosandes de design](https://egap.github.io/learningdays-book/statistical-power-and-design-diagnosands.html)).
 
 ## Tester l'hypothèse nulle faible d'absence d'effet de traitement moyen
 
@@ -422,7 +422,7 @@ c(
 - Que signifie "rejeter" $H_0 : y_{i,1}=y_{i,2}$ à $\alpha=.05$ ?
 
 
-## Taux de faux positifs dans les tests d'hypothèse {.allowframebreaks}
+## Taux de faux positifs dans les tests d'hypothèses {.allowframebreaks}
 
 ```{r normp, echo=FALSE,out.width=".5\\textwidth",fig.cap="P-valeur unilatérale d'une statistique de test normalement."}
 library(tidyverse)
@@ -676,17 +676,17 @@ legend("topleft",
   - Un intervalle de confiance de 100(1-\alpha)$\% peut être défini comme la plage d'hypothèses où toutes les $p$-valeurs sont supérieures ou égales à $\alpha$.
     C'est ce qu'on appelle l'inversion du test d'hypothèse (@rosenbaum2010design). Autrement dit, un intervalle de confiance est un ensemble de tests d'hypothèses.
 
-## Que savoir d'autre sur les tests d'hypothèse {.allowframebreaks}
+## Que savoir de plus sur les tests d'hypothèses {.allowframebreaks}
 
   - Une estimation ponctuelle basée sur un test d'hypothèse est appelée une estimation ponctuelle de Hodges-Lehmann (@rosenbaum1993hlp,@hodges1963elb).
 
-  - Un ensemble de tests d'hypothèse peut être combiné en un seul test d'hypothèse (@hansen:bowers:2008,@caughey2017nonparametric).
+  - Un ensemble de tests d'hypothèses peut être combiné en un seul test d'hypothèse (@hansen:bowers:2008,@caughey2017nonparametric).
 
   - TODO Pour tester l'équivalence, on peut supposer que deux statistiques de test sont équivalentes (c'est-à-dire que le groupe de traitement est le même que le groupe de contrôle) plutôt qu'une seule (la différence entre les deux groupes est nulle) (@hartman2018equivalence).
 
-  - Étant donné qu'un test d'hypothèse est un modèle de résultats potentiels, on peut utiliser les tests d'hypothèse pour en savoir plus sur des modèles complexes, tels que des modèles de débordement et de propagation des effets de traitement à travers les réseaux (@bowers2013reasoning, @bowers2016research, @bowers2018models)
+  - Étant donné qu'un test d'hypothèse est un modèle de résultats potentiels, on peut utiliser les tests d'hypothèses pour en savoir plus sur des modèles complexes, tels que des modèles de débordement et de propagation des effets de traitement à travers les réseaux (@bowers2013reasoning, @bowers2016research, @bowers2018models)
 
-## Exercice : Tests d'hypothèse et statistiques de test
+## Exercice : Tests d'hypothèses et statistiques de test
 
   1. Si une intervention était très efficace pour augmenter la variabilité d'un résultat mais ne changeait pas la moyenne, la $p$-valeur rapportée par R ou Stata en utilisant `lm_robust()` ou `difference_of_means()` ou ` reg` ou `t.test` est-elle grande ou petite ?
 
@@ -808,7 +808,7 @@ coin::pvalue(independence_test(Y1 ~ factor(T),
 
 ## Pour lequel des cinq résultats pouvons-nous détecter un effet ?
 
-Pouvons-nous détecter un effet sur le résultat `Y1` ? (c'est-à-dire, l'un des cinq tests d'hypothèse produit-il une $p$-valeur suffisamment petite ?)
+Pouvons-nous détecter un effet sur le résultat `Y1` ? (c'est-à-dire, l'un des cinq tests d'hypothèses produit-il une $p$-valeur suffisamment petite ?)
 
 ```{r pmult, echo=TRUE}
 p1 <- coin::pvalue(oneway_test(Y1 ~ factor(T), data = dat1))
