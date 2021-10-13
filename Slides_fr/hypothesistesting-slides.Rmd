@@ -175,7 +175,7 @@ Par exemple, l'hypothèse nulle stricte d'absence d'effet est $H_0 : y_{i,1} = y
 meanTT <- function(ys, z) {
   mean(ys[z == 1]) - mean(ys[z == 0])
 }
-## La statistique du test des différences de rangs moyens (TODO The difference of mean ranks test statistic)
+## La statistique du test de la différence des moyennes selon le rang
 meanrankTT <- function(ys, z) {
   ranky <- rank(ys)
   mean(ranky[z == 1]) - mean(ranky[z == 0])
@@ -588,7 +588,7 @@ for (i in 1:nrow(pDist)) {
 }
 abline(0, 1, col = "gray")
 legend("topleft",
-  legend = c("Moindre carrés", "Neyman", "Diff des moyennes d'inférence de randomisation", "Diff des moyennes d'inférence de randomisation TODO Rand Inf Mean Diff Ranks"),
+  legend = c("Moindre carrés", "Neyman", "Diff des moyennes d'inférence de randomisation", "Diff des moyennes d'inférence de randomisation selon le rang"),
   pch = 1:5, col = 1:5, lty = 1, bty = "n", cex = 2
 )
 ```
@@ -619,7 +619,7 @@ for (i in 1:nrow(pDistBig)) {
 }
 abline(0, 1, col = "gray")
 legend("topleft",
-  legend = c("Moindre carrés", "Neyman", "Diff des moyennes d'inférence de randomisation", "Diff des moyennes d'inférence de randomisation TODO Rand Inf Mean Diff Ranks"),
+  legend = c("Moindre carrés", "Neyman", "Diff des moyennes d'inférence de randomisation", "Diff des moyennes d'inférence de randomisation selon le rang"),
   pch = 1:5, col = 1:5, lty = 1, bty = "n", cex = 2
 )
 ```
@@ -649,7 +649,7 @@ for (i in 1:nrow(pDistBig2)) {
 }
 abline(0, 1, col = "gray")
 legend("topleft",
-  legend = c("Moindre carrés", "Neyman", "Diff des moyennes d'inférence de randomisation", "Diff des moyennes d'inférence de randomisation TODO Rand Inf Mean Diff Ranks"),
+  legend = c("Moindre carrés", "Neyman", "Diff des moyennes d'inférence de randomisation", "Diff des moyennes d'inférence de randomisation selon le rang"),
   pch = 1:5, col = 1:5, lty = 1, bty = "n", cex = 2
 )
 ```
@@ -678,7 +678,7 @@ legend("topleft",
 
 ## Que savoir de plus sur les tests d'hypothèses {.allowframebreaks}
 
-  - Une estimation ponctuelle basée sur un test d'hypothèse est appelée une estimation ponctuelle de Hodges-Lehmann (@rosenbaum1993hlp,@hodges1963elb).
+  - Une estimation de position basée sur un test d'hypothèse est appelée une estimation de position de Hodges-Lehmann (@rosenbaum1993hlp,@hodges1963elb).
 
   - Un ensemble de tests d'hypothèses peut être combiné en un seul test d'hypothèse (@hansen:bowers:2008,@caughey2017nonparametric).
 
