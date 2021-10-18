@@ -714,7 +714,7 @@ Imaginez que nous ayons des données de 10 clusters avec soit 100 personnes (pou
 
 ```{r}
 tmp <- dplyr::filter(dat1,clus_id %in% c("03","01")) %>% group_by(clus_id) %>%
-    sample_n(3) %>% arrange(clus_id,indiv) %>% select(clus_id,indiv,Y_Z_0,Y_Z_1,Z,Y)
+    sample_n(3) %>% arrange(clus_id,indiv)
 
 tmp
 ```
@@ -1100,7 +1100,7 @@ En général, le simple fait de "contrôler pour" produit un estimateur biaisé 
 
 - Vous pouvez évaluer l'utilité d'un estimateur choisi pour un estimande choisi par simulation.
 
-# Effets causals diffèrent selon les groupes ou covariables
+# Effets causals qui diffèrent selon les groupes ou covariables
 
 ## Effets différents selon les groupes I
 
