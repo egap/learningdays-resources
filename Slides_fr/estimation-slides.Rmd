@@ -571,7 +571,7 @@ blocktab <- reshape_diagnosis(diagnosis2, select = c("Estimator", "Bias", "RMSE"
 kableExtra::kable(blocktab,col.names = c("Estimator","Bias","RMSE","SD Est","Mean SE","Power","Coverage"))
 ```
 
-Notez que la couverture n'est pas toujours à 95 % dans tous les cas. Nous avons simulé 10 000 fois, donc l'erreur de simulation est d'environ $\pm 2 \sqrt{p(1-p)/10000}$ ou, disons, pour une couverture calculée à .93, une simulation différente aurait pu facilement produire `r .93 -2 *sqrt( .93 * (1-.93)/10000 )` ou `r .93+2*sqrt( .93 * (1-.93)/10000 )` (ou aurait rarement produit des numéros de couverture en dehors de cette plage juste par hasard).
+Notez que la couverture n'est pas toujours à 95 % dans tous les cas. Nous avons simulé 10 000 fois, donc l'erreur de simulation est d'environ $\pm 2 \sqrt{p(1-p)/10000}$ ou, disons, pour une couverture calculée à 0,93, une simulation différente aurait pu facilement produire `r .93 -2 *sqrt( .93 * (1-.93)/10000 )` ou `r .93+2*sqrt( .93 * (1-.93)/10000 )` (ou aurait rarement produit des numéros de couverture en dehors de cette plage juste par hasard).
 
 
 

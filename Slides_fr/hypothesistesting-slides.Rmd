@@ -60,9 +60,9 @@ library(rcompanion) ## for pairwisePermutationTest()
 
 - Inférence statistique (e.g., les tests d'hypothèses et les intervalles de confiance) nécessitent **l'inférence** --- i.e. raisonner sur ce qui n'a pas été observé.
 
-- $p$-valeurs nécessitent des distributions de probabilité .
+- $p$-valeurs nécessitent des distributions de probabilité.
 
-- Randomisation (ou Design) + une hypothèse + une function statistique de test $\rightarrow$ distributions de probabilité représentant l'hypothèse (distributions de référence)
+- Randomisation (ou design) + une hypothèse + une function statistique de test $\rightarrow$ distributions de probabilité représentant l'hypothèse (distributions de référence)
 
 - Valeurs observées des tests statistiques + distribution de référence $\rightarrow$ $p$-valeur.
 
@@ -82,7 +82,7 @@ library(rcompanion) ## for pairwisePermutationTest()
 
 - On pourrait dire : "Je pense que l'effet sur Dupont est de 5". ou "Cette expérience n'a eu d'effet sur personne." Et puis nous demandons "Quelles preuves apporte cette expérience à propos de cette affirmation ?"
 
-- La preuve est contenue dans la $p$-valeur .
+- La preuve est contenue dans la $p$-valeur.
 
 -  C'est l'approche de Fisher.
 
@@ -436,18 +436,6 @@ ggplot(NULL, aes(c(-3, 3))) +
   theme_classic()
 ```
 
-Notice:
-
- - The curve is centered at the hypothesized value.
- 
- - The curve represents the world of the hypothesis.
- 
- - The $p$-value is how rare it would be to see the observed test statistic (or a value farther away from the hypothesized value) in the world of the null.
- 
- - In the picture, the observed value of the test statistic is consistent with the hypothesized distribution, but just not super consistent.
- 
- - Even if $p < .05$ (or $p < .001$) the observed test statistic must reflect some value on the hypothesized distribution. This means that you can always make an error when you reject a null hypothesis.
-
 Attention:
 
   - La courbe est centrée à la valeur hypothétique.
@@ -458,27 +446,15 @@ Attention:
 
   - Sur la figure, la valeur observée de la statistique de test est cohérente avec la distribution hypothétique, mais pas très cohérente.
 
-  - Même si $p < .05$ (ou $p < .001$) la statistique de test observée doit refléter en partie la distribution hypothétique. Cela signifie que vous pouvez toujours faire une erreur lorsque vous rejetez une hypothèse nulle.
-
-## False positive and false negative errors 
-
-- If we say, "The experimental result is significantly different from the hypothesized value of zero ($p=.001$) ! We reject that hypothesis !" **when the truth is zero** we are making a **false positive error** (claiming to detect something positively when there is no signal, only noise).
-
-- If we say, "We cannot distinguish this result from zero ($p=.3$). We cannot reject the hypothesis of zero." **when the truth is not zero** we are making a **false negative error** (claiming inability to detect something when there is a signal, but it is overwhelmed by noise.)
+  - Même si $p < 0,05$ (ou $p < 0,001$) la statistique de test observée doit refléter en partie la distribution hypothétique. Cela signifie que vous pouvez toujours faire une erreur lorsque vous rejetez une hypothèse nulle.
 
 ## Faux positifs et faux négatifs
 
-- Si nous disons, "le résultat expérimental est significativement différent de la valeur hypothétique de zéro ($p=.001$) ! Nous rejetons cette hypothèse !"
+- Si nous disons, "le résultat expérimental est significativement différent de la valeur hypothétique de zéro ($p=0,001$) ! Nous rejetons cette hypothèse !"
   **lorsque la vérité est zéro** nous faisons une **erreur de faux positifs** (prétendant détecter quelque chose lorsqu'il n'y a pas de signal, seulement du bruit).
 
 - Si nous disons : "Nous ne pouvons pas distinguer ce résultat de zéro ($p=.3$). Nous ne pouvons pas rejeter l'hypothèse de zéro."
   **lorsque la vérité n'est pas zéro** nous faisons une **erreur de faux négatifs** (prétendant incapacité à détecter quelque chose lorsqu'il y a un signal, mais qu'il est submergé par le bruit.)
-
-## A single test of a single hypothesis
-
-- A single test of a single hypothesis should encourage false positive errors rarely (for example, if we set $\alpha=.05$) then we are saying that we are comfortable with our testing procedure making false positive errors in **no more than 5% of tests of a given treatment assignment in a given experiment**.
-
-- Also, a **single test of a single hypothesis** should detect signal when it exists --- it should be have high **statistical power**. In other words, it should not fail to detect a signal when it exists (i.e. should have low false negative error rates).
 
 ## Un test unique d'une seule hypothèse
 
@@ -709,12 +685,10 @@ Disons que notre probabilité de faux positifs est de 0,05 pour un seul test. Qu
 (2) *lequel de ces 10 bras de traitement avait une relation statistiquement significative avec ce résultat particulier* ?
 
   - La probabilité de faux positifs doit être inférieure ou égale à 0,05 dans un test.
-  - La probabilité de faux positifs doit être inférieure ou égale à $1 - ( ( 1 - .05 ) \times (1 - .05) ) = .0975$ dans 2 tests.
+  - La probabilité de faux positifs doit être inférieure ou égale à $1 - ( ( 1 - 0,05 ) \times (1 - 0,05) ) = 0,0975$ dans 2 tests.
   - La probabilité d'avoir au moins un faux positif avec $\alpha=.05$ dans 10 tests devrait être $\le$ $1 - (1-.05)^{10}=.40$.
 
-## Discoveries with multiple tests
-
-**Number of errors committed when testing $m$ null hypotheses** [@benjamini1995's Table 1]. Cells are numbers of tests.  $R$ is # of "discoveries" and $V$ is # of false discoveries, $U$ is # of correct non-rejections, and $S$ is # of correct rejections.
+## Découvertes avec multiple tests
 
 **Nombre d'erreurs commises en testant $m$ hypothèses nulles** [Table 1 de @benjamini1995].
 Les cellules sont le nombre de tests. $R$ est le nombre de "découvertes" et $V$ est le nombre de fausses découvertes,
@@ -901,9 +875,9 @@ res1 <- des1_sim %>%
 kableExtra::kable(res1, caption = "Taux d'erreur par famille")
 ```
 
-- L'approche utilisant 5 tests produit un $p < .05$ beaucoup trop souvent --- rappelons qu'il n'y a aucun effet causal pour aucun de ces résultats.
+- L'approche utilisant 5 tests produit un $p < 0,05$ beaucoup trop souvent --- rappelons qu'il n'y a aucun effet causal pour aucun de ces résultats.
 
-  - Un test d'un seul résultat (ici `Y1`) a $p < .05$ pour moins de 5% des simulations.
+  - Un test d'un seul résultat (ici `Y1`) a $p < 0,05$ pour moins de 5% des simulations.
 
   - Le test omnibus montre également un taux d'erreur bien maîtrisé.
 
