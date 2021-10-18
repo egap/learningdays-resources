@@ -4,7 +4,6 @@
   <meta charset="utf-8">
   <meta name="generator" content="pandoc">
   <meta name="author" content="Mettre votre nom" />
-  <meta name="dcterms.date" content="2021-10-07" />
   <title>Tests d’hypothèses: résumer les informations sur les effets causals</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -520,7 +519,7 @@ document.getElementsByTagName('head')[0].appendChild(style);
 <section>
     <h1 class="title">Tests d’hypothèses: résumer les informations sur les effets causals</h1>
     <h2 class="author">Mettre votre nom</h2>
-    <h3 class="date">07 October 2021</h3>
+    <h3 class="date">18-10-2021</h3>
 </section>
 <section id="TOC">
 <ul>
@@ -551,7 +550,7 @@ document.getElementsByTagName('head')[0].appendChild(style);
 <li><a href="#/rejeter-lhypothèse-nulle">Rejeter l’hypothèse nulle</a>
 <ul>
 <li><a href="#/rejeter-lhypothèse-nulle-et-faire-des-erreurs">Rejeter l’hypothèse nulle et faire des erreurs</a></li>
-<li><a href="#/taux-de-faux-positifs-dans-les-tests-dhypothèse">Taux de faux positifs dans les tests d’hypothèse</a></li>
+<li><a href="#/taux-de-faux-positifs-dans-les-tests-dhypothèses">Taux de faux positifs dans les tests d’hypothèses</a></li>
 <li><a href="#/false-positive-and-false-negative-errors">False positive and false negative errors</a></li>
 <li><a href="#/faux-positifs-et-faux-négatifs">Faux positifs et faux négatifs</a></li>
 <li><a href="#/a-single-test-of-a-single-hypothesis">A single test of a single hypothesis</a></li>
@@ -569,8 +568,8 @@ document.getElementsByTagName('head')[0].appendChild(style);
 <li><a href="#/approfondir">Approfondir</a>
 <ul>
 <li><a href="#/approfondir-les-tests-dhypothèses">Approfondir les tests d’hypothèses</a></li>
-<li><a href="#/que-savoir-dautre-sur-les-tests-dhypothèse">Que savoir d’autre sur les tests d’hypothèse</a></li>
-<li><a href="#/exercice-tests-dhypothèse-et-statistiques-de-test">Exercice : Tests d’hypothèse et statistiques de test</a></li>
+<li><a href="#/que-savoir-de-plus-sur-les-tests-dhypothèses">Que savoir de plus sur les tests d’hypothèses</a></li>
+<li><a href="#/exercice-tests-dhypothèses-et-statistiques-de-test">Exercice : Tests d’hypothèses et statistiques de test</a></li>
 </ul></li>
 <li><a href="#/tester-de-nombreuses-hypothèses">Tester de nombreuses hypothèses</a>
 <ul>
@@ -623,7 +622,7 @@ document.getElementsByTagName('head')[0].appendChild(style);
 <section id="le-role-des-tests-dhypothèses-dans-linférence-causale-ii" class="slide level2">
 <h2>Le role des tests d’hypothèses dans l’inférence causale II</h2>
 <ul>
-<li><p>Une autre solution consiste à faire des <strong>affirmations</strong> ou <strong>des suppositions</strong> sur les effets de causalité.</p></li>
+<li><p>Une autre solution consiste à faire des <strong>affirmations</strong> ou <strong>des suppositions</strong> sur les effets causaux.</p></li>
 <li><p>On pourrait dire : “Je pense que l’effet sur Dupont est de 5.” ou “Cette expérience n’a eu d’effet sur personne.” Et puis nous demandons “Quelles preuves apporte cette expérience à propos de cette affirmation ?”</p></li>
 <li><p>La preuve est contenue dans la <span class="math inline">\(p\)</span>-valeur .</p></li>
 <li><p>C’est l’approche de Fisher.</p></li>
@@ -632,7 +631,7 @@ document.getElementsByTagName('head')[0].appendChild(style);
 <section id="le-role-des-tests-dhypothèses-dans-linférence-causale-iii" class="slide level2">
 <h2>Le role des tests d’hypothèses dans l’inférence causale III</h2>
 <ul>
-<li><p>L’approche du test d’hypothèse pour l’inférence causale ne fournit pas une meilleure estimation, mais indique <em>la quantité d’informations que le design de recherche fournit pour ce postulat de causalité</em>.</p></li>
+<li><p>L’approche du test d’hypothèse pour l’inférence causale ne fournit pas une meilleure estimation, mais indique <em>la quantité d’informations que le design de recherche fournit pour cette assertion causale</em>.</p></li>
 <li><p>L’approche par estimation fournit une meilleure estimation, mais ne vous dit pas ce que vous savez sur cette estimation.</p>
 <ul>
 <li>Par exemple, une estimation avec <span class="math inline">\(N=10\)</span> semble en dire moins sur l’effet que <span class="math inline">\(N=1000\)</span>.</li>
@@ -752,7 +751,7 @@ document.getElementsByTagName('head')[0].appendChild(style);
 </tr>
 </tbody>
 </table>
-<p>Par exemple, l’hypothèse nulle forte d’absence d’effet est <span class="math inline">\(H_0 : y_{i,1} = y_{i,0}\)</span></p>
+<p>Par exemple, l’hypothèse nulle stricte d’absence d’effet est <span class="math inline">\(H_0 : y_{i,1} = y_{i,0}\)</span></p>
 </section>
 <section id="les-statistiques-des-test-résument-les-relations-entre-le-traitement-et-les-résultats" class="slide level2">
 <h2>Les statistiques des test résument les relations entre le traitement et les résultats</h2>
@@ -760,7 +759,7 @@ document.getElementsByTagName('head')[0].appendChild(style);
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>meanTT <span class="ot">&lt;-</span> <span class="cf">function</span>(ys, z) {</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mean</span>(ys[z <span class="sc">==</span> <span class="dv">1</span>]) <span class="sc">-</span> <span class="fu">mean</span>(ys[z <span class="sc">==</span> <span class="dv">0</span>])</span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="do">## La statistique du test des différences de rangs moyens (</span><span class="al">TODO</span><span class="do"> The difference of mean ranks test statistic)</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="do">## La statistique du test de la différence des moyennes selon le rang</span></span>
 <span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>meanrankTT <span class="ot">&lt;-</span> <span class="cf">function</span>(ys, z) {</span>
 <span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>  ranky <span class="ot">&lt;-</span> <span class="fu">rank</span>(ys)</span>
 <span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mean</span>(ranky[z <span class="sc">==</span> <span class="dv">1</span>]) <span class="sc">-</span> <span class="fu">mean</span>(ranky[z <span class="sc">==</span> <span class="dv">0</span>])</span>
@@ -899,26 +898,21 @@ Utiliser un design d’expérience pour tester une hypothèse avec deux statisti
 <span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(pMeanRank4)</span></code></pre></div>
 <pre><code>  term estimate two_tailed_p_value
 1    Z        1             0.6349</code></pre>
-<ul>
-<li><p>Rejecting null hypotheses (and making false positive and/or false negative errors).</p></li>
-<li><p>Maintaining correct false positive error rates when testing more than one hypothesis.</p></li>
-<li><p>Power of hypothesis tests (<a href="https://egap.github.io/learningdays-book/statistical-power-and-design-diagnosands.html">Module on Statistical Power and Design Diagnosands</a>).</p></li>
-</ul>
 </section>
 <section id="sujets-suivants" class="slide level2">
 <h2>Sujets suivants</h2>
 <ul>
 <li><p>Tester l’hypothèse nulle faible, <span class="math inline">\(H_0 : \bar{y}_{1} = \bar{y}_{0}\)</span>.</p></li>
 <li><p>Rejeter l’hypothèse nulle (et faire des erreurs de faux positifs et/ou de faux négatifs).</p></li>
-<li><p>Maintenir un taux d’erreur correct de faux positifs quand on teste plus d’une hypothèse.</p></li>
-<li><p>Puissance statistique des tests d’hypothèse (<a href="https://egap.github.io/learningdays-book/statistical-power-and-design-diagnosands.html">Module sur la puissance statistique et les diagnostics de design</a>).</p></li>
+<li><p>Conserver un taux d’erreur correct de faux positifs quand on teste plus d’une hypothèse.</p></li>
+<li><p>Puissance statistique des tests d’hypothèses (<a href="https://egap.github.io/learningdays-book/statistical-power-and-design-diagnosands.html">Module sur la puissance statistique et les diagnosandes de design</a>).</p></li>
 </ul>
 </section>
 <section id="tester-lhypothèse-nulle-faible-dabsence-deffet-de-traitement-moyen" class="slide level2">
 <h2>Tester l’hypothèse nulle faible d’absence d’effet de traitement moyen</h2>
 <ul>
 <li><p>L’hypothèse nulle faible est une affirmation sur les agrégats, et elle est presque toujours exprimée en termes de moyennes : <span class="math inline">\(H_0 : \bar{y}_{1} = \bar{y}_{0}\)</span></p></li>
-<li><p>La statistique de test pour cette hypothèse est presque toujours la simple différence de moyennes (c’est-à-dire <code>meanTT()</code> ci-dessus).</p></li>
+<li><p>La statistique de test pour cette hypothèse est presque toujours la simple différence des moyennes (c’est-à-dire <code>meanTT()</code> ci-dessus).</p></li>
 </ul>
 <div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>lm1 <span class="ot">&lt;-</span> <span class="fu">lm</span>(Y <span class="sc">~</span> T, <span class="at">data =</span> dat)</span>
 <span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>lm1P <span class="ot">&lt;-</span> <span class="fu">summary</span>(lm1)<span class="sc">$</span>coef[<span class="st">&quot;T&quot;</span>, <span class="st">&quot;Pr(&gt;|t|)&quot;</span>]</span>
@@ -973,12 +967,12 @@ Résultats observés en fonction du statut de traitement
 <ul>
 <li><p>“Typiquement, le niveau du test [<span class="math inline">\(\alpha\)</span>] est une promesse sur les performances du test et la taille est un fait sur ses performances…” (Rosenbaum 2010, Glossaire)</p></li>
 <li><p><span class="math inline">\(\alpha\)</span> est la probabilité de rejeter l’hypothèse nulle lorsque l’hypothèse nulle est vraie.</p></li>
-<li><p>Comment doit-on interpréter <span class="math inline">\(p\)</span>=0.78 ? Qu’en est-il de <span class="math inline">\(p\)</span>=0.32 (nos tests pour l’hypothèse nulle forte) ?</p></li>
+<li><p>Comment doit-on interpréter <span class="math inline">\(p\)</span>=0.78 ? Qu’en est-il de <span class="math inline">\(p\)</span>=0.32 (nos tests pour l’hypothèse nulle stricte) ?</p></li>
 <li><p>Que signifie “rejeter” <span class="math inline">\(H_0 : y_{i,1}=y_{i,2}\)</span> à <span class="math inline">\(\alpha=.05\)</span> ?</p></li>
 </ul>
 </section>
-<section id="taux-de-faux-positifs-dans-les-tests-dhypothèse" class="slide level2 allowframebreaks">
-<h2 class="allowframebreaks">Taux de faux positifs dans les tests d’hypothèse</h2>
+<section id="taux-de-faux-positifs-dans-les-tests-dhypothèses" class="slide level2 allowframebreaks">
+<h2 class="allowframebreaks">Taux de faux positifs dans les tests d’hypothèses</h2>
 
 <div class="figure">
 <img src="figs/fignormp-1.png" alt="P-valeur unilatérale d'une statistique de test normalement." width=".5\textwidth"  />
@@ -1157,21 +1151,21 @@ Distributions des p-valeurs quand il n y a aucun effet pour quatre tests avec n=
 <section id="approfondir-les-tests-dhypothèses" class="slide level2">
 <h2>Approfondir les tests d’hypothèses</h2>
 <ul>
-<li><p>Même si une procédure de test donnée contrôle le taux de faux positifs pour un seul test, elle peut ne pas contrôler le taux pour un groupe de tests. Voir <a href="https://egap.org/methods-guides/10-things-you-need-know-about-multiple-comparisons">10 choses à savoir sur les comparaisons multiples</a> pour les approches de contrôle de taux de rejet dans plusieurs tests.</p></li>
+<li><p>Même si une procédure de test donnée contrôle le taux de faux positifs pour un seul test, elle peut ne pas contrôler le taux pour un groupe de tests. Voir <a href="https://egap.org/resource/10-things-to-know-about-multiple-comparisons/">10 choses à savoir sur les comparaisons multiples</a> pour les approches de contrôle de taux de rejet dans plusieurs tests.</p></li>
 <li><p>Un intervalle de confiance de 100(1-)$% peut être défini comme la plage d’hypothèses où toutes les <span class="math inline">\(p\)</span>-valeurs sont supérieures ou égales à <span class="math inline">\(\alpha\)</span>. C’est ce qu’on appelle l’inversion du test d’hypothèse (<span class="citation" data-cites="rosenbaum2010design"><a href="#/ref-rosenbaum2010design" role="doc-biblioref">Rosenbaum</a> (<a href="#/ref-rosenbaum2010design" role="doc-biblioref">2010</a>)</span>). Autrement dit, un intervalle de confiance est un ensemble de tests d’hypothèses.</p></li>
 </ul>
 </section>
-<section id="que-savoir-dautre-sur-les-tests-dhypothèse" class="slide level2 allowframebreaks">
-<h2 class="allowframebreaks">Que savoir d’autre sur les tests d’hypothèse</h2>
+<section id="que-savoir-de-plus-sur-les-tests-dhypothèses" class="slide level2 allowframebreaks">
+<h2 class="allowframebreaks">Que savoir de plus sur les tests d’hypothèses</h2>
 <ul>
-<li><p>Une estimation ponctuelle basée sur un test d’hypothèse est appelée une estimation ponctuelle de Hodges-Lehmann (<span class="citation" data-cites="rosenbaum1993hlp"><a href="#/ref-rosenbaum1993hlp" role="doc-biblioref">Rosenbaum</a> (<a href="#/ref-rosenbaum1993hlp" role="doc-biblioref">1993</a>)</span>,<span class="citation" data-cites="hodges1963elb"><a href="#/ref-hodges1963elb" role="doc-biblioref">Hodges and Lehmann</a> (<a href="#/ref-hodges1963elb" role="doc-biblioref">1963</a>)</span>).</p></li>
-<li><p>Un ensemble de tests d’hypothèse peut être combiné en un seul test d’hypothèse (<span class="citation" data-cites="hansen:bowers:2008"><a href="#/ref-hansen:bowers:2008" role="doc-biblioref">Hansen and Bowers</a> (<a href="#/ref-hansen:bowers:2008" role="doc-biblioref">2008</a>)</span>,<span class="citation" data-cites="caughey2017nonparametric"><a href="#/ref-caughey2017nonparametric" role="doc-biblioref">Caughey, Dafoe, and Seawright</a> (<a href="#/ref-caughey2017nonparametric" role="doc-biblioref">2017</a>)</span>).</p></li>
+<li><p>Une estimation de position basée sur un test d’hypothèse est appelée une estimation de position de Hodges-Lehmann (<span class="citation" data-cites="rosenbaum1993hlp"><a href="#/ref-rosenbaum1993hlp" role="doc-biblioref">Rosenbaum</a> (<a href="#/ref-rosenbaum1993hlp" role="doc-biblioref">1993</a>)</span>,<span class="citation" data-cites="hodges1963elb"><a href="#/ref-hodges1963elb" role="doc-biblioref">Hodges and Lehmann</a> (<a href="#/ref-hodges1963elb" role="doc-biblioref">1963</a>)</span>).</p></li>
+<li><p>Un ensemble de tests d’hypothèses peut être combiné en un seul test d’hypothèse (<span class="citation" data-cites="hansen:bowers:2008"><a href="#/ref-hansen:bowers:2008" role="doc-biblioref">Hansen and Bowers</a> (<a href="#/ref-hansen:bowers:2008" role="doc-biblioref">2008</a>)</span>,<span class="citation" data-cites="caughey2017nonparametric"><a href="#/ref-caughey2017nonparametric" role="doc-biblioref">Caughey, Dafoe, and Seawright</a> (<a href="#/ref-caughey2017nonparametric" role="doc-biblioref">2017</a>)</span>).</p></li>
 <li><p>TODO Pour tester l’équivalence, on peut supposer que deux statistiques de test sont équivalentes (c’est-à-dire que le groupe de traitement est le même que le groupe de contrôle) plutôt qu’une seule (la différence entre les deux groupes est nulle) (<span class="citation" data-cites="hartman2018equivalence"><a href="#/ref-hartman2018equivalence" role="doc-biblioref">Hartman and Hidalgo</a> (<a href="#/ref-hartman2018equivalence" role="doc-biblioref">2018</a>)</span>).</p></li>
-<li><p>Étant donné qu’un test d’hypothèse est un modèle de résultats potentiels, on peut utiliser les tests d’hypothèse pour en savoir plus sur des modèles complexes, tels que des modèles de débordement et de propagation des effets de traitement à travers les réseaux (<span class="citation" data-cites="bowers2013reasoning"><a href="#/ref-bowers2013reasoning" role="doc-biblioref">Bowers, Fredrickson, and Panagopoulos</a> (<a href="#/ref-bowers2013reasoning" role="doc-biblioref">2013</a>)</span>, <span class="citation" data-cites="bowers2016research"><a href="#/ref-bowers2016research" role="doc-biblioref">Bowers, Fredrickson, and Aronow</a> (<a href="#/ref-bowers2016research" role="doc-biblioref">2016</a>)</span>, <span class="citation" data-cites="bowers2018models"><a href="#/ref-bowers2018models" role="doc-biblioref">Bowers et al.</a> (<a href="#/ref-bowers2018models" role="doc-biblioref">2018</a>)</span>)</p></li>
+<li><p>Étant donné qu’un test d’hypothèse est un modèle de résultats potentiels, on peut utiliser les tests d’hypothèses pour en savoir plus sur des modèles complexes, tels que des modèles de débordement et de propagation des effets de traitement à travers les réseaux (<span class="citation" data-cites="bowers2013reasoning"><a href="#/ref-bowers2013reasoning" role="doc-biblioref">Bowers, Fredrickson, and Panagopoulos</a> (<a href="#/ref-bowers2013reasoning" role="doc-biblioref">2013</a>)</span>, <span class="citation" data-cites="bowers2016research"><a href="#/ref-bowers2016research" role="doc-biblioref">Bowers, Fredrickson, and Aronow</a> (<a href="#/ref-bowers2016research" role="doc-biblioref">2016</a>)</span>, <span class="citation" data-cites="bowers2018models"><a href="#/ref-bowers2018models" role="doc-biblioref">Bowers et al.</a> (<a href="#/ref-bowers2018models" role="doc-biblioref">2018</a>)</span>)</p></li>
 </ul>
 </section>
-<section id="exercice-tests-dhypothèse-et-statistiques-de-test" class="slide level2">
-<h2>Exercice : Tests d’hypothèse et statistiques de test</h2>
+<section id="exercice-tests-dhypothèses-et-statistiques-de-test" class="slide level2">
+<h2>Exercice : Tests d’hypothèses et statistiques de test</h2>
 <ol type="1">
 <li><p>Si une intervention était très efficace pour augmenter la variabilité d’un résultat mais ne changeait pas la moyenne, la <span class="math inline">\(p\)</span>-valeur rapportée par R ou Stata en utilisant <code>lm_robust()</code> ou <code>difference_of_means()</code> ou <code>reg</code> ou <code>t.test</code> est-elle grande ou petite ?</p></li>
 <li><p>Si une intervention réduisait modérément la moyenne dans le groupe témoin mais augmentait considérablement quelques résultats (comme un effet 10 fois supérieur), la <span class="math inline">\(p\)</span>-valeur de R <code>lm_robust()</code> ou <code>difference_of_means()</code> est-elle grande ou petite ?</p></li>
@@ -1227,7 +1221,7 @@ Distributions des p-valeurs quand il n y a aucun effet pour quatre tests avec n=
 <li><p><strong>Le taux d’erreur par famille (family wise error rate / FWER)</strong> est de <span class="math inline">\(P(V&gt;0)\)</span> (Probabilité de tous les faux positifs).</p>
 <ul>
 <li><p>à contrôler si nous prévoyons de prendre une décision sur les résultats de nos multiples tests. Le projet de recherche est essentiellement confirmatoire.</p></li>
-<li><p>voir par exemple les projets de l’OES <a href="http://oes.gsa.gov" class="uri">http://oes.gsa.gov</a> : les agences fédérales choisissent quand elles détectent des résultats.</p></li>
+<li><p>voir par exemple les projets de l’OES <a href="https://oes.gsa.gov" class="uri">https://oes.gsa.gov</a> : les agences fédérales choisissent quand elles détectent des résultats.</p></li>
 </ul></li>
 <li><p><strong>Le taux d’erreurs de type I pour l’hypothèse nulle (false discovery rate / FDR)</strong> est de <span class="math inline">\(E(V/R | R&gt;0)\)</span> (proportion moyenne de faux positifs compte tenu de certains rejets).</p>
 <ul>
@@ -1277,7 +1271,7 @@ Distributions des p-valeurs quand il n y a aucun effet pour quatre tests avec n=
 </section>
 <section id="pour-lequel-des-cinq-résultats-pouvons-nous-détecter-un-effet" class="slide level2">
 <h2>Pour lequel des cinq résultats pouvons-nous détecter un effet ?</h2>
-<p>Pouvons-nous détecter un effet sur le résultat <code>Y1</code> ? (c’est-à-dire, l’un des cinq tests d’hypothèse produit-il une <span class="math inline">\(p\)</span>-valeur suffisamment petite ?)</p>
+<p>Pouvons-nous détecter un effet sur le résultat <code>Y1</code> ? (c’est-à-dire, l’un des cinq tests d’hypothèses produit-il une <span class="math inline">\(p\)</span>-valeur suffisamment petite ?)</p>
 <div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>p1 <span class="ot">&lt;-</span> coin<span class="sc">::</span><span class="fu">pvalue</span>(<span class="fu">oneway_test</span>(Y1 <span class="sc">~</span> <span class="fu">factor</span>(T), <span class="at">data =</span> dat1))</span>
 <span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>p2 <span class="ot">&lt;-</span> coin<span class="sc">::</span><span class="fu">pvalue</span>(<span class="fu">oneway_test</span>(Y2 <span class="sc">~</span> <span class="fu">factor</span>(T), <span class="at">data =</span> dat1))</span>
 <span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>p3 <span class="ot">&lt;-</span> coin<span class="sc">::</span><span class="fu">pvalue</span>(<span class="fu">oneway_test</span>(Y3 <span class="sc">~</span> <span class="fu">factor</span>(T), <span class="at">data =</span> dat1))</span>
@@ -1423,7 +1417,7 @@ Distributions des p-valeurs quand il n y a aucun effet pour quatre tests avec n=
 <td style="text-align: right;">0.028</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">t-test T1 vs tous</td>
+<td style="text-align: left;">t-test T1 vs. tous</td>
 <td style="text-align: right;">0.018</td>
 </tr>
 <tr class="even">
