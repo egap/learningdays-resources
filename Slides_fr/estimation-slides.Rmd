@@ -65,7 +65,7 @@ library(styler)
 
 ## Points clés sur l'estimation II
 
- - La clé de l'estimation pour l'inférence causale consiste à choisir un estimande qui vous aide à en savoir plus sur votre question théorique ou politique. Ainsi, on pourrait utiliser l'ATE mais aussi d'autres estimations courantes telles que l'effet d'intention de traiter (intent to treat effect, ITT), l'effet moyen local du traitement (Local average treatment effect, LATE), l'effet causal moyen pour ceux qui se conforment au traitement (complier average causal effect, CACE), l'effet moyen du traitement sur les traités (average treatment effect on the treated, ATT) ou l'ATE pour certains sous-groupes.
+ - La clé de l'estimation pour l'inférence causale consiste à choisir un estimande qui vous aide à en savoir plus sur votre question théorique ou politique. Ainsi, on pourrait utiliser l'ATE mais aussi d'autres estimations courantes telles que l'effet d'intention de traiter (intent to treat effect, ITT), l'effet moyen local du traitement (local average treatment effect, LATE), l'effet causal moyen pour ceux qui se conforment au traitement (complier average causal effect, CACE), l'effet moyen du traitement sur les traités (average treatment effect on the treated, ATT) ou l'ATE pour certains sous-groupes.
 
   - Un **estimateur** est une recette pour calculer approximativement la valeur d'un estimande. Par exemple, la différence des moyennes observées pour $m$ unités traitées est un estimateur de $\bar{\tau}$:
    $\hat{\bar{\tau}} = \frac{\sum_{i=1}^n (T_i Y_i)}{m} - \frac{\sum_{i=1}^n ( ( 1 - T_i)Y_i)}{(n-m)}$.
@@ -79,16 +79,16 @@ library(styler)
 
   - Différentes randomisations produiront différentes valeurs du même estimateur ciblant le même estimande. L'**erreur type** résume la variabilité de cet estimateur.
 
-  - Un **intervalle de confiance** de $100(1-\alpha)$%** est un ensemble d'hypothèses qui ne peuvent être rejetées au niveau $\alpha$. Nous avons tendance à rapporter des intervalles de confiance contenant des hypothèses sur les valeurs de notre estimande et à utiliser notre estimateur comme une statistique de test.
+  - Un **intervalle de confiance** de *$100(1-\alpha)$%* est un ensemble d'hypothèses qui ne peuvent être rejetées au niveau $\alpha$. Nous avons tendance à rapporter des intervalles de confiance contenant des hypothèses sur les valeurs de notre estimande et à utiliser notre estimateur comme une statistique de test.
 
 
 ## Points clés sur l'estimation IV
 
  - Les estimateurs doivent :
 
-      - éviter l'erreur systématique dans leur approximation de l'estimande (i.e. être sans biais);
+      - éviter l'erreur systématique dans leur approximation de l'estimande (i.e. être sans biais)
 
-      - peu varier d'une expérience à l'autre (être précis ou efficace) ; et
+      - peu varier d'une expérience à l'autre (être précis ou efficace)
 
       - peut-être idéalement converger vers l'estimande car ils utilisent de plus en plus d'informations (être cohérent).
 
@@ -102,7 +102,7 @@ library(styler)
 
 ## Revue : effet causal
 
-Revue : L'inférence causale fait référence à la comparaison de résultats potentiels non observés, fixes.
+L'inférence causale fait référence à la comparaison de résultats potentiels non observés, fixes.
 
 Par exemple :
 
@@ -207,14 +207,16 @@ set.seed(12345)
 DeclareDesign représente les designs de recherche en quelques étapes illustrées ci-dessous :
 
 ```{r dd1, echo=TRUE}
-# prendre uniquement les résultats potentiels du traitement et du contrôle à partir de nos fausses données
+# prendre uniquement les résultats potentiels du traitement
+# et du contrôle à partir de nos fausses données
 small_dat <- dat[, c("y0", "y1")]
 
 # DeclareDesign vous demande d'abord de déclarer votre population
 pop <- declare_population(small_dat)
 N <- nrow(small_dat)
 
-# 5 unités assignées au traitement ; la valeur par défaut est l'assignation aléatoire simple avec une probabilité de 0,5
+# 5 unités assignées au traitement ; la valeur par défaut
+# est l'assignation aléatoire simple avec une probabilité de 0,5
 trt_assign <- declare_assignment(Z = conduct_ra(N=N,m = 2),legacy=FALSE)
 
 # Y observé est y1 si Z=1 et y0 si Z=0
@@ -249,7 +251,7 @@ estimandATE <- declare_inquiry(ATE = mean(Y_Z_1 - Y_Z_0))
 
 ## Le premier estimateur est la différence des moyennes
 diff_means <- declare_estimator(Y ~ Z, inquiry = estimandATE,
-  model = lm_robust, se_type = "classical", label = "Diff-Means/OLS")
+  model = lm_robust, se_type = "classical", label = "Diff des moyennes/MCO")
 ```
 
 ## Avec DeclareDesign : définir l'estimande et les estimateurs
@@ -267,7 +269,7 @@ diff_means_topcoded_fn <- function(data) {
 }
 diff_means_topcoded <- declare_estimator(
   handler = label_estimator(diff_means_topcoded_fn),
-  inquiry = estimandATE, label = "Top-coded Diff Means"
+  inquiry = estimandATE, label = "Diff des moyennes winsorisée"
 )
 ```
 
@@ -302,7 +304,10 @@ Dans une expérience (une simulation des données), voici les estimations simple
 ```{r echo=TRUE}
 ## Deux façons de calculer l'estimateur de la différence des moyennes
 est_diff_means_1 <- with(sim_dat1, mean(Y[Z == 1]) - mean(Y[Z == 0]))
-est_diff_means_2 <- coef(lm_robust(Y ~ Z, data = sim_dat1, se = "classical"))[["Z"]]
+est_diff_means_2 <- coef(lm_robust(Y ~ Z,
+  data = sim_dat1,
+  se = "classical"
+))[["Z"]]
 c(est_diff_means_1,est_diff_means_2)
 ```
 
@@ -311,7 +316,7 @@ c(est_diff_means_1,est_diff_means_2)
 Dans une expérience (une simulation des données), voici les estimations après winsorisation :
 
 ```{r echo=TRUE}
-## Deux façons de calculer l'estimateur de la différence des moyennes winsorisées
+## 2 façons de calculer l'estimateur de la différence des moyennes winsorisées
 sim_dat1$rankY <- rank(sim_dat1$Y)
 sim_dat1$Y_tc <- with(sim_dat1, ifelse(rankY == max(rankY),
                                        Y[rankY == (max(rankY) - 1)], Y))
@@ -324,12 +329,12 @@ c(est_topcoded_1,est_topcoded_2)
 
 ## Ensuite simuler une randomisation différente et estimer l'ATE avec les mêmes estimateurs
 
-Now calculate your estimate with the same estimators using a  **different** randomization. Notice that the answers differ. The estimators are estimating the *same estimand* but now they have a different randomization to work with.
 Calculez maintenant votre estimation avec les mêmes estimateurs en utilisant une randomisation **différente**. Notez que les réponses diffèrent. Les estimateurs estiment la *même estimation* mais ils travaillent maintenant avec une randomisation différente.
 
 ```{r echo=TRUE}
 # faire une autre assignation aléatoire de traitement dans DeclareDesign
-# cela produit un nouveau jeu de données simulées avec une assignation aléatoire différente
+# cela produit un nouveau jeu de données simulées
+# avec une assignation aléatoire différente
 sim_dat2 <- draw_data(base_design)
 # le premier estimateur (différence des moyennes simples)
 coef(lm_robust(Y ~ Z, data = sim_dat2, se = "classical"))[["Z"]]
@@ -374,7 +379,7 @@ print(sim_plot)
 
 ## Quel estimateur est le plus proche de la vérité ?
 
-Une façon de choisir parmi les estimateurs est de choisir celui qui est ** proche de la vérité ** chaque fois que nous l'utilisons --- quelle que soit la randomisation choisie.
+Une façon de choisir parmi les estimateurs est de choisir celui qui est **proche de la vérité** chaque fois que nous l'utilisons --- quelle que soit la randomisation choisie.
 
 Un estimateur "sans biais" est un estimateur pour lequel la **moyenne des estimations pour des designs répétés** est la même que la vérité (ou $E_R(\hat{\bar{\tau}})=\bar{\tau}$). Un estimateur sans biais n'a "pas d'erreur systématique" mais ne garantit pas la proximité avec la vérité.
 
@@ -383,7 +388,7 @@ Une autre mesure de proximité est la **racine de l'erreur quadratique moyenne**
 Quel estimateur est le meilleur ? (L'un est plus proche de la vérité en moyenne (REQM) et il est plus précis. L'autre n'a pas d'erreur systématique --- il est non-biaisé.)
 
 ```{r}
-kableExtra::kable(reshape_diagnosis(diagnosis1, select = c("Estimator", "Bias", "RMSE", "SD Estimate", "Mean Se", "Power"))[,-c(1,2,4,5,6)])
+kableExtra::kable(reshape_diagnosis(diagnosis1, select = c("Estimateur", "Biais", "REQM", "Estimateur de l'erreur type", "Moyenne de l'erreur type", "Puissance"))[,-c(1,2,4,5,6)])
 ```
 
 ## Estimateurs biaisés et non-biaisés
@@ -459,7 +464,7 @@ c(coef(e1)[["Z"]],e2)
 Notez que ce n'est **pas** la même chose que les deux éléments suivants :
 
 ```{r br4, echo=TRUE}
-## En ignorerant les blocs
+## En ignorant les blocs
 e3 <- lm(Y~Z,data=dat)
 coef(e3)[["Z"]]
 
@@ -485,7 +490,8 @@ Quel estimateur doit-on utiliser pour ce design ? Nous pouvons simulater avec De
 base_design_blocks <-
     # déclarer la population
     declare_population(dat[, c("b","y0", "y1")]) +
-    # dire à la méthode des doubles différences que b signifie bloc et assigner 2 unités du traitement dans chaque bloc
+    # dire à la méthode des doubles différences que b signifie bloc
+    # et assigner 2 unités du traitement dans chaque bloc
     declare_assignment(Z=conduct_ra(N=N, m=2,blocks=b),
                        Z_cond_prob =
       obtain_condition_probabilities(assignment = Z, m = 2)) +
