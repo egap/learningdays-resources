@@ -591,26 +591,26 @@ Notez que la couverture n'est pas toujours à 95 % dans tous les cas. Nous avons
 - **Pas un exemple 1 :** Les quartiers sont choisis pour l'étude. Dans chaque quartier, environ la moitié des personnes sont assignées au traitement et l'autre moitié au contrôle. (De quel type d'étude s'agit-il ? Ce n'est pas une étude randomisée par grappe.)
 - **Pas un exemple 2 :** une intervention est randomisée dans certains quartiers et pas dans d'autres, les résultats incluent des mesures de la confiance au niveau du quartier envers le gouvernement et la superficie totale du quartier consacrée aux jardins. (Parfois, une expérience randomisée par grappe peut être transformée en une expérience randomisée simple. Ou elle peut contenir plus d'une approche possible d'analyse et d'interprétation.)
 
-En quoi la distribution des statistiques de test et des estimateurs peut-elle différer d'une expérience où des unités individuelles (et non des clusters) sont randomisées ?
+En quoi la distribution des statistiques de test et des estimateurs peut-elle différer d'une expérience où des unités individuelles (et non des grappes) sont randomisées ?
 
 ## Estimation de l'ATE dans des expériences aléatoires par grappe
 
 Problèmes de biais dans les expériences aléatoires par grappe :
 
-- Lorsque les clusters ont la même taille, l'estimateur habituel de différences des moyennes est sans biais.
+- Lorsque les grappes ont la même taille, l'estimateur habituel de différences des moyennes est sans biais.
 
-- Mais soyez prudent lorsque les clusters ont des tailles différentes ou que vous avez très peu de clusters car alors les effets de traitement peuvent être corrélés avec la taille des clusters.
+- Mais soyez prudent lorsque les grappes ont des tailles différentes ou que vous avez très peu de grappes car alors les effets de traitement peuvent être corrélés avec la taille des grappes.
 
-- Lorsque la taille du cluster est liée aux résultats potentiels, l'estimateur habituel de différences des moyennes est biaisé. <https://declaredesign.org/blog/bias-cluster-randomized-trials.html>
+- Lorsque la taille de la grappe est liée aux résultats potentiels, l'estimateur habituel de différences des moyennes est biaisé. <https://declaredesign.org/blog/bias-cluster-randomized-trials.html>
 
 
 ## Estimation de l'erreur standard pour l'ATE dans des expériences aléatoires par grappe {.allowframebreaks}
 
 - **Inférences statistiques trompeuses :** L'erreur standard par défaut sous-estimera généralement la précision dans de tels designs et produira ainsi des tests avec des taux de faux positifs trop élevés (ou, de manière équivalente, des taux de couverture pour les intervalles de confiance trop faibles).
 
-- "L'erreur standard robuste pour cluster" implémentée dans les logiciels courants fonctionnent bien **lorsque le nombre de clusters est important** (plus de 50 clusters dans certaines études de simulation).
+- "L'erreur standard robuste pour grappe" implémentée dans les logiciels courants fonctionnent bien **lorsque le nombre de grappes est important** (plus de 50 grappes dans certaines études de simulation).
 
-- L'erreur standard par défaut adaptée aux clusters dans `lm_robust` (l'erreur standard `CR2`) fonctionne mieux que l'approche basique dans Stata (à ce jour).
+- L'erreur standard par défaut adaptée aux grappes dans `lm_robust` (l'erreur standard `CR2`) fonctionne mieux que l'approche basique dans Stata (à ce jour).
 
 - Le "wild bootstrap" aide à contrôler les taux d'erreur mais abandonne beaucoup plus de puissance statistique qu'il n'est peut-être nécessaire dans une étude aléatoire par grappe où l'inférence de randomisation directe est possible.
 
@@ -623,15 +623,15 @@ Globalement, cela vaut la peine de simuler pour étudier les performances de vos
 ```{r makedatclus, echo=FALSE, results="hide"}
 ## voir https://declaredesign.org/blog/bias-cluster-randomized-trials.html
 ## pour plus d'info.
-N_clusters <- 10  # nombre de cluster
-n_indivs <- c(100,10) # tailles possibles de cluster
+N_clusters <- 10  # nombre de grappes
+n_indivs <- c(100,10) # tailles possibles de grappe
 thepop <- declare_population(clus_id = add_level(
-            # définir les tailles des clusters
+            # définir les tailles des grappes
             N = N_clusters,
-            # 1/5 des clusters ont 100 individus, 4/5 des clusters ont 10 individus
+            # 1/5 des grappes ont 100 individus, 4/5 des grappes ont 10 individus
             cl_size = rep(n_indivs, c(N/5, N - N/5)),
             cl_sizeF = factor(cl_size),
-            # Chaque cluster a un niveau moyen différent (u) et une variabilité de fond différente (sd de u)
+            # Chaque grappe a un niveau moyen différent (u) et une variabilité de fond différente (sd de u)
             effect = ifelse(cl_size == 100, .1, 1)),
             indiv = add_level(N = cl_size, u = rnorm(N, mean=log(cl_size), sd = effect)))
 
@@ -639,7 +639,7 @@ theys <- declare_potential_outcomes(Y_Z_0 = u, Y_Z_1 = Y_Z_0 + effect)
 
 thetarget_indiv <- declare_inquiry(ATE_indiv = mean(Y_Z_1 - Y_Z_0))
 
-## Assignation aléatoire complète pour les clusters
+## Assignation aléatoire complète pour les grappes
 theassign <- declare_assignment(Z=conduct_ra(N=N, clusters = clus_id))
 
 thereveal <-   declare_reveal(Y, Z)
@@ -715,7 +715,7 @@ est7(dat1)
 
 ```
 
-Imaginez que nous ayons des données de 10 clusters avec soit 100 personnes (pour 2 clusters) soit 10 personnes par cluster (pour 8 clusters). La taille totale des données est `r nrow(dat1)`.
+Imaginez que nous ayons des données de 10 grappes avec soit 100 personnes (pour 2 grappes) soit 10 personnes par grappe (pour 8 grappes). La taille totale des données est `r nrow(dat1)`.
 
 ```{r}
 tmp <- dplyr::filter(dat1,clus_id %in% c("03","01")) %>% group_by(clus_id) %>%
@@ -810,11 +810,11 @@ print(sim_plot3)
 
  - Les essais aléatoires par grappe posent des problèmes particuliers pour les approches standard d'estimation et de test.
 
- - Si la randomisation est au niveau du cluster, alors l'incertitude provient de la randomisation au niveau du cluster.
+ - Si la randomisation est au niveau de la grappe, alors l'incertitude provient de la randomisation au niveau de la grappe.
 
- - Si nous avons suffisamment de clusters, alors "l'erreur standard robuste pour cluster" peut nous aider à produire des intervalles de confiance avec une couverture correcte. **L'erreur standard robuste pour cluster nécessite de nombreux clusters**.
+ - Si nous avons suffisamment de grappes, alors "l'erreur standard robuste pour grappe" peut nous aider à produire des intervalles de confiance avec une couverture correcte. **L'erreur standard robuste pour grappe nécessite de nombreux grappes**.
 
- - Si la taille du cluster (ou caractéristique) est liée à la taille de l'effet, alors nous pouvons avoir un biais (et nous devons ajuster d'une manière ou d'une autre).
+ - Si la taille de la grappe (ou caractéristique) est liée à la taille de l'effet, alors nous pouvons avoir un biais (et nous devons ajuster d'une manière ou d'une autre).
 
 # Résultats binaires
 

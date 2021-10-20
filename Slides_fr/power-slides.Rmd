@@ -316,10 +316,10 @@ power_sim_cov(N=80,tau=.25,sims=100)
 ```
 
 # Puissance statistique pour la randomisation par grappe
-## Puissance statistique et design par cluster
+## Puissance statistique et design par grappe
 - Voir le [module sur la randomisation](randomization.html).
 
-- Etant donné un $N$ fixe, un design par cluster est légèrement moins puissant qu'un design sans cluster.
+- Etant donné un $N$ fixe, un design par grappe est légèrement moins puissant qu'un design sans grappe.
      - La différence est souvent substantielle.
 
 - Il faut estimer correctement la variance :
@@ -327,9 +327,9 @@ power_sim_cov(N=80,tau=.25,sims=100)
      - Inférence de randomisation
 
 - Pour augmenter la puissance :
-     - Mieux vaut augmenter le nombre de clusters que le nombre d'unités par cluster.
-     - Dans quelle mesure les clusters réduisent la puissance statistique dépend de manière critique de la corrélation intra-cluster
-       (i.e. le rapport de la variance au sein des clusters à la variance totale).
+     - Mieux vaut augmenter le nombre de grappes que le nombre d'unités par grappe.
+     - Dans quelle mesure les grappes réduisent la puissance statistique dépend de manière critique de la corrélation intra-grappe (intra-cluster correlation, ICC)
+       (i.e. le rapport de la variance au sein des grappes à la variance totale).
 
 ## Le design par grappe dans la recherche observationelle
 
@@ -341,7 +341,7 @@ power_sim_cov(N=80,tau=.25,sims=100)
 
 - De nombreux designs d'observation sont beaucoup moins puissants qu'on ne le pense.
 
-## Exemple : Puissance statistique basée sur la simulation pour la randomisation des clusters {.allowframebreaks}
+## Exemple : Puissance statistique basée sur la simulation pour la randomisation par grappe {.allowframebreaks}
 
 ```{r powsimclus, echo=TRUE}
 ## Y0 est fixe dans la plupart des expériences sur le terrain.
@@ -357,7 +357,7 @@ make_Y0_clus <- function(n_indivs,n_clus){
  }
 
 test_dat <- make_Y0_clus(n_indivs=10,n_clus=100)
-# confirmez que cela produit des données avec 10 dans chacun des 100 clusters
+# confirmez que cela produit des données avec 10 dans chacun des 100 grappes
 table(test_dat$clus_id)
 # confirme l'ICC
 ICC::ICCbare(y=Y0,x=clus_id,data=test_dat)
@@ -365,7 +365,7 @@ ICC::ICCbare(y=Y0,x=clus_id,data=test_dat)
 
 repeat_experiment_and_test_clus <- function(N, tau, Y0, clus_id){
     Y1 <- Y0 + tau
-    # ici, nous randomisons Z au niveau du cluster
+    # ici, nous randomisons Z au niveau de la grappe
     Z <- cluster_ra(clusters=clus_id)
     Yobs <- Z * Y1 + (1 - Z) * Y0
     estimator <- lm_robust(Yobs ~ Z, clusters = clus_id,
@@ -392,7 +392,7 @@ power_sim_clus(n_indivs=8,n_clus=100,tau=.25,sims=100)
 
 ```
 
-## Exemple : Puissance statistique basée sur la simulation pour la randomisation des clusters (DeclareDesign) {.allowframebreaks}
+## Exemple : Puissance statistique basée sur la simulation pour la randomisation par grappe (DeclareDesign) {.allowframebreaks}
 
 ```{r ddversion_clus, echo=TRUE}
 
@@ -504,9 +504,9 @@ abline(h=.8)
 
 - Pour les designs de randomisation par grappe, essayez d'ajuster:
 
-   - Nombre de clusters
-   - Nombre d'unités par cluster
-   - Corrélation intra-cluster
+   - Nombre de grappes
+   - Nombre d'unités par grappe
+   - Corrélation intra-grappe
    - Effet de traitement
 
 
@@ -526,7 +526,7 @@ abline(h=.8)
 
 1. Augmenter $N$
 
-     - En cas de cluster, augmenter le nombre de clusters si possible
+     - En cas de grappe, augmenter le nombre de grappes si possible
 
 2. Renforcer le traitement
 

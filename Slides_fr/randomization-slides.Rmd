@@ -211,14 +211,14 @@ sum(treatment)
 
 ## Randomisation par grappe (cluster) I
 
-- Un cluster est un **groupe d'unités**. Dans une étude randomisée par grappe, toutes les unités de la grappe sont assignées au même statut de traitement.
+- Une grappe est un **groupe d'unités**. Dans une étude randomisée par grappe, toutes les unités de la grappe sont assignées au même statut de traitement.
 
-- Utilisez la randomisation par grappe si l'intervention doit fonctionner au niveau du cluster.
+- Utilisez la randomisation par grappe si l'intervention doit fonctionner au niveau de la grappe.
 
    - Par exemple, si l'intervention concerne les cours de récréation des écoles, alors l'école est l'unité d'assignation même si la santé des élèves peut être un résultat mesuré au niveau individuel des élèves.
 
-- Avoir moins de clusters nuit à votre capacité à détecter les effets du traitement et à conduire à des $p$-valeurs, des intervalles de confiance (ou même des estimations) trompeurs.
-  Cela dépendra de la corrélation intra-cluster (intra cluster correlation, ICC ou $\rho$).
+- Avoir moins de grappes nuit à votre capacité à détecter les effets du traitement et à conduire à des $p$-valeurs, des intervalles de confiance (ou même des estimations) trompeurs.
+  Cela dépendra de la corrélation intra-grappe (intra cluster correlation, ICC ou $\rho$).
 
 ## Randomisation par grappe (cluster) II
 
@@ -227,23 +227,23 @@ sum(treatment)
      - si $\rho=0$ alors le village n'a pas d'importance pour le comportement des individus.
      - si $\rho=1$ alors chaque personne dans le village donnerait exactement la même réponse. Avoir une autre personne de ce village ne vous donne pas d'informations supplémentaires puisque son résultat est identique à la personne que vous aviez déjà.
 
-- Pour le même nombre d'unités, avoir **plus de clusters** avec moins d'unités par cluster peut aider.
+- Pour le même nombre d'unités, avoir **plus de grappes** avec moins d'unités par grappe peut aider.
 
 - Compromis entre les effets de débordement et la puissance statistique.
 
 - Si vous ne souhaitez pas une expérience avec 10 unités, alors vous ne devriez pas vous contenter d'une expérience avec 10 groupes de 100 unités. La taille effective de l'échantillon de cette expérience aléatoire par grappe est comprise entre 10 et 10 $\times$ 100 = 1000, mais plus proche de 10 plus $\rho$ est élevé.
 
-## Vous pouvez combiner blocs et clusters
+## Vous pouvez combiner blocs et grappes
 
-- Vous pouvez avoir des clusters dans des blocs.
+- Vous pouvez avoir des grappes dans des blocs.
 
-   - Exemple : îlot = quartier, cluster = communautés, unités = individus. Vous mesurez les résultats au niveau individuel.
+   - Exemple : îlot = quartier, grappe = communautés, unités = individus. Vous mesurez les résultats au niveau individuel.
 
-   - Exemple : bloc = province, cluster = district, unités = communautés. Vous mesurez les résultats au niveau communautaire.
+   - Exemple : bloc = province, grappe = district, unités = communautés. Vous mesurez les résultats au niveau communautaire.
 
-- Vous ne pouvez pas avoir de blocs dans les clusters.
+- Vous ne pouvez pas avoir de blocs dans les grappes.
 
-- Pour la randomisation des blocs et clusters, vous pouvez utiliser `block_ra` et `cluster_ra` dans le package `randomizr` de R.
+- Pour la randomisation des blocs et grappes, vous pouvez utiliser `block_ra` et `cluster_ra` dans le package `randomizr` de R.
 
 - Pour les conceptions plus compliquées, vous pourriez trouver `DeclareDesign` utile. (<https://declaredesign.org>)
 
