@@ -261,7 +261,7 @@ design0_N100_tau25_sims %>% group_by(estimator) %>%
 
 ## Découpage par bloc
 
--  Découper par bloc : assignez au hasard un traitement au sein des blocs
+-  Découper par bloc : assignez de manière aléatoire un traitement au sein des blocs
 
     - Ajustement de covariables "ex-ante"
 
@@ -297,7 +297,7 @@ repeat_experiment_and_test_cov <- function(N, tau, Y0, x){
     return(pval)
 }
 ## créer les données une fois
-## assigner au hasard le traitement sims fois
+## assigner de manière aléatoire le traitement sims fois
 ## rapporte quelle proportion renvoie une valeur p < 0,05
 power_sim_cov <- function(N,tau,sims){
     dat <- make_Y0_cov(N)

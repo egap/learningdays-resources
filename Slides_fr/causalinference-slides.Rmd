@@ -75,13 +75,13 @@ colorize <- function(x, color) {
 	- Plus de partenariats entre chercheurs et praticiens.
 
 
-## "X cause Y" est une affirmation sur ce qui ne s'est pas produit
+## "X cause Y" est une affirmation sur ce qui n'a pas eu lieu
 
 - Dans l'approche contrefactuelle : "Si X ne s'était pas produit, alors Y ne se serait pas produit."
 
-- Les expériences nous aident à en apprendre davantage sur les affirmations de causalité contrefactuelles ou dues à une manipulation lors d'une expérience.
+- Les expériences nous aident à en apprendre davantage sur les assertions causales, quelles soient contrefactuelles ou dues à une manipulation.
 
-- Ce n'est pas incorrect de _conceptualiser_ la "cause" d'une autre manière. Mais il a été productif de travailler dans ce cadre contrefactuel [@brady2008causation].
+- Ce n'est pas incorrect de _conceptualiser_ la "cause" d'une autre manière. Mais il est productif de travailler dans ce cadre contrefactuel [@brady2008causation].
 
 
 ## Comment interpréter "X cause Y" dans cette approche
@@ -94,7 +94,7 @@ colorize <- function(x, color) {
 
 ## Comment interpréter "X cause Y" dans cette approche
 
-4. Il n'est pas nécessaire de connaître le mécanisme pour établir que X cause Y. Le mécanisme peut être complexe, et il peut impliquer des probabilités : X cause Y parfois à cause de A et parfois à cause de B.
+4. Ce n'est pas nécessaire de connaître le mécanisme pour établir que X cause Y. Le mécanisme peut être complexe, et il peut impliquer des probabilités : X cause Y parfois à cause de A et parfois à cause de B.
 
 5. La causalité contrefactuelle ne nécessite pas "une séquence spatiotemporelle continue d'intermédiaires causaux"
     - Ex : la personne A planifie l'événement Y. L'action de la personne B arrêterait Y (i.e. B va bousculer A dans la rue). La personne C ne connaît pas la personne A ou l'action Y mais arrête B (elle pense peut-être que B va trébucher). Ainsi, la personne A effectue l'action Y. Et la personne C provoque l'action Y (sans l'action de la personne C, Y n'aurait pas eu lieu)
@@ -106,7 +106,8 @@ colorize <- function(x, color) {
 
 - Votre ami dit que la prise d'échinacée (un remède traditionnel) réduit la durée des rhumes.
 
-- Si nous adoptons une approche contrefactuelle, que revendique implicitement cet énoncé à propos du fait contrefactuel ? Quels autres faits contrefactuels pourraient être possibles et pourquoi ?
+- Si nous adoptons une approche contrefactuelle, qu'implique cet énoncé implicitement à propos du contrefactuel ?
+  Quels autres contrefactuels pourraient être possibles et pourquoi ?
 
 # Résultats potentiels
 
@@ -115,7 +116,7 @@ colorize <- function(x, color) {
 
 - $Y_i(1)$ est le résultat qu'on **obtiendrait** *si* l'unité recevait le traitement ($T_i=1$).
 
-- $Y_i(0)$ est le résultat qu'on **obtiendrait** *si* l'unité recevait le traitement ($T_i=0$).
+- $Y_i(0)$ est le résultat qu'on **obtiendrait** *si* l'unité recevait le contrôle ($T_i=0$).
 
 
 ## Définition de l'effet causal
@@ -129,7 +130,7 @@ colorize <- function(x, color) {
 ## Principales caractéristiques de cette définition de l'effet causal
 
 1. Vous devez définir la condition de contrôle pour définir un effet causal.
-    - Disons que $T=1$ signifie une réunion communautaire pour discuter de santé publique. Est-ce que $T=0$ signifie pas réunion ? Est-ce que $T=0$ signifie une réunion sur un autre sujet ? Est-ce que $T=0$ est un dépliant sur la santé publique ?
+    - Disons que $T=1$ signifie une réunion communautaire pour discuter de santé publique. Est-ce que $T=0$ signifie pas de réunion ? Est-ce que $T=0$ signifie une réunion sur un autre sujet ? Est-ce que $T=0$ est un dépliant sur la santé publique ?
     - L'expression ``effet causal de $T$ sur $Y$'' n'a pas de sens sans savoir ce que signifie ne pas avoir $T$.
 
 2. Chaque unité $i$ a son propre effet causal $\tau_i$.
@@ -157,13 +158,13 @@ $Y_i = T_iY_i(1) + (1-T_i)Y_i(0)$
 
 ## Effet causal moyen
 
- - Bien que nous ne puissions pas mesurer l'effet causal individuel, $\tau_i = Y_i(1)-Y_i(0)$, nous pouvons assigner au hasard des sujets aux conditions de traitement et de contrôle pour estimer l'**effet causal moyen**, $\bar{\tau}_i$:
+ - Bien que nous ne puissions pas mesurer l'effet causal individuel, $\tau_i = Y_i(1)-Y_i(0)$, nous pouvons assigner de manière aléatoire des sujets aux conditions de traitement et de contrôle pour estimer l'**effet causal moyen**, $\bar{\tau}_i$:
 
 \centering
 $\overline{\tau_i} = \frac{1}{N} \sum_{i=1}^N ( Y_i(1)-Y_i(0) ) = \overline{Y_i(1)-Y_i(0)}$
 
 
- - L'effet causal moyen est également appelé effet moyen du traitement.
+ - L'effet causal moyen est également appelé effet moyen du traitement (average treatment effect, ATE).
  
  - Plus d'explications sur la randomisation de l'assignation du traitement dans la section suivante.
 
@@ -180,13 +181,13 @@ $\overline{\tau_i} = \frac{1}{N} \sum_{i=1}^N ( Y_i(1)-Y_i(0) ) = \overline{Y_i(
 
 ## D'autres types d'estimandes
 
-- L'effet causal moyen pour un sous-groupe particulier, i.e. effet causal moyen conditionel
+- L'effet causal moyen pour un sous-groupe particulier, i.e. effet causal moyen conditionel (conditional average treatment effect, CATE)
 
-- Différences d'effet causal moyen conditionel : différences d'effet moyen du traitement pour un groupe par rapport à un autre groupe.
+- Différences de CATE : différences d'effet moyen du traitement pour un groupe par rapport à un autre groupe.
 
-- L'effet causal moyen seulement pour le groupe de traitement
+- L'effet moyen du traitement sur les traités (average treatment effect on the treated, ATT)
 
-- L'effet causal moyen local. "Local" = ceux dont le statut de traitement serait modifié par un encouragement dans un design incitatif (i.e. effet causal moyen conforme) ou ceux au voisinage d'un seuil pour une régression sur discontinuité.
+- L'effet moyen local du traitement (local average treatment effect, LATE). "Local" = ceux dont le statut de traitement serait modifié par un encouragement dans un design incitatif (i.e. l'effet causal moyen pour ceux qui se conforment au traitement, complier average causal effect, CACE) ou ceux au voisinage d'un seuil pour une régression sur discontinuité.
 
 - Les estimandes sont discutés en détail dans le module [estimandes et estimateurs](estimation.html).
 
@@ -227,9 +228,9 @@ ATE $= \overline{Y_i(1)-Y_i(0)} = \overline{Y_i(1)}-\overline{Y_i(0)}$
 
 ## La randomisation est puissante (2)
 
-- Assignons *au hasard* certaines de nos unités à la condition de traitement. Pour ces unités traitées, nous mesurons le résultat $Y_i|T_i=1$, qui est le même que $Y_i(1)$ pour ces unités.
+- Assignons *de manière aléatoire* certaines de nos unités à la condition de traitement. Pour ces unités traitées, nous mesurons le résultat $Y_i|T_i=1$, qui est le même que $Y_i(1)$ pour ces unités.
 
-- Parce que ces unités ont été assignées au hasard au traitement, ces $Y_i=Y_i(1)$ pour les unités traitées représentent les $Y_i(1)$ pour toutes nos unités.
+- Parce que ces unités ont été assignées de manière aléatoire au traitement, ces $Y_i=Y_i(1)$ pour les unités traitées représentent les $Y_i(1)$ pour toutes nos unités.
 
 - En espérance (ou en moyenne sur des expériences répétées (écrit $E_R[]$)) :
 
@@ -295,7 +296,7 @@ Pour faire des assertions causales avec une expérience (ou pour juger si nous c
 
 ## Hypothèses clé : SUTVA, partie 1
 
-1. La non-interférence --  Le résultat potentiel d'un sujet reflète uniquement la reception du traitement par ce sujet. Il n'est pas affecté par la façon dont les traitements sont attribués à d'autres sujets.
+1. La non-interférence --  Le résultat potentiel d'un sujet reflète uniquement la reception du traitement par ce sujet. Il n'est pas affecté par la façon dont les traitements sont assignés à d'autres sujets.
 
    - Une violation classique est le cas des vaccins et de leurs effets de débordement.
 
@@ -322,7 +323,7 @@ Pour faire des assertions causales avec une expérience (ou pour juger si nous c
 
 - Si l'intervention est aléatoire, alors recevoir ou non l'intervention n'est pas lié aux caractéristiques des bénéficiaires potentiels.
 
-- La randomisation fait que ceux qui ont été sélectionnés au hasard pour ne pas recevoir l'intervention sont de bons remplaçants pour les contrefactuels de ceux qui ont été sélectionnés au hasard pour recevoir le traitement, et vice versa.
+- La randomisation fait que ceux qui ont été sélectionnés de manière aléatoire pour ne pas recevoir l'intervention sont de bons remplaçants pour les contrefactuels de ceux qui ont été sélectionnés de manière aléatoire pour recevoir le traitement, et vice versa.
 
 - Il faut s'en préoccuper si l'intervention n'était pas aléatoire (= une étude observationnelle).
 
@@ -336,7 +337,7 @@ Pour faire des assertions causales avec une expérience (ou pour juger si nous c
 
 - Études d'observation
 
-   - Le traitement n'est pas attribué au hasard. Il est observé, mais pas manipulé.
+   - Le traitement n'est pas assigné de manière aléatoire. Il est observé, mais pas manipulé.
 
 ## Exercice : Apprendre de vos connaissances antérieures
 
