@@ -388,7 +388,7 @@ Une autre mesure de proximité est la **racine de l'erreur quadratique moyenne**
 Quel estimateur est le meilleur ? (L'un est plus proche de la vérité en moyenne (REQM) et il est plus précis. L'autre n'a pas d'erreur systématique --- il est non-biaisé.)
 
 ```{r}
-kableExtra::kable(reshape_diagnosis(diagnosis1, select = c("Estimateur", "Biais", "REQM", "Estimateur de l'erreur type", "Moyenne de l'erreur type", "Puissance"))[,-c(1,2,4,5,6)])
+kableExtra::kable(reshape_diagnosis(diagnosis1, select = c("Estimator", "Bias", "RMSE", "SD Estimate", "Mean Se", "Power"))[,-c(1,2,4,5,6)])
 ```
 
 ## Estimateurs biaisés et non-biaisés

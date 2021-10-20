@@ -519,7 +519,7 @@ document.getElementsByTagName('head')[0].appendChild(style);
 <section>
     <h1 class="title">Tests d’hypothèses: résumer les informations sur les effets causals</h1>
     <h2 class="author">Mettre votre nom</h2>
-    <h3 class="date">18-10-2021</h3>
+    <h3 class="date">19-10-2021</h3>
 </section>
 <section id="TOC">
 <ul>
@@ -551,9 +551,7 @@ document.getElementsByTagName('head')[0].appendChild(style);
 <ul>
 <li><a href="#/rejeter-lhypothèse-nulle-et-faire-des-erreurs">Rejeter l’hypothèse nulle et faire des erreurs</a></li>
 <li><a href="#/taux-de-faux-positifs-dans-les-tests-dhypothèses">Taux de faux positifs dans les tests d’hypothèses</a></li>
-<li><a href="#/false-positive-and-false-negative-errors">False positive and false negative errors</a></li>
 <li><a href="#/faux-positifs-et-faux-négatifs">Faux positifs et faux négatifs</a></li>
-<li><a href="#/a-single-test-of-a-single-hypothesis">A single test of a single hypothesis</a></li>
 <li><a href="#/un-test-unique-dune-seule-hypothèse">Un test unique d’une seule hypothèse</a></li>
 <li><a href="#/les-décisions-impliquent-des-erreurs">Les décisions impliquent des erreurs</a></li>
 <li><a href="#/diagnostiquer-les-taux-de-faux-positifs-par-simulation">Diagnostiquer les taux de faux positifs par simulation</a></li>
@@ -575,7 +573,7 @@ document.getElementsByTagName('head')[0].appendChild(style);
 <ul>
 <li><a href="#/quand-pouvons-nous-tester-de-nombreuses-hypothèses">Quand pouvons-nous tester de nombreuses hypothèses ?</a></li>
 <li><a href="#/taux-de-faux-positifs-dans-les-tests-dhypothèses-multiples">Taux de faux positifs dans les tests d’hypothèses multiples</a></li>
-<li><a href="#/discoveries-with-multiple-tests">Discoveries with multiple tests</a></li>
+<li><a href="#/découvertes-avec-multiple-tests">Découvertes avec multiple tests</a></li>
 <li><a href="#/deux-taux-derreur-principaux-à-contrôler-lors-du-test-de-nombreuses-hypothèses">Deux taux d’erreur principaux à contrôler lors du test de nombreuses hypothèses</a></li>
 <li><a href="#/questions-à-résultats-multiples">Questions à résultats multiples</a></li>
 <li><a href="#/tests-dhypothèses-multiples-résultats-multiples">Tests d’hypothèses multiples : résultats multiples</a></li>
@@ -605,8 +603,8 @@ document.getElementsByTagName('head')[0].appendChild(style);
 <h2>Points principaux</h2>
 <ul>
 <li><p>Inférence statistique (e.g., les tests d’hypothèses et les intervalles de confiance) nécessitent <strong>l’inférence</strong> — i.e. raisonner sur ce qui n’a pas été observé.</p></li>
-<li><p><span class="math inline">\(p\)</span>-valeurs nécessitent des distributions de probabilité .</p></li>
-<li><p>Randomisation (ou Design) + une hypothèse + une function statistique de test <span class="math inline">\(\rightarrow\)</span> distributions de probabilité représentant l’hypothèse (distributions de référence)</p></li>
+<li><p><span class="math inline">\(p\)</span>-valeurs nécessitent des distributions de probabilité.</p></li>
+<li><p>Randomisation (ou design) + une hypothèse + une function statistique de test <span class="math inline">\(\rightarrow\)</span> distributions de probabilité représentant l’hypothèse (distributions de référence)</p></li>
 <li><p>Valeurs observées des tests statistiques + distribution de référence <span class="math inline">\(\rightarrow\)</span> <span class="math inline">\(p\)</span>-valeur.</p></li>
 </ul>
 </section>
@@ -624,7 +622,7 @@ document.getElementsByTagName('head')[0].appendChild(style);
 <ul>
 <li><p>Une autre solution consiste à faire des <strong>affirmations</strong> ou <strong>des suppositions</strong> sur les effets causaux.</p></li>
 <li><p>On pourrait dire : “Je pense que l’effet sur Dupont est de 5.” ou “Cette expérience n’a eu d’effet sur personne.” Et puis nous demandons “Quelles preuves apporte cette expérience à propos de cette affirmation ?”</p></li>
-<li><p>La preuve est contenue dans la <span class="math inline">\(p\)</span>-valeur .</p></li>
+<li><p>La preuve est contenue dans la <span class="math inline">\(p\)</span>-valeur.</p></li>
 <li><p>C’est l’approche de Fisher.</p></li>
 </ul>
 </section>
@@ -980,42 +978,20 @@ Résultats observés en fonction du statut de traitement
 P-valeur unilatérale d’une statistique de test normalement.
 </p>
 </div>
-<p>Notice:</p>
-<ul>
-<li><p>The curve is centered at the hypothesized value.</p></li>
-<li><p>The curve represents the world of the hypothesis.</p></li>
-<li><p>The <span class="math inline">\(p\)</span>-value is how rare it would be to see the observed test statistic (or a value farther away from the hypothesized value) in the world of the null.</p></li>
-<li><p>In the picture, the observed value of the test statistic is consistent with the hypothesized distribution, but just not super consistent.</p></li>
-<li><p>Even if <span class="math inline">\(p &lt; .05\)</span> (or <span class="math inline">\(p &lt; .001\)</span>) the observed test statistic must reflect some value on the hypothesized distribution. This means that you can always make an error when you reject a null hypothesis.</p></li>
-</ul>
 <p>Attention:</p>
 <ul>
 <li><p>La courbe est centrée à la valeur hypothétique.</p></li>
 <li><p>La courbe représente le monde de l’hypothèse.</p></li>
 <li><p>La <span class="math inline">\(p\)</span>-valeur décrit à quel point il serait rare de voir la statistique de test observée (ou une valeur plus éloignée de la valeur hypothétique) dans le monde de l’hypothèse nulle.</p></li>
 <li><p>Sur la figure, la valeur observée de la statistique de test est cohérente avec la distribution hypothétique, mais pas très cohérente.</p></li>
-<li><p>Même si <span class="math inline">\(p &lt; .05\)</span> (ou <span class="math inline">\(p &lt; .001\)</span>) la statistique de test observée doit refléter en partie la distribution hypothétique. Cela signifie que vous pouvez toujours faire une erreur lorsque vous rejetez une hypothèse nulle.</p></li>
-</ul>
-</section>
-<section id="false-positive-and-false-negative-errors" class="slide level2">
-<h2>False positive and false negative errors</h2>
-<ul>
-<li><p>If we say, “The experimental result is significantly different from the hypothesized value of zero (<span class="math inline">\(p=.001\)</span>) ! We reject that hypothesis !” <strong>when the truth is zero</strong> we are making a <strong>false positive error</strong> (claiming to detect something positively when there is no signal, only noise).</p></li>
-<li><p>If we say, “We cannot distinguish this result from zero (<span class="math inline">\(p=.3\)</span>). We cannot reject the hypothesis of zero.” <strong>when the truth is not zero</strong> we are making a <strong>false negative error</strong> (claiming inability to detect something when there is a signal, but it is overwhelmed by noise.)</p></li>
+<li><p>Même si <span class="math inline">\(p &lt; 0,05\)</span> (ou <span class="math inline">\(p &lt; 0,001\)</span>) la statistique de test observée doit refléter en partie la distribution hypothétique. Cela signifie que vous pouvez toujours faire une erreur lorsque vous rejetez une hypothèse nulle.</p></li>
 </ul>
 </section>
 <section id="faux-positifs-et-faux-négatifs" class="slide level2">
 <h2>Faux positifs et faux négatifs</h2>
 <ul>
-<li><p>Si nous disons, “le résultat expérimental est significativement différent de la valeur hypothétique de zéro (<span class="math inline">\(p=.001\)</span>) ! Nous rejetons cette hypothèse !” <strong>lorsque la vérité est zéro</strong> nous faisons une <strong>erreur de faux positifs</strong> (prétendant détecter quelque chose lorsqu’il n’y a pas de signal, seulement du bruit).</p></li>
+<li><p>Si nous disons, “le résultat expérimental est significativement différent de la valeur hypothétique de zéro (<span class="math inline">\(p=0,001\)</span>) ! Nous rejetons cette hypothèse !” <strong>lorsque la vérité est zéro</strong> nous faisons une <strong>erreur de faux positifs</strong> (prétendant détecter quelque chose lorsqu’il n’y a pas de signal, seulement du bruit).</p></li>
 <li><p>Si nous disons : “Nous ne pouvons pas distinguer ce résultat de zéro (<span class="math inline">\(p=.3\)</span>). Nous ne pouvons pas rejeter l’hypothèse de zéro.” <strong>lorsque la vérité n’est pas zéro</strong> nous faisons une <strong>erreur de faux négatifs</strong> (prétendant incapacité à détecter quelque chose lorsqu’il y a un signal, mais qu’il est submergé par le bruit.)</p></li>
-</ul>
-</section>
-<section id="a-single-test-of-a-single-hypothesis" class="slide level2">
-<h2>A single test of a single hypothesis</h2>
-<ul>
-<li><p>A single test of a single hypothesis should encourage false positive errors rarely (for example, if we set <span class="math inline">\(\alpha=.05\)</span>) then we are saying that we are comfortable with our testing procedure making false positive errors in <strong>no more than 5% of tests of a given treatment assignment in a given experiment</strong>.</p></li>
-<li><p>Also, a <strong>single test of a single hypothesis</strong> should detect signal when it exists — it should be have high <strong>statistical power</strong>. In other words, it should not fail to detect a signal when it exists (i.e. should have low false negative error rates).</p></li>
 </ul>
 </section>
 <section id="un-test-unique-dune-seule-hypothèse" class="slide level2">
@@ -1189,13 +1165,12 @@ Distributions des p-valeurs quand il n y a aucun effet pour quatre tests avec n=
 <p>Disons que notre probabilité de faux positifs est de 0,05 pour un seul test. Que se passe-t-il si nous demandons: (1) lequel de ces 10 résultats a une relation statistiquement significative avec les deux bras de traitement ? (2) <em>lequel de ces 10 bras de traitement avait une relation statistiquement significative avec ce résultat particulier</em> ?</p>
 <ul>
 <li>La probabilité de faux positifs doit être inférieure ou égale à 0,05 dans un test.</li>
-<li>La probabilité de faux positifs doit être inférieure ou égale à <span class="math inline">\(1 - ( ( 1 - .05 ) \times (1 - .05) ) = .0975\)</span> dans 2 tests.</li>
+<li>La probabilité de faux positifs doit être inférieure ou égale à <span class="math inline">\(1 - ( ( 1 - 0,05 ) \times (1 - 0,05) ) = 0,0975\)</span> dans 2 tests.</li>
 <li>La probabilité d’avoir au moins un faux positif avec <span class="math inline">\(\alpha=.05\)</span> dans 10 tests devrait être <span class="math inline">\(\le\)</span> <span class="math inline">\(1 - (1-.05)^{10}=.40\)</span>.</li>
 </ul>
 </section>
-<section id="discoveries-with-multiple-tests" class="slide level2">
-<h2>Discoveries with multiple tests</h2>
-<p><strong>Number of errors committed when testing <span class="math inline">\(m\)</span> null hypotheses</strong> <span class="citation" data-cites="benjamini1995">(<a href="#/ref-benjamini1995" role="doc-biblioref">Benjamini and Hochberg 1995</a>’s Table 1)</span>. Cells are numbers of tests. <span class="math inline">\(R\)</span> is # of “discoveries” and <span class="math inline">\(V\)</span> is # of false discoveries, <span class="math inline">\(U\)</span> is # of correct non-rejections, and <span class="math inline">\(S\)</span> is # of correct rejections.</p>
+<section id="découvertes-avec-multiple-tests" class="slide level2">
+<h2>Découvertes avec multiple tests</h2>
 <p><strong>Nombre d’erreurs commises en testant <span class="math inline">\(m\)</span> hypothèses nulles</strong> <span class="citation" data-cites="benjamini1995">(Table 1 de <a href="#/ref-benjamini1995" role="doc-biblioref">Benjamini and Hochberg 1995</a>)</span>. Les cellules sont le nombre de tests. <span class="math inline">\(R\)</span> est le nombre de “découvertes” et <span class="math inline">\(V\)</span> est le nombre de fausses découvertes, <span class="math inline">\(U\)</span> est le nombre de non-rejets corrects et <span class="math inline">\(S\)</span> est le nombre de rejets corrects.</p>
 <table>
 <colgroup>
@@ -1333,9 +1308,9 @@ Distributions des p-valeurs quand il n y a aucun effet pour quatre tests avec n=
 </tbody>
 </table>
 <ul>
-<li><p>L’approche utilisant 5 tests produit un <span class="math inline">\(p &lt; .05\)</span> beaucoup trop souvent — rappelons qu’il n’y a aucun effet causal pour aucun de ces résultats.</p>
+<li><p>L’approche utilisant 5 tests produit un <span class="math inline">\(p &lt; 0,05\)</span> beaucoup trop souvent — rappelons qu’il n’y a aucun effet causal pour aucun de ces résultats.</p>
 <ul>
-<li><p>Un test d’un seul résultat (ici <code>Y1</code>) a <span class="math inline">\(p &lt; .05\)</span> pour moins de 5% des simulations.</p></li>
+<li><p>Un test d’un seul résultat (ici <code>Y1</code>) a <span class="math inline">\(p &lt; 0,05\)</span> pour moins de 5% des simulations.</p></li>
 <li><p>Le test omnibus montre également un taux d’erreur bien maîtrisé.</p></li>
 <li><p>L’utilisation d’une correction de tests multiples (ici nous utilisons la correction “Holm”) contrôle également correctement le taux de faux positifs.</p></li>
 </ul></li>
