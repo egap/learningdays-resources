@@ -61,11 +61,11 @@ library(styler)
 
   - Pour en savoir plus sur $\tau_{i}$, nous pouvons traiter $\tau_{i}$ comme un **estimande** ou une quantité cible à estimer (discutée ici) ou comme quantité cible hypothétique (session sur les tests d'hypothèses).
 
-  - Beaucoup se concentrent sur l'**effet moyen du traitement (average treatment effect, ATE)**, $\bar{\tau}=\sum_{i=1}^n\tau_{i}$, en partie parce qu'il permet une **estimation**.
+  - Beaucoup se concentrent sur l'**effet moyen du traitement (average treatment effect, ATE)**, $\bar{\tau}=\sum_{i=1}^n\tau_{i}$, en partie parce qu'il permet une **estimation** facile.
 
 ## Points clés sur l'estimation II
 
- - La clé de l'estimation pour l'inférence causale consiste à choisir un estimande qui vous aide à en savoir plus sur votre question théorique ou politique. Ainsi, on pourrait utiliser l'ATE mais aussi d'autres estimations courantes telles que l'effet d'intention de traiter (intent to treat effect, ITT), l'effet moyen local du traitement (local average treatment effect, LATE), l'effet causal moyen pour ceux qui se conforment au traitement (complier average causal effect, CACE), l'effet moyen du traitement sur les traités (average treatment effect on the treated, ATT) ou l'ATE pour certains sous-groupes.
+ - La clé de l'estimation pour l'inférence causale consiste à choisir un estimande qui vous aide à en savoir plus sur votre question théorique ou politique. Ainsi, on pourrait utiliser l'ATE mais aussi d'autres estimandes courantes telles que l'effet d'intention de traiter (intent to treat effect, ITT), l'effet moyen local du traitement (local average treatment effect, LATE), l'effet causal moyen pour ceux qui se conforment au traitement (complier average causal effect, CACE), l'effet moyen du traitement sur les traités (average treatment effect on the treated, ATT) ou l'ATE pour certains sous-groupes.
 
   - Un **estimateur** est une recette pour calculer approximativement la valeur d'un estimande. Par exemple, la différence des moyennes observées pour $m$ unités traitées est un estimateur de $\bar{\tau}$:
    $\hat{\bar{\tau}} = \frac{\sum_{i=1}^n (T_i Y_i)}{m} - \frac{\sum_{i=1}^n ( ( 1 - T_i)Y_i)}{(n-m)}$.
@@ -1111,7 +1111,7 @@ En général, le simple fait de "contrôler pour" produit un estimateur biaisé 
 
 - Vous pouvez évaluer l'utilité d'un estimateur choisi pour un estimande choisi par simulation.
 
-# Effets causals qui diffèrent selon les groupes ou covariables
+# Effets causaux qui diffèrent selon les groupes ou covariables
 
 ## Effets différents selon les groupes I
 
@@ -1131,7 +1131,7 @@ Si notre théorie suggère que les effets devraient différer selon le groupe, c
 
  - Nous **ne devrions pas utiliser des groupes formés par traitement**. (Il s'agit soit d'une "analyse de médiation" soit d'un "conditionnement sur les variables post-traitement" et mérite son propre module).
 
-# Effets causals quand on ne contrôle pas la dose
+# Effets causaux quand on ne contrôle pas la dose
 
 ## Définir l'effet causal I
 
