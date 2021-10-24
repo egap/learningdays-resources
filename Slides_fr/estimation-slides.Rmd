@@ -90,13 +90,13 @@ library(styler)
 
       - peu varier d'une expérience à l'autre (être précis ou efficace)
 
-      - peut-être idéalement converger vers l'estimande car ils utilisent de plus en plus d'informations (être cohérent).
+      - peut-être idéalement converger vers l'estimande quand ils utilisent de plus en plus d'informations (être cohérent).
 
 ## Points clés sur l'estimation V
 
  - **Analyser au fur et à mesure de la randomisation** dans le contexte de l'estimation signifie que (1) nos erreurs-types doivent mesurer la variabilité à partir de la randomisation et (2) nos estimateurs doivent cibler des estimandes définis en termes de résultats potentiels.
 
- - Nous ne **contrôlons pas** les covariables lorsque nous analysons les données d'expériences aléatoires. Mais les covariables peuvent rendre notre estimation plus **précise**. C'est ce qu'on appelle **ajustement de covariance** (ou ajustement de covariable). **L'ajustement de covariance** dans les expériences aléatoires diffère du contrôle dans les études observationnelles.
+ - Nous ne **contrôlons pas** les covariables lorsque nous analysons les données d'expériences aléatoires. Mais les covariables peuvent rendre notre estimation plus **précise**. C'est ce qu'on appelle **l'ajustement de covariance** (ou ajustement de covariable). **L'ajustement de covariance** dans les expériences aléatoires diffère du contrôle dans les études observationnelles.
 
 # Revue
 
@@ -121,7 +121,7 @@ $Y_{i}(T_{i}=1) -  Y_{i}(T_{i}=0) \ne 0$ ou $Y_{i}(T_{i}=1) \ne Y_{i}(T_{i}=0)$.
  2. Nous pouvons **définir les estimandes** en termes de $\{ Y_{i}(T_{i}=1), Y_{i}(T_{i}=0) \}$ ou $\tau_i$, **développer des estimateurs** pour ces estimandes,
     puis calculer les valeurs et les erreurs standard pour ces estimateurs.
 
-## Un estimatande et un estimateur usuels : l'effet moyen du traitement et la différence des moyennes
+## Un estimande et un estimateur usuels : l'effet moyen du traitement et la différence des moyennes
 
 Soit $\bar{\tau}=\sum_{i=1}^n \tau_{i}$, l'effet moyen du traitement. Quel serait un bon estimateur ?
 
@@ -170,7 +170,7 @@ kableExtra::kable(dat[,c("Z","y0","y1")])
 
 ```{r ate, echo=FALSE, results="markup", message=TRUE}
 ATE <- with(dat, mean(y1 - y0))
-message("The true ATE is ", ATE)
+message("Le vrai ATE est ", ATE)
 ```
 
 En réalité, nous n'observerions qu'un seul des résultats potentiels.
@@ -194,7 +194,7 @@ y1 <- y0 + tau
 block <- c("a","a","a","a","a","a","b","b","b","b")
 # Z est l'assignation de traitement (notez que nous utilisons Z au lieu de T)
 Z <- c(0,0,0,0,1,1,0,0,1,1)
-# Y is observed outcomes
+# Y est le résultat observé
 Y <- Z * y1 + (1 - Z) * y0
 # Les données
 dat <- data.frame(Z = Z, y0 = y0, y1 = y1, tau = tau, b=block,Y=Y)
