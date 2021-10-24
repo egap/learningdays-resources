@@ -218,13 +218,13 @@ lm_robust(Y~Z,data=dat0_N100_tau25)$coef # estimatation
 ```
 
 ```{r ddversion_sim, echo=TRUE, warnings=FALSE}
-E0 <- declare_estimator(Y~Z,model=lm_robust,label="t test 1",
+E0 <- declare_estimator(Y~Z,model=lm_robust,label="test-t 1",
                         inquiry="ATE")
 t_test <- function(data) {
        test <- with(data, t.test(x = Y[Z == 1], y = Y[Z == 0]))
        data.frame(statistic = test$statistic, p.value = test$p.value)
 }
-T0 <- declare_test(handler=label_test(t_test),label="t test 2")
+T0 <- declare_test(handler=label_test(t_test),label="test-t 2")
 design0_plus_tests <- design0_base + E0 + T0
 
 design0_N100_tau25_plus <- redesign(design0_plus_tests,N=100,tau=.25)

@@ -519,7 +519,7 @@ document.getElementsByTagName('head')[0].appendChild(style);
 <section>
     <h1 class="title">La puissance statistique</h1>
     <h2 class="author">Mettre votre nom</h2>
-    <h3 class="date">07 October, 2021</h3>
+    <h3 class="date">24-10-2021</h3>
 </section>
 
 <section>
@@ -535,19 +535,19 @@ document.getElementsByTagName('head')[0].appendChild(style);
 <li><p>En d’autres termes, c’est la capacité à détecter un effet étant donné qu’il existe.</p></li>
 <li><p>Formellement : (1 - Type II) taux d’erreur.</p></li>
 <li><p>Ainsi, la puissance statistique <span class="math inline">\(\in\)</span> (0, 1).</p></li>
-<li><p>Seuils standards : 0.8 ou 0.9.</p></li>
+<li><p>Seuils standard : 0.8 ou 0.9.</p></li>
 </ul>
 </section>
 <section id="point-de-départ-pour-lanalyse-de-puissance" class="slide level2">
 <h2>Point de départ pour l’analyse de puissance</h2>
 <ul>
-<li><p>L’analyse de puissance est quelque chose que nous faisons <em>avant</em> de mener une étude.</p>
+<li><p>L’analyse de puissance est quelque chose que nous faisons <em>avant</em> de mener une étude pour aider à :</p>
 <ul>
-<li><p>aide à déterminer l’échantillon dont vous avez besoin pour détecter une taille d’effet donnée.</p></li>
-<li><p>ou aide à déterminer une différence détectable minimale compte tenu d’une taille d’échantillon définie.</p></li>
-<li><p>peut aider à décider si vous souhaitez mener une étude.</p></li>
+<li><p>déterminer l’échantillon dont vous avez besoin pour détecter une taille d’effet donnée.</p></li>
+<li><p>déterminer une différence détectable minimale compte tenu d’une taille d’échantillon définie.</p></li>
+<li><p>décider si vous souhaitez mener une étude.</p></li>
 </ul></li>
-<li><p>Il est difficile d’apprendre d’un résultat non-concluant sous-alimenté.</p>
+<li><p>Il est difficile d’apprendre d’un résultat nul sous-alimenté.</p>
 <ul>
 <li>Y a-t-il eu un effet, mais nous n’avons pas pu le détecter ? N’y a-t-il eu aucun effet ? Impossible à dire.</li>
 </ul></li>
@@ -561,14 +561,14 @@ document.getElementsByTagName('head')[0].appendChild(style);
 <ul>
 <li><p>Quelle est l’ampleur de l’effet de votre traitement ?</p></li>
 <li><p>Combien d’unités sont traitées, mesurées ?</p></li>
-<li><p>Combien de bruit y a-t-il dans la mesure de votre résultat ?</p></li>
+<li><p>Quelle quantité de bruit y a-t-il dans la mesure de votre résultat ?</p></li>
 </ul></li>
 </ul>
 </section>
 <section id="approches-pour-calculer-la-puissance-statistique" class="slide level2">
 <h2>Approches pour calculer la puissance statistique</h2>
 <ul>
-<li><p>Calculs analytiques de puissance</p></li>
+<li><p>Calcul analytique</p></li>
 <li><p>Simulation</p></li>
 </ul>
 </section>
@@ -588,12 +588,12 @@ document.getElementsByTagName('head')[0].appendChild(style);
 </ul>
 </section></section>
 <section>
-<section id="calculs-analytiques-de-puissance" class="title-slide slide level1">
-<h1>Calculs analytiques de puissance</h1>
+<section id="calcul-analytique-de-puissance" class="title-slide slide level1">
+<h1>Calcul analytique de puissance</h1>
 
 </section>
-<section id="calculs-analytiques-de-puissance-1" class="slide level2">
-<h2>Calculs analytiques de puissance</h2>
+<section id="calcul-analytique-de-puissance-1" class="slide level2">
+<h2>Calcul analytique de puissance</h2>
 <ul>
 <li><p>Formule: <span class="math display">\[\begin{align*}
 \text{Power} &amp;= \Phi\left(\frac{|\tau| \sqrt{N}}{2\sigma}- \Phi^{-1}(1- \frac{\alpha}{2})\right)
@@ -604,21 +604,22 @@ document.getElementsByTagName('head')[0].appendChild(style);
 <li><span class="math inline">\(\tau\)</span> : la taille de l’effet</li>
 <li><span class="math inline">\(N\)</span> : la taille de l’échantillon</li>
 <li><span class="math inline">\(\sigma\)</span> : l’écart type du résultat</li>
-<li><span class="math inline">\(\alpha\)</span> : the significance level (typically 0.05)</li>
+<li><span class="math inline">\(\alpha\)</span> : le niveau de signification (typiquement 0.05)</li>
 </ul></li>
 </ul>
 </section>
-<section id="exemple-calculs-analytiques-de-puissance" class="slide level2">
-<h2>Exemple : calculs analytiques de puissance</h2>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Puissance statistique pour une étude avec 80 observations et un effet de taille de 0.25</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(pwr)</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">pwr.t.test</span>(</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">n =</span> <span class="dv">40</span>, <span class="at">d =</span> <span class="fl">0.25</span>, <span class="at">sig.level =</span> <span class="fl">0.05</span>,</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">power =</span> <span class="cn">NULL</span>, <span class="at">type =</span> <span class="fu">c</span>(</span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;two.sample&quot;</span>,</span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;one.sample&quot;</span>, <span class="st">&quot;paired&quot;</span></span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<section id="exemple-calcul-analytique-de-puissance" class="slide level2">
+<h2>Exemple : calcul analytique de puissance</h2>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Puissance statistique pour une étude avec 80 observations</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="co"># et un effet de taille de 0.25</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(pwr)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">pwr.t.test</span>(</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">n =</span> <span class="dv">40</span>, <span class="at">d =</span> <span class="fl">0.25</span>, <span class="at">sig.level =</span> <span class="fl">0.05</span>,</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">power =</span> <span class="cn">NULL</span>, <span class="at">type =</span> <span class="fu">c</span>(</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;two.sample&quot;</span>,</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;one.sample&quot;</span>, <span class="st">&quot;paired&quot;</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
 <pre><code>
      Two-sample t test power calculation 
 
@@ -630,10 +631,10 @@ document.getElementsByTagName('head')[0].appendChild(style);
 
 NOTE: n is number in *each* group</code></pre>
 </section>
-<section id="limites-des-calculs-de-puissance-analytique" class="slide level2">
-<h2>Limites des calculs de puissance analytique</h2>
+<section id="limites-du-calcul-de-puissance-analytique" class="slide level2">
+<h2>Limites du calcul de puissance analytique</h2>
 <ul>
-<li><p>Dérivé uniquement pour certaines statistiques de test (différences de moyennes)</p></li>
+<li><p>Dérivé uniquement pour certaines statistiques de test (différence des moyennes)</p></li>
 <li><p>Fait des hypothèses spécifiques sur le processus de génération de données</p></li>
 <li><p>Incompatible avec des designs plus complexes</p></li>
 </ul>
@@ -657,7 +658,7 @@ NOTE: n is number in *each* group</code></pre>
 <li><p>Définir l’échantillon et la fonction des résultats potentiels.</p></li>
 <li><p>Définir la procédure d’assignation du traitement.</p></li>
 <li><p>Créer des données.</p></li>
-<li><p>Attribuer un traitement, puis estimer l’effet.</p></li>
+<li><p>Assigner un traitement, puis estimer l’effet.</p></li>
 <li><p>Répéter.</p></li>
 </ul>
 </section>
@@ -665,8 +666,8 @@ NOTE: n is number in *each* group</code></pre>
 <h2>Exemples</h2>
 <ul>
 <li><p>Randomisation complète</p></li>
-<li><p>Avec covariants</p></li>
-<li><p>Avec randomisation en grappe</p></li>
+<li><p>Avec covariables</p></li>
+<li><p>Pour une randomisation par grappe</p></li>
 </ul>
 </section>
 <section id="exemple-calcul-de-puissance-par-simulation-pour-une-randomisation-complète" class="slide level2">
@@ -714,7 +715,7 @@ NOTE: n is number in *each* group</code></pre>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>P0 <span class="ot">&lt;-</span> <span class="fu">declare_population</span>(N, <span class="at">u0 =</span> <span class="fu">rnorm</span>(N))</span>
 <span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="co"># declarer Y(Z=1) et Y(Z=0)</span></span>
 <span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>O0 <span class="ot">&lt;-</span> <span class="fu">declare_potential_outcomes</span>(<span class="at">Y_Z_0 =</span> <span class="dv">5</span> <span class="sc">+</span> u0, <span class="at">Y_Z_1 =</span> Y_Z_0 <span class="sc">+</span> tau)</span>
-<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a><span class="co"># affecter m unités au traitement</span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a><span class="co"># assigner m unités au traitement</span></span>
 <span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>A0 <span class="ot">&lt;-</span> <span class="fu">declare_assignment</span>(<span class="at">Z =</span> <span class="fu">conduct_ra</span>(<span class="at">N =</span> N, <span class="at">m =</span> <span class="fu">round</span>(N <span class="sc">/</span> <span class="dv">2</span>)))</span>
 <span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a><span class="co"># l&#39;estimande est la différence des moyennes entre Y(Z=1) et Y(Z=0)</span></span>
 <span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>estimand_ate <span class="ot">&lt;-</span> <span class="fu">declare_inquiry</span>(<span class="at">ATE =</span> <span class="fu">mean</span>(Y_Z_1 <span class="sc">-</span> Y_Z_0))</span>
@@ -752,16 +753,18 @@ NOTE: n is number in *each* group</code></pre>
 <span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a>design0_N100_tau25_plus <span class="ot">&lt;-</span> <span class="fu">redesign</span>(design0_plus_tests, <span class="at">N =</span> <span class="dv">100</span>, <span class="at">tau =</span> .<span class="dv">25</span>)</span>
 <span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a><span class="do">## Répète seulement l&#39;assignation aléatoire, pas la création de Y0. Ignorer le warning</span></span>
-<span id="cb16-15"><a href="#cb16-15" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(design0_N100_tau25_plus)</span></code></pre></div>
+<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a><span class="do">## Répète seulement l&#39;assignation aléatoire, pas la création de Y0.</span></span>
+<span id="cb16-15"><a href="#cb16-15" aria-hidden="true" tabindex="-1"></a><span class="do">## Ignorer le warning</span></span>
+<span id="cb16-16"><a href="#cb16-16" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(design0_N100_tau25_plus)</span></code></pre></div>
 <pre><code>[1] &quot;P0&quot;       &quot;A0&quot;       &quot;O0&quot;       &quot;R0&quot;       &quot;t test 1&quot; &quot;t test 2&quot;</code></pre>
 <div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>design0_N100_tau25_sims <span class="ot">&lt;-</span> <span class="fu">simulate_design</span>(design0_N100_tau25_plus,</span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">sims =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">100</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>)</span>
 <span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>) <span class="co"># Répète seulement l&#39;assignation aléatoire</span></span></code></pre></div>
 <pre><code>Warning: We recommend you choose a higher number of simulations than 1 for the top level of simulation.</code></pre>
-<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co"># design0_N100_tau25_sims a 200 lignes (2 tests * 100 assignements aleatoires)</span></span>
-<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="co"># regardons les 6 premières lignes</span></span>
-<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(design0_N100_tau25_sims)</span></code></pre></div>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co"># design0_N100_tau25_sims a 200 lignes</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="co"># = 2 tests * 100 assignements aleatoires</span></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a><span class="co"># regardons les 6 premières lignes</span></span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(design0_N100_tau25_sims)</span></code></pre></div>
 <pre><code>                   design   N  tau sim_ID estimator term estimate std.error statistic p.value conf.low conf.high df outcome inquiry
 1 design0_N100_tau25_plus 100 0.25      1  t test 1    Z   0.1108    0.2150    0.5153 0.60752  -0.3158    0.5374 98       Y     ATE
 2 design0_N100_tau25_plus 100 0.25      1  t test 2 &lt;NA&gt;       NA        NA    0.5153 0.60754       NA        NA NA    &lt;NA&gt;    &lt;NA&gt;
@@ -776,11 +779,12 @@ NOTE: n is number in *each* group</code></pre>
 4           1           2
 5           1           3
 6           1           3</code></pre>
-<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co"># pour chaque estimateur, puissance = proportion de simulations avec p.value &lt; 0.5</span></span>
-<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>design0_N100_tau25_sims <span class="sc">%&gt;%</span></span>
-<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(estimator) <span class="sc">%&gt;%</span></span>
-<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">pow =</span> <span class="fu">mean</span>(p.value <span class="sc">&lt;</span> .<span class="dv">05</span>), <span class="at">.groups =</span> <span class="st">&quot;drop&quot;</span>)</span></code></pre></div>
-<pre><code># A tibble: 2 × 2
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co"># pour chaque estimateur,</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="co"># puissance = proportion de simulations avec p.value &lt; 0.5</span></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>design0_N100_tau25_sims <span class="sc">%&gt;%</span></span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(estimator) <span class="sc">%&gt;%</span></span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">pow =</span> <span class="fu">mean</span>(p.value <span class="sc">&lt;</span> .<span class="dv">05</span>), <span class="at">.groups =</span> <span class="st">&quot;drop&quot;</span>)</span></code></pre></div>
+<pre><code># A tibble: 2 x 2
   estimator   pow
   &lt;chr&gt;     &lt;dbl&gt;
 1 t test 1    0.2
@@ -793,52 +797,45 @@ NOTE: n is number in *each* group</code></pre>
 </section>
 <section id="ajustement-des-covariables-et-puissance-statistique" class="slide level2">
 <h2>Ajustement des covariables et puissance statistique</h2>
-<pre><code>- L&#39;ajustement de covariable peut améliorer la puissance statistique car il éponge la variation de la variable de résultat.
-
-   - S&#39;il est pronostique, l&#39;ajustement des covariables peut réduire considérablement la variance. Une variance plus faible signifie une puissance plus élevée.
-
-   - Si non pronostique, les gains de puissance sont minimes.
-
-- Toutes analyses avec covariables doivent être faits pré-traitement. N&#39;abandonnez pas d&#39;observations pour cause de données manquantes.
-
-   - Voir le module sur [les menaces à la validité interne](threats-to-internal-validity-of-randomized-experiments.html) et les [10 choses à savoir sur l&#39;ajustement des covariables](http://egap.org/methods-guides/10-things-know-about-covariate-adjustment).</code></pre>
 <ul>
-<li>Observez le biais de Freedman tandis que les observations n diminuent et que les covariables K augmentent.</li>
+<li><p>L’ajustement de covariable peut améliorer la puissance statistique car il atténue la variation du résultat.</p>
+<ul>
+<li><p>S’il est pronostique, l’ajustement de covariables peut réduire considérablement la variance. Une variance plus faible signifie une puissance plus élevée.</p></li>
+<li><p>S’il est non pronostique, les gains de puissance sont minimes.</p></li>
+</ul></li>
+<li><p>Toutes analyses avec covariables doivent être faites pré-traitement. N’abandonnez pas d’observations pour cause de données manquantes.</p>
+<ul>
+<li>Voir le module sur <a href="threats-to-internal-validity-of-randomized-experiments.html">les menaces à la validité interne</a> et les <a href="https://egap.org/resource/10-things-to-know-about-covariate-adjustment/">10 choses à savoir sur l’ajustement de covariables</a>.</li>
+</ul></li>
+<li><p>Observez le biais de Freedman tandis que nombre d’observations n diminue et que le nombre de covariables K augmente.</p></li>
 </ul>
-<!-- Ne pas traduire ## Covariate adjustment: best practices -->
-<!-- - All covariates must be pre-treatment -->
-<!--   - Never adjust for post-treatment variables -->
-<!-- - In practice, if all controls are pre-treatment, you can add whatever controls you want -->
-<!--   - But there is a limit to the number -->
-<!--   - Also see -->
-<!-- - Missingness in pre-treatment covariates -->
-<!--   - Do not drop observations on account of pre-treatment missingness -->
-<!--   - Impute mean/median for pretreatment variable -->
-<!--   - Include missingness indicator and impute some value in the missing variable -->
+</section>
+<section id="découpage-par-bloc" class="slide level2">
+<h2>Découpage par bloc</h2>
 <ul>
-<li><p>Designer les blocs : assignez au hasard un traitement au sein des blocs</p>
+<li><p>Découper par bloc : assignez de manière aléatoire un traitement au sein des blocs</p>
 <ul>
-<li><p>Ajustement des covariables “ex-ante”</p></li>
+<li><p>Ajustement de covariables “ex-ante”</p></li>
 <li><p>Une précision/efficacité plus élevée implique plus de puissance statistique</p></li>
 <li><p>Réduire le “biais conditionnel” : association entre l’assignation du traitement et les résultats potentiels</p></li>
-<li><p>L’avantage des blocs sur l’ajustement des covariables est plus clair dans les petites expériences</p></li>
+<li><p>L’avantage des blocs sur l’ajustement de covariables est plus clair dans les petites expériences</p></li>
 </ul></li>
 </ul>
 </section>
 <section id="exemple-calcul-de-puissance-par-simulation-avec-une-covariable" class="slide level2 allowframebreaks">
 <h2 class="allowframebreaks">Exemple : Calcul de puissance par simulation avec une covariable</h2>
-<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Y0 est fixe dans la plupart des expériences sur le terrain.</span></span>
-<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="do">## Nous ne le générons donc qu&#39;une seule fois:</span></span>
-<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>make_Y0_cov <span class="ot">&lt;-</span> <span class="cf">function</span>(N) {</span>
-<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>  u0 <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="at">n =</span> N)</span>
-<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>  x <span class="ot">&lt;-</span> <span class="fu">rpois</span>(<span class="at">n =</span> N, <span class="at">lambda =</span> <span class="dv">2</span>)</span>
-<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>  Y0 <span class="ot">&lt;-</span> .<span class="dv">5</span> <span class="sc">*</span> <span class="fu">sd</span>(u0) <span class="sc">*</span> x <span class="sc">+</span> u0</span>
-<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(<span class="fu">data.frame</span>(<span class="at">Y0 =</span> Y0, <span class="at">x =</span> x))</span>
-<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a><span class="do">##  X prédit modérément Y0.</span></span>
-<span id="cb25-10"><a href="#cb25-10" aria-hidden="true" tabindex="-1"></a>test_dat <span class="ot">&lt;-</span> <span class="fu">make_Y0_cov</span>(<span class="dv">100</span>)</span>
-<span id="cb25-11"><a href="#cb25-11" aria-hidden="true" tabindex="-1"></a>test_lm <span class="ot">&lt;-</span> <span class="fu">lm_robust</span>(Y0 <span class="sc">~</span> x, <span class="at">data =</span> test_dat)</span>
-<span id="cb25-12"><a href="#cb25-12" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(test_lm)</span></code></pre></div>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Y0 est fixe dans la plupart des expériences sur le terrain.</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="do">## Nous ne le générons donc qu&#39;une seule fois:</span></span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>make_Y0_cov <span class="ot">&lt;-</span> <span class="cf">function</span>(N) {</span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>  u0 <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="at">n =</span> N)</span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>  x <span class="ot">&lt;-</span> <span class="fu">rpois</span>(<span class="at">n =</span> N, <span class="at">lambda =</span> <span class="dv">2</span>)</span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>  Y0 <span class="ot">&lt;-</span> .<span class="dv">5</span> <span class="sc">*</span> <span class="fu">sd</span>(u0) <span class="sc">*</span> x <span class="sc">+</span> u0</span>
+<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(<span class="fu">data.frame</span>(<span class="at">Y0 =</span> Y0, <span class="at">x =</span> x))</span>
+<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a><span class="do">##  X prédit modérément Y0.</span></span>
+<span id="cb24-10"><a href="#cb24-10" aria-hidden="true" tabindex="-1"></a>test_dat <span class="ot">&lt;-</span> <span class="fu">make_Y0_cov</span>(<span class="dv">100</span>)</span>
+<span id="cb24-11"><a href="#cb24-11" aria-hidden="true" tabindex="-1"></a>test_lm <span class="ot">&lt;-</span> <span class="fu">lm_robust</span>(Y0 <span class="sc">~</span> x, <span class="at">data =</span> test_dat)</span>
+<span id="cb24-12"><a href="#cb24-12" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(test_lm)</span></code></pre></div>
 <pre><code>
 Call:
 lm_robust(formula = Y0 ~ x, data = test_dat)
@@ -852,30 +849,31 @@ x               0.44     0.0814   5.413 0.000000441    0.279    0.602 98
 
 Multiple R-squared:  0.231 ,    Adjusted R-squared:  0.223 
 F-statistic: 29.3 on 1 and 98 DF,  p-value: 0.000000441</code></pre>
-<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="do">## maintenant mettre en place la simulation</span></span>
-<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>repeat_experiment_and_test_cov <span class="ot">&lt;-</span> <span class="cf">function</span>(N, tau, Y0, x) {</span>
-<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>  Y1 <span class="ot">&lt;-</span> Y0 <span class="sc">+</span> tau</span>
-<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>  Z <span class="ot">&lt;-</span> <span class="fu">complete_ra</span>(<span class="at">N =</span> N)</span>
-<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>  Yobs <span class="ot">&lt;-</span> Z <span class="sc">*</span> Y1 <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">-</span> Z) <span class="sc">*</span> Y0</span>
-<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>  estimator <span class="ot">&lt;-</span> <span class="fu">lm_robust</span>(Yobs <span class="sc">~</span> Z <span class="sc">+</span> x, <span class="at">data =</span> <span class="fu">data.frame</span>(Y0, Z, x))</span>
-<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a>  pval <span class="ot">&lt;-</span> estimator<span class="sc">$</span>p.value[<span class="dv">2</span>]</span>
-<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(pval)</span>
-<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb27-10"><a href="#cb27-10" aria-hidden="true" tabindex="-1"></a><span class="do">## créer les données une fois, attribuer au hasard le traitement sims fois</span></span>
-<span id="cb27-11"><a href="#cb27-11" aria-hidden="true" tabindex="-1"></a><span class="do">## rapporte quelle proportion renvoie une valeur p &lt; 0,05</span></span>
-<span id="cb27-12"><a href="#cb27-12" aria-hidden="true" tabindex="-1"></a>power_sim_cov <span class="ot">&lt;-</span> <span class="cf">function</span>(N, tau, sims) {</span>
-<span id="cb27-13"><a href="#cb27-13" aria-hidden="true" tabindex="-1"></a>  dat <span class="ot">&lt;-</span> <span class="fu">make_Y0_cov</span>(N)</span>
-<span id="cb27-14"><a href="#cb27-14" aria-hidden="true" tabindex="-1"></a>  pvals <span class="ot">&lt;-</span> <span class="fu">replicate</span>(<span class="at">n =</span> sims, <span class="fu">repeat_experiment_and_test_cov</span>(</span>
-<span id="cb27-15"><a href="#cb27-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">N =</span> N,</span>
-<span id="cb27-16"><a href="#cb27-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">tau =</span> tau, <span class="at">Y0 =</span> dat<span class="sc">$</span>Y0, <span class="at">x =</span> dat<span class="sc">$</span>x</span>
-<span id="cb27-17"><a href="#cb27-17" aria-hidden="true" tabindex="-1"></a>  ))</span>
-<span id="cb27-18"><a href="#cb27-18" aria-hidden="true" tabindex="-1"></a>  pow <span class="ot">&lt;-</span> <span class="fu">sum</span>(pvals <span class="sc">&lt;</span> .<span class="dv">05</span>) <span class="sc">/</span> sims</span>
-<span id="cb27-19"><a href="#cb27-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(pow)</span>
-<span id="cb27-20"><a href="#cb27-20" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
-<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">12345</span>)</span>
-<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a><span class="fu">power_sim_cov</span>(<span class="at">N =</span> <span class="dv">80</span>, <span class="at">tau =</span> .<span class="dv">25</span>, <span class="at">sims =</span> <span class="dv">100</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="do">## maintenant mettre en place la simulation</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>repeat_experiment_and_test_cov <span class="ot">&lt;-</span> <span class="cf">function</span>(N, tau, Y0, x) {</span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>  Y1 <span class="ot">&lt;-</span> Y0 <span class="sc">+</span> tau</span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>  Z <span class="ot">&lt;-</span> <span class="fu">complete_ra</span>(<span class="at">N =</span> N)</span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>  Yobs <span class="ot">&lt;-</span> Z <span class="sc">*</span> Y1 <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">-</span> Z) <span class="sc">*</span> Y0</span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>  estimator <span class="ot">&lt;-</span> <span class="fu">lm_robust</span>(Yobs <span class="sc">~</span> Z <span class="sc">+</span> x, <span class="at">data =</span> <span class="fu">data.frame</span>(Y0, Z, x))</span>
+<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a>  pval <span class="ot">&lt;-</span> estimator<span class="sc">$</span>p.value[<span class="dv">2</span>]</span>
+<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(pval)</span>
+<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb26-10"><a href="#cb26-10" aria-hidden="true" tabindex="-1"></a><span class="do">## créer les données une fois</span></span>
+<span id="cb26-11"><a href="#cb26-11" aria-hidden="true" tabindex="-1"></a><span class="do">## assigner de manière aléatoire le traitement sims fois</span></span>
+<span id="cb26-12"><a href="#cb26-12" aria-hidden="true" tabindex="-1"></a><span class="do">## rapporte quelle proportion renvoie une valeur p &lt; 0,05</span></span>
+<span id="cb26-13"><a href="#cb26-13" aria-hidden="true" tabindex="-1"></a>power_sim_cov <span class="ot">&lt;-</span> <span class="cf">function</span>(N, tau, sims) {</span>
+<span id="cb26-14"><a href="#cb26-14" aria-hidden="true" tabindex="-1"></a>  dat <span class="ot">&lt;-</span> <span class="fu">make_Y0_cov</span>(N)</span>
+<span id="cb26-15"><a href="#cb26-15" aria-hidden="true" tabindex="-1"></a>  pvals <span class="ot">&lt;-</span> <span class="fu">replicate</span>(<span class="at">n =</span> sims, <span class="fu">repeat_experiment_and_test_cov</span>(</span>
+<span id="cb26-16"><a href="#cb26-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">N =</span> N,</span>
+<span id="cb26-17"><a href="#cb26-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">tau =</span> tau, <span class="at">Y0 =</span> dat<span class="sc">$</span>Y0, <span class="at">x =</span> dat<span class="sc">$</span>x</span>
+<span id="cb26-18"><a href="#cb26-18" aria-hidden="true" tabindex="-1"></a>  ))</span>
+<span id="cb26-19"><a href="#cb26-19" aria-hidden="true" tabindex="-1"></a>  pow <span class="ot">&lt;-</span> <span class="fu">sum</span>(pvals <span class="sc">&lt;</span> .<span class="dv">05</span>) <span class="sc">/</span> sims</span>
+<span id="cb26-20"><a href="#cb26-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(pow)</span>
+<span id="cb26-21"><a href="#cb26-21" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">12345</span>)</span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a><span class="fu">power_sim_cov</span>(<span class="at">N =</span> <span class="dv">80</span>, <span class="at">tau =</span> .<span class="dv">25</span>, <span class="at">sims =</span> <span class="dv">100</span>)</span></code></pre></div>
 <pre><code>[1] 0.13</code></pre>
-<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="fu">power_sim_cov</span>(<span class="at">N =</span> <span class="dv">80</span>, <span class="at">tau =</span> .<span class="dv">25</span>, <span class="at">sims =</span> <span class="dv">100</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">power_sim_cov</span>(<span class="at">N =</span> <span class="dv">80</span>, <span class="at">tau =</span> .<span class="dv">25</span>, <span class="at">sims =</span> <span class="dv">100</span>)</span></code></pre></div>
 <pre><code>[1] 0.19</code></pre>
 </section></section>
 <section>
@@ -883,11 +881,11 @@ F-statistic: 29.3 on 1 and 98 DF,  p-value: 0.000000441</code></pre>
 <h1>Puissance statistique pour la randomisation par grappe</h1>
 
 </section>
-<section id="puissance-statistique-et-design-par-cluster" class="slide level2">
-<h2>Puissance statistique et design par cluster</h2>
+<section id="puissance-statistique-et-design-par-grappe" class="slide level2">
+<h2>Puissance statistique et design par grappe</h2>
 <ul>
 <li><p>Voir le <a href="randomization.html">module sur la randomisation</a>.</p></li>
-<li><p>Etant donné un <span class="math inline">\(N\)</span> fixe, un design par cluster est légèrement moins puissant qu’un design sans cluster.</p>
+<li><p>Etant donné un <span class="math inline">\(N\)</span> fixe, un design par grappe est légèrement moins puissant qu’un design sans grappe.</p>
 <ul>
 <li>La différence est souvent substantielle.</li>
 </ul></li>
@@ -898,13 +896,13 @@ F-statistic: 29.3 on 1 and 98 DF,  p-value: 0.000000441</code></pre>
 </ul></li>
 <li><p>Pour augmenter la puissance :</p>
 <ul>
-<li>Mieux vaut augmenter le nombre de clusters que le nombre d’unités par cluster.</li>
-<li>Dans quelle mesure les clusters réduisent la puissance statistique dépend de manière critique de la corrélation intra-cluster (le rapport de la variance au sein des clusters à la variance totale).</li>
+<li>Mieux vaut augmenter le nombre de grappes que le nombre d’unités par grappe.</li>
+<li>Dans quelle mesure les grappes réduisent la puissance statistique dépend de manière critique de la corrélation intra-grappe (intra-cluster correlation, ICC) (i.e. le rapport de la variance au sein des grappes à la variance totale).</li>
 </ul></li>
 </ul>
 </section>
-<section id="le-design-par-cluster-dans-la-recherche-observationelle" class="slide level2">
-<h2>Le design par cluster dans la recherche observationelle</h2>
+<section id="le-design-par-grappe-dans-la-recherche-observationelle" class="slide level2">
+<h2>Le design par grappe dans la recherche observationelle</h2>
 <ul>
 <li><p>Souvent négligé, conduisant à (peut-être) une incertitude extrêmement sous-estimée.</p>
 <ul>
@@ -914,23 +912,23 @@ F-statistic: 29.3 on 1 and 98 DF,  p-value: 0.000000441</code></pre>
 <li><p>De nombreux designs d’observation sont beaucoup moins puissants qu’on ne le pense.</p></li>
 </ul>
 </section>
-<section id="exemple-puissance-statistique-basée-sur-la-simulation-pour-la-randomisation-des-clusters" class="slide level2 allowframebreaks">
-<h2 class="allowframebreaks">Exemple : Puissance statistique basée sur la simulation pour la randomisation des clusters</h2>
-<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Y0 est fixe dans la plupart des expériences sur le terrain.</span></span>
-<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a><span class="do">## Nous ne le générons donc qu&#39;une seule fois:</span></span>
-<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>make_Y0_clus <span class="ot">&lt;-</span> <span class="cf">function</span>(n_indivs, n_clus) {</span>
-<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>  <span class="co"># n_indivs in number of people per cluster</span></span>
-<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a>  <span class="co"># n_clus is number of clusters</span></span>
-<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a>  clus_id <span class="ot">&lt;-</span> <span class="fu">gl</span>(n_clus, n_indivs)</span>
-<span id="cb32-7"><a href="#cb32-7" aria-hidden="true" tabindex="-1"></a>  N <span class="ot">&lt;-</span> n_clus <span class="sc">*</span> n_indivs</span>
-<span id="cb32-8"><a href="#cb32-8" aria-hidden="true" tabindex="-1"></a>  u0 <span class="ot">&lt;-</span> fabricatr<span class="sc">::</span><span class="fu">draw_normal_icc</span>(<span class="at">N =</span> N, <span class="at">clusters =</span> clus_id, <span class="at">ICC =</span> .<span class="dv">1</span>)</span>
-<span id="cb32-9"><a href="#cb32-9" aria-hidden="true" tabindex="-1"></a>  Y0 <span class="ot">&lt;-</span> u0</span>
-<span id="cb32-10"><a href="#cb32-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(<span class="fu">data.frame</span>(<span class="at">Y0 =</span> Y0, <span class="at">clus_id =</span> clus_id))</span>
-<span id="cb32-11"><a href="#cb32-11" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb32-12"><a href="#cb32-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb32-13"><a href="#cb32-13" aria-hidden="true" tabindex="-1"></a>test_dat <span class="ot">&lt;-</span> <span class="fu">make_Y0_clus</span>(<span class="at">n_indivs =</span> <span class="dv">10</span>, <span class="at">n_clus =</span> <span class="dv">100</span>)</span>
-<span id="cb32-14"><a href="#cb32-14" aria-hidden="true" tabindex="-1"></a><span class="co"># confirmez que cela produit des données avec 10 dans chacun des 100 clusters</span></span>
-<span id="cb32-15"><a href="#cb32-15" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(test_dat<span class="sc">$</span>clus_id)</span></code></pre></div>
+<section id="exemple-puissance-statistique-basée-sur-la-simulation-pour-la-randomisation-par-grappe" class="slide level2 allowframebreaks">
+<h2 class="allowframebreaks">Exemple : Puissance statistique basée sur la simulation pour la randomisation par grappe</h2>
+<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Y0 est fixe dans la plupart des expériences sur le terrain.</span></span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a><span class="do">## Nous ne le générons donc qu&#39;une seule fois:</span></span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>make_Y0_clus <span class="ot">&lt;-</span> <span class="cf">function</span>(n_indivs, n_clus) {</span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>  <span class="co"># n_indivs est le nombre de personnes par grappe</span></span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a>  <span class="co"># n_clus est le nombre de grappes</span></span>
+<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a>  clus_id <span class="ot">&lt;-</span> <span class="fu">gl</span>(n_clus, n_indivs)</span>
+<span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a>  N <span class="ot">&lt;-</span> n_clus <span class="sc">*</span> n_indivs</span>
+<span id="cb31-8"><a href="#cb31-8" aria-hidden="true" tabindex="-1"></a>  u0 <span class="ot">&lt;-</span> fabricatr<span class="sc">::</span><span class="fu">draw_normal_icc</span>(<span class="at">N =</span> N, <span class="at">clusters =</span> clus_id, <span class="at">ICC =</span> .<span class="dv">1</span>)</span>
+<span id="cb31-9"><a href="#cb31-9" aria-hidden="true" tabindex="-1"></a>  Y0 <span class="ot">&lt;-</span> u0</span>
+<span id="cb31-10"><a href="#cb31-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(<span class="fu">data.frame</span>(<span class="at">Y0 =</span> Y0, <span class="at">clus_id =</span> clus_id))</span>
+<span id="cb31-11"><a href="#cb31-11" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb31-12"><a href="#cb31-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-13"><a href="#cb31-13" aria-hidden="true" tabindex="-1"></a>test_dat <span class="ot">&lt;-</span> <span class="fu">make_Y0_clus</span>(<span class="at">n_indivs =</span> <span class="dv">10</span>, <span class="at">n_clus =</span> <span class="dv">100</span>)</span>
+<span id="cb31-14"><a href="#cb31-14" aria-hidden="true" tabindex="-1"></a><span class="co"># confirmez que cela produit des données avec 10 dans chacun des 100 grappes</span></span>
+<span id="cb31-15"><a href="#cb31-15" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(test_dat<span class="sc">$</span>clus_id)</span></code></pre></div>
 <pre><code>
   1   2   3   4   5   6   7   8   9  10  11  12  13  14  15  16  17  18  19  20  21  22  23  24  25  26  27  28  29  30  31  32  33 
  10  10  10  10  10  10  10  10  10  10  10  10  10  10  10  10  10  10  10  10  10  10  10  10  10  10  10  10  10  10  10  10  10 
@@ -940,123 +938,125 @@ F-statistic: 29.3 on 1 and 98 DF,  p-value: 0.000000441</code></pre>
  10  10  10  10  10  10  10  10  10  10  10  10  10  10  10  10  10  10  10  10  10  10  10  10  10  10  10  10  10  10  10  10  10 
 100 
  10 </code></pre>
-<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="co"># confirme l&#39;ICC</span></span>
-<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>ICC<span class="sc">::</span><span class="fu">ICCbare</span>(<span class="at">y =</span> Y0, <span class="at">x =</span> clus_id, <span class="at">data =</span> test_dat)</span></code></pre></div>
+<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="co"># confirme l&#39;ICC</span></span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>ICC<span class="sc">::</span><span class="fu">ICCbare</span>(<span class="at">y =</span> Y0, <span class="at">x =</span> clus_id, <span class="at">data =</span> test_dat)</span></code></pre></div>
 <pre><code>[1] 0.09655</code></pre>
-<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>repeat_experiment_and_test_clus <span class="ot">&lt;-</span> <span class="cf">function</span>(N, tau, Y0, clus_id) {</span>
-<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>  Y1 <span class="ot">&lt;-</span> Y0 <span class="sc">+</span> tau</span>
-<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>  <span class="co"># ici, nous randomisons Z au niveau du cluster</span></span>
-<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a>  Z <span class="ot">&lt;-</span> <span class="fu">cluster_ra</span>(<span class="at">clusters =</span> clus_id)</span>
-<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a>  Yobs <span class="ot">&lt;-</span> Z <span class="sc">*</span> Y1 <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">-</span> Z) <span class="sc">*</span> Y0</span>
-<span id="cb36-6"><a href="#cb36-6" aria-hidden="true" tabindex="-1"></a>  estimator <span class="ot">&lt;-</span> <span class="fu">lm_robust</span>(Yobs <span class="sc">~</span> Z,</span>
-<span id="cb36-7"><a href="#cb36-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">clusters =</span> clus_id,</span>
-<span id="cb36-8"><a href="#cb36-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">data =</span> <span class="fu">data.frame</span>(Y0, Z, clus_id), <span class="at">se_type =</span> <span class="st">&quot;CR2&quot;</span></span>
-<span id="cb36-9"><a href="#cb36-9" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb36-10"><a href="#cb36-10" aria-hidden="true" tabindex="-1"></a>  pval <span class="ot">&lt;-</span> estimator<span class="sc">$</span>p.value[<span class="dv">2</span>]</span>
-<span id="cb36-11"><a href="#cb36-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(pval)</span>
-<span id="cb36-12"><a href="#cb36-12" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb36-13"><a href="#cb36-13" aria-hidden="true" tabindex="-1"></a>power_sim_clus <span class="ot">&lt;-</span> <span class="cf">function</span>(n_indivs, n_clus, tau, sims) {</span>
-<span id="cb36-14"><a href="#cb36-14" aria-hidden="true" tabindex="-1"></a>  dat <span class="ot">&lt;-</span> <span class="fu">make_Y0_clus</span>(n_indivs, n_clus)</span>
-<span id="cb36-15"><a href="#cb36-15" aria-hidden="true" tabindex="-1"></a>  N <span class="ot">&lt;-</span> n_indivs <span class="sc">*</span> n_clus</span>
-<span id="cb36-16"><a href="#cb36-16" aria-hidden="true" tabindex="-1"></a>  <span class="co"># randomise le traitement sims fois</span></span>
-<span id="cb36-17"><a href="#cb36-17" aria-hidden="true" tabindex="-1"></a>  pvals <span class="ot">&lt;-</span> <span class="fu">replicate</span>(</span>
-<span id="cb36-18"><a href="#cb36-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">n =</span> sims,</span>
-<span id="cb36-19"><a href="#cb36-19" aria-hidden="true" tabindex="-1"></a>    <span class="fu">repeat_experiment_and_test_clus</span>(</span>
-<span id="cb36-20"><a href="#cb36-20" aria-hidden="true" tabindex="-1"></a>      <span class="at">N =</span> N, <span class="at">tau =</span> tau,</span>
-<span id="cb36-21"><a href="#cb36-21" aria-hidden="true" tabindex="-1"></a>      <span class="at">Y0 =</span> dat<span class="sc">$</span>Y0, <span class="at">clus_id =</span> dat<span class="sc">$</span>clus_id</span>
-<span id="cb36-22"><a href="#cb36-22" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb36-23"><a href="#cb36-23" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb36-24"><a href="#cb36-24" aria-hidden="true" tabindex="-1"></a>  pow <span class="ot">&lt;-</span> <span class="fu">sum</span>(pvals <span class="sc">&lt;</span> .<span class="dv">05</span>) <span class="sc">/</span> sims</span>
-<span id="cb36-25"><a href="#cb36-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(pow)</span>
-<span id="cb36-26"><a href="#cb36-26" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
-<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">12345</span>)</span>
-<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a><span class="fu">power_sim_clus</span>(<span class="at">n_indivs =</span> <span class="dv">8</span>, <span class="at">n_clus =</span> <span class="dv">100</span>, <span class="at">tau =</span> .<span class="dv">25</span>, <span class="at">sims =</span> <span class="dv">100</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>repeat_experiment_and_test_clus <span class="ot">&lt;-</span> <span class="cf">function</span>(N, tau, Y0, clus_id) {</span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>  Y1 <span class="ot">&lt;-</span> Y0 <span class="sc">+</span> tau</span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>  <span class="co"># ici, nous randomisons Z au niveau de la grappe</span></span>
+<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a>  Z <span class="ot">&lt;-</span> <span class="fu">cluster_ra</span>(<span class="at">clusters =</span> clus_id)</span>
+<span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a>  Yobs <span class="ot">&lt;-</span> Z <span class="sc">*</span> Y1 <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">-</span> Z) <span class="sc">*</span> Y0</span>
+<span id="cb35-6"><a href="#cb35-6" aria-hidden="true" tabindex="-1"></a>  estimator <span class="ot">&lt;-</span> <span class="fu">lm_robust</span>(Yobs <span class="sc">~</span> Z,</span>
+<span id="cb35-7"><a href="#cb35-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">clusters =</span> clus_id,</span>
+<span id="cb35-8"><a href="#cb35-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">data =</span> <span class="fu">data.frame</span>(Y0, Z, clus_id), <span class="at">se_type =</span> <span class="st">&quot;CR2&quot;</span></span>
+<span id="cb35-9"><a href="#cb35-9" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb35-10"><a href="#cb35-10" aria-hidden="true" tabindex="-1"></a>  pval <span class="ot">&lt;-</span> estimator<span class="sc">$</span>p.value[<span class="dv">2</span>]</span>
+<span id="cb35-11"><a href="#cb35-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(pval)</span>
+<span id="cb35-12"><a href="#cb35-12" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb35-13"><a href="#cb35-13" aria-hidden="true" tabindex="-1"></a>power_sim_clus <span class="ot">&lt;-</span> <span class="cf">function</span>(n_indivs, n_clus, tau, sims) {</span>
+<span id="cb35-14"><a href="#cb35-14" aria-hidden="true" tabindex="-1"></a>  dat <span class="ot">&lt;-</span> <span class="fu">make_Y0_clus</span>(n_indivs, n_clus)</span>
+<span id="cb35-15"><a href="#cb35-15" aria-hidden="true" tabindex="-1"></a>  N <span class="ot">&lt;-</span> n_indivs <span class="sc">*</span> n_clus</span>
+<span id="cb35-16"><a href="#cb35-16" aria-hidden="true" tabindex="-1"></a>  <span class="co"># randomise le traitement sims fois</span></span>
+<span id="cb35-17"><a href="#cb35-17" aria-hidden="true" tabindex="-1"></a>  pvals <span class="ot">&lt;-</span> <span class="fu">replicate</span>(</span>
+<span id="cb35-18"><a href="#cb35-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">n =</span> sims,</span>
+<span id="cb35-19"><a href="#cb35-19" aria-hidden="true" tabindex="-1"></a>    <span class="fu">repeat_experiment_and_test_clus</span>(</span>
+<span id="cb35-20"><a href="#cb35-20" aria-hidden="true" tabindex="-1"></a>      <span class="at">N =</span> N, <span class="at">tau =</span> tau,</span>
+<span id="cb35-21"><a href="#cb35-21" aria-hidden="true" tabindex="-1"></a>      <span class="at">Y0 =</span> dat<span class="sc">$</span>Y0, <span class="at">clus_id =</span> dat<span class="sc">$</span>clus_id</span>
+<span id="cb35-22"><a href="#cb35-22" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb35-23"><a href="#cb35-23" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb35-24"><a href="#cb35-24" aria-hidden="true" tabindex="-1"></a>  pow <span class="ot">&lt;-</span> <span class="fu">sum</span>(pvals <span class="sc">&lt;</span> .<span class="dv">05</span>) <span class="sc">/</span> sims</span>
+<span id="cb35-25"><a href="#cb35-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(pow)</span>
+<span id="cb35-26"><a href="#cb35-26" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">12345</span>)</span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a><span class="fu">power_sim_clus</span>(<span class="at">n_indivs =</span> <span class="dv">8</span>, <span class="at">n_clus =</span> <span class="dv">100</span>, <span class="at">tau =</span> .<span class="dv">25</span>, <span class="at">sims =</span> <span class="dv">100</span>)</span></code></pre></div>
 <pre><code>[1] 0.66</code></pre>
-<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="fu">power_sim_clus</span>(<span class="at">n_indivs =</span> <span class="dv">8</span>, <span class="at">n_clus =</span> <span class="dv">100</span>, <span class="at">tau =</span> .<span class="dv">25</span>, <span class="at">sims =</span> <span class="dv">100</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="fu">power_sim_clus</span>(<span class="at">n_indivs =</span> <span class="dv">8</span>, <span class="at">n_clus =</span> <span class="dv">100</span>, <span class="at">tau =</span> .<span class="dv">25</span>, <span class="at">sims =</span> <span class="dv">100</span>)</span></code></pre></div>
 <pre><code>[1] 0.68</code></pre>
 </section>
-<section id="exemple-puissance-statistique-basée-sur-la-simulation-pour-la-randomisation-des-clusters-declaredesign" class="slide level2 allowframebreaks">
-<h2 class="allowframebreaks">Exemple : Puissance statistique basée sur la simulation pour la randomisation des clusters (DeclareDesign)</h2>
-<div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>P1 <span class="ot">&lt;-</span> <span class="fu">declare_population</span>(</span>
-<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">N =</span> n_clus <span class="sc">*</span> n_indivs,</span>
-<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">clusters =</span> <span class="fu">gl</span>(n_clus, n_indivs),</span>
-<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">u0 =</span> <span class="fu">draw_normal_icc</span>(<span class="at">N =</span> N, <span class="at">clusters =</span> clusters, <span class="at">ICC =</span> .<span class="dv">2</span>)</span>
-<span id="cb41-5"><a href="#cb41-5" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb41-6"><a href="#cb41-6" aria-hidden="true" tabindex="-1"></a>O1 <span class="ot">&lt;-</span> <span class="fu">declare_potential_outcomes</span>(<span class="at">Y_Z_0 =</span> <span class="dv">5</span> <span class="sc">+</span> u0, <span class="at">Y_Z_1 =</span> Y_Z_0 <span class="sc">+</span> tau)</span>
-<span id="cb41-7"><a href="#cb41-7" aria-hidden="true" tabindex="-1"></a>A1 <span class="ot">&lt;-</span> <span class="fu">declare_assignment</span>(<span class="at">Z =</span> <span class="fu">conduct_ra</span>(<span class="at">N =</span> N, <span class="at">clusters =</span> clusters))</span>
-<span id="cb41-8"><a href="#cb41-8" aria-hidden="true" tabindex="-1"></a>estimand_ate <span class="ot">&lt;-</span> <span class="fu">declare_inquiry</span>(<span class="at">ATE =</span> <span class="fu">mean</span>(Y_Z_1 <span class="sc">-</span> Y_Z_0))</span>
-<span id="cb41-9"><a href="#cb41-9" aria-hidden="true" tabindex="-1"></a>R1 <span class="ot">&lt;-</span> <span class="fu">declare_reveal</span>(Y, Z)</span>
-<span id="cb41-10"><a href="#cb41-10" aria-hidden="true" tabindex="-1"></a>design1_base <span class="ot">&lt;-</span> P1 <span class="sc">+</span> A1 <span class="sc">+</span> O1 <span class="sc">+</span> R1 <span class="sc">+</span> estimand_ate</span>
-<span id="cb41-11"><a href="#cb41-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb41-12"><a href="#cb41-12" aria-hidden="true" tabindex="-1"></a><span class="do">## Par exemple:</span></span>
-<span id="cb41-13"><a href="#cb41-13" aria-hidden="true" tabindex="-1"></a>design1_test <span class="ot">&lt;-</span> <span class="fu">redesign</span>(design1_base, <span class="at">n_clus =</span> <span class="dv">10</span>, <span class="at">n_indivs =</span> <span class="dv">100</span>, <span class="at">tau =</span> .<span class="dv">25</span>)</span>
-<span id="cb41-14"><a href="#cb41-14" aria-hidden="true" tabindex="-1"></a>test_d1 <span class="ot">&lt;-</span> <span class="fu">draw_data</span>(design1_test)</span>
-<span id="cb41-15"><a href="#cb41-15" aria-hidden="true" tabindex="-1"></a><span class="co"># confirmer que tous les individus d&#39;un groupe ont la même assignation de traitement</span></span>
-<span id="cb41-16"><a href="#cb41-16" aria-hidden="true" tabindex="-1"></a><span class="fu">with</span>(test_d1, <span class="fu">table</span>(Z, clusters))</span></code></pre></div>
+<section id="exemple-puissance-statistique-basée-sur-la-simulation-pour-la-randomisation-par-grappe-declaredesign" class="slide level2 allowframebreaks">
+<h2 class="allowframebreaks">Exemple : Puissance statistique basée sur la simulation pour la randomisation par grappe (DeclareDesign)</h2>
+<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>P1 <span class="ot">&lt;-</span> <span class="fu">declare_population</span>(</span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">N =</span> n_clus <span class="sc">*</span> n_indivs,</span>
+<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">clusters =</span> <span class="fu">gl</span>(n_clus, n_indivs),</span>
+<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">u0 =</span> <span class="fu">draw_normal_icc</span>(<span class="at">N =</span> N, <span class="at">clusters =</span> clusters, <span class="at">ICC =</span> .<span class="dv">2</span>)</span>
+<span id="cb40-5"><a href="#cb40-5" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb40-6"><a href="#cb40-6" aria-hidden="true" tabindex="-1"></a>O1 <span class="ot">&lt;-</span> <span class="fu">declare_potential_outcomes</span>(<span class="at">Y_Z_0 =</span> <span class="dv">5</span> <span class="sc">+</span> u0, <span class="at">Y_Z_1 =</span> Y_Z_0 <span class="sc">+</span> tau)</span>
+<span id="cb40-7"><a href="#cb40-7" aria-hidden="true" tabindex="-1"></a>A1 <span class="ot">&lt;-</span> <span class="fu">declare_assignment</span>(<span class="at">Z =</span> <span class="fu">conduct_ra</span>(<span class="at">N =</span> N, <span class="at">clusters =</span> clusters))</span>
+<span id="cb40-8"><a href="#cb40-8" aria-hidden="true" tabindex="-1"></a>estimand_ate <span class="ot">&lt;-</span> <span class="fu">declare_inquiry</span>(<span class="at">ATE =</span> <span class="fu">mean</span>(Y_Z_1 <span class="sc">-</span> Y_Z_0))</span>
+<span id="cb40-9"><a href="#cb40-9" aria-hidden="true" tabindex="-1"></a>R1 <span class="ot">&lt;-</span> <span class="fu">declare_reveal</span>(Y, Z)</span>
+<span id="cb40-10"><a href="#cb40-10" aria-hidden="true" tabindex="-1"></a>design1_base <span class="ot">&lt;-</span> P1 <span class="sc">+</span> A1 <span class="sc">+</span> O1 <span class="sc">+</span> R1 <span class="sc">+</span> estimand_ate</span>
+<span id="cb40-11"><a href="#cb40-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb40-12"><a href="#cb40-12" aria-hidden="true" tabindex="-1"></a><span class="do">## Par exemple:</span></span>
+<span id="cb40-13"><a href="#cb40-13" aria-hidden="true" tabindex="-1"></a>design1_test <span class="ot">&lt;-</span> <span class="fu">redesign</span>(design1_base, <span class="at">n_clus =</span> <span class="dv">10</span>, <span class="at">n_indivs =</span> <span class="dv">100</span>, <span class="at">tau =</span> .<span class="dv">25</span>)</span>
+<span id="cb40-14"><a href="#cb40-14" aria-hidden="true" tabindex="-1"></a>test_d1 <span class="ot">&lt;-</span> <span class="fu">draw_data</span>(design1_test)</span>
+<span id="cb40-15"><a href="#cb40-15" aria-hidden="true" tabindex="-1"></a><span class="co"># confirmer que tous les individus d&#39;un groupe</span></span>
+<span id="cb40-16"><a href="#cb40-16" aria-hidden="true" tabindex="-1"></a><span class="co"># ont la même assignation de traitement</span></span>
+<span id="cb40-17"><a href="#cb40-17" aria-hidden="true" tabindex="-1"></a><span class="fu">with</span>(test_d1, <span class="fu">table</span>(Z, clusters))</span></code></pre></div>
 <pre><code>   clusters
 Z     1   2   3   4   5   6   7   8   9  10
   0 100   0 100 100 100   0   0 100   0   0
   1   0 100   0   0   0 100 100   0 100 100</code></pre>
-<div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="co"># trois estimateurs diffèrent par se_type:</span></span>
-<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>E1a <span class="ot">&lt;-</span> <span class="fu">declare_estimator</span>(Y <span class="sc">~</span> Z,</span>
-<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">model =</span> lm_robust, <span class="at">clusters =</span> clusters,</span>
-<span id="cb43-4"><a href="#cb43-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">se_type =</span> <span class="st">&quot;CR2&quot;</span>, <span class="at">label =</span> <span class="st">&quot;CR2 cluster t test&quot;</span>,</span>
-<span id="cb43-5"><a href="#cb43-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">inquiry =</span> <span class="st">&quot;ATE&quot;</span></span>
-<span id="cb43-6"><a href="#cb43-6" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb43-7"><a href="#cb43-7" aria-hidden="true" tabindex="-1"></a>E1b <span class="ot">&lt;-</span> <span class="fu">declare_estimator</span>(Y <span class="sc">~</span> Z,</span>
-<span id="cb43-8"><a href="#cb43-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">model =</span> lm_robust, <span class="at">clusters =</span> clusters,</span>
-<span id="cb43-9"><a href="#cb43-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">se_type =</span> <span class="st">&quot;CR0&quot;</span>, <span class="at">label =</span> <span class="st">&quot;CR0 cluster t test&quot;</span>,</span>
-<span id="cb43-10"><a href="#cb43-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">inquiry =</span> <span class="st">&quot;ATE&quot;</span></span>
-<span id="cb43-11"><a href="#cb43-11" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb43-12"><a href="#cb43-12" aria-hidden="true" tabindex="-1"></a>E1c <span class="ot">&lt;-</span> <span class="fu">declare_estimator</span>(Y <span class="sc">~</span> Z,</span>
-<span id="cb43-13"><a href="#cb43-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">model =</span> lm_robust, <span class="at">clusters =</span> clusters,</span>
-<span id="cb43-14"><a href="#cb43-14" aria-hidden="true" tabindex="-1"></a>  <span class="at">se_type =</span> <span class="st">&quot;stata&quot;</span>, <span class="at">label =</span> <span class="st">&quot;stata RCSE t test&quot;</span>,</span>
-<span id="cb43-15"><a href="#cb43-15" aria-hidden="true" tabindex="-1"></a>  <span class="at">inquiry =</span> <span class="st">&quot;ATE&quot;</span></span>
-<span id="cb43-16"><a href="#cb43-16" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb43-17"><a href="#cb43-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb43-18"><a href="#cb43-18" aria-hidden="true" tabindex="-1"></a>design1_plus <span class="ot">&lt;-</span> design1_base <span class="sc">+</span> E1a <span class="sc">+</span> E1b <span class="sc">+</span> E1c</span>
-<span id="cb43-19"><a href="#cb43-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb43-20"><a href="#cb43-20" aria-hidden="true" tabindex="-1"></a>design1_plus_tosim <span class="ot">&lt;-</span> <span class="fu">redesign</span>(design1_plus, <span class="at">n_clus =</span> <span class="dv">10</span>, <span class="at">n_indivs =</span> <span class="dv">100</span>, <span class="at">tau =</span> .<span class="dv">25</span>)</span></code></pre></div>
-<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Répète seulement l&#39;assignation aléatoire, pas la création de Y0. Ignorer le warning</span></span>
-<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a><span class="do">## Nous voudrions plus de simulations en pratique.</span></span>
-<span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">12355</span>)</span>
-<span id="cb44-4"><a href="#cb44-4" aria-hidden="true" tabindex="-1"></a>design1_sims <span class="ot">&lt;-</span> <span class="fu">simulate_design</span>(design1_plus_tosim,</span>
-<span id="cb44-5"><a href="#cb44-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">sims =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">1000</span>, <span class="fu">rep</span>(<span class="dv">1</span>, <span class="fu">length</span>(design1_plus_tosim) <span class="sc">-</span> <span class="dv">2</span>))</span>
-<span id="cb44-6"><a href="#cb44-6" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="co"># les trois estimateurs diffèrent par se_type:</span></span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>E1a <span class="ot">&lt;-</span> <span class="fu">declare_estimator</span>(Y <span class="sc">~</span> Z,</span>
+<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">model =</span> lm_robust, <span class="at">clusters =</span> clusters,</span>
+<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">se_type =</span> <span class="st">&quot;CR2&quot;</span>, <span class="at">label =</span> <span class="st">&quot;CR2 cluster t test&quot;</span>,</span>
+<span id="cb42-5"><a href="#cb42-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">inquiry =</span> <span class="st">&quot;ATE&quot;</span></span>
+<span id="cb42-6"><a href="#cb42-6" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb42-7"><a href="#cb42-7" aria-hidden="true" tabindex="-1"></a>E1b <span class="ot">&lt;-</span> <span class="fu">declare_estimator</span>(Y <span class="sc">~</span> Z,</span>
+<span id="cb42-8"><a href="#cb42-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">model =</span> lm_robust, <span class="at">clusters =</span> clusters,</span>
+<span id="cb42-9"><a href="#cb42-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">se_type =</span> <span class="st">&quot;CR0&quot;</span>, <span class="at">label =</span> <span class="st">&quot;CR0 cluster t test&quot;</span>,</span>
+<span id="cb42-10"><a href="#cb42-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">inquiry =</span> <span class="st">&quot;ATE&quot;</span></span>
+<span id="cb42-11"><a href="#cb42-11" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb42-12"><a href="#cb42-12" aria-hidden="true" tabindex="-1"></a>E1c <span class="ot">&lt;-</span> <span class="fu">declare_estimator</span>(Y <span class="sc">~</span> Z,</span>
+<span id="cb42-13"><a href="#cb42-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">model =</span> lm_robust, <span class="at">clusters =</span> clusters,</span>
+<span id="cb42-14"><a href="#cb42-14" aria-hidden="true" tabindex="-1"></a>  <span class="at">se_type =</span> <span class="st">&quot;stata&quot;</span>, <span class="at">label =</span> <span class="st">&quot;stata RCSE t test&quot;</span>,</span>
+<span id="cb42-15"><a href="#cb42-15" aria-hidden="true" tabindex="-1"></a>  <span class="at">inquiry =</span> <span class="st">&quot;ATE&quot;</span></span>
+<span id="cb42-16"><a href="#cb42-16" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb42-17"><a href="#cb42-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb42-18"><a href="#cb42-18" aria-hidden="true" tabindex="-1"></a>design1_plus <span class="ot">&lt;-</span> design1_base <span class="sc">+</span> E1a <span class="sc">+</span> E1b <span class="sc">+</span> E1c</span>
+<span id="cb42-19"><a href="#cb42-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb42-20"><a href="#cb42-20" aria-hidden="true" tabindex="-1"></a>design1_plus_tosim <span class="ot">&lt;-</span> <span class="fu">redesign</span>(design1_plus, <span class="at">n_clus =</span> <span class="dv">10</span>, <span class="at">n_indivs =</span> <span class="dv">100</span>, <span class="at">tau =</span> .<span class="dv">25</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Répète seulement l&#39;assignation aléatoire, pas la création de Y0.</span></span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a><span class="do">## Ignorer le warning</span></span>
+<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a><span class="do">## Nous voudrions plus de simulations en pratique.</span></span>
+<span id="cb43-4"><a href="#cb43-4" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">12355</span>)</span>
+<span id="cb43-5"><a href="#cb43-5" aria-hidden="true" tabindex="-1"></a>design1_sims <span class="ot">&lt;-</span> <span class="fu">simulate_design</span>(design1_plus_tosim,</span>
+<span id="cb43-6"><a href="#cb43-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">sims =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">1000</span>, <span class="fu">rep</span>(<span class="dv">1</span>, <span class="fu">length</span>(design1_plus_tosim) <span class="sc">-</span> <span class="dv">2</span>))</span>
+<span id="cb43-7"><a href="#cb43-7" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
 <pre><code>Warning: We recommend you choose a higher number of simulations than 1 for the top level of simulation.</code></pre>
-<div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a>design1_sims <span class="sc">%&gt;%</span></span>
-<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(estimator) <span class="sc">%&gt;%</span></span>
-<span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(</span>
-<span id="cb46-4"><a href="#cb46-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">pow =</span> <span class="fu">mean</span>(p.value <span class="sc">&lt;</span> .<span class="dv">05</span>),</span>
-<span id="cb46-5"><a href="#cb46-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">coverage =</span> <span class="fu">mean</span>(estimand <span class="sc">&lt;=</span> conf.high <span class="sc">&amp;</span> estimand <span class="sc">&gt;=</span> conf.low),</span>
-<span id="cb46-6"><a href="#cb46-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">.groups =</span> <span class="st">&quot;drop&quot;</span></span>
-<span id="cb46-7"><a href="#cb46-7" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
-<pre><code># A tibble: 3 × 3
+<div class="sourceCode" id="cb45"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a>design1_sims <span class="sc">%&gt;%</span></span>
+<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(estimator) <span class="sc">%&gt;%</span></span>
+<span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(</span>
+<span id="cb45-4"><a href="#cb45-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">pow =</span> <span class="fu">mean</span>(p.value <span class="sc">&lt;</span> .<span class="dv">05</span>),</span>
+<span id="cb45-5"><a href="#cb45-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">coverage =</span> <span class="fu">mean</span>(estimand <span class="sc">&lt;=</span> conf.high <span class="sc">&amp;</span> estimand <span class="sc">&gt;=</span> conf.low),</span>
+<span id="cb45-6"><a href="#cb45-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">.groups =</span> <span class="st">&quot;drop&quot;</span></span>
+<span id="cb45-7"><a href="#cb45-7" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
+<pre><code># A tibble: 3 x 3
   estimator            pow coverage
   &lt;chr&gt;              &lt;dbl&gt;    &lt;dbl&gt;
 1 CR0 cluster t test 0.155    0.911
 2 CR2 cluster t test 0.105    0.936
 3 stata RCSE t test  0.131    0.918</code></pre>
-<div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(DesignLibrary)</span>
-<span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a><span class="do">## Cela peut être plus simple que ce qui précède :</span></span>
-<span id="cb48-3"><a href="#cb48-3" aria-hidden="true" tabindex="-1"></a>d1 <span class="ot">&lt;-</span> <span class="fu">block_cluster_two_arm_designer</span>(</span>
-<span id="cb48-4"><a href="#cb48-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">N_blocks =</span> <span class="dv">1</span>,</span>
-<span id="cb48-5"><a href="#cb48-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">N_clusters_in_block =</span> <span class="dv">10</span>,</span>
-<span id="cb48-6"><a href="#cb48-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">N_i_in_cluster =</span> <span class="dv">100</span>,</span>
-<span id="cb48-7"><a href="#cb48-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">sd_block =</span> <span class="dv">0</span>,</span>
-<span id="cb48-8"><a href="#cb48-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">sd_cluster =</span> .<span class="dv">3</span>,</span>
-<span id="cb48-9"><a href="#cb48-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">ate =</span> .<span class="dv">25</span></span>
-<span id="cb48-10"><a href="#cb48-10" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb48-11"><a href="#cb48-11" aria-hidden="true" tabindex="-1"></a>d1_plus <span class="ot">&lt;-</span> d1 <span class="sc">+</span> E1b <span class="sc">+</span> E1c</span>
-<span id="cb48-12"><a href="#cb48-12" aria-hidden="true" tabindex="-1"></a>d1_sims <span class="ot">&lt;-</span> <span class="fu">simulate_design</span>(d1_plus, <span class="at">sims =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1000</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>))</span></code></pre></div>
-<div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a>d1_sims <span class="sc">%&gt;%</span></span>
-<span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(estimator) <span class="sc">%&gt;%</span></span>
-<span id="cb49-3"><a href="#cb49-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(</span>
-<span id="cb49-4"><a href="#cb49-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">pow =</span> <span class="fu">mean</span>(p.value <span class="sc">&lt;</span> .<span class="dv">05</span>),</span>
-<span id="cb49-5"><a href="#cb49-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">coverage =</span> <span class="fu">mean</span>(estimand <span class="sc">&lt;=</span> conf.high <span class="sc">&amp;</span> estimand <span class="sc">&gt;=</span> conf.low),</span>
-<span id="cb49-6"><a href="#cb49-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">.groups =</span> <span class="st">&quot;drop&quot;</span></span>
-<span id="cb49-7"><a href="#cb49-7" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
-<pre><code># A tibble: 3 × 3
+<div class="sourceCode" id="cb47"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(DesignLibrary)</span>
+<span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a><span class="do">## Cela peut être plus simple que ce qui précède :</span></span>
+<span id="cb47-3"><a href="#cb47-3" aria-hidden="true" tabindex="-1"></a>d1 <span class="ot">&lt;-</span> <span class="fu">block_cluster_two_arm_designer</span>(</span>
+<span id="cb47-4"><a href="#cb47-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">N_blocks =</span> <span class="dv">1</span>,</span>
+<span id="cb47-5"><a href="#cb47-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">N_clusters_in_block =</span> <span class="dv">10</span>,</span>
+<span id="cb47-6"><a href="#cb47-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">N_i_in_cluster =</span> <span class="dv">100</span>,</span>
+<span id="cb47-7"><a href="#cb47-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">sd_block =</span> <span class="dv">0</span>,</span>
+<span id="cb47-8"><a href="#cb47-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">sd_cluster =</span> .<span class="dv">3</span>,</span>
+<span id="cb47-9"><a href="#cb47-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">ate =</span> .<span class="dv">25</span></span>
+<span id="cb47-10"><a href="#cb47-10" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb47-11"><a href="#cb47-11" aria-hidden="true" tabindex="-1"></a>d1_plus <span class="ot">&lt;-</span> d1 <span class="sc">+</span> E1b <span class="sc">+</span> E1c</span>
+<span id="cb47-12"><a href="#cb47-12" aria-hidden="true" tabindex="-1"></a>d1_sims <span class="ot">&lt;-</span> <span class="fu">simulate_design</span>(d1_plus, <span class="at">sims =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1000</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a>d1_sims <span class="sc">%&gt;%</span></span>
+<span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(estimator) <span class="sc">%&gt;%</span></span>
+<span id="cb48-3"><a href="#cb48-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(</span>
+<span id="cb48-4"><a href="#cb48-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">pow =</span> <span class="fu">mean</span>(p.value <span class="sc">&lt;</span> .<span class="dv">05</span>),</span>
+<span id="cb48-5"><a href="#cb48-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">coverage =</span> <span class="fu">mean</span>(estimand <span class="sc">&lt;=</span> conf.high <span class="sc">&amp;</span> estimand <span class="sc">&gt;=</span> conf.low),</span>
+<span id="cb48-6"><a href="#cb48-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">.groups =</span> <span class="st">&quot;drop&quot;</span></span>
+<span id="cb48-7"><a href="#cb48-7" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
+<pre><code># A tibble: 3 x 3
   estimator            pow coverage
   &lt;chr&gt;              &lt;dbl&gt;    &lt;dbl&gt;
 1 CR0 cluster t test 0.209    0.914
@@ -1081,32 +1081,32 @@ Z     1   2   3   4   5   6   7   8   9  10
 </section>
 <section id="puissance-par-taille-déchantillon" class="slide level2 allowframebreaks">
 <h2 class="allowframebreaks">Puissance par taille d’échantillon</h2>
-<div class="sourceCode" id="cb51"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a>some_ns <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">10</span>, <span class="dv">800</span>, <span class="at">by =</span> <span class="dv">10</span>)</span>
-<span id="cb51-2"><a href="#cb51-2" aria-hidden="true" tabindex="-1"></a>pow_by_n <span class="ot">&lt;-</span> <span class="fu">sapply</span>(some_ns, <span class="cf">function</span>(then) {</span>
-<span id="cb51-3"><a href="#cb51-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pwr.t.test</span>(<span class="at">n =</span> then, <span class="at">d =</span> <span class="fl">0.25</span>, <span class="at">sig.level =</span> <span class="fl">0.05</span>)<span class="sc">$</span>power</span>
-<span id="cb51-4"><a href="#cb51-4" aria-hidden="true" tabindex="-1"></a>})</span>
-<span id="cb51-5"><a href="#cb51-5" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(some_ns, pow_by_n,</span>
-<span id="cb51-6"><a href="#cb51-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">xlab =</span> <span class="st">&quot;Taille d&#39;échantillon&quot;</span>,</span>
-<span id="cb51-7"><a href="#cb51-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">ylab =</span> <span class="st">&quot;Puissance&quot;</span></span>
-<span id="cb51-8"><a href="#cb51-8" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb51-9"><a href="#cb51-9" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">h =</span> .<span class="dv">8</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb50"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a>some_ns <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">10</span>, <span class="dv">800</span>, <span class="at">by =</span> <span class="dv">10</span>)</span>
+<span id="cb50-2"><a href="#cb50-2" aria-hidden="true" tabindex="-1"></a>pow_by_n <span class="ot">&lt;-</span> <span class="fu">sapply</span>(some_ns, <span class="cf">function</span>(then) {</span>
+<span id="cb50-3"><a href="#cb50-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pwr.t.test</span>(<span class="at">n =</span> then, <span class="at">d =</span> <span class="fl">0.25</span>, <span class="at">sig.level =</span> <span class="fl">0.05</span>)<span class="sc">$</span>power</span>
+<span id="cb50-4"><a href="#cb50-4" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb50-5"><a href="#cb50-5" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(some_ns, pow_by_n,</span>
+<span id="cb50-6"><a href="#cb50-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">xlab =</span> <span class="st">&quot;Taille d&#39;échantillon&quot;</span>,</span>
+<span id="cb50-7"><a href="#cb50-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">ylab =</span> <span class="st">&quot;Puissance&quot;</span></span>
+<span id="cb50-8"><a href="#cb50-8" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb50-9"><a href="#cb50-9" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">h =</span> .<span class="dv">8</span>)</span></code></pre></div>
 <p><img src="figs/figpowplot_by_n-1.png" width=".8\textwidth"  /></p>
-<div class="sourceCode" id="cb52"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Voir https://cran.r-project.org/web/packages/pwr/vignettes/pwr-vignette.html</span></span>
-<span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a><span class="do">## pour des courbes plus jolies</span></span>
-<span id="cb52-3"><a href="#cb52-3" aria-hidden="true" tabindex="-1"></a><span class="do">## ptest &lt;-  pwr.t.test(n = NULL, d = 0.25, sig.level = 0.05, power = .8)</span></span>
-<span id="cb52-4"><a href="#cb52-4" aria-hidden="true" tabindex="-1"></a><span class="do">## plot(ptest)</span></span></code></pre></div>
+<div class="sourceCode" id="cb51"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Voir https://cran.r-project.org/web/packages/pwr/vignettes/pwr-vignette.html</span></span>
+<span id="cb51-2"><a href="#cb51-2" aria-hidden="true" tabindex="-1"></a><span class="do">## pour des courbes plus jolies</span></span>
+<span id="cb51-3"><a href="#cb51-3" aria-hidden="true" tabindex="-1"></a><span class="do">## ptest &lt;-  pwr.t.test(n = NULL, d = 0.25, sig.level = 0.05, power = .8)</span></span>
+<span id="cb51-4"><a href="#cb51-4" aria-hidden="true" tabindex="-1"></a><span class="do">## plot(ptest)</span></span></code></pre></div>
 </section>
 <section id="puissance-par-taille-deffet-de-traitement" class="slide level2 allowframebreaks">
 <h2 class="allowframebreaks">Puissance par taille d’effet de traitement</h2>
-<div class="sourceCode" id="cb53"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a>some_taus <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="at">by =</span> .<span class="dv">05</span>)</span>
-<span id="cb53-2"><a href="#cb53-2" aria-hidden="true" tabindex="-1"></a>pow_by_tau <span class="ot">&lt;-</span> <span class="fu">sapply</span>(some_taus, <span class="cf">function</span>(thetau) {</span>
-<span id="cb53-3"><a href="#cb53-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pwr.t.test</span>(<span class="at">n =</span> <span class="dv">200</span>, <span class="at">d =</span> thetau, <span class="at">sig.level =</span> <span class="fl">0.05</span>)<span class="sc">$</span>power</span>
-<span id="cb53-4"><a href="#cb53-4" aria-hidden="true" tabindex="-1"></a>})</span>
-<span id="cb53-5"><a href="#cb53-5" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(some_taus, pow_by_tau,</span>
-<span id="cb53-6"><a href="#cb53-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">xlab =</span> <span class="st">&quot;Effet moyen du traitement (standardisé)&quot;</span>,</span>
-<span id="cb53-7"><a href="#cb53-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">ylab =</span> <span class="st">&quot;Puissance&quot;</span></span>
-<span id="cb53-8"><a href="#cb53-8" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb53-9"><a href="#cb53-9" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">h =</span> .<span class="dv">8</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb52"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a>some_taus <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="at">by =</span> .<span class="dv">05</span>)</span>
+<span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a>pow_by_tau <span class="ot">&lt;-</span> <span class="fu">sapply</span>(some_taus, <span class="cf">function</span>(thetau) {</span>
+<span id="cb52-3"><a href="#cb52-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pwr.t.test</span>(<span class="at">n =</span> <span class="dv">200</span>, <span class="at">d =</span> thetau, <span class="at">sig.level =</span> <span class="fl">0.05</span>)<span class="sc">$</span>power</span>
+<span id="cb52-4"><a href="#cb52-4" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb52-5"><a href="#cb52-5" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(some_taus, pow_by_tau,</span>
+<span id="cb52-6"><a href="#cb52-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">xlab =</span> <span class="st">&quot;Effet moyen du traitement (standardisé)&quot;</span>,</span>
+<span id="cb52-7"><a href="#cb52-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">ylab =</span> <span class="st">&quot;Puissance&quot;</span></span>
+<span id="cb52-8"><a href="#cb52-8" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb52-9"><a href="#cb52-9" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">h =</span> .<span class="dv">8</span>)</span></code></pre></div>
 <p><img src="figs/figpowplot_by_tau-1.png" width=".8\textwidth"  /></p>
 </section>
 <section id="la-calculateur-de-puissance-egap" class="slide level2">
@@ -1115,9 +1115,9 @@ Z     1   2   3   4   5   6   7   8   9  10
 <li><p>À essayer sur <a href="https://egap.shinyapps.io/power-app/" class="uri">https://egap.shinyapps.io/power-app/</a></p></li>
 <li><p>Pour les designs de randomisation par grappe, essayez d’ajuster:</p>
 <ul>
-<li>Nombre de clusters</li>
-<li>Nombre d’unités par cluster</li>
-<li>Corrélation intra-cluster</li>
+<li>Nombre de grappes</li>
+<li>Nombre d’unités par grappe</li>
+<li>Corrélation intra-grappe</li>
 <li>Effet de traitement</li>
 </ul></li>
 </ul>
@@ -1138,7 +1138,7 @@ Z     1   2   3   4   5   6   7   8   9  10
 <ol type="1">
 <li><p>Augmenter <span class="math inline">\(N\)</span></p>
 <ul>
-<li>En cas de cluster, augmenter le nombre de clusters si possible</li>
+<li>En cas de grappe, augmenter le nombre de grappes si possible</li>
 </ul></li>
 <li><p>Renforcer le traitement</p></li>
 <li><p>Améliorer la précision</p>
@@ -1146,7 +1146,7 @@ Z     1   2   3   4   5   6   7   8   9  10
 <li><p>Ajustement de covariable</p></li>
 <li><p>Design par bloc</p></li>
 </ul></li>
-<li><p>Meilleure mesure de la variable de résultat</p></li>
+<li><p>Meilleure mesure du résultat</p></li>
 </ol>
 </section></section>
     </div>
