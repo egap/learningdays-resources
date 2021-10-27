@@ -519,7 +519,7 @@ document.getElementsByTagName('head')[0].appendChild(style);
 <section>
     <h1 class="title">La puissance statistique</h1>
     <h2 class="author">Mettre votre nom</h2>
-    <h3 class="date">24-10-2021</h3>
+    <h3 class="date">27-10-2021</h3>
 </section>
 
 <section>
@@ -741,14 +741,14 @@ NOTE: n is number in *each* group</code></pre>
 <pre><code>(Intercept)           Z 
      4.8458      0.5569 </code></pre>
 <div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>E0 <span class="ot">&lt;-</span> <span class="fu">declare_estimator</span>(Y <span class="sc">~</span> Z,</span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">model =</span> lm_robust, <span class="at">label =</span> <span class="st">&quot;t test 1&quot;</span>,</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">model =</span> lm_robust, <span class="at">label =</span> <span class="st">&quot;test-t 1&quot;</span>,</span>
 <span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">inquiry =</span> <span class="st">&quot;ATE&quot;</span></span>
 <span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>)</span>
 <span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>t_test <span class="ot">&lt;-</span> <span class="cf">function</span>(data) {</span>
 <span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>  test <span class="ot">&lt;-</span> <span class="fu">with</span>(data, <span class="fu">t.test</span>(<span class="at">x =</span> Y[Z <span class="sc">==</span> <span class="dv">1</span>], <span class="at">y =</span> Y[Z <span class="sc">==</span> <span class="dv">0</span>]))</span>
 <span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">data.frame</span>(<span class="at">statistic =</span> test<span class="sc">$</span>statistic, <span class="at">p.value =</span> test<span class="sc">$</span>p.value)</span>
 <span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>T0 <span class="ot">&lt;-</span> <span class="fu">declare_test</span>(<span class="at">handler =</span> <span class="fu">label_test</span>(t_test), <span class="at">label =</span> <span class="st">&quot;t test 2&quot;</span>)</span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>T0 <span class="ot">&lt;-</span> <span class="fu">declare_test</span>(<span class="at">handler =</span> <span class="fu">label_test</span>(t_test), <span class="at">label =</span> <span class="st">&quot;test-t 2&quot;</span>)</span>
 <span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a>design0_plus_tests <span class="ot">&lt;-</span> design0_base <span class="sc">+</span> E0 <span class="sc">+</span> T0</span>
 <span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a>design0_N100_tau25_plus <span class="ot">&lt;-</span> <span class="fu">redesign</span>(design0_plus_tests, <span class="at">N =</span> <span class="dv">100</span>, <span class="at">tau =</span> .<span class="dv">25</span>)</span>
@@ -756,7 +756,7 @@ NOTE: n is number in *each* group</code></pre>
 <span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a><span class="do">## Répète seulement l&#39;assignation aléatoire, pas la création de Y0.</span></span>
 <span id="cb16-15"><a href="#cb16-15" aria-hidden="true" tabindex="-1"></a><span class="do">## Ignorer le warning</span></span>
 <span id="cb16-16"><a href="#cb16-16" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(design0_N100_tau25_plus)</span></code></pre></div>
-<pre><code>[1] &quot;P0&quot;       &quot;A0&quot;       &quot;O0&quot;       &quot;R0&quot;       &quot;t test 1&quot; &quot;t test 2&quot;</code></pre>
+<pre><code>[1] &quot;P0&quot;       &quot;A0&quot;       &quot;O0&quot;       &quot;R0&quot;       &quot;test-t 1&quot; &quot;test-t 2&quot;</code></pre>
 <div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>design0_N100_tau25_sims <span class="ot">&lt;-</span> <span class="fu">simulate_design</span>(design0_N100_tau25_plus,</span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">sims =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">100</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>)</span>
 <span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>) <span class="co"># Répète seulement l&#39;assignation aléatoire</span></span></code></pre></div>
@@ -766,12 +766,12 @@ NOTE: n is number in *each* group</code></pre>
 <span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a><span class="co"># regardons les 6 premières lignes</span></span>
 <span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(design0_N100_tau25_sims)</span></code></pre></div>
 <pre><code>                   design   N  tau sim_ID estimator term estimate std.error statistic p.value conf.low conf.high df outcome inquiry
-1 design0_N100_tau25_plus 100 0.25      1  t test 1    Z   0.1108    0.2150    0.5153 0.60752  -0.3158    0.5374 98       Y     ATE
-2 design0_N100_tau25_plus 100 0.25      1  t test 2 &lt;NA&gt;       NA        NA    0.5153 0.60754       NA        NA NA    &lt;NA&gt;    &lt;NA&gt;
-3 design0_N100_tau25_plus 100 0.25      2  t test 1    Z   0.2458    0.2154    1.1411 0.25661  -0.1817    0.6733 98       Y     ATE
-4 design0_N100_tau25_plus 100 0.25      2  t test 2 &lt;NA&gt;       NA        NA    1.1411 0.25662       NA        NA NA    &lt;NA&gt;    &lt;NA&gt;
-5 design0_N100_tau25_plus 100 0.25      3  t test 1    Z   0.5463    0.2133    2.5608 0.01197   0.1229    0.9697 98       Y     ATE
-6 design0_N100_tau25_plus 100 0.25      3  t test 2 &lt;NA&gt;       NA        NA    2.5608 0.01203       NA        NA NA    &lt;NA&gt;    &lt;NA&gt;
+1 design0_N100_tau25_plus 100 0.25      1  test-t 1    Z   0.1108    0.2150    0.5153 0.60752  -0.3158    0.5374 98       Y     ATE
+2 design0_N100_tau25_plus 100 0.25      1  test-t 2 &lt;NA&gt;       NA        NA    0.5153 0.60754       NA        NA NA    &lt;NA&gt;    &lt;NA&gt;
+3 design0_N100_tau25_plus 100 0.25      2  test-t 1    Z   0.2458    0.2154    1.1411 0.25661  -0.1817    0.6733 98       Y     ATE
+4 design0_N100_tau25_plus 100 0.25      2  test-t 2 &lt;NA&gt;       NA        NA    1.1411 0.25662       NA        NA NA    &lt;NA&gt;    &lt;NA&gt;
+5 design0_N100_tau25_plus 100 0.25      3  test-t 1    Z   0.5463    0.2133    2.5608 0.01197   0.1229    0.9697 98       Y     ATE
+6 design0_N100_tau25_plus 100 0.25      3  test-t 2 &lt;NA&gt;       NA        NA    2.5608 0.01203       NA        NA NA    &lt;NA&gt;    &lt;NA&gt;
   step_1_draw step_2_draw
 1           1           1
 2           1           1
@@ -787,8 +787,8 @@ NOTE: n is number in *each* group</code></pre>
 <pre><code># A tibble: 2 x 2
   estimator   pow
   &lt;chr&gt;     &lt;dbl&gt;
-1 t test 1    0.2
-2 t test 2    0.2</code></pre>
+1 test-t 1    0.2
+2 test-t 2    0.2</code></pre>
 </section></section>
 <section>
 <section id="puissance-statistique-avec-ajustement-de-covariable" class="title-slide slide level1">
