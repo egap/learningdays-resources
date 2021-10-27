@@ -473,22 +473,21 @@ e4 <- lm(Y~Z+block,data=dat)
 coef(e4)[["Z"]]
 ```
 
-En quoi diffèrent-ils ? (Le premier ignore les blocs. Le second utilise un ensemble différent de poids créés à l'aide d'indicateurs, de variables muettes ou de variables à "effets fixes".)
+En quoi diffèrent-ils ? (Le premier ATE ignore les blocs. Le second ATE utilise un ensemble différent de poids créés à l'aide d'indicateurs, de variables muettes ou de variables à "effets fixes".)
 
 ## Quel estimateur doit-on utiliser ?
 
-Nous avons maintenant trois estimateurs, chacun avec une estimation différente (en imaginant qu'ils ciblent tous le même estimande) :
+Nous avons maintenant 3 estimateurs, chacun avec une estimation différente (en imaginant qu'ils ciblent tous le même estimande) :
 
 ```{r echo=TRUE}
 c(coef(e1)[["Z"]],coef(e3)[["Z"]], coef(e4)[["Z"]])
 ```
 
-Quel estimateur doit-on utiliser pour ce design ? Nous pouvons simulater avec DeclareDesign pour comprendre cela.
+Quel estimateur doit-on utiliser pour ce design ? Simulons avec DeclareDesign pour le savoir.
 
 ```{r blockdd0, cache=TRUE, echo=TRUE}
-## déclarer une nouveau design de base qui inclut l'indicateur de bloc b
+## déclarer un nouveau design de base qui inclut l'indicateur de bloc b
 base_design_blocks <-
-    # déclarer la population
     declare_population(dat[, c("b","y0", "y1")]) +
     # dire à la méthode des doubles différences que b signifie bloc
     # et assigner 2 unités du traitement dans chaque bloc
@@ -583,13 +582,13 @@ Notez que la couverture n'est pas toujours à 95 % dans tous les cas. Nous avons
 
 # Randomisation par grappe
 
-## Dans les expériences aléatoires par grappe, les unités sont randomisées en grappe (cluster) pour le traitement  {.allowframebreaks}
+## Dans les expériences aléatoires par grappe, les unités sont randomisées en grappe (cluster) pour le traitement {.allowframebreaks}
 
 - **Exemple 1 :** une intervention est randomisée entre les quartiers, donc **tous** les ménages d'un quartier seront assignés à la même condition de traitement, mais différents quartiers seront assignés à des traitements différents.
 - **Exemple 2 :** une intervention est randomisée sur plusieurs personnes et chaque personne est mesurée quatre fois après le traitement. Nos données contiennent donc quatre lignes par personne.
 
 - **Pas un exemple 1 :** Les quartiers sont choisis pour l'étude. Dans chaque quartier, environ la moitié des personnes sont assignées au traitement et l'autre moitié au contrôle. (De quel type d'étude s'agit-il ? Ce n'est pas une étude randomisée par grappe.)
-- **Pas un exemple 2 :** une intervention est randomisée dans certains quartiers et pas dans d'autres, les résultats incluent des mesures de la confiance au niveau du quartier envers le gouvernement et la superficie totale du quartier consacrée aux jardins. (Parfois, une expérience randomisée par grappe peut être transformée en une expérience randomisée simple. Ou elle peut contenir plus d'une approche possible d'analyse et d'interprétation.)
+- **Pas un exemple 2 :** une intervention est randomisée à certains quartiers et pas à d'autres, les résultats incluent des mesures de la confiance au niveau du quartier envers le gouvernement et la superficie totale du quartier consacrée aux jardins. (Parfois, une expérience randomisée par grappe peut être transformée en une expérience randomisée simple. Ou elle peut contenir plus d'une approche possible d'analyse et d'interprétation.)
 
 En quoi la distribution des statistiques de test et des estimateurs peut-elle différer d'une expérience où des unités individuelles (et non des grappes) sont randomisées ?
 
@@ -599,7 +598,7 @@ Problèmes de biais dans les expériences aléatoires par grappe :
 
 - Lorsque les grappes ont la même taille, l'estimateur habituel de différences des moyennes est sans biais.
 
-- Mais soyez prudent lorsque les grappes ont des tailles différentes ou que vous avez très peu de grappes car alors les effets de traitement peuvent être corrélés avec la taille des grappes.
+- Mais soyez prudent lorsque les grappes ont des tailles différentes ou que vous avez très peu de grappes car les effets de traitement peuvent être corrélés avec la taille des grappes.
 
 - Lorsque la taille de la grappe est liée aux résultats potentiels, l'estimateur habituel de différences des moyennes est biaisé. <https://declaredesign.org/blog/bias-cluster-randomized-trials.html>
 
@@ -610,7 +609,7 @@ Problèmes de biais dans les expériences aléatoires par grappe :
 
 - "L'erreur standard robuste pour grappe" implémentée dans les logiciels courants fonctionnent bien **lorsque le nombre de grappes est important** (plus de 50 grappes dans certaines études de simulation).
 
-- L'erreur standard par défaut adaptée aux grappes dans `lm_robust` (l'erreur standard `CR2`) fonctionne mieux que l'approche basique dans Stata (à ce jour).
+- L'erreur standard par défaut adaptée aux grappes dans `lm_robust` (l'erreur standard `CR2`) fonctionne mieux que l'approche basique en Stata (à ce jour).
 
 - Le "wild bootstrap" aide à contrôler les taux d'erreur mais abandonne beaucoup plus de puissance statistique qu'il n'est peut-être nécessaire dans une étude aléatoire par grappe où l'inférence de randomisation directe est possible.
 

@@ -38,7 +38,7 @@ source("rmd_setup.R")
 
 - Nous voulons séparer le signal du bruit.
 
-- Puissance statistique = probabilité de rejeter l'hypothèse nulle, compte tenu de l'effet réel $\ne$ 0.
+- Puissance statistique = probabilité de rejeter l'hypothèse nulle, compte tenu d'un effet réel $\ne$ 0.
 
 - En d'autres termes, c'est la capacité à détecter un effet étant donné qu'il existe.
 
@@ -103,11 +103,11 @@ source("rmd_setup.R")
   \end{align*}
 
 - Composants:
-  - $\phi$ : TODO standard normal CDF is monotonically increasing
+  - $\phi$ : la fonction de répartition de la loi normale (strictement croissante)
   - $\tau$ : la taille de l'effet
   - $N$ : la taille de l'échantillon
   - $\sigma$ : l'écart type du résultat
-  - $\alpha$ : le niveau de signification (typiquement 0.05)
+  - $\alpha$ : le niveau de signification (typiquement 0,05)
 
 
 ## Exemple : calcul analytique de puissance
@@ -257,7 +257,7 @@ design0_N100_tau25_sims %>% group_by(estimator) %>%
 
     - Voir le module sur [les menaces à la validité interne](threats-to-internal-validity-of-randomized-experiments.html) et les [10 choses à savoir sur l'ajustement de covariables](https://egap.org/resource/10-things-to-know-about-covariate-adjustment/).
 
-- Observez le biais de Freedman tandis que nombre d'observations n diminue et que le nombre de covariables K augmente.
+- Observez le biais de Freedman tandis que le nombre d'observations n diminue et que le nombre de covariables K augmente.
 
 ## Découpage par bloc
 
@@ -274,6 +274,7 @@ design0_N100_tau25_sims %>% group_by(estimator) %>%
 ## Exemple : Calcul de puissance par simulation avec une covariable {.allowframebreaks}
 
 ```{r powsimcov, echo=TRUE}
+
 ## Y0 est fixe dans la plupart des expériences sur le terrain.
 ## Nous ne le générons donc qu'une seule fois:
 make_Y0_cov <- function(N){
@@ -282,6 +283,7 @@ make_Y0_cov <- function(N){
     Y0 <- .5 * sd(u0) * x + u0
     return(data.frame(Y0=Y0,x=x))
  }
+
 ##  X prédit modérément Y0.
 test_dat <- make_Y0_cov(100)
 test_lm  <- lm_robust(Y0~x,data=test_dat)
@@ -296,6 +298,7 @@ repeat_experiment_and_test_cov <- function(N, tau, Y0, x){
     pval <- estimator$p.value[2]
     return(pval)
 }
+
 ## créer les données une fois
 ## assigner de manière aléatoire le traitement sims fois
 ## rapporte quelle proportion renvoie une valeur p < 0,05
@@ -315,7 +318,9 @@ power_sim_cov(N=80,tau=.25,sims=100)
 
 ```
 
+
 # Puissance statistique pour la randomisation par grappe
+
 ## Puissance statistique et design par grappe
 - Voir le [module sur la randomisation](randomization.html).
 
@@ -323,7 +328,7 @@ power_sim_cov(N=80,tau=.25,sims=100)
      - La différence est souvent substantielle.
 
 - Il faut estimer correctement la variance :
-     - Erreur standard de clustering
+     - Erreur standard robuste pour grappe (robust clustered standard error, RCSE)
      - Inférence de randomisation
 
 - Pour augmenter la puissance :
@@ -357,7 +362,7 @@ make_Y0_clus <- function(n_indivs,n_clus){
  }
 
 test_dat <- make_Y0_clus(n_indivs=10,n_clus=100)
-# confirmez que cela produit des données avec 10 dans chacun des 100 grappes
+# confirmez que cela produit des données avec 10 dans chacune des 100 grappes
 table(test_dat$clus_id)
 # confirme l'ICC
 ICC::ICCbare(y=Y0,x=clus_id,data=test_dat)
@@ -413,13 +418,13 @@ test_d1 <- draw_data(design1_test)
 with(test_d1,table(Z,clusters))
 # les trois estimateurs diffèrent par se_type:
 E1a <- declare_estimator(Y~Z,model=lm_robust,clusters=clusters,
-                         se_type="CR2", label="CR2 cluster t test",
+                         se_type="CR2", label="test-t CR2 (robuste pour grappe)",
                          inquiry="ATE")
 E1b <- declare_estimator(Y~Z,model=lm_robust,clusters=clusters,
-                         se_type="CR0", label="CR0 cluster t test",
+                         se_type="CR0", label="test-t CR0 (robuste pour grappe)",
                          inquiry="ATE")
 E1c <- declare_estimator(Y~Z,model=lm_robust,clusters=clusters,
-                         se_type="stata", label="stata RCSE t test",
+                         se_type="stata", label="test-t RCSE en stata",
                          inquiry="ATE")
 
 design1_plus <- design1_base + E1a + E1b + E1c
@@ -435,10 +440,11 @@ set.seed(12355)
 design1_sims <- simulate_design(design1_plus_tosim,
                     sims=c(1,1000,rep(1,length(design1_plus_tosim)-2)))
 design1_sims %>% group_by(estimator) %>%
-  summarize(pow=mean(p.value < .05),
-    coverage = mean(estimand <= conf.high & estimand >= conf.low),
-    .groups="drop")
-
+  summarize(
+    puissance = mean(p.value < .05),
+    couverture = mean(estimand <= conf.high & estimand >= conf.low),
+    .groups="drop"
+  )
 ```
 
 ```{r ddversion_clus_2, echo=TRUE, cache=TRUE, results='hide', warning=FALSE}
@@ -455,8 +461,9 @@ d1_sims <- simulate_design(d1_plus,sims=c(1,1,1000,1,1,1,1,1))
 ```
 
 ```{r ddversion_clus_2_print, echo=TRUE}
-d1_sims %>% group_by(estimator) %>% summarize(pow=mean(p.value < .05),
-    coverage = mean(estimand <= conf.high & estimand >= conf.low),
+d1_sims %>% group_by(estimator) %>% summarize(
+    puissance = mean(p.value < .05),
+    couverture = mean(estimand <= conf.high & estimand >= conf.low),
     .groups="drop")
 ```
 
@@ -518,7 +525,7 @@ abline(h=.8)
 
 - Quelle est la plage de variation plausible de la variable de résultat ?
 
-     - Un design avec un mouvement possible limité dans la variable de résultat peut ne pas être puissant.
+     - Un design avec un mouvement possible limité pour la variable de résultat peut ne pas être puissant.
 
 
 ## Conclusion : comment améliorer votre puissance
