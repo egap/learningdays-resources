@@ -58,11 +58,11 @@ library(rcompanion) ## for pairwisePermutationTest()
 
 ## Points principaux
 
-- Inférence statistique (e.g., les tests d'hypothèses et les intervalles de confiance) nécessitent **l'inférence** --- i.e. raisonner sur ce qui n'a pas été observé.
+- L'inférence statistique (e.g., les tests d'hypothèses et les intervalles de confiance) nécessite **l'inférence** --- i.e. raisonner sur ce qui n'a pas été observé.
 
-- $p$-valeurs nécessitent des distributions de probabilité.
+- Les $p$-valeurs nécessitent des distributions de probabilité.
 
-- Randomisation (ou design) + une hypothèse + une function statistique de test $\rightarrow$ distributions de probabilité représentant l'hypothèse (distributions de référence)
+- Une randomisation (ou un design) + une hypothèse + une function de statistique de test $\rightarrow$ distributions de probabilité représentant l'hypothèse (distributions de référence)
 
 - Valeurs observées des tests statistiques + distribution de référence $\rightarrow$ $p$-valeur.
 
@@ -88,16 +88,16 @@ library(rcompanion) ## for pairwisePermutationTest()
 
 ## Le role des tests d'hypothèses dans l'inférence causale III
 
-- L'approche du test d'hypothèse pour l'inférence causale ne fournit pas une meilleure estimation, mais indique *la quantité d'informations que le design de recherche fournit pour cette assertion causale*.
+- L'approche du test d'hypothèse pour l'inférence causale ne fournit pas une meilleure supposition, mais indique *la quantité d'informations que le design de recherche fournit pour cette assertion causale*.
 
-- L'approche par estimation fournit une meilleure estimation, mais ne vous dit pas ce que vous savez sur cette estimation.
-   - Par exemple, une estimation avec $N=10$ semble en dire moins sur l'effet que $N=1000$.
-   - Par exemple, une estimation avec 95% de $Y=1$ et 5% de $Y=0$ semble en dire moins que lorsque les résultats sont répartis également entre 0 et 1.
+- L'approche par estimation fournit une meilleure supposition, mais ne vous dit pas ce que vous savez sur cette supposition.
+   - Par exemple, une supposition avec $N=10$ semble en dire moins sur l'effet que pour $N=1000$.
+   - Par exemple, une supposition avec 95% de $Y=1$ et 5% de $Y=0$ semble en dire moins que lorsque les résultats sont répartis également entre 0 et 1.
 
-- Nous rapportons presque toujours les deux approches, car les deux nous aident à prendre des décisions : "Notre estimation de l'effet du traitement était de 5, et nous pouvions rejeter l'idée que l'effet était de 0 ($p$=.01)."
+- Nous rapportons presque toujours les deux approches, car les deux nous aident à prendre des décisions : "Notre supposition de l'effet du traitement était de 5, et nous pouvions rejeter l'idée que l'effet était de 0 ($p$=0,01)."
 
 
-# Les basics du test d'hypothèse
+# Les bases du test d'hypothèse
 
 ## Ingrédients d'un test d'hypothèse
 
@@ -162,20 +162,20 @@ bigdat$Ybin <- as.numeric(bigdat$Y > quantile(bigdat$Y, .85))
 ## Une hypothèse est l'énoncé ou le modèle d'une relation entre des résultats potentiels
 
 ```{r}
-kableExtra::kable(dat, col.names = c("Outcome", "Treatment", "$y_{i,0}$", "ITE", "$y_{i,1}$", "$Y>0$"), escape = FALSE)
+kableExtra::kable(dat, col.names = c("Résultat", "Traitement", "$y_{i,0}$", "ITE", "$y_{i,1}$", "$Y>0$"), escape = FALSE)
 ```
 
 Par exemple, l'hypothèse nulle stricte d'absence d'effet est $H_0 : y_{i,1} = y_{i,0}$
 
 
-## Les statistiques des test résument les relations entre le traitement et les résultats
+## Les statistiques de test résument les relations entre le traitement et les résultats
 
 ```{r, echo=TRUE}
-## La statistique du test des différences moyennes
+## La statistique de test de la différence des moyennes
 meanTT <- function(ys, z) {
   mean(ys[z == 1]) - mean(ys[z == 0])
 }
-## La statistique du test de la différence des moyennes selon le rang
+## La statistique de test de la différence des moyennes selon le rang
 meanrankTT <- function(ys, z) {
   ranky <- rank(ys)
   mean(ranky[z == 1]) - mean(ranky[z == 0])
@@ -197,7 +197,7 @@ Donc, si $y_{i,1}=y_{i,0}$ alors $Y_i = y_{i,0}$.
 
 Ce que nous *observons réellement* est ce que nous *aurions observé dans la condition de contrôle*.
 
-## Le design guide la création d'une distribution de statistiques de tests hypothétiques
+## Le design guide la création d'une distribution de statistiques de test hypothétiques
 
 Il faut savoir comment répéter notre expérience:
 
@@ -207,7 +207,7 @@ repeatExperiment <- function(N) {
 }
 ```
 
-Ensuite, on répèter notre expérience en calculant à chaque fois une nouvelle statistique de test donnée par l'hypothèse et la design :
+Ensuite, on répète notre expérience en calculant à chaque fois une nouvelle statistique de test donnée par l'hypothèse et le design :
 
 ```{r reps, echo=TRUE, cache=TRUE}
 set.seed(123456)
@@ -338,7 +338,7 @@ Statistique de test observée  1   0.32
 Comment interpréter la $p$-valeur bilatérale ici ?
 
 ```{r,echo=TRUE}
-## using the ri2 package
+## en utilisant le package ri2
 library(ri2)
 thedesign <- declare_ra(N = N)
 dat$Z <- dat$T
@@ -362,11 +362,13 @@ summary(pMeanRank4)
 
   - Conserver un taux d'erreur correct de faux positifs quand on teste plus d'une hypothèse.
 
-  - Puissance statistique des tests d'hypothèses ([Module sur la puissance statistique et les diagnosandes de design](https://egap.github.io/learningdays-book/statistical-power-and-design-diagnosands.html)).
+  - Puissance statistique des tests d'hypothèses ([Module sur la puissance statistique et les diagnosandes de design](https://egap.github.io/learningdays-book/statistical-power-and-design-diagnosands.html)). 
 
-## Tester l'hypothèse nulle faible d'absence d'effet de traitement moyen
+# Tester l'hypothèse nulle faible
 
-- L'hypothèse nulle faible est une affirmation sur les agrégats, et elle est presque toujours exprimée en termes de moyennes : $H_0 : \bar{y}_{1} = \bar{y}_{0}$
+## Tester l'hypothèse nulle faible d'absence d'effets moyens
+
+- L'hypothèse nulle faible est une affirmation sur les agrégats. Elle est presque toujours exprimée en termes de moyennes : $H_0 : \bar{y}_{1} = \bar{y}_{0}$
 
 - La statistique de test pour cette hypothèse est presque toujours la simple différence des moyennes (c'est-à-dire `meanTT()` ci-dessus).
 
@@ -379,9 +381,9 @@ ttestP2 <- difference_in_means(Y ~ T, data = dat)
 c(lm1P = lm1P, ttestP1 = ttestP1, tttestP2 = ttestP2$p.value)
 ```
 
-- Pourquoi la $p$-valeur pour les moindres carrés est-elle différente ? Quelles hypothèses utilisons-nous pour la calculer ?
+- Pourquoi la $p$-valeur pour les moindres carrés ordinaires est différente ? Quelles hypothèses utiliser pour la calculer ?
 
-## Tester l'hypothèse nulle faible d'absence d'effet de traitement moyen
+## Tester l'hypothèse nulle faible d'absence d'effets moyens
 
 La variation et l'emplacement de $Y$ changent avec le traitement dans cette simulation.
 
@@ -389,7 +391,7 @@ La variation et l'emplacement de $Y$ changent avec le traitement dans cette simu
 boxplot(Y ~ T, données = dat)
 ```
 
-## Tester l'hypothèse nulle faible d'absence d'effet de traitement moyen
+## Tester l'hypothèse nulle faible d'absence d'effets moyens
 
 ```{r, echo=TRUE}
 ## à la main:
@@ -413,18 +415,18 @@ c(
 
 ## Rejeter l'hypothèse nulle et faire des erreurs
 
-- "Typiquement, le niveau du test [$\alpha$] est une promesse sur les performances du test et la taille est un fait sur ses performances..." (Rosenbaum 2010, Glossaire)
+- "Typiquement, le niveau du test [$\alpha$] est une promesse sur la performance du test et la taille est un fait sur sa performance..." (Rosenbaum 2010, Glossaire)
 
 - $\alpha$ est la probabilité de rejeter l'hypothèse nulle lorsque l'hypothèse nulle est vraie.
 
 - Comment doit-on interpréter $p$=`r round(pMeanTT,2)` ? Qu'en est-il de $p$=`r round(pMeanRankTT,2)` (nos tests pour l'hypothèse nulle stricte) ?
 
-- Que signifie "rejeter" $H_0 : y_{i,1}=y_{i,2}$ à $\alpha=.05$ ?
+- Que signifie "rejeter" $H_0 : y_{i,1}=y_{i,2}$ à $\alpha=0,05$ ?
 
 
 ## Taux de faux positifs dans les tests d'hypothèses {.allowframebreaks}
 
-```{r normp, echo=FALSE,out.width=".5\\textwidth",fig.cap="P-valeur unilatérale d'une statistique de test normalement."}
+```{r normp, echo=FALSE,out.width=".5\\textwidth",fig.cap="P-valeur unilatérale d'une statistique de test normale."}
 library(tidyverse)
 ggplot(NULL, aes(c(-3, 3))) +
   geom_area(stat = "function", fun = dnorm, fill = "#00998a", xlim = c(2, 3)) +
@@ -438,7 +440,7 @@ ggplot(NULL, aes(c(-3, 3))) +
 
 Attention:
 
-  - La courbe est centrée à la valeur hypothétique.
+  - La courbe est centrée sur la valeur hypothétique.
 
   - La courbe représente le monde de l'hypothèse.
 
@@ -453,13 +455,13 @@ Attention:
 - Si nous disons, "le résultat expérimental est significativement différent de la valeur hypothétique de zéro ($p=0,001$) ! Nous rejetons cette hypothèse !"
   **lorsque la vérité est zéro** nous faisons une **erreur de faux positifs** (prétendant détecter quelque chose lorsqu'il n'y a pas de signal, seulement du bruit).
 
-- Si nous disons : "Nous ne pouvons pas distinguer ce résultat de zéro ($p=.3$). Nous ne pouvons pas rejeter l'hypothèse de zéro."
-  **lorsque la vérité n'est pas zéro** nous faisons une **erreur de faux négatifs** (prétendant incapacité à détecter quelque chose lorsqu'il y a un signal, mais qu'il est submergé par le bruit).
+- Si nous disons : "Nous ne pouvons pas distinguer ce résultat de zéro ($p=0,3$). Nous ne pouvons pas rejeter l'hypothèse de zéro."
+  **lorsque la vérité n'est pas zéro** nous faisons une **erreur de faux négatifs** (prétendant l'incapacité à détecter quelque chose lorsqu'il y a un signal, mais qu'il est noyé dans le bruit).
 
 ## Un test unique d'une seule hypothèse
 
 - Un test unique d'une seule hypothèse devrait rarement augmenter le taux de faux positifs
-  (par exemple, si nous définissons $\alpha=.05$) alors nous acceptons que notre procédure de test produise des faux positifs
+  (par exemple, si nous définissons $\alpha=0,05$) alors nous acceptons que notre procédure de test produise des faux positifs
   dans **au plus de 5% des tests d'une assignation de traitement donnée dans une expérience donnée**.
 
 - De plus, un **test unique d'une seule hypothèse** doit détecter le signal lorsqu'il existe --- il doit avoir une **puissance statistique** élevée.
@@ -479,11 +481,11 @@ Attention:
    - Testez cette hypothèse.
    - La $p$-valeur doit être élevée si le test fonctionne correctement.
 
-- La proportion de petites valeurs $p$ ne doit pas dépasser $\alpha$ si le test fonctionne correctement.
+- La proportion de petites $p$-valeurs ne doit pas dépasser $\alpha$ si le test fonctionne correctement.
 
 ## Diagnostiquer les taux de faux positifs par simulation
 
-Exemple avec un résultat binaire. Le test fonctionne-t-il comme il se doit ? À quoi ressemblent les p-valeurs lorsqu'il n'y a pas d'effet ?
+Ex: avec un résultat binaire. Le test fonctionne-t-il comme il se doit ? À quoi ressemblent les p-valeurs lorsqu'il n'y a pas d'effet ?
 
 ```{r, echo=TRUE}
 collectPValues <- function(y, trt, thedistribution = exact()) {
@@ -524,11 +526,11 @@ pDist <- replicate(5000, collectPValues(y = theY, trt = theT))
 
 ## Diagnostiquer les taux de faux positifs par simulation
 
-- Lorsqu'il n'y a pas d'effet, un test de l'hypothèse nulle d'absence d'effet de traitement doit produire une **grande** p-valeur.
+- Lorsqu'il n'y a pas d'effet, un test de l'hypothèse nulle d'absence d'effet doit produire une **grande** p-valeur.
 
 - Si le test fonctionne bien, nous devrions voir principalement de grandes p-valeurs et très peu de petites p-valeurs.
 
-- Quelques-unes des p-valeurs pour les quatre tests différents (nous avons fait 5000 simulations, en montrant juste 5)
+- Quelques-unes des p-valeurs pour les quatre tests différents (nous avons fait 5000 simulations, en voici 5)
 
 ```{r, echo=FALSE}
 pDist[, 1:5]
@@ -536,11 +538,12 @@ pDist[, 1:5]
 
 ## Diagnostiquer les taux de faux positifs par simulation
 
-En fait, s'il n'y a pas d'effet, et si nous décidons de rejeter l'hypothèse nulle d'absence d'effet de traitement avec $\alpha=.25$, nous ne voudrions **pas plus de 25% des p-valeurs de cette simulation en dessous de p=.25**.
+En fait, s'il n'y a pas d'effet, et si nous décidons de rejeter l'hypothèse nulle d'absence d'effet avec $\alpha=0,25$, nous ne voudrions **pas plus de 25% des p-valeurs de cette simulation en dessous de p=0,25**.
 Que voit-on ici ? Quels tests semblent avoir des taux de faux positifs trop élevés ?
 
 ```{r pdistsummary, echo=TRUE}
-## Calculer la proportion de p-valeurs inférieures à 0,25 pour chaque ligne de pDist
+## Calculer la proportion de p-valeurs inférieures à 0,25 
+## pour chaque ligne de pDist
 apply(pDist, 1, function(x) {
   mean(x < .25)
 })
@@ -552,7 +555,7 @@ Comparez les tests en traçant la proportion de p-valeurs inférieures à un nom
 Les tests "d'inférence de randomisation" contrôlent le taux de faux positifs
 (ce sont les tests avec permutation directe répétant l'expérience).
 
-```{r plotecdf, results='asis', echo=FALSE, message=FALSE, warning=FALSE, fig.cap="Distributions des p-valeurs quand il n y a aucun effet pour quatre tests avec n=10. Un test qui contrôle son taux de faux positifs doit avoir des points sur ou en dessous de la ligne diagonale", out.width='.6\\textwidth'}
+```{r plotecdf, results='asis', echo=FALSE, message=FALSE, warning=FALSE, fig.cap="Distributions des p-valeurs quand il n y a aucun effet pour quatre tests avec n=10. Un test qui contrôle son taux de faux positifs doit avoir des points sur ou en dessous de la ligne diagonale.", out.width='.6\\textwidth'}
 par(mfrow = c(1, 1), mgp = c(2, .75, 0), oma = rep(0, 4), mar = c(3.5, 3.5, 0, 0))
 plot(c(0, 1), c(0, 1),
   type = "n",
@@ -564,7 +567,7 @@ for (i in 1:nrow(pDist)) {
 }
 abline(0, 1, col = "gray")
 legend("topleft",
-  legend = c("Moindre carrés", "Neyman", "Diff des moyennes d'inférence de randomisation", "Diff des moyennes d'inférence de randomisation selon le rang"),
+  legend = c("Moindres carrés ordinaires", "Neyman", "Diff des moyennes d'inférence de randomisation", "Diff des moyennes d'inf. de rand. selon le rang"),
   pch = 1:5, col = 1:5, lty = 1, bty = "n", cex = 2
 )
 ```
@@ -595,7 +598,7 @@ for (i in 1:nrow(pDistBig)) {
 }
 abline(0, 1, col = "gray")
 legend("topleft",
-  legend = c("Moindre carrés", "Neyman", "Diff des moyennes d'inférence de randomisation", "Diff des moyennes d'inférence de randomisation selon le rang"),
+  legend = c("Moindres carrés ordinaires", "Neyman", "Diff des moyennes d'inférence de randomisation", "Diff des moyennes d'inf. de rand. selon le rang"),
   pch = 1:5, col = 1:5, lty = 1, bty = "n", cex = 2
 )
 ```
@@ -625,7 +628,7 @@ for (i in 1:nrow(pDistBig2)) {
 }
 abline(0, 1, col = "gray")
 legend("topleft",
-  legend = c("Moindre carrés", "Neyman", "Diff des moyennes d'inférence de randomisation", "Diff des moyennes d'inférence de randomisation selon le rang"),
+  legend = c("Moindres carrés ordinaires", "Neyman", "Diff des moyennes d'inférence de randomisation", "Diff des moyennes d'inf. de rand. selon le rang"),
   pch = 1:5, col = 1:5, lty = 1, bty = "n", cex = 2
 )
 ```
@@ -640,7 +643,7 @@ legend("topleft",
 
 - Nous pouvons savoir si notre procédure de test contrôle le taux de faux positifs compte tenu de notre dsign.
 
-- Lorsque le taux de faux positifs n'est pas contrôlé, qu'est-ce qui ne va pas ? (probablement l'asymptotique).
+- Lorsque le taux de faux positifs n'est pas contrôlé, qu'est-ce qui ne va pas ? (probablement lié à l'asymptotique).
 
 # Approfondir
 
@@ -664,9 +667,9 @@ legend("topleft",
 
 ## Exercice : Tests d'hypothèses et statistiques de test
 
-  1. Si une intervention était très efficace pour augmenter la variabilité d'un résultat mais ne changeait pas la moyenne, la $p$-valeur rapportée par R ou Stata en utilisant `lm_robust()` ou `difference_of_means()` ou ` reg` ou `t.test` est-elle grande ou petite ?
+  1. Si une intervention était très efficace pour augmenter la variabilité d'un résultat mais ne changeait pas la moyenne, la $p$-valeur rapportée par R ou Stata en utilisant `lm_robust()` ou `difference_of_means()` ou ` reg` ou `t.test` serait-elle grande ou petite ?
 
-  2. Si une intervention réduisait modérément la moyenne dans le groupe témoin mais augmentait considérablement quelques résultats (comme un effet 10 fois supérieur), la $p$-valeur de R `lm_robust()` ou `difference_of_means() ` est-elle grande ou petite ?
+  2. Si une intervention réduisait modérément la moyenne dans le groupe témoin mais augmentait considérablement quelques résultats (comme un effet 10 fois supérieur), la $p$-valeur de R `lm_robust()` ou `difference_of_means() ` serait-elle grande ou petite ?
 
 # Tester de nombreuses hypothèses
 
@@ -682,11 +685,11 @@ legend("topleft",
 
 Disons que notre probabilité de faux positifs est de 0,05 pour un seul test. Que se passe-t-il si nous demandons:
 (1) lequel de ces 10 résultats a une relation statistiquement significative avec les deux bras de traitement ?
-(2) *lequel de ces 10 bras de traitement avait une relation statistiquement significative avec ce résultat particulier* ?
+(2) *lequel de ces 10 bras de traitement avait une relation statistiquement significative avec un résultat unique* ?
 
   - La probabilité de faux positifs doit être inférieure ou égale à 0,05 dans un test.
   - La probabilité de faux positifs doit être inférieure ou égale à $1 - ( ( 1 - 0,05 ) \times (1 - 0,05) ) = 0,0975$ dans 2 tests.
-  - La probabilité d'avoir au moins un faux positif avec $\alpha=.05$ dans 10 tests devrait être $\le$ $1 - (1-.05)^{10}=.40$.
+  - La probabilité d'avoir au moins un faux positif avec $\alpha=0,05$ dans 10 tests devrait être $\le$ $1 - (1-0,05)^{10}=0,40$.
 
 ## Découvertes avec multiple tests
 
@@ -695,9 +698,9 @@ Les cellules sont le nombre de tests. $R$ est le nombre de "découvertes" et $V$
 $U$ est le nombre de non-rejets corrects et $S$ est le nombre de rejets corrects.
 
 +------------------------------------------+--------------------------+----------------------+-----------+
-|                                          | Declarés                 | Declarés             |   Total   |
-|                                          | Non-Significant          | Significant          |           |
-+==========================---=============+:========================:+:====================:+:=========:+
+|                                          | Déclarés                 | Déclarés             |   Total   |
+|                                          | Non-Significatifs        | Significatifs        |           |
++=========================================:+:========================:+:====================:+:=========:+
 | hypothèse nulle vraie ($H_{true}=0$)     |             U            |           V          |   $m_0$   |
 +------------------------------------------+--------------------------+----------------------+-----------+
 | hypothèse nulle fause ($H_{true} \ne 0$) |             T            |           S          | m - $m_0$ |
@@ -707,31 +710,31 @@ $U$ est le nombre de non-rejets corrects et $S$ est le nombre de rejets corrects
 
 ## Deux taux d'erreur principaux à contrôler lors du test de nombreuses hypothèses {.allowframebreaks}
 
-1. **Le taux d'erreur par famille (family wise error rate / FWER)** est de $P(V>0)$ (Probabilité de tous les faux positifs).
+1. **Le taux d'erreur par famille (family wise error rate, FWER)** est de $P(V>0)$ (Probabilité d'un quelconque de faux positif).
 
     - à contrôler si nous prévoyons de prendre une décision sur les résultats de nos multiples tests. Le projet de recherche est essentiellement confirmatoire.
 
-    - voir par exemple les projets de l'OES <https://oes.gsa.gov> : les agences fédérales choisissent quand elles détectent des résultats.
+    - voir par exemple les projets de l'[OES](https://oes.gsa.gov) : les agences fédérales prennent des décisions sur leurs programmes en fonction des résultats détectés (ou non).
 
-2. **Le taux d'erreurs de type I pour l'hypothèse nulle (false discovery rate / FDR)** est de $E(V/R | R>0)$ (proportion moyenne de faux positifs compte tenu de certains rejets).
+2. **Le taux de fausse découverte (false discovery rate, FDR)** est de $E(V/R | R>0)$ (proportion moyenne de faux positifs compte tenu de certains rejets).
 
-    - à contrôler si nous utilisons *cette* expérience pour planifier *la prochaine* expérience. Nous sommes prêts à accepter une probabilité d'erreur plus élevée dans l'intérêt de nous donner plus de possibilités de découverte.
+    - à contrôler si nous utilisons *cette* expérience pour planifier *la prochaine* expérience. Nous sommes prêts à accepter une probabilité d'erreur plus élevée dans le but de nous donner plus de possibilités de découverte.
 
-    - par exemple, on pourrait imaginer une organisation, un gouvernement ou une ONG qui déciderait de mener *une série* d'expériences dans le cadre d'un *programme d'apprentissage* : aucune expérience ne détermine la prise de décision, plus de place pour l'exploration.
+    - par exemple, on pourrait imaginer une organisation, un gouvernement ou une ONG qui déciderait de mener *une série* d'expériences dans le cadre d'un *programme exploratoire* : aucune expérience ne détermine seule la prise de décision, cela offre plus de possibilité pour l'exploration.
 
-Nous nous concentrerons sur le FWER mais recommandons de penser au FDR pour les programmes d'apprentissage.
+Nous nous concentrerons sur le FWER mais recommandons de penser au FDR pour les programmes exploratoires.
 
 ## Questions à résultats multiples
 
 - Quel est l'effet d'un traitement sur plusieurs résultats ?
 
-- Sur quels résultats (parmi beaucoup) le traitement a-t-il eu un effet ?
+- Sur quels résultats le traitement a-t-il eu un effet (parmi l'ensemble des résultats) ?
 
-- La deuxième question, en particulier, peut conduire à problèmes de taux d'erreur par famille (voir ci-dessus).
+- La deuxième question, en particulier, peut conduire aux problèmes de taux d'erreur par famille (voir ci-dessus).
 
 ## Tests d'hypothèses multiples : résultats multiples
 
-Imaginez que nous ayons cinq résultats et un traitement (montrant ici les résultats potentiels et observés) :
+Imaginez que nous ayons cinq résultats et un traitement (ici les résultats potentiels et observés) :
 
 ```{r multtesting1}
 set.seed(23)
@@ -782,7 +785,7 @@ coin::pvalue(independence_test(Y1 ~ factor(T),
 
 ## Pour lequel des cinq résultats pouvons-nous détecter un effet ?
 
-Pouvons-nous détecter un effet sur le résultat `Y1` ? (c'est-à-dire, l'un des cinq tests d'hypothèses produit-il une $p$-valeur suffisamment petite ?)
+Pour lequel des cinq résultats pouvons-nous détecter un effet ? (c'est-à-dire, l'un des cinq tests d'hypothèses produit-il une $p$-valeur suffisamment petite ?)
 
 ```{r pmult, echo=TRUE}
 p1 <- coin::pvalue(oneway_test(Y1 ~ factor(T), data = dat1))
@@ -794,9 +797,9 @@ theps <- c(p1 = p1, p2 = p2, p3 = p3, p4 = p4, p5 = p5)
 sort(theps)
 ```
 
-## Pouvons-nous détecter un effet pour tous les résultats ?
+## Pouvons-nous détecter un effet pour un des cinq résultats ?
 
-Pouvons-nous détecter un effet pour tous les résultats ? (c'est-à-dire, un test d'hypothèse pour tous les résultats ensemble produit-il une $p$-valeur suffisamment petite ?)
+Pouvons-nous détecter un effet pour un des cinq résultats ? (c'est-à-dire, un test d'hypothèse pour tous les résultats ensemble produit-il une $p$-valeur suffisamment petite ?)
 ```{r omnibus, echo=TRUE}
 coin::pvalue(independence_test(Y1 + Y2 + Y3 + Y4 + Y5 ~ factor(T),
   data = dat1, teststat = "quadratic"
@@ -811,8 +814,8 @@ Faisons une simulation pour en savoir plus sur ces approches de test.
 
 - Nous allons (1) définir les véritables effets causaux à 0, (2) réassigner le traitement à plusieurs reprises, et (3) à chaque fois, faire chacun de ces trois tests.
 
-- Puisque le véritable effet est 0, nous nous attendons à ce que *la plupart* des $p$-values soient grandes.
-(En fait, nous ne voulons pas plus de 5% des $p$-values supérieures à $p=.05$ si nous utilisons le critère d'acceptance ou de rejet $\alpha=.05$).
+- Puisque le véritable effet est 0, nous nous attendons à ce que *la plupart* des $p$-valeurs soient grandes.
+(En fait, nous ne voulons pas plus de 5% des $p$-valeurs supérieures à $p=0,05$ si nous utilisons le critère d'acceptance ou de rejet $\alpha=0,05$).
 
 ```{r testsetup1, echo=FALSE, results="hide"}
 ttest_Y1fn <- function(data) {
@@ -875,17 +878,17 @@ res1 <- des1_sim %>%
 kableExtra::kable(res1, caption = "Taux d'erreur par famille")
 ```
 
-- L'approche utilisant 5 tests produit un $p < 0,05$ beaucoup trop souvent --- rappelons qu'il n'y a aucun effet causal pour aucun de ces résultats.
+- L'approche utilisant 5 tests produit une $p$-valeur $< 0,05$ beaucoup trop souvent --- rappelons qu'il n'y a aucun effet causal pour aucun de ces résultats.
 
-  - Un test d'un seul résultat (ici `Y1`) a $p < 0,05$ pour moins de 5% des simulations.
+  - Un test d'un seul résultat (ici `Y1`) une $p$-valeur $< 0,05$ pour moins de 5% des simulations.
 
   - Le test omnibus montre également un taux d'erreur bien maîtrisé.
 
-  - L'utilisation d'une correction de tests multiples (ici nous utilisons la correction "Holm") contrôle également correctement le taux de faux positifs.
+  - L'utilisation d'une correction de tests multiples (ici nous utilisons la correction de Holm) contrôle également correctement le taux de faux positifs.
 
 ## La correction de Holm
 
-Comment utiliser la correction Holm (notez ce qui arrive aux $p$-valeurs):
+Comment utiliser la correction de Holm (notez ce qui arrive aux $p$-valeurs):
 
 ```{r holmex, echo=TRUE}
 theps
@@ -897,9 +900,9 @@ p.adjust(theps_new, method = "holm")
 
 ## Tests d'hypothèses multiples : bras de traitement multiples {.allowframebreaks}
 
-- Le même genre de problème peut arriver lorsque la question porte sur l'effet de traitement différentiel multi-bras.
+- Le même genre de problème peut arriver lorsque la question porte sur l'effet différentiel d'un traitement multi-bras.
 
-- Avec 5 bras, "l'effet du bras 1" pourrait signifier beaucoup de choses différentes : "Est-ce que les résultats potentiels moyens sont plus grands pour le bras 1 ou 2 ?",
+- Avec 5 bras, "l'effet du bras 1" pourrait signifier beaucoup de choses différentes : "Est-ce que les résultats potentiels moyens sont plus grands pour le bras 1 par rapport au bras 2 ?",
 "Les résultats potentiels sont-ils plus grands pour le bras 1 comparé à tous les autres ?"
 
 - Si nous nous concentrons uniquement sur les comparaisons par paires de bras, nous pourrions avoir $((5 \times 5) - 5)/2 = 10$ tests uniques !
@@ -939,7 +942,7 @@ Nous illustrons quatre approches différentes :
 
    1. faire tous les tests par paire et choisir le meilleur (une mauvaise idée) ;
    2. faire tous les tests par paire et choisir le meilleur après avoir ajusté les p-valeurs pour les tests multiples (une bonne idée mais avec une très faible puissance statistique) ;
-   3. tester l'hypothèse d'absence de relation pour *tous les bras* (un test omnibus) et le résultat (une bonne idée) ;
+   3. tester l'hypothèse d'absence de relation pour *chaque bras* (un test omnibus) et le résultat (une bonne idée) ;
    4. choisissez un bras sur lequel vous concentrer à l'avance (une bonne idée).
 
 ```{r}
@@ -984,7 +987,7 @@ des2_sim <- simulate_design(des2_plus, sims = 1000)
 res2 <- des2_sim %>%
   group_by(estimator) %>%
   summarize(fwer = mean(p.value < .05), .groups = "drop")
-kableExtra::kable(res2, caption = "Approaches to testing in multi-arm experiments.")
+kableExtra::kable(res2, caption = "Approches de test pour les expériences à bras multiples.")
 ```
 
 ## Résumé
@@ -993,7 +996,7 @@ kableExtra::kable(res2, caption = "Approaches to testing in multi-arm experiment
 
 - La procédure pour former les tests d'hypothèses et intervalles de confiance peut comporter des erreurs.
   Normalement on contrôle le taux d'erreur dans un seul test (ou un seul intervalle de confiance).
-  Mais utliser plusieurs tests nécessite plus pour s'assurer que le taux d'erreur est sous contrôle.
+  Mais utiliser plusieurs tests nécessite plus d'effort pour s'assurer que le taux d'erreur est sous contrôle.
 
 - La perte de puissance statistique induite par les approches d'ajustement nous incite à réfléchir aux *questions que nous voulons poser sur les données*.
   Par exemple, si nous voulons savoir si le traitement a eu *un quelconque effet*, alors un test conjoint ou un test omnibus de résultats multiples augmentera notre puissance statistique sans nécessiter d'ajustement.
