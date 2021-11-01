@@ -72,12 +72,12 @@ library(styler)
 
 ## Points clés sur l'estimation III
 
- - L'**erreur standard (erreur type)** d'un estimateur dans une expérience aléatoire résume comment les estimations varieraient si l'expérience était répétée.
+ - L'**erreur type** d'un estimateur dans une expérience aléatoire résume comment les estimations varieraient si l'expérience était répétée.
 
- - Nous utilisons l'**erreur standard** pour produire des **intervalles de confiance** et les **p-valeurs**
+ - Nous utilisons l'**erreur type** pour produire des **intervalles de confiance** et les **p-valeurs**
    afin que de commencer par un estimateur et terminer par un test d'hypothèse.
 
-  - Différentes randomisations produiront différentes valeurs du même estimateur ciblant le même estimande. L'**erreur standard** résume la variabilité de cet estimateur.
+  - Différentes randomisations produiront différentes valeurs du même estimateur ciblant le même estimande. L'**erreur type** résume la variabilité de cet estimateur.
 
   - Un **intervalle de confiance** de *$100(1-\alpha)$%* est un ensemble d'hypothèses qui ne peuvent être rejetées au niveau $\alpha$. Nous avons tendance à rapporter des intervalles de confiance contenant des hypothèses sur les valeurs de notre estimande et à utiliser notre estimateur comme une statistique de test.
 
@@ -119,7 +119,7 @@ $Y_{i}(T_{i}=1) -  Y_{i}(T_{i}=0) \ne 0$ ou $Y_{i}(T_{i}=1) \ne Y_{i}(T_{i}=0)$.
  1. Rappel : nous pouvons **tester les hypothèses** sur la paire de résultats potentiels $\{ Y_{i}(T_{i}=1), Y_{i}(T_{i}=0) \}$.
 
  2. Nous pouvons **définir les estimandes** en termes de $\{ Y_{i}(T_{i}=1), Y_{i}(T_{i}=0) \}$ ou $\tau_i$, **développer des estimateurs** pour ces estimandes,
-    puis calculer les valeurs et les erreurs standard pour ces estimateurs.
+    puis calculer les valeurs et les erreurs type pour ces estimateurs.
 
 ## Un estimande et un estimateur usuels : l'effet moyen du traitement et la différence des moyennes
 
@@ -420,7 +420,7 @@ $\widehat{ATE} = \displaystyle\sum^J_{j=1} \frac{N_j}{N} \widehat{ATE}_j$
 
 ## Les expériences aléatoires par bloc sont une collection de mini-expériences
 
-Et nous pourrions *définir* l'erreur standard de l'estimateur en faisant la moyenne intra-bloc des erreurs standard (si nos blocs sont suffisamment grands) :
+Et nous pourrions *définir* l'erreur type de l'estimateur en faisant la moyenne intra-bloc des erreurs type (si nos blocs sont suffisamment grands) :
 
 $SE(\widehat{ATE}) = \sqrt{\sum^J_{j=1} (\frac{N_{j}}{N})^2SE^2(\widehat{ATE}_j)}$
 
@@ -603,13 +603,13 @@ Problèmes de biais dans les expériences aléatoires par grappe :
 - Lorsque la taille de la grappe est liée aux résultats potentiels, l'estimateur habituel de différences des moyennes est biaisé. <https://declaredesign.org/blog/bias-cluster-randomized-trials.html>
 
 
-## Estimation de l'erreur standard pour l'ATE dans des expériences aléatoires par grappe {.allowframebreaks}
+## Estimation de l'erreur type pour l'ATE dans des expériences aléatoires par grappe {.allowframebreaks}
 
-- **Inférences statistiques trompeuses :** L'erreur standard par défaut sous-estimera généralement la précision dans de tels designs et produira ainsi des tests avec des taux de faux positifs trop élevés (ou, de manière équivalente, des taux de couverture pour les intervalles de confiance trop faibles).
+- **Inférences statistiques trompeuses :** L'erreur type par défaut sous-estimera généralement la précision dans de tels designs et produira ainsi des tests avec des taux de faux positifs trop élevés (ou, de manière équivalente, des taux de couverture pour les intervalles de confiance trop faibles).
 
-- "L'erreur standard robuste pour grappe" implémentée dans les logiciels courants fonctionnent bien **lorsque le nombre de grappes est important** (plus de 50 grappes dans certaines études de simulation).
+- "L'erreur type robuste pour grappe" implémentée dans les logiciels courants fonctionnent bien **lorsque le nombre de grappes est important** (plus de 50 grappes dans certaines études de simulation).
 
-- L'erreur standard par défaut adaptée aux grappes dans `lm_robust` (l'erreur standard `CR2`) fonctionne mieux que l'approche basique en Stata (à ce jour).
+- L'erreur type par défaut adaptée aux grappes dans `lm_robust` (l'erreur type `CR2`) fonctionne mieux que l'approche basique en Stata (à ce jour).
 
 - Le "wild bootstrap" aide à contrôler les taux d'erreur mais abandonne beaucoup plus de puissance statistique qu'il n'est peut-être nécessaire dans une étude aléatoire par grappe où l'inférence de randomisation directe est possible.
 
@@ -811,7 +811,7 @@ print(sim_plot3)
 
  - Si la randomisation est au niveau de la grappe, alors l'incertitude provient de la randomisation au niveau de la grappe.
 
- - Si nous avons suffisamment de grappes, alors "l'erreur standard robuste pour grappe" peut nous aider à produire des intervalles de confiance avec une couverture correcte. **L'erreur standard robuste pour grappe nécessite de nombreux grappes**.
+ - Si nous avons suffisamment de grappes, alors "l'erreur type robuste pour grappe" peut nous aider à produire des intervalles de confiance avec une couverture correcte. **L'erreur type robuste pour grappe nécessite de nombreux grappes**.
 
  - Si la taille de la grappe (ou caractéristique) est liée à la taille de l'effet, alors nous pouvons avoir un biais (et nous devons ajuster d'une manière ou d'une autre).
 
@@ -983,7 +983,7 @@ freeman_x1=freedman_plugin_estfn2(dat2)[["estimate"]]
 
 ```{r tmleapproach, eval=FALSE}
 # Voici une autre approche pour utiliser l'estimateur du plugin
-# mais en tenant compte de l'erreur standard, etc.
+# mais en tenant compte de l'erreur type, etc.
 # Cela ne nécessite pas de fonction manuscrite comme celles ci-dessus.
 library(tmle)
 Y <- as.matrix(dat2$Y,ncol=1)
@@ -1104,8 +1104,8 @@ En général, le simple fait de "contrôler pour" produit un estimateur biaisé 
 
 - Les bons estimateurs produisent des estimations proches du vrai estimande.
 
-- (Liant l'estimation aux tests) l'erreur standard des estimateurs nous permet de calculer les intervalles de confiance et les $p$-valeurs.
-  Certains estimateurs ont une erreur standard plus grande ou plus petite (ou plus ou moins correcte).
+- (Liant l'estimation aux tests) l'erreur type des estimateurs nous permet de calculer les intervalles de confiance et les $p$-valeurs.
+  Certains estimateurs ont une erreur type plus grande ou plus petite (ou plus ou moins correcte).
 
 - Vous pouvez évaluer l'utilité d'un estimateur choisi pour un estimande choisi par simulation.
 
