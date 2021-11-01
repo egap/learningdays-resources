@@ -249,13 +249,13 @@ design0_N100_tau25_sims %>% group_by(estimator) %>%
 ## Ajustement de covariable et puissance statistique
 
 - L'ajustement de covariable peut améliorer la puissance statistique car il atténue la variation du résultat.
-    - S'il est pronostique, l'ajustement de covariables peut réduire considérablement la variance. Une variance plus faible signifie une puissance plus élevée.
+    - S'il est pronostique, l'ajustement de covariable peut réduire considérablement la variance. Une variance plus faible signifie une puissance plus élevée.
 
     - S'il est non pronostique, les gains de puissance sont minimes.
 
 - Toutes les covariables doivent être pré-traitement. N'abandonnez pas d'observations pour cause de données manquantes.
 
-    - Voir le module sur [les menaces à la validité interne](threats-to-internal-validity-of-randomized-experiments.html) et les [10 choses à savoir sur l'ajustement de covariables](https://egap.org/resource/10-things-to-know-about-covariate-adjustment/).
+    - Voir le module sur [les menaces à la validité interne](threats-to-internal-validity-of-randomized-experiments.html) et les [10 choses à savoir sur l'ajustement de covariable](https://egap.org/resource/10-things-to-know-about-covariate-adjustment/).
 
 - Observez le biais de Freedman tandis que le nombre d'observations n diminue et que le nombre de covariables K augmente.
 
@@ -263,13 +263,13 @@ design0_N100_tau25_sims %>% group_by(estimator) %>%
 
 -  Découper par bloc : assignez de manière aléatoire un traitement au sein des blocs
 
-    - Ajustement de covariables "ex-ante"
+    - Ajustement de covariable "ex-ante"
 
     - Une précision/efficacité plus élevée implique plus de puissance statistique
 
     - Réduire le "biais conditionnel" : association entre l'assignation du traitement et les résultats potentiels
 
-    - L'avantage des blocs sur l'ajustement de covariables est plus clair dans les petites expériences
+    - L'avantage des blocs sur l'ajustement de covariable est plus clair dans les petites expériences
 
 ## Exemple : Calcul de puissance par simulation avec une covariable {.allowframebreaks}
 
@@ -364,9 +364,9 @@ make_Y0_clus <- function(n_indivs,n_clus){
  }
 
 test_dat <- make_Y0_clus(n_indivs=10,n_clus=100)
-# confirmez que cela produit des données avec 10 dans chacune des 100 grappes
+# confirmer que cela produit des données avec 10 dans chacune des 100 grappes
 table(test_dat$clus_id)
-# confirme l'ICC
+# confirmer l'ICC
 ICC::ICCbare(y=Y0,x=clus_id,data=test_dat)
 
 
@@ -383,7 +383,7 @@ repeat_experiment_and_test_clus <- function(N, tau, Y0, clus_id){
 power_sim_clus <- function(n_indivs,n_clus,tau,sims){
     dat <- make_Y0_clus(n_indivs,n_clus)
     N <- n_indivs * n_clus
-    # randomise le traitement sims fois
+    # randomiser le traitement sims fois
     pvals <- replicate(n=sims,
                 repeat_experiment_and_test_clus(N=N,tau=tau,
                                 Y0=dat$Y0,clus_id=dat$clus_id))
@@ -435,7 +435,7 @@ design1_plus_tosim <- redesign(design1_plus,n_clus=10,n_indivs=100,tau=.25)
 ```
 
 ```{r ddversion_clus_sims, echo=TRUE, cache=TRUE, warnings=FALSE}
-## Répète seulement l'assignation aléatoire, pas la création de Y0.
+## Répéter seulement l'assignation aléatoire, pas la création de Y0.
 ## Ignorer le warning
 ## Nous voudrions plus de simulations en pratique.
 set.seed(12355)
@@ -527,11 +527,10 @@ abline(h=.8)
 
 - Quelle est la plage de variation plausible de la variable de résultat ?
 
-     - Un design avec un mouvement possible limité pour la variable de résultat peut ne pas être puissant.
+     - Un design peut ne pas être puissant si le mouvement possible est limité pour la variable de résultat.
 
 
 ## Conclusion : comment améliorer votre puissance
-
 
 1. Augmenter $N$
 
@@ -543,6 +542,6 @@ abline(h=.8)
 
      - Ajustement de covariable
 
-     - Design par bloc
+     - Découpage par bloc
 
-4. Meilleure mesure du résultat
+4. Meilleure mesure de la variable de résultat
