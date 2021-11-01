@@ -46,7 +46,7 @@ source("rmd_setup.R")
 
 - Ainsi, la puissance statistique $\in$ (0, 1).
 
-- Seuils standard : 0.8 ou 0.9.
+- Seuils standard : 0,8 ou 0,9.
 
 ## Point de départ pour l'analyse de puissance
 
@@ -99,7 +99,7 @@ source("rmd_setup.R")
 ## Calcul analytique de puissance
 - Formule:
   \begin{align*}
-  \text{Power} &= \Phi\left(\frac{|\tau| \sqrt{N}}{2\sigma}- \Phi^{-1}(1- \frac{\alpha}{2})\right)
+  \text{Puissance} &= \Phi\left(\frac{|\tau| \sqrt{N}}{2\sigma}- \Phi^{-1}(1- \frac{\alpha}{2})\right)
   \end{align*}
 
 - Composants:
@@ -114,7 +114,7 @@ source("rmd_setup.R")
 
 ```{r pwrsimp, echo=TRUE, include=TRUE}
 # Puissance statistique pour une étude avec 80 observations
-# et un effet de taille de 0.25
+# et un effet de taille de 0,25
 library(pwr)
 pwr.t.test(n = 40, d = 0.25, sig.level = 0.05,
            power = NULL, type = c("two.sample",

@@ -582,7 +582,7 @@ set.seed(12345)
 library(parallel)
 pDistBigLst <- mclapply(1:1000, function(i) {
   collectPValues(y = bigdat$Ybin, trt = bigdat$T, thedistribution = approximate(nresample = 1000))
-}, mc.cores = 8)
+})
 pDistBig <- simplify2array(pDistBigLst)
 ```
 
@@ -611,7 +611,7 @@ Ici, tous les tests contrôlent bien le taux de faux positifs.
 set.seed(123456)
 pDistBigLst2 <- mclapply(1:1000, function(i) {
   collectPValues(y = bigdat$Y, trt = bigdat$T, thedistribution = approximate(nresample = 1000))
-}, mc.cores = 8)
+})
 pDistBig2 <- simplify2array(pDistBigLst2)
 ```
 
@@ -929,7 +929,7 @@ options(digits = 4)
 
 ## Tests d'hypothèses multiples : bras de traitement multiples {.allowframebreaks}
 
-Voici les 10 tests par paire avec et sans ajustement pour les tests multiples. Remarquez comment un résultat "significatif" ($p=.01$) change avec l'ajustement.
+Voici les 10 tests par paire avec et sans ajustement pour les tests multiples. Remarquez comment un résultat "significatif" ($p=0,01$) change avec l'ajustement.
 
 ```{r}
 ## ceci est une interface à independence_test() dans coin
