@@ -121,7 +121,7 @@ pwr.t.test(n = 40, d = 0.25, sig.level = 0.05,
                       "one.sample", "paired"))
 ```
 
-## Limites du calcul de puissance analytique
+## Limites du calcul analytique de puissance
 
 - Dérivé uniquement pour certaines statistiques de test (différence des moyennes)
 
@@ -148,7 +148,7 @@ pwr.t.test(n = 40, d = 0.25, sig.level = 0.05,
 
 - Assigner un traitement, puis estimer l'effet.
 
-- Répéter.
+- Répéter de nombreuses fois.
 
 
 ## Exemples
@@ -203,7 +203,7 @@ P0 <- declare_population(N,u0=rnorm(N))
 O0 <- declare_potential_outcomes(Y_Z_0 = 5 + u0, Y_Z_1 = Y_Z_0 + tau)
 # assigner m unités au traitement
 A0 <- declare_assignment(Z=conduct_ra(N=N, m=round(N/2)))
-# l'estimande est la différence des moyennes entre Y(Z=1) et Y(Z=0)
+# l'estimande est la différence moyenne entre Y(Z=1) et Y(Z=0)
 estimand_ate <- declare_inquiry(ATE=mean(Y_Z_1 - Y_Z_0))
 R0 <- declare_reveal(Y,Z)
 design0_base <- P0 + A0 + O0 + R0
@@ -213,8 +213,8 @@ design0_N100_tau25 <- redesign(design0_base,N=100,tau=.25)
 dat0_N100_tau25 <- draw_data(design0_N100_tau25)
 head(dat0_N100_tau25)
 with(dat0_N100_tau25,mean(Y_Z_1 - Y_Z_0)) # effet moyen réel du traitement
-with(dat0_N100_tau25,mean(Y[Z==1]) - mean(Y[Z==0])) # estimatation
-lm_robust(Y~Z,data=dat0_N100_tau25)$coef # estimatation
+with(dat0_N100_tau25,mean(Y[Z==1]) - mean(Y[Z==0])) # estimation
+lm_robust(Y~Z,data=dat0_N100_tau25)$coef # estimation
 ```
 
 ```{r ddversion_sim, echo=TRUE, warnings=FALSE}
@@ -235,25 +235,25 @@ names(design0_N100_tau25_plus)
 design0_N100_tau25_sims <- simulate_design(design0_N100_tau25_plus,
           sims=c(1,100,1,1,1,1)) # Répète seulement l'assignation aléatoire
 # design0_N100_tau25_sims a 200 lignes
-# = 2 tests * 100 assignements aleatoires
+# = 2 tests * 100 assignations aleatoires
 # regardons les 6 premières lignes
 head(design0_N100_tau25_sims)
 
 # pour chaque estimateur,
-# puissance = proportion de simulations avec p.value < 0.5
+# puissance = proportion de simulations avec une p-valeur < 0,05
 design0_N100_tau25_sims %>% group_by(estimator) %>%
   summarize(pow=mean(p.value < .05),.groups="drop")
 ```
 
 # Puissance statistique avec ajustement de covariable
-## Ajustement des covariables et puissance statistique
+## Ajustement de covariable et puissance statistique
 
 - L'ajustement de covariable peut améliorer la puissance statistique car il atténue la variation du résultat.
     - S'il est pronostique, l'ajustement de covariables peut réduire considérablement la variance. Une variance plus faible signifie une puissance plus élevée.
 
     - S'il est non pronostique, les gains de puissance sont minimes.
 
-- Toutes analyses avec covariables doivent être faites pré-traitement. N'abandonnez pas d'observations pour cause de données manquantes.
+- Toutes les covariables doivent être pré-traitement. N'abandonnez pas d'observations pour cause de données manquantes.
 
     - Voir le module sur [les menaces à la validité interne](threats-to-internal-validity-of-randomized-experiments.html) et les [10 choses à savoir sur l'ajustement de covariables](https://egap.org/resource/10-things-to-know-about-covariate-adjustment/).
 
