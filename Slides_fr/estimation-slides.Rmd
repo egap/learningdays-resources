@@ -576,7 +576,7 @@ blocktab <- reshape_diagnosis(diagnosis2, select = c("Estimator", "Bias", "RMSE"
 kableExtra::kable(blocktab,col.names = c("Estimator","Bias","RMSE","SD Est","Mean SE","Power","Coverage"))
 ```
 
-Notez que la couverture n'est pas toujours à 95 % dans tous les cas. Nous avons simulé 10 000 fois, donc l'erreur de simulation est d'environ $\pm 2 \sqrt{p(1-p)/10000}$ ou, disons, pour une couverture calculée à 0,93, une simulation différente aurait pu facilement produire `r .93 -2 *sqrt( .93 * (1-.93)/10000 )` ou `r .93+2*sqrt( .93 * (1-.93)/10000 )` (ou aurait rarement produit des numéros de couverture en dehors de cette plage juste par hasard).
+Notez que la couverture n'est pas toujours à 95 % dans tous les cas. Nous avons simulé 10 000 fois, donc l'erreur de simulation est d'environ $\pm 2 \sqrt{p(1-p)/10000}$ ou, disons, pour une couverture calculée à 0,93, une simulation différente aurait pu facilement produire `r .93 -2 *sqrt( .93 * (1-.93)/10000 )` ou `r .93+2*sqrt( .93 * (1-.93)/10000 )` (ou la couverture sera rarement en dehors de cette plage juste par hasard).
 
 
 
@@ -827,8 +827,7 @@ x2=rnorm(N))
 # déclarer les résultats potentiels
 thepo_bin <- declare_potential_outcomes(Y ~ rbinom(n = N, size = 1,
                                                    prob = 0.5 + 0.05 * Z + x1*.05))
-# deux cibles possibles : différences des moyennes
-# et différence logit (i.e. différence log-odds)
+# deux cibles possibles : différences des moyennes et différence log-odds
 thetarget_ate <- declare_inquiry(ate = mean(Y_Z_1 - Y_Z_0))
 thetarget_logodds <- declare_inquiry(
     logodds = log(mean(Y_Z_1)/(1-mean(Y_Z_1))) -
@@ -882,7 +881,7 @@ c(bary1=bary1,bary0=bary0,true_ate=ate_bin,
 
 ## Résultats binaires : estimandes III
 
-Voulez-vous estimer la différence logit ?
+Voulez-vous estimer la différence log-odds ?
 
 \begin{equation}
 \delta = \log \frac{\bar{y}_{1}}{1-\bar{y}_{1}} - \log \frac{ \bar{y}_0}{1- \bar{y}_0}
@@ -1089,7 +1088,7 @@ kableExtra::kable(res_bin, digits=3,booktabs=TRUE,linesep="",caption="Estimator 
 
 # Autres sujets liés à l'estimation
 
-## L'ajustement de covariable : l'estimande
+## L'ajustement de covariable : estimandes
 
 En général, le simple fait de "contrôler pour" produit un estimateur biaisé de l'estimande ATE **ou** ITT. Voir par exemple @lin_agnostic_2013 et @freedman2008rae.
 @lin_agnostic_2013 montre comment réduire ce biais et, surtout, que ce biais a tendance à être faible à mesure que la taille de l'échantillon augmente.
@@ -1099,7 +1098,7 @@ En général, le simple fait de "contrôler pour" produit un estimateur biaisé 
 
 ## Réflexions finales sur l'estimation
 
-- Les estimandes causales contrefactuelles sont des fonctions non observées des résultats potentiels.
+- Les estimandes causaux contrefactuelles sont des fonctions non observées des résultats potentiels.
 
 - Les estimateurs sont des recettes ou des formules de calcul qui utilisent des données observées pour en savoir plus sur un estimande.
 
@@ -1248,7 +1247,7 @@ ITT    = & \bar{y}_{1} - \bar{y}_{0} \\
        & \left( (\bar{y}_{1}|A)- (\bar{y}_{0}|A) \right)p_A  +  \left( (\bar{y}_1|N) - (\bar{y}_{0}|N) \right)p_N
 \end{align}
 
-## Comprendre l'III
+## Comprendre l'ITT
 
 \begin{align}
 ITT     = &   \bar{y}_{1} - \bar{y}_{0} \\
@@ -1263,7 +1262,7 @@ ITT     = &   \bar{y}_{1} - \bar{y}_{0} \\
 
 ## Comprendre l'ITT IV
 
-Et, si l'effet de la dose ne peut se produire que pour ceux qui ouvrent la porte, et que vous ne pouvez ouvrir la porte que lorsque vous est assigné, alors:
+Et, si l'effet de la dose ne peut se produire que pour ceux qui ouvrent la porte, et que vous ne pouvez ouvrir la porte que lorsque vous êtes assigné au traitement, alors:
 
 \begin{equation}
 ( (\bar{y}_{1}|A)- (\bar{y}_{0}|A))p_A = 0  \text{ and } ( (\bar{y}_1|N) - (\bar{y}_{0}|N) )p_N = 0
@@ -1301,7 +1300,7 @@ with(dat, cor(Z, x)) ## devrait être proche de 0
 Mais nous venons de voir que, dans ce design et avec ces hypothèses (y compris l'hypothèse SUTVA) que
 $ITT = ( (\bar{y}_{1}|C) -  (\bar{y}_{0}|C))p_C  = (CACE) p_C$, on peut donc définir $CACE=ITT/p_C$.
 
-## Comment calculer l'ITT et CACE/LATE I
+## Comment calculer l'ITT et le CACE/LATE I
 
 ```{r simivdesign, echo=FALSE}
 prob_comply <- .8
@@ -1352,7 +1351,7 @@ estimand_ate <- declare_inquiry(ATE = mean((Y_D_1_Z_1 + Y_D_1_Z_0) / 2 -
     (Y_D_0_Z_1 + Y_D_0_Z_0) / 2))
 ```
 
-Quelques exemples de données (où nous connaissons tous les résultats potentiels):
+Un exemple de données (où nous connaissons tous les résultats potentiels):
 
 ```{r showdat0}
 tempdat <- dat0[1:2,-1]
@@ -1362,7 +1361,7 @@ names(tempdat) <- gsub("_","",names(tempdat))
 kableExtra::kable(tempdat, digits = 2)
 ```
 
-## Comment calculer l'ITT et CACE/LATE II
+## Comment calculer l'ITT et le CACE/LATE II
 
 L'ITT et le CACE
 
@@ -1373,7 +1372,7 @@ itt_d <- difference_in_means(D~Z,data=dat0)
 itt_d
 ```
 
-## Comment calculer l'ITT et CACE/LATE III
+## Comment calculer l'ITT et le CACE/LATE III
 
 Tous ensemble ^[fonctionne quand $Z \rightarrow D$ n'est pas faible ; voir @imbens2005robust pour les précautions d'usage]
 

@@ -519,7 +519,7 @@ document.getElementsByTagName('head')[0].appendChild(style);
 <section>
     <h1 class="title">Estimer les estimandes avec des estimateurs</h1>
     <h2 class="author">Mettre votre nom</h2>
-    <h3 class="date">27-10-2021</h3>
+    <h3 class="date">28-10-2021</h3>
 </section>
 <section id="TOC">
 <ul>
@@ -599,7 +599,7 @@ document.getElementsByTagName('head')[0].appendChild(style);
 </ul></li>
 <li><a href="#/autres-sujets-liés-à-lestimation">Autres sujets liés à l’estimation</a>
 <ul>
-<li><a href="#/lajustement-de-covariable-lestimande">L’ajustement de covariable : l’estimande</a></li>
+<li><a href="#/lajustement-de-covariable-estimandes">L’ajustement de covariable : estimandes</a></li>
 </ul></li>
 <li><a href="#/conclusion">Conclusion</a>
 <ul>
@@ -621,13 +621,13 @@ document.getElementsByTagName('head')[0].appendChild(style);
 <li><a href="#/définir-leffet-causal-vii">Définir l’effet causal VII</a></li>
 <li><a href="#/comprendre-litt-i">Comprendre l’ITT I</a></li>
 <li><a href="#/comprendre-litt-ii">Comprendre l’ITT II</a></li>
-<li><a href="#/comprendre-liii">Comprendre l’III</a></li>
+<li><a href="#/comprendre-litt">Comprendre l’ITT</a></li>
 <li><a href="#/comprendre-litt-iv">Comprendre l’ITT IV</a></li>
 <li><a href="#/leffet-causal-moyen-pour-ceux-qui-se-conforment-au-traitement-i">L’effet causal moyen pour ceux qui se conforment au traitement I</a></li>
 <li><a href="#/leffet-causal-moyen-pour-ceux-qui-se-conforment-au-traitement-ii">L’effet causal moyen pour ceux qui se conforment au traitement II</a></li>
-<li><a href="#/comment-calculer-litt-et-cacelate-i">Comment calculer l’ITT et CACE/LATE I</a></li>
-<li><a href="#/comment-calculer-litt-et-cacelate-ii">Comment calculer l’ITT et CACE/LATE II</a></li>
-<li><a href="#/comment-calculer-litt-et-cacelate-iii">Comment calculer l’ITT et CACE/LATE III</a></li>
+<li><a href="#/comment-calculer-litt-et-le-cacelate-i">Comment calculer l’ITT et le CACE/LATE I</a></li>
+<li><a href="#/comment-calculer-litt-et-le-cacelate-ii">Comment calculer l’ITT et le CACE/LATE II</a></li>
+<li><a href="#/comment-calculer-litt-et-le-cacelate-iii">Comment calculer l’ITT et le CACE/LATE III</a></li>
 <li><a href="#/résumé-des-designs-incitatifs-conformistes-par-dose">Résumé des designs incitatifs / conformistes / par dose:</a></li>
 <li><a href="#/références">Références</a></li>
 </ul></li>
@@ -1156,7 +1156,7 @@ b   0 1
 </tr>
 </tbody>
 </table>
-<p>Notez que la couverture n’est pas toujours à 95 % dans tous les cas. Nous avons simulé 10 000 fois, donc l’erreur de simulation est d’environ <span class="math inline">\(\pm 2 \sqrt{p(1-p)/10000}\)</span> ou, disons, pour une couverture calculée à 0,93, une simulation différente aurait pu facilement produire 0.9249 ou 0.9351 (ou aurait rarement produit des numéros de couverture en dehors de cette plage juste par hasard).</p>
+<p>Notez que la couverture n’est pas toujours à 95 % dans tous les cas. Nous avons simulé 10 000 fois, donc l’erreur de simulation est d’environ <span class="math inline">\(\pm 2 \sqrt{p(1-p)/10000}\)</span> ou, disons, pour une couverture calculée à 0,93, une simulation différente aurait pu facilement produire 0.9249 ou 0.9351 (ou la couverture sera rarement en dehors de cette plage juste par hasard).</p>
 </section></section>
 <section>
 <section id="randomisation-par-grappe" class="title-slide slide level1">
@@ -1367,13 +1367,12 @@ b   0 1
 <span id="cb52-10"><a href="#cb52-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">n =</span> N, <span class="at">size =</span> <span class="dv">1</span>,</span>
 <span id="cb52-11"><a href="#cb52-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">prob =</span> <span class="fl">0.5</span> <span class="sc">+</span> <span class="fl">0.05</span> <span class="sc">*</span> Z <span class="sc">+</span> x1 <span class="sc">*</span> .<span class="dv">05</span></span>
 <span id="cb52-12"><a href="#cb52-12" aria-hidden="true" tabindex="-1"></a>))</span>
-<span id="cb52-13"><a href="#cb52-13" aria-hidden="true" tabindex="-1"></a><span class="co"># deux cibles possibles : différences des moyennes</span></span>
-<span id="cb52-14"><a href="#cb52-14" aria-hidden="true" tabindex="-1"></a><span class="co"># et différence logit (i.e. différence log-odds)</span></span>
-<span id="cb52-15"><a href="#cb52-15" aria-hidden="true" tabindex="-1"></a>thetarget_ate <span class="ot">&lt;-</span> <span class="fu">declare_inquiry</span>(<span class="at">ate =</span> <span class="fu">mean</span>(Y_Z_1 <span class="sc">-</span> Y_Z_0))</span>
-<span id="cb52-16"><a href="#cb52-16" aria-hidden="true" tabindex="-1"></a>thetarget_logodds <span class="ot">&lt;-</span> <span class="fu">declare_inquiry</span>(</span>
-<span id="cb52-17"><a href="#cb52-17" aria-hidden="true" tabindex="-1"></a>  <span class="at">logodds =</span> <span class="fu">log</span>(<span class="fu">mean</span>(Y_Z_1) <span class="sc">/</span> (<span class="dv">1</span> <span class="sc">-</span> <span class="fu">mean</span>(Y_Z_1))) <span class="sc">-</span></span>
-<span id="cb52-18"><a href="#cb52-18" aria-hidden="true" tabindex="-1"></a>    <span class="fu">log</span>(<span class="fu">mean</span>(Y_Z_0) <span class="sc">/</span> (<span class="dv">1</span> <span class="sc">-</span> <span class="fu">mean</span>(Y_Z_0)))</span>
-<span id="cb52-19"><a href="#cb52-19" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<span id="cb52-13"><a href="#cb52-13" aria-hidden="true" tabindex="-1"></a><span class="co"># deux cibles possibles : différences des moyennes et différence log-odds</span></span>
+<span id="cb52-14"><a href="#cb52-14" aria-hidden="true" tabindex="-1"></a>thetarget_ate <span class="ot">&lt;-</span> <span class="fu">declare_inquiry</span>(<span class="at">ate =</span> <span class="fu">mean</span>(Y_Z_1 <span class="sc">-</span> Y_Z_0))</span>
+<span id="cb52-15"><a href="#cb52-15" aria-hidden="true" tabindex="-1"></a>thetarget_logodds <span class="ot">&lt;-</span> <span class="fu">declare_inquiry</span>(</span>
+<span id="cb52-16"><a href="#cb52-16" aria-hidden="true" tabindex="-1"></a>  <span class="at">logodds =</span> <span class="fu">log</span>(<span class="fu">mean</span>(Y_Z_1) <span class="sc">/</span> (<span class="dv">1</span> <span class="sc">-</span> <span class="fu">mean</span>(Y_Z_1))) <span class="sc">-</span></span>
+<span id="cb52-17"><a href="#cb52-17" aria-hidden="true" tabindex="-1"></a>    <span class="fu">log</span>(<span class="fu">mean</span>(Y_Z_0) <span class="sc">/</span> (<span class="dv">1</span> <span class="sc">-</span> <span class="fu">mean</span>(Y_Z_0)))</span>
+<span id="cb52-18"><a href="#cb52-18" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
 </section>
 <section id="résultats-binaires-configurons-nos-données-pour-simuler-avec-declaredesign-1" class="slide level2">
 <h2>Résultats binaires : configurons nos données pour simuler avec DeclareDesign</h2>
@@ -1422,7 +1421,7 @@ b   0 1
 </section>
 <section id="résultats-binaires-estimandes-iii" class="slide level2">
 <h2>Résultats binaires : estimandes III</h2>
-<p>Voulez-vous estimer la différence logit ?</p>
+<p>Voulez-vous estimer la différence log-odds ?</p>
 <p><span class="math display">\[\begin{equation}
 \delta = \log \frac{\bar{y}_{1}}{1-\bar{y}_{1}} - \log \frac{ \bar{y}_0}{1- \bar{y}_0}
 \end{equation}\]</span></p>
@@ -1612,8 +1611,8 @@ b   0 1
 <h1>Autres sujets liés à l’estimation</h1>
 
 </section>
-<section id="lajustement-de-covariable-lestimande" class="slide level2">
-<h2>L’ajustement de covariable : l’estimande</h2>
+<section id="lajustement-de-covariable-estimandes" class="slide level2">
+<h2>L’ajustement de covariable : estimandes</h2>
 <p>En général, le simple fait de “contrôler pour” produit un estimateur biaisé de l’estimande ATE <strong>ou</strong> ITT. Voir par exemple <span class="citation" data-cites="lin_agnostic_2013"><a href="#/ref-lin_agnostic_2013" role="doc-biblioref">Lin</a> (<a href="#/ref-lin_agnostic_2013" role="doc-biblioref">2013</a>)</span> et <span class="citation" data-cites="freedman2008rae"><a href="#/ref-freedman2008rae" role="doc-biblioref">Freedman</a> (<a href="#/ref-freedman2008rae" role="doc-biblioref">2008a</a>)</span>. <span class="citation" data-cites="lin_agnostic_2013"><a href="#/ref-lin_agnostic_2013" role="doc-biblioref">Lin</a> (<a href="#/ref-lin_agnostic_2013" role="doc-biblioref">2013</a>)</span> montre comment réduire ce biais et, surtout, que ce biais a tendance à être faible à mesure que la taille de l’échantillon augmente.</p>
 </section></section>
 <section>
@@ -1624,7 +1623,7 @@ b   0 1
 <section id="réflexions-finales-sur-lestimation" class="slide level2">
 <h2>Réflexions finales sur l’estimation</h2>
 <ul>
-<li><p>Les estimandes causales contrefactuelles sont des fonctions non observées des résultats potentiels.</p></li>
+<li><p>Les estimandes causaux contrefactuelles sont des fonctions non observées des résultats potentiels.</p></li>
 <li><p>Les estimateurs sont des recettes ou des formules de calcul qui utilisent des données observées pour en savoir plus sur un estimande.</p></li>
 <li><p>Les bons estimateurs produisent des estimations proches du vrai estimande.</p></li>
 <li><p>(Liant l’estimation aux tests) l’erreur standard des estimateurs nous permet de calculer les intervalles de confiance et les <span class="math inline">\(p\)</span>-valeurs. Certains estimateurs ont une erreur standard plus grande ou plus petite (ou plus ou moins correcte).</p></li>
@@ -1738,8 +1737,8 @@ ITT    = &amp; \bar{y}_{1} - \bar{y}_{0} \\
        &amp; \left( (\bar{y}_{1}|A)- (\bar{y}_{0}|A) \right)p_A  +  \left( (\bar{y}_1|N) - (\bar{y}_{0}|N) \right)p_N
 \end{align}\]</span></p>
 </section>
-<section id="comprendre-liii" class="slide level2">
-<h2>Comprendre l’III</h2>
+<section id="comprendre-litt" class="slide level2">
+<h2>Comprendre l’ITT</h2>
 <p><span class="math display">\[\begin{align}
 ITT     = &amp;   \bar{y}_{1} - \bar{y}_{0} \\
         = &amp;  ( (\bar{y}_{1}|C)p_C + (\bar{y}_{1}|A)p_A + (\bar{y}_1|N)p_N ) - \\
@@ -1752,7 +1751,7 @@ ITT     = &amp;   \bar{y}_{1} - \bar{y}_{0} \\
 </section>
 <section id="comprendre-litt-iv" class="slide level2">
 <h2>Comprendre l’ITT IV</h2>
-<p>Et, si l’effet de la dose ne peut se produire que pour ceux qui ouvrent la porte, et que vous ne pouvez ouvrir la porte que lorsque vous est assigné, alors:</p>
+<p>Et, si l’effet de la dose ne peut se produire que pour ceux qui ouvrent la porte, et que vous ne pouvez ouvrir la porte que lorsque vous êtes assigné au traitement, alors:</p>
 <p><span class="math display">\[\begin{equation}
 ( (\bar{y}_{1}|A)- (\bar{y}_{0}|A))p_A = 0  \text{ and } ( (\bar{y}_1|N) - (\bar{y}_{0}|N) )p_N = 0
 \end{equation}\]</span></p>
@@ -1773,9 +1772,9 @@ ITT =  ( (\bar{y}_{1}|C) -  (\bar{y}_{0}|C))p_C  = ( CACE ) p_C.
 <span id="cb73-3"><a href="#cb73-3" aria-hidden="true" tabindex="-1"></a><span class="fu">with</span>(dat, <span class="fu">cor</span>(Z, x)) <span class="do">## devrait être proche de 0</span></span></code></pre></div>
 <p>Mais nous venons de voir que, dans ce design et avec ces hypothèses (y compris l’hypothèse SUTVA) que <span class="math inline">\(ITT = ( (\bar{y}_{1}|C) - (\bar{y}_{0}|C))p_C = (CACE) p_C\)</span>, on peut donc définir <span class="math inline">\(CACE=ITT/p_C\)</span>.</p>
 </section>
-<section id="comment-calculer-litt-et-cacelate-i" class="slide level2">
-<h2>Comment calculer l’ITT et CACE/LATE I</h2>
-<p>Quelques exemples de données (où nous connaissons tous les résultats potentiels):</p>
+<section id="comment-calculer-litt-et-le-cacelate-i" class="slide level2">
+<h2>Comment calculer l’ITT et le CACE/LATE I</h2>
+<p>Un exemple de données (où nous connaissons tous les résultats potentiels):</p>
 <table>
 <thead>
 <tr class="header">
@@ -1825,8 +1824,8 @@ ITT =  ( (\bar{y}_{1}|C) -  (\bar{y}_{0}|C))p_C  = ( CACE ) p_C.
 </tbody>
 </table>
 </section>
-<section id="comment-calculer-litt-et-cacelate-ii" class="slide level2">
-<h2>Comment calculer l’ITT et CACE/LATE II</h2>
+<section id="comment-calculer-litt-et-le-cacelate-ii" class="slide level2">
+<h2>Comment calculer l’ITT et le CACE/LATE II</h2>
 <p>L’ITT et le CACE</p>
 <div class="sourceCode" id="cb74"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb74-1"><a href="#cb74-1" aria-hidden="true" tabindex="-1"></a>itt_y <span class="ot">&lt;-</span> <span class="fu">difference_in_means</span>(Y <span class="sc">~</span> Z, <span class="at">data =</span> dat0)</span>
 <span id="cb74-2"><a href="#cb74-2" aria-hidden="true" tabindex="-1"></a>itt_y</span></code></pre></div>
@@ -1839,8 +1838,8 @@ Z  0.08725      0.233  0.3745   0.7089  -0.3752   0.5497 97.97</code></pre>
   Estimate Std. Error t value  Pr(&gt;|t|) CI Lower CI Upper    DF
 Z     0.68    0.07307   9.307 8.454e-15   0.5348   0.8252 89.31</code></pre>
 </section>
-<section id="comment-calculer-litt-et-cacelate-iii" class="slide level2">
-<h2>Comment calculer l’ITT et CACE/LATE III</h2>
+<section id="comment-calculer-litt-et-le-cacelate-iii" class="slide level2">
+<h2>Comment calculer l’ITT et le CACE/LATE III</h2>
 <p>Tous ensemble<a href="#/fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a></p>
 <div class="sourceCode" id="cb78"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb78-1"><a href="#cb78-1" aria-hidden="true" tabindex="-1"></a>cace_est <span class="ot">&lt;-</span> <span class="fu">iv_robust</span>(Y <span class="sc">~</span> D <span class="sc">|</span> Z, <span class="at">data =</span> dat0)</span>
 <span id="cb78-2"><a href="#cb78-2" aria-hidden="true" tabindex="-1"></a>cace_est</span></code></pre></div>
