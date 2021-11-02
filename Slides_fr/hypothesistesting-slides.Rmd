@@ -691,7 +691,7 @@ Disons que notre probabilité de faux positifs est de 0,05 pour un seul test. Qu
   - La probabilité de faux positifs doit être inférieure ou égale à $1 - ( ( 1 - 0,05 ) \times (1 - 0,05) ) = 0,0975$ dans 2 tests.
   - La probabilité d'avoir au moins un faux positif avec $\alpha=0,05$ dans 10 tests devrait être $\le$ $1 - (1-0,05)^{10}=0,40$.
 
-## Découvertes avec multiple tests
+## Découvertes avec tests multiples
 
 **Nombre d'erreurs commises en testant $m$ hypothèses nulles** [Table 1 de @benjamini1995].
 Les cellules sont le nombre de tests. $R$ est le nombre de "découvertes" et $V$ est le nombre de fausses découvertes,
@@ -701,9 +701,9 @@ $U$ est le nombre de non-rejets corrects et $S$ est le nombre de rejets corrects
 |                                          | Déclarés                 | Déclarés             |   Total   |
 |                                          | Non-Significatifs        | Significatifs        |           |
 +=========================================:+:========================:+:====================:+:=========:+
-| hypothèse nulle vraie ($H_{true}=0$)     |             U            |           V          |   $m_0$   |
+| hypo. nulle vraie ($H_{true}=0$)         |             U            |           V          |   $m_0$   |
 +------------------------------------------+--------------------------+----------------------+-----------+
-| hypothèse nulle fause ($H_{true} \ne 0$) |             T            |           S          | m - $m_0$ |
+| hypo. nulle fausse ($H_{true} \ne 0$)    |             T            |           S          | m - $m_0$ |
 +------------------------------------------+--------------------------+----------------------+-----------+
 | Total                                    |            m-R           |           R          |    m      |
 +------------------------------------------+--------------------------+----------------------+-----------+
