@@ -519,7 +519,7 @@ document.getElementsByTagName('head')[0].appendChild(style);
 <section>
     <h1 class="title">Estimer les estimandes avec des estimateurs</h1>
     <h2 class="author">Mettre votre nom</h2>
-    <h3 class="date">28-10-2021</h3>
+    <h3 class="date">01-11-2021</h3>
 </section>
 <section id="TOC">
 <ul>
@@ -572,7 +572,7 @@ document.getElementsByTagName('head')[0].appendChild(style);
 <ul>
 <li><a href="#/dans-les-expériences-aléatoires-par-grappe-les-unités-sont-randomisées-en-grappe-cluster-pour-le-traitement">Dans les expériences aléatoires par grappe, les unités sont randomisées en grappe (cluster) pour le traitement</a></li>
 <li><a href="#/estimation-de-late-dans-des-expériences-aléatoires-par-grappe">Estimation de l’ATE dans des expériences aléatoires par grappe</a></li>
-<li><a href="#/estimation-de-lerreur-standard-pour-late-dans-des-expériences-aléatoires-par-grappe">Estimation de l’erreur standard pour l’ATE dans des expériences aléatoires par grappe</a></li>
+<li><a href="#/estimation-de-lerreur-type-pour-late-dans-des-expériences-aléatoires-par-grappe">Estimation de l’erreur type pour l’ATE dans des expériences aléatoires par grappe</a></li>
 <li><a href="#/un-exemple-destimation">Un exemple d’estimation</a></li>
 <li><a href="#/un-exemple-destimation-1">Un exemple d’estimation</a></li>
 <li><a href="#/simuler-pour-évaluer-les-estimateurs-et-les-tests">Simuler pour évaluer les estimateurs et les tests</a></li>
@@ -657,9 +657,9 @@ document.getElementsByTagName('head')[0].appendChild(style);
 <section id="points-clés-sur-lestimation-iii" class="slide level2">
 <h2>Points clés sur l’estimation III</h2>
 <ul>
-<li><p>L’<strong>erreur standard (erreur type)</strong> d’un estimateur dans une expérience aléatoire résume comment les estimations varieraient si l’expérience était répétée.</p></li>
-<li><p>Nous utilisons l’<strong>erreur standard</strong> pour produire des <strong>intervalles de confiance</strong> et les <strong>p-valeurs</strong> afin que de commencer par un estimateur et terminer par un test d’hypothèse.</p></li>
-<li><p>Différentes randomisations produiront différentes valeurs du même estimateur ciblant le même estimande. L’<strong>erreur standard</strong> résume la variabilité de cet estimateur.</p></li>
+<li><p>L’<strong>erreur type</strong> d’un estimateur dans une expérience aléatoire résume comment les estimations varieraient si l’expérience était répétée.</p></li>
+<li><p>Nous utilisons l’<strong>erreur type</strong> pour produire des <strong>intervalles de confiance</strong> et les <strong>p-valeurs</strong> afin que de commencer par un estimateur et terminer par un test d’hypothèse.</p></li>
+<li><p>Différentes randomisations produiront différentes valeurs du même estimateur ciblant le même estimande. L’<strong>erreur type</strong> résume la variabilité de cet estimateur.</p></li>
 <li><p>Un <strong>intervalle de confiance</strong> de <em><span class="math inline">\(100(1-\alpha)\)</span>%</em> est un ensemble d’hypothèses qui ne peuvent être rejetées au niveau <span class="math inline">\(\alpha\)</span>. Nous avons tendance à rapporter des intervalles de confiance contenant des hypothèses sur les valeurs de notre estimande et à utiliser notre estimateur comme une statistique de test.</p></li>
 </ul>
 </section>
@@ -705,7 +705,7 @@ document.getElementsByTagName('head')[0].appendChild(style);
 <h2>Comment en savoir plus sur les effets causaux à partir des données observées ?</h2>
 <ol type="1">
 <li><p>Rappel : nous pouvons <strong>tester les hypothèses</strong> sur la paire de résultats potentiels <span class="math inline">\(\{ Y_{i}(T_{i}=1), Y_{i}(T_{i}=0) \}\)</span>.</p></li>
-<li><p>Nous pouvons <strong>définir les estimandes</strong> en termes de <span class="math inline">\(\{ Y_{i}(T_{i}=1), Y_{i}(T_{i}=0) \}\)</span> ou <span class="math inline">\(\tau_i\)</span>, <strong>développer des estimateurs</strong> pour ces estimandes, puis calculer les valeurs et les erreurs standard pour ces estimateurs.</p></li>
+<li><p>Nous pouvons <strong>définir les estimandes</strong> en termes de <span class="math inline">\(\{ Y_{i}(T_{i}=1), Y_{i}(T_{i}=0) \}\)</span> ou <span class="math inline">\(\tau_i\)</span>, <strong>développer des estimateurs</strong> pour ces estimandes, puis calculer les valeurs et les erreurs type pour ces estimateurs.</p></li>
 </ol>
 </section>
 <section id="un-estimande-et-un-estimateur-usuels-leffet-moyen-du-traitement-et-la-différence-des-moyennes" class="slide level2">
@@ -973,7 +973,7 @@ ATE = \frac{1}{J}\sum^J_{j=1} \sum^{N_j}_{i=1} \frac{y_{i,1} - y_{i,0}}{N_j}  = 
 </section>
 <section id="les-expériences-aléatoires-par-bloc-sont-une-collection-de-mini-expériences-1" class="slide level2">
 <h2>Les expériences aléatoires par bloc sont une collection de mini-expériences</h2>
-<p>Et nous pourrions <em>définir</em> l’erreur standard de l’estimateur en faisant la moyenne intra-bloc des erreurs standard (si nos blocs sont suffisamment grands) :</p>
+<p>Et nous pourrions <em>définir</em> l’erreur type de l’estimateur en faisant la moyenne intra-bloc des erreurs type (si nos blocs sont suffisamment grands) :</p>
 <p><span class="math inline">\(SE(\widehat{ATE}) = \sqrt{\sum^J_{j=1} (\frac{N_{j}}{N})^2SE^2(\widehat{ATE}_j)}\)</span></p>
 </section>
 <section id="estimer-late-dans-les-expériences-aléatoires-par-bloc" class="slide level2">
@@ -1182,12 +1182,12 @@ b   0 1
 <li><p>Lorsque la taille de la grappe est liée aux résultats potentiels, l’estimateur habituel de différences des moyennes est biaisé. <a href="https://declaredesign.org/blog/bias-cluster-randomized-trials.html" class="uri">https://declaredesign.org/blog/bias-cluster-randomized-trials.html</a></p></li>
 </ul>
 </section>
-<section id="estimation-de-lerreur-standard-pour-late-dans-des-expériences-aléatoires-par-grappe" class="slide level2 allowframebreaks">
-<h2 class="allowframebreaks">Estimation de l’erreur standard pour l’ATE dans des expériences aléatoires par grappe</h2>
+<section id="estimation-de-lerreur-type-pour-late-dans-des-expériences-aléatoires-par-grappe" class="slide level2 allowframebreaks">
+<h2 class="allowframebreaks">Estimation de l’erreur type pour l’ATE dans des expériences aléatoires par grappe</h2>
 <ul>
-<li><p><strong>Inférences statistiques trompeuses :</strong> L’erreur standard par défaut sous-estimera généralement la précision dans de tels designs et produira ainsi des tests avec des taux de faux positifs trop élevés (ou, de manière équivalente, des taux de couverture pour les intervalles de confiance trop faibles).</p></li>
-<li><p>“L’erreur standard robuste pour grappe” implémentée dans les logiciels courants fonctionnent bien <strong>lorsque le nombre de grappes est important</strong> (plus de 50 grappes dans certaines études de simulation).</p></li>
-<li><p>L’erreur standard par défaut adaptée aux grappes dans <code>lm_robust</code> (l’erreur standard <code>CR2</code>) fonctionne mieux que l’approche basique en Stata (à ce jour).</p></li>
+<li><p><strong>Inférences statistiques trompeuses :</strong> L’erreur type par défaut sous-estimera généralement la précision dans de tels designs et produira ainsi des tests avec des taux de faux positifs trop élevés (ou, de manière équivalente, des taux de couverture pour les intervalles de confiance trop faibles).</p></li>
+<li><p>“L’erreur type robuste pour grappe” implémentée dans les logiciels courants fonctionnent bien <strong>lorsque le nombre de grappes est important</strong> (plus de 50 grappes dans certaines études de simulation).</p></li>
+<li><p>L’erreur type par défaut adaptée aux grappes dans <code>lm_robust</code> (l’erreur type <code>CR2</code>) fonctionne mieux que l’approche basique en Stata (à ce jour).</p></li>
 <li><p>Le “wild bootstrap” aide à contrôler les taux d’erreur mais abandonne beaucoup plus de puissance statistique qu’il n’est peut-être nécessaire dans une étude aléatoire par grappe où l’inférence de randomisation directe est possible.</p></li>
 <li><p>En cas de doute, on peut produire des <span class="math inline">\(p\)</span>-valeurs ​​par simulation directe (inférence de randomisation directe) pour voir si elles sont en accord avec l’une des approches robustes pour grappe (cluster).</p></li>
 </ul>
@@ -1344,7 +1344,7 @@ b   0 1
 <ul>
 <li><p>Les essais aléatoires par grappe posent des problèmes particuliers pour les approches standard d’estimation et de test.</p></li>
 <li><p>Si la randomisation est au niveau de la grappe, alors l’incertitude provient de la randomisation au niveau de la grappe.</p></li>
-<li><p>Si nous avons suffisamment de grappes, alors “l’erreur standard robuste pour grappe” peut nous aider à produire des intervalles de confiance avec une couverture correcte. <strong>L’erreur standard robuste pour grappe nécessite de nombreux grappes</strong>.</p></li>
+<li><p>Si nous avons suffisamment de grappes, alors “l’erreur type robuste pour grappe” peut nous aider à produire des intervalles de confiance avec une couverture correcte. <strong>L’erreur type robuste pour grappe nécessite de nombreux grappes</strong>.</p></li>
 <li><p>Si la taille de la grappe (ou caractéristique) est liée à la taille de l’effet, alors nous pouvons avoir un biais (et nous devons ajuster d’une manière ou d’une autre).</p></li>
 </ul>
 </section></section>
@@ -1626,7 +1626,7 @@ b   0 1
 <li><p>Les estimandes causaux contrefactuelles sont des fonctions non observées des résultats potentiels.</p></li>
 <li><p>Les estimateurs sont des recettes ou des formules de calcul qui utilisent des données observées pour en savoir plus sur un estimande.</p></li>
 <li><p>Les bons estimateurs produisent des estimations proches du vrai estimande.</p></li>
-<li><p>(Liant l’estimation aux tests) l’erreur standard des estimateurs nous permet de calculer les intervalles de confiance et les <span class="math inline">\(p\)</span>-valeurs. Certains estimateurs ont une erreur standard plus grande ou plus petite (ou plus ou moins correcte).</p></li>
+<li><p>(Liant l’estimation aux tests) l’erreur type des estimateurs nous permet de calculer les intervalles de confiance et les <span class="math inline">\(p\)</span>-valeurs. Certains estimateurs ont une erreur type plus grande ou plus petite (ou plus ou moins correcte).</p></li>
 <li><p>Vous pouvez évaluer l’utilité d’un estimateur choisi pour un estimande choisi par simulation.</p></li>
 </ul>
 </section></section>
