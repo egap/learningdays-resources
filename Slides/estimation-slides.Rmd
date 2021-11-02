@@ -66,7 +66,7 @@ library(styler)
 
 ## Key points about estimation II
 
- - They key to estimation for causal inference is to choose an estimand that helps you learn about your theoretical or policy question. So, one could use
+ - The key to estimation for causal inference is to choose an estimand that helps you learn about your theoretical or policy question. So, one could use
    the ATE but other common estimands include the ITT, LATE/CACE, ATT, or ATE
    for some subgroup (or even a different of causal effects between groups).
 
@@ -411,7 +411,7 @@ Summary:
 
 ## Block-randomized experiments are a collection of mini-experiments
 
-What is the ** ATE** estimand in a block-randomized experiment?
+What is the **ATE** estimand in a block-randomized experiment?
 
 If we think of the unit-level ATE as: $(1/N) \sum_{i=1}^N y_{i,1} - y_{i,0}$ then we could re-express this equivalently using the ATE in block $j$ is $ATE_j$ as follows:
 
@@ -431,7 +431,7 @@ $SE(\widehat{ATE}) = \sqrt{\sum^J_{j=1} (\frac{N_{j}}{N})^2SE^2(\widehat{ATE}_j)
 
 ## Estimating the ATE in block-randomized experiments
 
-One approach to estimation simply replaces $ATE_j$ with $\widehat{ATE}$ above:
+One approach to estimation simply replaces $ATE_j$ with $\widehat{ATE}$ below:
 
 ```{r br1, echo=TRUE}
 with(dat,table(b,Z))
@@ -857,7 +857,7 @@ theassign_bin <- declare_assignment(Z=conduct_ra(N=N, m=floor(N/3)))
 # declare what outcome values are revealed for possible values of Z
 thereveal_bin <- declare_reveal(Y,Z)
 # pull this all together: population, potential outcomes, assignment,
-## outcome values connected to Z
+# outcome values connected to Z
 des_bin <- thepop_bin+thepo_bin+theassign_bin+thereveal_bin
 # then make one draw (randomize treatment once)
 set.seed(12345)
@@ -867,7 +867,7 @@ dat2 <- draw_data(des_bin)
 ## Binary outcomes: Estimands I
 
 How would we interpret the following true
-quantities or estimands? (`Y_Z_1`, `Y_Z_0` are potential
+quantities or estimands? `Y_Z_1`, `Y_Z_0` are potential
 outcomes, `Y` is observed, `x1`, `x2` are covariates, `Z` is treatment assignment. Here $N$=`r nrow(dat2)`.
 
 ```{r dat2echo, echo=TRUE}
