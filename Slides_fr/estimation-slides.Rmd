@@ -630,7 +630,7 @@ thepop <- declare_population(clus_id = add_level(
             # 1/5 des grappes ont 100 individus, 4/5 des grappes ont 10 individus
             cl_size = rep(n_indivs, c(N/5, N - N/5)),
             cl_sizeF = factor(cl_size),
-            # Chaque grappe a un niveau moyen différent (u) et une variabilité de fond différente (sd de u)
+            # Chaque grappe a un niveau moyen différent (u) et une variabilité de base différente (sd de u)
             effect = ifelse(cl_size == 100, .1, 1)),
             indiv = add_level(N = cl_size, u = rnorm(N, mean=log(cl_size), sd = effect)))
 
