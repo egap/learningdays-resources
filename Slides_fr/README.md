@@ -17,7 +17,7 @@ make all
 Or if you want to force rebuild them, and do not want to do, `make -f all` you can try:
 
 ```
-for * in *.Rmd; do Rscript -e "library(rmarkdown);render('$X')"; done
+for * in *.Rmd; do Rscript -e "library(rmarkdown);rmarkdown::render('$X')"; done
 
 ```
 
@@ -26,15 +26,16 @@ library(rmarkdown)
 install.packages("revealjs")
 install.packages("kableExtra")
 
-render('hypothesistesting-slides.Rmd')
-render('randomization-slides.Rmd')
-render('causalinference-slides.Rmd')
-render('introduction-slides.Rmd')
-render('egap-introduction-slides.Rmd')
-render('measurement-slides.Rmd')
-render('researchdesignform-slides.Rmd')
-render('estimation-slides.Rmd')
-render('power-slides.Rmd')
-render('ethics-slides.Rmd')
-render('practice-slides.Rmd')
-render('threats-slides.Rmd')
+rmarkdown::render('hypothesistesting-slides.Rmd', output_format="pdf_document")
+rmarkdown::render('hypothesistesting-slides.Rmd',output_format='all')
+rmarkdown::render('randomization-slides.Rmd',output_format='all')
+rmarkdown::render('causalinference-slides.Rmd',output_format='all')
+rmarkdown::render('introduction-slides.Rmd',output_format='all')
+rmarkdown::render('egap-introduction-slides.Rmd',output_format='all')
+rmarkdown::render('measurement-slides.Rmd',output_format='all')
+rmarkdown::render('researchdesignform-slides.Rmd',output_format='all')
+rmarkdown::render('estimation-slides.Rmd',output_format='all')
+rmarkdown::render('power-slides.Rmd',output_format='all')
+rmarkdown::render('ethics-slides.Rmd',output_format='all')
+rmarkdown::render('practice-slides.Rmd',output_format='all')
+rmarkdown::render('threats-slides.Rmd',output_format='all')

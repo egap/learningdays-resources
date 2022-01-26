@@ -62,7 +62,7 @@ library(rcompanion) ## for pairwisePermutationTest()
 
 - Les $p$-valeurs nécessitent des distributions de probabilité.
 
-- Une randomisation (ou un design) + une hypothèse + une function de statistique de test $\rightarrow$ distributions de probabilité représentant l'hypothèse (distributions de référence)
+- Une randomisation (ou un design) + une hypothèse + une fonction de test statistique $\rightarrow$ distributions de probabilité représentant l'hypothèse (distributions de référence)
 
 - Valeurs observées des tests statistiques + distribution de référence $\rightarrow$ $p$-valeur.
 
@@ -70,21 +70,21 @@ library(rcompanion) ## for pairwisePermutationTest()
 
 - Le **problème fondamental de l'inférence causale** dit que nous ne pouvons voir qu'un seul résultat potentiel pour une unité donnée.
 
-- Donc, si un effet causal contrefactuel du traitement, $T$, pour Dupont se produit lorsque $y_{\text{Dupont},T=1} \ne y_{\text{Dupont},T=0}$, alors comment pouvons-nous en savoir plus sur l'effet causal ?
+- Donc, si un effet causal contrefactuel du traitement, $T$, pour Jake se produit lorsque $y_{\text{Jake},T=1} \ne y_{\text{Jake},T=0}$, alors comment pouvons-nous en savoir plus sur l'effet causal ?
 
 - Une solution est l'**[estimation](estimation-slides.Rmd) des moyennes des effets causaux** (les ATE, ITT, LATE).
 
-- C'est l'approche de Neyman.
+- C'est ce que nous appellons l'approche de Neyman.
 
 ## Le role des tests d'hypothèses dans l'inférence causale II
 
 - Une autre solution consiste à faire des **affirmations** ou **des suppositions** sur les effets causaux.
 
-- On pourrait dire : "Je pense que l'effet sur Dupont est de 5". ou "Cette expérience n'a eu d'effet sur personne." Et puis nous demandons "Quelles preuves apporte cette expérience à propos de cette affirmation ?"
+- On pourrait dire : "Je pense que l'effet sur Jake est de 5". ou "Cette expérience n'a eu d'effet sur personne." Et puis nous demandons "Quelles preuves apporte cette expérience à propos de cette affirmation ?"
 
-- La preuve est contenue dans la $p$-valeur.
+- Cette preuve est contenue dans la $p$-valeur.
 
--  C'est l'approche de Fisher.
+-  C'est ce que nous appelons l'approche de Fisher.
 
 ## Le role des tests d'hypothèses dans l'inférence causale III
 
@@ -109,7 +109,7 @@ library(rcompanion) ## for pairwisePermutationTest()
 
 - Le **design** indique aussi comment générer une *distribution* des statistiques de test possibles implicitement liés à l'hypothèse.
 
-- Une **$p$-valeur** décrit la relation entre notre statistique de test observée et la distribution des statistiques de test hypothétiques.
+- Une **$p$-valeur** décrit la relation entre notre statistique de test observée et la distribution de possibles statistiques de test.
 
 ```{r echo=FALSE}
 ## Tout d'abord, créer des données
@@ -197,9 +197,9 @@ Donc, si $y_{i,1}=y_{i,0}$ alors $Y_i = y_{i,0}$.
 
 Ce que nous *observons réellement* est ce que nous *aurions observé dans la condition de contrôle*.
 
-## Le design guide la création d'une distribution de statistiques de test hypothétiques
+## La conception guide la création d'une distribution de statistiques de test hypothétiques
 
-Il faut savoir comment répéter notre expérience:
+Nous devons savoir comment répéter notre expérience:
 
 ```{r, echo=TRUE}
 repeatExperiment <- function(N) {
@@ -258,7 +258,7 @@ mtext(
 
 ## Les $p$-valeurs résument les graphiques
 
-Comment devrions-nous interpréter ces $p$-valeurs unilatérales ?
+Comment devrions-nous interpréter ces $p$-valeurs ? (Notez qu'elles sont unilatérales)
 
 ```{r calcpvalues, echo=TRUE}
 pMeanTT <- mean(possibleMeanDiffsH0 >= observedMeanTT)
@@ -362,7 +362,7 @@ summary(pMeanRank4)
 
   - Conserver un taux d'erreur correct de faux positifs quand on teste plus d'une hypothèse.
 
-  - Puissance statistique des tests d'hypothèses ([Module sur la puissance statistique et les diagnosandes de design](https://egap.github.io/learningdays-book/statistical-power-and-design-diagnosands.html)). 
+  - Puissance statistique des tests d'hypothèses ([Module sur la puissance statistique et les diagnostics de conception](https://egap.github.io/learningdays-book/statistical-power-and-design-diagnosands.html)).
 
 # Tester l'hypothèse nulle faible
 
@@ -450,7 +450,7 @@ Attention:
 
   - Même si $p < 0,05$ (ou $p < 0,001$) la statistique de test observée doit refléter en partie la distribution hypothétique. Cela signifie que vous pouvez toujours faire une erreur lorsque vous rejetez une hypothèse nulle.
 
-## Faux positifs et faux négatifs
+## Erreurs de faux positifs et de faux négatifs
 
 - Si nous disons, "le résultat expérimental est significativement différent de la valeur hypothétique de zéro ($p=0,001$) ! Nous rejetons cette hypothèse !"
   **lorsque la vérité est zéro** nous faisons une **erreur de faux positifs** (prétendant détecter quelque chose lorsqu'il n'y a pas de signal, seulement du bruit).
@@ -645,9 +645,9 @@ legend("topleft",
 
 - Lorsque le taux de faux positifs n'est pas contrôlé, qu'est-ce qui ne va pas ? (probablement lié à l'asymptotique).
 
-# Approfondir
+# Approfondissement
 
-## Approfondir les tests d'hypothèses
+## Quelques sujets approfondis liés aux tests d'hypothèses
 
   - Même si une procédure de test donnée contrôle le taux de faux positifs pour un seul test, elle peut ne pas contrôler le taux pour un groupe de tests.
     Voir [10 choses à savoir sur les comparaisons multiples](https://egap.org/resource/10-things-to-know-about-multiple-comparisons/) pour les approches de contrôle de taux de rejet dans plusieurs tests.
@@ -657,11 +657,11 @@ legend("topleft",
 
 ## Que savoir de plus sur les tests d'hypothèses {.allowframebreaks}
 
-  - Une estimation de position basée sur un test d'hypothèse est appelée une estimation de position de Hodges-Lehmann (@rosenbaum1993hlp,@hodges1963elb).
+  - Une estimation ponctuelle basée sur des tests d'hypothèse est appelée une estimation ponctuelle de Hodges-Lehmann (@rosenbaum1993hlp,@hodges1963elb).
 
   - Un ensemble de tests d'hypothèses peut être combiné en un seul test d'hypothèse (@hansen:bowers:2008,@caughey2017nonparametric).
 
-  - TODO Pour tester l'équivalence, on peut supposer que deux statistiques de test sont équivalentes (c'est-à-dire que le groupe de traitement est le même que le groupe de contrôle) plutôt qu'une seule (la différence entre les deux groupes est nulle) (@hartman2018equivalence).
+  - Dans les tests d'équivalence, on peut émettre l'hypothèse que deux statistiques de test sont équivalentes (c'est-à-dire que le groupe de traitement est le même que le groupe témoin) plutôt que d'environ une seule statistique de test (la différence entre les deux groupes est de zéro) (@hartman2018equivalence).
 
   - Étant donné qu'un test d'hypothèse est un modèle de résultats potentiels, on peut utiliser les tests d'hypothèses pour en savoir plus sur des modèles complexes, tels que des modèles de débordement et de propagation des effets de traitement à travers les réseaux (@bowers2013reasoning, @bowers2016research, @bowers2018models)
 
@@ -683,7 +683,7 @@ legend("topleft",
 
 ## Taux de faux positifs dans les tests d'hypothèses multiples {.fragile}
 
-Disons que notre probabilité de faux positifs est de 0,05 pour un seul test. Que se passe-t-il si nous demandons:
+Supposons que notre probabilité de faux positifs est de 0,05 pour un seul test. Que se passe-t-il si nous demandons:
 (1) lequel de ces 10 résultats a une relation statistiquement significative avec les deux bras de traitement ?
 (2) *lequel de ces 10 bras de traitement avait une relation statistiquement significative avec un résultat unique* ?
 
@@ -730,7 +730,7 @@ Nous nous concentrerons sur le FWER mais recommandons de penser au FDR pour les 
 
 - Sur quels résultats le traitement a-t-il eu un effet (parmi l'ensemble des résultats) ?
 
-- La deuxième question, en particulier, peut conduire aux problèmes de taux d'erreur par famille (voir ci-dessus).
+- La deuxième question, en particulier, peut conduire aux problèmes de taux d'erreur non contrôlés par famille (voir ci-dessus).
 
 ## Tests d'hypothèses multiples : résultats multiples
 
@@ -808,7 +808,7 @@ coin::pvalue(independence_test(Y1 + Y2 + Y3 + Y4 + Y5 ~ factor(T),
 
 Quelle approche est susceptible de nous induire en erreur avec trop de résultats "statistiquement significatifs" (5 tests ou 1 test omnibus) ?
 
-## Comparer les approches I
+## Comparaison des approches I
 
 Faisons une simulation pour en savoir plus sur ces approches de test.
 
@@ -873,7 +873,7 @@ res1 <- des1_sim %>%
   summarize(fwer = mean(p.value < .05), .groups = "drop")
 ```
 
-## Comparer les approches II
+## Comparaison des approches II
 ```{r}
 kableExtra::kable(res1, caption = "Taux d'erreur par famille")
 ```
@@ -898,7 +898,7 @@ theps_new <- sort(c(theps, newlowp = .01))
 p.adjust(theps_new, method = "holm")
 ```
 
-## Tests d'hypothèses multiples : bras de traitement multiples {.allowframebreaks}
+## Approches pour tester des hypothèses avec plusieurs bras {.allowframebreaks}
 
 - Le même genre de problème peut arriver lorsque la question porte sur l'effet différentiel d'un traitement multi-bras.
 
@@ -974,8 +974,8 @@ pairwise_tests_adjfn <- function(data) {
 ## coin::pvalue(blah2,method="single-step")
 ##
 
-ttest_T1_vs_all <- declare_test(handler = label_test(ttest_T1_vs_allfn), label = "t-test T1 vs. tous")
-overall_T <- declare_test(handler = label_test(overall_Tfn), label = "test d'ensembe")
+ttest_T1_vs_all <- declare_test(handler = label_test(ttest_T1_vs_allfn), label = "T-test T1 vs. tous")
+overall_T <- declare_test(handler = label_test(overall_Tfn), label = "Test d'ensemble")
 pairwise_test <- declare_test(handler = label_test(pairwise_testsfn), label = "Choix du meilleur test de paire")
 pairwise_test_adj <- declare_test(handler = label_test(pairwise_tests_adjfn), label = "Choix du meilleur test de paire après ajustement")
 ```
@@ -994,7 +994,7 @@ kableExtra::kable(res2, caption = "Approches de test pour les expériences à br
 
 - Utiliser plusieurs résultats ou plusieurs traitements (ou plusieurs modérateurs/interactions) peut causer des problèmes de test.
 
-- La procédure pour former les tests d'hypothèses et intervalles de confiance peut comporter des erreurs.
+- La procédure pour faire les tests d'hypothèses et intervalles de confiance peut comporter des erreurs.
   Normalement on contrôle le taux d'erreur dans un seul test (ou un seul intervalle de confiance).
   Mais utiliser plusieurs tests nécessite plus d'effort pour s'assurer que le taux d'erreur est sous contrôle.
 
