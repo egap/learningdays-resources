@@ -133,7 +133,7 @@ Deux candidats :
  2. La différence des moyennes avec plafonnement de l'observation $Y_i$ la plus haute
     (une sorte de moyenne "winsorisée" pour éviter que les valeurs extrêmes n'exercent trop d'influence sur notre estimateur --- pour augmenter la *précision*).
 
-Comment saurons-nous quel estimateur convient le mieux à notre design de recherche ?
+Comment saurons-nous quel estimateur convient le mieux à notre conception de recherche ?
 
 Simulons-le !
 
@@ -204,7 +204,7 @@ set.seed(12345)
 
 ## Avec DeclareDesign
 
-DeclareDesign représente les designs de recherche en quelques étapes illustrées ci-dessous :
+DeclareDesign représente les conceptions de recherche en quelques étapes illustrées ci-dessous :
 
 ```{r dd1, echo=TRUE}
 # prendre uniquement les résultats potentiels du traitement
@@ -225,7 +225,7 @@ pot_out <- declare_potential_outcomes(Y ~ Z * y1 + (1 - Z) * y0)
 # spécifier les variables de résultat et d'assignation
 reveal <- declare_reveal(Y, Z)
 
-# l'objet de design de recherche basique comprend ces quatre objets
+# l'objet de conception de recherche basique comprend ces quatre objets
 base_design <- pop + trt_assign + pot_out + reveal
 ```
 
@@ -346,13 +346,13 @@ coef(lm_robust(Y_tc ~ Z, data = sim_dat2, se = "classical"))[["Z"]]
 ```
 
 
-## Comment nos estimateurs se comportent-ils en général pour ce design ?
+## Comment nos estimateurs se comportent-ils en général pour cette conception ?
 
 Nos estimations varient selon la randomisation. Nos deux estimateurs varient-ils de la même façon ?
 
 ```{r diagnose, echo=TRUE, cache=TRUE}
 ## Combiner dans un seul objet DeclareDesign
-## Cela a le design de base, le paramètre, puis nos deux estimateurs (diff_means et diff_means_topcoded)
+## Cela contient la conception de base, le paramètre, puis nos deux estimateurs (diff_means et diff_means_topcoded)
 design_plus_ests <- base_design + estimandATE + diff_means + diff_means_topcoded
 ## Exécuter 100 simulations (réassignations de traitement) et
 ## appliquer les deux estimateurs
@@ -362,7 +362,7 @@ sims1 <- get_simulations(diagnosis1)
 head(sims1[,-c(1:6)])
 ```
 
-## Comment nos estimateurs se comportent-ils en général pour ce design ?
+## Comment nos estimateurs se comportent-ils en général pour cette conception ?
 
 Nos estimations varient selon la randomisation. Nos deux estimateurs varient-ils de la même façon ?
 Comment interpréter cette figure ?
@@ -381,7 +381,7 @@ print(sim_plot)
 
 Une façon de choisir parmi les estimateurs est de choisir celui qui est **proche de la vérité** chaque fois que nous l'utilisons --- quelle que soit la randomisation choisie.
 
-Un estimateur "sans biais" est un estimateur pour lequel la **moyenne des estimations pour des designs répétés** est la même que la vérité (ou $E_R(\hat{\bar{\tau}})=\bar{\tau}$). Un estimateur sans biais n'a "pas d'erreur systématique" mais ne garantit pas la proximité avec la vérité.
+Un estimateur "sans biais" est un estimateur pour lequel la **moyenne des estimations pour des conceptions répétées** est la même que la vérité (ou $E_R(\hat{\bar{\tau}})=\bar{\tau}$). Un estimateur sans biais n'a "pas d'erreur systématique" mais ne garantit pas la proximité avec la vérité.
 
 Une autre mesure de proximité est la **racine de l'erreur quadratique moyenne** (REQM) qui agrège les distances au carré entre la vérité et les estimations individuelles.
 
@@ -397,7 +397,7 @@ Résumé :
 
   - Nous avons un *choix* de paramètres et d'estimateurs
 
-  - Un bon estimateur performe bien quelle que soit la randomisation particulière d'un design donné.
+  - Un bon estimateur performe bien quelle que soit la randomisation particulière d'une conception donnée.
     Et *bien performer* peut signifier "être sans biais" et/ou "avoir une faible erreur quadratique moyenne"
     (ou "être cohérent" --- ce qui signifie être de plus en plus proche de la vérité à mesure que la taille de l'échantillon augmente).
 
@@ -483,10 +483,10 @@ Nous avons maintenant 3 estimateurs, chacun avec une estimation différente (en 
 c(coef(e1)[["Z"]],coef(e3)[["Z"]], coef(e4)[["Z"]])
 ```
 
-Quel estimateur doit-on utiliser pour ce design ? Simulons avec DeclareDesign pour le savoir.
+Quel estimateur doit-on utiliser pour cette conception ? Simulons avec DeclareDesign pour le savoir.
 
 ```{r blockdd0, cache=TRUE, echo=TRUE}
-## déclarer un nouveau design de base qui inclut b, l'indicateur de bloc
+## déclarer une nouvelle conception de base qui inclut b, l'indicateur de bloc
 base_design_blocks <-
     declare_population(dat[, c("b","y0", "y1")]) +
     # dire à la méthode des doubles différences que b signifie bloc
@@ -526,7 +526,7 @@ est4 <- declare_estimator(Y ~ Z, inquiry = estimandATEb,
 est5 <- declare_estimator(Y ~ Z + b, inquiry = estimandATEb,
     model = lm_robust, label = "Pondérée par précision (LSDV)")
 
-## le nouveau design a le design de base, le paramètre et cinq estimateurs
+## la nouvelle conception a la conception de base, le paramètre et cinq estimateurs
 design_blocks <- base_design_blocks + estimandATEb +
   est1 + est2 + est3 + est4 + est5
 ```
@@ -569,7 +569,7 @@ print(sim_plot2)
 
 ## Quel estimateur est le plus proche de la vérité ?
 
-Quel estimateur fonctionne le mieux pour ce design et ces données ?
+Quel estimateur fonctionne le mieux pour cette conception et ces données ?
 
 ```{r blocktab}
 blocktab <- reshape_diagnosis(diagnosis2, select = c("Estimator", "Bias", "RMSE","SD Estimate", "Mean Se", "Power",  "Coverage"))[,-c(1,2,4,5,6)]
@@ -605,7 +605,7 @@ Problèmes de biais dans les expériences aléatoires par grappe :
 
 ## Estimation de l'erreur type pour l'ATE dans des expériences aléatoires par grappe {.allowframebreaks}
 
-- **Inférences statistiques trompeuses :** L'erreur type par défaut sous-estimera généralement la précision dans de tels designs et produira ainsi des tests avec des taux de faux positifs trop élevés (ou, de manière équivalente, des taux de couverture pour les intervalles de confiance trop faibles).
+- **Inférences statistiques trompeuses :** L'erreur type par défaut sous-estimera généralement la précision dans de telles conceptions et produira ainsi des tests avec des taux de faux positifs trop élevés (ou, de manière équivalente, des taux de couverture pour les intervalles de confiance trop faibles).
 
 - "L'erreur type robuste pour grappe" implémentée dans les logiciels courants fonctionnent bien **lorsque le nombre de grappes est important** (plus de 50 grappes dans certaines études de simulation).
 
@@ -739,7 +739,7 @@ tidy(lmc3)[2,]
 
 ## Simuler pour évaluer les estimateurs et les tests
 
-Si vous regardez le code des slides, vous verrez que nous simulons le design 5000 fois, en calculant à chaque fois une estimation et un intervalle de confiance pour différents estimateurs de l'ATE.
+Si vous regardez le code des slides, vous verrez que nous simulons la conception 5000 fois, en calculant à chaque fois une estimation et un intervalle de confiance pour différents estimateurs de l'ATE.
 
 Que devons-nous apprendre de ce tableau ? (Couverture ? `sd_estimate` vs. `mean_se`).
 
@@ -775,7 +775,7 @@ res_clus$estimator <- gsub(" SE","",res_clus$estimator)
 ```
 
 ```{r showresclus1}
-kableExtra::kable(res_clus[,c(1,5:7)], digits=2,booktabs=TRUE,linesep="",caption="Performances de l'estimateur et des tests pour 5000 simulations du design randomisé par grappe pour différents estimateurs et intervalles de confiance")
+kableExtra::kable(res_clus[,c(1,5:7)], digits=2,booktabs=TRUE,linesep="",caption="Performances de l'estimateur et des tests pour 5000 simulations de la conception randomisée par grappe pour différents estimateurs et intervalles de confiance")
 ```
 
 
@@ -786,7 +786,7 @@ kableExtra::kable(res_clus[,c(1,5:7)], digits=2,booktabs=TRUE,linesep="",caption
 Que devons-nous apprendre de ce tableau ? (Biais ? Proximité avec la vérité ?)
 
 ```{r showresclus2}
-kableExtra::kable(res_clus[,c(1:3)], digits=3,booktabs=TRUE,linesep="",caption="Performances de l'estimateur et des tests pour 5000 simulations du design randomisé par grappe pour différents estimateurs et intervalles de confiance")
+kableExtra::kable(res_clus[,c(1:3)], digits=3,booktabs=TRUE,linesep="",caption="Performances de l'estimateur et des tests pour 5000 simulations de la conception randomisée par grappe pour différents estimateurs et intervalles de confiance")
 ```
 
 ## Simuler pour évaluer les estimateurs et les tests
@@ -1066,7 +1066,7 @@ print(sim_plot_bin)
 
 ## Quel estimateur est le plus proche de la vérité ?
 
-Quel estimateur fonctionne le mieux pour ce design et ces données ?
+Quel estimateur fonctionne le mieux pour cette conception et ces données ?
 
 ```{r bin_sim_res}
 ## Notez que l'estimateur linéaire est excellent mais peut parfois ne pas produire de réponse
@@ -1082,7 +1082,7 @@ names(res_bin)[1:2] <- c("est","estimand")
 ```
 
 ```{r showresbin1}
-kableExtra::kable(res_bin, digits=3,booktabs=TRUE,linesep="",caption="Performances de l'estimateur et des tests pour 5000 simulations des différents estimateurs et intervalles de confiance pour un résultat binaire et un design totalement randomisé.")
+kableExtra::kable(res_bin, digits=3,booktabs=TRUE,linesep="",caption="Performances de l'estimateur et des tests pour 5000 simulations des différents estimateurs et intervalles de confiance pour un résultat binaire et une conception totalement randomisée.")
 
 ```
 
@@ -1120,7 +1120,7 @@ Si notre théorie suggère que les effets devraient différer selon le groupe, c
    --- avec des blocs définis par des groupes théoriquement pertinents.
 
  - Nous pouvons **planifier** une telle évaluation
-   en (1) **pré-enregistrant des analyses de sous-groupes spécifiques** (que nous retenons ou non ce groupe dans la phase de design)
+   en (1) **pré-enregistrant des analyses de sous-groupes spécifiques** (que nous retenons ou non ce groupe dans la phase de conception)
    et en (2) veillant à mesurer l'appartenance au groupe pendant la collecte des données de base pré-traitement
 
 
@@ -1200,7 +1200,7 @@ $ITT=ITT_Y=\delta= \bar{y}_{Z=1} - \bar{y}_{Z=0}$
 
 \medskip
 
-Mais, dans ce design, $\bar{y}_{Z=1}=\bar{y}_{1}$ est divisé en plusieurs parties : le résultat de ceux qui ont répondu à la porte (conformistes et toujours-preneurs et non-conformistes).
+Mais, dans cette conception, $\bar{y}_{Z=1}=\bar{y}_{1}$ est divisé en plusieurs parties : le résultat de ceux qui ont répondu à la porte (conformistes et toujours-preneurs et non-conformistes).
 Écrivez $p_C$ pour la proportion de conformistes dans cette étude.
 
 \begin{equation}
@@ -1298,7 +1298,7 @@ with(dat, cor(d, x)) ## peut être quelconque
 with(dat, cor(Z, x)) ## devrait être proche de 0
 ```
 
-Mais nous venons de voir que, dans ce design et avec ces hypothèses (y compris l'hypothèse SUTVA) que
+Mais nous venons de voir que, dans cette conception et avec ces hypothèses (y compris l'hypothèse SUTVA) que
 $ITT = ( (\bar{y}_{1}|C) -  (\bar{y}_{0}|C))p_C  = (CACE) p_C$, on peut donc définir $CACE=ITT/p_C$.
 
 ## Comment calculer l'ITT et le CACE/LATE I
@@ -1384,7 +1384,7 @@ cace_est
 coef(itt_y)[["Z"]]/coef(itt_d)[["Z"]]
 ```
 
-## Résumé des designs incitatifs / conformistes / par dose:
+## Résumé des conceptions incitatives / conformistes / par dose:
 
  - Analysez au fur et à mesure de la randomisation, même lorsque vous ne contrôlez pas la dose
  - Le danger de l'analyse par protocole.

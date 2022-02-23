@@ -62,7 +62,7 @@ library(rcompanion) ## for pairwisePermutationTest()
 
 - Les $p$-valeurs nécessitent des distributions de probabilité.
 
-- Une randomisation (ou un design) + une hypothèse + une fonction de test statistique $\rightarrow$ distributions de probabilité représentant l'hypothèse (distributions de référence)
+- Une randomisation (ou une conception) + une hypothèse + une fonction de test statistique $\rightarrow$ distributions de probabilité représentant l'hypothèse (distributions de référence)
 
 - Valeurs observées des tests statistiques + distribution de référence $\rightarrow$ $p$-valeur.
 
@@ -88,7 +88,7 @@ library(rcompanion) ## for pairwisePermutationTest()
 
 ## Le role des tests d'hypothèses dans l'inférence causale III
 
-- L'approche du test d'hypothèse pour l'inférence causale ne fournit pas une meilleure supposition, mais indique *la quantité d'informations que le design de recherche fournit pour cette assertion causale*.
+- L'approche du test d'hypothèse pour l'inférence causale ne fournit pas une meilleure supposition, mais indique *la quantité d'informations que la conception de recherche fournit pour cette assertion causale*.
 
 - L'approche par estimation fournit une meilleure supposition, mais ne vous dit pas ce que vous savez sur cette supposition.
    - Par exemple, une supposition avec $N=10$ semble en dire moins sur l'effet que pour $N=1000$.
@@ -105,9 +105,9 @@ library(rcompanion) ## for pairwisePermutationTest()
 
 - Une **statistique de test** résume la relation entre le traitement et les résultats observés.
 
-- Le **design** permet de lier l'hypothèse et la statistique de test : calculez une statistique de test qui décrit une relation entre des résultats potentiels.
+- La **conception** permet de lier l'hypothèse et la statistique de test : calculez une statistique de test qui décrit une relation entre des résultats potentiels.
 
-- Le **design** indique aussi comment générer une *distribution* des statistiques de test possibles implicitement liés à l'hypothèse.
+- La **conception** indique aussi comment générer une *distribution* des statistiques de test possibles implicitement liés à l'hypothèse.
 
 - Une **$p$-valeur** décrit la relation entre notre statistique de test observée et la distribution de possibles statistiques de test.
 
@@ -187,7 +187,7 @@ observedMeanTT
 observedMeanRankTT
 ```
 
-## Le design lie la statistique de test et l'hypothèse
+## La conception lie la statistique de test et l'hypothèse
 
 Ce que nous observons pour chaque personne $i$ ($Y_i$) est soit ce que nous aurions observé en traitement ($y_{i,1}$) **ou** ce que nous aurions observé en contrôle ($y_{i ,0}$).
 
@@ -207,7 +207,7 @@ repeatExperiment <- function(N) {
 }
 ```
 
-Ensuite, on répète notre expérience en calculant à chaque fois une nouvelle statistique de test donnée par l'hypothèse et le design :
+Ensuite, on répète notre expérience en calculant à chaque fois une nouvelle statistique de test donnée par l'hypothèse et la conception :
 
 ```{r reps, echo=TRUE, cache=TRUE}
 set.seed(123456)
@@ -224,7 +224,7 @@ possibleMeanRankDiffsH0 <- replicate(
 
 ## Courbe des distributions de randomisation sous l'hypothèse nulle
 
-```{r fig.cap="Utiliser un design d'expérience pour tester une hypothèse avec deux statistiques de test différentes.", results='asis', echo=FALSE, fig.align='center'}
+```{r fig.cap="Utiliser la conception d'expérience pour tester une hypothèse avec deux statistiques de test différentes.", results='asis', echo=FALSE, fig.align='center'}
 par(mfrow = c(1, 2), mgp = c(2, .5, 0), mar = c(3, 3, 0, 0), oma = c(0, 0, 3, 0))
 plot(density(possibleMeanDiffsH0),
   ylim = c(0, .04),
@@ -252,7 +252,7 @@ text(observedMeanRankTT, .45, "Statistique de test observée")
 
 mtext(
   side = 3, outer = TRUE, cex = 1.75,
-  text = expression(paste("Distributions de statistiques de test consistentes avec le design et ", H0:y[i1] == y[i0]))
+  text = expression(paste("Distributions de statistiques de test consistentes avec la conception et ", H0:y[i1] == y[i0]))
 )
 ```
 
@@ -475,7 +475,7 @@ Attention:
 
 ## Diagnostiquer les taux de faux positifs par simulation
 
-- A travers les répétitions du design :
+- A travers les répétitions de la conception :
 
    - Créer une hypothèse nulle vraie.
    - Testez cette hypothèse.
@@ -574,7 +574,7 @@ legend("topleft",
 
 ## Taux de faux positifs avec $N=60$ et résultat binaire
 
-Dans ce design, seuls les tests basés sur l'inférence de randomisation directe contrôlent le taux de faux positifs.
+Dans cette conception, seuls les tests basés sur l'inférence de randomisation directe contrôlent le taux de faux positifs.
 
 ```{r fprdsimBig, cache=TRUE}
 set.seed(12345)
