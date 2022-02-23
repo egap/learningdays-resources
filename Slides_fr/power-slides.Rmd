@@ -203,7 +203,7 @@ P0 <- declare_population(N,u0=rnorm(N))
 O0 <- declare_potential_outcomes(Y_Z_0 = 5 + u0, Y_Z_1 = Y_Z_0 + tau)
 # assigner m unités au traitement
 A0 <- declare_assignment(Z=conduct_ra(N=N, m=round(N/2)))
-# l'estimande est la différence moyenne entre Y(Z=1) et Y(Z=0)
+# le paramètre est la différence moyenne entre Y(Z=1) et Y(Z=0)
 estimand_ate <- declare_inquiry(ATE=mean(Y_Z_1 - Y_Z_0))
 R0 <- declare_reveal(Y,Z)
 design0_base <- P0 + A0 + O0 + R0

@@ -1,5 +1,5 @@
 ---
-title: "Estimer les estimandes avec des estimateurs"
+title: "Estimer les paramètres avec des estimateurs"
 author: "Mettre votre nom"
 date: "`r format(Sys.time(), '%d-%m-%Y')`"
 output:
@@ -59,15 +59,15 @@ library(styler)
 
   - Un effet causal, $\tau_i$, est une comparaison des résultats potentiels non observés pour chaque unité $i$ : exemples  $\tau_{i} = Y_{i}(T_{i}=1) -  Y_{i}(T_{i}=0)$ ou  $\tau_{i} = \frac{Y_{i}(T_{i}=1)}{ Y_{i}(T_{i}=0)}$.
 
-  - Pour en savoir plus sur $\tau_{i}$, nous pouvons traiter $\tau_{i}$ comme un **estimande** ou une quantité cible à estimer (discutée ici) ou comme quantité cible hypothétique (voir module sur les tests d'hypothèses).
+  - Pour en savoir plus sur $\tau_{i}$, nous pouvons traiter $\tau_{i}$ comme un **paramètre** ou une quantité cible à estimer (discutée ici) ou comme quantité cible hypothétique (voir module sur les tests d'hypothèses).
 
   - Beaucoup se concentrent sur l'**effet moyen du traitement (average treatment effect, ATE)**, $\bar{\tau}=\sum_{i=1}^n\tau_{i}$, en partie parce qu'il permet une **estimation** facile.
 
 ## Points clés sur l'estimation II
 
- - La clé de l'estimation pour l'inférence causale consiste à choisir un estimande qui vous aide à en savoir plus sur votre question théorique ou politique. Ainsi, on pourrait utiliser l'ATE mais aussi d'autres estimandes courants tels que l'effet d'intention de traiter (intent to treat effect, ITT), l'effet moyen local du traitement (local average treatment effect, LATE), l'effet causal moyen pour ceux qui se conforment au traitement (complier average causal effect, CACE), l'effet moyen du traitement sur les traités (average treatment effect on the treated, ATT) ou l'ATE pour certains sous-groupes.
+ - La clé de l'estimation pour l'inférence causale consiste à choisir un paramètre qui vous aide à en savoir plus sur votre question théorique ou politique. Ainsi, on pourrait utiliser l'ATE mais aussi d'autres paramètres courants tels que l'effet d'intention de traiter (intent to treat effect, ITT), l'effet moyen local du traitement (local average treatment effect, LATE), l'effet causal moyen pour ceux qui se conforment au traitement (complier average causal effect, CACE), l'effet moyen du traitement sur les traités (average treatment effect on the treated, ATT) ou l'ATE pour certains sous-groupes.
 
-  - Un **estimateur** est une recette pour calculer approximativement la valeur d'un estimande. Par exemple, la différence des moyennes observées pour $m$ unités traitées est un estimateur de $\bar{\tau}$:
+  - Un **estimateur** est une recette pour calculer approximativement la valeur d'un paramètre. Par exemple, la différence des moyennes observées pour $m$ unités traitées est un estimateur de $\bar{\tau}$:
    $\hat{\bar{\tau}} = \frac{\sum_{i=1}^n (T_i Y_i)}{m} - \frac{\sum_{i=1}^n ( ( 1 - T_i)Y_i)}{(n-m)}$.
 
 ## Points clés sur l'estimation III
@@ -77,24 +77,24 @@ library(styler)
  - Nous utilisons l'**erreur type** pour produire des **intervalles de confiance** et des **p-valeurs**
    afin de commencer par un estimateur et terminer par un test d'hypothèse.
 
-  - Différentes randomisations produiront différentes valeurs du même estimateur ciblant le même estimande. L'**erreur type** résume la variabilité de cet estimateur.
+  - Différentes randomisations produiront différentes valeurs du même estimateur ciblant le même paramètre. L'**erreur type** résume la variabilité de cet estimateur.
 
-  - Un **intervalle de confiance** de *$100(1-\alpha)$%* est un ensemble d'hypothèses qui ne peuvent être rejetées au niveau $\alpha$. Nous avons tendance à rapporter des intervalles de confiance contenant des hypothèses sur les valeurs de notre estimande et à utiliser notre estimateur comme une statistique de test.
+  - Un **intervalle de confiance** de *$100(1-\alpha)$%* est un ensemble d'hypothèses qui ne peuvent être rejetées au niveau $\alpha$. Nous avons tendance à rapporter des intervalles de confiance contenant des hypothèses sur les valeurs de notre paramètre et à utiliser notre estimateur comme une statistique de test.
 
 
 ## Points clés sur l'estimation IV
 
  - Les estimateurs doivent :
 
-      - éviter l'erreur systématique dans leur approximation de l'estimande (i.e. être sans biais)
+      - éviter l'erreur systématique dans leur approximation du paramètre (i.e. être sans biais)
 
       - peu varier d'une expérience à l'autre (être précis ou efficace)
 
-      - peut-être idéalement converger vers l'estimande quand ils utilisent de plus en plus d'informations (être cohérent).
+      - peut-être idéalement converger vers le paramètre quand ils utilisent de plus en plus d'informations (être cohérent).
 
 ## Points clés sur l'estimation V
 
- - **Analyser au fur et à mesure de la randomisation** dans le contexte de l'estimation signifie que (1) nos erreurs types doivent mesurer la variabilité à partir de la randomisation et (2) nos estimateurs doivent cibler des estimandes définis en termes de résultats potentiels.
+ - **Analyser au fur et à mesure de la randomisation** dans le contexte de l'estimation signifie que (1) nos erreurs types doivent mesurer la variabilité à partir de la randomisation et (2) nos estimateurs doivent cibler des paramètres définis en termes de résultats potentiels.
 
  - Nous ne **contrôlons pas** les covariables lorsque nous analysons les données d'expériences aléatoires. Mais les covariables peuvent rendre notre estimation plus **précise**. C'est ce qu'on appelle **l'ajustement de covariance** (ou ajustement de covariable). **L'ajustement de covariance** dans les expériences aléatoires diffère du contrôle dans les études observationnelles.
 
@@ -112,16 +112,16 @@ Par exemple :
 L'assignation de traitement, $T_i$, a un effet causal sur l'unité $i$, que nous appelons $\tau_i$, si
 $Y_{i}(T_{i}=1) -  Y_{i}(T_{i}=0) \ne 0$ ou $Y_{i}(T_{i}=1) \ne Y_{i}(T_{i}=0)$.
 
-# Estimandes, estimateurs et moyennes
+# Paramètres, estimateurs et moyennes
 
 ## Comment en savoir plus sur les effets causaux à partir des données observées ?
 
  1. Rappel : nous pouvons **tester les hypothèses** sur la paire de résultats potentiels $\{ Y_{i}(T_{i}=1), Y_{i}(T_{i}=0) \}$.
 
- 2. Nous pouvons **définir les estimandes** en termes de $\{ Y_{i}(T_{i}=1), Y_{i}(T_{i}=0) \}$ ou $\tau_i$, **développer des estimateurs** pour ces estimandes,
+ 2. Nous pouvons **définir les paramètres** en termes de $\{ Y_{i}(T_{i}=1), Y_{i}(T_{i}=0) \}$ ou $\tau_i$, **développer des estimateurs** pour ces paramètres,
     puis calculer les valeurs et les erreurs types pour ces estimateurs.
 
-## Un estimande et un estimateur usuels : l'effet moyen du traitement et la différence des moyennes
+## Un paramètre et un estimateur usuels : l'effet moyen du traitement et la différence des moyennes
 
 Soit $\bar{\tau}=\sum_{i=1}^n \tau_{i}$, l'effet moyen du traitement. Quel serait un bon estimateur ?
 
@@ -241,12 +241,12 @@ sim_dat1 <- draw_data(base_design)
 head(sim_dat1)
 ```
 
-## Avec DeclareDesign : définir l'estimande et les estimateurs
+## Avec DeclareDesign : définir le paramètre et les estimateurs
 
-Pas de sortie ici. Il suffit de définir fonctions et estimateurs ainsi qu'un estimande.
+Pas de sortie ici. Il suffit de définir fonctions et estimateurs ainsi qu'un paramètre.
 
 ```{r dd2, echo=TRUE}
-## L'estimande
+## Le paramètre
 estimandATE <- declare_inquiry(ATE = mean(Y_Z_1 - Y_Z_0))
 
 ## Le premier estimateur est la différence des moyennes
@@ -254,7 +254,7 @@ diff_means <- declare_estimator(Y ~ Z, inquiry = estimandATE,
   model = lm_robust, se_type = "classical", label = "Diff des moyennes/MCO")
 ```
 
-## Avec DeclareDesign : définir l'estimande et les estimateurs
+## Avec DeclareDesign : définir le paramètre et les estimateurs
 
 ```{r dd2a, echo=TRUE}
 ## Le deuxième estimateur est la différence des moyennes winsorisées
@@ -273,12 +273,12 @@ diff_means_topcoded <- declare_estimator(
 )
 ```
 
-## Avec DeclareDesign : définir l'estimande et les estimateurs
+## Avec DeclareDesign : définir le paramètre et les estimateurs
 
 Nous montrons ici comment fonctionnent les estimateurs avec la méthode des doubles différences en utilisant nos données simulées.
 
 ```{r dd3, echo=TRUE}
-## Démontrer que l'estimande fonctionne :
+## Démontrer que le paramètre fonctionne :
 estimandATE(sim_dat1)
 
 ## Démontrer que les estimateurs estiment correctement
@@ -329,7 +329,7 @@ c(est_topcoded_1,est_topcoded_2)
 
 ## Ensuite simuler une randomisation différente et estimer l'ATE avec les mêmes estimateurs
 
-Calculez maintenant votre estimation avec les mêmes estimateurs en utilisant une randomisation **différente**. Notez que les réponses diffèrent. Les estimateurs estiment le *même estimande* mais ils travaillent maintenant avec une randomisation différente.
+Calculez maintenant votre estimation avec les mêmes estimateurs en utilisant une randomisation **différente**. Notez que les réponses diffèrent. Les estimateurs estiment le *même paramètre* mais ils travaillent maintenant avec une randomisation différente.
 
 ```{r echo=TRUE}
 # faire une autre assignation aléatoire du traitement dans DeclareDesign
@@ -352,7 +352,7 @@ Nos estimations varient selon la randomisation. Nos deux estimateurs varient-ils
 
 ```{r diagnose, echo=TRUE, cache=TRUE}
 ## Combiner dans un seul objet DeclareDesign
-## Cela a le design de base, l'estimande, puis nos deux estimateurs (diff_means et diff_means_topcoded)
+## Cela a le design de base, le paramètre, puis nos deux estimateurs (diff_means et diff_means_topcoded)
 design_plus_ests <- base_design + estimandATE + diff_means + diff_means_topcoded
 ## Exécuter 100 simulations (réassignations de traitement) et
 ## appliquer les deux estimateurs
@@ -395,7 +395,7 @@ kableExtra::kable(reshape_diagnosis(diagnosis1, select = c("Estimator", "Bias", 
 
 Résumé :
 
-  - Nous avons un *choix* d'estimandes et d'estimateurs
+  - Nous avons un *choix* de paramètres et d'estimateurs
 
   - Un bon estimateur performe bien quelle que soit la randomisation particulière d'un design donné.
     Et *bien performer* peut signifier "être sans biais" et/ou "avoir une faible erreur quadratique moyenne"
@@ -407,7 +407,7 @@ Résumé :
 
 ## Les expériences aléatoires par bloc sont une collection de mini-expériences
 
-Quel est l'estimande de l'**effet moyen du traitement** dans une expérience aléatoire par bloc ?
+Quel est le paramètre de l'**effet moyen du traitement** dans une expérience aléatoire par bloc ?
 
 Si nous considérons l'ATE au niveau de l'unité comme : $(1/N) \sum_{i=1}^N y_{i,1} - y_{i,0}$ alors nous pourrions réexprimer cela de manière équivalente en sachant que l'ATE par bloc $j$ est $ATE_j$ comme suit :
 
@@ -477,7 +477,7 @@ En quoi diffèrent-ils ? (Le premier ignore les blocs. Le second utilise un ense
 
 ## Quel estimateur doit-on utiliser ?
 
-Nous avons maintenant 3 estimateurs, chacun avec une estimation différente (en imaginant qu'ils ciblent tous le même estimande) :
+Nous avons maintenant 3 estimateurs, chacun avec une estimation différente (en imaginant qu'ils ciblent tous le même paramètre) :
 
 ```{r echo=TRUE}
 c(coef(e1)[["Z"]],coef(e3)[["Z"]], coef(e4)[["Z"]])
@@ -503,7 +503,7 @@ base_design_blocks <-
 ## Quel estimateur doit-on utiliser ?
 
 ```{r blockdd1, echo=TRUE, cache=TRUE}
-# L'estimande est l'effet moyen du traitement
+# Le paramètre est l'effet moyen du traitement
 estimandATEb <- declare_inquiry(ATE = mean(Y_Z_1 - Y_Z_0))
 
 # 3 estimateurs différents
@@ -526,7 +526,7 @@ est4 <- declare_estimator(Y ~ Z, inquiry = estimandATEb,
 est5 <- declare_estimator(Y ~ Z + b, inquiry = estimandATEb,
     model = lm_robust, label = "Pondérée par précision (LSDV)")
 
-## le nouveau design a le design de base, l'estimande et cinq estimateurs
+## le nouveau design a le design de base, le paramètre et cinq estimateurs
 design_blocks <- base_design_blocks + estimandATEb +
   est1 + est2 + est3 + est4 + est5
 ```
@@ -851,9 +851,9 @@ set.seed(12345)
 dat2 <- draw_data(des_bin)
 ```
 
-## Résultats binaires : estimandes I
+## Résultats binaires : paramètres I
 
-Comment interpréterions-nous les vraies quantités ou estimandes suivants ?
+Comment interpréterions-nous les vraies quantités ou paramètres suivants ?
 `Y_Z_1`, `Y_Z_0` sont des résultats potentiels, `Y` est l'observation, `x1`, `x2` sont des covariables, `Z` est l'assignation de traitement.
 $N$=`r nrow(dat2)`.
 
@@ -863,9 +863,9 @@ head(dat2[,-7])
 ```
 
 
-## Résultats binaires : estimandes II
+## Résultats binaires : paramètres II
 
-Comment interpréterions-nous les vraies quantités ou estimandes suivants ?
+Comment interpréterions-nous les vraies quantités ou paramètres suivants ?
 `Y_Z_1`, `Y_Z_0` sont des résultats potentiels, `Y` est l'observation, `x1`, `x2` sont des covariables, `Z` est l'assignation de traitement.
 $N$=`r nrow(dat2)`.
 
@@ -879,7 +879,7 @@ c(bary1=bary1,bary0=bary0,true_ate=ate_bin,
     true_diff_log_odds= diff_log_odds_bin)
 ```
 
-## Résultats binaires : estimandes III
+## Résultats binaires : paramètres III
 
 Voulez-vous estimer la différence log-odds ?
 
@@ -895,7 +895,7 @@ Ou la différence en proportions ?
 
 Rappelons que $\bar{y}_1$ est la *proportion* de $y_{1}=1$ dans les données.
 
-@freedman2008randomization montre que l'estimateur du coefficient logit est un estimateur biaisé de la différence de l'estimande log-odds. Il montre également un estimateur sans biais de cet estimande.
+@freedman2008randomization montre que l'estimateur du coefficient logit est un estimateur biaisé de la différence du paramètre log-odds. Il montre également un estimateur sans biais de ce paramètre.
 
 Nous savons que la différence en proportions dans l'échantillon devrait être un estimateur sans biais de la différence en proportions.
 
@@ -1089,9 +1089,9 @@ kableExtra::kable(res_bin, digits=3,booktabs=TRUE,linesep="",caption="Performanc
 
 # Autres sujets liés à l'estimation
 
-## L'ajustement de covariable : estimandes
+## L'ajustement de covariable : paramètres
 
-En général, le simple fait de "contrôler pour" produit un estimateur biaisé de l'estimande ATE **ou** ITT. Voir par exemple @lin_agnostic_2013 et @freedman2008rae.
+En général, le simple fait de "contrôler pour" produit un estimateur biaisé du paramètre ATE **ou** ITT. Voir par exemple @lin_agnostic_2013 et @freedman2008rae.
 @lin_agnostic_2013 montre comment réduire ce biais et, surtout, que ce biais a tendance à être faible à mesure que la taille de l'échantillon augmente.
 
 
@@ -1099,16 +1099,16 @@ En général, le simple fait de "contrôler pour" produit un estimateur biaisé 
 
 ## Réflexions finales sur l'estimation
 
-- Les estimandes causaux contrefactuels sont des fonctions non observées des résultats potentiels.
+- Les paramètres causaux contrefactuels sont des fonctions non observées des résultats potentiels.
 
-- Les estimateurs sont des recettes ou des formules de calcul qui utilisent des données observées pour en savoir plus sur un estimande.
+- Les estimateurs sont des recettes ou des formules de calcul qui utilisent des données observées pour en savoir plus sur un paramètre.
 
-- Les bons estimateurs produisent des estimations proches du vrai estimande.
+- Les bons estimateurs produisent des estimations proches du vrai paramètre.
 
 - (Liant l'estimation aux tests) l'erreur type des estimateurs nous permet de calculer les intervalles de confiance et les $p$-valeurs.
   Certains estimateurs ont une erreur type plus grande ou plus petite (ou plus ou moins correcte).
 
-- Vous pouvez évaluer l'utilité d'un estimateur choisi pour un estimande choisi par simulation.
+- Vous pouvez évaluer l'utilité d'un estimateur choisi pour un paramètre choisi par simulation.
 
 # Effets causaux qui diffèrent selon les groupes ou covariables
 
