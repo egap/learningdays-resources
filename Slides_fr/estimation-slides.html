@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="generator" content="pandoc">
   <meta name="author" content="Mettre votre nom" />
-  <title>Estimer les estimandes avec des estimateurs</title>
+  <title>Estimer les paramètres avec des estimateurs</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
@@ -517,9 +517,9 @@ document.getElementsByTagName('head')[0].appendChild(style);
     <div class="slides">
 
 <section>
-    <h1 class="title">Estimer les estimandes avec des estimateurs</h1>
+    <h1 class="title">Estimer les paramètres avec des estimateurs</h1>
     <h2 class="author">Mettre votre nom</h2>
-    <h3 class="date">10-02-2022</h3>
+    <h3 class="date">23-02-2022</h3>
 </section>
 <section id="TOC">
 <ul>
@@ -535,22 +535,22 @@ document.getElementsByTagName('head')[0].appendChild(style);
 <ul>
 <li><a href="#/revue-effet-causal">Revue : effet causal</a></li>
 </ul></li>
-<li><a href="#/estimandes-estimateurs-et-moyennes">Estimandes, estimateurs et moyennes</a>
+<li><a href="#/paramètres-estimateurs-et-moyennes">Paramètres, estimateurs et moyennes</a>
 <ul>
 <li><a href="#/comment-en-savoir-plus-sur-les-effets-causaux-à-partir-des-données-observées">Comment en savoir plus sur les effets causaux à partir des données observées ?</a></li>
-<li><a href="#/un-estimande-et-un-estimateur-usuels-leffet-moyen-du-traitement-et-la-différence-des-moyennes">Un estimande et un estimateur usuels : l’effet moyen du traitement et la différence des moyennes</a></li>
+<li><a href="#/un-paramètre-et-un-estimateur-usuels-leffet-moyen-du-traitement-et-la-différence-des-moyennes">Un paramètre et un estimateur usuels : l’effet moyen du traitement et la différence des moyennes</a></li>
 <li><a href="#/étape-1-de-la-simulation-créer-des-données-avec-un-ate-connu">Étape 1 de la simulation : créer des données avec un ATE connu</a></li>
 <li><a href="#/commencez-par-créer-de-fausses-données">Commencez par créer de fausses données</a></li>
 <li><a href="#/avec-declaredesign">Avec DeclareDesign</a></li>
 <li><a href="#/avec-declaredesign-créer-de-fausses-données">Avec DeclareDesign : créer de fausses données</a></li>
-<li><a href="#/avec-declaredesign-définir-lestimande-et-les-estimateurs">Avec DeclareDesign : définir l’estimande et les estimateurs</a></li>
-<li><a href="#/avec-declaredesign-définir-lestimande-et-les-estimateurs-1">Avec DeclareDesign : définir l’estimande et les estimateurs</a></li>
-<li><a href="#/avec-declaredesign-définir-lestimande-et-les-estimateurs-2">Avec DeclareDesign : définir l’estimande et les estimateurs</a></li>
+<li><a href="#/avec-declaredesign-définir-le-paramètre-et-les-estimateurs">Avec DeclareDesign : définir le paramètre et les estimateurs</a></li>
+<li><a href="#/avec-declaredesign-définir-le-paramètre-et-les-estimateurs-1">Avec DeclareDesign : définir le paramètre et les estimateurs</a></li>
+<li><a href="#/avec-declaredesign-définir-le-paramètre-et-les-estimateurs-2">Avec DeclareDesign : définir le paramètre et les estimateurs</a></li>
 <li><a href="#/puis-simuler-avec-une-randomisation">Puis simuler avec une randomisation</a></li>
 <li><a href="#/puis-simuler-avec-une-randomisation-1">Puis simuler avec une randomisation</a></li>
 <li><a href="#/ensuite-simuler-une-randomisation-différente-et-estimer-late-avec-les-mêmes-estimateurs">Ensuite simuler une randomisation différente et estimer l’ATE avec les mêmes estimateurs</a></li>
-<li><a href="#/comment-nos-estimateurs-se-comportent-ils-en-général-pour-ce-design">Comment nos estimateurs se comportent-ils en général pour ce design ?</a></li>
-<li><a href="#/comment-nos-estimateurs-se-comportent-ils-en-général-pour-ce-design-1">Comment nos estimateurs se comportent-ils en général pour ce design ?</a></li>
+<li><a href="#/comment-nos-estimateurs-se-comportent-ils-en-général-pour-cette-conception">Comment nos estimateurs se comportent-ils en général pour cette conception ?</a></li>
+<li><a href="#/comment-nos-estimateurs-se-comportent-ils-en-général-pour-cette-conception-1">Comment nos estimateurs se comportent-ils en général pour cette conception ?</a></li>
 <li><a href="#/quel-estimateur-est-le-plus-proche-de-la-vérité">Quel estimateur est le plus proche de la vérité ?</a></li>
 <li><a href="#/estimateurs-biaisés-et-non-biaisés">Estimateurs biaisés et non-biaisés</a></li>
 </ul></li>
@@ -584,9 +584,9 @@ document.getElementsByTagName('head')[0].appendChild(style);
 <ul>
 <li><a href="#/résultats-binaires-configurons-nos-données-pour-simuler-avec-declaredesign">Résultats binaires : configurons nos données pour simuler avec DeclareDesign</a></li>
 <li><a href="#/résultats-binaires-configurons-nos-données-pour-simuler-avec-declaredesign-1">Résultats binaires : configurons nos données pour simuler avec DeclareDesign</a></li>
-<li><a href="#/résultats-binaires-estimandes-i">Résultats binaires : estimandes I</a></li>
-<li><a href="#/résultats-binaires-estimandes-ii">Résultats binaires : estimandes II</a></li>
-<li><a href="#/résultats-binaires-estimandes-iii">Résultats binaires : estimandes III</a></li>
+<li><a href="#/résultats-binaires-paramètres-i">Résultats binaires : paramètres I</a></li>
+<li><a href="#/résultats-binaires-paramètres-ii">Résultats binaires : paramètres II</a></li>
+<li><a href="#/résultats-binaires-paramètres-iii">Résultats binaires : paramètres III</a></li>
 <li><a href="#/un-exemple-destimation-i">Un exemple d’estimation I</a></li>
 <li><a href="#/un-exemple-destimation-ii">Un exemple d’estimation II</a></li>
 <li><a href="#/un-exemple-destimation-iii">Un exemple d’estimation III</a></li>
@@ -599,7 +599,7 @@ document.getElementsByTagName('head')[0].appendChild(style);
 </ul></li>
 <li><a href="#/autres-sujets-liés-à-lestimation">Autres sujets liés à l’estimation</a>
 <ul>
-<li><a href="#/lajustement-de-covariable-estimandes">L’ajustement de covariable : estimandes</a></li>
+<li><a href="#/lajustement-de-covariable-paramètres">L’ajustement de covariable : paramètres</a></li>
 </ul></li>
 <li><a href="#/conclusion">Conclusion</a>
 <ul>
@@ -628,7 +628,7 @@ document.getElementsByTagName('head')[0].appendChild(style);
 <li><a href="#/comment-calculer-litt-et-le-cacelate-i">Comment calculer l’ITT et le CACE/LATE I</a></li>
 <li><a href="#/comment-calculer-litt-et-le-cacelate-ii">Comment calculer l’ITT et le CACE/LATE II</a></li>
 <li><a href="#/comment-calculer-litt-et-le-cacelate-iii">Comment calculer l’ITT et le CACE/LATE III</a></li>
-<li><a href="#/résumé-des-designs-incitatifs-conformistes-par-dose">Résumé des designs incitatifs / conformistes / par dose:</a></li>
+<li><a href="#/résumé-des-conceptions-incitatives-conformistes-par-dose">Résumé des conceptions incitatives / conformistes / par dose:</a></li>
 <li><a href="#/références">Références</a></li>
 </ul></li>
 </ul>
@@ -643,15 +643,15 @@ document.getElementsByTagName('head')[0].appendChild(style);
 <h2>Points clés sur l’estimation I</h2>
 <ul>
 <li><p>Un effet causal, <span class="math inline">\(\tau_i\)</span>, est une comparaison des résultats potentiels non observés pour chaque unité <span class="math inline">\(i\)</span> : exemples <span class="math inline">\(\tau_{i} = Y_{i}(T_{i}=1) - Y_{i}(T_{i}=0)\)</span> ou <span class="math inline">\(\tau_{i} = \frac{Y_{i}(T_{i}=1)}{ Y_{i}(T_{i}=0)}\)</span>.</p></li>
-<li><p>Pour en savoir plus sur <span class="math inline">\(\tau_{i}\)</span>, nous pouvons traiter <span class="math inline">\(\tau_{i}\)</span> comme un <strong>estimande</strong> ou une quantité cible à estimer (discutée ici) ou comme quantité cible hypothétique (voir module sur les tests d’hypothèses).</p></li>
+<li><p>Pour en savoir plus sur <span class="math inline">\(\tau_{i}\)</span>, nous pouvons traiter <span class="math inline">\(\tau_{i}\)</span> comme un <strong>paramètre</strong> ou une quantité cible à estimer (discutée ici) ou comme quantité cible hypothétique (voir module sur les tests d’hypothèses).</p></li>
 <li><p>Beaucoup se concentrent sur l’<strong>effet moyen du traitement (average treatment effect, ATE)</strong>, <span class="math inline">\(\bar{\tau}=\sum_{i=1}^n\tau_{i}\)</span>, en partie parce qu’il permet une <strong>estimation</strong> facile.</p></li>
 </ul>
 </section>
 <section id="points-clés-sur-lestimation-ii" class="slide level2">
 <h2>Points clés sur l’estimation II</h2>
 <ul>
-<li><p>La clé de l’estimation pour l’inférence causale consiste à choisir un estimande qui vous aide à en savoir plus sur votre question théorique ou politique. Ainsi, on pourrait utiliser l’ATE mais aussi d’autres estimandes courants tels que l’effet d’intention de traiter (intent to treat effect, ITT), l’effet moyen local du traitement (local average treatment effect, LATE), l’effet causal moyen pour ceux qui se conforment au traitement (complier average causal effect, CACE), l’effet moyen du traitement sur les traités (average treatment effect on the treated, ATT) ou l’ATE pour certains sous-groupes.</p></li>
-<li><p>Un <strong>estimateur</strong> est une recette pour calculer approximativement la valeur d’un estimande. Par exemple, la différence des moyennes observées pour <span class="math inline">\(m\)</span> unités traitées est un estimateur de <span class="math inline">\(\bar{\tau}\)</span>: <span class="math inline">\(\hat{\bar{\tau}} = \frac{\sum_{i=1}^n (T_i Y_i)}{m} - \frac{\sum_{i=1}^n ( ( 1 - T_i)Y_i)}{(n-m)}\)</span>.</p></li>
+<li><p>La clé de l’estimation pour l’inférence causale consiste à choisir un paramètre qui vous aide à en savoir plus sur votre question théorique ou politique. Ainsi, on pourrait utiliser l’ATE mais aussi d’autres paramètres courants tels que l’effet d’intention de traiter (intent to treat effect, ITT), l’effet moyen local du traitement (local average treatment effect, LATE), l’effet causal moyen pour ceux qui se conforment au traitement (complier average causal effect, CACE), l’effet moyen du traitement sur les traités (average treatment effect on the treated, ATT) ou l’ATE pour certains sous-groupes.</p></li>
+<li><p>Un <strong>estimateur</strong> est une recette pour calculer approximativement la valeur d’un paramètre. Par exemple, la différence des moyennes observées pour <span class="math inline">\(m\)</span> unités traitées est un estimateur de <span class="math inline">\(\bar{\tau}\)</span>: <span class="math inline">\(\hat{\bar{\tau}} = \frac{\sum_{i=1}^n (T_i Y_i)}{m} - \frac{\sum_{i=1}^n ( ( 1 - T_i)Y_i)}{(n-m)}\)</span>.</p></li>
 </ul>
 </section>
 <section id="points-clés-sur-lestimation-iii" class="slide level2">
@@ -659,8 +659,8 @@ document.getElementsByTagName('head')[0].appendChild(style);
 <ul>
 <li><p>L’<strong>erreur type</strong> d’un estimateur dans une expérience aléatoire résume comment les estimations varieraient si l’expérience était répétée.</p></li>
 <li><p>Nous utilisons l’<strong>erreur type</strong> pour produire des <strong>intervalles de confiance</strong> et des <strong>p-valeurs</strong> afin de commencer par un estimateur et terminer par un test d’hypothèse.</p></li>
-<li><p>Différentes randomisations produiront différentes valeurs du même estimateur ciblant le même estimande. L’<strong>erreur type</strong> résume la variabilité de cet estimateur.</p></li>
-<li><p>Un <strong>intervalle de confiance</strong> de <em><span class="math inline">\(100(1-\alpha)\)</span>%</em> est un ensemble d’hypothèses qui ne peuvent être rejetées au niveau <span class="math inline">\(\alpha\)</span>. Nous avons tendance à rapporter des intervalles de confiance contenant des hypothèses sur les valeurs de notre estimande et à utiliser notre estimateur comme une statistique de test.</p></li>
+<li><p>Différentes randomisations produiront différentes valeurs du même estimateur ciblant le même paramètre. L’<strong>erreur type</strong> résume la variabilité de cet estimateur.</p></li>
+<li><p>Un <strong>intervalle de confiance</strong> de <em><span class="math inline">\(100(1-\alpha)\)</span>%</em> est un ensemble d’hypothèses qui ne peuvent être rejetées au niveau <span class="math inline">\(\alpha\)</span>. Nous avons tendance à rapporter des intervalles de confiance contenant des hypothèses sur les valeurs de notre paramètre et à utiliser notre estimateur comme une statistique de test.</p></li>
 </ul>
 </section>
 <section id="points-clés-sur-lestimation-iv" class="slide level2">
@@ -668,16 +668,16 @@ document.getElementsByTagName('head')[0].appendChild(style);
 <ul>
 <li><p>Les estimateurs doivent :</p>
 <ul>
-<li><p>éviter l’erreur systématique dans leur approximation de l’estimande (i.e. être sans biais)</p></li>
+<li><p>éviter l’erreur systématique dans leur approximation du paramètre (i.e. être sans biais)</p></li>
 <li><p>peu varier d’une expérience à l’autre (être précis ou efficace)</p></li>
-<li><p>peut-être idéalement converger vers l’estimande quand ils utilisent de plus en plus d’informations (être cohérent).</p></li>
+<li><p>peut-être idéalement converger vers le paramètre quand ils utilisent de plus en plus d’informations (être cohérent).</p></li>
 </ul></li>
 </ul>
 </section>
 <section id="points-clés-sur-lestimation-v" class="slide level2">
 <h2>Points clés sur l’estimation V</h2>
 <ul>
-<li><p><strong>Analyser au fur et à mesure de la randomisation</strong> dans le contexte de l’estimation signifie que (1) nos erreurs types doivent mesurer la variabilité à partir de la randomisation et (2) nos estimateurs doivent cibler des estimandes définis en termes de résultats potentiels.</p></li>
+<li><p><strong>Analyser au fur et à mesure de la randomisation</strong> dans le contexte de l’estimation signifie que (1) nos erreurs types doivent mesurer la variabilité à partir de la randomisation et (2) nos estimateurs doivent cibler des paramètres définis en termes de résultats potentiels.</p></li>
 <li><p>Nous ne <strong>contrôlons pas</strong> les covariables lorsque nous analysons les données d’expériences aléatoires. Mais les covariables peuvent rendre notre estimation plus <strong>précise</strong>. C’est ce qu’on appelle <strong>l’ajustement de covariance</strong> (ou ajustement de covariable). <strong>L’ajustement de covariance</strong> dans les expériences aléatoires diffère du contrôle dans les études observationnelles.</p></li>
 </ul>
 </section></section>
@@ -697,26 +697,26 @@ document.getElementsByTagName('head')[0].appendChild(style);
 <p>L’assignation de traitement, <span class="math inline">\(T_i\)</span>, a un effet causal sur l’unité <span class="math inline">\(i\)</span>, que nous appelons <span class="math inline">\(\tau_i\)</span>, si <span class="math inline">\(Y_{i}(T_{i}=1) - Y_{i}(T_{i}=0) \ne 0\)</span> ou <span class="math inline">\(Y_{i}(T_{i}=1) \ne Y_{i}(T_{i}=0)\)</span>.</p>
 </section></section>
 <section>
-<section id="estimandes-estimateurs-et-moyennes" class="title-slide slide level1">
-<h1>Estimandes, estimateurs et moyennes</h1>
+<section id="paramètres-estimateurs-et-moyennes" class="title-slide slide level1">
+<h1>Paramètres, estimateurs et moyennes</h1>
 
 </section>
 <section id="comment-en-savoir-plus-sur-les-effets-causaux-à-partir-des-données-observées" class="slide level2">
 <h2>Comment en savoir plus sur les effets causaux à partir des données observées ?</h2>
 <ol type="1">
 <li><p>Rappel : nous pouvons <strong>tester les hypothèses</strong> sur la paire de résultats potentiels <span class="math inline">\(\{ Y_{i}(T_{i}=1), Y_{i}(T_{i}=0) \}\)</span>.</p></li>
-<li><p>Nous pouvons <strong>définir les estimandes</strong> en termes de <span class="math inline">\(\{ Y_{i}(T_{i}=1), Y_{i}(T_{i}=0) \}\)</span> ou <span class="math inline">\(\tau_i\)</span>, <strong>développer des estimateurs</strong> pour ces estimandes, puis calculer les valeurs et les erreurs types pour ces estimateurs.</p></li>
+<li><p>Nous pouvons <strong>définir les paramètres</strong> en termes de <span class="math inline">\(\{ Y_{i}(T_{i}=1), Y_{i}(T_{i}=0) \}\)</span> ou <span class="math inline">\(\tau_i\)</span>, <strong>développer des estimateurs</strong> pour ces paramètres, puis calculer les valeurs et les erreurs types pour ces estimateurs.</p></li>
 </ol>
 </section>
-<section id="un-estimande-et-un-estimateur-usuels-leffet-moyen-du-traitement-et-la-différence-des-moyennes" class="slide level2">
-<h2>Un estimande et un estimateur usuels : l’effet moyen du traitement et la différence des moyennes</h2>
+<section id="un-paramètre-et-un-estimateur-usuels-leffet-moyen-du-traitement-et-la-différence-des-moyennes" class="slide level2">
+<h2>Un paramètre et un estimateur usuels : l’effet moyen du traitement et la différence des moyennes</h2>
 <p>Soit <span class="math inline">\(\bar{\tau}=\sum_{i=1}^n \tau_{i}\)</span>, l’effet moyen du traitement. Quel serait un bon estimateur ?</p>
 <p>Deux candidats :</p>
 <ol type="1">
 <li><p>La différence des moyennes : <span class="math inline">\(\hat{\bar{\tau}} = \frac{\sum_{i=1}^n (T_i Y_i)}{m} - \frac{\sum_{i=1}^n ( ( 1 - T_i) Y_i)}{n-m}\)</span>.</p></li>
 <li><p>La différence des moyennes avec plafonnement de l’observation <span class="math inline">\(Y_i\)</span> la plus haute (une sorte de moyenne “winsorisée” pour éviter que les valeurs extrêmes n’exercent trop d’influence sur notre estimateur — pour augmenter la <em>précision</em>).</p></li>
 </ol>
-<p>Comment saurons-nous quel estimateur convient le mieux à notre design de recherche ?</p>
+<p>Comment saurons-nous quel estimateur convient le mieux à notre conception de recherche ?</p>
 <p>Simulons-le !</p>
 </section>
 <section id="étape-1-de-la-simulation-créer-des-données-avec-un-ate-connu" class="slide level2">
@@ -749,7 +749,7 @@ document.getElementsByTagName('head')[0].appendChild(style);
 </section>
 <section id="avec-declaredesign" class="slide level2">
 <h2>Avec DeclareDesign</h2>
-<p>DeclareDesign représente les designs de recherche en quelques étapes illustrées ci-dessous :</p>
+<p>DeclareDesign représente les conceptions de recherche en quelques étapes illustrées ci-dessous :</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># prendre uniquement les résultats potentiels du traitement</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="co"># et du contrôle à partir de nos fausses données</span></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>small_dat <span class="ot">&lt;-</span> dat[, <span class="fu">c</span>(<span class="st">&quot;y0&quot;</span>, <span class="st">&quot;y1&quot;</span>)]</span>
@@ -768,7 +768,7 @@ document.getElementsByTagName('head')[0].appendChild(style);
 <span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a><span class="co"># spécifier les variables de résultat et d&#39;assignation</span></span>
 <span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>reveal <span class="ot">&lt;-</span> <span class="fu">declare_reveal</span>(Y, Z)</span>
 <span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a><span class="co"># l&#39;objet de design de recherche basique comprend ces quatre objets</span></span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a><span class="co"># l&#39;objet de conception de recherche basique comprend ces quatre objets</span></span>
 <span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>base_design <span class="ot">&lt;-</span> pop <span class="sc">+</span> trt_assign <span class="sc">+</span> pot_out <span class="sc">+</span> reveal</span></code></pre></div>
 </section>
 <section id="avec-declaredesign-créer-de-fausses-données" class="slide level2">
@@ -787,10 +787,10 @@ document.getElementsByTagName('head')[0].appendChild(style);
 5  1  11 0     1    11  1
 6  3  23 1     3    23 23</code></pre>
 </section>
-<section id="avec-declaredesign-définir-lestimande-et-les-estimateurs" class="slide level2">
-<h2>Avec DeclareDesign : définir l’estimande et les estimateurs</h2>
-<p>Pas de sortie ici. Il suffit de définir fonctions et estimateurs ainsi qu’un estimande.</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="do">## L&#39;estimande</span></span>
+<section id="avec-declaredesign-définir-le-paramètre-et-les-estimateurs" class="slide level2">
+<h2>Avec DeclareDesign : définir le paramètre et les estimateurs</h2>
+<p>Pas de sortie ici. Il suffit de définir fonctions et estimateurs ainsi qu’un paramètre.</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Le paramètre</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>estimandATE <span class="ot">&lt;-</span> <span class="fu">declare_inquiry</span>(<span class="at">ATE =</span> <span class="fu">mean</span>(Y_Z_1 <span class="sc">-</span> Y_Z_0))</span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="do">## Le premier estimateur est la différence des moyennes</span></span>
@@ -799,8 +799,8 @@ document.getElementsByTagName('head')[0].appendChild(style);
 <span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">model =</span> lm_robust, <span class="at">se_type =</span> <span class="st">&quot;classical&quot;</span>, <span class="at">label =</span> <span class="st">&quot;Diff des moyennes/MCO&quot;</span></span>
 <span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
 </section>
-<section id="avec-declaredesign-définir-lestimande-et-les-estimateurs-1" class="slide level2">
-<h2>Avec DeclareDesign : définir l’estimande et les estimateurs</h2>
+<section id="avec-declaredesign-définir-le-paramètre-et-les-estimateurs-1" class="slide level2">
+<h2>Avec DeclareDesign : définir le paramètre et les estimateurs</h2>
 <div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Le deuxième estimateur est la différence des moyennes winsorisées</span></span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>diff_means_topcoded_fn <span class="ot">&lt;-</span> <span class="cf">function</span>(data) {</span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  data<span class="sc">$</span>rankY <span class="ot">&lt;-</span> <span class="fu">rank</span>(data<span class="sc">$</span>Y)</span>
@@ -818,10 +818,10 @@ document.getElementsByTagName('head')[0].appendChild(style);
 <span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>  <span class="at">inquiry =</span> estimandATE, <span class="at">label =</span> <span class="st">&quot;Diff des moyennes winsorisée&quot;</span></span>
 <span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
 </section>
-<section id="avec-declaredesign-définir-lestimande-et-les-estimateurs-2" class="slide level2">
-<h2>Avec DeclareDesign : définir l’estimande et les estimateurs</h2>
+<section id="avec-declaredesign-définir-le-paramètre-et-les-estimateurs-2" class="slide level2">
+<h2>Avec DeclareDesign : définir le paramètre et les estimateurs</h2>
 <p>Nous montrons ici comment fonctionnent les estimateurs avec la méthode des doubles différences en utilisant nos données simulées.</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Démontrer que l&#39;estimande fonctionne :</span></span>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Démontrer que le paramètre fonctionne :</span></span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="fu">estimandATE</span>(sim_dat1)</span></code></pre></div>
 <pre><code>  inquiry estimand
 1     ATE       54</code></pre>
@@ -869,7 +869,7 @@ document.getElementsByTagName('head')[0].appendChild(style);
 </section>
 <section id="ensuite-simuler-une-randomisation-différente-et-estimer-late-avec-les-mêmes-estimateurs" class="slide level2">
 <h2>Ensuite simuler une randomisation différente et estimer l’ATE avec les mêmes estimateurs</h2>
-<p>Calculez maintenant votre estimation avec les mêmes estimateurs en utilisant une randomisation <strong>différente</strong>. Notez que les réponses diffèrent. Les estimateurs estiment le <em>même estimande</em> mais ils travaillent maintenant avec une randomisation différente.</p>
+<p>Calculez maintenant votre estimation avec les mêmes estimateurs en utilisant une randomisation <strong>différente</strong>. Notez que les réponses diffèrent. Les estimateurs estiment le <em>même paramètre</em> mais ils travaillent maintenant avec une randomisation différente.</p>
 <div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co"># faire une autre assignation aléatoire du traitement dans DeclareDesign</span></span>
 <span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="co"># cela produit un nouveau jeu de données simulées</span></span>
 <span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a><span class="co"># avec une assignation aléatoire différente</span></span>
@@ -885,11 +885,11 @@ document.getElementsByTagName('head')[0].appendChild(style);
 <span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a><span class="fu">coef</span>(<span class="fu">lm_robust</span>(Y_tc <span class="sc">~</span> Z, <span class="at">data =</span> sim_dat2, <span class="at">se =</span> <span class="st">&quot;classical&quot;</span>))[[<span class="st">&quot;Z&quot;</span>]]</span></code></pre></div>
 <pre><code>[1] -16.75</code></pre>
 </section>
-<section id="comment-nos-estimateurs-se-comportent-ils-en-général-pour-ce-design" class="slide level2">
-<h2>Comment nos estimateurs se comportent-ils en général pour ce design ?</h2>
+<section id="comment-nos-estimateurs-se-comportent-ils-en-général-pour-cette-conception" class="slide level2">
+<h2>Comment nos estimateurs se comportent-ils en général pour cette conception ?</h2>
 <p>Nos estimations varient selon la randomisation. Nos deux estimateurs varient-ils de la même façon ?</p>
 <div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Combiner dans un seul objet DeclareDesign</span></span>
-<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="do">## Cela a le design de base, l&#39;estimande, puis nos deux estimateurs (diff_means et diff_means_topcoded)</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="do">## Cela contient la conception de base, le paramètre, puis nos deux estimateurs (diff_means et diff_means_topcoded)</span></span>
 <span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>design_plus_ests <span class="ot">&lt;-</span> base_design <span class="sc">+</span> estimandATE <span class="sc">+</span> diff_means <span class="sc">+</span> diff_means_topcoded</span>
 <span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a><span class="do">## Exécuter 100 simulations (réassignations de traitement) et</span></span>
 <span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a><span class="do">## appliquer les deux estimateurs</span></span>
@@ -906,15 +906,15 @@ document.getElementsByTagName('head')[0].appendChild(style);
 5    54.50     75.93   0.71775  0.4933   -120.6     229.6  8       Y
 6   -19.14     75.85  -0.25237  0.8092   -204.7     166.5  6    newY</code></pre>
 </section>
-<section id="comment-nos-estimateurs-se-comportent-ils-en-général-pour-ce-design-1" class="slide level2">
-<h2>Comment nos estimateurs se comportent-ils en général pour ce design ?</h2>
+<section id="comment-nos-estimateurs-se-comportent-ils-en-général-pour-cette-conception-1" class="slide level2">
+<h2>Comment nos estimateurs se comportent-ils en général pour cette conception ?</h2>
 <p>Nos estimations varient selon la randomisation. Nos deux estimateurs varient-ils de la même façon ? Comment interpréter cette figure ?</p>
 <p><img src="figs/figsim_plot-1.png" width=".8\textwidth"  /></p>
 </section>
 <section id="quel-estimateur-est-le-plus-proche-de-la-vérité" class="slide level2">
 <h2>Quel estimateur est le plus proche de la vérité ?</h2>
 <p>Une façon de choisir parmi les estimateurs est de choisir celui qui est <strong>proche de la vérité</strong> chaque fois que nous l’utilisons — quelle que soit la randomisation choisie.</p>
-<p>Un estimateur “sans biais” est un estimateur pour lequel la <strong>moyenne des estimations pour des designs répétés</strong> est la même que la vérité (ou <span class="math inline">\(E_R(\hat{\bar{\tau}})=\bar{\tau}\)</span>). Un estimateur sans biais n’a “pas d’erreur systématique” mais ne garantit pas la proximité avec la vérité.</p>
+<p>Un estimateur “sans biais” est un estimateur pour lequel la <strong>moyenne des estimations pour des conceptions répétées</strong> est la même que la vérité (ou <span class="math inline">\(E_R(\hat{\bar{\tau}})=\bar{\tau}\)</span>). Un estimateur sans biais n’a “pas d’erreur systématique” mais ne garantit pas la proximité avec la vérité.</p>
 <p>Une autre mesure de proximité est la <strong>racine de l’erreur quadratique moyenne</strong> (REQM) qui agrège les distances au carré entre la vérité et les estimations individuelles.</p>
 <p>Quel estimateur est le meilleur ? (L’un est plus proche de la vérité en moyenne (REQM) et il est plus précis. L’autre n’a pas d’erreur systématique — il est non-biaisé.)</p>
 <table>
@@ -952,8 +952,8 @@ document.getElementsByTagName('head')[0].appendChild(style);
 <h2>Estimateurs biaisés et non-biaisés</h2>
 <p>Résumé :</p>
 <ul>
-<li><p>Nous avons un <em>choix</em> d’estimandes et d’estimateurs</p></li>
-<li><p>Un bon estimateur performe bien quelle que soit la randomisation particulière d’un design donné. Et <em>bien performer</em> peut signifier “être sans biais” et/ou “avoir une faible erreur quadratique moyenne” (ou “être cohérent” — ce qui signifie être de plus en plus proche de la vérité à mesure que la taille de l’échantillon augmente).</p></li>
+<li><p>Nous avons un <em>choix</em> de paramètres et d’estimateurs</p></li>
+<li><p>Un bon estimateur performe bien quelle que soit la randomisation particulière d’une conception donnée. Et <em>bien performer</em> peut signifier “être sans biais” et/ou “avoir une faible erreur quadratique moyenne” (ou “être cohérent” — ce qui signifie être de plus en plus proche de la vérité à mesure que la taille de l’échantillon augmente).</p></li>
 <li><p>Nous pouvons apprendre comment un estimateur donné se comporte dans une étude donnée en utilisant la simulation.</p></li>
 </ul>
 </section></section>
@@ -964,7 +964,7 @@ document.getElementsByTagName('head')[0].appendChild(style);
 </section>
 <section id="les-expériences-aléatoires-par-bloc-sont-une-collection-de-mini-expériences" class="slide level2">
 <h2>Les expériences aléatoires par bloc sont une collection de mini-expériences</h2>
-<p>Quel est l’estimande de l’<strong>effet moyen du traitement</strong> dans une expérience aléatoire par bloc ?</p>
+<p>Quel est le paramètre de l’<strong>effet moyen du traitement</strong> dans une expérience aléatoire par bloc ?</p>
 <p>Si nous considérons l’ATE au niveau de l’unité comme : <span class="math inline">\((1/N) \sum_{i=1}^N y_{i,1} - y_{i,0}\)</span> alors nous pourrions réexprimer cela de manière équivalente en sachant que l’ATE par bloc <span class="math inline">\(j\)</span> est <span class="math inline">\(ATE_j\)</span> comme suit :</p>
 <p><span class="math display">\[
 ATE = \frac{1}{J}\sum^J_{j=1} \sum^{N_j}_{i=1} \frac{y_{i,1} - y_{i,0}}{N_j}  = \sum^J_{j=1} \frac{N_j}{N} ATE_j
@@ -1032,11 +1032,11 @@ b   0 1
 </section>
 <section id="quel-estimateur-doit-on-utiliser" class="slide level2">
 <h2>Quel estimateur doit-on utiliser ?</h2>
-<p>Nous avons maintenant 3 estimateurs, chacun avec une estimation différente (en imaginant qu’ils ciblent tous le même estimande) :</p>
+<p>Nous avons maintenant 3 estimateurs, chacun avec une estimation différente (en imaginant qu’ils ciblent tous le même paramètre) :</p>
 <div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(<span class="fu">coef</span>(e1)[[<span class="st">&quot;Z&quot;</span>]], <span class="fu">coef</span>(e3)[[<span class="st">&quot;Z&quot;</span>]], <span class="fu">coef</span>(e4)[[<span class="st">&quot;Z&quot;</span>]])</span></code></pre></div>
 <pre><code>[1] 108.2 131.8 114.8</code></pre>
-<p>Quel estimateur doit-on utiliser pour ce design ? Simulons avec DeclareDesign pour le savoir.</p>
-<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="do">## déclarer un nouveau design de base qui inclut b, l&#39;indicateur de bloc</span></span>
+<p>Quel estimateur doit-on utiliser pour cette conception ? Simulons avec DeclareDesign pour le savoir.</p>
+<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="do">## déclarer une nouvelle conception de base qui inclut b, l&#39;indicateur de bloc</span></span>
 <span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>base_design_blocks <span class="ot">&lt;-</span></span>
 <span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">declare_population</span>(dat[, <span class="fu">c</span>(<span class="st">&quot;b&quot;</span>, <span class="st">&quot;y0&quot;</span>, <span class="st">&quot;y1&quot;</span>)]) <span class="sc">+</span></span>
 <span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a>  <span class="co"># dire à la méthode des doubles différences que b signifie bloc</span></span>
@@ -1053,7 +1053,7 @@ b   0 1
 </section>
 <section id="quel-estimateur-doit-on-utiliser-1" class="slide level2">
 <h2>Quel estimateur doit-on utiliser ?</h2>
-<div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="co"># L&#39;estimande est l&#39;effet moyen du traitement</span></span>
+<div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Le paramètre est l&#39;effet moyen du traitement</span></span>
 <span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>estimandATEb <span class="ot">&lt;-</span> <span class="fu">declare_inquiry</span>(<span class="at">ATE =</span> <span class="fu">mean</span>(Y_Z_1 <span class="sc">-</span> Y_Z_0))</span>
 <span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb43-4"><a href="#cb43-4" aria-hidden="true" tabindex="-1"></a><span class="co"># 3 estimateurs différents</span></span>
@@ -1083,7 +1083,7 @@ b   0 1
 <span id="cb44-8"><a href="#cb44-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">model =</span> lm_robust, <span class="at">label =</span> <span class="st">&quot;Pondérée par précision (LSDV)&quot;</span></span>
 <span id="cb44-9"><a href="#cb44-9" aria-hidden="true" tabindex="-1"></a>)</span>
 <span id="cb44-10"><a href="#cb44-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-11"><a href="#cb44-11" aria-hidden="true" tabindex="-1"></a><span class="do">## le nouveau design a le design de base, l&#39;estimande et cinq estimateurs</span></span>
+<span id="cb44-11"><a href="#cb44-11" aria-hidden="true" tabindex="-1"></a><span class="do">## la nouvelle conception a la conception de base, le paramètre et cinq estimateurs</span></span>
 <span id="cb44-12"><a href="#cb44-12" aria-hidden="true" tabindex="-1"></a>design_blocks <span class="ot">&lt;-</span> base_design_blocks <span class="sc">+</span> estimandATEb <span class="sc">+</span></span>
 <span id="cb44-13"><a href="#cb44-13" aria-hidden="true" tabindex="-1"></a>  est1 <span class="sc">+</span> est2 <span class="sc">+</span> est3 <span class="sc">+</span> est4 <span class="sc">+</span> est5</span></code></pre></div>
 <p>Ensuite, nous allons exécuter 10 000 simulations (réassigner le traitement 10 000 fois) et résumer les estimations produites par chacun de ces cinq estimateurs.</p>
@@ -1095,7 +1095,7 @@ b   0 1
 </section>
 <section id="quel-estimateur-est-le-plus-proche-de-la-vérité-1" class="slide level2">
 <h2>Quel estimateur est le plus proche de la vérité ?</h2>
-<p>Quel estimateur fonctionne le mieux pour ce design et ces données ?</p>
+<p>Quel estimateur fonctionne le mieux pour cette conception et ces données ?</p>
 <table>
 <thead>
 <tr class="header">
@@ -1185,7 +1185,7 @@ b   0 1
 <section id="estimation-de-lerreur-type-pour-late-dans-des-expériences-aléatoires-par-grappe" class="slide level2 allowframebreaks">
 <h2 class="allowframebreaks">Estimation de l’erreur type pour l’ATE dans des expériences aléatoires par grappe</h2>
 <ul>
-<li><p><strong>Inférences statistiques trompeuses :</strong> L’erreur type par défaut sous-estimera généralement la précision dans de tels designs et produira ainsi des tests avec des taux de faux positifs trop élevés (ou, de manière équivalente, des taux de couverture pour les intervalles de confiance trop faibles).</p></li>
+<li><p><strong>Inférences statistiques trompeuses :</strong> L’erreur type par défaut sous-estimera généralement la précision dans de telles conceptions et produira ainsi des tests avec des taux de faux positifs trop élevés (ou, de manière équivalente, des taux de couverture pour les intervalles de confiance trop faibles).</p></li>
 <li><p>“L’erreur type robuste pour grappe” implémentée dans les logiciels courants fonctionnent bien <strong>lorsque le nombre de grappes est important</strong> (plus de 50 grappes dans certaines études de simulation).</p></li>
 <li><p>L’erreur type par défaut adaptée aux grappes dans <code>lm_robust</code> (l’erreur type <code>CR2</code>) fonctionne mieux que l’approche basique en Stata (à ce jour).</p></li>
 <li><p>Le “wild bootstrap” aide à contrôler les taux d’erreur mais abandonne beaucoup plus de puissance statistique qu’il n’est peut-être nécessaire dans une étude aléatoire par grappe où l’inférence de randomisation directe est possible.</p></li>
@@ -1225,10 +1225,10 @@ b   0 1
 </section>
 <section id="simuler-pour-évaluer-les-estimateurs-et-les-tests" class="slide level2">
 <h2>Simuler pour évaluer les estimateurs et les tests</h2>
-<p>Si vous regardez le code des slides, vous verrez que nous simulons le design 5000 fois, en calculant à chaque fois une estimation et un intervalle de confiance pour différents estimateurs de l’ATE.</p>
+<p>Si vous regardez le code des slides, vous verrez que nous simulons la conception 5000 fois, en calculant à chaque fois une estimation et un intervalle de confiance pour différents estimateurs de l’ATE.</p>
 <p>Que devons-nous apprendre de ce tableau ? (Couverture ? <code>sd_estimate</code> vs. <code>mean_se</code>).</p>
 <table>
-<caption>Performances de l’estimateur et des tests pour 5000 simulations du design randomisé par grappe pour différents estimateurs et intervalles de confiance</caption>
+<caption>Performances de l’estimateur et des tests pour 5000 simulations de la conception randomisée par grappe pour différents estimateurs et intervalles de confiance</caption>
 <thead>
 <tr class="header">
 <th style="text-align: left;">estimator</th>
@@ -1287,7 +1287,7 @@ b   0 1
 <h2>Simuler pour évaluer les estimateurs et les tests</h2>
 <p>Que devons-nous apprendre de ce tableau ? (Biais ? Proximité avec la vérité ?)</p>
 <table>
-<caption>Performances de l’estimateur et des tests pour 5000 simulations du design randomisé par grappe pour différents estimateurs et intervalles de confiance</caption>
+<caption>Performances de l’estimateur et des tests pour 5000 simulations de la conception randomisée par grappe pour différents estimateurs et intervalles de confiance</caption>
 <thead>
 <tr class="header">
 <th style="text-align: left;">estimator</th>
@@ -1389,9 +1389,9 @@ b   0 1
 <span id="cb53-11"><a href="#cb53-11" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">12345</span>)</span>
 <span id="cb53-12"><a href="#cb53-12" aria-hidden="true" tabindex="-1"></a>dat2 <span class="ot">&lt;-</span> <span class="fu">draw_data</span>(des_bin)</span></code></pre></div>
 </section>
-<section id="résultats-binaires-estimandes-i" class="slide level2">
-<h2>Résultats binaires : estimandes I</h2>
-<p>Comment interpréterions-nous les vraies quantités ou estimandes suivants ? <code>Y_Z_1</code>, <code>Y_Z_0</code> sont des résultats potentiels, <code>Y</code> est l’observation, <code>x1</code>, <code>x2</code> sont des covariables, <code>Z</code> est l’assignation de traitement. <span class="math inline">\(N\)</span>=20.</p>
+<section id="résultats-binaires-paramètres-i" class="slide level2">
+<h2>Résultats binaires : paramètres I</h2>
+<p>Comment interpréterions-nous les vraies quantités ou paramètres suivants ? <code>Y_Z_1</code>, <code>Y_Z_0</code> sont des résultats potentiels, <code>Y</code> est l’observation, <code>x1</code>, <code>x2</code> sont des covariables, <code>Z</code> est l’assignation de traitement. <span class="math inline">\(N\)</span>=20.</p>
 <div class="sourceCode" id="cb54"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Voici les 6 premières observations seulement :</span></span>
 <span id="cb54-2"><a href="#cb54-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(dat2[, <span class="sc">-</span><span class="dv">7</span>])</span></code></pre></div>
 <pre><code>  ID x1      x2 Y_Z_0 Y_Z_1 Z
@@ -1402,9 +1402,9 @@ b   0 1
 5 05  0 -0.7505     1     0 1
 6 06  0  0.8169     0     1 0</code></pre>
 </section>
-<section id="résultats-binaires-estimandes-ii" class="slide level2">
-<h2>Résultats binaires : estimandes II</h2>
-<p>Comment interpréterions-nous les vraies quantités ou estimandes suivants ? <code>Y_Z_1</code>, <code>Y_Z_0</code> sont des résultats potentiels, <code>Y</code> est l’observation, <code>x1</code>, <code>x2</code> sont des covariables, <code>Z</code> est l’assignation de traitement. <span class="math inline">\(N\)</span>=20.</p>
+<section id="résultats-binaires-paramètres-ii" class="slide level2">
+<h2>Résultats binaires : paramètres II</h2>
+<p>Comment interpréterions-nous les vraies quantités ou paramètres suivants ? <code>Y_Z_1</code>, <code>Y_Z_0</code> sont des résultats potentiels, <code>Y</code> est l’observation, <code>x1</code>, <code>x2</code> sont des covariables, <code>Z</code> est l’assignation de traitement. <span class="math inline">\(N\)</span>=20.</p>
 <div class="sourceCode" id="cb56"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a>ate_bin <span class="ot">&lt;-</span> <span class="fu">with</span>(dat2, <span class="fu">mean</span>(Y_Z_1 <span class="sc">-</span> Y_Z_0))</span>
 <span id="cb56-2"><a href="#cb56-2" aria-hidden="true" tabindex="-1"></a>bary1 <span class="ot">&lt;-</span> <span class="fu">mean</span>(dat2<span class="sc">$</span>Y_Z_1)</span>
 <span id="cb56-3"><a href="#cb56-3" aria-hidden="true" tabindex="-1"></a>bary0 <span class="ot">&lt;-</span> <span class="fu">mean</span>(dat2<span class="sc">$</span>Y_Z_0)</span>
@@ -1419,8 +1419,8 @@ b   0 1
 <pre><code>             bary1              bary0           true_ate true_diff_log_odds 
               0.55               0.55               0.00               0.00 </code></pre>
 </section>
-<section id="résultats-binaires-estimandes-iii" class="slide level2">
-<h2>Résultats binaires : estimandes III</h2>
+<section id="résultats-binaires-paramètres-iii" class="slide level2">
+<h2>Résultats binaires : paramètres III</h2>
 <p>Voulez-vous estimer la différence log-odds ?</p>
 <p><span class="math display">\[\begin{equation}
 \delta = \log \frac{\bar{y}_{1}}{1-\bar{y}_{1}} - \log \frac{ \bar{y}_0}{1- \bar{y}_0}
@@ -1430,7 +1430,7 @@ b   0 1
 \bar{\tau} = \bar{y}_{1} - \bar{y}_0
 \end{equation}\]</span></p>
 <p>Rappelons que <span class="math inline">\(\bar{y}_1\)</span> est la <em>proportion</em> de <span class="math inline">\(y_{1}=1\)</span> dans les données.</p>
-<p><span class="citation" data-cites="freedman2008randomization"><a href="#/ref-freedman2008randomization" role="doc-biblioref">Freedman</a> (<a href="#/ref-freedman2008randomization" role="doc-biblioref">2008b</a>)</span> montre que l’estimateur du coefficient logit est un estimateur biaisé de la différence de l’estimande log-odds. Il montre également un estimateur sans biais de cet estimande.</p>
+<p><span class="citation" data-cites="freedman2008randomization"><a href="#/ref-freedman2008randomization" role="doc-biblioref">Freedman</a> (<a href="#/ref-freedman2008randomization" role="doc-biblioref">2008b</a>)</span> montre que l’estimateur du coefficient logit est un estimateur biaisé de la différence du paramètre log-odds. Il montre également un estimateur sans biais de ce paramètre.</p>
 <p>Nous savons que la différence en proportions dans l’échantillon devrait être un estimateur sans biais de la différence en proportions.</p>
 </section>
 <section id="un-exemple-destimation-i" class="slide level2">
@@ -1547,9 +1547,9 @@ b   0 1
 </section>
 <section id="quel-estimateur-est-le-plus-proche-de-la-vérité-2" class="slide level2">
 <h2>Quel estimateur est le plus proche de la vérité ?</h2>
-<p>Quel estimateur fonctionne le mieux pour ce design et ces données ?</p>
+<p>Quel estimateur fonctionne le mieux pour cette conception et ces données ?</p>
 <table>
-<caption>Performances de l’estimateur et des tests pour 5000 simulations des différents estimateurs et intervalles de confiance pour un résultat binaire et un design totalement randomisé.</caption>
+<caption>Performances de l’estimateur et des tests pour 5000 simulations des différents estimateurs et intervalles de confiance pour un résultat binaire et une conception totalement randomisée.</caption>
 <thead>
 <tr class="header">
 <th style="text-align: left;">est</th>
@@ -1611,9 +1611,9 @@ b   0 1
 <h1>Autres sujets liés à l’estimation</h1>
 
 </section>
-<section id="lajustement-de-covariable-estimandes" class="slide level2">
-<h2>L’ajustement de covariable : estimandes</h2>
-<p>En général, le simple fait de “contrôler pour” produit un estimateur biaisé de l’estimande ATE <strong>ou</strong> ITT. Voir par exemple <span class="citation" data-cites="lin_agnostic_2013"><a href="#/ref-lin_agnostic_2013" role="doc-biblioref">Lin</a> (<a href="#/ref-lin_agnostic_2013" role="doc-biblioref">2013</a>)</span> et <span class="citation" data-cites="freedman2008rae"><a href="#/ref-freedman2008rae" role="doc-biblioref">Freedman</a> (<a href="#/ref-freedman2008rae" role="doc-biblioref">2008a</a>)</span>. <span class="citation" data-cites="lin_agnostic_2013"><a href="#/ref-lin_agnostic_2013" role="doc-biblioref">Lin</a> (<a href="#/ref-lin_agnostic_2013" role="doc-biblioref">2013</a>)</span> montre comment réduire ce biais et, surtout, que ce biais a tendance à être faible à mesure que la taille de l’échantillon augmente.</p>
+<section id="lajustement-de-covariable-paramètres" class="slide level2">
+<h2>L’ajustement de covariable : paramètres</h2>
+<p>En général, le simple fait de “contrôler pour” produit un estimateur biaisé du paramètre ATE <strong>ou</strong> ITT. Voir par exemple <span class="citation" data-cites="lin_agnostic_2013"><a href="#/ref-lin_agnostic_2013" role="doc-biblioref">Lin</a> (<a href="#/ref-lin_agnostic_2013" role="doc-biblioref">2013</a>)</span> et <span class="citation" data-cites="freedman2008rae"><a href="#/ref-freedman2008rae" role="doc-biblioref">Freedman</a> (<a href="#/ref-freedman2008rae" role="doc-biblioref">2008a</a>)</span>. <span class="citation" data-cites="lin_agnostic_2013"><a href="#/ref-lin_agnostic_2013" role="doc-biblioref">Lin</a> (<a href="#/ref-lin_agnostic_2013" role="doc-biblioref">2013</a>)</span> montre comment réduire ce biais et, surtout, que ce biais a tendance à être faible à mesure que la taille de l’échantillon augmente.</p>
 </section></section>
 <section>
 <section id="conclusion" class="title-slide slide level1">
@@ -1623,11 +1623,11 @@ b   0 1
 <section id="réflexions-finales-sur-lestimation" class="slide level2">
 <h2>Réflexions finales sur l’estimation</h2>
 <ul>
-<li><p>Les estimandes causaux contrefactuels sont des fonctions non observées des résultats potentiels.</p></li>
-<li><p>Les estimateurs sont des recettes ou des formules de calcul qui utilisent des données observées pour en savoir plus sur un estimande.</p></li>
-<li><p>Les bons estimateurs produisent des estimations proches du vrai estimande.</p></li>
+<li><p>Les paramètres causaux contrefactuels sont des fonctions non observées des résultats potentiels.</p></li>
+<li><p>Les estimateurs sont des recettes ou des formules de calcul qui utilisent des données observées pour en savoir plus sur un paramètre.</p></li>
+<li><p>Les bons estimateurs produisent des estimations proches du vrai paramètre.</p></li>
 <li><p>(Liant l’estimation aux tests) l’erreur type des estimateurs nous permet de calculer les intervalles de confiance et les <span class="math inline">\(p\)</span>-valeurs. Certains estimateurs ont une erreur type plus grande ou plus petite (ou plus ou moins correcte).</p></li>
-<li><p>Vous pouvez évaluer l’utilité d’un estimateur choisi pour un estimande choisi par simulation.</p></li>
+<li><p>Vous pouvez évaluer l’utilité d’un estimateur choisi pour un paramètre choisi par simulation.</p></li>
 </ul>
 </section></section>
 <section>
@@ -1640,7 +1640,7 @@ b   0 1
 <p>Si notre théorie suggère que les effets devraient différer selon le groupe, comment pouvons-nous évaluer les preuves pour ou contre une telle affirmation ?</p>
 <ul>
 <li><p>Nous pouvons <strong>concevoir</strong> une évaluation de cette théorie en créant une étude aléatoire par bloc — avec des blocs définis par des groupes théoriquement pertinents.</p></li>
-<li><p>Nous pouvons <strong>planifier</strong> une telle évaluation en (1) <strong>pré-enregistrant des analyses de sous-groupes spécifiques</strong> (que nous retenons ou non ce groupe dans la phase de design) et en (2) veillant à mesurer l’appartenance au groupe pendant la collecte des données de base pré-traitement</p></li>
+<li><p>Nous pouvons <strong>planifier</strong> une telle évaluation en (1) <strong>pré-enregistrant des analyses de sous-groupes spécifiques</strong> (que nous retenons ou non ce groupe dans la phase de conception) et en (2) veillant à mesurer l’appartenance au groupe pendant la collecte des données de base pré-traitement</p></li>
 </ul>
 </section>
 <section id="effets-différents-selon-les-groupes-ii" class="slide level2">
@@ -1700,7 +1700,7 @@ b   0 1
 <section id="définir-leffet-causal-vi" class="slide level2">
 <h2>Définir l’effet causal VI</h2>
 <p><span class="math inline">\(ITT=ITT_Y=\delta= \bar{y}_{Z=1} - \bar{y}_{Z=0}\)</span></p>
-<p>Mais, dans ce design, <span class="math inline">\(\bar{y}_{Z=1}=\bar{y}_{1}\)</span> est divisé en plusieurs parties : le résultat de ceux qui ont répondu à la porte (conformistes et toujours-preneurs et non-conformistes). Écrivez <span class="math inline">\(p_C\)</span> pour la proportion de conformistes dans cette étude.</p>
+<p>Mais, dans cette conception, <span class="math inline">\(\bar{y}_{Z=1}=\bar{y}_{1}\)</span> est divisé en plusieurs parties : le résultat de ceux qui ont répondu à la porte (conformistes et toujours-preneurs et non-conformistes). Écrivez <span class="math inline">\(p_C\)</span> pour la proportion de conformistes dans cette étude.</p>
 <p><span class="math display">\[\begin{equation}
 \bar{y}_{1}=(\bar{y}_{1}|C)p_C + (\bar{y}_{1}|A)p_A + (\bar{y}_1|N)p_N + (\bar{y}_1|D)p_D.
 \end{equation}\]</span></p>
@@ -1770,7 +1770,7 @@ ITT =  ( (\bar{y}_{1}|C) -  (\bar{y}_{0}|C))p_C  = ( CACE ) p_C.
 <div class="sourceCode" id="cb73"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb73-1"><a href="#cb73-1" aria-hidden="true" tabindex="-1"></a><span class="fu">with</span>(dat, <span class="fu">cor</span>(Y, x)) <span class="do">## peut être quelconque</span></span>
 <span id="cb73-2"><a href="#cb73-2" aria-hidden="true" tabindex="-1"></a><span class="fu">with</span>(dat, <span class="fu">cor</span>(d, x)) <span class="do">## peut être quelconque</span></span>
 <span id="cb73-3"><a href="#cb73-3" aria-hidden="true" tabindex="-1"></a><span class="fu">with</span>(dat, <span class="fu">cor</span>(Z, x)) <span class="do">## devrait être proche de 0</span></span></code></pre></div>
-<p>Mais nous venons de voir que, dans ce design et avec ces hypothèses (y compris l’hypothèse SUTVA) que <span class="math inline">\(ITT = ( (\bar{y}_{1}|C) - (\bar{y}_{0}|C))p_C = (CACE) p_C\)</span>, on peut donc définir <span class="math inline">\(CACE=ITT/p_C\)</span>.</p>
+<p>Mais nous venons de voir que, dans cette conception et avec ces hypothèses (y compris l’hypothèse SUTVA) que <span class="math inline">\(ITT = ( (\bar{y}_{1}|C) - (\bar{y}_{0}|C))p_C = (CACE) p_C\)</span>, on peut donc définir <span class="math inline">\(CACE=ITT/p_C\)</span>.</p>
 </section>
 <section id="comment-calculer-litt-et-le-cacelate-i" class="slide level2">
 <h2>Comment calculer l’ITT et le CACE/LATE I</h2>
@@ -1850,8 +1850,8 @@ D             0.1283     0.3404  0.3769  0.70705 -0.54727   0.8039 98</code></pr
 <span id="cb80-2"><a href="#cb80-2" aria-hidden="true" tabindex="-1"></a><span class="fu">coef</span>(itt_y)[[<span class="st">&quot;Z&quot;</span>]] <span class="sc">/</span> <span class="fu">coef</span>(itt_d)[[<span class="st">&quot;Z&quot;</span>]]</span></code></pre></div>
 <pre><code>[1] 0.1283</code></pre>
 </section>
-<section id="résumé-des-designs-incitatifs-conformistes-par-dose" class="slide level2">
-<h2>Résumé des designs incitatifs / conformistes / par dose:</h2>
+<section id="résumé-des-conceptions-incitatives-conformistes-par-dose" class="slide level2">
+<h2>Résumé des conceptions incitatives / conformistes / par dose:</h2>
 <ul>
 <li>Analysez au fur et à mesure de la randomisation, même lorsque vous ne contrôlez pas la dose</li>
 <li>Le danger de l’analyse par protocole.</li>

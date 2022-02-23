@@ -519,7 +519,7 @@ document.getElementsByTagName('head')[0].appendChild(style);
 <section>
     <h1 class="title">Randomisation</h1>
     <h2 class="author">Mettre votre nom</h2>
-    <h3 class="date">10-02-2022</h3>
+    <h3 class="date">23-02-2022</h3>
 </section>
 <section id="TOC">
 <ul>
@@ -528,7 +528,7 @@ document.getElementsByTagName('head')[0].appendChild(style);
 <li><a href="#/randomisation-de-lassignation-de-traitement">Randomisation de l’assignation de traitement</a></li>
 <li><a href="#/assignation-aléatoire-neq-échantillonnage-aléatoire">Assignation aléatoire <span class="math inline">\(\neq\)</span> échantillonnage aléatoire</a></li>
 <li><a href="#/assignation-aléatoire-neq-échantillonnage-aléatoire-1">Assignation aléatoire <span class="math inline">\(\neq\)</span> échantillonnage aléatoire</a></li>
-<li><a href="#/la-randomisation-est-étroitement-liée-à-votre-design-de-recherche">La randomisation est étroitement liée à votre design de recherche</a></li>
+<li><a href="#/la-randomisation-est-étroitement-liée-à-votre-conception-de-recherche">La randomisation est étroitement liée à votre conception de recherche</a></li>
 <li><a href="#/niveau-de-traitements-et-résultats">Niveau de traitements et résultats</a></li>
 </ul></li>
 <li><a href="#/quelques-types-courants-de-randomisation">Quelques types courants de randomisation</a>
@@ -551,7 +551,7 @@ document.getElementsByTagName('head')[0].appendChild(style);
 <li><a href="#/bonnes-pratiques-léquilibre">Bonnes pratiques : l’équilibre</a></li>
 <li><a href="#/bonnes-pratiques-léquilibre-1">Bonnes pratiques : l’équilibre</a></li>
 </ul></li>
-<li><a href="#/quelques-designs-expérimentaux">Quelques designs expérimentaux</a>
+<li><a href="#/quelques-conceptions-expérimentales">Quelques conceptions expérimentales</a>
 <ul>
 <li><a href="#/accès">Accès</a></li>
 <li><a href="#/accès-différé-accès-graduel-ou-liste-dattente">Accès différé (Accès graduel ou liste d’attente)</a></li>
@@ -608,10 +608,10 @@ document.getElementsByTagName('head')[0].appendChild(style);
 </ul></li>
 </ul>
 </section>
-<section id="la-randomisation-est-étroitement-liée-à-votre-design-de-recherche" class="slide level2">
-<h2>La randomisation est étroitement liée à votre design de recherche</h2>
+<section id="la-randomisation-est-étroitement-liée-à-votre-conception-de-recherche" class="slide level2">
+<h2>La randomisation est étroitement liée à votre conception de recherche</h2>
 <ul>
-<li><p>Voir module sur <a href="/research-designTODO.html">le design de recherche</a></p></li>
+<li><p>Voir module sur <a href="/research-designTODO.html">la conception de recherche</a></p></li>
 <li><p>N’oubliez pas que vous devez définir et justifier votre condition de contrôle :</p>
 <ul>
 <li>intervention absente</li>
@@ -778,7 +778,7 @@ document.getElementsByTagName('head')[0].appendChild(style);
 </ul></li>
 <li><p>Vous ne pouvez pas avoir de blocs dans les grappes.</p></li>
 <li><p>Pour la randomisation des blocs et grappes, vous pouvez utiliser <code>block_ra</code> et <code>cluster_ra</code> dans le package <code>randomizr</code> de R.</p></li>
-<li><p>Pour les designs plus compliqués, vous pourriez trouver <code>DeclareDesign</code> utile. (<a href="https://declaredesign.org" class="uri">https://declaredesign.org</a>)</p></li>
+<li><p>Pour les conceptions plus compliquées, vous pourriez trouver <code>DeclareDesign</code> utile. (<a href="https://declaredesign.org" class="uri">https://declaredesign.org</a>)</p></li>
 </ul>
 </section></section>
 <section>
@@ -818,8 +818,8 @@ document.getElementsByTagName('head')[0].appendChild(style);
 </ul>
 </section></section>
 <section>
-<section id="quelques-designs-expérimentaux" class="title-slide slide level1">
-<h1>Quelques designs expérimentaux</h1>
+<section id="quelques-conceptions-expérimentales" class="title-slide slide level1">
+<h1>Quelques conceptions expérimentales</h1>
 
 </section>
 <section id="accès" class="slide level2">
@@ -847,19 +847,19 @@ document.getElementsByTagName('head')[0].appendChild(style);
 <section id="assignation-factorielle-ou-croisée" class="slide level2">
 <h2>Assignation factorielle ou croisée</h2>
 <ul>
-<li><p>Le design factoriel permet de tester plus qu’un traitement.</p></li>
+<li><p>La conception factorielle permet de tester plus qu’un traitement.</p></li>
 <li><p>Vous pouvez analyser un traitement à la fois.</p></li>
 <li><p>Ou leurs combinaisons.</p></li>
 <li><p>Exemple:</p></li>
 </ul>
-<p>Nous pourrions nous concentrer sur un estimande comme <span class="math inline">\(\mathbb{E}[Y(X_1=1, X_2=1)]-\mathbb{E}[Y(X_1=0, X_2=0)]\)</span>.</p>
+<p>Nous pourrions nous concentrer sur un paramètre comme <span class="math inline">\(\mathbb{E}[Y(X_1=1, X_2=1)]-\mathbb{E}[Y(X_1=0, X_2=0)]\)</span>.</p>
 </section>
 <section id="incitations" class="slide level2">
 <h2>Incitations</h2>
 <ul>
 <li><p>Randomisez l’<strong>incitation</strong> à suivre le traitement, comme une invitation ou une subvention pour participer à un programme.</p></li>
 <li><p>Utile lorsque vous ne pouvez pas forcer un sujet à participer.</p></li>
-<li><p>Estimandes :</p>
+<li><p>Paramètres :</p>
 <ul>
 <li><p>l’effet moyen du traitement (average treatment effect, ATE) de l’incitation pour votre échantillon expérimental.</p></li>
 <li><p>l’ATE de participation (et non d’incitation) pour les unités qui participeraient lorsqu’encouragées et ne participeraient pas sans incitation (les conformistes).</p></li>

@@ -519,7 +519,7 @@ document.getElementsByTagName('head')[0].appendChild(style);
 <section>
     <h1 class="title">La puissance statistique</h1>
     <h2 class="author">Mettre votre nom</h2>
-    <h3 class="date">10-02-2022</h3>
+    <h3 class="date">23-02-2022</h3>
 </section>
 
 <section>
@@ -636,7 +636,7 @@ NOTE: n is number in *each* group</code></pre>
 <ul>
 <li><p>Dérivé uniquement pour certaines statistiques de test (différence des moyennes)</p></li>
 <li><p>Fait des hypothèses spécifiques sur le processus de génération de données</p></li>
-<li><p>Incompatible avec des designs plus complexes</p></li>
+<li><p>Incompatible avec des conceptions plus complexes</p></li>
 </ul>
 </section></section>
 <section>
@@ -647,7 +647,7 @@ NOTE: n is number in *each* group</code></pre>
 <section id="calcul-de-puissance-par-simulation-1" class="slide level2">
 <h2>Calcul de puissance par simulation</h2>
 <ul>
-<li><p>Créer un ensemble de données et simuler le design de recherche.</p></li>
+<li><p>Créer un ensemble de données et simuler la conception de recherche.</p></li>
 <li><p>Des hypothèses sont nécessaires pour les études de simulation, mais vous faites les vôtres.</p></li>
 <li><p>Pour l’approche DeclareDesign, voir <a href="https://declaredesign.org/" class="uri">https://declaredesign.org/</a></p></li>
 </ul>
@@ -717,7 +717,7 @@ NOTE: n is number in *each* group</code></pre>
 <span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>O0 <span class="ot">&lt;-</span> <span class="fu">declare_potential_outcomes</span>(<span class="at">Y_Z_0 =</span> <span class="dv">5</span> <span class="sc">+</span> u0, <span class="at">Y_Z_1 =</span> Y_Z_0 <span class="sc">+</span> tau)</span>
 <span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a><span class="co"># assigner m unités au traitement</span></span>
 <span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>A0 <span class="ot">&lt;-</span> <span class="fu">declare_assignment</span>(<span class="at">Z =</span> <span class="fu">conduct_ra</span>(<span class="at">N =</span> N, <span class="at">m =</span> <span class="fu">round</span>(N <span class="sc">/</span> <span class="dv">2</span>)))</span>
-<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a><span class="co"># l&#39;estimande est la différence moyenne entre Y(Z=1) et Y(Z=0)</span></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a><span class="co"># le paramètre est la différence moyenne entre Y(Z=1) et Y(Z=0)</span></span>
 <span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>estimand_ate <span class="ot">&lt;-</span> <span class="fu">declare_inquiry</span>(<span class="at">ATE =</span> <span class="fu">mean</span>(Y_Z_1 <span class="sc">-</span> Y_Z_0))</span>
 <span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>R0 <span class="ot">&lt;-</span> <span class="fu">declare_reveal</span>(Y, Z)</span>
 <span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>design0_base <span class="ot">&lt;-</span> P0 <span class="sc">+</span> A0 <span class="sc">+</span> O0 <span class="sc">+</span> R0</span>
@@ -886,11 +886,11 @@ F-statistic: 29.3 on 1 and 98 DF,  p-value: 0.000000441</code></pre>
 <h1>Puissance statistique pour la randomisation par grappe</h1>
 
 </section>
-<section id="puissance-statistique-et-design-par-grappe" class="slide level2">
-<h2>Puissance statistique et design par grappe</h2>
+<section id="puissance-statistique-et-conception-par-grappe" class="slide level2">
+<h2>Puissance statistique et conception par grappe</h2>
 <ul>
 <li><p>Voir le <a href="randomization.html">module sur la randomisation</a>.</p></li>
-<li><p>Etant donné un <span class="math inline">\(N\)</span> fixe, un design par grappe est légèrement moins puissant qu’un design sans grappe.</p>
+<li><p>Etant donné un <span class="math inline">\(N\)</span> fixe, une conception par grappe est légèrement moins puissante qu’une conception sans grappe.</p>
 <ul>
 <li>La différence est souvent substantielle.</li>
 </ul></li>
@@ -906,15 +906,15 @@ F-statistic: 29.3 on 1 and 98 DF,  p-value: 0.000000441</code></pre>
 </ul></li>
 </ul>
 </section>
-<section id="le-design-par-grappe-dans-la-recherche-observationelle" class="slide level2">
-<h2>Le design par grappe dans la recherche observationelle</h2>
+<section id="la-conception-par-grappe-dans-la-recherche-observationelle" class="slide level2">
+<h2>La conception par grappe dans la recherche observationelle</h2>
 <ul>
 <li><p>Souvent négligé, conduisant à (peut-être) une incertitude extrêmement sous-estimée.</p>
 <ul>
 <li><p>Inférence fréquentiste basée sur le ratio <span class="math inline">\(\hat{\beta}/\hat{se}\)</span></p></li>
 <li><p>Si nous sous-estimons <span class="math inline">\(\hat{se}\)</span>, nous sommes beaucoup plus susceptibles de rejeter <span class="math inline">\(H_0\)</span>. (Le taux d’erreur de type I est trop élevé.)</p></li>
 </ul></li>
-<li><p>De nombreux designs d’observation sont beaucoup moins puissants qu’on ne le pense.</p></li>
+<li><p>De nombreuses conceptions d’observation sont beaucoup moins puissantes qu’on ne le pense.</p></li>
 </ul>
 </section>
 <section id="exemple-puissance-statistique-basée-sur-la-simulation-pour-la-randomisation-par-grappe" class="slide level2 allowframebreaks">
@@ -1118,7 +1118,7 @@ Z     1   2   3   4   5   6   7   8   9  10
 <h2>La calculateur de puissance EGAP</h2>
 <ul>
 <li><p>À essayer sur <a href="https://egap.shinyapps.io/power-app/" class="uri">https://egap.shinyapps.io/power-app/</a></p></li>
-<li><p>Pour les designs de randomisation par grappe, essayez d’ajuster:</p>
+<li><p>Pour les conceptions de randomisation par grappe, essayez d’ajuster:</p>
 <ul>
 <li>Nombre de grappes</li>
 <li>Nombre d’unités par grappe</li>
@@ -1134,7 +1134,7 @@ Z     1   2   3   4   5   6   7   8   9  10
 <li><p>Quels effets pouvez-vous réellement attendre de votre traitement ?</p></li>
 <li><p>Quelle est la plage de variation plausible de la variable de résultat ?</p>
 <ul>
-<li>Un design peut ne pas être puissant si le mouvement possible est limité pour la variable de résultat.</li>
+<li>Une conception peut ne pas être puissante si le mouvement possible est limité pour la variable de résultat.</li>
 </ul></li>
 </ul>
 </section>
