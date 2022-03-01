@@ -1,7 +1,7 @@
 ---
-title: "Randomization"
-author: "Fill In Your Name"
-date: '`r format(Sys.time(), "%d %B %Y")`'
+title: "Randomisation"
+author: "Mettre votre nom"
+date: '`r format(Sys.time(), "%d-%m-%Y")`'
 bibliography: ../learningdays-book.bib
 biblio-style: apalike
 link-citations: yes
@@ -43,301 +43,278 @@ output:
 ```{r setup, include=FALSE,echo=FALSE}
 source('rmd_setup.R')
 ```
-# Randomization
+# Randomisation
 
-## Randomization of treatment assignment
+## Randomisation de l'assignation de traitement
 
-Start with a group units who you can directly observe: like the people who showed up to a lab, villages in a region, respondents willing to take a survey.
+Commencez avec un groupe d'unités que vous pouvez observer directement : comme les personnes qui se sont présentées à un laboratoire, les villages d'une région, les personnes prêtes à participer à une enquête.
 
-- Every observation has a known probability of treatment assignment between 0 and 1.
+- Chaque observation a une probabilité connue d'assignation au traitement comprise entre 0 et 1.
 
-  - No unit in the experimental sample is assigned to treatment or to control with certainty.
+   - Aucune unité de l'échantillon expérimental n'est assignée au traitement ou au contrôle avec certitude.
 
-- Units can vary in their probability of treatment assignment.
+- Les unités peuvent varier dans leur probabilité d'assignation au traitement.
 
-  - For example, the probability might vary by group: women might have a 75\% probability of being assigned to treatment.
+   - Par exemple, la probabilité peut varier selon le groupe : les femmes peuvent avoir une probabilité de 75\% d'être assignées au traitement.
 
-  - Assignment probabilities can even vary across units **as long as you know the probability for each and every unit**, though that would complicate your analysis.
-
-
-
-## Random assignment $\neq$ random sampling
-
-- Random sampling (from population): selecting subjects into your sample from a population with known probability. You cannot directly observe the whole population so you draw a sample.
-
-- Randomization (of treatment): assigning subjects from an existing group of
-  subjects with known probability to experimental conditions.
-  - You need to be able to see outcomes and assign treatment for every subject in the group
-  - This random assignment of treatment can be combined with any kind of sample
-    (random sample, convenience sample, etc.) or even with the whole population
-    (all the hospitals, all the judges).
-
-## Random assignment $\neq$ random sampling
+   - Les probabilités d'assignation peuvent même varier d'une unité à l'autre **tant que vous connaissez la probabilité pour chaque unité**, bien que cela compliquerait votre analyse.
 
 
-- How you recruit your initial group (or experimental pool) matters:
+## Assignation aléatoire $\neq$ échantillonnage aléatoire
 
-  - a big initial group means a big experiment and more statistical power to
-    detect small effects.
+- Échantillonnage aléatoire (à partir d'une population) : sélectionner des sujets d'une population dans votre échantillon avec probabilité connue. Vous ne pouvez pas observer directement l'ensemble de la population, donc vous tirez un échantillon.
 
-  - an initial group which is a random sample from a known population helps you
-    make the argument that your effects might be the same or similar if you did
-    this experiment with another sample from that population.
+- Randomisation (du traitement) : assigner des sujets d'un groupe existant de sujets avec une probabilité connue à des conditions expérimentales.
+   - Vous devez être en mesure de voir les résultats et d'assigner un traitement à chaque sujet du groupe
+   - Cette randomisation du traitement peut être combinée avec tout type d'échantillon (échantillon aléatoire, échantillon de convenance, etc.) ou même avec l'ensemble de la population
+     (tous les hôpitaux, tous les juges).
 
-  - an experimental pool that is a random sample might also help with the
-    argument that the effect should be similar if you scaled up the
-    intervention to the whole population --- depending on the factors driving a
-    global equilibrium.
+## Assignation aléatoire $\neq$ échantillonnage aléatoire
 
+- La manière dont vous recrutez votre groupe initial (ou échantillon expérimental) est importante :
 
-## Randomization is closely linked to your research design
-- See module on [Research Design](/research-design.html)
+   - un grand groupe initial signifie une grande expérience et plus de puissance statistique pour détecter de petits effets.
 
-- Remember that you need to define and justify your control condition:
-   - this may be no intervention
-   - or a placebo
+   - un groupe initial qui est un échantillon aléatoire d'une population connue vous aide à faire valoir que vos effets pourraient être identiques ou similaires si vous faisiez cette expérience avec un autre échantillon de cette population.
 
-## Level of treatments and outcomes
+   - un échantillon expérimental constitué d'un échantillon aléatoire pourrait également aider à soutenir l'argument selon lequel l'effet devrait être similaire si vous étendiez l'intervention à l'ensemble de la population --- en fonction des facteurs déterminant un équilibre global.
 
-- Treatment can be assigned at different levels: individuals, groups,
-  institutions, communities, time periods, or many different levels.
+## La randomisation est étroitement liée à votre conception de recherche
+- Voir module sur [la conception de recherche](/research-designTODO.html)
 
-- You may be constrained in what level you can _assign_ treatment and _measure_ outcomes.
+- N'oubliez pas que vous devez définir et justifier votre condition de contrôle :
+    - intervention absente
+    - un placebo
 
-  - Example: Treatment at the classroom level, but outcomes at the student level.
+## Niveau de traitements et résultats
 
-  - Example: Treatment at the district level, but outcomes at the community level.
+- Le traitement peut être assigné au niveau de l'individu, du groupe, de l'institution, de la communauté, de la période temporelle...
 
-- The level at which treatment is assigned and at which outcomes are measured affect what your study can demonstrate.
+- Vous pouvez être limité dans le niveau auquel vous pouvez _assigner_ le traitement et _mesurer_ les résultats.
 
-# Some common types of randomization
+   - Exemple : Traitement au niveau de la classe, mais résultats au niveau de l'élève.
 
-## Simple randomization (coin-flipping)
+   - Exemple : Traitement au niveau du district, mais résultats au niveau communautaire.
 
-- For each unit, flip a coin to see if it will be treated. Then you measure outcomes at the same level as the coin.
+- Le niveau d'assignation du traitement et le niveau de mesure des résultats affectent ce que votre étude peut démontrer.
 
-- The coins don’t have to be fair (50-50), but you have to know the probability of treatment assignment.
+# Quelques types courants de randomisation
 
-- You can’t guarantee a specific number of treated units and control units.
+## Randomisation simple (tirage au sort)
 
-- Example: If you have 6 units and you flip a fair coin for each, you have about a 3% chance of assigning **all** units to treatment or assigning **all** units to control.
+- Pour chaque unité, lancez une pièce pour voir si elle sera traitée. Ensuite, vous mesurez les résultats au même niveau que la pièce.
 
-## Example code for simple randomization I
+- Les pièces ne doivent pas nécessairement être équitables (50-50), mais vous devez connaître la probabilité d'assignation du traitement.
+
+- Vous ne pouvez pas garantir un nombre précis d'unités traitées et d'unités de contrôle.
+
+- Exemple : Si vous avez 6 unités et que vous lancez une pièce équitable pour chacune, vous avez environ 3% de chances d'assigner **toutes** les unités au traitement ou d'assigner **toutes** les unités au contrôle.
+
+## Exemple de code pour la randomisation simple I
 
 ```{r echo=TRUE}
-# set the random number seed to make this replicable
+# définir une "graine" aléatoire pour rendre cela reproductible
 set.seed(12345)
 
-# set a sample size
+# définir une taille d'échantillon
 N <- 200
 
-# Generate the simple random assignment
-# (Notice that in an experiment we have a single
-# trial and thus size=1)
-# Our object with N people total is called simple.ra
+# Générer l'assignation aléatoire simple
+# (Remarquez que dans une expérience, nous avons un seul
+# essai, donc taille=1)
+# Notre objet avec N personnes au total s'appelle simple.ra
 simple.ra <- rbinom(n = N,size = 1, prob = .5)
 
-# 112 people ended up in the treatment group
+# 112 personnes se sont retrouvées dans le groupe de traitement
 sum(simple.ra)
 ```
 
-## Example code for simple randomization II
+## Exemple de code pour la randomisation simple II
 
 ```{r echo=TRUE}
-# you can also use the randomizr package
+# vous pouvez également utiliser le package randomizr
 library(randomizr)
 
-# for replicability
+# pour la reproductibilité
 set.seed(23456)
-# Simple random assignment uses the simple_ra function
-# Our object with N people total is called treatment
-treatment <- simple_ra(N = N,  # total sample size
-    prob = .5 # probability of receiving treatment
+# L'assignation aléatoire simple utilise la fonction simple_ra
+# Notre objet avec N personnes au total est appelé traitement
+treatment <- simple_ra(N = N, # taille totale de l'échantillon
+     prob = .5 # probabilité de recevoir un traitement
 )
 sum(treatment)
 ```
 
-## Complete ramdomization (drawing from an urn)
+## Ramdomisation complète (tirage d'une urne)
 
-- A fixed number $m$ out of $N$ units are assigned to treatment. 
+- Un nombre fixe de $m$ sur $N$ d'unités est assigné au traitement.
 
-- The probability a unit is assigned to treatment is $m/N$.
+- La probabilité qu'une unité soit assignée au traitement est de $m/N$.
 
-- This is like having an urn or bowl with $N$ balls, of which $m$ are marked as treatment and $N-m$ are marked as control.  Public lotteries use this method.
+- C'est comme avoir une urne avec $N$ boules, dont $m$ sont marquées comme traitement et $N-m$ sont marquées comme contrôle. La loterie publique utilise cette méthode.
 
-## Example code for complete randomization I
+## Exemple de code pour la randomisation complète I
 
 ``` {r echo=TRUE}
-# set sample size N
+# définir la taille d'échantillon N
 N <- 200
-# set number of treated units m
+# définir le nombre d'unités traitées m
 m <- 100
 
-# create a vector of m 1's and N-m 0's
+# crée un vecteur de m 1's et N-m 0's
 complete.ra <- c(rep(1,m), rep(0,N-m))
 
-# And then scramble it randomly using sample()
-# The default is sampling without replacement
+# Et ajoute hasard en utilisant sample()
+# La valeur par défaut est un tirage sans remplacement
 
-set.seed(12345) # for replicability
+set.seed(12345) # pour la reproductibilité
 complete.ra <- sample(complete.ra)
 
 sum(complete.ra)
 ```
 
-## Example code for complete randomization II
+## Exemple de code pour la randomisation complète II
 
 ``` {r echo=TRUE}
-# you can also use the randomizr package
+# vous pouvez également utiliser le package randomizr
 library(randomizr)
 
-# for replicability
+# pour la reproductibilité
 set.seed(23456)
 
-# Complete random assignment:
-treatment <- complete_ra(N = 200, # total sample size
-            m = 100) # number to assign to treatment
+# Assignation aléatoire complète:
+treatment <- complete_ra(N = 200, # taille totale de l'échantillon
+            m = 100) # quantité assignée au traitement
 
 sum(treatment)
 
-# note what happens if you don't specify m!
+# Regardez ce qui se passe si vous ne spécifiez pas m !
 ```
 
+## Randomisation par bloc (ou stratifiée) I
 
-## Block (or stratified) randomization I
+- Nous créons des blocs d'unités et randomisons séparément dans chaque bloc. Nous faisons des mini-expériences dans chaque bloc.
 
-- We create blocks of units and randomize separately within each block. We are doing mini-experiments in each block.
+   - Exemple : bloc = district, unités = communautés. Nous randomisons le traitement au niveau communautaire **au sein du district** et mesurons également les résultats au niveau communautaire.
 
-  - Example: block = district, units = communities.  We randomize treatment at the community level **within district** and also measure outcomes at the community level.
+- Les blocs qui représentent un sous-groupe significatif peuvent vous aider à appréhender comment les effets peuvent différer selon le sous-groupe.
 
-- Blocks that represent a substantively meaningful subgroup can help you to
-  learn about how effects might differ by subgroup.
-  
-    - By controlling number of subjects per subgroup, you ensure that you have
-    enough subjects in each group.
-    
-    - Especially useful when you have a rare group --- by chance you might get
-    very few of them in treatment or control even under random assignment (or
-    you might have some imbalance).
+     - En contrôlant le nombre de sujets par sous-groupe, vous vous assurez d'avoir suffisamment de sujets dans chaque groupe.
 
-## Block (or stratified) randomization II
+     - Particulièrement utile lorsque vous avez un groupe rare --- par hasard, vous pourriez en avoir très peu dans le traitement ou le contrôle même avec une assignation aléatoire
+       (ou vous pourriez avoir un certain déséquilibre).
 
-- Blocks that are homogeneous on a given outcome increase precision of
-  estimation for that outcome as compared with the experiment without blocks. (We
-  will address this more in the power analysis section).
+## Randomisation par bloc (ou stratifiée) II
 
+- Les blocs homogènes sur un résultat donné augmentent la précision de l'estimation de ce résultat par rapport à l'expérience sans blocs.
+  (Nous aborderons cela plus en détail dans la section analyse de puissance statistique).
 
-## Cluster randomization I
+## Randomisation par grappe (cluster) I
 
-- A cluster is a **group of units**. In a cluster-randomized study, all units in the cluster are assigned to the same treatment status.
+- Une grappe est un **groupe d'unités**. Dans une étude randomisée par grappe, toutes les unités de la grappe sont assignées au même statut de traitement.
 
-- Use cluster randomization if the intervention has to work at the cluster level.
+- Utilisez la randomisation par grappe si l'intervention doit fonctionner au niveau de la grappe.
 
-  - For example, if the intervention is about school playgrounds, then the school is the unit of assignment even if student health may be an outcome measured at level of individual students.
+   - Par exemple, si l'intervention concerne les cours de récréation des écoles, alors l'école est l'unité d'assignation même si la santé des élèves peut être un résultat mesuré au niveau individuel des élèves.
 
-- Having fewer clusters hurts your ability to detect treatment effects and make
-  cause misleading $p$-values and confidence intervals (or even estimates).
-  *How much* depends on the intra-cluster correlation (ICC or $\rho$).
-  
-## Cluster randomization II
+- Un nombre réduit de grappes nuit à votre capacité à détecter les effets du traitement et conduit à des $p$-valeurs, des intervalles de confiance (ou même des estimations) trompeurs.
+  Cela dépendra de la corrélation intra-grappe (intra cluster correlation, ICC ou $\rho$).
 
-- Higher $\rho$ is worse:
+## Randomisation par grappe (cluster) II
 
-    - When $\rho=0$ then the village doesn't matter for the behavior of the individuals.
-    - When $\rho=1$ then every person in the village would give exactly the same answer.  Having another person from this village doesn't give you additional information since his outcome is identical to the person you already had.
-    
-- For the same number of units, having **more clusters** with fewer units per cluster can help.
+- Un $\rho$ plus élevé est pire:
 
-- Trade off spillover and power.
+     - si $\rho=0$ alors le village n'a pas d'importance pour le comportement des individus.
+     - si $\rho=1$ alors chaque personne dans le village donnerait exactement la même réponse. Avoir une autre personne de ce village ne vous donne pas d'informations supplémentaires puisque son résultat est identique à la personne que vous aviez déjà.
 
-- If you would not like an experiment with 10 units, then you should not be
-      happy with an experiment with 10 clusters of 100 units. The effective sample size of this cluster randomized experiment is between 10 and 10 $\times$ 100 = 1000, but closer to 10 the higher the $\rho$.
+- Pour le même nombre d'unités, avoir **plus de grappes** avec moins d'unités par grappe peut aider.
 
-## You can combine blocks and clusters
+- Compromis entre les effets de débordement et la puissance statistique.
 
-- You can have clusters within blocks.
+- Si vous ne souhaitez pas une expérience avec 10 unités, alors vous ne devriez pas vous contenter d'une expérience avec 10 groupes de 100 unités. La taille effective de l'échantillon de cette expérience aléatoire par grappe est comprise entre 10 et 10 $\times$ 100 = 1000, mais plus proche de 10 plus $\rho$ est élevé.
 
-  - Example: block = district, cluster = communities, units = individuals.  You are measuring outcomes at the individual level.
+## Vous pouvez combiner blocs et grappes
 
-  - Example: block = province, cluster = district, units = communities.  You are measuring outcomes at the community level.
+- Vous pouvez avoir des grappes dans des blocs.
 
-- You can't have blocks within clusters.
+   - Exemple : bloc = district, grappe = communautés, unités = individus. Vous mesurez les résultats au niveau individuel.
 
-- For block and cluster randomization, you can use `block_ra` and `cluster_ra` in the `randomizr` package in R.
+   - Exemple : bloc = province, grappe = district, unités = communautés. Vous mesurez les résultats au niveau communautaire.
 
-- For more complicated designs, you might find `DeclareDesign` helpful. (<https://declaredesign.org>)
+- Vous ne pouvez pas avoir de blocs dans les grappes.
 
+- Pour la randomisation des blocs et grappes, vous pouvez utiliser `block_ra` et `cluster_ra` dans le package `randomizr` de R.
 
-# Best practices
+- Pour les conceptions plus compliquées, vous pourriez trouver `DeclareDesign` utile. (<https://declaredesign.org>)
 
-## Best practices: replicability
+# Bonnes pratiques
 
-- EGAP Methods Guide on Randomization (<https://egap.org/resource/10-things-to-know-about-randomization/>)
+## Bonnes pratiques : la réplicabilité
 
-- Set a seed and save your code and random assignment column
+- Guide des méthodes EGAP sur la randomisation (<https://egap.org/resource/10-things-to-know-about-randomization/>)
 
-- Verify
+- Définissez une "graine" aléatoire et sauvegardez votre code et votre assignation aléatoire
 
-- Sometimes increased transparency > replicability
+- Vérifier
+
+- Parfois transparence accrue => réplicabilité
 
 
-## Best practices: balance
+## Bonnes pratiques : l'équilibre
 
-- Check overall balance with a D-square test using `xBalance` in the `RItools` package (@hansen:bowers:2008) (large sample randomization inference):
+- Vérifiez l'équilibre global avec un test D2 (D-square test) en utilisant `xBalance` dans le package `RItools` (@hansen:bowers:2008) (inférence de randomisation d'un grand échantillon):
 
 ```{r echo=TRUE, eval=FALSE}
 xBalance(treatment~x1+x2,data=dat,report='chisquare')
 ```
-  -  See also the `coin` package `independence_test` for permutation based version
+  - Voir aussi le package `coin` `independence_test` pour la version basée sur la permutation
 
-- Use an F-test for a regression of treatment assignment on LHS and covariates on RHS (large sample approximate to randomization inference):
+- Utiliser un test F pour une régression entre l'assignation de traitement à gauche et les covariables à droite :
 
 ```{r echo=TRUE, eval=FALSE}
 anova(lm(treatment~1,data = dat),
     lm(treatment~x1+x2+x3,data=dat), test = 'F')
 ```
 
-## Best practices: balance
+## Bonnes pratiques : l'équilibre
 
-  - Random assignment gives us, in expectation, **overall balance** on the many covariates. It does not guarantee that all covariate to treatment relationships will be zero. In fact, in a small experiment, the magnitudes of imbalance may be high even if the randomization occurred perfectly.
+- L'assignation aléatoire nous donne, en espérance, l'**équilibre global** sur les nombreuses covariables. Cela ne garantit pas que toutes les covariables au traitement seront 0. En fait, dans une petite expérience, les amplitudes de déséquilibre peuvent être élevées même si la randomisation s'est parfaitement déroulée.
 
-  - You will see t-tests of covariates one by one.  Just by chance, you might get statistically significant differences on a variable. If you check balance on 100 variables, you will reject the null of no relationship in 5 of them even if there truly is no relationship.
+- Vous regardez les tests t des covariables un par un. Par hasard, vous pourriez obtenir des différences statistiquement significatives sur une variable. Si vous vérifiez l'équilibre sur 100 variables, vous rejetterez l'hypothèse nulle d'absence d'effet pour 5 d'entre elles, même s'il n'y a réellement aucune relation.
 
-# Some experimental designs
+# Quelques conceptions expérimentales
 
-## Access
+## Accès
 
-  - Randomly select a treatment group through a lottery or equivalent mechanism, which randomizes **access** to the program.
+   - Sélectionnez de manière aléatoire un groupe de traitement par le biais d'une loterie ou d'un mécanisme équivalent, qui randomise l'**accès** au programme.
 
-  - Useful when you do not have enough resources to treat everyone.
+   - Utile quand on n'a pas assez de moyens pour traiter tout le monde.
 
-  - Sometimes, some units (peoples, communities) must have access to a program.
-     - For example: a partner organization doesn’t want to risk a vulnerable community NOT getting a program (want a guarantee that they will be always be treated).
-     - You can exclude those units from the experiment, and do random assignment among the remaining units that have a probability of assignment strictly between (and not including) 0 and 1.
+   - Parfois, certaines unités (peuples, communautés) doivent avoir accès à un programme.
+      - Par exemple : une organisation partenaire ne veut pas risquer qu'une communauté vulnérable *ne bénéficie pas* d'un programme (elle veut la garantie qu'elle sera toujours traitée).
+      - Vous pouvez exclure ces unités de l'expérience et procéder à une assignation aléatoire parmi les unités restantes qui ont une probabilité d'assignation strictement comprise entre 0 et 1 (non inclus).
 
+## Accès différé (Accès graduel ou liste d'attente)
 
-## Delayed access (Phase-in or wait list)
+- Randomiser le *timing* d'accès au programme.
 
-- Randomize *timing* of access to the program.
+- Souvent, vous n'avez pas la capacité de mettre en œuvre le traitement dans de nombreux endroits à la fois.
 
-- Often you do not have the capacity to implement the treatment in a lot of places at once.
+- Lorsqu'une intervention peut ou doit être déployée par étapes, vous pouvez randomiser l'ordre de traitement des unités.
 
-- When an intervention can be or must be rolled out in stages, you can randomize the order in which units are treated.
+- Votre groupe de contrôle sont les unités pas encore traitées.
 
-- Your control group are the as-yet untreated units.
+- Attention : la probabilité d'assignation au traitement variera dans le temps car les unités assignées au traitement à des stades antérieurs ne sont pas éligibles pour être assignées à un traitement à des stades ultérieurs.
 
-- Be careful: the probability of assignment to treatment will vary over time because units that are assigned to treatment in earlier stages are not eligible to be assigned to treatment in later stages.
+## Assignation factorielle ou croisée
 
+- La conception factorielle permet de tester plus qu'un traitement.
 
-## Factorial or crossed-assignment
+- Vous pouvez analyser un traitement à la fois.
 
-- Factorial design enables testing of more than one treatment.
+- Ou leurs combinaisons.
 
-- You can analyze one treatment at a time.
-
-- Or combinations thereof.  
-
-- Example:
+- Exemple:
 
 \begin{table}
 \begin{tabular}{r|c|c}
@@ -348,44 +325,40 @@ $X_2=0$ & B  & D  \\
 \end{tabular}
 \end{table}
 
-We might focus on an estimand like  $\mathbb{E}[Y(X_1=1, X_2=1)]-\mathbb{E}[Y(X_1=0, X_2=0)]$.
+Nous pourrions nous concentrer sur un paramètre comme $\mathbb{E}[Y(X_1=1, X_2=1)]-\mathbb{E}[Y(X_1=0, X_2=0)]$.
 
 
+## Incitations
 
-## Encouragement
+- Randomisez l'**incitation** à suivre le traitement, comme une invitation ou une subvention pour participer à un programme.
 
-- Randomize **encouragement** to take the treatment, such as an invitation or subsidy to participate in a program.
+- Utile lorsque vous ne pouvez pas forcer un sujet à participer.
 
-- Useful when you cannot force a subject to participate.
+- Paramètres :
+     - l'effet moyen du traitement (average treatment effect, ATE) de l'incitation pour votre échantillon expérimental.
 
-- Estimands:
-    - the ATE of the encouragement for your experimental sample.
+     - l'ATE de participation (et non d'incitation) pour les unités qui participeraient lorsqu'encouragées et ne participeraient pas sans incitation (les conformistes).
 
-    - the ATE of participation (not the encouragement) for the units who would participate when encouraged and wouldn't participate when not encouraged (compliers).
+- Analyse des variables instrumentales pour l'ATE des conformistes, avec l'assignation comme instrument. Notez la restriction d'exclusion.
 
-- Instrumental variables analysis for the complier ATE, with the assignment as the instrument.  Note the exclusion restriction.
-    
+# Quelques limites
 
+## Limites aux études aléatoires
 
-# Some limits
+- Éthique --- ce genre de manipulation est-il éthique ? Parfois non.
 
-## Limits to randomized studies
+- Doit être fait en temps réel, en amont du déploiement de l'intervention.
 
-- Ethics --- is this sort of manipulation ethical? Sometimes not.
+- Flexibilité réduite pour une organisation partenaire (problème pour toute évaluation prospective).
 
-- Must be done in real time, ahead of the intervention roll-out.
+- Limites à la taille de l'échantillon expérimental.
 
-- Reduced flexibility for a partner organization (problem for any prospective evaluation).
+- Coût.
 
-- Limits to the size of the experimental pool.
+- La contrainte de puissance statistique --- vous avez besoin de beaucoup d'unités (problème pour de nombreuses approches statistiques).
 
-- Cost.
+- Violations des hypothèses clés (effets de débordement ; violation de la deuxième hypothèse clé de l'[inférence causale](causalinference.html)).
 
-- The power constraint --- you need a lot of units (problem for many statistical approaches).
+- Validité externe (problème pour toute évaluation et les sciences sociales en général).
 
-- Violations of the key assumptions (spillovers; violation of the second key assumption for [Causal Inference](causalinference.html)).
-
-- External validity (problem for any evaluation and social science in general).
-
-## References
-
+## Références

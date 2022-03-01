@@ -17,6 +17,6 @@ make all
 Or if you want to force rebuild them, and do not want to do, `make -f all` you can try:
 
 ```
-for * in *.Rmd; do Rscript -e "library(rmarkdown);render('$X')"; done
+for * in *.Rmd; do Rscript -e "library(rmarkdown);rmarkdown::render('$X')"; done
 
 ```
