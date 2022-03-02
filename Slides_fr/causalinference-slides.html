@@ -443,7 +443,7 @@ style.innerHTML = style_script;
 document.getElementsByTagName('head')[0].appendChild(style);
 </script>
 
-    <script src="causalinference-slides_files/header-attrs-2.11/header-attrs.js"></script>
+    <script src="causalinference-slides_files/header-attrs-2.10/header-attrs.js"></script>
     <link href="causalinference-slides_files/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
     <link href="causalinference-slides_files/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
 </head>
@@ -454,104 +454,188 @@ document.getElementsByTagName('head')[0].appendChild(style);
 <section>
     <h1 class="title">Inférence causale</h1>
     <h2 class="author">Mettre votre nom</h2>
-    <h3 class="date">23-02-2022</h3>
+    <h3 class="date">02-03-2022</h3>
 </section>
 <section id="TOC">
 <ul>
-<li><a href="#/pourquoi-les-chercheurs-en-sciences-sociales-et-les-décideurs-politiques-doivent-ils-se-soucier-de-la-causalité">Pourquoi les chercheurs en sciences sociales et les décideurs politiques doivent-ils se soucier de la causalité ?</a></li>
-<li><a href="#/approche-contrefactuelle-de-linférence-causale">Approche contrefactuelle de l’inférence causale</a>
+<li><a
+href="#/pourquoi-les-chercheurs-en-sciences-sociales-et-les-décideurs-politiques-doivent-ils-se-soucier-de-la-causalité">Pourquoi
+les chercheurs en sciences sociales et les décideurs politiques
+doivent-ils se soucier de la causalité ?</a></li>
+<li><a href="#/approche-contrefactuelle-de-linférence-causale">Approche
+contrefactuelle de l’inférence causale</a>
 <ul>
-<li><a href="#/évolutions-récentes-dans-la-recherche-en-sciences-sociales">Évolutions récentes dans la recherche en sciences sociales</a></li>
-<li><a href="#/x-cause-y-est-une-affirmation-sur-ce-qui-na-pas-eu-lieu">“X cause Y” est une affirmation sur ce qui n’a pas eu lieu</a></li>
-<li><a href="#/comment-interpréter-x-cause-y-dans-cette-approche">Comment interpréter “X cause Y” dans cette approche</a></li>
-<li><a href="#/comment-interpréter-x-cause-y-dans-cette-approche-1">Comment interpréter “X cause Y” dans cette approche</a></li>
+<li><a
+href="#/évolutions-récentes-dans-la-recherche-en-sciences-sociales">Évolutions
+récentes dans la recherche en sciences sociales</a></li>
+<li><a
+href="#/x-cause-y-est-une-affirmation-sur-ce-qui-na-pas-eu-lieu">“X
+cause Y” est une affirmation sur ce qui n’a pas eu lieu</a></li>
+<li><a
+href="#/comment-interpréter-x-cause-y-dans-cette-approche">Comment
+interpréter “X cause Y” dans cette approche</a></li>
+<li><a
+href="#/comment-interpréter-x-cause-y-dans-cette-approche-1">Comment
+interpréter “X cause Y” dans cette approche</a></li>
 <li><a href="#/exercice-échinacée">Exercice : Échinacée</a></li>
 </ul></li>
 <li><a href="#/résultats-potentiels">Résultats potentiels</a>
 <ul>
 <li><a href="#/résultats-potentiels-1">Résultats potentiels</a></li>
-<li><a href="#/définition-de-leffet-causal">Définition de l’effet causal</a></li>
-<li><a href="#/principales-caractéristiques-de-cette-définition-de-leffet-causal">Principales caractéristiques de cette définition de l’effet causal</a></li>
-<li><a href="#/imaginons-quon-connaisse-à-la-fois-y_i1-et-y_i0-ce-qui-nest-jamais-vrai">Imaginons qu’on connaisse à la fois <span class="math inline">\(Y_i(1)\)</span> et <span class="math inline">\(Y_i(0)\)</span> (ce qui n’est jamais vrai !)</a></li>
+<li><a href="#/définition-de-leffet-causal">Définition de l’effet
+causal</a></li>
+<li><a
+href="#/principales-caractéristiques-de-cette-définition-de-leffet-causal">Principales
+caractéristiques de cette définition de l’effet causal</a></li>
+<li><a
+href="#/imaginons-quon-connaisse-à-la-fois-y_i1-et-y_i0-ce-qui-nest-jamais-vrai">Imaginons
+qu’on connaisse à la fois <span class="math inline">\(Y_i(1)\)</span> et
+<span class="math inline">\(Y_i(0)\)</span> (ce qui n’est jamais vrai
+!)</a></li>
 <li><a href="#/effet-causal-moyen">Effet causal moyen</a></li>
-<li><a href="#/paramètres-et-questions-causales">Paramètres et questions causales</a></li>
-<li><a href="#/dautres-types-de-paramètres">D’autres types de paramètres</a></li>
+<li><a href="#/paramètres-et-questions-causales">Paramètres et questions
+causales</a></li>
+<li><a href="#/dautres-types-de-paramètres">D’autres types de
+paramètres</a></li>
 </ul></li>
-<li><a href="#/randomisation-de-lassignation-du-traitement">Randomisation de l’assignation du traitement</a>
+<li><a
+href="#/randomisation-de-lassignation-du-traitement">Randomisation de
+l’assignation du traitement</a>
 <ul>
-<li><a href="#/randomisation-de-lassignation-du-traitement-1">Randomisation de l’assignation du traitement</a></li>
-<li><a href="#/assignation-aléatoire-vs.-échantillonnage-aléatoire">Assignation aléatoire vs. échantillonnage aléatoire</a></li>
-<li><a href="#/la-randomisation-est-puissante-1">La randomisation est puissante (1)</a></li>
-<li><a href="#/la-randomisation-est-puissante-2">La randomisation est puissante (2)</a></li>
-<li><a href="#/la-randomisation-est-puissante-3">La randomisation est puissante (3)</a></li>
-<li><a href="#/échantillonnage-aléatoire">Échantillonnage aléatoire</a></li>
+<li><a
+href="#/randomisation-de-lassignation-du-traitement-1">Randomisation de
+l’assignation du traitement</a></li>
+<li><a
+href="#/assignation-aléatoire-vs.-échantillonnage-aléatoire">Assignation
+aléatoire vs. échantillonnage aléatoire</a></li>
+<li><a href="#/la-randomisation-est-puissante-1">La randomisation est
+puissante (1)</a></li>
+<li><a href="#/la-randomisation-est-puissante-2">La randomisation est
+puissante (2)</a></li>
+<li><a href="#/la-randomisation-est-puissante-3">La randomisation est
+puissante (3)</a></li>
+<li><a href="#/échantillonnage-aléatoire">Échantillonnage
+aléatoire</a></li>
 <li><a href="#/résultats-potentiels-2">Résultats potentiels</a></li>
-<li><a href="#/assignation-aléatoire-à-la-condition-rouge-1-ou-bleue-0">Assignation aléatoire à la condition rouge (1) ou bleue (0)</a></li>
+<li><a
+href="#/assignation-aléatoire-à-la-condition-rouge-1-ou-bleue-0">Assignation
+aléatoire à la condition rouge (1) ou bleue (0)</a></li>
 <li><a href="#/trois-hypothèses-clés">Trois hypothèses clés</a></li>
-<li><a href="#/hypothèses-clé-sutva-partie-1">Hypothèses clé : SUTVA, partie 1</a></li>
-<li><a href="#/hypothèses-clé-sutva-partie-2">Hypothèses clé : SUTVA, partie 2</a></li>
-<li><a href="#/hypothèses-clé-lexclusion">Hypothèses clé : l’exclusion</a></li>
-<li><a href="#/la-randomisation-est-puissante-4">La randomisation est puissante (4)</a></li>
+<li><a href="#/hypothèses-clé-sutva-partie-1">Hypothèses clé : SUTVA,
+partie 1</a></li>
+<li><a href="#/hypothèses-clé-sutva-partie-2">Hypothèses clé : SUTVA,
+partie 2</a></li>
+<li><a href="#/hypothèses-clé-lexclusion">Hypothèses clé :
+l’exclusion</a></li>
+<li><a href="#/la-randomisation-est-puissante-4">La randomisation est
+puissante (4)</a></li>
 </ul></li>
-<li><a href="#/études-aléatoires-vs.-observationnelles">Études aléatoires vs. observationnelles</a>
+<li><a href="#/études-aléatoires-vs.-observationnelles">Études
+aléatoires vs. observationnelles</a>
 <ul>
-<li><a href="#/différents-types-détudes">Différents types d’études</a></li>
-<li><a href="#/exercice-apprendre-de-vos-connaissances-antérieures">Exercice : Apprendre de vos connaissances antérieures</a></li>
-<li><a href="#/exercice-études-observationnelles-vs.-études-aléatoires">Exercice : études observationnelles vs. études aléatoires</a></li>
+<li><a href="#/différents-types-détudes">Différents types
+d’études</a></li>
+<li><a
+href="#/exercice-apprendre-de-vos-connaissances-antérieures">Exercice :
+Apprendre de vos connaissances antérieures</a></li>
+<li><a
+href="#/exercice-études-observationnelles-vs.-études-aléatoires">Exercice
+: études observationnelles vs. études aléatoires</a></li>
 <li><a href="#/discussion">Discussion</a></li>
-<li><a href="#/généralisabilité-et-validité-externe">Généralisabilité et validité externe</a></li>
+<li><a href="#/généralisabilité-et-validité-externe">Généralisabilité et
+validité externe</a></li>
 <li><a href="#/références">Références</a></li>
 </ul></li>
 </ul>
 </section>
 
-<section id="pourquoi-les-chercheurs-en-sciences-sociales-et-les-décideurs-politiques-doivent-ils-se-soucier-de-la-causalité" class="slide level2">
-<h2>Pourquoi les chercheurs en sciences sociales et les décideurs politiques doivent-ils se soucier de la causalité ?</h2>
+<section
+id="pourquoi-les-chercheurs-en-sciences-sociales-et-les-décideurs-politiques-doivent-ils-se-soucier-de-la-causalité"
+class="slide level2">
+<h2>Pourquoi les chercheurs en sciences sociales et les décideurs
+politiques doivent-ils se soucier de la causalité ?</h2>
 <ul>
 <li>[Discussion avec vos propres exemples.]</li>
 </ul>
 </section>
 <section>
-<section id="approche-contrefactuelle-de-linférence-causale" class="title-slide slide level1">
+<section id="approche-contrefactuelle-de-linférence-causale"
+class="title-slide slide level1">
 <h1>Approche contrefactuelle de l’inférence causale</h1>
 
 </section>
-<section id="évolutions-récentes-dans-la-recherche-en-sciences-sociales" class="slide level2">
+<section id="évolutions-récentes-dans-la-recherche-en-sciences-sociales"
+class="slide level2">
 <h2>Évolutions récentes dans la recherche en sciences sociales</h2>
 <ul>
-<li><p>Historiquement, la causalité inverse et le biais de variable omise ont posé problème pour la recherche en sciences sociales qui prétend expliquer les causes.</p></li>
-<li><p>Récemment, l’approche contrefactuelle a été adoptée dans les sciences sociales comme cadre d’inférence causale.</p></li>
+<li><p>Historiquement, la causalité inverse et le biais de variable
+omise ont posé problème pour la recherche en sciences sociales qui
+prétend expliquer les causes.</p></li>
+<li><p>Récemment, l’approche contrefactuelle a été adoptée dans les
+sciences sociales comme cadre d’inférence causale.</p></li>
 <li><p>Cela représente un grand changement dans la recherche :</p>
 <ul>
-<li><p>Être plus précis sur ce que nous entendons par effet causal.</p></li>
-<li><p>Utilisation de la randomisation ou de conceptions approchantes.</p></li>
+<li><p>Être plus précis sur ce que nous entendons par effet
+causal.</p></li>
+<li><p>Utilisation de la randomisation ou de conceptions
+approchantes.</p></li>
 <li><p>Plus de partenariats entre chercheurs.</p></li>
 </ul></li>
 </ul>
 </section>
-<section id="x-cause-y-est-une-affirmation-sur-ce-qui-na-pas-eu-lieu" class="slide level2">
+<section id="x-cause-y-est-une-affirmation-sur-ce-qui-na-pas-eu-lieu"
+class="slide level2">
 <h2>“X cause Y” est une affirmation sur ce qui n’a pas eu lieu</h2>
 <ul>
-<li><p>Dans l’approche contrefactuelle : “Si X n’avait pas eu lieu, alors Y n’aurait pas eu lieu.”</p></li>
-<li><p>Les expériences nous aident à en apprendre davantage sur les assertions causales, quelles soient contrefactuelles ou dues à une manipulation.</p></li>
-<li><p>Ce n’est pas incorrect de <em>conceptualiser</em> la “cause” d’une autre manière. Mais il est productif de travailler dans ce cadre contrefactuel <span class="citation" data-cites="brady2008causation">(<a href="#/ref-brady2008causation" role="doc-biblioref">Brady 2008</a>)</span>.</p></li>
+<li><p>Dans l’approche contrefactuelle : “Si X n’avait pas eu lieu,
+alors Y n’aurait pas eu lieu.”</p></li>
+<li><p>Les expériences nous aident à en apprendre davantage sur les
+assertions causales, quelles soient contrefactuelles ou dues à une
+manipulation.</p></li>
+<li><p>Ce n’est pas incorrect de <em>conceptualiser</em> la “cause”
+d’une autre manière. Mais il est productif de travailler dans ce cadre
+contrefactuel <span class="citation" data-cites="brady2008causation">(<a
+href="#/ref-brady2008causation" role="doc-biblioref">Brady
+2008</a>)</span>.</p></li>
 </ul>
 </section>
-<section id="comment-interpréter-x-cause-y-dans-cette-approche" class="slide level2">
+<section id="comment-interpréter-x-cause-y-dans-cette-approche"
+class="slide level2">
 <h2>Comment interpréter “X cause Y” dans cette approche</h2>
 <ol type="1">
-<li><p>“X cause Y” n’implique pas nécessairement que W et V ne causent pas Y. X fait partie de l’histoire, mais ce n’est pas toute l’histoire. (Toute l’histoire n’est pas nécessaire pour savoir si X cause Y).</p></li>
-<li><p>“X cause Y” nécessite un <strong>contexte</strong> : une allumette provoque une flamme mais cela nécessite de l’oxygène ; les petites salles de classe améliorent les résultats mais nécessitent des enseignants expérimentés et un financement adapté <span class="citation" data-cites="cartwright2012evidence">(<a href="#/ref-cartwright2012evidence" role="doc-biblioref">Cartwright and Hardie 2012</a>)</span>.</p></li>
-<li><p>“X cause Y” peut signifier “Avec X, la probabilité de Y est plus élevée qu’elle ne le serait sans X.” ou “Sans X, il n’y a pas de Y.” Les deux sont compatibles avec l’idée contrefactuelle.</p></li>
+<li><p>“X cause Y” n’implique pas nécessairement que W et V ne causent
+pas Y. X fait partie de l’histoire, mais ce n’est pas toute l’histoire.
+(Toute l’histoire n’est pas nécessaire pour savoir si X cause
+Y).</p></li>
+<li><p>“X cause Y” nécessite un <strong>contexte</strong> : une
+allumette provoque une flamme mais cela nécessite de l’oxygène ; les
+petites salles de classe améliorent les résultats mais nécessitent des
+enseignants expérimentés et un financement adapté <span class="citation"
+data-cites="cartwright2012evidence">(<a
+href="#/ref-cartwright2012evidence" role="doc-biblioref">Cartwright and
+Hardie 2012</a>)</span>.</p></li>
+<li><p>“X cause Y” peut signifier “Avec X, la probabilité de Y est plus
+élevée qu’elle ne le serait sans X.” ou “Sans X, il n’y a pas de Y.” Les
+deux sont compatibles avec l’idée contrefactuelle.</p></li>
 </ol>
 </section>
-<section id="comment-interpréter-x-cause-y-dans-cette-approche-1" class="slide level2">
+<section id="comment-interpréter-x-cause-y-dans-cette-approche-1"
+class="slide level2">
 <h2>Comment interpréter “X cause Y” dans cette approche</h2>
 <ol start="4" type="1">
-<li><p>Ce n’est pas nécessaire de connaître le mécanisme pour établir que X cause Y. Le mécanisme peut être complexe, et il peut impliquer des probabilités : X cause Y parfois à cause de A et parfois à cause de B.</p></li>
-<li><p>La causalité contrefactuelle ne nécessite pas “une séquence spatiotemporelle continue d’intermédiaires causaux”</p>
+<li><p>Ce n’est pas nécessaire de connaître le mécanisme pour établir
+que X cause Y. Le mécanisme peut être complexe, et il peut impliquer des
+probabilités : X cause Y parfois à cause de A et parfois à cause de
+B.</p></li>
+<li><p>La causalité contrefactuelle ne nécessite pas “une séquence
+spatiotemporelle continue d’intermédiaires causaux”</p>
 <ul>
-<li>Ex : la personne A planifie l’événement Y. L’action de la personne B arrêterait Y (i.e. B va bousculer A dans la rue). La personne C ne connaît pas la personne A ou l’action Y mais arrête B (elle pense peut-être que B va trébucher). Ainsi, la personne A effectue l’action Y. Et la personne C provoque l’action Y (sans l’action de la personne C, Y n’aurait pas eu lieu)</li>
+<li>Ex : la personne A planifie l’événement Y. L’action de la personne B
+arrêterait Y (i.e. B va bousculer A dans la rue). La personne C ne
+connaît pas la personne A ou l’action Y mais arrête B (elle pense
+peut-être que B va trébucher). Ainsi, la personne A effectue l’action Y.
+Et la personne C provoque l’action Y (sans l’action de la personne C, Y
+n’aurait pas eu lieu)</li>
 </ul></li>
 <li><p>Corrélation n’est pas causalité.</p></li>
 </ol>
@@ -559,8 +643,11 @@ document.getElementsByTagName('head')[0].appendChild(style);
 <section id="exercice-échinacée" class="slide level2">
 <h2>Exercice : Échinacée</h2>
 <ul>
-<li><p>Votre ami dit que la prise d’échinacée (un remède traditionnel) réduit la durée des rhumes.</p></li>
-<li><p>Si nous adoptons une approche contrefactuelle, qu’implique cet énoncé implicitement à propos du contrefactuel ? Quels autres contrefactuels pourraient être possibles et pourquoi ?</p></li>
+<li><p>Votre ami dit que la prise d’échinacée (un remède traditionnel)
+réduit la durée des rhumes.</p></li>
+<li><p>Si nous adoptons une approche contrefactuelle, qu’implique cet
+énoncé implicitement à propos du contrefactuel ? Quels autres
+contrefactuels pourraient être possibles et pourquoi ?</p></li>
 </ul>
 </section></section>
 <section>
@@ -571,40 +658,80 @@ document.getElementsByTagName('head')[0].appendChild(style);
 <section id="résultats-potentiels-1" class="slide level2">
 <h2>Résultats potentiels</h2>
 <ul>
-<li><p>Pour chaque unité, nous supposons qu’il y a deux résultats <strong>post-traitement</strong> : <span class="math inline">\(Y_i(1)\)</span> et <span class="math inline">\(Y_i(0)\)</span>.</p></li>
-<li><p><span class="math inline">\(Y_i(1)\)</span> est le résultat qu’on <strong>obtiendrait</strong> <em>si</em> l’unité recevait le traitement (<span class="math inline">\(T_i=1\)</span>).</p></li>
-<li><p><span class="math inline">\(Y_i(0)\)</span> est le résultat qu’on <strong>obtiendrait</strong> <em>si</em> l’unité recevait le contrôle (<span class="math inline">\(T_i=0\)</span>).</p></li>
+<li><p>Pour chaque unité, nous supposons qu’il y a deux résultats
+<strong>post-traitement</strong> : <span
+class="math inline">\(Y_i(1)\)</span> et <span
+class="math inline">\(Y_i(0)\)</span>.</p></li>
+<li><p><span class="math inline">\(Y_i(1)\)</span> est le résultat qu’on
+<strong>obtiendrait</strong> <em>si</em> l’unité recevait le traitement
+(<span class="math inline">\(T_i=1\)</span>).</p></li>
+<li><p><span class="math inline">\(Y_i(0)\)</span> est le résultat qu’on
+<strong>obtiendrait</strong> <em>si</em> l’unité recevait le contrôle
+(<span class="math inline">\(T_i=0\)</span>).</p></li>
 </ul>
 </section>
 <section id="définition-de-leffet-causal" class="slide level2">
 <h2>Définition de l’effet causal</h2>
 <ul>
-<li><p>L’<strong>effet causal</strong> du traitement (par rapport au contrôle) est : <span class="math inline">\(\tau_i = Y_i(1) - Y_i(0)\)</span></p></li>
-<li><p>Notez que nous utilisons maintenant <span class="math inline">\(T\)</span> pour indiquer notre traitement (ce dont nous voulons étudier l’effet). <span class="math inline">\(X\)</span> sera utilisé pour les variables de base.</p></li>
+<li><p>L’<strong>effet causal</strong> du traitement (par rapport au
+contrôle) est : <span class="math inline">\(\tau_i = Y_i(1) -
+Y_i(0)\)</span></p></li>
+<li><p>Notez que nous utilisons maintenant <span
+class="math inline">\(T\)</span> pour indiquer notre traitement (ce dont
+nous voulons étudier l’effet). <span class="math inline">\(X\)</span>
+sera utilisé pour les variables de base.</p></li>
 </ul>
 </section>
-<section id="principales-caractéristiques-de-cette-définition-de-leffet-causal" class="slide level2">
-<h2>Principales caractéristiques de cette définition de l’effet causal</h2>
+<section
+id="principales-caractéristiques-de-cette-définition-de-leffet-causal"
+class="slide level2">
+<h2>Principales caractéristiques de cette définition de l’effet
+causal</h2>
 <ol type="1">
-<li><p>Vous devez définir la condition de contrôle pour définir un effet causal.</p>
+<li><p>Vous devez définir la condition de contrôle pour définir un effet
+causal.</p>
 <ul>
-<li>Disons que <span class="math inline">\(T=1\)</span> signifie une réunion communautaire pour discuter de santé publique. Est-ce que <span class="math inline">\(T=0\)</span> signifie pas de réunion ? Est-ce que <span class="math inline">\(T=0\)</span> signifie une réunion sur un autre sujet ? Est-ce que <span class="math inline">\(T=0\)</span> est un dépliant sur la santé publique ?</li>
-<li>L’expression ``effet causal de <span class="math inline">\(T\)</span> sur <span class="math inline">\(Y\)</span>’’ n’a pas de sens sans savoir ce que signifie ne pas avoir <span class="math inline">\(T\)</span>.</li>
+<li>Disons que <span class="math inline">\(T=1\)</span> signifie une
+réunion communautaire pour discuter de santé publique. Est-ce que <span
+class="math inline">\(T=0\)</span> signifie pas de réunion ? Est-ce que
+<span class="math inline">\(T=0\)</span> signifie une réunion sur un
+autre sujet ? Est-ce que <span class="math inline">\(T=0\)</span> est un
+dépliant sur la santé publique ?</li>
+<li>L’expression ``effet causal de <span
+class="math inline">\(T\)</span> sur <span
+class="math inline">\(Y\)</span>’’ n’a pas de sens sans savoir ce que
+signifie ne pas avoir <span class="math inline">\(T\)</span>.</li>
 </ul></li>
-<li><p>Chaque unité <span class="math inline">\(i\)</span> a son propre effet causal <span class="math inline">\(\tau_i\)</span>.</p></li>
-<li><p>Mais nous ne pouvons pas mesurer l’effet causal au niveau individuel, car nous ne pouvons pas observer à la fois <span class="math inline">\(Y_i(1)\)</span> et <span class="math inline">\(Y_i(0)\)</span> en même temps. C’est ce qu’on appelle le <strong>problème fondamental de l’inférence causale</strong>. Ce que nous observons est <span class="math inline">\(Y_i\)</span> :</p></li>
+<li><p>Chaque unité <span class="math inline">\(i\)</span> a son propre
+effet causal <span class="math inline">\(\tau_i\)</span>.</p></li>
+<li><p>Mais nous ne pouvons pas mesurer l’effet causal au niveau
+individuel, car nous ne pouvons pas observer à la fois <span
+class="math inline">\(Y_i(1)\)</span> et <span
+class="math inline">\(Y_i(0)\)</span> en même temps. C’est ce qu’on
+appelle le <strong>problème fondamental de l’inférence causale</strong>.
+Ce que nous observons est <span class="math inline">\(Y_i\)</span>
+:</p></li>
 </ol>
-<p><span class="math inline">\(Y_i = T_iY_i(1) + (1-T_i)Y_i(0)\)</span></p>
+<p><span class="math inline">\(Y_i = T_iY_i(1) +
+(1-T_i)Y_i(0)\)</span></p>
 </section>
-<section id="imaginons-quon-connaisse-à-la-fois-y_i1-et-y_i0-ce-qui-nest-jamais-vrai" class="slide level2">
-<h2>Imaginons qu’on connaisse à la fois <span class="math inline">\(Y_i(1)\)</span> et <span class="math inline">\(Y_i(0)\)</span> (ce qui n’est jamais vrai !)</h2>
+<section
+id="imaginons-quon-connaisse-à-la-fois-y_i1-et-y_i0-ce-qui-nest-jamais-vrai"
+class="slide level2">
+<h2>Imaginons qu’on connaisse à la fois <span
+class="math inline">\(Y_i(1)\)</span> et <span
+class="math inline">\(Y_i(0)\)</span> (ce qui n’est jamais vrai !)</h2>
 <table>
 <thead>
 <tr class="header">
-<th style="text-align: right;"><span class="math inline">\(i\)</span></th>
-<th style="text-align: center;"><span class="math inline">\(Y_i(1)\)</span></th>
-<th style="text-align: center;"><span class="math inline">\(Y_i(0)\)</span></th>
-<th style="text-align: center;"><span class="math inline">\(\tau_i\)</span></th>
+<th style="text-align: right;"><span
+class="math inline">\(i\)</span></th>
+<th style="text-align: center;"><span
+class="math inline">\(Y_i(1)\)</span></th>
+<th style="text-align: center;"><span
+class="math inline">\(Y_i(0)\)</span></th>
+<th style="text-align: center;"><span
+class="math inline">\(\tau_i\)</span></th>
 </tr>
 </thead>
 <tbody>
@@ -636,27 +763,43 @@ document.getElementsByTagName('head')[0].appendChild(style);
 </table>
 <ul>
 <li><p>Nous avons l’effet du traitement pour chaque individu.</p></li>
-<li><p>Notez l’hétérogénéité des effets du traitement au niveau individuel.</p></li>
-<li><p>Mais nous n’observons au maximum qu’un résultat potentiel pour chaque individu, ce qui signifie que nous ne connaissons pas ces effets du traitement.</p></li>
+<li><p>Notez l’hétérogénéité des effets du traitement au niveau
+individuel.</p></li>
+<li><p>Mais nous n’observons au maximum qu’un résultat potentiel pour
+chaque individu, ce qui signifie que nous ne connaissons pas ces effets
+du traitement.</p></li>
 </ul>
 </section>
 <section id="effet-causal-moyen" class="slide level2">
 <h2>Effet causal moyen</h2>
 <ul>
-<li>Bien que nous ne puissions pas mesurer l’effet causal individuel, <span class="math inline">\(\tau_i = Y_i(1)-Y_i(0)\)</span>, nous pouvons assigner de manière aléatoire des sujets aux conditions de traitement et de contrôle pour estimer l’<strong>effet causal moyen</strong>, <span class="math inline">\(\bar{\tau}_i\)</span>:</li>
+<li>Bien que nous ne puissions pas mesurer l’effet causal individuel,
+<span class="math inline">\(\tau_i = Y_i(1)-Y_i(0)\)</span>, nous
+pouvons assigner de manière aléatoire des sujets aux conditions de
+traitement et de contrôle pour estimer l’<strong>effet causal
+moyen</strong>, <span class="math inline">\(\bar{\tau}_i\)</span>:</li>
 </ul>
-<p><span class="math inline">\(\overline{\tau_i} = \frac{1}{N} \sum_{i=1}^N ( Y_i(1)-Y_i(0) ) = \overline{Y_i(1)-Y_i(0)}\)</span></p>
+<p><span class="math inline">\(\overline{\tau_i} = \frac{1}{N}
+\sum_{i=1}^N ( Y_i(1)-Y_i(0) ) = \overline{Y_i(1)-Y_i(0)}\)</span></p>
 <ul>
-<li><p>L’effet causal moyen est également appelé effet moyen du traitement (average treatment effect, ATE).</p></li>
-<li><p>Plus d’explications sur la randomisation de l’assignation du traitement dans la section suivante.</p></li>
+<li><p>L’effet causal moyen est également appelé effet moyen du
+traitement (average treatment effect, ATE).</p></li>
+<li><p>Plus d’explications sur la randomisation de l’assignation du
+traitement dans la section suivante.</p></li>
 </ul>
 </section>
 <section id="paramètres-et-questions-causales" class="slide level2">
 <h2>Paramètres et questions causales</h2>
 <ul>
-<li><p>Avant de discuter de la randomisation et de la façon dont elle nous permet d’estimer l’effet causal moyen, sachez que l’effet causal moyen est un type de paramètre.</p></li>
-<li><p>Un paramètre est une quantité que vous souhaitez connaître (à partir de vos données). C’est la cible de votre recherche que <em>vous</em> avez définie.</p></li>
-<li><p>Être précis pour votre question de recherche, c’est être précis pour votre paramètre. Pour les questions causales, il s’agit de préciser :</p>
+<li><p>Avant de discuter de la randomisation et de la façon dont elle
+nous permet d’estimer l’effet causal moyen, sachez que l’effet causal
+moyen est un type de paramètre.</p></li>
+<li><p>Un paramètre est une quantité que vous souhaitez connaître (à
+partir de vos données). C’est la cible de votre recherche que
+<em>vous</em> avez définie.</p></li>
+<li><p>Être précis pour votre question de recherche, c’est être précis
+pour votre paramètre. Pour les questions causales, il s’agit de préciser
+:</p>
 <ul>
 <li>Le résultat</li>
 <li>Les conditions de traitement et de contrôle</li>
@@ -667,78 +810,134 @@ document.getElementsByTagName('head')[0].appendChild(style);
 <section id="dautres-types-de-paramètres" class="slide level2">
 <h2>D’autres types de paramètres</h2>
 <ul>
-<li><p>L’effet causal moyen pour un sous-groupe particulier, i.e. effet causal moyen conditionel (conditional average treatment effect, CATE)</p></li>
-<li><p>Différences de CATE : différences d’effet moyen du traitement pour un groupe par rapport à un autre groupe.</p></li>
-<li><p>L’effet moyen du traitement sur les traités (average treatment effect on the treated, ATT)</p></li>
-<li><p>L’effet moyen local du traitement (local average treatment effect, LATE). “Local” = ceux dont le statut de traitement serait modifié par un encouragement dans une conception incitative (i.e. l’effet causal moyen pour ceux qui se conforment au traitement, complier average causal effect, CACE) ou ceux au voisinage d’un seuil pour une régression sur discontinuité.</p></li>
-<li><p>Les paramètres sont discutés en détail dans le module <a href="estimation.html">paramètres et estimateurs</a>.</p></li>
+<li><p>L’effet causal moyen pour un sous-groupe particulier, i.e. effet
+causal moyen conditionel (conditional average treatment effect,
+CATE)</p></li>
+<li><p>Différences de CATE : différences d’effet moyen du traitement
+pour un groupe par rapport à un autre groupe.</p></li>
+<li><p>L’effet moyen du traitement sur les traités (average treatment
+effect on the treated, ATT)</p></li>
+<li><p>L’effet moyen local du traitement (local average treatment
+effect, LATE). “Local” = ceux dont le statut de traitement serait
+modifié par un encouragement dans une conception incitative
+(i.e. l’effet causal moyen pour ceux qui se conforment au traitement,
+complier average causal effect, CACE) ou ceux au voisinage d’un seuil
+pour une régression sur discontinuité.</p></li>
+<li><p>Les paramètres sont discutés en détail dans le module <a
+href="estimation.html">paramètres et estimateurs</a>.</p></li>
 </ul>
 </section></section>
 <section>
-<section id="randomisation-de-lassignation-du-traitement" class="title-slide slide level1">
+<section id="randomisation-de-lassignation-du-traitement"
+class="title-slide slide level1">
 <h1>Randomisation de l’assignation du traitement</h1>
 
 </section>
-<section id="randomisation-de-lassignation-du-traitement-1" class="slide level2">
+<section id="randomisation-de-lassignation-du-traitement-1"
+class="slide level2">
 <h2>Randomisation de l’assignation du traitement</h2>
 <ul>
-<li><p>La randomisation signifie que chaque observation a une probabilité connue d’assignation aux conditions expérimentales <em>entre</em> 0 et 1.</p>
+<li><p>La randomisation signifie que chaque observation a une
+probabilité connue d’assignation aux conditions expérimentales
+<em>entre</em> 0 et 1.</p>
 <ul>
-<li>Aucune unité de l’échantillon expérimental n’est assignée avec certitude au traitement (probabilité = 1) ou au contrôle (probabilité = 0).</li>
+<li>Aucune unité de l’échantillon expérimental n’est assignée avec
+certitude au traitement (probabilité = 1) ou au contrôle (probabilité =
+0).</li>
 </ul></li>
-<li><p>Les unités peuvent varier dans leur probabilité d’assignation au traitement.</p>
+<li><p>Les unités peuvent varier dans leur probabilité d’assignation au
+traitement.</p>
 <ul>
-<li><p>Par exemple, la probabilité peut varier selon le groupe : les femmes peuvent avoir une probabilité de 25% d’être assignées au traitement tandis que les hommes ont une probabilité différente.</p></li>
-<li><p>Cela peut même varier d’un individu à l’autre, même si cela compliquerait votre analyse.</p></li>
+<li><p>Par exemple, la probabilité peut varier selon le groupe : les
+femmes peuvent avoir une probabilité de 25% d’être assignées au
+traitement tandis que les hommes ont une probabilité
+différente.</p></li>
+<li><p>Cela peut même varier d’un individu à l’autre, même si cela
+compliquerait votre analyse.</p></li>
 </ul></li>
 </ul>
 </section>
-<section id="assignation-aléatoire-vs.-échantillonnage-aléatoire" class="slide level2">
+<section id="assignation-aléatoire-vs.-échantillonnage-aléatoire"
+class="slide level2">
 <h2>Assignation aléatoire vs. échantillonnage aléatoire</h2>
 <ul>
-<li><p>Randomisation (du traitement) : assigner des sujets avec une probabilité connue à des conditions expérimentales.</p>
+<li><p>Randomisation (du traitement) : assigner des sujets avec une
+probabilité connue à des conditions expérimentales.</p>
 <ul>
-<li><p>Cette assignation aléatoire du traitement peut être combinée avec tout type d’échantillon (échantillon aléatoire, échantillon de convenance, etc.).</p></li>
-<li><p>Mais la taille et d’autres caractéristiques de votre échantillon affecteront votre puissance statistique et votre capacité à extrapoler votre découverte à d’autres populations.</p></li>
+<li><p>Cette assignation aléatoire du traitement peut être combinée avec
+tout type d’échantillon (échantillon aléatoire, échantillon de
+convenance, etc.).</p></li>
+<li><p>Mais la taille et d’autres caractéristiques de votre échantillon
+affecteront votre puissance statistique et votre capacité à extrapoler
+votre découverte à d’autres populations.</p></li>
 </ul></li>
-<li><p>Échantillonnage aléatoire (à partir de la population) : sélectionner des sujets dans votre échantillon à partir d’une population avec une probabilité connue.</p></li>
+<li><p>Échantillonnage aléatoire (à partir de la population) :
+sélectionner des sujets dans votre échantillon à partir d’une population
+avec une probabilité connue.</p></li>
 </ul>
 </section>
 <section id="la-randomisation-est-puissante-1" class="slide level2">
 <h2>La randomisation est puissante (1)</h2>
 <ul>
-<li><p>Nous cherchons l’ATE, <span class="math inline">\(\overline{\tau_i}= \overline{Y_i(1)-Y_i(0)}\)</span>.</p></li>
-<li><p>Nous allons utiliser le fait que la moyenne des différences est égale à la différence des moyennes :</p></li>
+<li><p>Nous cherchons l’ATE, <span
+class="math inline">\(\overline{\tau_i}=
+\overline{Y_i(1)-Y_i(0)}\)</span>.</p></li>
+<li><p>Nous allons utiliser le fait que la moyenne des différences est
+égale à la différence des moyennes :</p></li>
 </ul>
-<p>ATE <span class="math inline">\(= \overline{Y_i(1)-Y_i(0)} = \overline{Y_i(1)}-\overline{Y_i(0)}\)</span></p>
+<p>ATE <span class="math inline">\(= \overline{Y_i(1)-Y_i(0)} =
+\overline{Y_i(1)}-\overline{Y_i(0)}\)</span></p>
 </section>
 <section id="la-randomisation-est-puissante-2" class="slide level2">
 <h2>La randomisation est puissante (2)</h2>
 <ul>
-<li><p>Assignons <em>de manière aléatoire</em> certaines de nos unités à la condition de traitement. Pour ces unités traitées, nous mesurons le résultat <span class="math inline">\(Y_i|T_i=1\)</span>, qui est le même que <span class="math inline">\(Y_i(1)\)</span> pour ces unités.</p></li>
-<li><p>Parce que ces unités ont été assignées de manière aléatoire au traitement, <span class="math inline">\(Y_i=Y_i(1)\)</span> pour les unités traitées représentent les <span class="math inline">\(Y_i(1)\)</span> pour toutes nos unités.</p></li>
-<li><p>En espérance (ou en moyenne sur des expériences répétées (écrit <span class="math inline">\(E_R[]\)</span>)) :</p></li>
+<li><p>Assignons <em>de manière aléatoire</em> certaines de nos unités à
+la condition de traitement. Pour ces unités traitées, nous mesurons le
+résultat <span class="math inline">\(Y_i|T_i=1\)</span>, qui est le même
+que <span class="math inline">\(Y_i(1)\)</span> pour ces
+unités.</p></li>
+<li><p>Parce que ces unités ont été assignées de manière aléatoire au
+traitement, <span class="math inline">\(Y_i=Y_i(1)\)</span> pour les
+unités traitées représentent les <span
+class="math inline">\(Y_i(1)\)</span> pour toutes nos unités.</p></li>
+<li><p>En espérance (ou en moyenne sur des expériences répétées (écrit
+<span class="math inline">\(E_R[]\)</span>)) :</p></li>
 </ul>
-<p><span class="math inline">\(E_R[\overline{Y_i}|T_i=1]=\overline{Y_i(1)}\)</span>.</p>
+<p><span
+class="math inline">\(E_R[\overline{Y_i}|T_i=1]=\overline{Y_i(1)}\)</span>.</p>
 <ul>
-<li><p><span class="math inline">\(\overline{Y}|T_i=1\)</span> est un estimateur sans biais de la moyenne des résultats potentiels pour la population sous traitement.</p></li>
-<li><p>La même logique s’applique pour les unités assignées aléatoirement au contrôle :</p></li>
+<li><p><span class="math inline">\(\overline{Y}|T_i=1\)</span> est un
+estimateur sans biais de la moyenne des résultats potentiels pour la
+population sous traitement.</p></li>
+<li><p>La même logique s’applique pour les unités assignées
+aléatoirement au contrôle :</p></li>
 </ul>
-<p><span class="math inline">\(E_R[\overline{Y_i}|T_i=0]=\overline{Y_i(0)}\)</span>.</p>
+<p><span
+class="math inline">\(E_R[\overline{Y_i}|T_i=0]=\overline{Y_i(0)}\)</span>.</p>
 </section>
 <section id="la-randomisation-est-puissante-3" class="slide level2">
 <h2>La randomisation est puissante (3)</h2>
 <!-- -  The same logic applies when we measure $Y_i$ for the control units ($Y_i|T_i=0$).  So $\overline{Y_i}|T_i=0$, which we can calculate, gives us an unbiased estimate of $\overline{Y_i(0)}$. -->
 <ul>
-<li>Nous pouvons donc écrire un estimateur pour l’effet moyen du traitement :</li>
+<li>Nous pouvons donc écrire un estimateur pour l’effet moyen du
+traitement :</li>
 </ul>
-<p><span class="math inline">\(\hat{\overline{\tau_i}} = ( \overline{Y_i(1)} | T_i = 1 ) - ( \overline{Y_i(0)} | T_i = 0 )\)</span></p>
+<p><span class="math inline">\(\hat{\overline{\tau_i}} = (
+\overline{Y_i(1)} | T_i = 1 ) - ( \overline{Y_i(0)} | T_i = 0
+)\)</span></p>
 <ul>
-<li>En espérance (ou en moyenne sur des expériences répétées, <span class="math inline">\(\hat{\overline{\tau_i}}\)</span> égal l’effet moyen du traitement :</li>
+<li>En espérance (ou en moyenne sur des expériences répétées, <span
+class="math inline">\(\hat{\overline{\tau_i}}\)</span> égal l’effet
+moyen du traitement :</li>
 </ul>
-<p><span class="math inline">\(E_R[Y_i| T_i = 1 ] - E_R[Y_i | T_i = 0] = \overline{Y_i(1)} - \overline{Y_i(0)}\)</span>.</p>
+<p><span class="math inline">\(E_R[Y_i| T_i = 1 ] - E_R[Y_i | T_i = 0] =
+\overline{Y_i(1)} - \overline{Y_i(0)}\)</span>.</p>
 <ul>
-<li>Nous pouvons donc simplement prendre la différence de ces estimateurs sans biais <span class="math inline">\(\overline{Y_i(1)}\)</span> et <span class="math inline">\(\overline{Y_i(0)}\)</span> pour obtenir une estimation non biaisée de l’effet moyen du traitement.</li>
+<li>Nous pouvons donc simplement prendre la différence de ces
+estimateurs sans biais <span
+class="math inline">\(\overline{Y_i(1)}\)</span> et <span
+class="math inline">\(\overline{Y_i(0)}\)</span> pour obtenir une
+estimation non biaisée de l’effet moyen du traitement.</li>
 </ul>
 </section>
 <section id="échantillonnage-aléatoire" class="slide level2">
@@ -752,10 +951,14 @@ document.getElementsByTagName('head')[0].appendChild(style);
 </section>
 <section id="résultats-potentiels-2" class="slide level2">
 <h2>Résultats potentiels</h2>
-<p>Chaque foyer <span class="math inline">\(i\)</span> a <span style="color: red;"><span class="math inline">\(Y_i(1)\)</span></span> et <span style="color: blue;"><span class="math inline">\(Y_i(0)\)</span></span>.</p>
+<p>Chaque foyer <span class="math inline">\(i\)</span> a <span
+style="color: red;"><span class="math inline">\(Y_i(1)\)</span></span>
+et <span style="color: blue;"><span
+class="math inline">\(Y_i(0)\)</span></span>.</p>
 <p><img src="../Images/randomsampling_redblue_plain.png" width="80%" /></p>
 </section>
-<section id="assignation-aléatoire-à-la-condition-rouge-1-ou-bleue-0" class="slide level2">
+<section id="assignation-aléatoire-à-la-condition-rouge-1-ou-bleue-0"
+class="slide level2">
 <h2>Assignation aléatoire à la condition rouge (1) ou bleue (0)</h2>
 <div class="figure">
 <img src="../Images/randomassignment.png" alt="Assignation aléatoire de cet échantillon aléatoire des foyers" width="70%" />
@@ -766,20 +969,34 @@ Assignation aléatoire de cet échantillon aléatoire des foyers
 </section>
 <section id="trois-hypothèses-clés" class="slide level2">
 <h2>Trois hypothèses clés</h2>
-<p>Pour faire des assertions causales avec une expérience (ou pour juger si nous croyons aux affirmations d’une étude), nous avons besoin de trois hypothèses de base :</p>
+<p>Pour faire des assertions causales avec une expérience (ou pour juger
+si nous croyons aux affirmations d’une étude), nous avons besoin de
+trois hypothèses de base :</p>
 <ul>
-<li><p>Assignation aléatoire des sujets au traitement, ce qui implique que la réception du traitement est statistiquement indépendante des résultats potentiels des sujets.</p></li>
-<li><p>l’hypothèse SUTVA (Hypothèse stable de la valeur de traitement d’une unité / Stable unit treatment value assumption).</p></li>
-<li><p>La restriction d’exclusion, i.e. les résultats potentiels d’un sujet ne répondent qu’au traitement défini, et non à d’autres facteurs externes pouvant être corrélés avec le traitement.</p></li>
+<li><p>Assignation aléatoire des sujets au traitement, ce qui implique
+que la réception du traitement est statistiquement indépendante des
+résultats potentiels des sujets.</p></li>
+<li><p>l’hypothèse SUTVA (Hypothèse stable de la valeur de traitement
+d’une unité / Stable unit treatment value assumption).</p></li>
+<li><p>La restriction d’exclusion, i.e. les résultats potentiels d’un
+sujet ne répondent qu’au traitement défini, et non à d’autres facteurs
+externes pouvant être corrélés avec le traitement.</p></li>
 </ul>
 </section>
 <section id="hypothèses-clé-sutva-partie-1" class="slide level2">
 <h2>Hypothèses clé : SUTVA, partie 1</h2>
 <ol type="1">
-<li><p>La non-interférence – Le résultat potentiel d’un sujet reflète uniquement la reception du traitement par ce sujet. Il n’est pas affecté par la façon dont les traitements sont assignés à d’autres sujets.</p>
+<li><p>La non-interférence – Le résultat potentiel d’un sujet reflète
+uniquement la reception du traitement par ce sujet. Il n’est pas affecté
+par la façon dont les traitements sont assignés à d’autres sujets.</p>
 <ul>
-<li><p>Une violation classique est le cas des vaccins et de leurs effets de débordement.</p></li>
-<li><p>Imaginons que je sois dans le groupe de contrôle (pas de vaccin). Le risque de tomber malade (<span class="math inline">\(Y_i(0)\)</span>) dépend de l’état de traitement des autres personnes (si elles prennent le vaccin ou non), c’est comme si j’avais deux <span class="math inline">\(Y_i(0)\)</span> différents !</p></li>
+<li><p>Une violation classique est le cas des vaccins et de leurs effets
+de débordement.</p></li>
+<li><p>Imaginons que je sois dans le groupe de contrôle (pas de vaccin).
+Le risque de tomber malade (<span class="math inline">\(Y_i(0)\)</span>)
+dépend de l’état de traitement des autres personnes (si elles prennent
+le vaccin ou non), c’est comme si j’avais deux <span
+class="math inline">\(Y_i(0)\)</span> différents !</p></li>
 <li><p>l’hypothèse SUTVA.</p></li>
 </ul></li>
 </ol>
@@ -789,31 +1006,49 @@ Assignation aléatoire de cet échantillon aléatoire des foyers
 <ol start="2" type="1">
 <li><p>Pas de variations cachées du traitement</p>
 <ul>
-<li>Disons que le traitement consiste à prendre un vaccin, mais il existe deux types de vaccins et ils ont des compositions différentes.</li>
-<li>Voici un exemple d’infraction : tomber malade lors de la vaccination (<span class="math inline">\(Y_i(1)\)</span>) est dépendant du vaccin reçu. Nous aurions deux <span class="math inline">\(Y_i(1)\)</span> différents !</li>
+<li>Disons que le traitement consiste à prendre un vaccin, mais il
+existe deux types de vaccins et ils ont des compositions
+différentes.</li>
+<li>Voici un exemple d’infraction : tomber malade lors de la vaccination
+(<span class="math inline">\(Y_i(1)\)</span>) est dépendant du vaccin
+reçu. Nous aurions deux <span class="math inline">\(Y_i(1)\)</span>
+différents !</li>
 </ul></li>
 </ol>
 </section>
 <section id="hypothèses-clé-lexclusion" class="slide level2">
 <h2>Hypothèses clé : l’exclusion</h2>
 <ul>
-<li><p>L’assignation du traitement n’a aucun effet sur les résultats, sauf par l’effet de recevoir ou non le traitement.</p>
+<li><p>L’assignation du traitement n’a aucun effet sur les résultats,
+sauf par l’effet de recevoir ou non le traitement.</p>
 <ul>
 <li><p>Important de définir précisément le traitement.</p></li>
-<li><p>Important de maintenir la symétrie entre les groupes de traitement et de contrôle (par exemple, en aveugle, en ayant les mêmes procédures de collecte de données pour tous les sujets de l’étude, etc.), afin que l’assignation du traitement n’affecte que le traitement reçu, pas d’autres choses comme les interactions avec les chercheurs que vous ne voulez pas définir dans le cadre du traitement.</p></li>
+<li><p>Important de maintenir la symétrie entre les groupes de
+traitement et de contrôle (par exemple, en aveugle, en ayant les mêmes
+procédures de collecte de données pour tous les sujets de l’étude,
+etc.), afin que l’assignation du traitement n’affecte que le traitement
+reçu, pas d’autres choses comme les interactions avec les chercheurs que
+vous ne voulez pas définir dans le cadre du traitement.</p></li>
 </ul></li>
 </ul>
 </section>
 <section id="la-randomisation-est-puissante-4" class="slide level2">
 <h2>La randomisation est puissante (4)</h2>
 <ul>
-<li><p>Si l’intervention est aléatoire, alors recevoir ou non l’intervention n’est pas lié aux caractéristiques des bénéficiaires potentiels.</p></li>
-<li><p>La randomisation fait que ceux qui ont été sélectionnés de manière aléatoire pour ne pas recevoir l’intervention sont de bons remplaçants pour les contrefactuels de ceux qui ont été sélectionnés de manière aléatoire pour recevoir le traitement, et vice versa.</p></li>
-<li><p>Il faut s’en préoccuper si l’intervention n’était pas aléatoire (= une étude observationnelle).</p></li>
+<li><p>Si l’intervention est aléatoire, alors recevoir ou non
+l’intervention n’est pas lié aux caractéristiques des bénéficiaires
+potentiels.</p></li>
+<li><p>La randomisation fait que ceux qui ont été sélectionnés de
+manière aléatoire pour ne pas recevoir l’intervention sont de bons
+remplaçants pour les contrefactuels de ceux qui ont été sélectionnés de
+manière aléatoire pour recevoir le traitement, et vice versa.</p></li>
+<li><p>Il faut s’en préoccuper si l’intervention n’était pas aléatoire
+(= une étude observationnelle).</p></li>
 </ul>
 </section></section>
 <section>
-<section id="études-aléatoires-vs.-observationnelles" class="title-slide slide level1">
+<section id="études-aléatoires-vs.-observationnelles"
+class="title-slide slide level1">
 <h1>Études aléatoires vs. observationnelles</h1>
 
 </section>
@@ -826,53 +1061,96 @@ Assignation aléatoire de cet échantillon aléatoire des foyers
 </ul></li>
 <li><p>Études d’observation</p>
 <ul>
-<li>Le traitement n’est pas assigné de manière aléatoire. Il est observé, mais pas manipulé.</li>
+<li>Le traitement n’est pas assigné de manière aléatoire. Il est
+observé, mais pas manipulé.</li>
 </ul></li>
 </ul>
 </section>
-<section id="exercice-apprendre-de-vos-connaissances-antérieures" class="slide level2">
+<section id="exercice-apprendre-de-vos-connaissances-antérieures"
+class="slide level2">
 <h2>Exercice : Apprendre de vos connaissances antérieures</h2>
-<p><strong>Discutez en petits groupes :</strong> concevez le prochain projet pour répondre à l’une de ces questions (ou l’une de vos propres questions causales). Esquissez les caractéristiques clés de deux conceptions — une conception observationnelle et une conception aléatoire.</p>
+<p><strong>Discutez en petits groupes :</strong> concevez le prochain
+projet pour répondre à l’une de ces questions (ou l’une de vos propres
+questions causales). Esquissez les caractéristiques clés de deux
+conceptions — une conception observationnelle et une conception
+aléatoire.</p>
 <p><strong>Exemples de questions de recherche :</strong></p>
 <ul>
-<li><p>Les projets communautaires de reconstruction augmentent-ils la confiance et la coopération au Libéria ? <a href="https://egap.org/resource/brief-40-development-assistance-and-collective-action-capacity/">Note d’orientation des politiques publiques EGAP 40</a></p></li>
-<li><p>Un suivi par la communauté peut-il augmenter le recours aux cliniques et réduire la mortalité infantile en Ouganda ? <a href="https://egap.org/resource/does-bottom-up-accountability-work-evidence-from-uganda/">Note d’orientation des politiques publiques EGAP 58</a></p></li>
+<li><p>Les projets communautaires de reconstruction augmentent-ils la
+confiance et la coopération au Libéria ? <a
+href="https://egap.org/resource/brief-40-development-assistance-and-collective-action-capacity/">Note
+d’orientation des politiques publiques EGAP 40</a></p></li>
+<li><p>Un suivi par la communauté peut-il augmenter le recours aux
+cliniques et réduire la mortalité infantile en Ouganda ? <a
+href="https://egap.org/resource/does-bottom-up-accountability-work-evidence-from-uganda/">Note
+d’orientation des politiques publiques EGAP 58</a></p></li>
 </ul>
 </section>
-<section id="exercice-études-observationnelles-vs.-études-aléatoires" class="slide level2">
+<section id="exercice-études-observationnelles-vs.-études-aléatoires"
+class="slide level2">
 <h2>Exercice : études observationnelles vs. études aléatoires</h2>
 <p><strong>Tâches :</strong></p>
 <ol type="1">
-<li><p>Concevez une étude observationnelle idéale (sans randomisation, sans contrôle par les chercheurs mais avec des ressources illimitées pour la collecte des données). Quelles questions poserait un lecteur critique lorsque vos résultats reflètent une relation causale ?</p></li>
-<li><p>Concevez une étude aléatoire idéale (avec randomisation). Quelles questions poserait un lecteur critique lorsque vos résultats reflètent une relation causale ?</p></li>
+<li><p>Concevez une étude observationnelle idéale (sans randomisation,
+sans contrôle par les chercheurs mais avec des ressources illimitées
+pour la collecte des données). Quelles questions poserait un lecteur
+critique lorsque vos résultats reflètent une relation causale ?</p></li>
+<li><p>Concevez une étude aléatoire idéale (avec randomisation). Quelles
+questions poserait un lecteur critique lorsque vos résultats reflètent
+une relation causale ?</p></li>
 </ol>
 </section>
 <section id="discussion" class="slide level2">
 <h2>Discussion</h2>
 <ul>
-<li><p>Quels sont les éléments clés, les forces et les faiblesses des études aléatoires ?</p></li>
-<li><p>Quels sont les éléments clés, les forces et les faiblesses des études observationnelles ?</p></li>
+<li><p>Quels sont les éléments clés, les forces et les faiblesses des
+études aléatoires ?</p></li>
+<li><p>Quels sont les éléments clés, les forces et les faiblesses des
+études observationnelles ?</p></li>
 </ul>
 </section>
 <section id="généralisabilité-et-validité-externe" class="slide level2">
 <h2>Généralisabilité et validité externe</h2>
 <ul>
-<li><p>La randomisation apporte une validité interne élevée à une étude - nous avons appris l’effet causal du traitement sur le résultat avec un certain niveau de confiance.</p></li>
-<li><p>Mais le résultat d’une étude spécifique à un endroit et moment particuliers peut ne pas être valable dans d’autres contextes (i.e. la validité externe).</p></li>
-<li><p>C’est une préoccupation générale, pas seulement une préoccupation pour les études aléatoires.</p></li>
-<li><p><a href="https://egap.org/our-work/the-metaketa-initiative/">L’initiative Metaketa d’EGAP</a> vise à accumuler des connaissances en pré-planifiant une méta-analyse de plusieurs études qui ont une validité interne élevée en raison de la randomisation.</p></li>
+<li><p>La randomisation apporte une validité interne élevée à une étude
+- nous avons appris l’effet causal du traitement sur le résultat avec un
+certain niveau de confiance.</p></li>
+<li><p>Mais le résultat d’une étude spécifique à un endroit et moment
+particuliers peut ne pas être valable dans d’autres contextes (i.e. la
+validité externe).</p></li>
+<li><p>C’est une préoccupation générale, pas seulement une préoccupation
+pour les études aléatoires.</p></li>
+<li><p><a
+href="https://egap.org/our-work/the-metaketa-initiative/">L’initiative
+Metaketa d’EGAP</a> vise à accumuler des connaissances en pré-planifiant
+une méta-analyse de plusieurs études qui ont une validité interne élevée
+en raison de la randomisation.</p></li>
 </ul>
 </section>
 <section id="références" class="slide level2">
 <h2>Références</h2>
-<p><a href="https://egap.org/resource/brief-40-development-assistance-and-collective-action-capacity/">Note d’orientation des politiques publiques EGAP 40 : Aide au développement et capacité d’action collective</a></p>
-<p><a href="https://egap.org/resource/does-bottom-up-accountability-work-evidence-from-uganda/">Note d’orientation des politiques publiques EGAP 58 : La responsabilisation bottom-up fonctionne-t-elle ?</a></p>
-<div id="refs" class="references csl-bib-body hanging-indent" role="doc-bibliography">
-<div id="ref-brady2008causation" class="csl-entry" role="doc-biblioentry">
-Brady, Henry E. 2008. <span>“Causation and Explanation in Social Science.”</span> In <em>The Oxford Handbook of Political Science</em>. <a href="https://www.oxfordhandbooks.com/view/10.1093/oxfordhb/9780199286546.001.0001/oxfordhb-9780199286546-e-10">https://www.oxfordhandbooks.com/view/10.1093/oxfordhb/9780199286546.001.0001/oxfordhb-9780199286546-e-10</a>.
+<p><a
+href="https://egap.org/resource/brief-40-development-assistance-and-collective-action-capacity/">Note
+d’orientation des politiques publiques EGAP 40 : Aide au développement
+et capacité d’action collective</a></p>
+<p><a
+href="https://egap.org/resource/does-bottom-up-accountability-work-evidence-from-uganda/">Note
+d’orientation des politiques publiques EGAP 58 : La responsabilisation
+bottom-up fonctionne-t-elle ?</a></p>
+<div id="refs" class="references csl-bib-body hanging-indent"
+role="doc-bibliography">
+<div id="ref-brady2008causation" class="csl-entry"
+role="doc-biblioentry">
+Brady, Henry E. 2008. <span>“Causation and Explanation in Social
+Science.”</span> In <em>The Oxford Handbook of Political Science</em>.
+<a
+href="https://www.oxfordhandbooks.com/view/10.1093/oxfordhb/9780199286546.001.0001/oxfordhb-9780199286546-e-10">https://www.oxfordhandbooks.com/view/10.1093/oxfordhb/9780199286546.001.0001/oxfordhb-9780199286546-e-10</a>.
 </div>
-<div id="ref-cartwright2012evidence" class="csl-entry" role="doc-biblioentry">
-Cartwright, Nancy, and Jeremy Hardie. 2012. <em><span class="nocase">Evidence-based policy: a practical guide to doing it better</span></em>. Oxford University Press.
+<div id="ref-cartwright2012evidence" class="csl-entry"
+role="doc-biblioentry">
+Cartwright, Nancy, and Jeremy Hardie. 2012. <em><span
+class="nocase">Evidence-based policy: a practical guide to doing it
+better</span></em>. Oxford University Press.
 </div>
 </div>
 </section></section>
@@ -887,18 +1165,43 @@ Cartwright, Nancy, and Jeremy Hardie. 2012. <em><span class="nocase">Evidence-ba
       // Full list of configuration options available at:
       // https://github.com/hakimel/reveal.js#configuration
       Reveal.initialize({
+        // Display controls in the bottom right corner
+        controls: true,
+        // Display a presentation progress bar
+        progress: true,
         // Display the page number of the current slide
         slideNumber: true,
         // Push each slide change to the browser history
         history: true,
+        // Enable keyboard shortcuts for navigation
+        keyboard: true,
+        // Enable the slide overview mode
+        overview: true,
         // Vertical centering of slides
         center: false,
+        // Enables touch navigation on devices with touch input
+        touch: true,
+        // Turns fragments on and off globally
+        fragments: true,
+        // Flags if we should show a help overlay when the questionmark
+        // key is pressed
+        help: true,
+        // Number of milliseconds between automatically proceeding to the
+        // next slide, disabled when set to 0, this value can be overwritten
+        // by using a data-autoslide attribute on your slides
+        autoSlide: 0,
+        // Stop auto-sliding after user input
+        autoSlideStoppable: true,
         // Opens links in an iframe preview overlay
         previewLinks: true,
         // Transition style
         transition: 'fade', // none/fade/slide/convex/concave/zoom
+        // Transition speed
+        transitionSpeed: 'default', // default/fast/slow
         // Transition style for full page slide backgrounds
         backgroundTransition: 'default', // none/fade/slide/convex/concave/zoom
+        // Number of slides away from the current that are visible
+        viewDistance: 3,
 
 
 

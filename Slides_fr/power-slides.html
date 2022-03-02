@@ -508,7 +508,7 @@ style.innerHTML = style_script;
 document.getElementsByTagName('head')[0].appendChild(style);
 </script>
 
-    <script src="power-slides_files/header-attrs-2.11/header-attrs.js"></script>
+    <script src="power-slides_files/header-attrs-2.10/header-attrs.js"></script>
     <link href="power-slides_files/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
     <link href="power-slides_files/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
 </head>
@@ -519,76 +519,99 @@ document.getElementsByTagName('head')[0].appendChild(style);
 <section>
     <h1 class="title">La puissance statistique</h1>
     <h2 class="author">Mettre votre nom</h2>
-    <h3 class="date">23-02-2022</h3>
+    <h3 class="date">02-03-2022</h3>
 </section>
 
 <section>
-<section id="quest-ce-que-la-puissance-statistique" class="title-slide slide level1">
+<section id="quest-ce-que-la-puissance-statistique"
+class="title-slide slide level1">
 <h1>Qu’est-ce que la puissance statistique ?</h1>
 
 </section>
-<section id="quest-ce-que-la-puissance-statistique-1" class="slide level2">
+<section id="quest-ce-que-la-puissance-statistique-1"
+class="slide level2">
 <h2>Qu’est-ce que la puissance statistique ?</h2>
 <ul>
 <li><p>Nous voulons séparer le signal du bruit.</p></li>
-<li><p>Puissance statistique = probabilité de rejeter l’hypothèse nulle, compte tenu d’un effet réel <span class="math inline">\(\ne\)</span> 0.</p></li>
-<li><p>En d’autres termes, c’est la capacité à détecter un effet étant donné qu’il existe.</p></li>
+<li><p>Puissance statistique = probabilité de rejeter l’hypothèse nulle,
+compte tenu d’un effet réel <span class="math inline">\(\ne\)</span>
+0.</p></li>
+<li><p>En d’autres termes, c’est la capacité à détecter un effet étant
+donné qu’il existe.</p></li>
 <li><p>Formellement : (1 - Type II) taux d’erreur.</p></li>
-<li><p>Ainsi, la puissance statistique <span class="math inline">\(\in\)</span> (0, 1).</p></li>
+<li><p>Ainsi, la puissance statistique <span
+class="math inline">\(\in\)</span> (0, 1).</p></li>
 <li><p>Seuils standard : 0,8 ou 0,9.</p></li>
 </ul>
 </section>
-<section id="point-de-départ-pour-lanalyse-de-puissance" class="slide level2">
+<section id="point-de-départ-pour-lanalyse-de-puissance"
+class="slide level2">
 <h2>Point de départ pour l’analyse de puissance</h2>
 <ul>
-<li><p>L’analyse de puissance est quelque chose que nous faisons <em>avant</em> de mener une étude pour aider à :</p>
+<li><p>L’analyse de puissance est quelque chose que nous faisons
+<em>avant</em> de mener une étude pour aider à :</p>
 <ul>
-<li><p>déterminer l’échantillon dont vous avez besoin pour détecter une taille d’effet donnée.</p></li>
-<li><p>déterminer une différence détectable minimale compte tenu d’une taille d’échantillon définie.</p></li>
+<li><p>déterminer l’échantillon dont vous avez besoin pour détecter une
+taille d’effet donnée.</p></li>
+<li><p>déterminer une différence détectable minimale compte tenu d’une
+taille d’échantillon définie.</p></li>
 <li><p>décider si vous souhaitez mener une étude.</p></li>
 </ul></li>
 <li><p>Il est difficile d’apprendre d’un résultat nul sous-alimenté.</p>
 <ul>
-<li>Y a-t-il eu un effet, mais nous n’avons pas pu le détecter ? N’y a-t-il eu aucun effet ? Impossible à dire.</li>
+<li>Y a-t-il eu un effet, mais nous n’avons pas pu le détecter ? N’y
+a-t-il eu aucun effet ? Impossible à dire.</li>
 </ul></li>
 </ul>
 </section>
 <section id="la-puissance-statistique" class="slide level2">
 <h2>La puissance statistique</h2>
 <ul>
-<li><p>Disons qu’il y a vraiment un effet de traitement et que vous exécutez votre expérience plusieurs fois. À quelle fréquence obtiendrez-vous un résultat statistiquement significatif ?</p></li>
+<li><p>Disons qu’il y a vraiment un effet de traitement et que vous
+exécutez votre expérience plusieurs fois. À quelle fréquence
+obtiendrez-vous un résultat statistiquement significatif ?</p></li>
 <li><p>Quelques conjectures pour répondre à cette question.</p>
 <ul>
 <li><p>Quelle est l’ampleur de l’effet de votre traitement ?</p></li>
 <li><p>Combien d’unités sont traitées, mesurées ?</p></li>
-<li><p>Quelle quantité de bruit y a-t-il dans la mesure de votre résultat ?</p></li>
+<li><p>Quelle quantité de bruit y a-t-il dans la mesure de votre
+résultat ?</p></li>
 </ul></li>
 </ul>
 </section>
-<section id="approches-pour-calculer-la-puissance-statistique" class="slide level2">
+<section id="approches-pour-calculer-la-puissance-statistique"
+class="slide level2">
 <h2>Approches pour calculer la puissance statistique</h2>
 <ul>
 <li><p>Calcul analytique</p></li>
 <li><p>Simulation</p></li>
 </ul>
 </section>
-<section id="outils-de-calcul-de-puissance-statistique" class="slide level2">
+<section id="outils-de-calcul-de-puissance-statistique"
+class="slide level2">
 <h2>Outils de calcul de puissance statistique</h2>
 <ul>
 <li><p>Interactifs</p>
 <ul>
-<li><p><a href="https://egap.shinyapps.io/power-app/">Le calculateur de puissance de EGAP</a></p></li>
-<li><p><a href="https://rpsychologist.com/d3/NHST/">rpsychologist</a></p></li>
+<li><p><a href="https://egap.shinyapps.io/power-app/">Le calculateur de
+puissance de EGAP</a></p></li>
+<li><p><a
+href="https://rpsychologist.com/d3/NHST/">rpsychologist</a></p></li>
 </ul></li>
 <li><p>Packages R</p>
 <ul>
-<li><p><a href="https://cran.r-project.org/web/packages/pwr/index.html">pwr</a></p></li>
-<li><p><a href="https://cran.r-project.org/web/packages/DeclareDesign/index.html">DeclareDesign</a>, voir aussi <a href="https://declaredesign.org/" class="uri">https://declaredesign.org/</a></p></li>
+<li><p><a
+href="https://cran.r-project.org/web/packages/pwr/index.html">pwr</a></p></li>
+<li><p><a
+href="https://cran.r-project.org/web/packages/DeclareDesign/index.html">DeclareDesign</a>,
+voir aussi <a href="https://declaredesign.org/"
+class="uri">https://declaredesign.org/</a></p></li>
 </ul></li>
 </ul>
 </section></section>
 <section>
-<section id="calcul-analytique-de-puissance" class="title-slide slide level1">
+<section id="calcul-analytique-de-puissance"
+class="title-slide slide level1">
 <h1>Calcul analytique de puissance</h1>
 
 </section>
@@ -596,19 +619,26 @@ document.getElementsByTagName('head')[0].appendChild(style);
 <h2>Calcul analytique de puissance</h2>
 <ul>
 <li><p>Formule: <span class="math display">\[\begin{align*}
-\text{Puissance} &amp;= \Phi\left(\frac{|\tau| \sqrt{N}}{2\sigma}- \Phi^{-1}(1- \frac{\alpha}{2})\right)
+\text{Puissance} &amp;= \Phi\left(\frac{|\tau| \sqrt{N}}{2\sigma}-
+\Phi^{-1}(1- \frac{\alpha}{2})\right)
 \end{align*}\]</span></p></li>
 <li><p>Composants:</p>
 <ul>
-<li><span class="math inline">\(\phi\)</span> : la fonction de répartition de la loi normale (strictement croissante)</li>
-<li><span class="math inline">\(\tau\)</span> : la taille de l’effet</li>
-<li><span class="math inline">\(N\)</span> : la taille de l’échantillon</li>
-<li><span class="math inline">\(\sigma\)</span> : l’écart type du résultat</li>
-<li><span class="math inline">\(\alpha\)</span> : le niveau de signification (typiquement 0,05)</li>
+<li><span class="math inline">\(\phi\)</span> : la fonction de
+répartition de la loi normale (strictement croissante)</li>
+<li><span class="math inline">\(\tau\)</span> : la taille de
+l’effet</li>
+<li><span class="math inline">\(N\)</span> : la taille de
+l’échantillon</li>
+<li><span class="math inline">\(\sigma\)</span> : l’écart type du
+résultat</li>
+<li><span class="math inline">\(\alpha\)</span> : le niveau de
+signification (typiquement 0,05)</li>
 </ul></li>
 </ul>
 </section>
-<section id="exemple-calcul-analytique-de-puissance" class="slide level2">
+<section id="exemple-calcul-analytique-de-puissance"
+class="slide level2">
 <h2>Exemple : calcul analytique de puissance</h2>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Puissance statistique pour une étude avec 80 observations</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="co"># et un effet de taille de 0,25</span></span>
@@ -631,31 +661,40 @@ document.getElementsByTagName('head')[0].appendChild(style);
 
 NOTE: n is number in *each* group</code></pre>
 </section>
-<section id="limites-du-calcul-analytique-de-puissance" class="slide level2">
+<section id="limites-du-calcul-analytique-de-puissance"
+class="slide level2">
 <h2>Limites du calcul analytique de puissance</h2>
 <ul>
-<li><p>Dérivé uniquement pour certaines statistiques de test (différence des moyennes)</p></li>
-<li><p>Fait des hypothèses spécifiques sur le processus de génération de données</p></li>
+<li><p>Dérivé uniquement pour certaines statistiques de test (différence
+des moyennes)</p></li>
+<li><p>Fait des hypothèses spécifiques sur le processus de génération de
+données</p></li>
 <li><p>Incompatible avec des conceptions plus complexes</p></li>
 </ul>
 </section></section>
 <section>
-<section id="calcul-de-puissance-par-simulation" class="title-slide slide level1">
+<section id="calcul-de-puissance-par-simulation"
+class="title-slide slide level1">
 <h1>Calcul de puissance par simulation</h1>
 
 </section>
 <section id="calcul-de-puissance-par-simulation-1" class="slide level2">
 <h2>Calcul de puissance par simulation</h2>
 <ul>
-<li><p>Créer un ensemble de données et simuler la conception de recherche.</p></li>
-<li><p>Des hypothèses sont nécessaires pour les études de simulation, mais vous faites les vôtres.</p></li>
-<li><p>Pour l’approche DeclareDesign, voir <a href="https://declaredesign.org/" class="uri">https://declaredesign.org/</a></p></li>
+<li><p>Créer un ensemble de données et simuler la conception de
+recherche.</p></li>
+<li><p>Des hypothèses sont nécessaires pour les études de simulation,
+mais vous faites les vôtres.</p></li>
+<li><p>Pour l’approche DeclareDesign, voir <a
+href="https://declaredesign.org/"
+class="uri">https://declaredesign.org/</a></p></li>
 </ul>
 </section>
 <section id="étapes" class="slide level2">
 <h2>Étapes</h2>
 <ul>
-<li><p>Définir l’échantillon et la fonction des résultats potentiels.</p></li>
+<li><p>Définir l’échantillon et la fonction des résultats
+potentiels.</p></li>
 <li><p>Définir la procédure d’assignation du traitement.</p></li>
 <li><p>Créer des données.</p></li>
 <li><p>Assigner un traitement, puis estimer l’effet.</p></li>
@@ -670,8 +709,11 @@ NOTE: n is number in *each* group</code></pre>
 <li><p>Avec une randomisation par grappe</p></li>
 </ul>
 </section>
-<section id="exemple-calcul-de-puissance-par-simulation-pour-une-randomisation-complète" class="slide level2">
-<h2>Exemple : Calcul de puissance par simulation pour une randomisation complète</h2>
+<section
+id="exemple-calcul-de-puissance-par-simulation-pour-une-randomisation-complète"
+class="slide level2">
+<h2>Exemple : Calcul de puissance par simulation pour une randomisation
+complète</h2>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># install.packages(&quot;randomizr&quot;)</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(randomizr)</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(estimatr)</span>
@@ -690,8 +732,11 @@ NOTE: n is number in *each* group</code></pre>
 <span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(pval)</span>
 <span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
 </section>
-<section id="exemple-calcul-de-puissance-par-simulation-pour-une-randomisation-complète-1" class="slide level2">
-<h2>Exemple : Calcul de puissance par simulation pour une randomisation complète</h2>
+<section
+id="exemple-calcul-de-puissance-par-simulation-pour-une-randomisation-complète-1"
+class="slide level2">
+<h2>Exemple : Calcul de puissance par simulation pour une randomisation
+complète</h2>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>power_sim <span class="ot">&lt;-</span> <span class="cf">function</span>(N, tau, sims) {</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  Y0 <span class="ot">&lt;-</span> <span class="fu">make_Y0</span>(N)</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  pvals <span class="ot">&lt;-</span> <span class="fu">replicate</span>(</span>
@@ -708,7 +753,8 @@ NOTE: n is number in *each* group</code></pre>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">power_sim</span>(<span class="at">N =</span> <span class="dv">80</span>, <span class="at">tau =</span> .<span class="dv">25</span>, <span class="at">sims =</span> <span class="dv">100</span>)</span></code></pre></div>
 <pre><code>[1] 0.21</code></pre>
 </section>
-<section id="exemple-avec-declaredesign" class="slide level2 allowframebreaks">
+<section id="exemple-avec-declaredesign"
+class="slide level2 allowframebreaks">
 <h2 class="allowframebreaks">Exemple : Avec DeclareDesign</h2>
 <div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(DeclareDesign)</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
@@ -784,46 +830,65 @@ NOTE: n is number in *each* group</code></pre>
 <span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>design0_N100_tau25_sims <span class="sc">%&gt;%</span></span>
 <span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(estimator) <span class="sc">%&gt;%</span></span>
 <span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">pow =</span> <span class="fu">mean</span>(p.value <span class="sc">&lt;</span> .<span class="dv">05</span>), <span class="at">.groups =</span> <span class="st">&quot;drop&quot;</span>)</span></code></pre></div>
-<pre><code># A tibble: 2 x 2
+<pre><code># A tibble: 2 × 2
   estimator   pow
   &lt;chr&gt;     &lt;dbl&gt;
 1 test-t 1    0.2
 2 test-t 2    0.2</code></pre>
 </section></section>
 <section>
-<section id="puissance-statistique-avec-ajustement-de-covariable" class="title-slide slide level1">
+<section id="puissance-statistique-avec-ajustement-de-covariable"
+class="title-slide slide level1">
 <h1>Puissance statistique avec ajustement de covariable</h1>
 
 </section>
-<section id="ajustement-de-covariable-et-puissance-statistique" class="slide level2">
+<section id="ajustement-de-covariable-et-puissance-statistique"
+class="slide level2">
 <h2>Ajustement de covariable et puissance statistique</h2>
 <ul>
-<li><p>L’ajustement de covariable peut améliorer la puissance statistique car il atténue la variation du résultat.</p>
+<li><p>L’ajustement de covariable peut améliorer la puissance
+statistique car il atténue la variation du résultat.</p>
 <ul>
-<li><p>S’il est pronostique, l’ajustement de covariable peut réduire considérablement la variance. Une variance plus faible signifie une puissance plus élevée.</p></li>
-<li><p>S’il est non pronostique, les gains de puissance sont minimes.</p></li>
+<li><p>S’il est pronostique, l’ajustement de covariable peut réduire
+considérablement la variance. Une variance plus faible signifie une
+puissance plus élevée.</p></li>
+<li><p>S’il est non pronostique, les gains de puissance sont
+minimes.</p></li>
 </ul></li>
-<li><p>Toutes les covariables doivent être pré-traitement. N’abandonnez pas d’observations pour cause de données manquantes.</p>
+<li><p>Toutes les covariables doivent être pré-traitement. N’abandonnez
+pas d’observations pour cause de données manquantes.</p>
 <ul>
-<li>Voir le module sur <a href="threats-to-internal-validity-of-randomized-experiments.html">les menaces à la validité interne</a> et les <a href="https://egap.org/resource/10-things-to-know-about-covariate-adjustment/">10 choses à savoir sur l’ajustement de covariable</a>.</li>
+<li>Voir le module sur <a
+href="threats-to-internal-validity-of-randomized-experiments.html">les
+menaces à la validité interne</a> et les <a
+href="https://egap.org/resource/10-things-to-know-about-covariate-adjustment/">10
+choses à savoir sur l’ajustement de covariable</a>.</li>
 </ul></li>
-<li><p>Observez le biais de Freedman tandis que le nombre d’observations n diminue et que le nombre de covariables K augmente.</p></li>
+<li><p>Observez le biais de Freedman tandis que le nombre d’observations
+n diminue et que le nombre de covariables K augmente.</p></li>
 </ul>
 </section>
 <section id="découpage-par-bloc" class="slide level2">
 <h2>Découpage par bloc</h2>
 <ul>
-<li><p>Découper par bloc : assignez de manière aléatoire un traitement au sein des blocs</p>
+<li><p>Découper par bloc : assignez de manière aléatoire un traitement
+au sein des blocs</p>
 <ul>
 <li><p>Ajustement de covariable “ex-ante”</p></li>
-<li><p>Une précision/efficacité plus élevée implique plus de puissance statistique</p></li>
-<li><p>Réduire le “biais conditionnel” : association entre l’assignation du traitement et les résultats potentiels</p></li>
-<li><p>L’avantage des blocs sur l’ajustement de covariable est plus clair dans les petites expériences</p></li>
+<li><p>Une précision/efficacité plus élevée implique plus de puissance
+statistique</p></li>
+<li><p>Réduire le “biais conditionnel” : association entre l’assignation
+du traitement et les résultats potentiels</p></li>
+<li><p>L’avantage des blocs sur l’ajustement de covariable est plus
+clair dans les petites expériences</p></li>
 </ul></li>
 </ul>
 </section>
-<section id="exemple-calcul-de-puissance-par-simulation-avec-une-covariable" class="slide level2 allowframebreaks">
-<h2 class="allowframebreaks">Exemple : Calcul de puissance par simulation avec une covariable</h2>
+<section
+id="exemple-calcul-de-puissance-par-simulation-avec-une-covariable"
+class="slide level2 allowframebreaks">
+<h2 class="allowframebreaks">Exemple : Calcul de puissance par
+simulation avec une covariable</h2>
 <div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Y0 est fixe dans la plupart des expériences sur le terrain.</span></span>
 <span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="do">## Nous ne le générons donc qu&#39;une seule fois:</span></span>
 <span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>make_Y0_cov <span class="ot">&lt;-</span> <span class="cf">function</span>(N) {</span>
@@ -873,8 +938,11 @@ F-statistic: 29.3 on 1 and 98 DF,  p-value: 0.000000441</code></pre>
 <span id="cb26-21"><a href="#cb26-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(pow)</span>
 <span id="cb26-22"><a href="#cb26-22" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
 </section>
-<section id="exemple-calcul-de-puissance-par-simulation-avec-une-covariable-iv" class="slide level2">
-<h2>Exemple : Calcul de puissance par simulation avec une covariable IV</h2>
+<section
+id="exemple-calcul-de-puissance-par-simulation-avec-une-covariable-iv"
+class="slide level2">
+<h2>Exemple : Calcul de puissance par simulation avec une covariable
+IV</h2>
 <div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">12345</span>)</span>
 <span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a><span class="fu">power_sim_cov</span>(<span class="at">N =</span> <span class="dv">80</span>, <span class="at">tau =</span> .<span class="dv">25</span>, <span class="at">sims =</span> <span class="dv">100</span>)</span></code></pre></div>
 <pre><code>[1] 0.13</code></pre>
@@ -882,43 +950,63 @@ F-statistic: 29.3 on 1 and 98 DF,  p-value: 0.000000441</code></pre>
 <pre><code>[1] 0.19</code></pre>
 </section></section>
 <section>
-<section id="puissance-statistique-pour-la-randomisation-par-grappe" class="title-slide slide level1">
+<section id="puissance-statistique-pour-la-randomisation-par-grappe"
+class="title-slide slide level1">
 <h1>Puissance statistique pour la randomisation par grappe</h1>
 
 </section>
-<section id="puissance-statistique-et-conception-par-grappe" class="slide level2">
+<section id="puissance-statistique-et-conception-par-grappe"
+class="slide level2">
 <h2>Puissance statistique et conception par grappe</h2>
 <ul>
-<li><p>Voir le <a href="randomization.html">module sur la randomisation</a>.</p></li>
-<li><p>Etant donné un <span class="math inline">\(N\)</span> fixe, une conception par grappe est légèrement moins puissante qu’une conception sans grappe.</p>
+<li><p>Voir le <a href="randomization.html">module sur la
+randomisation</a>.</p></li>
+<li><p>Etant donné un <span class="math inline">\(N\)</span> fixe, une
+conception par grappe est légèrement moins puissante qu’une conception
+sans grappe.</p>
 <ul>
 <li>La différence est souvent substantielle.</li>
 </ul></li>
 <li><p>Il faut estimer correctement la variance :</p>
 <ul>
-<li>erreur type robuste pour grappe (robust clustered standard error, RCSE)</li>
+<li>erreur type robuste pour grappe (robust clustered standard error,
+RCSE)</li>
 <li>Inférence de randomisation</li>
 </ul></li>
 <li><p>Pour augmenter la puissance :</p>
 <ul>
-<li>Mieux vaut augmenter le nombre de grappes que le nombre d’unités par grappe.</li>
-<li>Dans quelle mesure les grappes réduisent la puissance statistique dépend de manière critique de la corrélation intra-grappe (intra-cluster correlation, ICC) (i.e. le rapport de la variance au sein des grappes à la variance totale).</li>
+<li>Mieux vaut augmenter le nombre de grappes que le nombre d’unités par
+grappe.</li>
+<li>Dans quelle mesure les grappes réduisent la puissance statistique
+dépend de manière critique de la corrélation intra-grappe (intra-cluster
+correlation, ICC) (i.e. le rapport de la variance au sein des grappes à
+la variance totale).</li>
 </ul></li>
 </ul>
 </section>
-<section id="la-conception-par-grappe-dans-la-recherche-observationelle" class="slide level2">
+<section id="la-conception-par-grappe-dans-la-recherche-observationelle"
+class="slide level2">
 <h2>La conception par grappe dans la recherche observationelle</h2>
 <ul>
-<li><p>Souvent négligé, conduisant à (peut-être) une incertitude extrêmement sous-estimée.</p>
+<li><p>Souvent négligé, conduisant à (peut-être) une incertitude
+extrêmement sous-estimée.</p>
 <ul>
-<li><p>Inférence fréquentiste basée sur le ratio <span class="math inline">\(\hat{\beta}/\hat{se}\)</span></p></li>
-<li><p>Si nous sous-estimons <span class="math inline">\(\hat{se}\)</span>, nous sommes beaucoup plus susceptibles de rejeter <span class="math inline">\(H_0\)</span>. (Le taux d’erreur de type I est trop élevé.)</p></li>
+<li><p>Inférence fréquentiste basée sur le ratio <span
+class="math inline">\(\hat{\beta}/\hat{se}\)</span></p></li>
+<li><p>Si nous sous-estimons <span
+class="math inline">\(\hat{se}\)</span>, nous sommes beaucoup plus
+susceptibles de rejeter <span class="math inline">\(H_0\)</span>. (Le
+taux d’erreur de type I est trop élevé.)</p></li>
 </ul></li>
-<li><p>De nombreuses conceptions d’observation sont beaucoup moins puissantes qu’on ne le pense.</p></li>
+<li><p>De nombreuses conceptions d’observation sont beaucoup moins
+puissantes qu’on ne le pense.</p></li>
 </ul>
 </section>
-<section id="exemple-puissance-statistique-basée-sur-la-simulation-pour-la-randomisation-par-grappe" class="slide level2 allowframebreaks">
-<h2 class="allowframebreaks">Exemple : Puissance statistique basée sur la simulation pour la randomisation par grappe</h2>
+<section
+id="exemple-puissance-statistique-basée-sur-la-simulation-pour-la-randomisation-par-grappe"
+class="slide level2 allowframebreaks">
+<h2 class="allowframebreaks">Exemple : Puissance statistique basée sur
+la simulation pour la randomisation par grappe</h2>
 <div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Y0 est fixe dans la plupart des expériences sur le terrain.</span></span>
 <span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a><span class="do">## Nous ne le générons donc qu&#39;une seule fois:</span></span>
 <span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>make_Y0_clus <span class="ot">&lt;-</span> <span class="cf">function</span>(n_indivs, n_clus) {</span>
@@ -978,8 +1066,11 @@ F-statistic: 29.3 on 1 and 98 DF,  p-value: 0.000000441</code></pre>
 <div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="fu">power_sim_clus</span>(<span class="at">n_indivs =</span> <span class="dv">8</span>, <span class="at">n_clus =</span> <span class="dv">100</span>, <span class="at">tau =</span> .<span class="dv">25</span>, <span class="at">sims =</span> <span class="dv">100</span>)</span></code></pre></div>
 <pre><code>[1] 0.68</code></pre>
 </section>
-<section id="exemple-puissance-statistique-basée-sur-la-simulation-pour-la-randomisation-par-grappe-declaredesign" class="slide level2 allowframebreaks">
-<h2 class="allowframebreaks">Exemple : Puissance statistique basée sur la simulation pour la randomisation par grappe (DeclareDesign)</h2>
+<section
+id="exemple-puissance-statistique-basée-sur-la-simulation-pour-la-randomisation-par-grappe-declaredesign"
+class="slide level2 allowframebreaks">
+<h2 class="allowframebreaks">Exemple : Puissance statistique basée sur
+la simulation pour la randomisation par grappe (DeclareDesign)</h2>
 <div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>P1 <span class="ot">&lt;-</span> <span class="fu">declare_population</span>(</span>
 <span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">N =</span> n_clus <span class="sc">*</span> n_indivs,</span>
 <span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">clusters =</span> <span class="fu">gl</span>(n_clus, n_indivs),</span>
@@ -1036,7 +1127,7 @@ Z     1   2   3   4   5   6   7   8   9  10
 <span id="cb45-5"><a href="#cb45-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">couverture =</span> <span class="fu">mean</span>(estimand <span class="sc">&lt;=</span> conf.high <span class="sc">&amp;</span> estimand <span class="sc">&gt;=</span> conf.low),</span>
 <span id="cb45-6"><a href="#cb45-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">.groups =</span> <span class="st">&quot;drop&quot;</span></span>
 <span id="cb45-7"><a href="#cb45-7" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
-<pre><code># A tibble: 3 x 3
+<pre><code># A tibble: 3 × 3
   estimator                        puissance couverture
   &lt;chr&gt;                                &lt;dbl&gt;      &lt;dbl&gt;
 1 test-t CR0 (robuste pour grappe)     0.155      0.911
@@ -1061,12 +1152,12 @@ Z     1   2   3   4   5   6   7   8   9  10
 <span id="cb48-5"><a href="#cb48-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">couverture =</span> <span class="fu">mean</span>(estimand <span class="sc">&lt;=</span> conf.high <span class="sc">&amp;</span> estimand <span class="sc">&gt;=</span> conf.low),</span>
 <span id="cb48-6"><a href="#cb48-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">.groups =</span> <span class="st">&quot;drop&quot;</span></span>
 <span id="cb48-7"><a href="#cb48-7" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
-<pre><code># A tibble: 3 x 3
-  estimator          puissance couverture
-  &lt;chr&gt;                  &lt;dbl&gt;      &lt;dbl&gt;
-1 CR0 cluster t test     0.209      0.914
-2 estimator              0.143      0.941
-3 stata RCSE t test      0.194      0.925</code></pre>
+<pre><code># A tibble: 3 × 3
+  estimator                        puissance couverture
+  &lt;chr&gt;                                &lt;dbl&gt;      &lt;dbl&gt;
+1 estimator                            0.143      0.941
+2 test-t CR0 (robuste pour grappe)     0.209      0.914
+3 test-t RCSE en stata                 0.194      0.925</code></pre>
 </section></section>
 <section>
 <section id="statique-comparative" class="title-slide slide level1">
@@ -1084,7 +1175,8 @@ Z     1   2   3   4   5   6   7   8   9  10
 </ul></li>
 </ul>
 </section>
-<section id="puissance-par-taille-déchantillon" class="slide level2 allowframebreaks">
+<section id="puissance-par-taille-déchantillon"
+class="slide level2 allowframebreaks">
 <h2 class="allowframebreaks">Puissance par taille d’échantillon</h2>
 <div class="sourceCode" id="cb50"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a>some_ns <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">10</span>, <span class="dv">800</span>, <span class="at">by =</span> <span class="dv">10</span>)</span>
 <span id="cb50-2"><a href="#cb50-2" aria-hidden="true" tabindex="-1"></a>pow_by_n <span class="ot">&lt;-</span> <span class="fu">sapply</span>(some_ns, <span class="cf">function</span>(then) {</span>
@@ -1101,8 +1193,10 @@ Z     1   2   3   4   5   6   7   8   9  10
 <span id="cb51-3"><a href="#cb51-3" aria-hidden="true" tabindex="-1"></a><span class="do">## ptest &lt;-  pwr.t.test(n = NULL, d = 0.25, sig.level = 0.05, power = .8)</span></span>
 <span id="cb51-4"><a href="#cb51-4" aria-hidden="true" tabindex="-1"></a><span class="do">## plot(ptest)</span></span></code></pre></div>
 </section>
-<section id="puissance-par-taille-deffet-de-traitement" class="slide level2 allowframebreaks">
-<h2 class="allowframebreaks">Puissance par taille d’effet de traitement</h2>
+<section id="puissance-par-taille-deffet-de-traitement"
+class="slide level2 allowframebreaks">
+<h2 class="allowframebreaks">Puissance par taille d’effet de
+traitement</h2>
 <div class="sourceCode" id="cb52"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a>some_taus <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="at">by =</span> .<span class="dv">05</span>)</span>
 <span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a>pow_by_tau <span class="ot">&lt;-</span> <span class="fu">sapply</span>(some_taus, <span class="cf">function</span>(thetau) {</span>
 <span id="cb52-3"><a href="#cb52-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pwr.t.test</span>(<span class="at">n =</span> <span class="dv">200</span>, <span class="at">d =</span> thetau, <span class="at">sig.level =</span> <span class="fl">0.05</span>)<span class="sc">$</span>power</span>
@@ -1117,8 +1211,10 @@ Z     1   2   3   4   5   6   7   8   9  10
 <section id="la-calculateur-de-puissance-egap" class="slide level2">
 <h2>La calculateur de puissance EGAP</h2>
 <ul>
-<li><p>À essayer sur <a href="https://egap.shinyapps.io/power-app/" class="uri">https://egap.shinyapps.io/power-app/</a></p></li>
-<li><p>Pour les conceptions de randomisation par grappe, essayez d’ajuster:</p>
+<li><p>À essayer sur <a href="https://egap.shinyapps.io/power-app/"
+class="uri">https://egap.shinyapps.io/power-app/</a></p></li>
+<li><p>Pour les conceptions de randomisation par grappe, essayez
+d’ajuster:</p>
 <ul>
 <li>Nombre de grappes</li>
 <li>Nombre d’unités par grappe</li>
@@ -1131,14 +1227,18 @@ Z     1   2   3   4   5   6   7   8   9  10
 <h2>Commentaires</h2>
 <ul>
 <li><p>Connaissez votre variable de résultat.</p></li>
-<li><p>Quels effets pouvez-vous réellement attendre de votre traitement ?</p></li>
-<li><p>Quelle est la plage de variation plausible de la variable de résultat ?</p>
+<li><p>Quels effets pouvez-vous réellement attendre de votre
+traitement ?</p></li>
+<li><p>Quelle est la plage de variation plausible de la variable de
+résultat ?</p>
 <ul>
-<li>Une conception peut ne pas être puissante si le mouvement possible est limité pour la variable de résultat.</li>
+<li>Une conception peut ne pas être puissante si le mouvement possible
+est limité pour la variable de résultat.</li>
 </ul></li>
 </ul>
 </section>
-<section id="conclusion-comment-améliorer-votre-puissance" class="slide level2">
+<section id="conclusion-comment-améliorer-votre-puissance"
+class="slide level2">
 <h2>Conclusion : comment améliorer votre puissance</h2>
 <ol type="1">
 <li><p>Augmenter <span class="math inline">\(N\)</span></p>
@@ -1165,18 +1265,43 @@ Z     1   2   3   4   5   6   7   8   9  10
       // Full list of configuration options available at:
       // https://github.com/hakimel/reveal.js#configuration
       Reveal.initialize({
+        // Display controls in the bottom right corner
+        controls: true,
+        // Display a presentation progress bar
+        progress: true,
         // Display the page number of the current slide
         slideNumber: true,
         // Push each slide change to the browser history
         history: true,
+        // Enable keyboard shortcuts for navigation
+        keyboard: true,
+        // Enable the slide overview mode
+        overview: true,
         // Vertical centering of slides
         center: false,
+        // Enables touch navigation on devices with touch input
+        touch: true,
+        // Turns fragments on and off globally
+        fragments: true,
+        // Flags if we should show a help overlay when the questionmark
+        // key is pressed
+        help: true,
+        // Number of milliseconds between automatically proceeding to the
+        // next slide, disabled when set to 0, this value can be overwritten
+        // by using a data-autoslide attribute on your slides
+        autoSlide: 0,
+        // Stop auto-sliding after user input
+        autoSlideStoppable: true,
         // Opens links in an iframe preview overlay
         previewLinks: true,
         // Transition style
         transition: 'fade', // none/fade/slide/convex/concave/zoom
+        // Transition speed
+        transitionSpeed: 'default', // default/fast/slow
         // Transition style for full page slide backgrounds
         backgroundTransition: 'default', // none/fade/slide/convex/concave/zoom
+        // Number of slides away from the current that are visible
+        viewDistance: 3,
 
 
 
