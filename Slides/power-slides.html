@@ -519,7 +519,7 @@ document.getElementsByTagName('head')[0].appendChild(style);
 <section>
     <h1 class="title">Statistical Power</h1>
     <h2 class="author">Fill In Your Name</h2>
-    <h3 class="date">29 August, 2021</h3>
+    <h3 class="date">01 March, 2022</h3>
 </section>
 
 <section>
@@ -531,37 +531,47 @@ document.getElementsByTagName('head')[0].appendChild(style);
 <h2>What is power?</h2>
 <ul>
 <li><p>We want to separate signal from noise.</p></li>
-<li><p>Power = probability of rejecting null hypothesis, given true effect <span class="math inline">\(\ne\)</span> 0.</p></li>
-<li><p>In other words, it is the ability to detect an effect given that it exists.</p></li>
+<li><p>Power = probability of rejecting null hypothesis, given true
+effect <span class="math inline">\(\ne\)</span> 0.</p></li>
+<li><p>In other words, it is the ability to detect an effect given that
+it exists.</p></li>
 <li><p>Formally: (1 - Type II) error rate.</p></li>
-<li><p>Thus, power <span class="math inline">\(\in\)</span> (0, 1).</p></li>
+<li><p>Thus, power <span class="math inline">\(\in\)</span> (0,
+1).</p></li>
 <li><p>Standard thresholds: 0.8 or 0.9.</p></li>
 </ul>
 </section>
 <section id="starting-point-for-power-analysis" class="slide level2">
 <h2>Starting point for power analysis</h2>
 <ul>
-<li><p>Power analysis is something we do <em>before</em> we run a study.</p>
+<li><p>Power analysis is something we do <em>before</em> we run a
+study.</p>
 <ul>
-<li><p>Helps you figure out the sample you need to detect a given effect size.</p></li>
-<li><p>Or helps you figure out a minimal detectable difference given a set sample size.</p></li>
+<li><p>Helps you figure out the sample you need to detect a given effect
+size.</p></li>
+<li><p>Or helps you figure out a minimal detectable difference given a
+set sample size.</p></li>
 <li><p>May help you decide whether to run a study.</p></li>
 </ul></li>
 <li><p>It is hard to learn from an under-powered null finding.</p>
 <ul>
-<li>Was there an effect, but we were unable to detect it? or was there no effect? We can’t say.</li>
+<li>Was there an effect, but we were unable to detect it? or was there
+no effect? We can’t say.</li>
 </ul></li>
 </ul>
 </section>
 <section id="power" class="slide level2">
 <h2>Power</h2>
 <ul>
-<li><p>Say there truly is a treatment effect and you run your experiment many times. How often will you get a statistically significant result?</p></li>
+<li><p>Say there truly is a treatment effect and you run your experiment
+many times. How often will you get a statistically significant
+result?</p></li>
 <li><p>Some guesswork to answer this question.</p>
 <ul>
 <li><p>How big is your treatment effect?</p></li>
 <li><p>How many units are treated, measured?</p></li>
-<li><p>How much noise is there in the measurement of your outcome?</p></li>
+<li><p>How much noise is there in the measurement of your
+outcome?</p></li>
 </ul></li>
 </ul>
 </section>
@@ -577,18 +587,25 @@ document.getElementsByTagName('head')[0].appendChild(style);
 <ul>
 <li><p>Interactive</p>
 <ul>
-<li><p><a href="https://egap.shinyapps.io/power-app/">EGAP Power Calculator</a></p></li>
-<li><p><a href="https://rpsychologist.com/d3/NHST/">rpsychologist</a></p></li>
+<li><p><a href="https://egap.shinyapps.io/power-app/">EGAP Power
+Calculator</a></p></li>
+<li><p><a
+href="https://rpsychologist.com/d3/NHST/">rpsychologist</a></p></li>
 </ul></li>
 <li><p>R Packages</p>
 <ul>
-<li><p><a href="https://cran.r-project.org/web/packages/pwr/index.html">pwr</a></p></li>
-<li><p><a href="https://cran.r-project.org/web/packages/DeclareDesign/index.html">DeclareDesign</a>, see also <a href="https://declaredesign.org/" class="uri">https://declaredesign.org/</a></p></li>
+<li><p><a
+href="https://cran.r-project.org/web/packages/pwr/index.html">pwr</a></p></li>
+<li><p><a
+href="https://cran.r-project.org/web/packages/DeclareDesign/index.html">DeclareDesign</a>,
+see also <a href="https://declaredesign.org/"
+class="uri">https://declaredesign.org/</a></p></li>
 </ul></li>
 </ul>
 </section></section>
 <section>
-<section id="analytical-calculations-of-power" class="title-slide slide level1">
+<section id="analytical-calculations-of-power"
+class="title-slide slide level1">
 <h1>Analytical calculations of power</h1>
 
 </section>
@@ -596,19 +613,24 @@ document.getElementsByTagName('head')[0].appendChild(style);
 <h2>Analytical calculations of power</h2>
 <ul>
 <li><p>Formula: <span class="math display">\[\begin{align*}
-\text{Power} &amp;= \Phi\left(\frac{|\tau| \sqrt{N}}{2\sigma}- \Phi^{-1}(1- \frac{\alpha}{2})\right)
+\text{Power} &amp;= \Phi\left(\frac{|\tau| \sqrt{N}}{2\sigma}-
+\Phi^{-1}(1- \frac{\alpha}{2})\right)
 \end{align*}\]</span></p></li>
 <li><p>Components:</p>
 <ul>
-<li><span class="math inline">\(\phi\)</span>: standard normal CDF is monotonically increasing</li>
+<li><span class="math inline">\(\phi\)</span>: standard normal CDF is
+monotonically increasing</li>
 <li><span class="math inline">\(\tau\)</span>: the effect size</li>
 <li><span class="math inline">\(N\)</span>: the sample size</li>
-<li><span class="math inline">\(\sigma\)</span>: the standard deviation of the outcome</li>
-<li><span class="math inline">\(\alpha\)</span>: the significance level (typically 0.05)</li>
+<li><span class="math inline">\(\sigma\)</span>: the standard deviation
+of the outcome</li>
+<li><span class="math inline">\(\alpha\)</span>: the significance level
+(typically 0.05)</li>
 </ul></li>
 </ul>
 </section>
-<section id="example-analytical-calculations-of-power" class="slide level2">
+<section id="example-analytical-calculations-of-power"
+class="slide level2">
 <h2>Example: Analytical calculations of power</h2>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Power for a study with 80 obserations and effect</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="co"># size of 0.25</span></span>
@@ -631,16 +653,20 @@ document.getElementsByTagName('head')[0].appendChild(style);
 
 NOTE: n is number in *each* group</code></pre>
 </section>
-<section id="limitations-to-analytical-power-calculations" class="slide level2">
+<section id="limitations-to-analytical-power-calculations"
+class="slide level2">
 <h2>Limitations to analytical power calculations</h2>
 <ul>
-<li><p>Only derived for some test statistics (differences of means)</p></li>
-<li><p>Makes specific assumptions about the data-generating process</p></li>
+<li><p>Only derived for some test statistics (differences of
+means)</p></li>
+<li><p>Makes specific assumptions about the data-generating
+process</p></li>
 <li><p>Incompatible with more complex designs</p></li>
 </ul>
 </section></section>
 <section>
-<section id="simulation-based-power-calculation" class="title-slide slide level1">
+<section id="simulation-based-power-calculation"
+class="title-slide slide level1">
 <h1>Simulation-based power calculation</h1>
 
 </section>
@@ -648,8 +674,11 @@ NOTE: n is number in *each* group</code></pre>
 <h2>Simulation-based power calculation</h2>
 <ul>
 <li><p>Create dataset and simulate research design.</p></li>
-<li><p>Assumptions are necessary for simulation studies, but you make your own.</p></li>
-<li><p>For the DeclareDesign approach, see <a href="https://declaredesign.org/" class="uri">https://declaredesign.org/</a></p></li>
+<li><p>Assumptions are necessary for simulation studies, but you make
+your own.</p></li>
+<li><p>For the DeclareDesign approach, see <a
+href="https://declaredesign.org/"
+class="uri">https://declaredesign.org/</a></p></li>
 </ul>
 </section>
 <section id="steps" class="slide level2">
@@ -670,7 +699,8 @@ NOTE: n is number in *each* group</code></pre>
 <li><p>With cluster randomization</p></li>
 </ul>
 </section>
-<section id="example-simulation-based-power-for-complete-randomization" class="slide level2">
+<section id="example-simulation-based-power-for-complete-randomization"
+class="slide level2">
 <h2>Example: Simulation-based power for complete randomization</h2>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># install.packages(&quot;randomizr&quot;)</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(randomizr)</span>
@@ -690,7 +720,9 @@ NOTE: n is number in *each* group</code></pre>
 <span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(pval)</span>
 <span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
 </section>
-<section id="example-simulation-based-power-for-complete-randomization-1" class="slide level2">
+<section
+id="example-simulation-based-power-for-complete-randomization-1"
+class="slide level2">
 <h2>Example: Simulation-based power for complete randomization</h2>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>power_sim <span class="ot">&lt;-</span> <span class="cf">function</span>(N, tau, sims) {</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  Y0 <span class="ot">&lt;-</span> <span class="fu">make_Y0</span>(N)</span>
@@ -708,7 +740,8 @@ NOTE: n is number in *each* group</code></pre>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">power_sim</span>(<span class="at">N =</span> <span class="dv">80</span>, <span class="at">tau =</span> .<span class="dv">25</span>, <span class="at">sims =</span> <span class="dv">100</span>)</span></code></pre></div>
 <pre><code>[1] 0.21</code></pre>
 </section>
-<section id="example-using-declaredesign" class="slide level2 allowframebreaks">
+<section id="example-using-declaredesign"
+class="slide level2 allowframebreaks">
 <h2 class="allowframebreaks">Example: Using DeclareDesign</h2>
 <div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(DeclareDesign)</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
@@ -788,23 +821,32 @@ NOTE: n is number in *each* group</code></pre>
 2 t test 2    0.2</code></pre>
 </section></section>
 <section>
-<section id="power-with-covariate-adjustment" class="title-slide slide level1">
+<section id="power-with-covariate-adjustment"
+class="title-slide slide level1">
 <h1>Power with covariate adjustment</h1>
 
 </section>
 <section id="covariate-adjustment-and-power" class="slide level2">
 <h2>Covariate adjustment and power</h2>
 <ul>
-<li><p>Covariate adjustment can improve power because it mops up variation in the outcome variable.</p>
+<li><p>Covariate adjustment can improve power because it mops up
+variation in the outcome variable.</p>
 <ul>
-<li><p>If prognostic, covariate adjustment can reduce variance dramatically. Lower variance means higher power.</p></li>
+<li><p>If prognostic, covariate adjustment can reduce variance
+dramatically. Lower variance means higher power.</p></li>
 <li><p>If non-prognostic, power gains are minimal.</p></li>
 </ul></li>
-<li><p>All covariates must be pre-treatment. Do not drop observations on account of missingness.</p>
+<li><p>All covariates must be pre-treatment. Do not drop observations on
+account of missingness.</p>
 <ul>
-<li>See the module on <a href="threats-to-internal-validity-of-randomized-experiments.html">threats to internal validity</a> and the <a href="http://egap.org/methods-guides/10-things-know-about-covariate-adjustment">10 things to know about covariate adjustment</a>.</li>
+<li>See the module on <a
+href="threats-to-internal-validity-of-randomized-experiments.html">threats
+to internal validity</a> and the <a
+href="https://egap.org/resource/10-things-to-know-about-covariate-adjustment/">10
+things to know about covariate adjustment</a>.</li>
 </ul></li>
-<li><p>Freedman’s bias as n of observations decreases and K covariates increases.</p></li>
+<li><p>Freedman’s bias as n of observations decreases and K covariates
+increases.</p></li>
 </ul>
 <!-- ## Covariate adjustment: best practices -->
 <!-- - All covariates must be pre-treatment -->
@@ -824,13 +866,17 @@ NOTE: n is number in *each* group</code></pre>
 <ul>
 <li><p>“Ex-ante” covariate adjustment</p></li>
 <li><p>Higher precision/efficiency implies more power</p></li>
-<li><p>Reduce “conditional bias”: association between treatment assignment and potential outcomes</p></li>
-<li><p>Benefits of blocking over covariate adjustment clearest in small experiments</p></li>
+<li><p>Reduce “conditional bias”: association between treatment
+assignment and potential outcomes</p></li>
+<li><p>Benefits of blocking over covariate adjustment clearest in small
+experiments</p></li>
 </ul></li>
 </ul>
 </section>
-<section id="example-simulation-based-power-with-a-covariate" class="slide level2 allowframebreaks">
-<h2 class="allowframebreaks">Example: Simulation-based power with a covariate</h2>
+<section id="example-simulation-based-power-with-a-covariate"
+class="slide level2 allowframebreaks">
+<h2 class="allowframebreaks">Example: Simulation-based power with a
+covariate</h2>
 <div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Y0 is fixed in most field experiments. So we only generate it once</span></span>
 <span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>make_Y0_cov <span class="ot">&lt;-</span> <span class="cf">function</span>(N) {</span>
 <span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>  u0 <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="at">n =</span> N)</span>
@@ -882,15 +928,18 @@ F-statistic: 29.3 on 1 and 98 DF,  p-value: 0.000000441</code></pre>
 <pre><code>[1] 0.19</code></pre>
 </section></section>
 <section>
-<section id="power-for-cluster-randomization" class="title-slide slide level1">
+<section id="power-for-cluster-randomization"
+class="title-slide slide level1">
 <h1>Power for cluster randomization</h1>
 
 </section>
 <section id="power-and-clustered-designs" class="slide level2">
 <h2>Power and clustered designs</h2>
 <ul>
-<li><p>Recall the <a href="randomization.html">randomization module</a>.</p></li>
-<li><p>Given a fixed <span class="math inline">\(N\)</span>, a clustered design is weakly less powered than a non-clustered design.</p>
+<li><p>Recall the <a href="randomization.html">randomization
+module</a>.</p></li>
+<li><p>Given a fixed <span class="math inline">\(N\)</span>, a clustered
+design is weakly less powered than a non-clustered design.</p>
 <ul>
 <li>The difference is often substantial.</li>
 </ul></li>
@@ -901,27 +950,39 @@ F-statistic: 29.3 on 1 and 98 DF,  p-value: 0.000000441</code></pre>
 </ul></li>
 <li><p>To increase power:</p>
 <ul>
-<li>Better to increase number of clusters than number of units per cluster.</li>
-<li>How much clusters reduce power depends critically on the intra-cluster correlation (the ratio of variance within clusters to total variance).</li>
+<li>Better to increase number of clusters than number of units per
+cluster.</li>
+<li>How much clusters reduce power depends critically on the
+intra-cluster correlation (the ratio of variance within clusters to
+total variance).</li>
 </ul></li>
 </ul>
 </section>
-<section id="a-note-on-clustering-in-observational-research" class="slide level2">
+<section id="a-note-on-clustering-in-observational-research"
+class="slide level2">
 <h2>A note on clustering in observational research</h2>
 <ul>
-<li><p>Often overlooked, leading to (possibly) wildly understated uncertainty.</p>
+<li><p>Often overlooked, leading to (possibly) wildly understated
+uncertainty.</p>
 <ul>
-<li><p>Frequentist inference based on ratio <span class="math inline">\(\hat{\beta}/\hat{se}\)</span></p></li>
-<li><p>If we underestimate <span class="math inline">\(\hat{se}\)</span>, we are much more likely to reject <span class="math inline">\(H_0\)</span>. (Type-I error rate is too high.)</p></li>
+<li><p>Frequentist inference based on ratio <span
+class="math inline">\(\hat{\beta}/\hat{se}\)</span></p></li>
+<li><p>If we underestimate <span
+class="math inline">\(\hat{se}\)</span>, we are much more likely to
+reject <span class="math inline">\(H_0\)</span>. (Type-I error rate is
+too high.)</p></li>
 </ul></li>
-<li><p>Many observational designs much less powered than we think they are.</p></li>
+<li><p>Many observational designs much less powered than we think they
+are.</p></li>
 </ul>
 </section>
-<section id="example-simulation-based-power-for-cluster-randomization" class="slide level2 allowframebreaks">
-<h2 class="allowframebreaks">Example: Simulation-based power for cluster randomization</h2>
+<section id="example-simulation-based-power-for-cluster-randomization"
+class="slide level2 allowframebreaks">
+<h2 class="allowframebreaks">Example: Simulation-based power for cluster
+randomization</h2>
 <div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Y0 is fixed in most field experiments. So we only generate it once</span></span>
 <span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>make_Y0_clus <span class="ot">&lt;-</span> <span class="cf">function</span>(n_indivs, n_clus) {</span>
-<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>  <span class="co"># n_indivs in number of people per cluster</span></span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>  <span class="co"># n_indivs is number of people per cluster</span></span>
 <span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>  <span class="co"># n_clus is number of clusters</span></span>
 <span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a>  clus_id <span class="ot">&lt;-</span> <span class="fu">gl</span>(n_clus, n_indivs)</span>
 <span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a>  N <span class="ot">&lt;-</span> n_clus <span class="sc">*</span> n_indivs</span>
@@ -977,8 +1038,11 @@ F-statistic: 29.3 on 1 and 98 DF,  p-value: 0.000000441</code></pre>
 <div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="fu">power_sim_clus</span>(<span class="at">n_indivs =</span> <span class="dv">8</span>, <span class="at">n_clus =</span> <span class="dv">100</span>, <span class="at">tau =</span> .<span class="dv">25</span>, <span class="at">sims =</span> <span class="dv">100</span>)</span></code></pre></div>
 <pre><code>[1] 0.68</code></pre>
 </section>
-<section id="example-simulation-based-power-for-cluster-randomization-declaredesign" class="slide level2 allowframebreaks">
-<h2 class="allowframebreaks">Example: Simulation-based power for cluster randomization (DeclareDesign)</h2>
+<section
+id="example-simulation-based-power-for-cluster-randomization-declaredesign"
+class="slide level2 allowframebreaks">
+<h2 class="allowframebreaks">Example: Simulation-based power for cluster
+randomization (DeclareDesign)</h2>
 <div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>P1 <span class="ot">&lt;-</span> <span class="fu">declare_population</span>(</span>
 <span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">N =</span> n_clus <span class="sc">*</span> n_indivs,</span>
 <span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">clusters =</span> <span class="fu">gl</span>(n_clus, n_indivs),</span>
@@ -1081,7 +1145,8 @@ Z     1   2   3   4   5   6   7   8   9  10
 </ul></li>
 </ul>
 </section>
-<section id="power-by-sample-size" class="slide level2 allowframebreaks">
+<section id="power-by-sample-size"
+class="slide level2 allowframebreaks">
 <h2 class="allowframebreaks">Power by sample size</h2>
 <div class="sourceCode" id="cb50"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a>some_ns <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">10</span>, <span class="dv">800</span>, <span class="at">by =</span> <span class="dv">10</span>)</span>
 <span id="cb50-2"><a href="#cb50-2" aria-hidden="true" tabindex="-1"></a>pow_by_n <span class="ot">&lt;-</span> <span class="fu">sapply</span>(some_ns, <span class="cf">function</span>(then) {</span>
@@ -1098,7 +1163,8 @@ Z     1   2   3   4   5   6   7   8   9  10
 <span id="cb51-3"><a href="#cb51-3" aria-hidden="true" tabindex="-1"></a><span class="do">## ptest &lt;-  pwr.t.test(n = NULL, d = 0.25, sig.level = 0.05, power = .8)</span></span>
 <span id="cb51-4"><a href="#cb51-4" aria-hidden="true" tabindex="-1"></a><span class="do">## plot(ptest)</span></span></code></pre></div>
 </section>
-<section id="power-by-treatment-effect-size" class="slide level2 allowframebreaks">
+<section id="power-by-treatment-effect-size"
+class="slide level2 allowframebreaks">
 <h2 class="allowframebreaks">Power by treatment effect size</h2>
 <div class="sourceCode" id="cb52"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a>some_taus <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="at">by =</span> .<span class="dv">05</span>)</span>
 <span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a>pow_by_tau <span class="ot">&lt;-</span> <span class="fu">sapply</span>(some_taus, <span class="cf">function</span>(thetau) {</span>
@@ -1114,7 +1180,9 @@ Z     1   2   3   4   5   6   7   8   9  10
 <section id="egap-power-calculator" class="slide level2">
 <h2>EGAP Power Calculator</h2>
 <ul>
-<li><p>Try the calculator at: <a href="https://egap.shinyapps.io/power-app/" class="uri">https://egap.shinyapps.io/power-app/</a></p></li>
+<li><p>Try the calculator at: <a
+href="https://egap.shinyapps.io/power-app/"
+class="uri">https://egap.shinyapps.io/power-app/</a></p></li>
 <li><p>For cluster randomization designs, try adjusting:</p>
 <ul>
 <li>Number of clusters</li>
@@ -1128,10 +1196,13 @@ Z     1   2   3   4   5   6   7   8   9  10
 <h2>Comments</h2>
 <ul>
 <li><p>Know your outcome variable.</p></li>
-<li><p>What effects can you realistically expect from your treatment?</p></li>
-<li><p>What is the plausible range of variation of the outcome variable?</p>
+<li><p>What effects can you realistically expect from your
+treatment?</p></li>
+<li><p>What is the plausible range of variation of the outcome
+variable?</p>
 <ul>
-<li>A design with limited possible movement in the outcome variable may not be well-powered.</li>
+<li>A design with limited possible movement in the outcome variable may
+not be well-powered.</li>
 </ul></li>
 </ul>
 </section>
@@ -1140,7 +1211,8 @@ Z     1   2   3   4   5   6   7   8   9  10
 <ol type="1">
 <li><p>Increase the <span class="math inline">\(N\)</span></p>
 <ul>
-<li>If clustered, increase the number of clusters if at all possible</li>
+<li>If clustered, increase the number of clusters if at all
+possible</li>
 </ul></li>
 <li><p>Strengthen the treatment</p></li>
 <li><p>Improve precision</p>
