@@ -14,7 +14,7 @@ Then to build all slides, for now, type the following:
 make all
 ```
 
-To force rebuild them in case the make system thinks they do not need to be rebuilt type `make -f all`
+To force rebuild them in case the make system thinks they do not need to be rebuilt type `make --always-make all`
 
 Or if you want to force rebuild them, and do not want to use the Makefile system you can try using the following bash shell script:
 
