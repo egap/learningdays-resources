@@ -60,7 +60,7 @@ library(rcompanion) ## for pairwisePermutationTest()
 
 #  El papel de las pruebas de hipótesis en la inferencia causal {.allowframebreaks}
 
-## Puntos clave para esta lectura  {.allowframebreaks}
+## Puntos clave para esta lección  {.allowframebreaks}
 
 - La inferencia estadística (por ejemplo, las pruebas de hipótesis y los intervalos de
 confianza) requiere **inferencia**, es decir, razonamiento sobre lo no observado.
@@ -71,9 +71,9 @@ confianza) requiere **inferencia**, es decir, razonamiento sobre lo no observado
 
 - Valores observados de las estadísticas de prueba + Distribución de referencia $\rightarrow$ valor-$p$.
 
-## El rol de las pruebas de hipótesis en la inferencia causal  {.allowframebreaks}
+## El papel de las pruebas de hipótesis en la inferencia causal  {.allowframebreaks}
 
-- El **problema fundamental de la inferencia causal** dice que sólo podemos ver una variable de resultado potencial para cualquier unidad.
+- El **problema fundamental de la inferencia causal** es que sólo podemos ver una variable de resultado potencial para cualquier unidad.
 
 - Por lo tanto, si para Jake se produce un efecto causal contrafactual del tratamiento $T$, cuando $y_{text{Jake},T=1} \ne y_{text{Jake},T=0}$, entonces ¿cómo podemos aprender sobre el efecto causal?
 
@@ -90,23 +90,23 @@ confianza) requiere **inferencia**, es decir, razonamiento sobre lo no observado
 
 - A esto lo llamamos enfoque de Fisher.
 
-- El enfoque de las pruebas de hipótesis para la inferencia causal no nos muestra cuál la mejor suposición, sino que nos dice *cuánta evidencia o información obtenemos del diseño de la investigación sobre una afirmación causal*.
+- El enfoque de las pruebas de hipótesis para la inferencia causal no nos brinda una suposición, sino que nos dice *cuánta evidencia o información obtenemos del diseño de la investigación sobre una afirmación causal*.
 
 - La estimación nos permite hacer mejores suposiciones, pero no nos dice qué tanto sabemos sobre esas suposiciones.
-- Por ejemplo, una mejor suposición con $N=10$ parece decirnos menos sobre el efecto que $N=1000$.
- - Por ejemplo, una mejor suposición cuando el 95% de $Y=1$ y el 5% de $Y=0$ parece decirnos menos que cuando las variables de resultado se dividen por igual entre 0 y 1.
-- Casi siempre damos reporte de ambos, ya que esto nos ayuda a tomar decisiones: "Nuestra mejor suposición del efecto del tratamiento fue 5, y pudimos rechazar la idea de que el efecto fuera 0 ($p$=.01)".
+- Por ejemplo, una  suposición con $N=10$ parece decirnos menos sobre el efecto que $N=1000$.
+ - Por ejemplo, una suposición cuando el 95% de $Y=1$ y el 5% de $Y=0$ parece decirnos menos que cuando las variables de resultado se dividen por igual entre 0 y 1.
+- Casi siempre reportamos ambas, ya que esto nos ayuda a tomar decisiones: "Nuestra mejor suposición del efecto del tratamiento fue 5, y pudimos rechazar la idea de que el efecto fuera 0 ($p$=.01)".
 
 
 # Temas básicos de las prueba de hipótesis {.allowframebreaks}
 
-## Ingredientes de una prueba de hipótesis {.allowframebreaks}
+## Componentes de una prueba de hipótesis {.allowframebreaks}
 
  - Una **hipótesis** es una afirmación sobre una relación entre variables de resultado potenciales.
 
  - Una **estadística de prueba** resume la relación entre el tratamiento y las variables de resultado observadas.
 
- - El **diseño** nos permite vincular la hipótesis y la estadística de prueba: calcule una estadística de prueba que describa una relación entre variables de resultado potenciales.
+ - El **diseño** nos permite vincular la hipótesis y la estadística de prueba: podemos calcular una estadística de prueba que describa una relación entre variables de resultado potenciales.
 
  - El **diseño** también nos indica cómo generar una *distribución* de las posibles estadísticas de prueba sugeridas por la hipótesis.
  
@@ -195,7 +195,7 @@ Lo que observamos para cada persona $i$ ($Y_i$) es lo que habríamos observado e
 
 $$Y_i = T_i y_{i,1} + (1-T_i)* y_{i,0}$$
 
-So, if $y_{i,1}=y_{i,0}$ then $Y_i = y_{i,0}$.
+Entonces, si $y_{i,1}=y_{i,0}$ por lo tanto $Y_i = y_{i,0}$.
 
 Lo que *observamos realmente* es lo que *habríamos observado en la condición de control*.
 
@@ -290,7 +290,7 @@ pMeanRank2
 
 ## Cómo hacer esto en R: RItools  {.allowframebreaks}
 
- Primero instalar la versión de desarrollo del paquete de RItools 
+ Primero instalar la versión en desarrollo del paquete de RItools 
 
 ```{r installritools, eval=FALSE, echo=TRUE, results='hide',warnings=FALSE,cache=FALSE}
 # dev_mode() ## no instalar el paquete de manera global
@@ -364,7 +364,7 @@ summary(pMeanRank4)
 
  - Probando hipótesis nulas débiles, $H_0: \bar{y}_{1} = \bar{y}_{0}$.
 
- - Rechazando hipótesis nulas (y haciendo errores de falso positivo y/o falso negativo).
+ - Rechazando hipótesis nulas (y cometiendo errores de falsos positivos y/o falsos negativos).
 
  - Mantener las tasas de error de falsos positivos correctas cuando se evalúa más de una hipótesis.
 
@@ -392,7 +392,7 @@ c(lm1P = lm1P, ttestP1 = ttestP1, tttestP2 = ttestP2$p.value)
 
 ## Probando las hipótesis nulas débiles de que no hay efectos promedio
 
-Tanto la variación como la locación de $Y$ cambia con el tratamiento en esta simulación.
+Tanto la variación como la ubicación de $Y$ cambia con el tratamiento en esta simulación.
 
 ```{r fig.cap="Boxplot  de las variables de resultado observados por el estado de tratamiento", results='asis', out.width=".7\\textwidth"}
 boxplot(Y ~ T, data = dat)
@@ -427,7 +427,7 @@ c(
 
 - $\alpha$ es la probabilidad de rechazar la hipótesis nula cuando la hipótesis nula es verdadera.
 
-- ¿Cómo deberíamos interpretar $p$=`r  round(pMeanTT,2)`? ¿Cómo deberíamos interpretar $p$=`r round(pMeanRankTT,2)` (nuestras pruebas de la hipótesis nula aguda)?
+- ¿Cómo deberíamos interpretar $p$=`r  round(pMeanTT,2)`? ¿Cómo deberíamos interpretar $p$=`r round(pMeanRankTT,2)` (nuestras pruebas de la hipótesis nula tajante)?
 
 - ¿Qué significa “rechazar” $H_0: y_{i,1}=y_{i,2}$ at $\alpha=.05$?
 
@@ -435,7 +435,7 @@ c(
 
 ## Tasas de falsos positivos en las pruebas de hipótesis {.allowframebreaks}
 
-```{r normp, echo=FALSE,out.width=".5\\textwidth",fig.cap="Valor p de una prueba estadística Normalmente distribuida."}
+```{r normp, echo=FALSE,out.width=".5\\textwidth",fig.cap="Valor p de una prueba estadística con una distribución normal."}
 library(tidyverse)
 ggplot(NULL, aes(c(-3, 3))) +
   geom_area(stat = "function", fun = dnorm, fill = "#00998a", xlim = c(2, 3)) +
@@ -468,13 +468,14 @@ valor hipotético de cero ($p=.001$)! ¡Rechazamos la hipótesis!” **cuando la
 
 ## Una sola prueba de una sola hipótesis
 
-- Una única prueba de una única hipótesis debería fomentar los errores de falsos positivos en contadas ocasiones (por ejemplo, si establecemos $\alpha=.05$), entonces estamos diciendo que nos sentimos cómodos con que nuestro procedimiento de prueba cometa errores de falsos positivos en **no más del 5% de las pruebas de una asignación de tratamiento dada en un experimento determinado**.
+- Una prueba de una unica
+ hipótesis debería fomentar los errores de falsos positivos en contadas ocasiones (por ejemplo, si establecemos $\alpha=.05$), entonces estamos diciendo que nos sentimos cómodos con que nuestro procedimiento de prueba cometa errores de falsos positivos en **no más del 5% de las pruebas de una asignación de tratamiento dada en un experimento determinado**.
 
 - Además, una **prueba única de una sola hipótesis** debería detectar la señal cuando existe --- debería tener un alto **poder estadístico**. En otras palabras, no debería fallar en la detección de una señal cuando existe (es decir, debería tener bajas tasas de error de falso negativo).
 
 ## Las decisiones implican errores
 
-- Si los errores son necesarios, ¿cómo podemos diagnosticarlos? ¿Cómo podemos saber si nuestro proceso de comprobación de hipótesis puede generar demasiados errores de falsos positivos?
+- Si los errores son inevitables, ¿cómo podemos diagnosticarlos? ¿Cómo podemos saber si nuestro proceso de comprobación de hipótesis puede generar demasiados errores de falsos positivos?
 
 - ¡Diagnosticar usando simulación!
 
@@ -685,7 +686,7 @@ legend("topleft",
 
 ## ¿Cuándo podríamos probar muchas hipótesis?
 
-- ¿Difiere el efecto de un tratamiento experimental entre los distintos grupos? ¿Podrían surgir diferencias en el efecto del tratamiento debido a algunas características de fondo de los sujetos experimentales?
+- ¿Difiere el efecto de un tratamiento experimental entre los distintos grupos? ¿Podrían surgir diferencias en el efecto del tratamiento debido a algunas característicasde los sujetos experimentales?
 
 - ¿Qué estrategias de comunicación fueron más eficaces en una única variable de resultado?
 
@@ -756,7 +757,7 @@ Nos centraremos en el FWER, pero recomendamos pensar en el FDR y en las agendas 
 
 - ¿En qué variables de resultado (de entre muchas) tuvo efecto el tratamiento? 
 
-- La segunda pregunta, en particular, puede conducir al tipo de problemas de tasa de error familiar no controlada a los que nos referimos anteriormente.
+- La segunda pregunta, en particular, puede conducir al tipo de problemas de tasa de error familiar relacionadas entre sí a los que nos referimos anteriormente.
 
 ## Pruebas de hipótesis múltiples: Variables de Resultado Múltiples 
 
@@ -917,7 +918,7 @@ recuerde que no hay efectos causales en absoluto para ninguno de estas variables
 
 ## La corrección de Holm
 
-Así es como se usa la corrección de Holm (Note que le sucede a los valores $p$):
+Así es como se usa la corrección de Holm (Note lo que le sucede a los a los valores $p$):
 
 ```{r holmex, echo=TRUE}
 theps
@@ -1028,9 +1029,9 @@ kableExtra::kable(res2, caption = "Enfoques para pruebas en experimentos de múl
 
 - Los problemas en las pruebas múltiples pueden surgir de múltiples variables de resultado o múltiples tratamientos (o múltiples moderadores/términos de interacción).
   
-- Los procedimientos para realizar pruebas de hipótesis e intervalos de confianza pueden implicar errores. La práctica ordinaria controla las tasas de error en una sola prueba (o en un solo intervalo de confianza). Pero las pruebas múltiples requieren un trabajo adicional para garantizar que las tasas de error estén controladas.
+- Los procedimientos para realizar pruebas de hipótesis e intervalos de confianza pueden implicar errores. La práctica ordinaria controla las tasas de error en una sola prueba (o en un solo intervalo de confianza). Pero las pruebas múltiples requieren  trabajo adicional para garantizar que las tasas de error estén controladas.
 
-- La pérdida de poder derivada de los enfoques de ajuste nos anima a considerar qué *preguntas queremos hacer a los datos*. Por ejemplo, si queremos saber si el tratamiento tuvo *algún efecto*, una prueba conjunta o una prueba ómnibus con múltiples variables de resultado aumentará nuestro poder estadístico sin necesidad de ajustes.
+- La pérdida de poder derivada de los enfoques de ajuste nos obliga a considerar qué *preguntas queremos hacer a los datos*. Por ejemplo, si queremos saber si el tratamiento tuvo *algún efecto*, una prueba conjunta o una prueba ómnibus con múltiples variables de resultado aumentará nuestro poder estadístico sin necesidad de ajustes.
 
 
 # Referencias  {.allowframebreaks}
