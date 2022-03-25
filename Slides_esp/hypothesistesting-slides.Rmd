@@ -69,7 +69,7 @@ confianza) requiere **inferencia**, es decir, razonamiento sobre lo no observado
 
 - Aleatorización (o diseño) + una hipótesis + una función de estadística de prueba $\rightarrow$ distribuciones de probabilidad que representan la hipótesis (distribuciones de referencia)
 
-- Valores observados de las estadísticas de prueba + Distribución de referencia $\rightarrow$ valor-$p$.
+- Valores observados de las estadísticas de prueba + Distribución de referencia $\rightarrow$ valor $p$.
 
 ## El papel de las pruebas de hipótesis en la inferencia causal  {.allowframebreaks}
 
@@ -258,9 +258,9 @@ mtext(
 )
 ```
 
-## Los valores-$p$ resumen los planes
+## Los valores $p$ resumen los planes
 
-¿Cómo debemos interpretar los valores-$p$? (Nótese que son de una cola)
+¿Cómo debemos interpretar los valores $p$? (Nótese que son de una cola)
 
 ```{r calcpvalues, echo=TRUE}
 pMeanTT <- mean(possibleMeanDiffsH0 >= observedMeanTT)
@@ -341,7 +341,7 @@ Estadística de Prueba Observada     1   0.32
 
 ## Cómo hacer esto en  R: RI2
 
-¿Cómo deberíamos interpretar el valor-$p$ de dos colas aquí?
+¿Cómo deberíamos interpretar el valor $p$ de dos colas aquí?
 
 ```{r,echo=TRUE}
 ## usando el paquete ri2
@@ -388,7 +388,7 @@ ttestP2 <- difference_in_means(Y ~ T, data = dat)
 c(lm1P = lm1P, ttestP1 = ttestP1, tttestP2 = ttestP2$p.value)
 ```
 
-- ¿Por qué el valor-$p$ de OLS es diferente? ¿Qué supuestos utilizamos para calcularlo?
+- ¿Por qué el valor $p$ de OLS es diferente? ¿Qué supuestos utilizamos para calcularlo?
 
 ## Probando las hipótesis nulas débiles de que no hay efectos promedio
 
@@ -704,7 +704,7 @@ Digamos que nuestra probabilidad de cometer un error de falso positivo es de 0,0
 ## Descubrimientos con pruebas múltiples
 
 **Número de errores hechos al probar hipótesis nulas $m$** [@benjamini1995
-'s Table 1]. Las celdas son el número de pruebas.  $R$ es # de "descubrimientos" y $V$ es # de falsos descubrimientos, $U$ es # de no-rechazos
+'s Table 1]. Las celdas son el número de pruebas.  $R$ es # de "descubrimientos" y $V$ es # de falsos descubrimientos, $U$ es # de no rechazos
 correctos, y $S$ es # de rechazos correctos.
 
 
