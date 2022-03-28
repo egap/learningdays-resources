@@ -44,14 +44,15 @@ knitr::opts_chunk$set(echo = FALSE)
 
  - Incumplimiento
 
- - Propagación
+ - Derrame
 
  - Efectos Hawthorne
 
- - Tratamientos diferenciales en los distintos brazos de tratamiento
+ - Tratamiento diferencial de los distintos brazos de tratamiento.
+
  
 # Supuestos principales
-##  Revisión de los supuestos principales
+##  Repaso de los supuestos principales
 
   1. Exclusión 
 
@@ -68,12 +69,14 @@ knitr::opts_chunk$set(echo = FALSE)
   
   - se pierden algunos registros.
 
-- Este es problemático cuando los datos faltantes han sido ocasionados por el tratamiento.
+- Esto es problemático cuando los datos faltantes han sido ocasionados por el tratamiento.
 
-  - Por ejemplo, las unidades asignadas a control pueden estar menos dispuestas a responder las preguntas de la encuesta.
+  - Por ejemplo, las unidades asignadas al grupo de control pueden 
   - Por ejemplo, el tratamiento puede haber provocado la migración de unidades y no hay forma de acceder a ellas.
 
-- Si analizamos los datos descartando unidades con datos faltantes para la variable de interés, entonces ya estaríamos comparando grupos de tratamiento y control similares.
+- Si analizamos los datos descartando unidades con datos faltantes para la variable de resultado, entonces ya estaríamos comparando grupos de tratamiento y control similares.
+
+
 
 ## ¿Qué podemos hacer?
 
@@ -81,9 +84,9 @@ knitr::opts_chunk$set(echo = FALSE)
 
 - Compruebe si las covariables de los grupos de tratamiento y control tienen patrones similares.
 
-- No elimine las observaciones a las que les falten datos para la variable de interés.
+- No elimine las observaciones con datos faltantes en las variables de resultado.
 
-- A veces, cuando faltan datos para la variable de resultados, podemos **acotar** nuestras estimaciones del efecto del tratamiento.
+- A veces, cuando faltan datos en la variable de resultados, podemos **acotar** nuestras estimaciones del efecto del tratamiento.
 
 
 ## ¿Qué podemos hacer?
@@ -92,18 +95,18 @@ knitr::opts_chunk$set(echo = FALSE)
 
    - Personas que no sepan a qué condición del tratamiento fueron asignadas.
 
-   - Prometerle al grupo control que va a recibir el tratamiento una vez se termine la investigación.
-
-   - Planificar ex ante para poder contectar los sujetos en para la recolección final de datos.
+   - Prometerle al grupo de control que va a recibir el tratamiento na vez concluida la investigación.
+   
+   - Planificar ex ante para poder contactar a los sujetos en para la recolección final de datos.
 
    - Contar con presupuesto para haver seguimiento intensivo a una muestra aleatoria de los sujetos que desierten
 
 
-## Las covariables con datos faltantes no son tan problemáticas
+## Los datos faltantes en covariables de contexto no son tan problemáticos
 
--  Las **covariables de contexto** (es decir, variables cuyos valores no cambian como resultado del tratamiento) con datos faltantes para algunas observaciones son menos problemáticas.
+  - La ausencia de datos en **covariables de contexto** (es decir, variables cuyos valores no cambian como resultado del tratamiento) para algunas observaciones es menos problemática. 
 
-  - Podemos aprender sobre el efecto causal de un experimento sin esas covariables, como vimos en los módulos [Prueba de hipótesis] (hypothesistesting.html) y [Estimación] (estimación.html).
+  - Podemos aprender sobre el efecto causal de un experimento incluso sin esas covariables, como vimos en los módulos [Prueba de hipótesis](hypothesistesting.html) y [Estimación](estimación.html).
   
   - También podemos usar la covariable de contexto según lo planeado imputando los datos faltantes.
   
@@ -116,45 +119,46 @@ knitr::opts_chunk$set(echo = FALSE)
 
   - En algunas ocasiones las unidades que son asignadas al tratamiento terminan no recibiéndolo. Es decir, no cumplen la asignación.
   
-      - Cuando todas las unidades asignadas al grupo control no toman el tratamiento, pero sólo algunas unidades asignadas al tratamiento sí lo toman, estamos frente a un caso de incumplimiento unilateral.
+      -Si todas las unidades asignadas al grupo de control no toman el tratamiento, pero sólo algunas unidades asignadas al tratamiento sí lo toman, estamos frente a un caso de incumplimiento unilateral.
       
   - El efecto de ser asignado al tratamiento no es el mismo que el de recibir el tratamiento.
   
   - El efecto de recibir el tratamiento es comunmente conocido como "efecto local promedio del tratamiento" (Local Average Treatment Effect, LATE) o efecto promedio del tratamiento para el cumplidor (Complier Average Causal Effect, CACE).  
   
-      - La palabra "local" hace referencia a la idea que el efecto solo ocurre para algunas personas que toman el tratamiento cuando son asignadas a él (el tipo de gente).
+      - La palabra “local” hace referencia a la idea de que el efecto solo aplica para las personas que toman el tratamiento cuando son asignadas a éste (el tipo de personas). 
+
 
 
 ## LATE/CACE
 
 
-  - Se requiere que se cumplan dos supuesto para poder estimar el LATE/CACE a partir de un experimento aleatorio.
+  - Es necesario que se cumplan dos supuestos para poder estimar el LATE/CACE a partir de un experimento aleatorio.
   
-  1. Restricción de exclusión: la asignación del tratamiento solo afecta la variable de interés a través del "recibo" del tratamiento y no a través de ningún otro canal.
-  2. Supuesto de monotonicidad: no hay unidades que desafían, es decir, unidades que toman el tratamiento solo cuando son asignadas a control pero no toman el tratamiento cuando son asignados a este.
+  1. Restricción de exclusión: la asignación del tratamiento solo afecta la variable de resultado a través de la recepción del tratamiento y no a través de ningún otro canal.
+  2. Supuesto de monotonicidad: no hay unidades desobedientes, es decir, unidades que toman el tratamiento solo cuando son asignadas a control pero no toman el tratamiento cuando son asignados a este.
 
 
-# Propagación 
-## Propagación e interferencia entre unidades
+# Derrame 
+## Derrame e interferencia entre unidades
 
 
 - A veces tendremos sospechas de que la asignación al tratamiento de una unidad afecta los resultados de otras unidades.
 
-- Si el tratamiento de una unidad afecta el resultado de otra unidad, estamos frente a un caso de  violación de uno de los supuestos básicos de la inferencia causal.
+- Si el tratamiento de una unidad afecta el resultado de otra unidad, estamos violando uno de los supuestos básicos de inferencia causal.
 
 - Podemos seleccionar unidades que están lejos unas de otras para evitar la "transmisión" del tratamiento entre unidades.
 
 ## Estudiar los efectos secundarios
 
-- Esto no es un problema si diseña un estudio que permita investigar la propagación, es decir, que los resultados de una unidad pueden depender del tratamiento de otras unidades.
+- Esto no es un problema si diseña un estudio que permita investigar el derrame, es decir, que los resultados de una unidad pueden depender del tratamiento de otras unidades.
 
-- Para investigar los efectos de propagacióno:
+- Para investigar los efectos de derrame:
 
-    - Podemos recolectar datos de la variable de resultadao para las unidades que nunca fueron elegibles para la asignación aleatoria al tratamiento, pero que estaban cerca de unidades que sí eran elegibles para el tratamiento y que pudieron verse afectadas por efectos de propagación.
+    - Podemos recolectar datos de la variable de resultado para las unidades que nunca fueron elegibles para la asignación aleatoria al tratamiento, pero que estaban cerca de unidades que sí eran elegibles para el tratamiento y que pudieron verse afectadas por efectos de derrame.
 
-    - Puede utilizar un diseño de asignación aleatoria en dos etapas.
+    - Podemos utilizar un diseño de asignación aleatoria en dos etapas.
 
-    - Puede asignar grupos de unidades (p. Ej., Distritos) a diferentes niveles de intensidad de tratamiento (p. Ej., Usar una proporción diferente de aldeas en los distritos asignados al tratamiento).
+    - Podemos asignar grupos de unidades (p. Ej., Distritos) a diferentes niveles de intensidad de tratamiento (p. Ej., Usar una proporción diferente de aldeas en los distritos asignados al tratamiento).
     
 
 # Efecto Hawthorne
@@ -170,11 +174,11 @@ knitr::opts_chunk$set(echo = FALSE)
   
    -  Recolectar datos de la forma más discreta posible.
    
-   - En la medida de lo posible, nadie más que el propio sujeto debe conocer a qué condición tratamiento fue asignado.
+   - En la medida de lo posible, nadie más que el propio sujeto debe conocer a qué condición de tratamiento fue asignado.
 
-   - Encuestadores/investigadores deberían desconocer la condición del tratamiento de los sujetos.
+   - Encuestadores/investigadores deberían desconocer la condición de tratamiento de los sujetos.
 
-   - No haga mediciones adicionales para el grupo de tratamiento.
+   - No debemos hacer mediciones adicionales para el grupo de tratamiento.
 
 # No excluibilidad
 ## Diferencias entre los grupos de tratamiento y control más allá del tratamiento
