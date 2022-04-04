@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="generator" content="pandoc">
   <meta name="author" content="Fill In Your Name" />
-  <meta name="dcterms.date" content="2022-03-02" />
+  <meta name="dcterms.date" content="2022-04-04" />
   <title>Pruebas de hipótesis: Resumiendo información acerca de los efectos causales</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -521,7 +521,7 @@ document.getElementsByTagName('head')[0].appendChild(style);
     <h1 class="title">Pruebas de hipótesis: Resumiendo información
 acerca de los efectos causales</h1>
     <h2 class="author">Fill In Your Name</h2>
-    <h3 class="date">02 March 2022</h3>
+    <h3 class="date">04 April 2022</h3>
 </section>
 <section id="TOC">
 <ul>
@@ -529,16 +529,16 @@ acerca de los efectos causales</h1>
 href="#/el-papel-de-las-pruebas-de-hipótesis-en-la-inferencia-causal">El
 papel de las pruebas de hipótesis en la inferencia causal</a>
 <ul>
-<li><a href="#/puntos-clave-para-esta-lectura">Puntos clave para esta
-lectura</a></li>
+<li><a href="#/puntos-clave-para-esta-lección">Puntos clave para esta
+lección</a></li>
 <li><a
-href="#/el-rol-de-las-pruebas-de-hipótesis-en-la-inferencia-causal">El
-rol de las pruebas de hipótesis en la inferencia causal</a></li>
+href="#/el-papel-de-las-pruebas-de-hipótesis-en-la-inferencia-causal-1">El
+papel de las pruebas de hipótesis en la inferencia causal</a></li>
 </ul></li>
 <li><a href="#/temas-básicos-de-las-prueba-de-hipótesis">Temas básicos
 de las prueba de hipótesis</a>
 <ul>
-<li><a href="#/ingredientes-de-una-prueba-de-hipótesis">Ingredientes de
+<li><a href="#/componentes-de-una-prueba-de-hipótesis">Componentes de
 una prueba de hipótesis</a></li>
 <li><a
 href="#/una-hipótesis-es-una-afirmación-o-modelo-de-una-relación-entre-posibles-variables-de-resultado">Una
@@ -558,7 +558,7 @@ hipotéticas</a></li>
 <li><a
 href="#/planear-las-distribuciones-de-aleatoriedad-bajo-la-hipótesis-nula">Planear
 las distribuciones de aleatoriedad bajo la hipótesis nula</a></li>
-<li><a href="#/los-valores-p-resumen-los-planes">Los valores-<span
+<li><a href="#/los-valores-p-resumen-los-planes">Los valores <span
 class="math inline">\(p\)</span> resumen los planes</a></li>
 <li><a href="#/cómo-hacer-esto-en-r-coin">Cómo hacer esto en R:
 COIN</a></li>
@@ -694,9 +694,9 @@ class="title-slide slide level1 allowframebreaks">
 inferencia causal</h1>
 
 </section>
-<section id="puntos-clave-para-esta-lectura"
+<section id="puntos-clave-para-esta-lección"
 class="slide level2 allowframebreaks">
-<h2 class="allowframebreaks">Puntos clave para esta lectura</h2>
+<h2 class="allowframebreaks">Puntos clave para esta lección</h2>
 <ul>
 <li><p>La inferencia estadística (por ejemplo, las pruebas de hipótesis
 y los intervalos de confianza) requiere <strong>inferencia</strong>, es
@@ -708,17 +708,18 @@ estadística de prueba <span class="math inline">\(\rightarrow\)</span>
 distribuciones de probabilidad que representan la hipótesis
 (distribuciones de referencia)</p></li>
 <li><p>Valores observados de las estadísticas de prueba + Distribución
-de referencia <span class="math inline">\(\rightarrow\)</span>
-valor-<span class="math inline">\(p\)</span>.</p></li>
+de referencia <span class="math inline">\(\rightarrow\)</span> valor
+<span class="math inline">\(p\)</span>.</p></li>
 </ul>
 </section>
-<section id="el-rol-de-las-pruebas-de-hipótesis-en-la-inferencia-causal"
+<section
+id="el-papel-de-las-pruebas-de-hipótesis-en-la-inferencia-causal-1"
 class="slide level2 allowframebreaks">
-<h2 class="allowframebreaks">El rol de las pruebas de hipótesis en la
+<h2 class="allowframebreaks">El papel de las pruebas de hipótesis en la
 inferencia causal</h2>
 <ul>
 <li><p>El <strong>problema fundamental de la inferencia causal</strong>
-dice que sólo podemos ver una variable de resultado potencial para
+es que sólo podemos ver una variable de resultado potencial para
 cualquier unidad.</p></li>
 <li><p>Por lo tanto, si para Jake se produce un efecto causal
 contrafactual del tratamiento <span class="math inline">\(T\)</span>,
@@ -739,21 +740,21 @@ esa afirmación?”</p></li>
 class="math inline">\(p\)</span>.</p></li>
 <li><p>A esto lo llamamos enfoque de Fisher.</p></li>
 <li><p>El enfoque de las pruebas de hipótesis para la inferencia causal
-no nos muestra cuál la mejor suposición, sino que nos dice <em>cuánta
-evidencia o información obtenemos del diseño de la investigación sobre
-una afirmación causal</em>.</p></li>
+no nos brinda una suposición, sino que nos dice <em>cuánta evidencia o
+información obtenemos del diseño de la investigación sobre una
+afirmación causal</em>.</p></li>
 <li><p>La estimación nos permite hacer mejores suposiciones, pero no nos
 dice qué tanto sabemos sobre esas suposiciones.</p></li>
-<li><p>Por ejemplo, una mejor suposición con <span
+<li><p>Por ejemplo, una suposición con <span
 class="math inline">\(N=10\)</span> parece decirnos menos sobre el
 efecto que <span class="math inline">\(N=1000\)</span>.</p></li>
-<li><p>Por ejemplo, una mejor suposición cuando el 95% de <span
+<li><p>Por ejemplo, una suposición cuando el 95% de <span
 class="math inline">\(Y=1\)</span> y el 5% de <span
 class="math inline">\(Y=0\)</span> parece decirnos menos que cuando las
 variables de resultado se dividen por igual entre 0 y 1.</p></li>
-<li><p>Casi siempre damos reporte de ambos, ya que esto nos ayuda a
-tomar decisiones: “Nuestra mejor suposición del efecto del tratamiento
-fue 5, y pudimos rechazar la idea de que el efecto fuera 0 (<span
+<li><p>Casi siempre reportamos ambas, ya que esto nos ayuda a tomar
+decisiones: “Nuestra mejor suposición del efecto del tratamiento fue 5,
+y pudimos rechazar la idea de que el efecto fuera 0 (<span
 class="math inline">\(p\)</span>=.01)”.</p></li>
 </ul>
 </section></section>
@@ -764,18 +765,17 @@ class="title-slide slide level1 allowframebreaks">
 hipótesis</h1>
 
 </section>
-<section id="ingredientes-de-una-prueba-de-hipótesis"
+<section id="componentes-de-una-prueba-de-hipótesis"
 class="slide level2 allowframebreaks">
-<h2 class="allowframebreaks">Ingredientes de una prueba de
-hipótesis</h2>
+<h2 class="allowframebreaks">Componentes de una prueba de hipótesis</h2>
 <ul>
 <li><p>Una <strong>hipótesis</strong> es una afirmación sobre una
 relación entre variables de resultado potenciales.</p></li>
 <li><p>Una <strong>estadística de prueba</strong> resume la relación
 entre el tratamiento y las variables de resultado observadas.</p></li>
 <li><p>El <strong>diseño</strong> nos permite vincular la hipótesis y la
-estadística de prueba: calcule una estadística de prueba que describa
-una relación entre variables de resultado potenciales.</p></li>
+estadística de prueba: podemos calcular una estadística de prueba que
+describa una relación entre variables de resultado potenciales.</p></li>
 <li><p>El <strong>diseño</strong> también nos indica cómo generar una
 <em>distribución</em> de las posibles estadísticas de prueba sugeridas
 por la hipótesis.</p></li>
@@ -925,8 +925,8 @@ tratamiento (<span class="math inline">\(y_{i,1}\)</span>)
 class="math inline">\(y_{i,0}\)</span>).</p>
 <p><span class="math display">\[Y_i = T_i y_{i,1} + (1-T_i)*
 y_{i,0}\]</span></p>
-<p>So, if <span class="math inline">\(y_{i,1}=y_{i,0}\)</span> then
-<span class="math inline">\(Y_i = y_{i,0}\)</span>.</p>
+<p>Entonces, si <span class="math inline">\(y_{i,1}=y_{i,0}\)</span> por
+lo tanto <span class="math inline">\(Y_i = y_{i,0}\)</span>.</p>
 <p>Lo que <em>observamos realmente</em> es lo que <em>habríamos
 observado en la condición de control</em>.</p>
 </section>
@@ -967,9 +967,9 @@ con dos estadísticas de prueba diferentes.
 </div>
 </section>
 <section id="los-valores-p-resumen-los-planes" class="slide level2">
-<h2>Los valores-<span class="math inline">\(p\)</span> resumen los
+<h2>Los valores <span class="math inline">\(p\)</span> resumen los
 planes</h2>
-<p>¿Cómo debemos interpretar los valores-<span
+<p>¿Cómo debemos interpretar los valores <span
 class="math inline">\(p\)</span>? (Nótese que son de una cola)</p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>pMeanTT <span class="ot">&lt;-</span> <span class="fu">mean</span>(possibleMeanDiffsH0 <span class="sc">&gt;=</span> observedMeanTT)</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>pMeanRankTT <span class="ot">&lt;-</span> <span class="fu">mean</span>(possibleMeanRankDiffsH0 <span class="sc">&gt;=</span> observedMeanRankTT)</span>
@@ -1004,7 +1004,7 @@ class="math inline">\(p\)</span>? (Nótese que son de una cola)</p>
 <section id="cómo-hacer-esto-en-r-ritools"
 class="slide level2 allowframebreaks">
 <h2 class="allowframebreaks">Cómo hacer esto en R: RItools</h2>
-<p>Primero instalar la versión de desarrollo del paquete de RItools</p>
+<p>Primero instalar la versión en desarrollo del paquete de RItools</p>
 <div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># dev_mode() ## no instalar el paquete de manera global</span></span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>renv<span class="sc">::</span><span class="fu">install</span>(<span class="st">&quot;markmfredrickson/RItools@randomization-distribution&quot;</span>,</span>
 <span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">force =</span> <span class="cn">TRUE</span></span>
@@ -1041,7 +1041,7 @@ class="slide level2 allowframebreaks">
 </section>
 <section id="cómo-hacer-esto-en-r-ri2" class="slide level2">
 <h2>Cómo hacer esto en R: RI2</h2>
-<p>¿Cómo deberíamos interpretar el valor-<span
+<p>¿Cómo deberíamos interpretar el valor <span
 class="math inline">\(p\)</span> de dos colas aquí?</p>
 <div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="do">## usando el paquete ri2</span></span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ri2)</span>
@@ -1067,8 +1067,8 @@ class="math inline">\(p\)</span> de dos colas aquí?</p>
 <ul>
 <li><p>Probando hipótesis nulas débiles, <span
 class="math inline">\(H_0: \bar{y}_{1} = \bar{y}_{0}\)</span>.</p></li>
-<li><p>Rechazando hipótesis nulas (y haciendo errores de falso positivo
-y/o falso negativo).</p></li>
+<li><p>Rechazando hipótesis nulas (y cometiendo errores de falsos
+positivos y/o falsos negativos).</p></li>
 <li><p>Mantener las tasas de error de falsos positivos correctas cuando
 se evalúa más de una hipótesis.</p></li>
 <li><p>Poder de las pruebas de hipótesis (<a
@@ -1104,7 +1104,7 @@ anteriormente mencionado).</p></li>
 <pre><code>      lm1P    ttestP1 tttestP2.T 
     0.3321     0.3587     0.3587 </code></pre>
 <ul>
-<li>¿Por qué el valor-<span class="math inline">\(p\)</span> de OLS es
+<li>¿Por qué el valor <span class="math inline">\(p\)</span> de OLS es
 diferente? ¿Qué supuestos utilizamos para calcularlo?</li>
 </ul>
 </section>
@@ -1113,7 +1113,7 @@ id="probando-las-hipótesis-nulas-débiles-de-que-no-hay-efectos-promedio-1"
 class="slide level2">
 <h2>Probando las hipótesis nulas débiles de que no hay efectos
 promedio</h2>
-<p>Tanto la variación como la locación de <span
+<p>Tanto la variación como la ubicación de <span
 class="math inline">\(Y\)</span> cambia con el tratamiento en esta
 simulación.</p>
 
@@ -1168,7 +1168,7 @@ verdadera.</p></li>
 <li><p>¿Cómo deberíamos interpretar <span
 class="math inline">\(p\)</span>=0.78? ¿Cómo deberíamos interpretar
 <span class="math inline">\(p\)</span>=0.32 (nuestras pruebas de la
-hipótesis nula aguda)?</p></li>
+hipótesis nula tajante)?</p></li>
 <li><p>¿Qué significa “rechazar” <span class="math inline">\(H_0:
 y_{i,1}=y_{i,2}\)</span> at <span
 class="math inline">\(\alpha=.05\)</span>?</p></li>
@@ -1180,9 +1180,9 @@ class="slide level2 allowframebreaks">
 hipótesis</h2>
 
 <div class="figure">
-<img src="figs/fignormp-1.png" alt="Valor p de una prueba estadística Normalmente distribuida." width=".5\textwidth"  />
+<img src="figs/fignormp-1.png" alt="Valor p de una prueba estadística con una distribución normal." width=".5\textwidth"  />
 <p class="caption">
-Valor p de una prueba estadística Normalmente distribuida.
+Valor p de una prueba estadística con una distribución normal.
 </p>
 </div>
 <p>Nótese que:</p>
@@ -1224,11 +1224,11 @@ por el ruido).</p></li>
 class="slide level2">
 <h2>Una sola prueba de una sola hipótesis</h2>
 <ul>
-<li><p>Una única prueba de una única hipótesis debería fomentar los
-errores de falsos positivos en contadas ocasiones (por ejemplo, si
-establecemos <span class="math inline">\(\alpha=.05\)</span>), entonces
-estamos diciendo que nos sentimos cómodos con que nuestro procedimiento
-de prueba cometa errores de falsos positivos en <strong>no más del 5% de
+<li><p>Una prueba de una unica hipótesis debería fomentar los errores de
+falsos positivos en contadas ocasiones (por ejemplo, si establecemos
+<span class="math inline">\(\alpha=.05\)</span>), entonces estamos
+diciendo que nos sentimos cómodos con que nuestro procedimiento de
+prueba cometa errores de falsos positivos en <strong>no más del 5% de
 las pruebas de una asignación de tratamiento dada en un experimento
 determinado</strong>.</p></li>
 <li><p>Además, una <strong>prueba única de una sola hipótesis</strong>
@@ -1241,7 +1241,7 @@ bajas tasas de error de falso negativo).</p></li>
 <section id="las-decisiones-implican-errores" class="slide level2">
 <h2>Las decisiones implican errores</h2>
 <ul>
-<li><p>Si los errores son necesarios, ¿cómo podemos diagnosticarlos?
+<li><p>Si los errores son inevitables, ¿cómo podemos diagnosticarlos?
 ¿Cómo podemos saber si nuestro proceso de comprobación de hipótesis
 puede generar demasiados errores de falsos positivos?</p></li>
 <li><p>¡Diagnosticar usando simulación!</p></li>
@@ -1506,7 +1506,7 @@ class="slide level2">
 <ul>
 <li><p>¿Difiere el efecto de un tratamiento experimental entre los
 distintos grupos? ¿Podrían surgir diferencias en el efecto del
-tratamiento debido a algunas características de fondo de los sujetos
+tratamiento debido a algunas característicasde los sujetos
 experimentales?</p></li>
 <li><p>¿Qué estrategias de comunicación fueron más eficaces en una única
 variable de resultado?</p></li>
@@ -1547,7 +1547,7 @@ role="doc-biblioref">Benjamini and Hochberg 1995</a> ’s Table 1)</span>.
 Las celdas son el número de pruebas. <span
 class="math inline">\(R\)</span> es # de “descubrimientos” y <span
 class="math inline">\(V\)</span> es # de falsos descubrimientos, <span
-class="math inline">\(U\)</span> es # de no-rechazos correctos, y <span
+class="math inline">\(U\)</span> es # de no rechazos correctos, y <span
 class="math inline">\(S\)</span> es # de rechazos correctos.</p>
 <table>
 <colgroup>
@@ -1636,7 +1636,7 @@ resultado?</p></li>
 <li><p>¿En qué variables de resultado (de entre muchas) tuvo efecto el
 tratamiento?</p></li>
 <li><p>La segunda pregunta, en particular, puede conducir al tipo de
-problemas de tasa de error familiar no controlada a los que nos
+problemas de tasa de error familiar relacionadas entre sí a los que nos
 referimos anteriormente.</p></li>
 </ul>
 </section>
@@ -1782,8 +1782,8 @@ positivos.</p></li>
 </section>
 <section id="la-corrección-de-holm" class="slide level2">
 <h2>La corrección de Holm</h2>
-<p>Así es como se usa la corrección de Holm (Note que le sucede a los
-valores <span class="math inline">\(p\)</span>):</p>
+<p>Así es como se usa la corrección de Holm (Note lo que le sucede a los
+a los valores <span class="math inline">\(p\)</span>):</p>
 <div class="sourceCode" id="cb47"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a>theps</span></code></pre></div>
 <pre><code>  p1   p2   p3   p4   p5 
 0.88 0.59 0.43 0.30 0.27 </code></pre>
@@ -1905,9 +1905,9 @@ moderadores/términos de interacción).</p></li>
 <li><p>Los procedimientos para realizar pruebas de hipótesis e
 intervalos de confianza pueden implicar errores. La práctica ordinaria
 controla las tasas de error en una sola prueba (o en un solo intervalo
-de confianza). Pero las pruebas múltiples requieren un trabajo adicional
+de confianza). Pero las pruebas múltiples requieren trabajo adicional
 para garantizar que las tasas de error estén controladas.</p></li>
-<li><p>La pérdida de poder derivada de los enfoques de ajuste nos anima
+<li><p>La pérdida de poder derivada de los enfoques de ajuste nos obliga
 a considerar qué <em>preguntas queremos hacer a los datos</em>. Por
 ejemplo, si queremos saber si el tratamiento tuvo <em>algún efecto</em>,
 una prueba conjunta o una prueba ómnibus con múltiples variables de
