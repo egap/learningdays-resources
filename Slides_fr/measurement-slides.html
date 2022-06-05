@@ -1,0 +1,1213 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="generator" content="pandoc">
+  <meta name="author" content="Mettre votre nom" />
+  <title>La mesure</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <link rel="stylesheet" href="measurement-slides_files/reveal.js-3.3.0.1/css/reveal.css"/>
+
+
+
+<link rel="stylesheet" href="measurement-slides_files/reveal.js-3.3.0.1/css/theme/simple.css" id="theme">
+
+
+  <!-- some tweaks to reveal css -->
+  <style type="text/css">
+    .reveal h1 { font-size: 2.0em; }
+    .reveal h2 { font-size: 1.5em;  }
+    .reveal h3 { font-size: 1.25em;	}
+    .reveal h4 { font-size: 1em;	}
+
+    .reveal .slides>section,
+    .reveal .slides>section>section {
+      padding: 0px 0px;
+    }
+
+
+
+    .reveal table {
+      border-width: 1px;
+      border-spacing: 2px;
+      border-style: dotted;
+      border-color: gray;
+      border-collapse: collapse;
+      font-size: 0.7em;
+    }
+
+    .reveal table th {
+      border-width: 1px;
+      padding-left: 10px;
+      padding-right: 25px;
+      font-weight: bold;
+      border-style: dotted;
+      border-color: gray;
+    }
+
+    .reveal table td {
+      border-width: 1px;
+      padding-left: 10px;
+      padding-right: 25px;
+      border-style: dotted;
+      border-color: gray;
+    }
+
+
+  </style>
+
+    <style type="text/css">code{white-space: pre;}</style>
+
+
+<!-- Printing and PDF exports -->
+<script id="paper-css" type="application/dynamic-css">
+
+/* Default Print Stylesheet Template
+   by Rob Glazebrook of CSSnewbie.com
+   Last Updated: June 4, 2008
+
+   Feel free (nay, compelled) to edit, append, and
+   manipulate this file as you see fit. */
+
+
+@media print {
+
+	/* SECTION 1: Set default width, margin, float, and
+	   background. This prevents elements from extending
+	   beyond the edge of the printed page, and prevents
+	   unnecessary background images from printing */
+	html {
+		background: #fff;
+		width: auto;
+		height: auto;
+		overflow: visible;
+	}
+	body {
+		background: #fff;
+		font-size: 20pt;
+		width: auto;
+		height: auto;
+		border: 0;
+		margin: 0 5%;
+		padding: 0;
+		overflow: visible;
+		float: none !important;
+	}
+
+	/* SECTION 2: Remove any elements not needed in print.
+	   This would include navigation, ads, sidebars, etc. */
+	.nestedarrow,
+	.controls,
+	.fork-reveal,
+	.share-reveal,
+	.state-background,
+	.reveal .progress,
+	.reveal .backgrounds {
+		display: none !important;
+	}
+
+	/* SECTION 3: Set body font face, size, and color.
+	   Consider using a serif font for readability. */
+	body, p, td, li, div {
+		font-size: 20pt!important;
+		font-family: Georgia, "Times New Roman", Times, serif !important;
+		color: #000;
+	}
+
+	/* SECTION 4: Set heading font face, sizes, and color.
+	   Differentiate your headings from your body text.
+	   Perhaps use a large sans-serif for distinction. */
+	h1,h2,h3,h4,h5,h6 {
+		color: #000!important;
+		height: auto;
+		line-height: normal;
+		font-family: Georgia, "Times New Roman", Times, serif !important;
+		text-shadow: 0 0 0 #000 !important;
+		text-align: left;
+		letter-spacing: normal;
+	}
+	/* Need to reduce the size of the fonts for printing */
+	h1 { font-size: 28pt !important;  }
+	h2 { font-size: 24pt !important; }
+	h3 { font-size: 22pt !important; }
+	h4 { font-size: 22pt !important; font-variant: small-caps; }
+	h5 { font-size: 21pt !important; }
+	h6 { font-size: 20pt !important; font-style: italic; }
+
+	/* SECTION 5: Make hyperlinks more usable.
+	   Ensure links are underlined, and consider appending
+	   the URL to the end of the link for usability. */
+	a:link,
+	a:visited {
+		color: #000 !important;
+		font-weight: bold;
+		text-decoration: underline;
+	}
+	/*
+	.reveal a:link:after,
+	.reveal a:visited:after {
+		content: " (" attr(href) ") ";
+		color: #222 !important;
+		font-size: 90%;
+	}
+	*/
+
+
+	/* SECTION 6: more reveal.js specific additions by @skypanther */
+	ul, ol, div, p {
+		visibility: visible;
+		position: static;
+		width: auto;
+		height: auto;
+		display: block;
+		overflow: visible;
+		margin: 0;
+		text-align: left !important;
+	}
+	.reveal pre,
+	.reveal table {
+		margin-left: 0;
+		margin-right: 0;
+	}
+	.reveal pre code {
+		padding: 20px;
+		border: 1px solid #ddd;
+	}
+	.reveal blockquote {
+		margin: 20px 0;
+	}
+	.reveal .slides {
+		position: static !important;
+		width: auto !important;
+		height: auto !important;
+
+		left: 0 !important;
+		top: 0 !important;
+		margin-left: 0 !important;
+		margin-top: 0 !important;
+		padding: 0 !important;
+		zoom: 1 !important;
+
+		overflow: visible !important;
+		display: block !important;
+
+		text-align: left !important;
+		-webkit-perspective: none;
+		   -moz-perspective: none;
+		    -ms-perspective: none;
+		        perspective: none;
+
+		-webkit-perspective-origin: 50% 50%;
+		   -moz-perspective-origin: 50% 50%;
+		    -ms-perspective-origin: 50% 50%;
+		        perspective-origin: 50% 50%;
+	}
+	.reveal .slides section {
+		visibility: visible !important;
+		position: static !important;
+		width: auto !important;
+		height: auto !important;
+		display: block !important;
+		overflow: visible !important;
+
+		left: 0 !important;
+		top: 0 !important;
+		margin-left: 0 !important;
+		margin-top: 0 !important;
+		padding: 60px 20px !important;
+		z-index: auto !important;
+
+		opacity: 1 !important;
+
+		page-break-after: always !important;
+
+		-webkit-transform-style: flat !important;
+		   -moz-transform-style: flat !important;
+		    -ms-transform-style: flat !important;
+		        transform-style: flat !important;
+
+		-webkit-transform: none !important;
+		   -moz-transform: none !important;
+		    -ms-transform: none !important;
+		        transform: none !important;
+
+		-webkit-transition: none !important;
+		   -moz-transition: none !important;
+		    -ms-transition: none !important;
+		        transition: none !important;
+	}
+	.reveal .slides section.stack {
+		padding: 0 !important;
+	}
+	.reveal section:last-of-type {
+		page-break-after: avoid !important;
+	}
+	.reveal section .fragment {
+		opacity: 1 !important;
+		visibility: visible !important;
+
+		-webkit-transform: none !important;
+		   -moz-transform: none !important;
+		    -ms-transform: none !important;
+		        transform: none !important;
+	}
+	.reveal section img {
+		display: block;
+		margin: 15px 0px;
+		background: rgba(255,255,255,1);
+		border: 1px solid #666;
+		box-shadow: none;
+	}
+
+	.reveal section small {
+		font-size: 0.8em;
+	}
+
+}  
+</script>
+
+
+<script id="pdf-css" type="application/dynamic-css">
+    
+/**
+ * This stylesheet is used to print reveal.js
+ * presentations to PDF.
+ *
+ * https://github.com/hakimel/reveal.js#pdf-export
+ */
+
+* {
+	-webkit-print-color-adjust: exact;
+}
+
+body {
+	margin: 0 auto !important;
+	border: 0;
+	padding: 0;
+	float: none !important;
+	overflow: visible;
+}
+
+html {
+	width: 100%;
+	height: 100%;
+	overflow: visible;
+}
+
+/* Remove any elements not needed in print. */
+.nestedarrow,
+.reveal .controls,
+.reveal .progress,
+.reveal .playback,
+.reveal.overview,
+.fork-reveal,
+.share-reveal,
+.state-background {
+	display: none !important;
+}
+
+h1, h2, h3, h4, h5, h6 {
+	text-shadow: 0 0 0 #000 !important;
+}
+
+.reveal pre code {
+	overflow: hidden !important;
+	font-family: Courier, 'Courier New', monospace !important;
+}
+
+ul, ol, div, p {
+	visibility: visible;
+	position: static;
+	width: auto;
+	height: auto;
+	display: block;
+	overflow: visible;
+	margin: auto;
+}
+.reveal {
+	width: auto !important;
+	height: auto !important;
+	overflow: hidden !important;
+}
+.reveal .slides {
+	position: static;
+	width: 100%;
+	height: auto;
+
+	left: auto;
+	top: auto;
+	margin: 0 !important;
+	padding: 0 !important;
+
+	overflow: visible;
+	display: block;
+
+	-webkit-perspective: none;
+	   -moz-perspective: none;
+	    -ms-perspective: none;
+	        perspective: none;
+
+	-webkit-perspective-origin: 50% 50%; /* there isn't a none/auto value but 50-50 is the default */
+	   -moz-perspective-origin: 50% 50%;
+	    -ms-perspective-origin: 50% 50%;
+	        perspective-origin: 50% 50%;
+}
+
+.reveal .slides section {
+	page-break-after: always !important;
+
+	visibility: visible !important;
+	position: relative !important;
+	display: block !important;
+	position: relative !important;
+
+	margin: 0 !important;
+	padding: 0 !important;
+	box-sizing: border-box !important;
+	min-height: 1px;
+
+	opacity: 1 !important;
+
+	-webkit-transform-style: flat !important;
+	   -moz-transform-style: flat !important;
+	    -ms-transform-style: flat !important;
+	        transform-style: flat !important;
+
+	-webkit-transform: none !important;
+	   -moz-transform: none !important;
+	    -ms-transform: none !important;
+	        transform: none !important;
+}
+
+.reveal section.stack {
+	margin: 0 !important;
+	padding: 0 !important;
+	page-break-after: avoid !important;
+	height: auto !important;
+	min-height: auto !important;
+}
+
+.reveal img {
+	box-shadow: none;
+}
+
+.reveal .roll {
+	overflow: visible;
+	line-height: 1em;
+}
+
+/* Slide backgrounds are placed inside of their slide when exporting to PDF */
+.reveal section .slide-background {
+	display: block !important;
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	z-index: -1;
+}
+
+/* All elements should be above the slide-background */
+.reveal section>* {
+	position: relative;
+	z-index: 1;
+}
+
+/* Display slide speaker notes when 'showNotes' is enabled */
+.reveal .speaker-notes-pdf {
+	display: block;
+	width: 100%;
+	max-height: none;
+	left: auto;
+	top: auto;
+	z-index: 100;
+}
+
+/* Display slide numbers when 'slideNumber' is enabled */
+.reveal .slide-number-pdf {
+	display: block;
+	position: absolute;
+	font-size: 14px;
+}
+
+</script>
+
+
+<script>
+var style = document.createElement( 'style' );
+style.type = 'text/css';
+var style_script_id = window.location.search.match( /print-pdf/gi ) ? 'pdf-css' : 'paper-css';
+var style_script = document.getElementById(style_script_id).text;
+style.innerHTML = style_script;
+document.getElementsByTagName('head')[0].appendChild(style);
+</script>
+
+    <script src="measurement-slides_files/header-attrs-2.10/header-attrs.js"></script>
+    <link href="measurement-slides_files/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
+    <link href="measurement-slides_files/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+<section>
+    <h1 class="title">La mesure</h1>
+    <h2 class="author">Mettre votre nom</h2>
+    <h3 class="date">02-03-2022</h3>
+</section>
+
+<section>
+<section id="un-élément-clé-de-votre-conception-de-recherche"
+class="title-slide slide level1">
+<h1>Un élément clé de votre conception de recherche</h1>
+
+</section>
+<section id="la-mesure" class="slide level2">
+<h2>La mesure</h2>
+<ul>
+<li><p>La mesure est une partie essentielle de votre conception de
+recherche.</p></li>
+<li><p>La mesure découle de votre théorie, de la façon dont vous pensez
+que le monde fonctionne et dont vous pensez que votre traitement
+manipule ce monde. Autrement dit, la mesure est un exercice théorique
+autant que technique et logistique.</p></li>
+<li><p>Lorsque nous enregistrons un nombre, un mot ou une lettre dans un
+ensemble de données pour <strong>représenter</strong> quelque chose de
+plus ou moins abstrait dans le monde (comme “la stabilité financière”,
+“la faim” ou “la capacité mathématique”), nous
+<strong>mesurons</strong>.</p></li>
+</ul>
+</section>
+<section id="une-mauvaise-mesure-est-problématique"
+class="slide level2">
+<h2>Une mauvaise mesure est problématique</h2>
+<ul>
+<li><p>Des problèmes de mesure peuvent vous amener à tirer des
+inférences (causales) incorrectes de votre étude (erreur
+systématique).</p></li>
+<li><p>Un bruit de mesure réduit la puissance statistique (erreur
+aléatoire).</p></li>
+</ul>
+</section>
+<section id="collecte-de-données" class="slide level2">
+<h2>Collecte de données</h2>
+<ul>
+<li><p>La collecte de données prend souvent une très grande partie du
+temps et des ressources financières disponibles dans le budget du
+projet.</p></li>
+<li><p>De nouvelles données peuvent être un résultat de recherche utile
+en soi et une base importante pour la recherche future. Les données sont
+un bien public !</p></li>
+</ul>
+</section></section>
+<section>
+<section id="concepts-et-mesures" class="title-slide slide level1">
+<h1>Concepts et mesures</h1>
+
+</section>
+<section id="du-concept-aux-donnéesscores-i" class="slide level2">
+<h2>Du concept aux données/scores I</h2>
+<p><embed data-src="../Images/adcock_collier_2001_fig.pdf" id="id"
+class="class" style="width:75.0%;height:75.0%" /></p>
+</section>
+<section id="du-concept-aux-donnéesscores-ii" class="slide level2">
+<h2>Du concept aux données/scores II</h2>
+<ul>
+<li><p>Quel exemple d’un concept, comme un résultat, aimeriez-vous
+changer avec un traitement expérimental ?</p></li>
+<li><p>Comment sauriez-vous qu’une unité (comme une personne ou un
+village) affiche une “capacité” ou un “rang” élevé ou faible pour ce
+concept ? (i.e. plus affamé ou moins favorable à la violence)</p></li>
+<li><p>Que pourriez-vous observer qui vous ferait sentir plus ou moins
+confiant que cette personne était plus affamée ou moins favorable à la
+violence que cette autre personne ?</p></li>
+<li><p>À quelles critiques pourriez-vous faire face si vous disiez : “Je
+pense que cette unité diffère de cette autre unité au regard de mon
+résultat conceptuel” ?</p></li>
+</ul>
+</section>
+<section id="validité-de-la-mesure" class="slide level2">
+<h2>Validité de la mesure</h2>
+<ul>
+<li><p>On parle ici de “<strong>validité</strong> de la
+mesure”.</p></li>
+<li><p>Une mesure valide est une mesure pour laquelle nous pouvons
+argumenter de manière convaincante qu’elle représente ce que nous disons
+qu’elle représente, et qu’elle ne représente pas d’autres aspects de
+l’unité. (voir <span class="citation"
+data-cites="shadish2002experimental">Shadish et al. (<a
+href="#/ref-shadish2002experimental"
+role="doc-biblioref">2002</a>)</span> pour en savoir plus sur la
+validité et la fiabilité de la mesure).</p></li>
+</ul>
+</section>
+<section id="question-i" class="slide level2">
+<h2>Question I</h2>
+<ul>
+<li><p><em>“Un bateau qui peut faire quarante milles à l’heure en eau
+calme fait un voyage de cent milles le long d’un certain cours d’eau. Si
+ce voyage dure deux heures, combien de temps le retour prendra-t-il ?”
+(à partir de la SAT de 1926 aux USA)</em></p></li>
+<li><p>Est-ce que cela mesure la “capacité mathématique” ? la “capacité
+verbale” ? ou la connaissance en navigation ?</p></li>
+</ul>
+</section>
+<section id="question-ii" class="slide level2">
+<h2>Question II</h2>
+<p>Choisissez la paire de mots qui ressemble le plus à la paire du
+haut :</p>
+<p><em>Coureur : Marathon</em></p>
+<ol type="a">
+<li><p>envoyé : ambassade</p></li>
+<li><p>martyr : massacre</p></li>
+<li><p>rameur : régate</p></li>
+<li><p>cheval : écurie</p></li>
+</ol>
+<p>La bonne réponse est : (c) rameur : régate. (à partir des années 1980
+SAT aux USA)</p>
+<ul>
+<li>Est-ce que cela mesure la connaissance des sports universitaires ?
+Ou la “capacité verbale” ?</li>
+</ul>
+</section></section>
+<section>
+<section id="que-mesurer" class="title-slide slide level1">
+<h1>Que mesurer</h1>
+
+</section>
+<section id="vous-devez-tout-mesurer" class="slide level2">
+<h2>Vous devez tout mesurer</h2>
+<ul>
+<li><p>Résultat pour toutes les unités de votre étude (pour chaque série
+avec les données manquantes).</p></li>
+<li><p>Traitement (assignation et conformité).</p></li>
+<li><p>Des indications que votre traitement est reçu et interprété comme
+vous l’attendez (contrôle de manipulation).</p></li>
+<li><p>Indications des dommages possibles causés par votre
+recherche.</p></li>
+<li><p>Covariables, y compris le contexte qui pourrait (a) affecter le
+fonctionnement de votre intervention ou (b) influencer la variabilité de
+votre résultat.</p></li>
+</ul>
+</section>
+<section
+id="les-indicateurs-doivent-être-connectés-aux-théories-et-aux-mécanismes"
+class="slide level2">
+<h2>Les indicateurs doivent être connectés aux théories et aux
+mécanismes</h2>
+<ul>
+<li><p>Nous avons souvent plusieurs théories sur <em>comment</em> une
+intervention peut affecter un résultat (mécanismes différents).</p></li>
+<li><p>Mesurer des indicateurs qui sont <em>uniques</em> à chaque
+mécanisme et qui peuvent aider à les <em>différencier</em>.</p></li>
+<li><p>Ces indicateurs peuvent inclure des résultats intermédiaires qui
+sont réalisés <em>avant</em> le résultat final.</p></li>
+<li><p>Ils peuvent inclure des résultats secondaires tels que</p>
+<ul>
+<li><p>les résultats pour lesquels nous attendons des effets uniquement
+selon certaines théories.</p></li>
+<li><p>les résultats placebo pour lesquels nous n’attendons aucun
+effet.</p></li>
+</ul></li>
+</ul>
+</section>
+<section id="indicateurs" class="slide level2">
+<h2>Indicateurs</h2>
+<ul>
+<li><p>Le cas idéal est la mesure directe du concept ou du phénomène
+d’intérêt sans erreur (rarement possible).</p>
+<ul>
+<li>Une assignation de traitement sous votre contrôle est l’exception.
+Il est crucial de l’enregistrer.</li>
+</ul></li>
+<li><p>Nous ne pouvons souvent mesurer que des
+<strong>indicateurs</strong> liés mais pas entièrement déterminants pour
+le concept sous-jacent ou le phénomène d’intérêt.</p>
+<ul>
+<li><p>Des réponses correctes à des problèmes spécifiques (indicateurs)
+pour l’aptitude mathématique sous-jacente (le phénomène réel).</p></li>
+<li><p>Nombre de jours sans nourriture (indicateurs) pour la faim (le
+phénomène réel).</p></li>
+</ul></li>
+</ul>
+</section>
+<section id="sélectionnez-des-indicateurs-valides" class="slide level2">
+<h2>Sélectionnez des indicateurs valides</h2>
+<ul>
+<li><p>Des personnes raisonnables peuvent être en désaccord sur la
+conceptualisation. Qu’entendons-nous vraiment par “aptitude
+mathématique” ou “faim” ? Qu’est-ce que nos scores pourraient dire
+d’autre sur les gens, villages, etc. en plus de ce que nous espérons
+représenter ?</p></li>
+<li><p>Sélectionnez des indicateurs étroitement liés à ce que nous
+<strong>entendons</strong> lorsque nous parlons du phénomène
+d’intérêt.</p></li>
+<li><p>Sélectionnez des indicateurs <strong>valides</strong>, i.e. la
+connaissance mathématique ne devrait pas également mesurer la
+connaissance en navigation.</p></li>
+</ul>
+</section>
+<section id="sélectionnez-des-indicateurs-fiables" class="slide level2">
+<h2>Sélectionnez des indicateurs fiables</h2>
+<ul>
+<li><p>Sélectionnez des indicateurs <strong>fiables</strong>.</p></li>
+<li><p>Exemple : Un mètre doit toujours mesurer un mètre quelle que soit
+la température. Un mètre en caoutchouc peut produire des mesures
+<strong>peu fiables</strong> du concept abstrait de longueur, surtout
+s’il est utilisé par un enfant de 5 ans. Un laser peut produire des
+mesures plus fiables qu’un mètre en bois entre les mains d’un
+utilisateur qualifié pour mètre en bois.</p></li>
+</ul>
+</section>
+<section id="mesures-multiples" class="slide level2">
+<h2>Mesures multiples</h2>
+<ul>
+<li><p>Si vous avez <em>plusieurs indicateurs pour le même
+phénomène</em>, vous devrez déterminer comment agréger ces
+indicateurs.</p>
+<ul>
+<li>La moyenne n’aura pas toujours de sens. Avez-vous des exemples de
+cela?</li>
+</ul></li>
+<li><p>Avoir plusieurs indicateurs peut souvent améliorer la
+<strong>fiabilité</strong> de la mesure et peut-être renforcer les
+arguments en faveur de sa <strong>validité</strong>.</p></li>
+<li><p>La combinaison d’un bâton en bois et d’un laser pourrait être
+idéale pour nous convaincre que nous avons mesuré la longueur d’une
+manière que nous comprenons comme <strong>longueur</strong> (plutôt que,
+disons, une température) <em>et</em> que le score particulier ne dépend
+pas de manière cruciale du contexte de la mesure.</p></li>
+</ul>
+</section></section>
+<section>
+<section id="comment-mesurer" class="title-slide slide level1">
+<h1>Comment mesurer</h1>
+
+</section>
+<section id="outils-de-mesure-et-sources-de-données"
+class="slide level2">
+<h2>Outils de mesure et sources de données</h2>
+<ul>
+<li><p>Après avoir déterminé quel concept mesurer et comment nous
+pourrions le reconnaître lorsque nous le voyons, nous devons déterminer
+<strong>comment</strong> le mesurer.</p></li>
+<li><p>Nous disposons de divers outils et sources :</p>
+<ul>
+<li><p>Mesures de sondage</p></li>
+<li><p>Mesures comportementales</p></li>
+<li><p>Données administratives (fiches fiscales, résultats des
+élections, etc.)</p></li>
+<li><p>Images, télédétection</p></li>
+<li><p>Texte (transcriptions de discours, journaux, etc.)</p></li>
+<li><p>Capteurs électroniques, téléphones, autres appareils (appareils
+ménagers)</p></li>
+<li><p>Autres</p></li>
+</ul></li>
+</ul>
+</section>
+<section id="considérations-dans-le-choix-des-outils-et-des-sources"
+class="slide level2">
+<h2>Considérations dans le choix des outils et des sources</h2>
+<p>Différents outils impliquent différents compromis :</p>
+<ul>
+<li><p>Validité : le score capture-t-il le concept et uniquement le
+concept ?</p></li>
+<li><p>Fiabilité : une procédure de notation utilisée deux fois
+donnerait-elle la même réponse ?</p></li>
+<li><p>Biais (erreur systématique)</p></li>
+<li><p>Précision (erreur aléatoire)</p></li>
+<li><p>Échantillon pour lequel vous pouvez faire des mesures</p></li>
+<li><p>Timing des mesures</p></li>
+<li><p>Coût</p></li>
+</ul>
+</section>
+<section id="maintenir-la-symétrie-entre-les-bras-de-traitement"
+class="slide level2">
+<h2>Maintenir la symétrie entre les bras de traitement</h2>
+<ul>
+<li><p>Vous devez maintenir la symétrie entre les groupes de traitement
+et de contrôle pendant que vous mesurez.</p>
+<ul>
+<li><p>Le nombre de fois et pendant combien de temps vous interagissez
+avec les participants doit être le même dans tous les bras de
+traitement.</p></li>
+<li><p>Les questions doivent être les mêmes.</p></li>
+<li><p>Soyez particulièrement vigilant sur les points précédents pour
+les indicateurs utilisés lors des contrôles de manipulation.</p></li>
+</ul></li>
+<li><p><strong>La mesure ne devrait pas être l’intervention
+expérimentale.</strong> Nous voulons que la seule différence entre les
+bras de traitement soit l’intervention, pas la mesure.</p></li>
+</ul>
+</section></section>
+<section>
+<section id="lerreur-de-mesure-et-ses-conséquences"
+class="title-slide slide level1">
+<h1>L’erreur de mesure et ses conséquences</h1>
+
+</section>
+<section id="erreur-de-mesure-i" class="slide level2">
+<h2>Erreur de mesure I</h2>
+<ul>
+<li><p>Nous voulons éviter/minimiser deux types d’erreur de mesure :</p>
+<ul>
+<li><p>Erreur systématique (biais)</p></li>
+<li><p>Erreur aléatoire (manque de précision)</p></li>
+</ul></li>
+</ul>
+</section>
+<section id="erreur-de-mesure-ii" class="slide level2">
+<h2>Erreur de mesure II</h2>
+<p><img data-src="../Images/bullseye.png" id="id1" class="class"
+style="width:60.0%;height:60.0%" alt="Biais et précision" /></p>
+<p><a
+href="https://www.researchgate.net/figure/Bullseye-charts-representing-precision-and-bias-of-a-measurement-instrument-The-center-of_fig1_326134610">(Source :
+Précision et biais de mesure)</a></p>
+</section>
+<section id="exemples-derreurs-de-mesure" class="slide level2">
+<h2>Exemples d’erreurs de mesure</h2>
+<ul>
+<li><p>Erreur systématique</p>
+<ul>
+<li>Une balance mal calibrée, donc tout le monde semble peser 2 kg de
+moins qu’ils ne le sont en réalité</li>
+<li>Un rapport alimentaire personnel journalier qui sous-évalue
+systématiquement les collations</li>
+<li>Effet de demande</li>
+<li>Effet Hawthorne</li>
+</ul></li>
+<li><p>Erreur aléatoire</p>
+<ul>
+<li>Une main tremblante en mesurant une distance</li>
+</ul></li>
+<li><p>Notez que ce sont des exemples de mesure <strong>peu
+fiable</strong>. Elles peuvent également être
+<strong>invalides</strong>, mais ce n’est pas obligatoire.</p></li>
+</ul>
+</section>
+<section id="conséquences-dune-mauvaise-mesure-du-traitement"
+class="slide level2">
+<h2>Conséquences d’une mauvaise mesure du traitement</h2>
+<ul>
+<li><p>En plus de générer une description incorrecte du niveau de
+certains phénomènes, l’erreur de mesure peut affecter nos inférences
+causales.</p></li>
+<li><p>Si la variable de traitement est binaire (une unité peut être en
+traitement ou en contrôle seulement), alors l’erreur de mesure est
+négativement corrélée avec la vraie variable. (Un 1 est mal codé comme
+0, donc l’erreur est -1 ; un 0 est mal codé comme 1, donc l’erreur est
+1.)</p></li>
+<li><p>Si vous utilisez la méthode des moindres carrés pour calculer les
+estimateurs d’effet moyen du traitement, ce type d’erreur conduit à des
+estimations plus petites de l’effet causal (coefficient sur la variable
+de traitement).</p></li>
+</ul>
+</section>
+<section id="conséquences-dune-erreur-de-mesure-aléatoire"
+class="slide level2">
+<h2>Conséquences d’une erreur de mesure aléatoire</h2>
+<ul>
+<li><p>Avec la méthode des moindres carrés ordinaires, une erreur
+aléatoire plus importante dans le résultat conduit à des estimations
+moins précises de l’effet causal (coefficient sur la variable de
+traitement).</p></li>
+<li><p>La réduction de l’erreur de mesure aléatoire dans le résultat
+peut augmenter la puissance statistique (car le résultat a moins de
+bruit non lié au traitement).</p></li>
+</ul>
+</section>
+<section id="conséquences-de-lerreur-de-mesure-systématique-i"
+class="slide level2">
+<h2>Conséquences de l’erreur de mesure systématique I</h2>
+<ul>
+<li><p>Si toutes les mesures sont décalées du même montant, comme -2kg
+pour tout le monde :</p>
+<ul>
+<li>cela ne fait aucune différence lorsque les effets du traitement sont
+définis comme des différences de résultats potentiels,</li>
+</ul>
+<p><span class="math inline">\(\tau_i = Y_i(1)-Y_i(0)\)</span>, <span
+class="math inline">\(\tilde{\tau_i} = (Y_i(1)-2)-(Y_i(0)-2)\)</span>,
+donc <span class="math inline">\(\tau_i = \tilde{\tau_i}\)</span></p>
+<ul>
+<li>mais cela est problématique si l’effet du traitement est défini
+comme le rapport des résultats potentiels (<span
+class="math inline">\(Y_i(1) &gt; 0\)</span> et <span
+class="math inline">\(Y_i(0) &gt; 0\)</span>).</li>
+</ul>
+<p><span class="math inline">\(\tau_i = Y_i(1)/Y_i(0)\)</span>, <span
+class="math inline">\(\tilde{\tau_i} = (Y_i(1)-2)/(Y_i(0)-2)\)</span>,
+donc <span class="math inline">\(\tau_i \neq \tilde{\tau_i}\)</span>
+sauf quand <span class="math inline">\(Y_i(1)=Y_i( 0)\)</span>.</p></li>
+<li><p>La distance entre <span
+class="math inline">\(\tilde{\tau_i}\)</span> et <span
+class="math inline">\(\tau_i\)</span> dépend de la taille de 2
+(l’erreur) par rapport aux valeurs réelles <span
+class="math inline">\(Y_i(0), Y_i(1)\)</span>.</p></li>
+<li><p>Remarque : les coefficients de régression logistique sont des
+ratios de résultats potentiels.</p></li>
+</ul>
+</section>
+<section id="conséquences-de-lerreur-de-mesure-systématique-ii"
+class="slide level2">
+<h2>Conséquences de l’erreur de mesure systématique II</h2>
+<ul>
+<li><p>L’erreur de mesure peut être corrélée à la vraie valeur de <span
+class="math inline">\(Y\)</span>.</p></li>
+<li><p>Par exemple, les personnes qui se livrent à un comportement
+désapprouvé, embarrassant ou illégal peuvent sous-déclarer ce
+comportement, tandis que celles qui ne le font pas le rapportent
+correctment. (Ceci est connu sous le nom de biais de désirabilité
+sociale.)</p>
+<ul>
+<li>Cette sous-déclaration peut aussi se produire avec les victimes de
+ce type de comportement, qui se blâment ou craignent des sanctions de
+ceux qui préfèrent ne pas savoir (par exemple, les victimes de violence
+entre partenaires intimes).</li>
+</ul></li>
+<li><p>Cela rend plus difficile la détection d’un effet d’une
+intervention visant à réduire ce comportement.</p></li>
+</ul>
+</section>
+<section id="conséquences-de-lerreur-systématique-de-mesure-iii"
+class="slide level2">
+<h2>Conséquences de l’erreur systématique de mesure III</h2>
+<ul>
+<li><p>Une autre forme de biais de désirabilité sociale peut également
+conduire à corréler l’erreur de mesure avec le traitement.</p></li>
+<li><p>Par exemple, votre intervention pourrait viser à réduire les
+attitudes hostiles envers les membres d’autres groupes sociaux. Si les
+participants peuvent comprendre les objectifs de votre étude, ils
+peuvent (inconsciemment) essayer de plaire au chercheur en lui disant ce
+qu’il veut entendre. Les personnes du groupe de traitement peuvent
+sous-estimer leur hostilité envers les autres groupes par rapport au
+groupe témoin.</p></li>
+<li><p>Cela rend difficile de savoir si la différence dans les résultats
+observés entre les groupes de traitement et de contrôle est due à
+l’intervention réduisant réellement l’hostilité ou à la connaissance du
+traitement modifiant le signalement de l’hostilité.</p></li>
+</ul>
+</section></section>
+<section>
+<section id="limiter-lerreur-de-mesure"
+class="title-slide slide level1">
+<h1>Limiter l’erreur de mesure</h1>
+
+</section>
+<section id="quelques-options-pour-limiter-les-erreurs-de-mesure"
+class="slide level2">
+<h2>Quelques options pour limiter les erreurs de mesure</h2>
+<ul>
+<li><p>L’auto-déclaration par un sujet (pour une enquête) est plus
+problématique que l’observation discrète du sujet (“dans la nature”) par
+quelqu’un d’autre.</p></li>
+<li><p>Les mesures comportementales sont moins sujettes aux biais de
+désirabilité sociale.</p></li>
+<li><p>Les dossiers administratifs pour lesquels les fausses
+déclarations entraînent des sanctions légales pourraient être plus
+précis.</p></li>
+<li><p>Offrir plus de confidentialité afin que la notation puisse se
+faire sans observation du chercheur ou autre tiers.</p></li>
+<li><p>Garder certaines hypothèses et objectifs de l’étude cachés aux
+participants à l’étude.</p></li>
+<li><p>Si vous ne pouvez pas contrôler l’erreur de mesure, étudiez-la —
+déterminez sa propension et s’il s’agit d’un problème. Envisager des
+études pilotes axées sur la mesure.</p></li>
+</ul>
+</section>
+<section id="exemple---dossiers-administratifs" class="slide level2">
+<h2>Exemple - dossiers administratifs</h2>
+<ul>
+<li><p>Utiliser des registres de présence à une réunion, au lieu de
+demander si quelqu’un y a assisté.</p>
+<ul>
+<li><p>Il se peut qu’il n’y ait des registres de présence que pour les
+réunions qui ne présentent pas d’intérêt pour votre population cible
+d’origine.</p></li>
+<li><p>Vous devrez peut-être planifier à l’avance la collecte de données
+lors d’une prochaine réunion.</p></li>
+</ul></li>
+</ul>
+</section>
+<section id="exemple---mesures-comportementales-i" class="slide level2">
+<h2>Exemple - mesures comportementales I</h2>
+<ul>
+<li><p>Demandez aux sujets de vrais efforts comme la signature d’une
+pétition, un don ou une autre tâche qui a un petit coût personnel, au
+lieu de demander aux sujets s’ils soutiennent un problème
+particulier.</p>
+<ul>
+<li><p>Cela peut ne capturer que les sujets qui se soucient fortement de
+cette question.</p></li>
+<li><p>Exemple : le travail de Pedro Vicente sur l’achat de voix à Sao
+Tomé-et-Principe utilise des enquêtes, des dossiers administratifs et
+indique si les personnes interrogées ont envoyé une lettre prépayée pour
+mesurer les résultats. Voir la <a
+href="https://egap.org/resource/brief-20-is-vote-buying-effective/">Note
+d’orientation des politiques publiques EGAP 20 : L’achat de votes est-il
+efficace ?</a></p></li>
+</ul></li>
+</ul>
+</section>
+<section id="exemple---mesures-comportementales-ii"
+class="slide level2">
+<h2>Exemple - mesures comportementales II</h2>
+<ul>
+<li><p>Organiser des “jeux de laboratoire” pour mesurer la coopération
+ou la générosité envers les groupes externes, au lieu de demander aux
+sujets s’ils coopéreraient avec les autres.</p>
+<ul>
+<li>L’étude de Scacco et Warren sur les préjugés et la discrimination
+utilise des variantes du jeu du dictateur. Voir <a
+href="https://www.cambridge.org/core/journals/american-political-science-review/article/can-social-contact-reduce-prejudice-and-discrimination-evidence-from-a-field-experiment-in-nigeria/230FAEB8E4E9E756BF8560FE62E2FBAC">Le
+contact social peut-il réduire les préjugés et la discrimination ? Une
+expérience de terrain au Nigeria</a></li>
+</ul></li>
+</ul>
+</section>
+<section id="exemple---couverture-ou-confidentialité-i"
+class="slide level2">
+<h2>Exemple - couverture ou confidentialité I</h2>
+<ul>
+<li><p>Fournir une “couverture” pour que les répondants croient que
+leurs réponses ne peuvent pas leur être attribuées.</p>
+<ul>
+<li>Réponse aléatoire : le hasard détermine si le répondant doit
+répondre honnêtement à une question ou répondre “oui” indépendamment de
+la vérité. L’enquêteur ne sait pas dans quelle condition le hasard a mis
+le répondant.</li>
+</ul></li>
+</ul>
+</section>
+<section id="exemple---couverture-ou-confidentialité-ii"
+class="slide level2">
+<h2>Exemple - couverture ou confidentialité II</h2>
+<ul>
+<li><p>Liste d’expériences : donnez aux répondants une liste d’éléments
+ou d’énoncés et demandez combien sont vrais pour eux. Les répondants
+sont randomisés pour recevoir une liste différente : une d’entre elles
+contient un élément sensible supplémentaire (par exemple, “mon mari me
+bat”). Cela permet au chercheur d’estimer la prévalence d’un élément
+particulier. Notez que cette approche réduit la puissance statistique
+pour une taille d’échantillon donnée.</p>
+<ul>
+<li>Confidentialité simple : pour des questions telles que le choix du
+vote, demandez au répondant de remplir un bulletin de vote fictif et de
+le placer dans une boîte verrouillée au lieu de répondre directement à
+l’enquêteur.</li>
+</ul></li>
+</ul>
+</section>
+<section id="exemple---cacher-les-hypothèses-aux-répondants"
+class="slide level2">
+<h2>Exemple - Cacher les hypothèses aux répondants</h2>
+<ul>
+<li>Voir l’étude de Scacco et Warren sur la théorie du contact social à
+Kaduna, au Nigeria, où les participants étaient recrutés pour un
+programme de compétences en informatique, aucun programme n’était
+présenté comme un programme visant à réduire les préjugés et la
+discrimination.</li>
+</ul>
+</section>
+<section id="quelle-quantité-derreur-est-trop" class="slide level2">
+<h2>Quelle quantité d’erreur est trop ?</h2>
+<ul>
+<li><p>La réduction des erreurs de mesure est importante, mais peut être
+assez coûteuse. Alors qu’avez-vous besoin de faire ?</p></li>
+<li><p>Cela dépend de l’échelle de l’expérience et de vos objectifs.</p>
+<ul>
+<li><p>Comparez la taille des erreurs à la taille de l’effet du
+traitement. Changer les mentalités est difficile. Le biais de
+désirabilité sociale peut être important par rapport aux faibles effets
+du traitement sur les attitudes.</p></li>
+<li><p>Comparez la taille des erreurs à l’étendue possible de ce
+résultat. Oublier un centime sur votre solde bancaire n’affecte pas
+sensiblement la mesure de votre patrimoine global.</p></li>
+</ul></li>
+</ul>
+</section>
+<section id="conseils-généraux-pour-la-mesure-i" class="slide level2">
+<h2>Conseils généraux pour la mesure I</h2>
+<ul>
+<li><p>Commencez par une utilisation standard des indicateurs que la
+communauté scientifique a acceptés pour représenter le concept
+d’intérêt.</p>
+<ul>
+<li>Ceux-ci auront été testés sur le terrain pour vous et la
+comparabilité des mesures entre différentes études et sites d’étude est
+un plus.</li>
+</ul></li>
+<li><p>Mais attention à bien vérifier que les indicateurs standard ont
+du sens.</p>
+<ul>
+<li><p>Par exemple, la façon dont on mesure le revenu peut différer
+entre les zones riches et les zones pauvres.</p></li>
+<li><p>De même, la façon dont on mesure les attitudes politiques peut
+différer dans des régimes plus ou moins démocratiques.</p></li>
+</ul></li>
+</ul>
+</section>
+<section id="conseils-généraux-pour-la-mesure-ii" class="slide level2">
+<h2>Conseils généraux pour la mesure II</h2>
+<ul>
+<li><p>Rappelons qu’il était courant de 1920 à 1980 aux États-Unis de
+mesurer les capacités mathématiques ou verbales en les combinant avec la
+connaissance de la navigation de plaisance. N’oubliez pas que vous
+mesurez des constructions sociales et que vous devez donc faire
+attention, autant que possible, aux croyances antérieures, partiellement
+ou non examinées, que vous et la communauté des chercheurs apportez à
+l’étude (pour des exemples plus frappants de ce problème, voir <span
+class="citation" data-cites="gould1996mismeasure">Gould (<a
+href="#/ref-gould1996mismeasure" role="doc-biblioref">[1981]
+1996</a>)</span>) .</p></li>
+<li><p>Contactez d’autres chercheurs dans votre domaine.</p></li>
+<li><p>Mesurez plus finement pour la plage de la variable de résultat où
+vous attendez un changement.</p></li>
+</ul>
+</section>
+<section id="ressources-pour-les-enquêtes-dans-la-recherche"
+class="slide level2">
+<h2>Ressources pour les enquêtes dans la recherche</h2>
+<ul>
+<li>Les principales archives de données sont consultables par sujet.
+L’ICPSR est une archive majeure :</li>
+</ul>
+<p></p>
+<ul>
+<li>Pew Research Center sur la conception de questionnaires</li>
+</ul>
+<p></p>
+<ul>
+<li>Tools4Dev pour la rédaction de questions</li>
+</ul>
+<p></p>
+<ul>
+<li>Les bibliothèques universitaires ont souvent des guides pour trouver
+des données :</li>
+</ul>
+<p></p>
+</section>
+<section id="références" class="slide level2">
+<h2>Références</h2>
+<p><a
+href="https://egap.org/resource/10-things-to-know-about-measurement-in-experiments/">10
+choses à savoir sur la mesure dans les expériences</a></p>
+<div id="refs" class="references csl-bib-body hanging-indent"
+role="doc-bibliography">
+<div id="ref-adcocoll:2001" class="csl-entry" role="doc-biblioentry">
+Adcock, Robert, and David Collier. 2001. <span>“Measurement Validity: A
+Shared Standard for Qualitative and Measurement Validity: A Shared
+Standard for Qualitative and Quantitative Research.”</span> <em>American
+Political Science Review</em> 95 (3): 529–46.
+</div>
+<div id="ref-gould1996mismeasure" class="csl-entry"
+role="doc-biblioentry">
+Gould, Stephen Jay. [1981] 1996. <em>The Mismeasure of Man</em>. WW
+Norton &amp; Company.
+</div>
+<div id="ref-shadish2002experimental" class="csl-entry"
+role="doc-biblioentry">
+Shadish, William R., Thomas D. Cook, Donald Thomas Campbell, et al.
+2002. <em>Experimental and Quasi-Experimental Designs for Generalized
+Causal Inference/William r. Shedish, Thomas d. Cook, Donald t.
+Campbell.</em> Boston: Houghton Mifflin,.
+</div>
+</div>
+</section></section>
+    </div>
+  </div>
+
+  <script src="measurement-slides_files/reveal.js-3.3.0.1/lib/js/head.min.js"></script>
+  <script src="measurement-slides_files/reveal.js-3.3.0.1/js/reveal.js"></script>
+
+  <script>
+
+      // Full list of configuration options available at:
+      // https://github.com/hakimel/reveal.js#configuration
+      Reveal.initialize({
+        // Display controls in the bottom right corner
+        controls: true,
+        // Display a presentation progress bar
+        progress: true,
+        // Display the page number of the current slide
+        slideNumber: true,
+        // Push each slide change to the browser history
+        history: true,
+        // Enable keyboard shortcuts for navigation
+        keyboard: true,
+        // Enable the slide overview mode
+        overview: true,
+        // Vertical centering of slides
+        center: false,
+        // Enables touch navigation on devices with touch input
+        touch: true,
+        // Turns fragments on and off globally
+        fragments: true,
+        // Flags if we should show a help overlay when the questionmark
+        // key is pressed
+        help: true,
+        // Number of milliseconds between automatically proceeding to the
+        // next slide, disabled when set to 0, this value can be overwritten
+        // by using a data-autoslide attribute on your slides
+        autoSlide: 0,
+        // Stop auto-sliding after user input
+        autoSlideStoppable: true,
+        // Opens links in an iframe preview overlay
+        previewLinks: true,
+        // Transition style
+        transition: 'fade', // none/fade/slide/convex/concave/zoom
+        // Transition speed
+        transitionSpeed: 'default', // default/fast/slow
+        // Transition style for full page slide backgrounds
+        backgroundTransition: 'default', // none/fade/slide/convex/concave/zoom
+        // Number of slides away from the current that are visible
+        viewDistance: 3,
+
+
+
+        chalkboard: {
+          toggleNotesButton: false,
+          theme: 'whiteboard',
+        },
+
+        keyboard: {
+          67: function() { RevealChalkboard.toggleNotesCanvas() },    // toggle notes canvas when 'c' is pressed
+          66: function() { RevealChalkboard.toggleChalkboard() }, // toggle chalkboard when 'b' is pressed
+          46: function() { RevealChalkboard.clear() },    // clear chalkboard when 'DEL' is pressed
+           8: function() { RevealChalkboard.reset() },    // reset chalkboard data on current slide when 'BACKSPACE' is pressed
+          68: function() { RevealChalkboard.download() }, // downlad recorded chalkboard drawing when 'd' is pressed
+        },
+
+        // Optional reveal.js plugins
+        dependencies: [
+          { src: 'measurement-slides_files/reveal.js-3.3.0.1/plugin/notes/notes.js', async: true },
+          { src: 'measurement-slides_files/reveal.js-3.3.0.1/plugin/search/search.js', async: true },
+          { src: 'measurement-slides_files/reveal.js-3.3.0.1/plugin/chalkboard/chalkboard.js', async: true },
+        ]
+      });
+    </script>
+  <!-- dynamically load mathjax for compatibility with self-contained -->
+  <script>
+    (function () {
+      var script = document.createElement("script");
+      script.type = "text/javascript";
+      script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+      document.getElementsByTagName("head")[0].appendChild(script);
+    })();
+  </script>
+
+<script>
+  (function() {
+    if (window.jQuery) {
+      Reveal.addEventListener( 'slidechanged', function(event) {  
+        window.jQuery(event.previousSlide).trigger('hidden');
+        window.jQuery(event.currentSlide).trigger('shown');
+      });
+    }
+  })();
+</script>
+
+
+  </body>
+</html>

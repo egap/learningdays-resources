@@ -1,0 +1,1220 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="generator" content="pandoc">
+  <meta name="author" content="Fill In Your Name" />
+  <title>Medición</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <link rel="stylesheet" href="measurement-slides_files/reveal.js-3.3.0.1/css/reveal.css"/>
+
+
+
+<link rel="stylesheet" href="measurement-slides_files/reveal.js-3.3.0.1/css/theme/simple.css" id="theme">
+
+
+  <!-- some tweaks to reveal css -->
+  <style type="text/css">
+    .reveal h1 { font-size: 2.0em; }
+    .reveal h2 { font-size: 1.5em;  }
+    .reveal h3 { font-size: 1.25em;	}
+    .reveal h4 { font-size: 1em;	}
+
+    .reveal .slides>section,
+    .reveal .slides>section>section {
+      padding: 0px 0px;
+    }
+
+
+
+    .reveal table {
+      border-width: 1px;
+      border-spacing: 2px;
+      border-style: dotted;
+      border-color: gray;
+      border-collapse: collapse;
+      font-size: 0.7em;
+    }
+
+    .reveal table th {
+      border-width: 1px;
+      padding-left: 10px;
+      padding-right: 25px;
+      font-weight: bold;
+      border-style: dotted;
+      border-color: gray;
+    }
+
+    .reveal table td {
+      border-width: 1px;
+      padding-left: 10px;
+      padding-right: 25px;
+      border-style: dotted;
+      border-color: gray;
+    }
+
+
+  </style>
+
+    <style type="text/css">code{white-space: pre;}</style>
+
+
+<!-- Printing and PDF exports -->
+<script id="paper-css" type="application/dynamic-css">
+
+/* Default Print Stylesheet Template
+   by Rob Glazebrook of CSSnewbie.com
+   Last Updated: June 4, 2008
+
+   Feel free (nay, compelled) to edit, append, and
+   manipulate this file as you see fit. */
+
+
+@media print {
+
+	/* SECTION 1: Set default width, margin, float, and
+	   background. This prevents elements from extending
+	   beyond the edge of the printed page, and prevents
+	   unnecessary background images from printing */
+	html {
+		background: #fff;
+		width: auto;
+		height: auto;
+		overflow: visible;
+	}
+	body {
+		background: #fff;
+		font-size: 20pt;
+		width: auto;
+		height: auto;
+		border: 0;
+		margin: 0 5%;
+		padding: 0;
+		overflow: visible;
+		float: none !important;
+	}
+
+	/* SECTION 2: Remove any elements not needed in print.
+	   This would include navigation, ads, sidebars, etc. */
+	.nestedarrow,
+	.controls,
+	.fork-reveal,
+	.share-reveal,
+	.state-background,
+	.reveal .progress,
+	.reveal .backgrounds {
+		display: none !important;
+	}
+
+	/* SECTION 3: Set body font face, size, and color.
+	   Consider using a serif font for readability. */
+	body, p, td, li, div {
+		font-size: 20pt!important;
+		font-family: Georgia, "Times New Roman", Times, serif !important;
+		color: #000;
+	}
+
+	/* SECTION 4: Set heading font face, sizes, and color.
+	   Differentiate your headings from your body text.
+	   Perhaps use a large sans-serif for distinction. */
+	h1,h2,h3,h4,h5,h6 {
+		color: #000!important;
+		height: auto;
+		line-height: normal;
+		font-family: Georgia, "Times New Roman", Times, serif !important;
+		text-shadow: 0 0 0 #000 !important;
+		text-align: left;
+		letter-spacing: normal;
+	}
+	/* Need to reduce the size of the fonts for printing */
+	h1 { font-size: 28pt !important;  }
+	h2 { font-size: 24pt !important; }
+	h3 { font-size: 22pt !important; }
+	h4 { font-size: 22pt !important; font-variant: small-caps; }
+	h5 { font-size: 21pt !important; }
+	h6 { font-size: 20pt !important; font-style: italic; }
+
+	/* SECTION 5: Make hyperlinks more usable.
+	   Ensure links are underlined, and consider appending
+	   the URL to the end of the link for usability. */
+	a:link,
+	a:visited {
+		color: #000 !important;
+		font-weight: bold;
+		text-decoration: underline;
+	}
+	/*
+	.reveal a:link:after,
+	.reveal a:visited:after {
+		content: " (" attr(href) ") ";
+		color: #222 !important;
+		font-size: 90%;
+	}
+	*/
+
+
+	/* SECTION 6: more reveal.js specific additions by @skypanther */
+	ul, ol, div, p {
+		visibility: visible;
+		position: static;
+		width: auto;
+		height: auto;
+		display: block;
+		overflow: visible;
+		margin: 0;
+		text-align: left !important;
+	}
+	.reveal pre,
+	.reveal table {
+		margin-left: 0;
+		margin-right: 0;
+	}
+	.reveal pre code {
+		padding: 20px;
+		border: 1px solid #ddd;
+	}
+	.reveal blockquote {
+		margin: 20px 0;
+	}
+	.reveal .slides {
+		position: static !important;
+		width: auto !important;
+		height: auto !important;
+
+		left: 0 !important;
+		top: 0 !important;
+		margin-left: 0 !important;
+		margin-top: 0 !important;
+		padding: 0 !important;
+		zoom: 1 !important;
+
+		overflow: visible !important;
+		display: block !important;
+
+		text-align: left !important;
+		-webkit-perspective: none;
+		   -moz-perspective: none;
+		    -ms-perspective: none;
+		        perspective: none;
+
+		-webkit-perspective-origin: 50% 50%;
+		   -moz-perspective-origin: 50% 50%;
+		    -ms-perspective-origin: 50% 50%;
+		        perspective-origin: 50% 50%;
+	}
+	.reveal .slides section {
+		visibility: visible !important;
+		position: static !important;
+		width: auto !important;
+		height: auto !important;
+		display: block !important;
+		overflow: visible !important;
+
+		left: 0 !important;
+		top: 0 !important;
+		margin-left: 0 !important;
+		margin-top: 0 !important;
+		padding: 60px 20px !important;
+		z-index: auto !important;
+
+		opacity: 1 !important;
+
+		page-break-after: always !important;
+
+		-webkit-transform-style: flat !important;
+		   -moz-transform-style: flat !important;
+		    -ms-transform-style: flat !important;
+		        transform-style: flat !important;
+
+		-webkit-transform: none !important;
+		   -moz-transform: none !important;
+		    -ms-transform: none !important;
+		        transform: none !important;
+
+		-webkit-transition: none !important;
+		   -moz-transition: none !important;
+		    -ms-transition: none !important;
+		        transition: none !important;
+	}
+	.reveal .slides section.stack {
+		padding: 0 !important;
+	}
+	.reveal section:last-of-type {
+		page-break-after: avoid !important;
+	}
+	.reveal section .fragment {
+		opacity: 1 !important;
+		visibility: visible !important;
+
+		-webkit-transform: none !important;
+		   -moz-transform: none !important;
+		    -ms-transform: none !important;
+		        transform: none !important;
+	}
+	.reveal section img {
+		display: block;
+		margin: 15px 0px;
+		background: rgba(255,255,255,1);
+		border: 1px solid #666;
+		box-shadow: none;
+	}
+
+	.reveal section small {
+		font-size: 0.8em;
+	}
+
+}  
+</script>
+
+
+<script id="pdf-css" type="application/dynamic-css">
+    
+/**
+ * This stylesheet is used to print reveal.js
+ * presentations to PDF.
+ *
+ * https://github.com/hakimel/reveal.js#pdf-export
+ */
+
+* {
+	-webkit-print-color-adjust: exact;
+}
+
+body {
+	margin: 0 auto !important;
+	border: 0;
+	padding: 0;
+	float: none !important;
+	overflow: visible;
+}
+
+html {
+	width: 100%;
+	height: 100%;
+	overflow: visible;
+}
+
+/* Remove any elements not needed in print. */
+.nestedarrow,
+.reveal .controls,
+.reveal .progress,
+.reveal .playback,
+.reveal.overview,
+.fork-reveal,
+.share-reveal,
+.state-background {
+	display: none !important;
+}
+
+h1, h2, h3, h4, h5, h6 {
+	text-shadow: 0 0 0 #000 !important;
+}
+
+.reveal pre code {
+	overflow: hidden !important;
+	font-family: Courier, 'Courier New', monospace !important;
+}
+
+ul, ol, div, p {
+	visibility: visible;
+	position: static;
+	width: auto;
+	height: auto;
+	display: block;
+	overflow: visible;
+	margin: auto;
+}
+.reveal {
+	width: auto !important;
+	height: auto !important;
+	overflow: hidden !important;
+}
+.reveal .slides {
+	position: static;
+	width: 100%;
+	height: auto;
+
+	left: auto;
+	top: auto;
+	margin: 0 !important;
+	padding: 0 !important;
+
+	overflow: visible;
+	display: block;
+
+	-webkit-perspective: none;
+	   -moz-perspective: none;
+	    -ms-perspective: none;
+	        perspective: none;
+
+	-webkit-perspective-origin: 50% 50%; /* there isn't a none/auto value but 50-50 is the default */
+	   -moz-perspective-origin: 50% 50%;
+	    -ms-perspective-origin: 50% 50%;
+	        perspective-origin: 50% 50%;
+}
+
+.reveal .slides section {
+	page-break-after: always !important;
+
+	visibility: visible !important;
+	position: relative !important;
+	display: block !important;
+	position: relative !important;
+
+	margin: 0 !important;
+	padding: 0 !important;
+	box-sizing: border-box !important;
+	min-height: 1px;
+
+	opacity: 1 !important;
+
+	-webkit-transform-style: flat !important;
+	   -moz-transform-style: flat !important;
+	    -ms-transform-style: flat !important;
+	        transform-style: flat !important;
+
+	-webkit-transform: none !important;
+	   -moz-transform: none !important;
+	    -ms-transform: none !important;
+	        transform: none !important;
+}
+
+.reveal section.stack {
+	margin: 0 !important;
+	padding: 0 !important;
+	page-break-after: avoid !important;
+	height: auto !important;
+	min-height: auto !important;
+}
+
+.reveal img {
+	box-shadow: none;
+}
+
+.reveal .roll {
+	overflow: visible;
+	line-height: 1em;
+}
+
+/* Slide backgrounds are placed inside of their slide when exporting to PDF */
+.reveal section .slide-background {
+	display: block !important;
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	z-index: -1;
+}
+
+/* All elements should be above the slide-background */
+.reveal section>* {
+	position: relative;
+	z-index: 1;
+}
+
+/* Display slide speaker notes when 'showNotes' is enabled */
+.reveal .speaker-notes-pdf {
+	display: block;
+	width: 100%;
+	max-height: none;
+	left: auto;
+	top: auto;
+	z-index: 100;
+}
+
+/* Display slide numbers when 'slideNumber' is enabled */
+.reveal .slide-number-pdf {
+	display: block;
+	position: absolute;
+	font-size: 14px;
+}
+
+</script>
+
+
+<script>
+var style = document.createElement( 'style' );
+style.type = 'text/css';
+var style_script_id = window.location.search.match( /print-pdf/gi ) ? 'pdf-css' : 'paper-css';
+var style_script = document.getElementById(style_script_id).text;
+style.innerHTML = style_script;
+document.getElementsByTagName('head')[0].appendChild(style);
+</script>
+
+    <script src="measurement-slides_files/header-attrs-2.10/header-attrs.js"></script>
+    <link href="measurement-slides_files/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
+    <link href="measurement-slides_files/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+<section>
+    <h1 class="title">Medición</h1>
+    <h2 class="author">Fill In Your Name</h2>
+    <h3 class="date">04 April, 2022</h3>
+</section>
+
+<section class="slide level2">
+
+<p>Una parte clave de su diseño de investigación Conceptos y mediciones
+De los conceptos a los datos o anotaciones I De los conceptos a los
+datos o anotaciones II Qué se debe medir Se debería medir todo Los
+indicadores deben conectarse con las teorías y los mecanismos Cómo hacer
+mediciones Error de medición y sus consecuencias Cómo limitar los
+errores de medición</p>
+</section>
+<section>
+<section id="una-parte-clave-de-su-diseño-de-investigación"
+class="title-slide slide level1 allowframebreaks">
+<h1 class="allowframebreaks">Una parte clave de su diseño de
+investigación</h1>
+
+</section>
+<section id="medición" class="slide level2">
+<h2>Medición</h2>
+<ul>
+<li><p>La medición es una parte esencial del diseño de la
+investigación.</p></li>
+<li><p>La medición se desprende de su teoría sobre la forma en que usted
+cree que funciona el mundo, y cómo cree que su tratamiento manipula ese
+mundo. Es decir, la medición es un ejercicio tanto teórico como técnico
+y logístico.</p></li>
+<li><p>Cuando registramos un número, una palabra o una letra en un
+conjunto de datos para <strong>representar</strong> algo abstracto en el
+mundo (como “estabilidad financiera”, “hambre” o “capacidad
+matemática”), estamos <strong>midiendo</strong>.</p></li>
+</ul>
+</section>
+<section id="una-mala-medición-es-problemática" class="slide level2">
+<h2>Una mala medición es problemática</h2>
+<ul>
+<li><p>Los problemas de medición pueden llevarle a hacer inferencias
+(causales) incorrectas del estudio (error sistemático).</p></li>
+<li><p>Las mediciones ruidosas reducen el poder (error
+aleatorio).</p></li>
+</ul>
+</section>
+<section id="recolección-de-datos" class="slide level2">
+<h2>Recolección de datos</h2>
+<ul>
+<li><p>La recopilación de datos suele ocupar una gran parte del tiempo y
+de los recursos financieros disponibles en el presupuesto del
+proyecto.</p></li>
+<li><p>Los datos nuevos pueden ser un resultado útil de la investigación
+y una base importante para futuras investigaciones. ¡Los datos son un
+bien público!</p></li>
+</ul>
+</section></section>
+<section id="conceptos-y-mediciones" class="title-slide slide level1">
+<h1>Conceptos y mediciones</h1>
+
+</section>
+
+<section id="de-los-conceptos-a-los-datos-o-anotaciones-i"
+class="title-slide slide level1">
+<h1>De los conceptos a los datos o anotaciones I</h1>
+<p><embed data-src="../Images/adcock_collier_2001_fig.pdf" id="id"
+class="class" style="width:75.0%;height:75.0%" /></p>
+</section>
+
+<section>
+<section id="de-los-conceptos-a-los-datos-o-anotaciones-ii"
+class="title-slide slide level1">
+<h1>De los conceptos a los datos o anotaciones II</h1>
+<ul>
+<li><p>¿Cuál es un ejemplo de un concepto (como una variable de
+resultado) que le gustaría cambiar con un tratamiento
+experimental?</p></li>
+<li><p>¿Cómo podría saber que una unidad (como una persona o un pueblo)
+muestra una “capacidad” o un “rango” alto o bajo sobre ese concepto?
+(¿Era “más hambrienta” o “más pacífica”?)</p></li>
+<li><p>¿Qué podría observar para sentirse más o menos seguro de que una
+persona en particular era más hambrienta o menos violenta que otra
+persona?</p></li>
+<li><p>¿Qué críticas podría recibir si dijera: “Creo que esta unidad
+difiere de esta otra unidad en la variable de resultado
+conceptual”?</p></li>
+</ul>
+</section>
+<section id="validez-de-la-medición" class="slide level2">
+<h2>Validez de la medición</h2>
+<ul>
+<li><p>Aquí hablamos de “<strong>validez</strong> de la
+medición”.</p></li>
+<li><p>Una medida válida es aquella que podemos argumentar de forma
+persuasiva (que verdaderamente representa lo que decimos que representa,
+y que no representa otros aspectos de la unidad). Véase <span
+class="citation" data-cites="shadish2002experimental">Shadish et al. (<a
+href="#/ref-shadish2002experimental"
+role="doc-biblioref">2002</a>)</span> para más información sobre la
+validez y la fiabilidad de la medición).</p></li>
+</ul>
+</section>
+<section id="pregunta-i" class="slide level2">
+<h2>Pregunta I</h2>
+<ul>
+<li><p><em>“Un barco que puede recorrer cuarenta millas por hora en
+aguas tranquilas hace un viaje de cien millas por un determinado arroyo.
+Si este viaje dura dos horas, ¿cuánto durará el viaje de vuelta?” (del
+SAT de 1926 en los EE.UU)</em></p></li>
+<li><p>¿Mide esto la “capacidad matemática”? ¿“capacidad verbal”? o ¿el
+conocimiento sobre navegación?</p></li>
+</ul>
+</section>
+<section id="pregunta-ii" class="slide level2">
+<h2>Pregunta II</h2>
+<p>Elija el par de palabras más parecidas al par superior:</p>
+<p><em>Corredor : maratón</em></p>
+<ol type="a">
+<li><p>enviado : embajada</p></li>
+<li><p>mártir : masacre</p></li>
+<li><p>remero : regata</p></li>
+<li><p>caballo : establo</p></li>
+</ol>
+<p>La respuesta correcta es: (c) remero : regata. (de la prueba SAT de
+los años 80 en EE.UU.)</p>
+<ul>
+<li>¿Mide esto el conocimiento de los deportes universitarios de élite?
+¿O la “capacidad verbal”?</li>
+</ul>
+</section></section>
+<section id="qué-se-debe-medir" class="title-slide slide level1">
+<h1>Qué se debe medir</h1>
+
+</section>
+
+<section id="se-debería-medir-todo" class="title-slide slide level1">
+<h1>Se debería medir todo</h1>
+<ul>
+<li><p>Variables de resultado de todas las unidades de su estudio (para
+cada ola y cualquier deserción).</p></li>
+<li><p>Tratamiento (asignación y cumplimiento).</p></li>
+<li><p>Indicaciones de que su tratamiento se recibe e interpreta como
+usted espera (comprobación de la manipulación).</p></li>
+<li><p>Indicios de que su investigación pueda causar daños.</p></li>
+<li><p>Covariables, incluido el contexto que podría (a) afectar al
+funcionamiento de su intervención o (b) influir en la variabilidad de su
+variable de resultado.</p></li>
+</ul>
+</section>
+
+<section>
+<section
+id="los-indicadores-deben-conectarse-con-las-teorías-y-los-mecanismos"
+class="title-slide slide level1">
+<h1>Los indicadores deben conectarse con las teorías y los
+mecanismos</h1>
+<ul>
+<li><p>A menudo tenemos múltiples teorías sobre <em>cómo</em> una
+intervención podría afectar a una variable de resultado (diferentes
+mecanismos).</p></li>
+<li><p>Medir indicadores que sean <em>únicos</em> para cada mecanismo y
+que puedan ayudar a <em>diferenciar</em> entre ellos.</p></li>
+<li><p>Dichos indicadores pueden incluir variables de resultado
+intermedias que se realizan <em>antes</em> de la variable de resultado
+final.</p></li>
+<li><p>Pueden incluir variables de resultado secundarias, como</p>
+<ul>
+<li><p>variables de resultado para los que esperamos efectos sólo bajo
+ciertas teorías.</p></li>
+<li><p>variables de resultado placebo para las que no esperamos
+efectos.</p></li>
+</ul></li>
+</ul>
+</section>
+<section id="indicadores" class="slide level2">
+<h2>Indicadores</h2>
+<ul>
+<li><p>El caso ideal es la medición directa del concepto o fenómeno de
+interés sin ningún error (raramente posible).</p>
+<ul>
+<li>La asignación del tratamiento bajo su control es la rara excepción y
+es crucial registrarla.</li>
+</ul></li>
+<li><p>A menudo sólo somos capaces de medir <strong>indicadores</strong>
+que están relacionados con el concepto o fenómeno de interés, pero no
+que no son totalmente determinantes en él.</p>
+<ul>
+<li><p>Las respuestas correctas a problemas particulares (indicadores)
+para la aptitud matemática subyacente (el fenómeno real).</p></li>
+<li><p>Días sin comer (indicadores) para la hambruna (el fenómeno
+real).</p></li>
+</ul></li>
+</ul>
+</section>
+<section id="seleccione-indicadores-válidos" class="slide level2">
+<h2>Seleccione indicadores válidos</h2>
+<ul>
+<li><p>Las personas razonables pueden no estar de acuerdo con la
+conceptualización. ¿Qué entendemos realmente por aptitud matemática o
+por hambruna? ¿Qué más pueden decirnos nuestras anotaciones sobre la
+gente, pueblos, etc. además de lo que esperamos representar?</p></li>
+<li><p>Seleccione los indicadores que se relacionan estrechamente con lo
+que <strong>queremos decir</strong> cuando hablamos sobre el fenómeno de
+interés.</p></li>
+<li><p>Seleccionar indicadores <strong>válidos</strong>. Ej. Las
+mediciones de matemáticas no deberían medir también los conocimientos de
+navegación.</p></li>
+</ul>
+</section>
+<section id="seleccione-indicadores-fiables" class="slide level2">
+<h2>Seleccione indicadores fiables</h2>
+<ul>
+<li><p>Seleccione indicadores que sean
+<strong>fiables</strong>.</p></li>
+<li><p>Ejemplo: Una vara de medición debe medir siempre un metro sin
+importar la temperatura. Una varilla de goma para medición puede
+producir mediciones <strong>poco fiables</strong> del concepto abstracto
+de longitud, especialmente si lo utiliza un niño de 5 años. Un láser
+puede producir mediciones más fiables incluso que un palo de madera en
+manos de un usuario experto en palos de madera.</p></li>
+</ul>
+</section>
+<section id="medidas-múltiples" class="slide level2">
+<h2>Medidas múltiples</h2>
+<ul>
+<li><p>Si tiene <em>múltiples indicadores para el mismo fenómeno</em>,
+tendrá que determinar cómo agregar estos indicadores.</p>
+<pre><code>- Promediar no siempre tendrá sentido.  ¿Se le ocurren algunos casos en los que esto pueda ser cierto?</code></pre></li>
+<li><p>Disponer de múltiples indicadores a menudo puede mejorar la
+<strong>fiabilidad</strong> de la medición y quizás logre reforzar los
+argumentos de <strong>validez</strong>.</p></li>
+<li><p>Combinar el uso de un palo de madera y un láser podría ser ideal
+para convencernos de que hemos medido la longitud de una manera que
+entendemos como <strong>longitud</strong> (en lugar de, por ejemplo,
+temperatura) <em>y</em> que la puntuación no depende crucialmente del
+contexto de la medición.</p></li>
+</ul>
+</section></section>
+<section>
+<section id="cómo-hacer-mediciones" class="title-slide slide level1">
+<h1>Cómo hacer mediciones</h1>
+
+</section>
+<section id="herramientas-de-medición-y-fuentes-de-datos"
+class="slide level2">
+<h2>Herramientas de medición y fuentes de datos</h2>
+<ul>
+<li><p>Después de determinar qué concepto debemos medir y cómo podemos
+reconocerlo cuando lo vemos, tendremos que pensar en
+<strong>cómo</strong> medirlo.</p></li>
+<li><p>Disponemos de varias herramientas y fuentes:</p>
+<ul>
+<li><p>Encuestas</p></li>
+<li><p>Medidas de comportamiento</p></li>
+<li><p>Datos administrativos (registros fiscales, resultados
+electorales, etc.)</p></li>
+<li><p>Imágenes/detección remota</p></li>
+<li><p>Texto (transcripciones de voz, periódicos, etc.)</p></li>
+<li><p>Sensores en vestuario, teléfonos, otros dispositivos (artículos
+domésticos)</p></li>
+<li><p>Otros</p></li>
+</ul></li>
+</ul>
+</section>
+<section id="consideraciones-a-la-hora-de-elegir-herramientas-y-fuentes"
+class="slide level2">
+<h2>Consideraciones a la hora de elegir herramientas y fuentes</h2>
+<p>Diferentes herramientas implican diferentes compensaciones:</p>
+<ul>
+<li><p>Validez (¿La puntuación capta el concepto y sólo el
+concepto?)</p></li>
+<li><p>Fiabilidad (¿Un procedimiento de puntuación utilizado dos veces
+daría la misma respuesta?)</p></li>
+<li><p>Sesgo (error sistemático)</p></li>
+<li><p>Precisión (error aleatorio)</p></li>
+<li><p>Muestra para la que se pueden realizar mediciones</p></li>
+<li><p>Momento de las mediciones</p></li>
+<li><p>Coste</p></li>
+</ul>
+</section>
+<section id="mantener-la-simetría-entre-los-brazos-de-tratamiento"
+class="slide level2">
+<h2>Mantener la simetría entre los brazos de tratamiento</h2>
+<ul>
+<li><p>Se debe mantener la simetría entre los grupos de tratamiento y de
+control mientras se realiza la medición.</p></li>
+<li><p>Muestra para la que se pueden hacer mediciones</p>
+<ul>
+<li><p>El número de veces y la duración de la interacción con los
+participantes debe ser igual en todos los brazos de
+tratamiento.</p></li>
+<li><p>Las preguntas deben ser las mismas.</p></li>
+<li><p>Tenga especial cuidado con estos puntos para los indicadores
+utilizados en los controles de manipulación.</p></li>
+</ul></li>
+<li><p><strong>La medición no debe ser la intervención
+experimental.</strong> Queremos que la única diferencia entre los brazos
+de tratamiento sea la intervención, no la medición.</p></li>
+</ul>
+</section></section>
+<section>
+<section id="error-de-medición-y-sus-consecuencias"
+class="title-slide slide level1">
+<h1>Error de medición y sus consecuencias</h1>
+
+</section>
+<section id="error-de-medición-i" class="slide level2">
+<h2>Error de medición I</h2>
+<ul>
+<li><p>Queremos evitar/minimizar dos tipos de error de medición:</p>
+<ul>
+<li><p>El error sistemático (sesgo)</p></li>
+<li><p>Error aleatorio (falta de precisión)</p></li>
+</ul></li>
+</ul>
+</section>
+<section id="error-de-medición-ii" class="slide level2">
+<h2>Error de medición II</h2>
+<p><img data-src="../Images/bullseye.png" id="id1" class="class"
+style="width:60.0%;height:60.0%" alt="Sesgo y Precisión" /></p>
+<p><a
+href="https://www.researchgate.net/figure/Bullseye-charts-representing-precision-and-bias-of-a-measurement-instrument-The-center-of_fig1_326134610">(Fuente:
+Precision and Bias of Masurement)</a></p>
+</section>
+<section id="ejemplos-de-errores-de-medición" class="slide level2">
+<h2>Ejemplos de errores de medición</h2>
+<ul>
+<li><p>Error sistemático</p>
+<ul>
+<li>Una báscula mal calibrada, por lo que todo el mundo parece pesar 2
+kg menos de lo que realmente pesa.</li>
+<li>Un diario de alimentación que deja de reportar sistemáticamente los
+tentempiés.</li>
+<li>Efectos de la demanda.</li>
+<li>Efectos Hawthorne.</li>
+</ul></li>
+<li><p>Error aleatorio</p>
+<ul>
+<li>Una mano temblorosa al marcar la distancia.</li>
+</ul></li>
+<li><p>Tenga en cuenta que estos son ejemplos de mediciones <strong>poco
+fiables</strong>. También podrían ser <strong>inválidos</strong>, pero
+no tienen porqué serlo.</p></li>
+</ul>
+</section>
+<section id="consecuencias-de-medir-mal-el-tratamiento"
+class="slide level2">
+<h2>Consecuencias de medir mal el tratamiento</h2>
+<ul>
+<li><p>Además de generar una descripción incorrecta del nivel de algún
+fenómeno, el error de medición puede afectar nuestras inferencias
+causales.</p></li>
+<li><p>Si la variable de tratamiento es binaria (una unidad puede estar
+sólo en el tratamiento o en el control), el error de medición está
+correlacionado negativamente con la variable real. (Un 1 se codifica
+erróneamente como 0, por lo que el error es -1; un 0 se codifica
+erróneamente como 1, por lo que el error es 1).</p></li>
+<li><p>Si utiliza OLS para calcular los estimadores de los efectos
+promedios del tratamiento, este tipo de error conduce a estimaciones más
+pequeñas del efecto causal (coeficiente sobre la variable de
+tratamiento).</p></li>
+</ul>
+</section>
+<section id="consecuencias-del-error-de-medición-aleatorio"
+class="slide level2">
+<h2>Consecuencias del error de medición aleatorio</h2>
+<ul>
+<li><p>En un análisis OLS, un mayor error aleatorio en la variable de
+resultado conduce a estimaciones menos precisas del efecto causal
+(coeficiente en la variable de tratamiento).</p></li>
+<li><p>La reducción del error de medición aleatorio en la variable de
+resultado puede aumentar el poder estadístico (porque la variable de
+resultado tiene menos ruido que no se relaciona con el
+tratamiento).</p></li>
+</ul>
+</section>
+<section id="consecuencias-del-error-de-medición-sistemático"
+class="slide level2 allowframebreaks">
+<h2 class="allowframebreaks">Consecuencias del error de medición
+sistemático</h2>
+<ul>
+<li><p>Si todas las mediciones están desviadas por la misma cantidad,
+como -2kg para todos;</p>
+<ul>
+<li>esto no supone diferencia alguna cuando los efectos del tratamiento
+se definen como diferencias en las variables de resultado
+potenciales,</li>
+</ul>
+<p><span class="math inline">\(\tau_i = Y_i(1)-Y_i(0)\)</span>, <span
+class="math inline">\(\tilde{\tau_i} = (Y_i(1)-2)-(Y_i(0)-2)\)</span>,
+para que <span class="math inline">\(\tau_i =
+\tilde{\tau_i}\)</span></p>
+<ul>
+<li>pero esto es un problema si el efecto del tratamiento se define como
+la proporción de variables de resultado (<span
+class="math inline">\(Y_i(1) &gt; 0\)</span> y <span
+class="math inline">\(Y_i(0) &gt; 0\)</span>).</li>
+</ul>
+<p><span class="math inline">\(\tau_i = Y_i(1)/Y_i(0)\)</span>, <span
+class="math inline">\(\tilde{\tau_i} = (Y_i(1)-2)/(Y_i(0)-2)\)</span>,
+para que <span class="math inline">\(\tau_i \neq \tilde{\tau_i}\)</span>
+excepto cuando <span
+class="math inline">\(Y_i(1)=Y_i(0)\)</span>.</p></li>
+</ul>
+<p>Lo lejos que esté <span class="math inline">\(\tilde{\tau_i}\)</span>
+de <span class="math inline">\(\tau_i\)</span> depende de lo grande que
+sea 2 (el error) en relación con los valores reales <span
+class="math inline">\(Y_i(0), Y_i(1)\)</span>.</p>
+<ul>
+<li><p>Nota: los coeficientes de regresión logística son cocientes de
+variables de resultado potenciales.</p></li>
+<li><p>El error de medición puede estar correlacionado con el valor
+verdadero de <span class="math inline">\(Y\)</span>.</p></li>
+<li><p>Por ejemplo, las personas que se involucran en un comportamiento
+mal visto, vergonzoso o ilegal pueden reportar menos dicho
+comportamiento, mientras que los que no lo hacen pueden informar de su
+nivel con precisión. (Esto se conoce como sesgo de deseabilidad
+social).</p>
+<ul>
+<li>Este fenómeno puede ocurrir con las víctimas de este tipo de
+comportamiento por parte de otras personas, que se culpan a sí mismas o
+temen ser sancionadas por otras personas que preferirían no conocer el
+comportamiento (por ejemplo, las víctimas de la violencia de
+pareja).</li>
+</ul></li>
+<li><p>Esto hace que sea más difícil detectar el efecto de una
+intervención diseñada para reducir este comportamiento.</p></li>
+<li><p>Otra forma de sesgo de deseabilidad social también puede hacer
+que el error de medición esté correlacionado con el
+tratamiento.</p></li>
+<li><p>Por ejemplo, su intervención podría tener como objetivo reducir
+las actitudes hostiles hacia los miembros de otros grupos sociales. Si
+los participantes pueden averiguar los objetivos de su estudio, es
+posible que (inconscientemente) traten de complacer al investigador
+diciéndole lo que quiere ver. Los del grupo de tratamiento pueden
+reportar en menor medida su hostilidad hacia otros grupos en comparación
+con el grupo de control.</p></li>
+<li><p>Esto hace que sea difícil saber si la diferencia en las variables
+de resultado observadas entre los grupos de tratamiento y de control se
+debe a que la intervención realmente reduce la hostilidad o a que el
+conocimiento del tratamiento cambia el reporte de la
+hostilidad.</p></li>
+</ul>
+</section></section>
+<section>
+<section id="cómo-limitar-los-errores-de-medición"
+class="title-slide slide level1">
+<h1>Cómo limitar los errores de medición</h1>
+
+</section>
+<section id="algunas-opciones-para-limitar-los-errores-de-medición"
+class="slide level2 allowframebreaks">
+<h2 class="allowframebreaks">Algunas opciones para limitar los errores
+de medición</h2>
+<ul>
+<li><p>El auto reporte de un sujeto (en una encuesta) es más
+problemático que la observación discreta del sujeto (“en la naturaleza”)
+por otra persona.</p></li>
+<li><p>Las medidas de comportamiento están menos sujetas al sesgo de
+deseabilidad social.</p></li>
+<li><p>Los registros administrativos para los que los informes erróneos
+tienen sanciones legales podrían ser más precisos.</p></li>
+<li><p>Proporcionar más privacidad para que la puntuación pueda
+producirse sin la observación de otras personas o del
+investigador.</p></li>
+<li><p>Mantener algunas hipótesis y objetivos del estudio ocultos a los
+participantes.</p></li>
+<li><p>Si no se puede controlar el error de medición, hay que estudiarlo
+para saber si es un problema y que tan grande es su magnitud. Considerar
+los estudios piloto orientados a la medición.</p></li>
+</ul>
+</section>
+<section id="ejemplo-registros-administrativos" class="slide level2">
+<h2>Ejemplo: registros administrativos</h2>
+<ul>
+<li><p>Registros de asistencia a una reunión, en lugar de preguntar si
+alguien asistió.</p>
+<ul>
+<li><p>Es posible que sólo existan registros de asistencia regulares
+para las reuniones que no son de interés para su población objetivo
+original.</p></li>
+<li><p>Es posible que tenga que planificar con antelación la recogida de
+datos en una reunión futura.</p></li>
+</ul></li>
+</ul>
+</section>
+<section id="ejemplo---medidas-de-comportamiento-i"
+class="slide level2">
+<h2>Ejemplo - medidas de comportamiento I</h2>
+<ul>
+<li><p>Pida a los sujetos que realicen un esfuerzo inducido, como firmar
+una petición, hacer una donación o realizar alguna otra tarea que tenga
+un pequeño coste personal, en lugar de preguntarles si apoyan un tema
+concreto.</p>
+<ul>
+<li><p>Esto puede captar sólo a los sujetos que se preocupan bastante
+por ese tema.</p></li>
+<li><p>Ejemplo: El trabajo de Pedro Vicente sobre la compra de votos en
+Sao Tomé y Príncipe utiliza encuestas, registros administrativos y si
+los encuestados enviaron una tarjeta postal pre-pagada para medir las
+variables de resultado. Léase <a
+href="https://egap.org/resource/brief-20-is-vote-buying-effective/">Brief
+20: Is Vote Buying Effective?</a></p></li>
+</ul></li>
+</ul>
+</section>
+<section id="ejemplo---medidas-de-comportamiento-ii"
+class="slide level2">
+<h2>Ejemplo - medidas de comportamiento II</h2>
+<ul>
+<li><p>Realizar “juegos de laboratorio” para medir la cooperación o la
+generosidad hacia los grupos externos, en lugar de preguntar a los
+sujetos si cooperarían con otros.</p>
+<ul>
+<li>El estudio de Scacco y Warren sobre el prejuicio y la discriminación
+utiliza variantes de juegos de dictador. Léase <a
+href="https://www.cambridge.org/core/journals/american-political-science-review/article/can-social-contact-reduce-prejudice-and-discrimination-evidence-from-a-field-experiment-in-nigeria/230FAEB8E4E9E756BF8560FE62E2FBAC">Can
+Social Contact Reduce Prejudice and Discrimination? Evidence from a
+Field Experiment in Nigeria</a></li>
+</ul></li>
+</ul>
+</section>
+<section id="ejemplo---anonimidad-o-privacidad-i" class="slide level2">
+<h2>Ejemplo - anonimidad o privacidad I</h2>
+<ul>
+<li><p>Asegurarr “anonimidad” para que los encuestados crean que sus
+respuestas no pueden ser rastreadas a ellos mismos.</p>
+<ul>
+<li>Respuesta aleatoria: el azar determina si el encuestado debe
+responder a una pregunta con la verdad o responder de manera afirmativa,
+independientemente de cuál sea la verdad. El encuestador no sabe en qué
+condición puso el azar al encuestado.</li>
+</ul></li>
+</ul>
+</section>
+<section id="ejemplo-anonimidad-o-privacidad-ii" class="slide level2">
+<h2>Ejemplo: anonimidad o privacidad II</h2>
+<ul>
+<li><p>Experimentos con listas: se da a los encuestados una lista de
+elementos o afirmaciones y se les pregunta cuántos son verdaderos para
+ellos. Los encuestados se reparten aleatoriamente entre diferentes
+listas, una de las cuales contiene un elemento sensible adicional (por
+ejemplo, “mi marido me pega”). Esto permite al investigador estimar la
+prevalencia de un elemento concreto. Tenga en cuenta que este enfoque
+reduce el poder para un tamaño de muestra determinado.</p></li>
+<li><p>Privacidad sencilla: en el caso de preguntas como la elección del
+voto, pida al encuestado que rellene una papeleta falsa y la deposite en
+una caja cerrada en lugar de responder directamente al
+encuestador.</p></li>
+</ul>
+</section>
+<section id="ejemplo-cegando-a-los-encuestados-sobre-las-hipótesis"
+class="slide level2">
+<h2>Ejemplo: cegando a los encuestados sobre las hipótesis</h2>
+<ul>
+<li>Véase el estudio de Scacco y Warren sobre la teoría del contacto
+social en Kaduna (Nigeria), en donde los participantes fueron reclutados
+en un programa de conocimientos informáticos, pero que no se anunció
+como programa para reducir los prejuicios y la discriminación.</li>
+</ul>
+</section>
+<section id="cuánto-error-es-demasiado" class="slide level2">
+<h2>¿Cuánto error es demasiado?</h2>
+<ul>
+<li><p>Reducir el error de medición es importante, pero puede ser
+bastante costoso. Entonces, ¿cuánto hay que hacer?</p></li>
+<li><p>Depende de la escala y de sus objetivos.</p>
+<ul>
+<li><p>Comparar el tamaño de los errores con el tamaño del efecto del
+tratamiento. Cambiar de actitud es difícil. El sesgo de deseabilidad
+social puede ser grande en comparación con los pequeños efectos del
+tratamiento sobre las actitudes.</p></li>
+<li><p>Compare el tamaño de los errores con el rango posible de esa
+variable de resultado. Tener un céntimo menos en su saldo bancario no
+afecta de forma apreciable a nuestra medida sobre su riqueza
+total.</p></li>
+</ul></li>
+</ul>
+</section>
+<section id="consejos-generales-para-la-medición-i"
+class="slide level2">
+<h2>Consejos generales para la medición I</h2>
+<ul>
+<li>Comience con la práctica estándar para sus indicadores, es decir,
+indicadores que la comunidad de investigadores haya acordado que
+representan el concepto de interés.</li>
+</ul>
+<p>Estos indicadores habrán sido probados para usted</p>
+<p>La comparabilidad de las mediciones entre los estudios de
+investigación y los sitios es una virtud.</p>
+<ul>
+<li><p>Pero hay que ser cuidadoso y tener en cuenta si los indicadores
+estándar tienen sentido.</p>
+<ul>
+<li>Por ejemplo, la forma de medir los ingresos puede variar entre zonas
+ricas y pobres.</li>
+</ul></li>
+<li><p>Del mismo modo, la forma de medir actitudes políticas puede ser
+diferente en regímenes más o menos democráticos.</p></li>
+</ul>
+</section>
+<section id="consejos-generales-para-la-medición-ii"
+class="slide level2">
+<h2>Consejos generales para la medición II</h2>
+<ul>
+<li><p>Recordemos que las mediciones de habilidad matemática y verbal
+que estaban relacionadas con la navegación eran práctica habitual en los
+años 20 y 80 en EE.UU. Recuerde que está midiendo constructos sociales y
+debe prestar atención, en la medida de lo posible, a las creencias
+previas, parcialmente o no examinadas, que usted y la comunidad de
+investigadores aportan al estudio (para algunos ejemplos más vívidos de
+esta cuestión véase <span class="citation"
+data-cites="gould1996mismeasure">Gould (<a
+href="#/ref-gould1996mismeasure" role="doc-biblioref">[1981]
+1996</a>)</span>).</p></li>
+<li><p>Conecte con otros investigadores de su área temática.</p></li>
+<li><p>Céntrese en una medición más delicada en el rango de la variable
+en el que espera el cambio.</p></li>
+</ul>
+</section>
+<section
+id="recursos-para-la-investigación-de-encuestas-y-artículos-de-encuestas"
+class="slide level2">
+<h2>Recursos para la investigación de encuestas y artículos de
+encuestas</h2>
+<ul>
+<li>Los principales archivos de datos se pueden buscar por temas. Un
+archivo importante es el ICPSR:</li>
+</ul>
+<p></p>
+<ul>
+<li>El Pew Research Center Sobre el Diseño de Cuestionarios</li>
+</ul>
+<p></p>
+<ul>
+<li>Tools4Dev Para Escribir Preguntas</li>
+</ul>
+<p></p>
+<ul>
+<li>Las bibliotecas universitarias suelen tener guías de fuentes de
+datos:</li>
+</ul>
+<p></p>
+</section>
+<section id="referencias" class="slide level2">
+<h2>Referencias</h2>
+<p><a
+href="https://egap.org/resource/10-cosas-que-debe-saber-sobre-la-medicion-en-experimentos/">10
+cosas que debe saber sobre la medición en experimentos</a></p>
+<div id="refs" class="references csl-bib-body hanging-indent"
+role="doc-bibliography">
+<div id="ref-adcocoll:2001" class="csl-entry" role="doc-biblioentry">
+Adcock, Robert, and David Collier. 2001. <span>“Measurement Validity: A
+Shared Standard for Qualitative and Measurement Validity: A Shared
+Standard for Qualitative and Quantitative Research.”</span> <em>American
+Political Science Review</em> 95 (3): 529–46.
+</div>
+<div id="ref-gould1996mismeasure" class="csl-entry"
+role="doc-biblioentry">
+Gould, Stephen Jay. [1981] 1996. <em>The Mismeasure of Man</em>. WW
+Norton &amp; Company.
+</div>
+<div id="ref-shadish2002experimental" class="csl-entry"
+role="doc-biblioentry">
+Shadish, William R., Thomas D. Cook, Donald Thomas Campbell, et al.
+2002. <em>Experimental and Quasi-Experimental Designs for Generalized
+Causal Inference/William r. Shedish, Thomas d. Cook, Donald t.
+Campbell.</em> Boston: Houghton Mifflin,.
+</div>
+</div>
+</section></section>
+    </div>
+  </div>
+
+  <script src="measurement-slides_files/reveal.js-3.3.0.1/lib/js/head.min.js"></script>
+  <script src="measurement-slides_files/reveal.js-3.3.0.1/js/reveal.js"></script>
+
+  <script>
+
+      // Full list of configuration options available at:
+      // https://github.com/hakimel/reveal.js#configuration
+      Reveal.initialize({
+        // Display controls in the bottom right corner
+        controls: true,
+        // Display a presentation progress bar
+        progress: true,
+        // Display the page number of the current slide
+        slideNumber: true,
+        // Push each slide change to the browser history
+        history: true,
+        // Enable keyboard shortcuts for navigation
+        keyboard: true,
+        // Enable the slide overview mode
+        overview: true,
+        // Vertical centering of slides
+        center: false,
+        // Enables touch navigation on devices with touch input
+        touch: true,
+        // Turns fragments on and off globally
+        fragments: true,
+        // Flags if we should show a help overlay when the questionmark
+        // key is pressed
+        help: true,
+        // Number of milliseconds between automatically proceeding to the
+        // next slide, disabled when set to 0, this value can be overwritten
+        // by using a data-autoslide attribute on your slides
+        autoSlide: 0,
+        // Stop auto-sliding after user input
+        autoSlideStoppable: true,
+        // Opens links in an iframe preview overlay
+        previewLinks: true,
+        // Transition style
+        transition: 'fade', // none/fade/slide/convex/concave/zoom
+        // Transition speed
+        transitionSpeed: 'default', // default/fast/slow
+        // Transition style for full page slide backgrounds
+        backgroundTransition: 'default', // none/fade/slide/convex/concave/zoom
+        // Number of slides away from the current that are visible
+        viewDistance: 3,
+
+
+
+        chalkboard: {
+          toggleNotesButton: false,
+          theme: 'whiteboard',
+        },
+
+        keyboard: {
+          67: function() { RevealChalkboard.toggleNotesCanvas() },    // toggle notes canvas when 'c' is pressed
+          66: function() { RevealChalkboard.toggleChalkboard() }, // toggle chalkboard when 'b' is pressed
+          46: function() { RevealChalkboard.clear() },    // clear chalkboard when 'DEL' is pressed
+           8: function() { RevealChalkboard.reset() },    // reset chalkboard data on current slide when 'BACKSPACE' is pressed
+          68: function() { RevealChalkboard.download() }, // downlad recorded chalkboard drawing when 'd' is pressed
+        },
+
+        // Optional reveal.js plugins
+        dependencies: [
+          { src: 'measurement-slides_files/reveal.js-3.3.0.1/plugin/notes/notes.js', async: true },
+          { src: 'measurement-slides_files/reveal.js-3.3.0.1/plugin/search/search.js', async: true },
+          { src: 'measurement-slides_files/reveal.js-3.3.0.1/plugin/chalkboard/chalkboard.js', async: true },
+        ]
+      });
+    </script>
+  <!-- dynamically load mathjax for compatibility with self-contained -->
+  <script>
+    (function () {
+      var script = document.createElement("script");
+      script.type = "text/javascript";
+      script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+      document.getElementsByTagName("head")[0].appendChild(script);
+    })();
+  </script>
+
+<script>
+  (function() {
+    if (window.jQuery) {
+      Reveal.addEventListener( 'slidechanged', function(event) {  
+        window.jQuery(event.previousSlide).trigger('hidden');
+        window.jQuery(event.currentSlide).trigger('shown');
+      });
+    }
+  })();
+</script>
+
+
+  </body>
+</html>

@@ -1,0 +1,1370 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="generator" content="pandoc">
+  <meta name="author" content="Fill In Your Name" />
+  <title>Poder estadístico</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <link rel="stylesheet" href="power-slides_files/reveal.js-3.3.0.1/css/reveal.css"/>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<link rel="stylesheet" href="power-slides_files/reveal.js-3.3.0.1/css/theme/simple.css" id="theme">
+
+
+  <!-- some tweaks to reveal css -->
+  <style type="text/css">
+    .reveal h1 { font-size: 2.0em; }
+    .reveal h2 { font-size: 1.5em;  }
+    .reveal h3 { font-size: 1.25em;	}
+    .reveal h4 { font-size: 1em;	}
+
+    .reveal .slides>section,
+    .reveal .slides>section>section {
+      padding: 0px 0px;
+    }
+
+
+
+    .reveal table {
+      border-width: 1px;
+      border-spacing: 2px;
+      border-style: dotted;
+      border-color: gray;
+      border-collapse: collapse;
+      font-size: 0.7em;
+    }
+
+    .reveal table th {
+      border-width: 1px;
+      padding-left: 10px;
+      padding-right: 25px;
+      font-weight: bold;
+      border-style: dotted;
+      border-color: gray;
+    }
+
+    .reveal table td {
+      border-width: 1px;
+      padding-left: 10px;
+      padding-right: 25px;
+      border-style: dotted;
+      border-color: gray;
+    }
+
+
+  </style>
+
+    <style type="text/css">code{white-space: pre;}</style>
+
+
+<!-- Printing and PDF exports -->
+<script id="paper-css" type="application/dynamic-css">
+
+/* Default Print Stylesheet Template
+   by Rob Glazebrook of CSSnewbie.com
+   Last Updated: June 4, 2008
+
+   Feel free (nay, compelled) to edit, append, and
+   manipulate this file as you see fit. */
+
+
+@media print {
+
+	/* SECTION 1: Set default width, margin, float, and
+	   background. This prevents elements from extending
+	   beyond the edge of the printed page, and prevents
+	   unnecessary background images from printing */
+	html {
+		background: #fff;
+		width: auto;
+		height: auto;
+		overflow: visible;
+	}
+	body {
+		background: #fff;
+		font-size: 20pt;
+		width: auto;
+		height: auto;
+		border: 0;
+		margin: 0 5%;
+		padding: 0;
+		overflow: visible;
+		float: none !important;
+	}
+
+	/* SECTION 2: Remove any elements not needed in print.
+	   This would include navigation, ads, sidebars, etc. */
+	.nestedarrow,
+	.controls,
+	.fork-reveal,
+	.share-reveal,
+	.state-background,
+	.reveal .progress,
+	.reveal .backgrounds {
+		display: none !important;
+	}
+
+	/* SECTION 3: Set body font face, size, and color.
+	   Consider using a serif font for readability. */
+	body, p, td, li, div {
+		font-size: 20pt!important;
+		font-family: Georgia, "Times New Roman", Times, serif !important;
+		color: #000;
+	}
+
+	/* SECTION 4: Set heading font face, sizes, and color.
+	   Differentiate your headings from your body text.
+	   Perhaps use a large sans-serif for distinction. */
+	h1,h2,h3,h4,h5,h6 {
+		color: #000!important;
+		height: auto;
+		line-height: normal;
+		font-family: Georgia, "Times New Roman", Times, serif !important;
+		text-shadow: 0 0 0 #000 !important;
+		text-align: left;
+		letter-spacing: normal;
+	}
+	/* Need to reduce the size of the fonts for printing */
+	h1 { font-size: 28pt !important;  }
+	h2 { font-size: 24pt !important; }
+	h3 { font-size: 22pt !important; }
+	h4 { font-size: 22pt !important; font-variant: small-caps; }
+	h5 { font-size: 21pt !important; }
+	h6 { font-size: 20pt !important; font-style: italic; }
+
+	/* SECTION 5: Make hyperlinks more usable.
+	   Ensure links are underlined, and consider appending
+	   the URL to the end of the link for usability. */
+	a:link,
+	a:visited {
+		color: #000 !important;
+		font-weight: bold;
+		text-decoration: underline;
+	}
+	/*
+	.reveal a:link:after,
+	.reveal a:visited:after {
+		content: " (" attr(href) ") ";
+		color: #222 !important;
+		font-size: 90%;
+	}
+	*/
+
+
+	/* SECTION 6: more reveal.js specific additions by @skypanther */
+	ul, ol, div, p {
+		visibility: visible;
+		position: static;
+		width: auto;
+		height: auto;
+		display: block;
+		overflow: visible;
+		margin: 0;
+		text-align: left !important;
+	}
+	.reveal pre,
+	.reveal table {
+		margin-left: 0;
+		margin-right: 0;
+	}
+	.reveal pre code {
+		padding: 20px;
+		border: 1px solid #ddd;
+	}
+	.reveal blockquote {
+		margin: 20px 0;
+	}
+	.reveal .slides {
+		position: static !important;
+		width: auto !important;
+		height: auto !important;
+
+		left: 0 !important;
+		top: 0 !important;
+		margin-left: 0 !important;
+		margin-top: 0 !important;
+		padding: 0 !important;
+		zoom: 1 !important;
+
+		overflow: visible !important;
+		display: block !important;
+
+		text-align: left !important;
+		-webkit-perspective: none;
+		   -moz-perspective: none;
+		    -ms-perspective: none;
+		        perspective: none;
+
+		-webkit-perspective-origin: 50% 50%;
+		   -moz-perspective-origin: 50% 50%;
+		    -ms-perspective-origin: 50% 50%;
+		        perspective-origin: 50% 50%;
+	}
+	.reveal .slides section {
+		visibility: visible !important;
+		position: static !important;
+		width: auto !important;
+		height: auto !important;
+		display: block !important;
+		overflow: visible !important;
+
+		left: 0 !important;
+		top: 0 !important;
+		margin-left: 0 !important;
+		margin-top: 0 !important;
+		padding: 60px 20px !important;
+		z-index: auto !important;
+
+		opacity: 1 !important;
+
+		page-break-after: always !important;
+
+		-webkit-transform-style: flat !important;
+		   -moz-transform-style: flat !important;
+		    -ms-transform-style: flat !important;
+		        transform-style: flat !important;
+
+		-webkit-transform: none !important;
+		   -moz-transform: none !important;
+		    -ms-transform: none !important;
+		        transform: none !important;
+
+		-webkit-transition: none !important;
+		   -moz-transition: none !important;
+		    -ms-transition: none !important;
+		        transition: none !important;
+	}
+	.reveal .slides section.stack {
+		padding: 0 !important;
+	}
+	.reveal section:last-of-type {
+		page-break-after: avoid !important;
+	}
+	.reveal section .fragment {
+		opacity: 1 !important;
+		visibility: visible !important;
+
+		-webkit-transform: none !important;
+		   -moz-transform: none !important;
+		    -ms-transform: none !important;
+		        transform: none !important;
+	}
+	.reveal section img {
+		display: block;
+		margin: 15px 0px;
+		background: rgba(255,255,255,1);
+		border: 1px solid #666;
+		box-shadow: none;
+	}
+
+	.reveal section small {
+		font-size: 0.8em;
+	}
+
+}  
+</script>
+
+
+<script id="pdf-css" type="application/dynamic-css">
+    
+/**
+ * This stylesheet is used to print reveal.js
+ * presentations to PDF.
+ *
+ * https://github.com/hakimel/reveal.js#pdf-export
+ */
+
+* {
+	-webkit-print-color-adjust: exact;
+}
+
+body {
+	margin: 0 auto !important;
+	border: 0;
+	padding: 0;
+	float: none !important;
+	overflow: visible;
+}
+
+html {
+	width: 100%;
+	height: 100%;
+	overflow: visible;
+}
+
+/* Remove any elements not needed in print. */
+.nestedarrow,
+.reveal .controls,
+.reveal .progress,
+.reveal .playback,
+.reveal.overview,
+.fork-reveal,
+.share-reveal,
+.state-background {
+	display: none !important;
+}
+
+h1, h2, h3, h4, h5, h6 {
+	text-shadow: 0 0 0 #000 !important;
+}
+
+.reveal pre code {
+	overflow: hidden !important;
+	font-family: Courier, 'Courier New', monospace !important;
+}
+
+ul, ol, div, p {
+	visibility: visible;
+	position: static;
+	width: auto;
+	height: auto;
+	display: block;
+	overflow: visible;
+	margin: auto;
+}
+.reveal {
+	width: auto !important;
+	height: auto !important;
+	overflow: hidden !important;
+}
+.reveal .slides {
+	position: static;
+	width: 100%;
+	height: auto;
+
+	left: auto;
+	top: auto;
+	margin: 0 !important;
+	padding: 0 !important;
+
+	overflow: visible;
+	display: block;
+
+	-webkit-perspective: none;
+	   -moz-perspective: none;
+	    -ms-perspective: none;
+	        perspective: none;
+
+	-webkit-perspective-origin: 50% 50%; /* there isn't a none/auto value but 50-50 is the default */
+	   -moz-perspective-origin: 50% 50%;
+	    -ms-perspective-origin: 50% 50%;
+	        perspective-origin: 50% 50%;
+}
+
+.reveal .slides section {
+	page-break-after: always !important;
+
+	visibility: visible !important;
+	position: relative !important;
+	display: block !important;
+	position: relative !important;
+
+	margin: 0 !important;
+	padding: 0 !important;
+	box-sizing: border-box !important;
+	min-height: 1px;
+
+	opacity: 1 !important;
+
+	-webkit-transform-style: flat !important;
+	   -moz-transform-style: flat !important;
+	    -ms-transform-style: flat !important;
+	        transform-style: flat !important;
+
+	-webkit-transform: none !important;
+	   -moz-transform: none !important;
+	    -ms-transform: none !important;
+	        transform: none !important;
+}
+
+.reveal section.stack {
+	margin: 0 !important;
+	padding: 0 !important;
+	page-break-after: avoid !important;
+	height: auto !important;
+	min-height: auto !important;
+}
+
+.reveal img {
+	box-shadow: none;
+}
+
+.reveal .roll {
+	overflow: visible;
+	line-height: 1em;
+}
+
+/* Slide backgrounds are placed inside of their slide when exporting to PDF */
+.reveal section .slide-background {
+	display: block !important;
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	z-index: -1;
+}
+
+/* All elements should be above the slide-background */
+.reveal section>* {
+	position: relative;
+	z-index: 1;
+}
+
+/* Display slide speaker notes when 'showNotes' is enabled */
+.reveal .speaker-notes-pdf {
+	display: block;
+	width: 100%;
+	max-height: none;
+	left: auto;
+	top: auto;
+	z-index: 100;
+}
+
+/* Display slide numbers when 'slideNumber' is enabled */
+.reveal .slide-number-pdf {
+	display: block;
+	position: absolute;
+	font-size: 14px;
+}
+
+</script>
+
+
+<script>
+var style = document.createElement( 'style' );
+style.type = 'text/css';
+var style_script_id = window.location.search.match( /print-pdf/gi ) ? 'pdf-css' : 'paper-css';
+var style_script = document.getElementById(style_script_id).text;
+style.innerHTML = style_script;
+document.getElementsByTagName('head')[0].appendChild(style);
+</script>
+
+    <script src="power-slides_files/header-attrs-2.10/header-attrs.js"></script>
+    <link href="power-slides_files/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
+    <link href="power-slides_files/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+<section>
+    <h1 class="title">Poder estadístico</h1>
+    <h2 class="author">Fill In Your Name</h2>
+    <h3 class="date">02-03-2022</h3>
+</section>
+
+<section>
+<section id="qué-es-el-poder-estadístico"
+class="title-slide slide level1">
+<h1>¿Qué es el poder estadístico?</h1>
+
+</section>
+<section id="qué-es-el-poder-estadístico-1" class="slide level2">
+<h2>¿Qué es el poder estadístico?</h2>
+<ul>
+<li><p>Queremos separar la señal del ruido.</p></li>
+<li><p>Poder = probabilidad de rechazar la hipótesis nula, dado un
+efecto real <span class="math inline">\(\ne\)</span> 0.</p></li>
+<li><p>En otras palabras, es la habilidad de detectar un efecto en caso
+que el efecto exista.</p></li>
+<li><p>Formalmente: (1 - Type II) tasa de error.</p></li>
+<li><p>Por lo tanto, el poder está <span
+class="math inline">\(\in\)</span> (0, 1).</p></li>
+<li><p>Márgenes estándar: 0.8 or 0.9.</p></li>
+</ul>
+</section>
+<section id="puntos-de-partida-para-el-análisis-de-poder"
+class="slide level2">
+<h2>Puntos de partida para el análisis de poder</h2>
+<ul>
+<li><p>El análisis de poder es algo que hacemos <em>antes</em> de
+realizar un estudio</p>
+<ul>
+<li><p>Nos ayuda a definir el tamaño de la muestra que se requiere para
+detectar un efecto de un tamaño dado.</p></li>
+<li><p>O también nos ayuda a encontrar cuál es el efecto detectable
+mínimo para un tamaño de muestra fijo.</p></li>
+<li><p>Esta información nos puede ayudar a decidir si vale la pena hacer
+el estudio o no.</p></li>
+</ul></li>
+<li><p>No se puede aprender mucho de un estudio con hallazgos nulos y
+poco poder.</p>
+<ul>
+<li>¿Hay en realidad un efecto, pero no pudimos detectarlo? ¿O en
+realidad no hay efecto? No podemos diferenciar.</li>
+</ul></li>
+</ul>
+</section>
+<section id="poder" class="slide level2">
+<h2>Poder</h2>
+<ul>
+<li><p>Supongamos que el tratamiento sí produce un efecto y que
+realizamos el experimento muchas veces. ¿Qué tan frecuentemente
+obtendríamos resultados estadísticamente significativos?</p></li>
+<li><p>Algunas cantidades estimadas que nos pueden pueden ayudar a
+resolver esta pregunta:</p>
+<ul>
+<li><p>¿Qué tan grande es el efecto?</p></li>
+<li><p>¿Cuántas unidades fueron tratadas? ¿Para cuántas se tomaron
+datos?</p></li>
+<li><p>¿Qué tanto ruido hay en las mediciones de su variable de
+resultado?</p></li>
+</ul></li>
+</ul>
+</section>
+<section id="métodos-para-calcular-el-poder-estádistico"
+class="slide level2">
+<h2>Métodos para calcular el poder estádistico</h2>
+<ul>
+<li><p>Cálculos analíticos de poder</p></li>
+<li><p>Simulaciones</p></li>
+</ul>
+</section>
+<section id="herramientas-para-el-calculo-del-poder"
+class="slide level2">
+<h2>Herramientas para el calculo del poder</h2>
+<ul>
+<li><p>Interactivas</p>
+<ul>
+<li><p><a href="https://egap.shinyapps.io/power-app/">EGAP calculadora
+de poder</a></p></li>
+<li><p><a
+href="https://rpsychologist.com/d3/NHST/">rpsychologist</a></p></li>
+</ul></li>
+<li><p>Paquetes de R</p>
+<ul>
+<li><p><a
+href="https://cran.r-project.org/web/packages/pwr/index.html">pwr</a></p></li>
+<li><p><a
+href="https://cran.r-project.org/web/packages/DeclareDesign/index.html">DeclareDesign</a>,
+see also <a href="https://declaredesign.org/"
+class="uri">https://declaredesign.org/</a></p></li>
+</ul></li>
+</ul>
+</section></section>
+<section>
+<section id="cálculos-analíticos-de-poder"
+class="title-slide slide level1">
+<h1>Cálculos analíticos de poder</h1>
+
+</section>
+<section id="cálculos-analíticos-de-poder-1" class="slide level2">
+<h2>Cálculos analíticos de poder</h2>
+<ul>
+<li><p>Fórmula: <span class="math display">\[\begin{align*}
+\text{Poder} &amp;= \Phi\left(\frac{|\tau| \sqrt{N}}{2\sigma}-
+\Phi^{-1}(1- \frac{\alpha}{2})\right)
+\end{align*}\]</span></p></li>
+<li><p>Componentes:</p>
+<ul>
+<li><span class="math inline">\(\phi\)</span>: la función acumulada de
+probabilidad (CDF) de la normal estándar crece monotónicamente</li>
+<li><span class="math inline">\(\tau\)</span>: el tamaño del efecto</li>
+<li><span class="math inline">\(N\)</span>: el tamaño de la muestra</li>
+<li><span class="math inline">\(\sigma\)</span>: la desviación estándar
+de la variable dependiente</li>
+<li><span class="math inline">\(\alpha\)</span>: el nivel de
+significancia (normalmente 0.05)</li>
+</ul></li>
+</ul>
+</section>
+<section id="ejemplo-cálculos-analíticos-de-poder" class="slide level2">
+<h2>Ejemplo: Cálculos analíticos de poder</h2>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Poder para un estudio con 80 obs y</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="co"># un tamaño del efecto de 0.25</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(pwr)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">pwr.t.test</span>(</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">n =</span> <span class="dv">40</span>, <span class="at">d =</span> <span class="fl">0.25</span>, <span class="at">sig.level =</span> <span class="fl">0.05</span>,</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">power =</span> <span class="cn">NULL</span>, <span class="at">type =</span> <span class="fu">c</span>(</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;two.sample&quot;</span>,</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;one.sample&quot;</span>, <span class="st">&quot;paired&quot;</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<pre><code>
+     Two-sample t test power calculation 
+
+              n = 40
+              d = 0.25
+      sig.level = 0.05
+          power = 0.1972
+    alternative = two.sided
+
+NOTE: n is number in *each* group</code></pre>
+</section>
+<section id="limitaciones-del-cálculo-analítico-del-poder"
+class="slide level2">
+<h2>Limitaciones del cálculo analítico del poder</h2>
+<ul>
+<li><p>Sólo se puede derivar para algunos estadísticos de prueba
+(diferencia de medias)</p></li>
+<li><p>Implica supuestos específicos acerca del proceso de generación de
+datos</p></li>
+<li><p>Incompatible con diseños más complejos</p></li>
+</ul>
+</section></section>
+<section>
+<section id="cálculo-del-poder-basado-en-simulación"
+class="title-slide slide level1">
+<h1>Cálculo del poder basado en simulación</h1>
+
+</section>
+<section id="cálculo-del-poder-basado-en-la-simulación"
+class="slide level2">
+<h2>Cálculo del poder basado en la simulación</h2>
+<ul>
+<li><p>Debemos crear datos artificiales y simular el diseño de la
+investigación</p></li>
+<li><p>También es necesario hacer supuestos para simular, pero estos los
+definen ustedes mismos.</p></li>
+<li><p>Para ver cómo se hace esto en DeclareDesign, vea <a
+href="https://declaredesign.org/"
+class="uri">https://declaredesign.org/</a></p></li>
+</ul>
+</section>
+<section id="pasos" class="slide level2">
+<h2>Pasos</h2>
+<ul>
+<li><p>Definir la muestra y las funciones de los resultados
+potenciales.</p></li>
+<li><p>Definir el procedimiento de asignación a tratamientos.</p></li>
+<li><p>Crear datos artificiales</p></li>
+<li><p>Asignar el tratamiento y luego estimar el efecto</p></li>
+<li><p>Repetir estos pasos muchas veces</p></li>
+</ul>
+</section>
+<section id="ejemplos" class="slide level2">
+<h2>Ejemplos</h2>
+<ul>
+<li><p>Aleatorizaciçon completa</p></li>
+<li><p>Con covariables</p></li>
+<li><p>Con aleatorización por conglomerados</p></li>
+</ul>
+</section>
+<section
+id="ejemplo-poder-basado-en-simulaciones-con-aleatorización-completa"
+class="slide level2">
+<h2>Ejemplo: Poder basado en simulaciones con aleatorización
+completa</h2>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># install.packages(&quot;randomizr&quot;)</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(randomizr)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(estimatr)</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="do">## Y0 es fijo en la mayoría  de experimentos .</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="do">## Entonces sólo hace falta generarlo una vez:</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>make_Y0 <span class="ot">&lt;-</span> <span class="cf">function</span>(N) {</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rnorm</span>(<span class="at">n =</span> N)</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>repeat_experiment_and_test <span class="ot">&lt;-</span> <span class="cf">function</span>(N, Y0, tau) {</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>  Y1 <span class="ot">&lt;-</span> Y0 <span class="sc">+</span> tau</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>  Z <span class="ot">&lt;-</span> <span class="fu">complete_ra</span>(<span class="at">N =</span> N)</span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>  Yobs <span class="ot">&lt;-</span> Z <span class="sc">*</span> Y1 <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">-</span> Z) <span class="sc">*</span> Y0</span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>  estimator <span class="ot">&lt;-</span> <span class="fu">lm_robust</span>(Yobs <span class="sc">~</span> Z)</span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>  pval <span class="ot">&lt;-</span> estimator<span class="sc">$</span>p.value[<span class="dv">2</span>]</span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(pval)</span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+</section>
+<section
+id="ejemplo-poder-basado-en-simulaciones-con-aleatorización-completa-1"
+class="slide level2">
+<h2>Ejemplo: Poder basado en simulaciones con aleatorización
+completa</h2>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>power_sim <span class="ot">&lt;-</span> <span class="cf">function</span>(N, tau, sims) {</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  Y0 <span class="ot">&lt;-</span> <span class="fu">make_Y0</span>(N)</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  pvals <span class="ot">&lt;-</span> <span class="fu">replicate</span>(</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">n =</span> sims,</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">repeat_experiment_and_test</span>(<span class="at">N =</span> N, <span class="at">Y0 =</span> Y0, <span class="at">tau =</span> tau)</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>  pow <span class="ot">&lt;-</span> <span class="fu">sum</span>(pvals <span class="sc">&lt;</span> .<span class="dv">05</span>) <span class="sc">/</span> sims</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(pow)</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">12345</span>)</span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a><span class="fu">power_sim</span>(<span class="at">N =</span> <span class="dv">80</span>, <span class="at">tau =</span> .<span class="dv">25</span>, <span class="at">sims =</span> <span class="dv">100</span>)</span></code></pre></div>
+<pre><code>[1] 0.15</code></pre>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">power_sim</span>(<span class="at">N =</span> <span class="dv">80</span>, <span class="at">tau =</span> .<span class="dv">25</span>, <span class="at">sims =</span> <span class="dv">100</span>)</span></code></pre></div>
+<pre><code>[1] 0.21</code></pre>
+</section>
+<section id="ejemplo-usando-declaredesign"
+class="slide level2 allowframebreaks">
+<h2 class="allowframebreaks">Ejemplo: Usando DeclareDesign</h2>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(DeclareDesign)</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>P0 <span class="ot">&lt;-</span> <span class="fu">declare_population</span>(N, <span class="at">u0 =</span> <span class="fu">rnorm</span>(N))</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="co"># declarar Y(Z=1) y Y(Z=0)</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>O0 <span class="ot">&lt;-</span> <span class="fu">declare_potential_outcomes</span>(<span class="at">Y_Z_0 =</span> <span class="dv">5</span> <span class="sc">+</span> u0, <span class="at">Y_Z_1 =</span> Y_Z_0 <span class="sc">+</span> tau)</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a><span class="co">#  assigar m unidades al tratamiento</span></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a><span class="co"># A0 &lt;- declare_assignment(m=round(N/2))</span></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>A0 <span class="ot">&lt;-</span> <span class="fu">declare_assignment</span>(<span class="at">Z =</span> <span class="fu">conduct_ra</span>(<span class="at">N =</span> N, <span class="at">m =</span> <span class="fu">round</span>(N <span class="sc">/</span> <span class="dv">2</span>)))</span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a><span class="co"># inquiry es la diferencia promedio entreY(Z=1) y Y(Z=0)</span></span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>estimand_ate <span class="ot">&lt;-</span> <span class="fu">declare_inquiry</span>(<span class="at">ATE =</span> <span class="fu">mean</span>(Y_Z_1 <span class="sc">-</span> Y_Z_0))</span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>R0 <span class="ot">&lt;-</span> <span class="fu">declare_reveal</span>(Y, Z)</span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>design0_base <span class="ot">&lt;-</span> P0 <span class="sc">+</span> A0 <span class="sc">+</span> O0 <span class="sc">+</span> R0</span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a><span class="do">## Por ejemplo:</span></span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>design0_N100_tau25 <span class="ot">&lt;-</span> <span class="fu">redesign</span>(design0_base, <span class="at">N =</span> <span class="dv">100</span>, <span class="at">tau =</span> .<span class="dv">25</span>)</span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>dat0_N100_tau25 <span class="ot">&lt;-</span> <span class="fu">draw_data</span>(design0_N100_tau25)</span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(dat0_N100_tau25)</span></code></pre></div>
+<pre><code>   ID      u0 Z Y_Z_0 Y_Z_1     Y
+1 001 -0.2060 0 4.794 5.044 4.794
+2 002 -0.5875 0 4.413 4.663 4.413
+3 003 -0.2908 1 4.709 4.959 4.959
+4 004 -2.5649 0 2.435 2.685 2.435
+5 005 -1.8967 0 3.103 3.353 3.103
+6 006 -1.6401 1 3.360 3.610 3.610</code></pre>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">with</span>(dat0_N100_tau25, <span class="fu">mean</span>(Y_Z_1 <span class="sc">-</span> Y_Z_0)) <span class="co">#  ATE real</span></span></code></pre></div>
+<pre><code>[1] 0.25</code></pre>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">with</span>(dat0_N100_tau25, <span class="fu">mean</span>(Y[Z <span class="sc">==</span> <span class="dv">1</span>]) <span class="sc">-</span> <span class="fu">mean</span>(Y[Z <span class="sc">==</span> <span class="dv">0</span>])) <span class="co"># estimado</span></span></code></pre></div>
+<pre><code>[1] 0.5569</code></pre>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">lm_robust</span>(Y <span class="sc">~</span> Z, <span class="at">data =</span> dat0_N100_tau25)<span class="sc">$</span>coef <span class="co"># estimate</span></span></code></pre></div>
+<pre><code>(Intercept)           Z 
+     4.8458      0.5569 </code></pre>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>E0 <span class="ot">&lt;-</span> <span class="fu">declare_estimator</span>(Y <span class="sc">~</span> Z,</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">model =</span> lm_robust, <span class="at">label =</span> <span class="st">&quot;t test 1&quot;</span>,</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">inquiry =</span> <span class="st">&quot;ATE&quot;</span></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>t_test <span class="ot">&lt;-</span> <span class="cf">function</span>(data) {</span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>  test <span class="ot">&lt;-</span> <span class="fu">with</span>(data, <span class="fu">t.test</span>(<span class="at">x =</span> Y[Z <span class="sc">==</span> <span class="dv">1</span>], <span class="at">y =</span> Y[Z <span class="sc">==</span> <span class="dv">0</span>]))</span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">data.frame</span>(<span class="at">statistic =</span> test<span class="sc">$</span>statistic, <span class="at">p.value =</span> test<span class="sc">$</span>p.value)</span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>T0 <span class="ot">&lt;-</span> <span class="fu">declare_test</span>(<span class="at">handler =</span> <span class="fu">label_test</span>(t_test), <span class="at">label =</span> <span class="st">&quot;t test 2&quot;</span>)</span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a>design0_plus_tests <span class="ot">&lt;-</span> design0_base <span class="sc">+</span> E0 <span class="sc">+</span> T0</span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a>design0_N100_tau25_plus <span class="ot">&lt;-</span> <span class="fu">redesign</span>(design0_plus_tests, <span class="at">N =</span> <span class="dv">100</span>, <span class="at">tau =</span> .<span class="dv">25</span>)</span>
+<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a><span class="do">## Sólo repetimos la asignación aleatoria, no generamos de nuevo Y0. Ignoren la advertencia</span></span>
+<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(design0_N100_tau25_plus)</span></code></pre></div>
+<pre><code>[1] &quot;P0&quot;       &quot;A0&quot;       &quot;O0&quot;       &quot;R0&quot;       &quot;t test 1&quot; &quot;t test 2&quot;</code></pre>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>design0_N100_tau25_sims <span class="ot">&lt;-</span> <span class="fu">simulate_design</span>(design0_N100_tau25_plus,</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">sims =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">100</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>)</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>) <span class="co"># only repeat the random assignment</span></span></code></pre></div>
+<pre><code>Warning: We recommend you choose a higher number of simulations than 1 for the top level of simulation.</code></pre>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co"># design0_N100_tau25_sims tiene 200 filas (2 pruebas * 100 asignaciones aleatorias)</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="co"># veámos las primeras 6 filas</span></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(design0_N100_tau25_sims)</span></code></pre></div>
+<pre><code>                   design   N  tau sim_ID estimator term estimate std.error statistic p.value conf.low conf.high df outcome inquiry
+1 design0_N100_tau25_plus 100 0.25      1  t test 1    Z   0.1108    0.2150    0.5153 0.60752  -0.3158    0.5374 98       Y     ATE
+2 design0_N100_tau25_plus 100 0.25      1  t test 2 &lt;NA&gt;       NA        NA    0.5153 0.60754       NA        NA NA    &lt;NA&gt;    &lt;NA&gt;
+3 design0_N100_tau25_plus 100 0.25      2  t test 1    Z   0.2458    0.2154    1.1411 0.25661  -0.1817    0.6733 98       Y     ATE
+4 design0_N100_tau25_plus 100 0.25      2  t test 2 &lt;NA&gt;       NA        NA    1.1411 0.25662       NA        NA NA    &lt;NA&gt;    &lt;NA&gt;
+5 design0_N100_tau25_plus 100 0.25      3  t test 1    Z   0.5463    0.2133    2.5608 0.01197   0.1229    0.9697 98       Y     ATE
+6 design0_N100_tau25_plus 100 0.25      3  t test 2 &lt;NA&gt;       NA        NA    2.5608 0.01203       NA        NA NA    &lt;NA&gt;    &lt;NA&gt;
+  step_1_draw step_2_draw
+1           1           1
+2           1           1
+3           1           2
+4           1           2
+5           1           3
+6           1           3</code></pre>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co"># para cada estimador, poder = proporción de las simulaciones con p.value &lt; 0.5</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>design0_N100_tau25_sims <span class="sc">%&gt;%</span></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(estimator) <span class="sc">%&gt;%</span></span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">pow =</span> <span class="fu">mean</span>(p.value <span class="sc">&lt;</span> .<span class="dv">05</span>), <span class="at">.groups =</span> <span class="st">&quot;drop&quot;</span>)</span></code></pre></div>
+<pre><code># A tibble: 2 × 2
+  estimator   pow
+  &lt;chr&gt;     &lt;dbl&gt;
+1 t test 1    0.2
+2 t test 2    0.2</code></pre>
+</section></section>
+<section>
+<section id="poder-con-ajuste-de-covariables"
+class="title-slide slide level1">
+<h1>Poder con ajuste de covariables</h1>
+
+</section>
+<section id="ajuste-de-covariables-y-poder" class="slide level2">
+<h2>Ajuste de covariables y poder</h2>
+<ul>
+<li><p>El ajuste de covariables puede mejorar el poder porque absorbe la
+variación de la variable de resultado.</p>
+<ul>
+<li><p>Sí es para pronóstico, el ajuste de covariables puede reducir la
+varianza significativamente. Una menor varianza se traduce en más
+poder.</p></li>
+<li><p>Sí no es para pronóstico, las ganancias en poder son
+mínimas.</p></li>
+</ul></li>
+<li><p>Todas las variables tienen que ser pre-tratamiento. No eliminen
+observaciones a cuenta de datos faltantes.</p>
+<ul>
+<li>Ver el módulo de <a
+href="threats-to-internal-validity-of-randomized-experiments.html">amenazas
+a la validez interna</a> y las <a
+href="https://egap.org/resource/10-things-to-know-about-covariate-adjustment/">10
+cosas que debe saber sobre el ajuste de covariables</a>.</li>
+</ul></li>
+<li><p>El sesgo de Freedman a medida que el n muestral disminuye y el
+número de covariables aumenta.</p></li>
+</ul>
+<!-- ## Covariate adjustment: best practices -->
+<!-- - All covariates must be pre-treatment -->
+<!--   - Never adjust for post-treatment variables -->
+<!-- - In practice, if all controls are pre-treatment, you can add whatever controls you want -->
+<!--   - But there is a limit to the number -->
+<!--   - Also see -->
+<!-- - Missingness in pre-treatment covariates -->
+<!--   - Do not drop observations on account of pre-treatment missingness -->
+<!--   - Impute mean/median for pretreatment variable -->
+<!--   - Include missingness indicator and impute some value in the missing variable -->
+</section>
+<section id="bloques" class="slide level2">
+<h2>Bloques</h2>
+<ul>
+<li><p>Bloques: asignar el tratamiento al azar dentro de los bloques</p>
+<ul>
+<li><p>Ajuste de covariables “ex-ante”</p></li>
+<li><p>Más precisión/eficiencia significa más poder</p></li>
+<li><p>Reducir “el sesgo condicional”: relación entre el tratamiento y
+los resultados potenciales</p></li>
+<li><p>Beneficios de usar bloques en vez de ajuste de covariables más
+evidente para experimentos pequeños.</p></li>
+</ul></li>
+</ul>
+</section>
+<section id="ejemplo-poder-basado-en-simulaciones-con-una-covariable"
+class="slide level2 allowframebreaks">
+<h2 class="allowframebreaks">Ejemplo: Poder basado en simulaciones con
+una covariable</h2>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Y0 es fijo en la mayoría de experimentos. Solo lo generamos una vez</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>make_Y0_cov <span class="ot">&lt;-</span> <span class="cf">function</span>(N) {</span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>  u0 <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="at">n =</span> N)</span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>  x <span class="ot">&lt;-</span> <span class="fu">rpois</span>(<span class="at">n =</span> N, <span class="at">lambda =</span> <span class="dv">2</span>)</span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>  Y0 <span class="ot">&lt;-</span> .<span class="dv">5</span> <span class="sc">*</span> <span class="fu">sd</span>(u0) <span class="sc">*</span> x <span class="sc">+</span> u0</span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(<span class="fu">data.frame</span>(<span class="at">Y0 =</span> Y0, <span class="at">x =</span> x))</span>
+<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a><span class="do">##  X  predice Y0 moderadamente</span></span>
+<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a>test_dat <span class="ot">&lt;-</span> <span class="fu">make_Y0_cov</span>(<span class="dv">100</span>)</span>
+<span id="cb24-10"><a href="#cb24-10" aria-hidden="true" tabindex="-1"></a>test_lm <span class="ot">&lt;-</span> <span class="fu">lm_robust</span>(Y0 <span class="sc">~</span> x, <span class="at">data =</span> test_dat)</span>
+<span id="cb24-11"><a href="#cb24-11" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(test_lm)</span></code></pre></div>
+<pre><code>
+Call:
+lm_robust(formula = Y0 ~ x, data = test_dat)
+
+Standard error type:  HC2 
+
+Coefficients:
+            Estimate Std. Error t value    Pr(&gt;|t|) CI Lower CI Upper DF
+(Intercept)     0.11     0.1880   0.585 0.559753653   -0.263    0.483 98
+x               0.44     0.0814   5.413 0.000000441    0.279    0.602 98
+
+Multiple R-squared:  0.231 ,    Adjusted R-squared:  0.223 
+F-statistic: 29.3 on 1 and 98 DF,  p-value: 0.000000441</code></pre>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="do">## ahora la simulación</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>repeat_experiment_and_test_cov <span class="ot">&lt;-</span> <span class="cf">function</span>(N, tau, Y0, x) {</span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>  Y1 <span class="ot">&lt;-</span> Y0 <span class="sc">+</span> tau</span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>  Z <span class="ot">&lt;-</span> <span class="fu">complete_ra</span>(<span class="at">N =</span> N)</span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>  Yobs <span class="ot">&lt;-</span> Z <span class="sc">*</span> Y1 <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">-</span> Z) <span class="sc">*</span> Y0</span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>  estimator <span class="ot">&lt;-</span> <span class="fu">lm_robust</span>(Yobs <span class="sc">~</span> Z <span class="sc">+</span> x, <span class="at">data =</span> <span class="fu">data.frame</span>(Y0, Z, x))</span>
+<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a>  pval <span class="ot">&lt;-</span> estimator<span class="sc">$</span>p.value[<span class="dv">2</span>]</span>
+<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(pval)</span>
+<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb26-10"><a href="#cb26-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-11"><a href="#cb26-11" aria-hidden="true" tabindex="-1"></a><span class="do">## crear los datos una vez, asigna aleatoriamente el tratamiento sims veces</span></span>
+<span id="cb26-12"><a href="#cb26-12" aria-hidden="true" tabindex="-1"></a><span class="do">## reporta qué proporción tiene p &lt;0.05</span></span>
+<span id="cb26-13"><a href="#cb26-13" aria-hidden="true" tabindex="-1"></a>power_sim_cov <span class="ot">&lt;-</span> <span class="cf">function</span>(N, tau, sims) {</span>
+<span id="cb26-14"><a href="#cb26-14" aria-hidden="true" tabindex="-1"></a>  dat <span class="ot">&lt;-</span> <span class="fu">make_Y0_cov</span>(N)</span>
+<span id="cb26-15"><a href="#cb26-15" aria-hidden="true" tabindex="-1"></a>  pvals <span class="ot">&lt;-</span> <span class="fu">replicate</span>(<span class="at">n =</span> sims, <span class="fu">repeat_experiment_and_test_cov</span>(</span>
+<span id="cb26-16"><a href="#cb26-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">N =</span> N,</span>
+<span id="cb26-17"><a href="#cb26-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">tau =</span> tau, <span class="at">Y0 =</span> dat<span class="sc">$</span>Y0, <span class="at">x =</span> dat<span class="sc">$</span>x</span>
+<span id="cb26-18"><a href="#cb26-18" aria-hidden="true" tabindex="-1"></a>  ))</span>
+<span id="cb26-19"><a href="#cb26-19" aria-hidden="true" tabindex="-1"></a>  pow <span class="ot">&lt;-</span> <span class="fu">sum</span>(pvals <span class="sc">&lt;</span> .<span class="dv">05</span>) <span class="sc">/</span> sims</span>
+<span id="cb26-20"><a href="#cb26-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(pow)</span>
+<span id="cb26-21"><a href="#cb26-21" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">12345</span>)</span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a><span class="fu">power_sim_cov</span>(<span class="at">N =</span> <span class="dv">80</span>, <span class="at">tau =</span> .<span class="dv">25</span>, <span class="at">sims =</span> <span class="dv">100</span>)</span></code></pre></div>
+<pre><code>[1] 0.13</code></pre>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">power_sim_cov</span>(<span class="at">N =</span> <span class="dv">80</span>, <span class="at">tau =</span> .<span class="dv">25</span>, <span class="at">sims =</span> <span class="dv">100</span>)</span></code></pre></div>
+<pre><code>[1] 0.19</code></pre>
+</section></section>
+<section>
+<section id="poder-para-la-aleatorización-por-conglomerados"
+class="title-slide slide level1">
+<h1>Poder para la aleatorización por conglomerados</h1>
+
+</section>
+<section id="poder-y-diseños-de-conglomerados" class="slide level2">
+<h2>Poder y diseños de conglomerados</h2>
+<ul>
+<li><p>Recordemos el módulo de <a
+href="aleatorizacion.html">aleatorización</a>.</p></li>
+<li><p>Dado un <span class="math inline">\(N\)</span> fijo, un diseño de
+conglomerados tiene menos poder que un diseño sin conglomerados</p>
+<ul>
+<li>La diferencia suele ser sustancial.</li>
+</ul></li>
+<li><p>Tenemos que estimar la varianza correctamente:</p>
+<ul>
+<li>Errores estándar para conglomerados (lo habitual)</li>
+<li>Inferencia basada en la aleatorización (Randomization
+inference)</li>
+</ul></li>
+<li><p>Para aumentar el poder:</p>
+<ul>
+<li>Es mejor aumentar el número de conglomerados que el número de
+unidades por conglomerados.</li>
+<li>Cuánto reducen el poder los conglomerados depende fundamentalmente
+de la correlación intra-clase (la relación entre la varianza dentro de
+los conglomerados y la varianza total).</li>
+</ul></li>
+</ul>
+</section>
+<section
+id="una-nota-sobre-los-conglomerados-en-la-investigación-observacional"
+class="slide level2">
+<h2>Una nota sobre los conglomerados en la investigación
+observacional</h2>
+<ul>
+<li><p>A menudo se pasa por alto lo que conduce (posiblemente) a una
+incertidumbre altamente subestimada.</p>
+<ul>
+<li><p>Inferencia frecuentista basada en la proporción <span
+class="math inline">\(\hat{\beta}/ \hat{se}\)</span></p></li>
+<li><p>Si subestimamos <span class="math inline">\(\hat{se}\)</span>, es
+mucho más probable que rechacemos <span
+class="math inline">\(H_0\)</span>. (La tasa de error de tipo I es
+demasiado alta).</p></li>
+</ul></li>
+<li><p>Muchos diseños de observación tienen mucha menos poder de lo que
+pensamos.</p></li>
+</ul>
+</section>
+<section
+id="ejemplo-poder-basado-en-la-simulación-para-la-aleatorización-por-conglomerados"
+class="slide level2 allowframebreaks">
+<h2 class="allowframebreaks">Ejemplo: Poder basado en la simulación para
+la aleatorización por conglomerados</h2>
+<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Y0 es fijo en la mayoría de experimentos. Solo lo generamos una vez</span></span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>make_Y0_clus <span class="ot">&lt;-</span> <span class="cf">function</span>(n_indivs, n_clus) {</span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>  <span class="co"># n_indivs  número de personas por conglomerados</span></span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>  <span class="co"># n_clus número de conglomerados</span></span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a>  clus_id <span class="ot">&lt;-</span> <span class="fu">gl</span>(n_clus, n_indivs)</span>
+<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a>  N <span class="ot">&lt;-</span> n_clus <span class="sc">*</span> n_indivs</span>
+<span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a>  u0 <span class="ot">&lt;-</span> fabricatr<span class="sc">::</span><span class="fu">draw_normal_icc</span>(<span class="at">N =</span> N, <span class="at">clusters =</span> clus_id, <span class="at">ICC =</span> .<span class="dv">1</span>)</span>
+<span id="cb31-8"><a href="#cb31-8" aria-hidden="true" tabindex="-1"></a>  Y0 <span class="ot">&lt;-</span> u0</span>
+<span id="cb31-9"><a href="#cb31-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(<span class="fu">data.frame</span>(<span class="at">Y0 =</span> Y0, <span class="at">clus_id =</span> clus_id))</span>
+<span id="cb31-10"><a href="#cb31-10" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb31-11"><a href="#cb31-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-12"><a href="#cb31-12" aria-hidden="true" tabindex="-1"></a>test_dat <span class="ot">&lt;-</span> <span class="fu">make_Y0_clus</span>(<span class="at">n_indivs =</span> <span class="dv">10</span>, <span class="at">n_clus =</span> <span class="dv">100</span>)</span></code></pre></div>
+</section>
+<section
+id="ejemplo-poder-basado-en-la-simulación-para-la-aleatorización-por-conglomerados-1"
+class="slide level2 allowframebreaks">
+<h2 class="allowframebreaks">Ejemplo: Poder basado en la simulación para
+la aleatorización por conglomerados</h2>
+<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="co"># confirma que hay 10 personas en cada uno de los 100 conglomerados</span></span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(test_dat<span class="sc">$</span>clus_id)</span></code></pre></div>
+<pre><code>
+ 1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20 
+10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 </code></pre>
+<pre><code>
+21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 
+10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 </code></pre>
+<pre><code>
+41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60 
+10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 </code></pre>
+<pre><code>
+61 62 63 64 65 66 67 68 69 70 71 72 73 74 75 76 77 78 79 80 
+10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 </code></pre>
+<pre><code>
+81 82 83 84 85 86 87 88 89 90 91 92 93 94 95 96 97 98 99 
+10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 </code></pre>
+<pre><code>100 
+ 10 </code></pre>
+</section>
+<section
+id="ejemplo-poder-basado-en-la-simulación-para-la-aleatorización-por-conglomerados-2"
+class="slide level2 allowframebreaks">
+<h2 class="allowframebreaks">Ejemplo: Poder basado en la simulación para
+la aleatorización por conglomerados</h2>
+<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="co"># confirm ICC</span></span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>ICC<span class="sc">::</span><span class="fu">ICCbare</span>(<span class="at">y =</span> Y0, <span class="at">x =</span> clus_id, <span class="at">data =</span> test_dat)</span></code></pre></div>
+<pre><code>[1] 0.09655</code></pre>
+<div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>repeat_experiment_and_test_clus <span class="ot">&lt;-</span> <span class="cf">function</span>(N, tau, Y0, clus_id) {</span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>  Y1 <span class="ot">&lt;-</span> Y0 <span class="sc">+</span> tau</span>
+<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a>  <span class="co">#  aqui aleatorizamos al nivel del conglomerados</span></span>
+<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a>  Z <span class="ot">&lt;-</span> <span class="fu">cluster_ra</span>(<span class="at">clusters =</span> clus_id)</span>
+<span id="cb41-5"><a href="#cb41-5" aria-hidden="true" tabindex="-1"></a>  Yobs <span class="ot">&lt;-</span> Z <span class="sc">*</span> Y1 <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">-</span> Z) <span class="sc">*</span> Y0</span>
+<span id="cb41-6"><a href="#cb41-6" aria-hidden="true" tabindex="-1"></a>  estimator <span class="ot">&lt;-</span> <span class="fu">lm_robust</span>(Yobs <span class="sc">~</span> Z,</span>
+<span id="cb41-7"><a href="#cb41-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">clusters =</span> clus_id,</span>
+<span id="cb41-8"><a href="#cb41-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">data =</span> <span class="fu">data.frame</span>(Y0, Z, clus_id), <span class="at">se_type =</span> <span class="st">&quot;CR2&quot;</span></span>
+<span id="cb41-9"><a href="#cb41-9" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb41-10"><a href="#cb41-10" aria-hidden="true" tabindex="-1"></a>  pval <span class="ot">&lt;-</span> estimator<span class="sc">$</span>p.value[<span class="dv">2</span>]</span>
+<span id="cb41-11"><a href="#cb41-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(pval)</span>
+<span id="cb41-12"><a href="#cb41-12" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb41-13"><a href="#cb41-13" aria-hidden="true" tabindex="-1"></a>power_sim_clus <span class="ot">&lt;-</span> <span class="cf">function</span>(n_indivs, n_clus, tau, sims) {</span>
+<span id="cb41-14"><a href="#cb41-14" aria-hidden="true" tabindex="-1"></a>  dat <span class="ot">&lt;-</span> <span class="fu">make_Y0_clus</span>(n_indivs, n_clus)</span>
+<span id="cb41-15"><a href="#cb41-15" aria-hidden="true" tabindex="-1"></a>  N <span class="ot">&lt;-</span> n_indivs <span class="sc">*</span> n_clus</span>
+<span id="cb41-16"><a href="#cb41-16" aria-hidden="true" tabindex="-1"></a>  pvals <span class="ot">&lt;-</span> <span class="fu">replicate</span>(</span>
+<span id="cb41-17"><a href="#cb41-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">n =</span> sims,</span>
+<span id="cb41-18"><a href="#cb41-18" aria-hidden="true" tabindex="-1"></a>    <span class="fu">repeat_experiment_and_test_clus</span>(</span>
+<span id="cb41-19"><a href="#cb41-19" aria-hidden="true" tabindex="-1"></a>      <span class="at">N =</span> N, <span class="at">tau =</span> tau,</span>
+<span id="cb41-20"><a href="#cb41-20" aria-hidden="true" tabindex="-1"></a>      <span class="at">Y0 =</span> dat<span class="sc">$</span>Y0, <span class="at">clus_id =</span> dat<span class="sc">$</span>clus_id</span>
+<span id="cb41-21"><a href="#cb41-21" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb41-22"><a href="#cb41-22" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb41-23"><a href="#cb41-23" aria-hidden="true" tabindex="-1"></a>  pow <span class="ot">&lt;-</span> <span class="fu">sum</span>(pvals <span class="sc">&lt;</span> .<span class="dv">05</span>) <span class="sc">/</span> sims</span>
+<span id="cb41-24"><a href="#cb41-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(pow)</span>
+<span id="cb41-25"><a href="#cb41-25" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">12345</span>)</span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a><span class="fu">power_sim_clus</span>(<span class="at">n_indivs =</span> <span class="dv">8</span>, <span class="at">n_clus =</span> <span class="dv">100</span>, <span class="at">tau =</span> .<span class="dv">25</span>, <span class="at">sims =</span> <span class="dv">100</span>)</span></code></pre></div>
+<pre><code>[1] 0.66</code></pre>
+<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="fu">power_sim_clus</span>(<span class="at">n_indivs =</span> <span class="dv">8</span>, <span class="at">n_clus =</span> <span class="dv">100</span>, <span class="at">tau =</span> .<span class="dv">25</span>, <span class="at">sims =</span> <span class="dv">100</span>)</span></code></pre></div>
+<pre><code>[1] 0.68</code></pre>
+</section>
+<section
+id="ejemplo-poder-basado-en-la-simulación-para-la-aleatorización-por-conglomerados-declaredesign"
+class="slide level2 allowframebreaks">
+<h2 class="allowframebreaks">Ejemplo: Poder basado en la simulación para
+la aleatorización por conglomerados (DeclareDesign)</h2>
+<div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a>P1 <span class="ot">&lt;-</span> <span class="fu">declare_population</span>(</span>
+<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">N =</span> n_clus <span class="sc">*</span> n_indivs,</span>
+<span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">clusters =</span> <span class="fu">gl</span>(n_clus, n_indivs),</span>
+<span id="cb46-4"><a href="#cb46-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">u0 =</span> <span class="fu">draw_normal_icc</span>(<span class="at">N =</span> N, <span class="at">clusters =</span> clusters, <span class="at">ICC =</span> .<span class="dv">2</span>)</span>
+<span id="cb46-5"><a href="#cb46-5" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb46-6"><a href="#cb46-6" aria-hidden="true" tabindex="-1"></a>O1 <span class="ot">&lt;-</span> <span class="fu">declare_potential_outcomes</span>(<span class="at">Y_Z_0 =</span> <span class="dv">5</span> <span class="sc">+</span> u0, <span class="at">Y_Z_1 =</span> Y_Z_0 <span class="sc">+</span> tau)</span>
+<span id="cb46-7"><a href="#cb46-7" aria-hidden="true" tabindex="-1"></a>A1 <span class="ot">&lt;-</span> <span class="fu">declare_assignment</span>(<span class="at">Z =</span> <span class="fu">conduct_ra</span>(<span class="at">N =</span> N, <span class="at">clusters =</span> clusters))</span>
+<span id="cb46-8"><a href="#cb46-8" aria-hidden="true" tabindex="-1"></a>estimand_ate <span class="ot">&lt;-</span> <span class="fu">declare_inquiry</span>(<span class="at">ATE =</span> <span class="fu">mean</span>(Y_Z_1 <span class="sc">-</span> Y_Z_0))</span>
+<span id="cb46-9"><a href="#cb46-9" aria-hidden="true" tabindex="-1"></a>R1 <span class="ot">&lt;-</span> <span class="fu">declare_reveal</span>(Y, Z)</span>
+<span id="cb46-10"><a href="#cb46-10" aria-hidden="true" tabindex="-1"></a>design1_base <span class="ot">&lt;-</span> P1 <span class="sc">+</span> A1 <span class="sc">+</span> O1 <span class="sc">+</span> R1 <span class="sc">+</span> estimand_ate</span>
+<span id="cb46-11"><a href="#cb46-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb46-12"><a href="#cb46-12" aria-hidden="true" tabindex="-1"></a><span class="do">## Por ejemplo:</span></span>
+<span id="cb46-13"><a href="#cb46-13" aria-hidden="true" tabindex="-1"></a>design1_test <span class="ot">&lt;-</span> <span class="fu">redesign</span>(design1_base,</span>
+<span id="cb46-14"><a href="#cb46-14" aria-hidden="true" tabindex="-1"></a>  <span class="at">n_clus =</span> <span class="dv">10</span>,</span>
+<span id="cb46-15"><a href="#cb46-15" aria-hidden="true" tabindex="-1"></a>  <span class="at">n_indivs =</span> <span class="dv">100</span>, <span class="at">tau =</span> .<span class="dv">25</span></span>
+<span id="cb46-16"><a href="#cb46-16" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb46-17"><a href="#cb46-17" aria-hidden="true" tabindex="-1"></a>test_d1 <span class="ot">&lt;-</span> <span class="fu">draw_data</span>(design1_test)</span>
+<span id="cb46-18"><a href="#cb46-18" aria-hidden="true" tabindex="-1"></a><span class="co"># confirma que todos los individuos en los conglomerados fueron</span></span>
+<span id="cb46-19"><a href="#cb46-19" aria-hidden="true" tabindex="-1"></a><span class="co"># asignados al mismo tratamiento</span></span>
+<span id="cb46-20"><a href="#cb46-20" aria-hidden="true" tabindex="-1"></a><span class="fu">with</span>(test_d1, <span class="fu">table</span>(Z, clusters))</span></code></pre></div>
+<pre><code>   clusters
+Z     1   2   3   4   5   6   7   8   9  10
+  0 100   0 100 100 100   0   0 100   0   0
+  1   0 100   0   0   0 100 100   0 100 100</code></pre>
+<div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="co"># tres estimadores, se diferencias en se_type:</span></span>
+<span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a>E1a <span class="ot">&lt;-</span> <span class="fu">declare_estimator</span>(Y <span class="sc">~</span> Z,</span>
+<span id="cb48-3"><a href="#cb48-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">model =</span> lm_robust, <span class="at">clusters =</span> clusters,</span>
+<span id="cb48-4"><a href="#cb48-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">se_type =</span> <span class="st">&quot;CR2&quot;</span>, <span class="at">label =</span> <span class="st">&quot;CR2 cluster t test&quot;</span>,</span>
+<span id="cb48-5"><a href="#cb48-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">inquiry =</span> <span class="st">&quot;ATE&quot;</span></span>
+<span id="cb48-6"><a href="#cb48-6" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb48-7"><a href="#cb48-7" aria-hidden="true" tabindex="-1"></a>E1b <span class="ot">&lt;-</span> <span class="fu">declare_estimator</span>(Y <span class="sc">~</span> Z,</span>
+<span id="cb48-8"><a href="#cb48-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">model =</span> lm_robust, <span class="at">clusters =</span> clusters,</span>
+<span id="cb48-9"><a href="#cb48-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">se_type =</span> <span class="st">&quot;CR0&quot;</span>, <span class="at">label =</span> <span class="st">&quot;CR0 cluster t test&quot;</span>,</span>
+<span id="cb48-10"><a href="#cb48-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">inquiry =</span> <span class="st">&quot;ATE&quot;</span></span>
+<span id="cb48-11"><a href="#cb48-11" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb48-12"><a href="#cb48-12" aria-hidden="true" tabindex="-1"></a>E1c <span class="ot">&lt;-</span> <span class="fu">declare_estimator</span>(Y <span class="sc">~</span> Z,</span>
+<span id="cb48-13"><a href="#cb48-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">model =</span> lm_robust, <span class="at">clusters =</span> clusters,</span>
+<span id="cb48-14"><a href="#cb48-14" aria-hidden="true" tabindex="-1"></a>  <span class="at">se_type =</span> <span class="st">&quot;stata&quot;</span>, <span class="at">label =</span> <span class="st">&quot;stata RCSE t test&quot;</span>,</span>
+<span id="cb48-15"><a href="#cb48-15" aria-hidden="true" tabindex="-1"></a>  <span class="at">inquiry =</span> <span class="st">&quot;ATE&quot;</span></span>
+<span id="cb48-16"><a href="#cb48-16" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb48-17"><a href="#cb48-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb48-18"><a href="#cb48-18" aria-hidden="true" tabindex="-1"></a>design1_plus <span class="ot">&lt;-</span> design1_base <span class="sc">+</span> E1a <span class="sc">+</span> E1b <span class="sc">+</span> E1c</span>
+<span id="cb48-19"><a href="#cb48-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb48-20"><a href="#cb48-20" aria-hidden="true" tabindex="-1"></a>design1_plus_tosim <span class="ot">&lt;-</span> <span class="fu">redesign</span>(design1_plus,</span>
+<span id="cb48-21"><a href="#cb48-21" aria-hidden="true" tabindex="-1"></a>  <span class="at">n_clus =</span> <span class="dv">10</span>,</span>
+<span id="cb48-22"><a href="#cb48-22" aria-hidden="true" tabindex="-1"></a>  <span class="at">n_indivs =</span> <span class="dv">100</span>, <span class="at">tau =</span> .<span class="dv">25</span></span>
+<span id="cb48-23"><a href="#cb48-23" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Solo repite la asignación aleatoria, no la creación de Y0.</span></span>
+<span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a><span class="do">## Ignorar la advertencia</span></span>
+<span id="cb49-3"><a href="#cb49-3" aria-hidden="true" tabindex="-1"></a><span class="do">## Querríamos más simulaciones en la práctica.</span></span>
+<span id="cb49-4"><a href="#cb49-4" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">12355</span>)</span>
+<span id="cb49-5"><a href="#cb49-5" aria-hidden="true" tabindex="-1"></a>design1_sims <span class="ot">&lt;-</span> <span class="fu">simulate_design</span>(design1_plus_tosim,</span>
+<span id="cb49-6"><a href="#cb49-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">sims =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">1000</span>, <span class="fu">rep</span>(<span class="dv">1</span>, <span class="fu">length</span>(design1_plus_tosim) <span class="sc">-</span> <span class="dv">2</span>))</span>
+<span id="cb49-7"><a href="#cb49-7" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<pre><code>Warning: We recommend you choose a higher number of simulations than 1 for the top level of simulation.</code></pre>
+<div class="sourceCode" id="cb51"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a>design1_sims <span class="sc">%&gt;%</span></span>
+<span id="cb51-2"><a href="#cb51-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(estimator) <span class="sc">%&gt;%</span></span>
+<span id="cb51-3"><a href="#cb51-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(</span>
+<span id="cb51-4"><a href="#cb51-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">pow =</span> <span class="fu">mean</span>(p.value <span class="sc">&lt;</span> .<span class="dv">05</span>),</span>
+<span id="cb51-5"><a href="#cb51-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">coverage =</span> <span class="fu">mean</span>(estimand <span class="sc">&lt;=</span> conf.high <span class="sc">&amp;</span> estimand <span class="sc">&gt;=</span> conf.low),</span>
+<span id="cb51-6"><a href="#cb51-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">.groups =</span> <span class="st">&quot;drop&quot;</span></span>
+<span id="cb51-7"><a href="#cb51-7" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
+<pre><code># A tibble: 3 × 3
+  estimator            pow coverage
+  &lt;chr&gt;              &lt;dbl&gt;    &lt;dbl&gt;
+1 CR0 cluster t test 0.155    0.911
+2 CR2 cluster t test 0.105    0.936
+3 stata RCSE t test  0.131    0.918</code></pre>
+<div class="sourceCode" id="cb53"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(DesignLibrary)</span>
+<span id="cb53-2"><a href="#cb53-2" aria-hidden="true" tabindex="-1"></a><span class="do">## Puede que esto sea más simple que lo anterior</span></span>
+<span id="cb53-3"><a href="#cb53-3" aria-hidden="true" tabindex="-1"></a>d1 <span class="ot">&lt;-</span> <span class="fu">block_cluster_two_arm_designer</span>(</span>
+<span id="cb53-4"><a href="#cb53-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">N_blocks =</span> <span class="dv">1</span>,</span>
+<span id="cb53-5"><a href="#cb53-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">N_clusters_in_block =</span> <span class="dv">10</span>,</span>
+<span id="cb53-6"><a href="#cb53-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">N_i_in_cluster =</span> <span class="dv">100</span>,</span>
+<span id="cb53-7"><a href="#cb53-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">sd_block =</span> <span class="dv">0</span>,</span>
+<span id="cb53-8"><a href="#cb53-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">sd_cluster =</span> .<span class="dv">3</span>,</span>
+<span id="cb53-9"><a href="#cb53-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">ate =</span> .<span class="dv">25</span></span>
+<span id="cb53-10"><a href="#cb53-10" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb53-11"><a href="#cb53-11" aria-hidden="true" tabindex="-1"></a>d1_plus <span class="ot">&lt;-</span> d1 <span class="sc">+</span> E1b <span class="sc">+</span> E1c</span>
+<span id="cb53-12"><a href="#cb53-12" aria-hidden="true" tabindex="-1"></a>d1_sims <span class="ot">&lt;-</span> <span class="fu">simulate_design</span>(d1_plus, <span class="at">sims =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1000</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>))</span></code></pre></div>
+<pre><code>Warning: We recommend you choose a higher number of simulations than 1 for the top level of simulation.</code></pre>
+<div class="sourceCode" id="cb55"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a>d1_sims <span class="sc">%&gt;%</span></span>
+<span id="cb55-2"><a href="#cb55-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(estimator) <span class="sc">%&gt;%</span></span>
+<span id="cb55-3"><a href="#cb55-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(</span>
+<span id="cb55-4"><a href="#cb55-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">pow =</span> <span class="fu">mean</span>(p.value <span class="sc">&lt;</span> .<span class="dv">05</span>),</span>
+<span id="cb55-5"><a href="#cb55-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">coverage =</span> <span class="fu">mean</span>(estimand <span class="sc">&lt;=</span> conf.high <span class="sc">&amp;</span> estimand <span class="sc">&gt;=</span> conf.low),</span>
+<span id="cb55-6"><a href="#cb55-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">.groups =</span> <span class="st">&quot;drop&quot;</span></span>
+<span id="cb55-7"><a href="#cb55-7" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
+<pre><code># A tibble: 3 × 3
+  estimator            pow coverage
+  &lt;chr&gt;              &lt;dbl&gt;    &lt;dbl&gt;
+1 CR0 cluster t test 0.209    0.914
+2 estimator          0.143    0.941
+3 stata RCSE t test  0.194    0.925</code></pre>
+</section></section>
+<section>
+<section id="estática-comparada" class="title-slide slide level1">
+<h1>Estática comparada</h1>
+
+</section>
+<section id="estática-comparada-1" class="slide level2">
+<h2>Estática comparada</h2>
+<ul>
+<li>El poder:
+<ul>
+<li>Crece en función <span class="math inline">\(N\)</span></li>
+<li>Crece en función <span class="math inline">\(|\tau|\)</span></li>
+<li>Decrece en función <span class="math inline">\(\sigma\)</span></li>
+</ul></li>
+</ul>
+</section>
+<section id="poder-segun-el-tamaño-de-la-muestra"
+class="slide level2 allowframebreaks">
+<h2 class="allowframebreaks">Poder segun el tamaño de la muestra</h2>
+<div class="sourceCode" id="cb57"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a>some_ns <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">10</span>, <span class="dv">800</span>, <span class="at">by =</span> <span class="dv">10</span>)</span>
+<span id="cb57-2"><a href="#cb57-2" aria-hidden="true" tabindex="-1"></a>pow_by_n <span class="ot">&lt;-</span> <span class="fu">sapply</span>(some_ns, <span class="cf">function</span>(then) {</span>
+<span id="cb57-3"><a href="#cb57-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pwr.t.test</span>(<span class="at">n =</span> then, <span class="at">d =</span> <span class="fl">0.25</span>, <span class="at">sig.level =</span> <span class="fl">0.05</span>)<span class="sc">$</span>power</span>
+<span id="cb57-4"><a href="#cb57-4" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb57-5"><a href="#cb57-5" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(some_ns, pow_by_n,</span>
+<span id="cb57-6"><a href="#cb57-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">xlab =</span> <span class="st">&quot;Sample Size&quot;</span>,</span>
+<span id="cb57-7"><a href="#cb57-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">ylab =</span> <span class="st">&quot;Power&quot;</span></span>
+<span id="cb57-8"><a href="#cb57-8" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb57-9"><a href="#cb57-9" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">h =</span> .<span class="dv">8</span>)</span></code></pre></div>
+<p><img src="figs/figpowplot_by_n-1.png" width=".8\textwidth"  /></p>
+<div class="sourceCode" id="cb58"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Vea:</span></span>
+<span id="cb58-2"><a href="#cb58-2" aria-hidden="true" tabindex="-1"></a><span class="do">## https://cran.r-project.org/web/packages/pwr/vignettes/pwr-vignette.html</span></span>
+<span id="cb58-3"><a href="#cb58-3" aria-hidden="true" tabindex="-1"></a><span class="do">## para mejores gráficas</span></span>
+<span id="cb58-4"><a href="#cb58-4" aria-hidden="true" tabindex="-1"></a><span class="do">## ptest &lt;-  pwr.t.test(n = NULL, d = 0.25, sig.level = 0.05, power = .8)</span></span>
+<span id="cb58-5"><a href="#cb58-5" aria-hidden="true" tabindex="-1"></a><span class="do">## plot(ptest)</span></span></code></pre></div>
+</section>
+<section id="poder-segun-el-tamaño-de-la-muestra-1"
+class="slide level2 allowframebreaks">
+<h2 class="allowframebreaks">Poder segun el tamaño de la muestra</h2>
+<div class="sourceCode" id="cb59"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a>some_taus <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="at">by =</span> .<span class="dv">05</span>)</span>
+<span id="cb59-2"><a href="#cb59-2" aria-hidden="true" tabindex="-1"></a>pow_by_tau <span class="ot">&lt;-</span> <span class="fu">sapply</span>(some_taus, <span class="cf">function</span>(thetau) {</span>
+<span id="cb59-3"><a href="#cb59-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pwr.t.test</span>(<span class="at">n =</span> <span class="dv">200</span>, <span class="at">d =</span> thetau, <span class="at">sig.level =</span> <span class="fl">0.05</span>)<span class="sc">$</span>power</span>
+<span id="cb59-4"><a href="#cb59-4" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb59-5"><a href="#cb59-5" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(some_taus, pow_by_tau,</span>
+<span id="cb59-6"><a href="#cb59-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">xlab =</span> <span class="st">&quot;Efecto promedio del tratamiento (Estandarizada)&quot;</span>,</span>
+<span id="cb59-7"><a href="#cb59-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">ylab =</span> <span class="st">&quot;Poder&quot;</span></span>
+<span id="cb59-8"><a href="#cb59-8" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb59-9"><a href="#cb59-9" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">h =</span> .<span class="dv">8</span>)</span></code></pre></div>
+<p><img src="figs/figpowplot_by_tau-1.png" width=".8\textwidth"  /></p>
+</section>
+<section id="calculadora-de-poder-de-egap" class="slide level2">
+<h2>Calculadora de Poder de EGAP</h2>
+<ul>
+<li><p>Pueden usar la calculadora aquí: <a
+href="https://egap.shinyapps.io/power-app/"
+class="uri">https://egap.shinyapps.io/power-app/</a></p></li>
+<li><p>Para diseños por conglomerados puede probar ajustando:</p>
+<ul>
+<li>El número de conglomerados</li>
+<li>El número de unidades por conglomerados</li>
+<li>Correlación Intra-clase</li>
+<li>Efecto del tratamiento</li>
+</ul></li>
+</ul>
+</section>
+<section id="comments" class="slide level2">
+<h2>Comments</h2>
+<ul>
+<li><p>Deben conocer bien la variable de resultado</p></li>
+<li><p>¿Cuáles son los efectos que esperan del tratamiento?</p></li>
+<li><p>¿Cuál es el rango de variación posible que puede tener la
+variable de resultado?</p>
+<ul>
+<li>Un diseño en el que la variable de resultado tenga variación
+limitada puede tener poco poder</li>
+</ul></li>
+</ul>
+</section>
+<section id="conclusión-cómo-mejorar-el-poder" class="slide level2">
+<h2>Conclusión: Cómo mejorar el poder</h2>
+<ol type="1">
+<li><p>Aumenten el tamaño de la muestra, <span
+class="math inline">\(N\)</span></p>
+<ul>
+<li>Si hay conglomerados, aumenten el número de conglomerados de ser
+posible</li>
+</ul></li>
+<li><p>Intensifiquen el tratamiento</p></li>
+<li><p>Mejoren la precisión</p>
+<ul>
+<li><p>Ajuste de covariables</p></li>
+<li><p>Bloques</p></li>
+</ul></li>
+<li><p>Midan la variable de resultado correctamente</p></li>
+</ol>
+</section></section>
+    </div>
+  </div>
+
+  <script src="power-slides_files/reveal.js-3.3.0.1/lib/js/head.min.js"></script>
+  <script src="power-slides_files/reveal.js-3.3.0.1/js/reveal.js"></script>
+
+  <script>
+
+      // Full list of configuration options available at:
+      // https://github.com/hakimel/reveal.js#configuration
+      Reveal.initialize({
+        // Display controls in the bottom right corner
+        controls: true,
+        // Display a presentation progress bar
+        progress: true,
+        // Display the page number of the current slide
+        slideNumber: true,
+        // Push each slide change to the browser history
+        history: true,
+        // Enable keyboard shortcuts for navigation
+        keyboard: true,
+        // Enable the slide overview mode
+        overview: true,
+        // Vertical centering of slides
+        center: false,
+        // Enables touch navigation on devices with touch input
+        touch: true,
+        // Turns fragments on and off globally
+        fragments: true,
+        // Flags if we should show a help overlay when the questionmark
+        // key is pressed
+        help: true,
+        // Number of milliseconds between automatically proceeding to the
+        // next slide, disabled when set to 0, this value can be overwritten
+        // by using a data-autoslide attribute on your slides
+        autoSlide: 0,
+        // Stop auto-sliding after user input
+        autoSlideStoppable: true,
+        // Opens links in an iframe preview overlay
+        previewLinks: true,
+        // Transition style
+        transition: 'fade', // none/fade/slide/convex/concave/zoom
+        // Transition speed
+        transitionSpeed: 'default', // default/fast/slow
+        // Transition style for full page slide backgrounds
+        backgroundTransition: 'default', // none/fade/slide/convex/concave/zoom
+        // Number of slides away from the current that are visible
+        viewDistance: 3,
+
+
+
+        chalkboard: {
+          toggleNotesButton: false,
+          theme: 'whiteboard',
+        },
+
+        keyboard: {
+          67: function() { RevealChalkboard.toggleNotesCanvas() },    // toggle notes canvas when 'c' is pressed
+          66: function() { RevealChalkboard.toggleChalkboard() }, // toggle chalkboard when 'b' is pressed
+          46: function() { RevealChalkboard.clear() },    // clear chalkboard when 'DEL' is pressed
+           8: function() { RevealChalkboard.reset() },    // reset chalkboard data on current slide when 'BACKSPACE' is pressed
+          68: function() { RevealChalkboard.download() }, // downlad recorded chalkboard drawing when 'd' is pressed
+        },
+
+        // Optional reveal.js plugins
+        dependencies: [
+          { src: 'power-slides_files/reveal.js-3.3.0.1/plugin/notes/notes.js', async: true },
+          { src: 'power-slides_files/reveal.js-3.3.0.1/plugin/search/search.js', async: true },
+          { src: 'power-slides_files/reveal.js-3.3.0.1/plugin/chalkboard/chalkboard.js', async: true },
+        ]
+      });
+    </script>
+  <!-- dynamically load mathjax for compatibility with self-contained -->
+  <script>
+    (function () {
+      var script = document.createElement("script");
+      script.type = "text/javascript";
+      script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+      document.getElementsByTagName("head")[0].appendChild(script);
+    })();
+  </script>
+
+<script>
+  (function() {
+    if (window.jQuery) {
+      Reveal.addEventListener( 'slidechanged', function(event) {  
+        window.jQuery(event.previousSlide).trigger('hidden');
+        window.jQuery(event.currentSlide).trigger('shown');
+      });
+    }
+  })();
+</script>
+
+
+  </body>
+</html>

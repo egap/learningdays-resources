@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="generator" content="pandoc">
   <meta name="author" content="Fill In Your Name" />
-  <meta name="dcterms.date" content="2021-03-01" />
+  <meta name="dcterms.date" content="2022-03-01" />
   <title>Estimating Estimands with Estimators</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -509,7 +509,7 @@ style.innerHTML = style_script;
 document.getElementsByTagName('head')[0].appendChild(style);
 </script>
 
-    <script src="estimation-slides_files/header-attrs-2.6/header-attrs.js"></script>
+    <script src="estimation-slides_files/header-attrs-2.10/header-attrs.js"></script>
     <link href="estimation-slides_files/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
     <link href="estimation-slides_files/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
 </head>
@@ -520,116 +520,223 @@ document.getElementsByTagName('head')[0].appendChild(style);
 <section>
     <h1 class="title">Estimating Estimands with Estimators</h1>
     <h2 class="author">Fill In Your Name</h2>
-    <h3 class="date">01 March 2021</h3>
+    <h3 class="date">01 March 2022</h3>
 </section>
 <section id="TOC">
 <ul>
 <li><a href="#/key-points">Key points</a>
 <ul>
-<li><a href="#/key-points-about-estimation-i">Key points about estimation I</a></li>
-<li><a href="#/key-points-about-estimation-ii">Key points about estimation II</a></li>
-<li><a href="#/key-points-about-estimation-iii">Key points about estimation III</a></li>
-<li><a href="#/key-points-about-estimation-iv">Key points about estimation IV</a></li>
-<li><a href="#/key-points-about-estimation-v">Key points about estimation V</a></li>
+<li><a href="#/key-points-about-estimation-i">Key points about
+estimation I</a></li>
+<li><a href="#/key-points-about-estimation-ii">Key points about
+estimation II</a></li>
+<li><a href="#/key-points-about-estimation-iii">Key points about
+estimation III</a></li>
+<li><a href="#/key-points-about-estimation-iv">Key points about
+estimation IV</a></li>
+<li><a href="#/key-points-about-estimation-v">Key points about
+estimation V</a></li>
 </ul></li>
 <li><a href="#/review">Review</a>
 <ul>
 <li><a href="#/review-causal-effects">Review: Causal effects</a></li>
 </ul></li>
-<li><a href="#/estimands-and-estimators-and-averages">Estimands and estimators and averages</a>
+<li><a href="#/estimands-and-estimators-and-averages">Estimands and
+estimators and averages</a>
 <ul>
-<li><a href="#/how-can-we-learn-about-causal-effects-from-observed-data">How can we learn about causal effects from observed data?</a></li>
-<li><a href="#/a-common-estimand-and-estimator-the-average-treatment-effect-and-the-difference-of-means">A common estimand and estimator: The average treatment effect and the difference of means</a></li>
-<li><a href="#/simulation-step-1-create-some-data-with-a-known-ate">Simulation Step 1: create some data with a known ATE</a></li>
+<li><a
+href="#/how-can-we-learn-about-causal-effects-from-observed-data">How
+can we learn about causal effects from observed data?</a></li>
+<li><a
+href="#/a-common-estimand-and-estimator-the-average-treatment-effect-and-the-difference-of-means">A
+common estimand and estimator: The average treatment effect and the
+difference of means</a></li>
+<li><a
+href="#/simulation-step-1-create-some-data-with-a-known-ate">Simulation
+Step 1: create some data with a known ATE</a></li>
 <li><a href="#/first-make-fake-data">First make fake data</a></li>
 <li><a href="#/using-declaredesign">Using DeclareDesign</a></li>
-<li><a href="#/using-declaredesign-make-fake-data">Using DeclareDesign: make fake data</a></li>
-<li><a href="#/using-declaredesign-define-estimand-and-estimators">Using DeclareDesign: define estimand and estimators</a></li>
-<li><a href="#/using-declaredesign-define-estimand-and-estimators-1">Using DeclareDesign: define estimand and estimators</a></li>
-<li><a href="#/using-declaredesign-define-estimand-and-estimators-2">Using DeclareDesign: define estimand and estimators</a></li>
-<li><a href="#/then-simulate-with-one-randomization">Then simulate with one randomization</a></li>
-<li><a href="#/then-simulate-with-one-randomization-1">Then simulate with one randomization</a></li>
-<li><a href="#/then-simulate-a-different-randomization-and-estimate-the-ate-with-the-same-estimators">Then simulate a different randomization and estimate the ATE with the same estimators</a></li>
-<li><a href="#/how-do-our-estimators-behave-in-general-for-this-design">How do our estimators behave in general for this design?</a></li>
-<li><a href="#/how-do-our-estimators-behave-in-general-for-this-design-1">How do our estimators behave in general for this design?</a></li>
-<li><a href="#/which-estimator-is-closer-to-the-truth">Which estimator is closer to the truth?</a></li>
-<li><a href="#/unbiased-and-biased-estimators">Unbiased and biased estimators</a></li>
+<li><a href="#/using-declaredesign-make-fake-data">Using DeclareDesign:
+make fake data</a></li>
+<li><a href="#/using-declaredesign-define-estimand-and-estimators">Using
+DeclareDesign: define estimand and estimators</a></li>
+<li><a
+href="#/using-declaredesign-define-estimand-and-estimators-1">Using
+DeclareDesign: define estimand and estimators</a></li>
+<li><a
+href="#/using-declaredesign-define-estimand-and-estimators-2">Using
+DeclareDesign: define estimand and estimators</a></li>
+<li><a href="#/then-simulate-with-one-randomization">Then simulate with
+one randomization</a></li>
+<li><a href="#/then-simulate-with-one-randomization-1">Then simulate
+with one randomization</a></li>
+<li><a
+href="#/then-simulate-a-different-randomization-and-estimate-the-ate-with-the-same-estimators">Then
+simulate a different randomization and estimate the ATE with the same
+estimators</a></li>
+<li><a
+href="#/how-do-our-estimators-behave-in-general-for-this-design">How do
+our estimators behave in general for this design?</a></li>
+<li><a
+href="#/how-do-our-estimators-behave-in-general-for-this-design-1">How
+do our estimators behave in general for this design?</a></li>
+<li><a href="#/which-estimator-is-closer-to-the-truth">Which estimator
+is closer to the truth?</a></li>
+<li><a href="#/unbiased-and-biased-estimators">Unbiased and biased
+estimators</a></li>
 </ul></li>
 <li><a href="#/block-randomization">Block randomization</a>
 <ul>
-<li><a href="#/block-randomized-experiments-are-a-collection-of-mini-experiments">Block-randomized experiments are a collection of mini-experiments</a></li>
-<li><a href="#/block-randomized-experiments-are-a-collection-of-mini-experiments-1">Block-randomized experiments are a collection of mini-experiments</a></li>
-<li><a href="#/estimating-the-ate-in-block-randomized-experiments">Estimating the ATE in block-randomized experiments</a></li>
-<li><a href="#/estimating-the-ate-in-block-randomized-experiments-1">Estimating the ATE in block-randomized experiments</a></li>
-<li><a href="#/estimating-the-ate-in-block-randomized-experiments-2">Estimating the ATE in block-randomized experiments</a></li>
-<li><a href="#/estimating-the-ate-in-block-randomized-experiments-3">Estimating the ATE in block-randomized experiments</a></li>
-<li><a href="#/which-estimator-should-we-use">Which estimator should we use?</a></li>
-<li><a href="#/which-estimator-should-we-use-1">Which estimator should we use?</a></li>
-<li><a href="#/which-estimator-should-we-use-2">Which estimator should we use?</a></li>
-<li><a href="#/which-estimator-should-we-use-3">Which estimator should we use?</a></li>
-<li><a href="#/which-estimator-is-closer-to-the-truth-1">Which estimator is closer to the truth?</a></li>
+<li><a
+href="#/block-randomized-experiments-are-a-collection-of-mini-experiments">Block-randomized
+experiments are a collection of mini-experiments</a></li>
+<li><a
+href="#/block-randomized-experiments-are-a-collection-of-mini-experiments-1">Block-randomized
+experiments are a collection of mini-experiments</a></li>
+<li><a
+href="#/estimating-the-ate-in-block-randomized-experiments">Estimating
+the ATE in block-randomized experiments</a></li>
+<li><a
+href="#/estimating-the-ate-in-block-randomized-experiments-1">Estimating
+the ATE in block-randomized experiments</a></li>
+<li><a
+href="#/estimating-the-ate-in-block-randomized-experiments-2">Estimating
+the ATE in block-randomized experiments</a></li>
+<li><a
+href="#/estimating-the-ate-in-block-randomized-experiments-3">Estimating
+the ATE in block-randomized experiments</a></li>
+<li><a href="#/which-estimator-should-we-use">Which estimator should we
+use?</a></li>
+<li><a href="#/which-estimator-should-we-use-1">Which estimator should
+we use?</a></li>
+<li><a href="#/which-estimator-should-we-use-2">Which estimator should
+we use?</a></li>
+<li><a href="#/which-estimator-should-we-use-3">Which estimator should
+we use?</a></li>
+<li><a href="#/which-estimator-is-closer-to-the-truth-1">Which estimator
+is closer to the truth?</a></li>
 </ul></li>
 <li><a href="#/cluster-randomization">Cluster randomization</a>
 <ul>
-<li><a href="#/in-cluster-randomized-experiments-units-are-randomized-as-a-group-cluster-to-treatment">In cluster-randomized experiments, units are randomized as a group (cluster) to treatment</a></li>
-<li><a href="#/estimating-the-ate-in-cluster-randomized-experiments">Estimating the ATE in cluster-randomized experiments</a></li>
-<li><a href="#/estimating-the-se-for-the-ate-in-cluster-randomized-experiments">Estimating the SE for the ATE in cluster-randomized experiments</a></li>
-<li><a href="#/an-example-of-estimation">An example of estimation</a></li>
-<li><a href="#/an-example-of-estimation-1">An example of estimation</a></li>
-<li><a href="#/use-simulation-to-assess-estimators-and-tests">Use simulation to assess estimators and tests</a></li>
-<li><a href="#/use-simulation-to-assess-estimators-and-tests-1">Use simulation to assess estimators and tests</a></li>
-<li><a href="#/use-simulation-to-assess-estimators-and-tests-2">Use simulation to assess estimators and tests</a></li>
-<li><a href="#/summary-of-estimation-and-testing-in-cluster-randomized-trials">Summary of estimation and testing in cluster-randomized trials</a></li>
+<li><a
+href="#/in-cluster-randomized-experiments-units-are-randomized-as-a-group-cluster-to-treatment">In
+cluster-randomized experiments, units are randomized as a group
+(cluster) to treatment</a></li>
+<li><a
+href="#/estimating-the-ate-in-cluster-randomized-experiments">Estimating
+the ATE in cluster-randomized experiments</a></li>
+<li><a
+href="#/estimating-the-se-for-the-ate-in-cluster-randomized-experiments">Estimating
+the SE for the ATE in cluster-randomized experiments</a></li>
+<li><a href="#/an-example-of-estimation">An example of
+estimation</a></li>
+<li><a href="#/an-example-of-estimation-1">An example of
+estimation</a></li>
+<li><a href="#/use-simulation-to-assess-estimators-and-tests">Use
+simulation to assess estimators and tests</a></li>
+<li><a href="#/use-simulation-to-assess-estimators-and-tests-1">Use
+simulation to assess estimators and tests</a></li>
+<li><a href="#/use-simulation-to-assess-estimators-and-tests-2">Use
+simulation to assess estimators and tests</a></li>
+<li><a
+href="#/summary-of-estimation-and-testing-in-cluster-randomized-trials">Summary
+of estimation and testing in cluster-randomized trials</a></li>
 </ul></li>
 <li><a href="#/binary-outcomes">Binary outcomes</a>
 <ul>
-<li><a href="#/binary-outcomes-set-up-our-data-for-simulation-in-declaredesign">Binary outcomes: Set up our data for simulation in DeclareDesign</a></li>
-<li><a href="#/binary-outcomes-set-up-our-data-for-simulation-in-declaredesign-1">Binary outcomes: Set up our data for simulation in DeclareDesign</a></li>
-<li><a href="#/binary-outcomes-estimands-i">Binary outcomes: Estimands I</a></li>
-<li><a href="#/binary-outcomes-estimands-ii">Binary outcomes: Estimands II</a></li>
-<li><a href="#/binary-outcomes-estimands-iii">Binary outcomes: Estimands III</a></li>
-<li><a href="#/an-example-of-estimation-i">An example of estimation I</a></li>
-<li><a href="#/an-example-of-estimation-ii">An example of estimation II</a></li>
-<li><a href="#/an-example-of-estimation-iii">An example of estimation III</a></li>
-<li><a href="#/an-example-of-estimation-the-freedman-plugin-estimators-i">An example of estimation: The Freedman plugin estimators I</a></li>
-<li><a href="#/an-example-of-estimation-the-freedman-plugin-estimators-ii">An example of estimation: The Freedman plugin estimators II</a></li>
-<li><a href="#/an-example-of-using-declaredesign-to-assess-our-estimators-i">An example of using DeclareDesign to assess our estimators I</a></li>
-<li><a href="#/an-example-of-using-declaredesign-to-assess-our-estimators-ii">An example of using DeclareDesign to assess our estimators II</a></li>
-<li><a href="#/using-simulation-to-assess-our-estimators">Using simulation to assess our estimators</a></li>
-<li><a href="#/which-estimator-is-closer-to-the-truth-2">Which estimator is closer to the truth?</a></li>
+<li><a
+href="#/binary-outcomes-set-up-our-data-for-simulation-in-declaredesign">Binary
+outcomes: Set up our data for simulation in DeclareDesign</a></li>
+<li><a
+href="#/binary-outcomes-set-up-our-data-for-simulation-in-declaredesign-1">Binary
+outcomes: Set up our data for simulation in DeclareDesign</a></li>
+<li><a href="#/binary-outcomes-estimands-i">Binary outcomes: Estimands
+I</a></li>
+<li><a href="#/binary-outcomes-estimands-ii">Binary outcomes: Estimands
+II</a></li>
+<li><a href="#/binary-outcomes-estimands-iii">Binary outcomes: Estimands
+III</a></li>
+<li><a href="#/an-example-of-estimation-i">An example of estimation
+I</a></li>
+<li><a href="#/an-example-of-estimation-ii">An example of estimation
+II</a></li>
+<li><a href="#/an-example-of-estimation-iii">An example of estimation
+III</a></li>
+<li><a
+href="#/an-example-of-estimation-the-freedman-plugin-estimators-i">An
+example of estimation: The Freedman plugin estimators I</a></li>
+<li><a
+href="#/an-example-of-estimation-the-freedman-plugin-estimators-ii">An
+example of estimation: The Freedman plugin estimators II</a></li>
+<li><a
+href="#/an-example-of-using-declaredesign-to-assess-our-estimators-i">An
+example of using DeclareDesign to assess our estimators I</a></li>
+<li><a
+href="#/an-example-of-using-declaredesign-to-assess-our-estimators-ii">An
+example of using DeclareDesign to assess our estimators II</a></li>
+<li><a href="#/using-simulation-to-assess-our-estimators">Using
+simulation to assess our estimators</a></li>
+<li><a href="#/which-estimator-is-closer-to-the-truth-2">Which estimator
+is closer to the truth?</a></li>
 </ul></li>
-<li><a href="#/other-topics-in-estimation">Other topics in estimation</a>
+<li><a href="#/other-topics-in-estimation">Other topics in
+estimation</a>
 <ul>
-<li><a href="#/covariance-adjustment-estimands">Covariance adjustment: Estimands</a></li>
+<li><a href="#/covariance-adjustment-estimands">Covariance adjustment:
+Estimands</a></li>
 </ul></li>
 <li><a href="#/conclusion">Conclusion</a>
 <ul>
-<li><a href="#/final-thoughts-on-basics-of-estimation">Final thoughts on basics of estimation</a></li>
+<li><a href="#/final-thoughts-on-basics-of-estimation">Final thoughts on
+basics of estimation</a></li>
 </ul></li>
-<li><a href="#/causal-effects-that-differ-by-groups-or-covariates">Causal effects that differ by groups or covariates</a>
+<li><a
+href="#/causal-effects-that-differ-by-groups-or-covariates">Causal
+effects that differ by groups or covariates</a>
 <ul>
-<li><a href="#/effects-that-differ-by-groups-i">Effects that differ by groups I</a></li>
-<li><a href="#/effects-that-differ-by-groups-ii">Effects that differ by groups II</a></li>
+<li><a href="#/effects-that-differ-by-groups-i">Effects that differ by
+groups I</a></li>
+<li><a href="#/effects-that-differ-by-groups-ii">Effects that differ by
+groups II</a></li>
 </ul></li>
-<li><a href="#/causal-effects-when-we-do-not-control-the-dose">Causal effects when we do not control the dose</a>
+<li><a href="#/causal-effects-when-we-do-not-control-the-dose">Causal
+effects when we do not control the dose</a>
 <ul>
-<li><a href="#/defining-causal-effects-i">Defining causal effects I</a></li>
-<li><a href="#/defining-causal-effects-ii">Defining causal effects II</a></li>
-<li><a href="#/defining-causal-effects-iii">Defining causal effects III</a></li>
-<li><a href="#/defining-causal-effects-iv">Defining causal effects IV</a></li>
-<li><a href="#/defining-causal-effects-v">Defining causal effects V</a></li>
-<li><a href="#/defining-causal-effects-vi">Defining causal effects VI</a></li>
-<li><a href="#/defining-causal-effects-vii">Defining causal effects VII</a></li>
-<li><a href="#/learning-about-the-itt-i">Learning about the ITT I</a></li>
-<li><a href="#/learning-about-the-itt-ii">Learning about the ITT II</a></li>
-<li><a href="#/learning-about-the-itt-iii">Learning about the ITT III</a></li>
-<li><a href="#/learning-about-the-itt-iv">Learning about the ITT IV</a></li>
-<li><a href="#/the-complier-average-causal-effect-i">The complier average causal effect I</a></li>
-<li><a href="#/the-complier-average-causal-effect-ii">The complier average causal effect II</a></li>
-<li><a href="#/how-to-calculate-the-itt-and-cacelate-i">How to calculate the ITT and CACE/LATE I</a></li>
-<li><a href="#/how-to-calculate-the-itt-and-cacelate-ii">How to calculate the ITT and CACE/LATE II</a></li>
-<li><a href="#/how-to-calculate-the-itt-and-cacelate-iii">How to calculate the ITT and CACE/LATE III</a></li>
-<li><a href="#/summary-of-encouragementcomplierdose-oriented-designs">Summary of Encouragement/Complier/Dose oriented designs:</a></li>
+<li><a href="#/defining-causal-effects-i">Defining causal effects
+I</a></li>
+<li><a href="#/defining-causal-effects-ii">Defining causal effects
+II</a></li>
+<li><a href="#/defining-causal-effects-iii">Defining causal effects
+III</a></li>
+<li><a href="#/defining-causal-effects-iv">Defining causal effects
+IV</a></li>
+<li><a href="#/defining-causal-effects-v">Defining causal effects
+V</a></li>
+<li><a href="#/defining-causal-effects-vi">Defining causal effects
+VI</a></li>
+<li><a href="#/defining-causal-effects-vii">Defining causal effects
+VII</a></li>
+<li><a href="#/learning-about-the-itt-i">Learning about the ITT
+I</a></li>
+<li><a href="#/learning-about-the-itt-ii">Learning about the ITT
+II</a></li>
+<li><a href="#/learning-about-the-itt-iii">Learning about the ITT
+III</a></li>
+<li><a href="#/learning-about-the-itt-iv">Learning about the ITT
+IV</a></li>
+<li><a href="#/the-complier-average-causal-effect-i">The complier
+average causal effect I</a></li>
+<li><a href="#/the-complier-average-causal-effect-ii">The complier
+average causal effect II</a></li>
+<li><a href="#/how-to-calculate-the-itt-and-cacelate-i">How to calculate
+the ITT and CACE/LATE I</a></li>
+<li><a href="#/how-to-calculate-the-itt-and-cacelate-ii">How to
+calculate the ITT and CACE/LATE II</a></li>
+<li><a href="#/how-to-calculate-the-itt-and-cacelate-iii">How to
+calculate the ITT and CACE/LATE III</a></li>
+<li><a
+href="#/summary-of-encouragementcomplierdose-oriented-designs">Summary
+of Encouragement/Complier/Dose oriented designs:</a></li>
 <li><a href="#/references">References</a></li>
 </ul></li>
 </ul>
@@ -643,25 +750,59 @@ document.getElementsByTagName('head')[0].appendChild(style);
 <section id="key-points-about-estimation-i" class="slide level2">
 <h2>Key points about estimation I</h2>
 <ul>
-<li><p>A causal effect, <span class="math inline">\(\tau_i\)</span>, is a comparison of unobserved potential outcomes for each unit <span class="math inline">\(i\)</span>: examples <span class="math inline">\(\tau_{i} = Y_{i}(T_{i}=1) - Y_{i}(T_{i}=0)\)</span> or <span class="math inline">\(\tau_{i} = \frac{Y_{i}(T_{i}=1)}{ Y_{i}(T_{i}=0)}\)</span>.</p></li>
-<li><p>To learn about <span class="math inline">\(\tau_{i}\)</span>, we can treat <span class="math inline">\(\tau_{i}\)</span> as an <strong>estimand</strong> or target quantity to be estimated (discussed here) or as a target quantity to be hypothesized about (session on hypothesis testing).</p></li>
-<li><p>Many focus on the <strong>average treatment effect (ATE)</strong>, <span class="math inline">\(\bar{\tau}=\sum_{i=1}^n\tau_{i}\)</span>, in part, because it allows for easy <strong>estimation</strong>.</p></li>
+<li><p>A causal effect, <span class="math inline">\(\tau_i\)</span>, is
+a comparison of unobserved potential outcomes for each unit <span
+class="math inline">\(i\)</span>: examples <span
+class="math inline">\(\tau_{i} = Y_{i}(T_{i}=1) -
+Y_{i}(T_{i}=0)\)</span> or <span class="math inline">\(\tau_{i} =
+\frac{Y_{i}(T_{i}=1)}{ Y_{i}(T_{i}=0)}\)</span>.</p></li>
+<li><p>To learn about <span class="math inline">\(\tau_{i}\)</span>, we
+can treat <span class="math inline">\(\tau_{i}\)</span> as an
+<strong>estimand</strong> or target quantity to be estimated (discussed
+here) or as a target quantity to be hypothesized about (session on
+hypothesis testing).</p></li>
+<li><p>Many focus on the <strong>average treatment effect
+(ATE)</strong>, <span
+class="math inline">\(\bar{\tau}=\sum_{i=1}^n\tau_{i}\)</span>, in part,
+because it allows for easy <strong>estimation</strong>.</p></li>
 </ul>
 </section>
 <section id="key-points-about-estimation-ii" class="slide level2">
 <h2>Key points about estimation II</h2>
 <ul>
-<li><p>They key to estimation for causal inference is to choose an estimand that helps you learn about your theoretical or policy question. So, one could use the ATE but other common estimands include the ITT, LATE/CACE, ATT, or ATE for some subgroup (or even a different of causal effects between groups).</p></li>
-<li><p>An <strong>estimator</strong> is a recipe for calculating a guess about the value of an estimand. For example, the difference of observed means for <span class="math inline">\(m\)</span> treated units is one estimator of <span class="math inline">\(\bar{\tau}\)</span>: <span class="math inline">\(\hat{\bar{\tau}} = \frac{\sum_{i=1}^n (T_i Y_i)}{m} - \frac{\sum_{i=1}^n ( ( 1 - T_i)Y_i)}{(n-m)}\)</span>.</p></li>
+<li><p>The key to estimation for causal inference is to choose an
+estimand that helps you learn about your theoretical or policy question.
+So, one could use the ATE but other common estimands include the ITT,
+LATE/CACE, ATT, or ATE for some subgroup (or even a different of causal
+effects between groups).</p></li>
+<li><p>An <strong>estimator</strong> is a recipe for calculating a guess
+about the value of an estimand. For example, the difference of observed
+means for <span class="math inline">\(m\)</span> treated units is one
+estimator of <span class="math inline">\(\bar{\tau}\)</span>: <span
+class="math inline">\(\hat{\bar{\tau}} = \frac{\sum_{i=1}^n (T_i
+Y_i)}{m} - \frac{\sum_{i=1}^n ( ( 1 -
+T_i)Y_i)}{(n-m)}\)</span>.</p></li>
 </ul>
 </section>
 <section id="key-points-about-estimation-iii" class="slide level2">
 <h2>Key points about estimation III</h2>
 <ul>
-<li><p>The <strong>standard error</strong> of an estimator in a randomized experiment summarizes how the estimates would vary if the experiment were repeated.</p></li>
-<li><p>We use the <strong>standard error</strong> to produce <strong>confidence intervals</strong> and <strong>p-values</strong>: so that we can begin with an estimator and end at a hypothesis test.</p></li>
-<li><p>Different randomizations will produce different values of the same estimator targeting the same estimand. A <strong>standard error</strong> summarizes this variability in an estimator.</p></li>
-<li><p>A <span class="math inline">\(100(1-\alpha)\)</span>% <strong>confidence interval</strong> is a collection of hypotheses that cannot be rejected at the <span class="math inline">\(\alpha\)</span> level. We tend to report confidence intervals containing hypotheses about values of our estimand and use our estimator as a test statistic.</p></li>
+<li><p>The <strong>standard error</strong> of an estimator in a
+randomized experiment summarizes how the estimates would vary if the
+experiment were repeated.</p></li>
+<li><p>We use the <strong>standard error</strong> to produce
+<strong>confidence intervals</strong> and <strong>p-values</strong>: so
+that we can begin with an estimator and end at a hypothesis
+test.</p></li>
+<li><p>Different randomizations will produce different values of the
+same estimator targeting the same estimand. A <strong>standard
+error</strong> summarizes this variability in an estimator.</p></li>
+<li><p>A <span class="math inline">\(100(1-\alpha)\)</span>%
+<strong>confidence interval</strong> is a collection of hypotheses that
+cannot be rejected at the <span class="math inline">\(\alpha\)</span>
+level. We tend to report confidence intervals containing hypotheses
+about values of our estimand and use our estimator as a test
+statistic.</p></li>
 </ul>
 </section>
 <section id="key-points-about-estimation-iv" class="slide level2">
@@ -669,17 +810,28 @@ document.getElementsByTagName('head')[0].appendChild(style);
 <ul>
 <li><p>Estimators should:</p>
 <ul>
-<li><p>avoid systematic error in their guessing of the estimand (be unbiased);</p></li>
-<li><p>vary little in their guesses from experiment to experiment (be precise or efficient); and</p></li>
-<li><p>perhaps ideally converge to the estimand as they use more and more information (be consistent).</p></li>
+<li><p>avoid systematic error in their guessing of the estimand (be
+unbiased);</p></li>
+<li><p>vary little in their guesses from experiment to experiment (be
+precise or efficient); and</p></li>
+<li><p>perhaps ideally converge to the estimand as they use more and
+more information (be consistent).</p></li>
 </ul></li>
 </ul>
 </section>
 <section id="key-points-about-estimation-v" class="slide level2">
 <h2>Key points about estimation V</h2>
 <ul>
-<li><p><strong>Analyze as you randomize</strong> in the context of estimation means that (1) our standard errors should measure variability from randomization and (2) our estimators should target estimands defined in terms of potential outcomes.</p></li>
-<li><p>We do not <strong>control for</strong> background covariates when we analyze data from randomized experiments. But covariates can make our estimation more <strong>precise</strong>. This is called <strong>covariance adjustment</strong> (or covariate adjustment). <strong>Covariance adjustment</strong> in randomized experiments differs from controlling for in observational studies.</p></li>
+<li><p><strong>Analyze as you randomize</strong> in the context of
+estimation means that (1) our standard errors should measure variability
+from randomization and (2) our estimators should target estimands
+defined in terms of potential outcomes.</p></li>
+<li><p>We do not <strong>control for</strong> background covariates when
+we analyze data from randomized experiments. But covariates can make our
+estimation more <strong>precise</strong>. This is called
+<strong>covariance adjustment</strong> (or covariate adjustment).
+<strong>Covariance adjustment</strong> in randomized experiments differs
+from controlling for in observational studies.</p></li>
 </ul>
 </section></section>
 <section>
@@ -689,40 +841,74 @@ document.getElementsByTagName('head')[0].appendChild(style);
 </section>
 <section id="review-causal-effects" class="slide level2">
 <h2>Review: Causal effects</h2>
-<p>Review: Causal inference refers to a comparison of unobserved, fixed, potential outcomes.</p>
+<p>Review: Causal inference refers to a comparison of unobserved, fixed,
+potential outcomes.</p>
 <p>For example:</p>
 <ul>
-<li>the potential, or possible, outcome for unit <span class="math inline">\(i\)</span> when assigned to treatment, <span class="math inline">\(T_i=1\)</span> is <span class="math inline">\(Y_{i}(T_{i}=1)\)</span>.</li>
-<li>the potential, or possible, outcome for unit <span class="math inline">\(i\)</span> when assigned to control, <span class="math inline">\(T_i=0\)</span> is <span class="math inline">\(Y_{i}(T_{i}=0)\)</span>.</li>
+<li>the potential, or possible, outcome for unit <span
+class="math inline">\(i\)</span> when assigned to treatment, <span
+class="math inline">\(T_i=1\)</span> is <span
+class="math inline">\(Y_{i}(T_{i}=1)\)</span>.</li>
+<li>the potential, or possible, outcome for unit <span
+class="math inline">\(i\)</span> when assigned to control, <span
+class="math inline">\(T_i=0\)</span> is <span
+class="math inline">\(Y_{i}(T_{i}=0)\)</span>.</li>
 </ul>
-<p>Treatment assignment, <span class="math inline">\(T_i\)</span>, has a causal effect on unit <span class="math inline">\(i\)</span>, that we call <span class="math inline">\(\tau_i\)</span>, if <span class="math inline">\(Y_{i}(T_{i}=1) - Y_{i}(T_{i}=0) \ne 0\)</span> or <span class="math inline">\(Y_{i}(T_{i}=1) \ne Y_{i}(T_{i}=0)\)</span>.</p>
+<p>Treatment assignment, <span class="math inline">\(T_i\)</span>, has a
+causal effect on unit <span class="math inline">\(i\)</span>, that we
+call <span class="math inline">\(\tau_i\)</span>, if <span
+class="math inline">\(Y_{i}(T_{i}=1) - Y_{i}(T_{i}=0) \ne 0\)</span> or
+<span class="math inline">\(Y_{i}(T_{i}=1) \ne
+Y_{i}(T_{i}=0)\)</span>.</p>
 </section></section>
 <section>
-<section id="estimands-and-estimators-and-averages" class="title-slide slide level1">
+<section id="estimands-and-estimators-and-averages"
+class="title-slide slide level1">
 <h1>Estimands and estimators and averages</h1>
 
 </section>
-<section id="how-can-we-learn-about-causal-effects-from-observed-data" class="slide level2">
+<section id="how-can-we-learn-about-causal-effects-from-observed-data"
+class="slide level2">
 <h2>How can we learn about causal effects from observed data?</h2>
 <ol type="1">
-<li><p>Recall: we can <strong>test hypotheses</strong> about the pair of potential outcomes <span class="math inline">\(\{ Y_{i}(T_{i}=1), Y_{i}(T_{i}=0) \}\)</span>.</p></li>
-<li><p>We can <strong>define estimands</strong> in terms of <span class="math inline">\(\{ Y_{i}(T_{i}=1), Y_{i}(T_{i}=0) \}\)</span> or <span class="math inline">\(\tau_i\)</span>, <strong>develop estimators</strong> for those estimands, and then calculate values and standard errors for those estimators.</p></li>
+<li><p>Recall: we can <strong>test hypotheses</strong> about the pair of
+potential outcomes <span class="math inline">\(\{ Y_{i}(T_{i}=1),
+Y_{i}(T_{i}=0) \}\)</span>.</p></li>
+<li><p>We can <strong>define estimands</strong> in terms of <span
+class="math inline">\(\{ Y_{i}(T_{i}=1), Y_{i}(T_{i}=0) \}\)</span> or
+<span class="math inline">\(\tau_i\)</span>, <strong>develop
+estimators</strong> for those estimands, and then calculate values and
+standard errors for those estimators.</p></li>
 </ol>
 </section>
-<section id="a-common-estimand-and-estimator-the-average-treatment-effect-and-the-difference-of-means" class="slide level2">
-<h2>A common estimand and estimator: The average treatment effect and the difference of means</h2>
-<p>Say we are interested in the ATE, or <span class="math inline">\(\bar{\tau}=\sum_{i=1}^n \tau_{i}\)</span>. What is a good estimator?</p>
+<section
+id="a-common-estimand-and-estimator-the-average-treatment-effect-and-the-difference-of-means"
+class="slide level2">
+<h2>A common estimand and estimator: The average treatment effect and
+the difference of means</h2>
+<p>Say we are interested in the ATE, or <span
+class="math inline">\(\bar{\tau}=\sum_{i=1}^n \tau_{i}\)</span>. What is
+a good estimator?</p>
 <p>Two candidates:</p>
 <ol type="1">
-<li><p>The difference of means: <span class="math inline">\(\hat{\bar{\tau}} = \frac{\sum_{i=1}^n (T_i Y_i)}{m} - \frac{\sum_{i=1}^n ( ( 1 - T_i) Y_i)}{n-m}\)</span>.</p></li>
-<li><p>A difference of means after top-coding the highest <span class="math inline">\(Y_i\)</span> observation (a kind of “winsorized” mean to prevent extreme values from exerting too much influence over our estimator — to increase <em>precision</em>).</p></li>
+<li><p>The difference of means: <span
+class="math inline">\(\hat{\bar{\tau}} = \frac{\sum_{i=1}^n (T_i
+Y_i)}{m} - \frac{\sum_{i=1}^n ( ( 1 - T_i) Y_i)}{n-m}\)</span>.</p></li>
+<li><p>A difference of means after top-coding the highest <span
+class="math inline">\(Y_i\)</span> observation (a kind of “winsorized”
+mean to prevent extreme values from exerting too much influence over our
+estimator — to increase <em>precision</em>).</p></li>
 </ol>
-<p>How would we know which estimator is best for our particular research design?</p>
+<p>How would we know which estimator is best for our particular research
+design?</p>
 <p>Let’s simulate!</p>
 </section>
-<section id="simulation-step-1-create-some-data-with-a-known-ate" class="slide level2">
+<section id="simulation-step-1-create-some-data-with-a-known-ate"
+class="slide level2">
 <h2>Simulation Step 1: create some data with a known ATE</h2>
-<p>Notice that we need to <em>know</em> the potential outcomes and the treatment assignment in order to learn whether our proposed estimator does a good job.</p>
+<p>Notice that we need to <em>know</em> the potential outcomes and the
+treatment assignment in order to learn whether our proposed estimator
+does a good job.</p>
 <pre><code>The true ATE is 54</code></pre>
 <p>In reality, we would observe only one of the potential outcomes.</p>
 <p>Note that each unit has its own treatment effect.</p>
@@ -750,56 +936,62 @@ document.getElementsByTagName('head')[0].appendChild(style);
 </section>
 <section id="using-declaredesign" class="slide level2">
 <h2>Using DeclareDesign</h2>
-<p>DeclareDesign represents research designs in a few steps shown below:</p>
+<p>DeclareDesign represents research designs in a few steps shown
+below:</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># take just the potential outcomes under treatment and control from our</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="co"># fake data</span></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>small_dat <span class="ot">&lt;-</span> dat[, <span class="fu">c</span>(<span class="st">&quot;y0&quot;</span>, <span class="st">&quot;y1&quot;</span>)]</span>
 <span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="co"># DeclareDesign first asks you to declare your population</span></span>
 <span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>pop <span class="ot">&lt;-</span> <span class="fu">declare_population</span>(small_dat)</span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="co"># 5 units assigned to treatment; default is simple random assignment with</span></span>
-<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="co"># probability 0.5</span></span>
-<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>trt_assign <span class="ot">&lt;-</span> <span class="fu">declare_assignment</span>(<span class="at">m =</span> <span class="dv">5</span>)</span>
-<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a><span class="co"># observed Y is y1 if Z=1 and y0 if Z=0</span></span>
-<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>pot_out <span class="ot">&lt;-</span> <span class="fu">declare_potential_outcomes</span>(Y <span class="sc">~</span> Z <span class="sc">*</span> y1 <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">-</span> Z) <span class="sc">*</span> y0)</span>
-<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a><span class="co"># specify outcome and assignment variables</span></span>
-<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>reveal <span class="ot">&lt;-</span> <span class="fu">declare_reveal</span>(Y, Z)</span>
-<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a><span class="co"># the basic research design object includes these four objects</span></span>
-<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>base_design <span class="ot">&lt;-</span> pop <span class="sc">+</span> trt_assign <span class="sc">+</span> pot_out <span class="sc">+</span> reveal</span></code></pre></div>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>N <span class="ot">&lt;-</span> <span class="fu">nrow</span>(small_dat)</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="co"># 5 units assigned to treatment; default is simple random assignment with</span></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a><span class="co"># probability 0.5</span></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>trt_assign <span class="ot">&lt;-</span> <span class="fu">declare_assignment</span>(<span class="at">Z =</span> <span class="fu">conduct_ra</span>(<span class="at">N =</span> N, <span class="at">m =</span> <span class="dv">2</span>), <span class="at">legacy =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a><span class="co"># observed Y is y1 if Z=1 and y0 if Z=0</span></span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>pot_out <span class="ot">&lt;-</span> <span class="fu">declare_potential_outcomes</span>(Y <span class="sc">~</span> Z <span class="sc">*</span> y1 <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">-</span> Z) <span class="sc">*</span> y0)</span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a><span class="co"># specify outcome and assignment variables</span></span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>reveal <span class="ot">&lt;-</span> <span class="fu">declare_reveal</span>(Y, Z)</span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a><span class="co"># the basic research design object includes these four objects</span></span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>base_design <span class="ot">&lt;-</span> pop <span class="sc">+</span> trt_assign <span class="sc">+</span> pot_out <span class="sc">+</span> reveal</span></code></pre></div>
 </section>
 <section id="using-declaredesign-make-fake-data" class="slide level2">
 <h2>Using DeclareDesign: make fake data</h2>
-<p>DeclareDesign renames <code>y0</code> and <code>y1</code> by default to <code>Y_Z_0</code> and <code>Y_Z_1</code>:</p>
+<p>DeclareDesign renames <code>y0</code> and <code>y1</code> by default
+to <code>Y_Z_0</code> and <code>Y_Z_1</code>:</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="do">## A simulation is one random assignment of treatment</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>sim_dat1 <span class="ot">&lt;-</span> <span class="fu">draw_data</span>(base_design)</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="do">## Simulated data (just the first 6 lines)</span></span>
 <span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(sim_dat1)</span></code></pre></div>
-<pre><code>  y0  y1 Z Z_cond_prob Y_Z_0 Y_Z_1  Y
-1  0  10 1         0.5     0    10 10
-2  0  30 1         0.5     0    30 30
-3  0 200 0         0.5     0   200  0
-4  1  91 1         0.5     1    91 91
-5  1  11 0         0.5     1    11  1
-6  3  23 1         0.5     3    23 23</code></pre>
+<pre><code>  y0  y1 Z Y_Z_0 Y_Z_1  Y
+1  0  10 0     0    10  0
+2  0  30 1     0    30 30
+3  0 200 0     0   200  0
+4  1  91 0     1    91  1
+5  1  11 0     1    11  1
+6  3  23 1     3    23 23</code></pre>
 </section>
-<section id="using-declaredesign-define-estimand-and-estimators" class="slide level2">
+<section id="using-declaredesign-define-estimand-and-estimators"
+class="slide level2">
 <h2>Using DeclareDesign: define estimand and estimators</h2>
-<p>No output here. Just define functions and estimators and one estimand.</p>
+<p>No output here. Just define functions and estimators and one
+estimand.</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="do">## The estimand</span></span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>estimandATE <span class="ot">&lt;-</span> <span class="fu">declare_estimand</span>(<span class="at">ATE =</span> <span class="fu">mean</span>(Y_Z_1 <span class="sc">-</span> Y_Z_0))</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>estimandATE <span class="ot">&lt;-</span> <span class="fu">declare_inquiry</span>(<span class="at">ATE =</span> <span class="fu">mean</span>(Y_Z_1 <span class="sc">-</span> Y_Z_0))</span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="do">## The first estimator is difference-in-means</span></span>
 <span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>diff_means <span class="ot">&lt;-</span> <span class="fu">declare_estimator</span>(Y <span class="sc">~</span> Z,</span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">estimand =</span> estimandATE,</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">inquiry =</span> estimandATE,</span>
 <span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">model =</span> lm_robust, <span class="at">se_type =</span> <span class="st">&quot;classical&quot;</span>, <span class="at">label =</span> <span class="st">&quot;Diff-Means/OLS&quot;</span></span>
 <span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
 </section>
-<section id="using-declaredesign-define-estimand-and-estimators-1" class="slide level2">
+<section id="using-declaredesign-define-estimand-and-estimators-1"
+class="slide level2">
 <h2>Using DeclareDesign: define estimand and estimators</h2>
 <div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="do">## The second estimator is top-coded difference-in-means</span></span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>diff_means_topcoded_fn <span class="ot">&lt;-</span> <span class="cf">function</span>(data) {</span>
@@ -815,36 +1007,35 @@ document.getElementsByTagName('head')[0].appendChild(style);
 <span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>}</span>
 <span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>diff_means_topcoded <span class="ot">&lt;-</span> <span class="fu">declare_estimator</span>(</span>
 <span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>  <span class="at">handler =</span> <span class="fu">label_estimator</span>(diff_means_topcoded_fn),</span>
-<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>  <span class="at">estimand =</span> estimandATE, <span class="at">label =</span> <span class="st">&quot;Top-coded Diff Means&quot;</span></span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>  <span class="at">inquiry =</span> estimandATE, <span class="at">label =</span> <span class="st">&quot;Top-coded Diff Means&quot;</span></span>
 <span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
 </section>
-<section id="using-declaredesign-define-estimand-and-estimators-2" class="slide level2">
+<section id="using-declaredesign-define-estimand-and-estimators-2"
+class="slide level2">
 <h2>Using DeclareDesign: define estimand and estimators</h2>
 <p>Here we show how the DD estimators work using our simulated data.</p>
 <div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Demonstrate that the estimand works:</span></span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="fu">estimandATE</span>(sim_dat1)</span></code></pre></div>
-<pre><code>  estimand_label estimand
-1            ATE       54</code></pre>
+<pre><code>  inquiry estimand
+1     ATE       54</code></pre>
 <div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Demonstrate that the estimators estimate</span></span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="do">## Estimator 1 (difference in means)</span></span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="fu">diff_means</span>(sim_dat1)[<span class="sc">-</span><span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">10</span>, <span class="dv">11</span>)]</span></code></pre></div>
 <pre><code>  estimate std.error statistic p.value conf.low conf.high df
-1    -39.2     49.41   -0.7934  0.4505   -153.1     74.74  8</code></pre>
+1   -23.62     66.18    -0.357  0.7304   -176.2       129  8</code></pre>
 <div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Estimator 2 (top-coded difference in means)</span></span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="fu">diff_means_topcoded</span>(sim_dat1)[<span class="sc">-</span><span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">10</span>, <span class="dv">11</span>)]</span></code></pre></div>
 <pre><code>  estimate std.error statistic p.value conf.low conf.high df
-1    -37.2     48.21   -0.7716  0.4625   -148.4     73.98  8</code></pre>
+1   -22.37     64.44   -0.3472  0.7374     -171     126.2  8</code></pre>
 </section>
 <section id="then-simulate-with-one-randomization" class="slide level2">
 <h2>Then simulate with one randomization</h2>
 <p>Recall the true ATE:</p>
-<p></p>
 <div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>trueATE <span class="ot">&lt;-</span> <span class="fu">with</span>(sim_dat1, <span class="fu">mean</span>(y1 <span class="sc">-</span> y0))</span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="fu">with</span>(sim_dat1, <span class="fu">mean</span>(Y_Z_1 <span class="sc">-</span> Y_Z_0))</span></code></pre></div>
 <pre><code>[1] 54</code></pre>
-<p></p>
-<p>In one experiment (one simulation of the data) here are the simple estimates:</p>
-<p></p>
+<p>In one experiment (one simulation of the data) here are the simple
+estimates:</p>
 <div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Two ways to calculate the difference of means estimator</span></span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>est_diff_means_1 <span class="ot">&lt;-</span> <span class="fu">with</span>(sim_dat1, <span class="fu">mean</span>(Y[Z <span class="sc">==</span> <span class="dv">1</span>]) <span class="sc">-</span> <span class="fu">mean</span>(Y[Z <span class="sc">==</span> <span class="dv">0</span>]))</span>
 <span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>est_diff_means_2 <span class="ot">&lt;-</span> <span class="fu">coef</span>(<span class="fu">lm_robust</span>(Y <span class="sc">~</span> Z,</span>
@@ -852,12 +1043,13 @@ document.getElementsByTagName('head')[0].appendChild(style);
 <span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">se =</span> <span class="st">&quot;classical&quot;</span></span>
 <span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>))[[<span class="st">&quot;Z&quot;</span>]]</span>
 <span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(est_diff_means_1, est_diff_means_2)</span></code></pre></div>
-<pre><code>[1] -39.2 -39.2</code></pre>
-<p></p>
+<pre><code>[1] -23.62 -23.62</code></pre>
 </section>
-<section id="then-simulate-with-one-randomization-1" class="slide level2">
+<section id="then-simulate-with-one-randomization-1"
+class="slide level2">
 <h2>Then simulate with one randomization</h2>
-<p>In one experiment (one simulation of the data) here are the estimates after top-coding:</p>
+<p>In one experiment (one simulation of the data) here are the estimates
+after top-coding:</p>
 <div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Two ways to calculate the topcoded difference of means estimator</span></span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>sim_dat1<span class="sc">$</span>rankY <span class="ot">&lt;-</span> <span class="fu">rank</span>(sim_dat1<span class="sc">$</span>Y)</span>
 <span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>sim_dat1<span class="sc">$</span>Y_tc <span class="ot">&lt;-</span> <span class="fu">with</span>(sim_dat1, <span class="fu">ifelse</span>(rankY <span class="sc">==</span> <span class="fu">max</span>(rankY),</span>
@@ -869,28 +1061,36 @@ document.getElementsByTagName('head')[0].appendChild(style);
 <span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">se =</span> <span class="st">&quot;classical&quot;</span></span>
 <span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a>))[[<span class="st">&quot;Z&quot;</span>]]</span>
 <span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(est_topcoded_1, est_topcoded_2)</span></code></pre></div>
-<pre><code>[1] -37.2 -37.2</code></pre>
+<pre><code>[1] -22.38 -22.37</code></pre>
 </section>
-<section id="then-simulate-a-different-randomization-and-estimate-the-ate-with-the-same-estimators" class="slide level2">
-<h2>Then simulate a different randomization and estimate the ATE with the same estimators</h2>
-<p>Now calculate your estimate with the same estimators using a <strong>different</strong> randomization. Notice that the answers differ. The estimators are estimating the <em>same estimand</em> but now they have a different randomization to work with.</p>
+<section
+id="then-simulate-a-different-randomization-and-estimate-the-ate-with-the-same-estimators"
+class="slide level2">
+<h2>Then simulate a different randomization and estimate the ATE with
+the same estimators</h2>
+<p>Now calculate your estimate with the same estimators using a
+<strong>different</strong> randomization. Notice that the answers
+differ. The estimators are estimating the <em>same estimand</em> but now
+they have a different randomization to work with.</p>
 <div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co"># do another random assignment of the treatment in DeclareDesign</span></span>
 <span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="co"># this produces a new simulated dataset with a different random assignment</span></span>
 <span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>sim_dat2 <span class="ot">&lt;-</span> <span class="fu">draw_data</span>(base_design)</span>
 <span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a><span class="co"># the first estimator (difference in means)</span></span>
 <span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a><span class="fu">coef</span>(<span class="fu">lm_robust</span>(Y <span class="sc">~</span> Z, <span class="at">data =</span> sim_dat2, <span class="at">se =</span> <span class="st">&quot;classical&quot;</span>))[[<span class="st">&quot;Z&quot;</span>]]</span></code></pre></div>
-<pre><code>[1] 76.8</code></pre>
+<pre><code>[1] -18</code></pre>
 <div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co"># the second estimator (top-coded difference in means)</span></span>
 <span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>sim_dat2<span class="sc">$</span>rankY <span class="ot">&lt;-</span> <span class="fu">rank</span>(sim_dat2<span class="sc">$</span>Y)</span>
 <span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>sim_dat2<span class="sc">$</span>Y_tc <span class="ot">&lt;-</span> <span class="fu">with</span>(sim_dat2, <span class="fu">ifelse</span>(rankY <span class="sc">==</span> <span class="fu">max</span>(rankY),</span>
 <span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>  Y[rankY <span class="sc">==</span> (<span class="fu">max</span>(rankY) <span class="sc">-</span> <span class="dv">1</span>)], Y</span>
 <span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>))</span>
 <span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a><span class="fu">coef</span>(<span class="fu">lm_robust</span>(Y_tc <span class="sc">~</span> Z, <span class="at">data =</span> sim_dat2, <span class="at">se =</span> <span class="st">&quot;classical&quot;</span>))[[<span class="st">&quot;Z&quot;</span>]]</span></code></pre></div>
-<pre><code>[1] 36.25</code></pre>
+<pre><code>[1] -16.75</code></pre>
 </section>
-<section id="how-do-our-estimators-behave-in-general-for-this-design" class="slide level2">
+<section id="how-do-our-estimators-behave-in-general-for-this-design"
+class="slide level2">
 <h2>How do our estimators behave in general for this design?</h2>
-<p>Our estimates vary across randomizations. Do our two estimators vary in the same ways?</p>
+<p>Our estimates vary across randomizations. Do our two estimators vary
+in the same ways?</p>
 <div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Combine into one DeclareDesign design object</span></span>
 <span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="do">## This has the base design, estimand, then our two estimators</span></span>
 <span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>design_plus_ests <span class="ot">&lt;-</span> base_design <span class="sc">+</span> estimandATE <span class="sc">+</span> diff_means <span class="sc">+</span></span>
@@ -903,28 +1103,41 @@ document.getElementsByTagName('head')[0].appendChild(style);
 <span id="cb24-10"><a href="#cb24-10" aria-hidden="true" tabindex="-1"></a>sims1 <span class="ot">&lt;-</span> <span class="fu">get_simulations</span>(diagnosis1)</span>
 <span id="cb24-11"><a href="#cb24-11" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(sims1[, <span class="sc">-</span><span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>)])</span></code></pre></div>
 <pre><code>  estimate std.error statistic p.value conf.low conf.high df outcome
-1    -36.8     49.35   -0.7457  0.4772  -150.60     77.00  8       Y
-2    -34.8     48.15   -0.7228  0.4904  -145.82     76.22  8    newY
-3     50.0     63.01    0.7935  0.4504   -95.31    195.31  8       Y
-4     34.0     52.13    0.6522  0.5326   -86.22    154.22  8    newY
-5     -6.8     58.35   -0.1165  0.9101  -141.35    127.75  8       Y
-6     -8.5     49.89   -0.1704  0.8703  -130.57    113.57  6    newY</code></pre>
+1   -18.00     66.23  -0.27179  0.7927   -170.7     134.7  8       Y
+2   -16.75     64.49  -0.25974  0.8016   -165.5     132.0  8    newY
+3     0.75     67.98   0.01103  0.9915   -156.0     157.5  8       Y
+4     2.00     66.29   0.03017  0.9767   -150.9     154.9  8    newY
+5    54.50     75.93   0.71775  0.4933   -120.6     229.6  8       Y
+6   -19.14     75.85  -0.25237  0.8092   -204.7     166.5  6    newY</code></pre>
 </section>
-<section id="how-do-our-estimators-behave-in-general-for-this-design-1" class="slide level2">
+<section id="how-do-our-estimators-behave-in-general-for-this-design-1"
+class="slide level2">
 <h2>How do our estimators behave in general for this design?</h2>
-<p>Our estimates vary across randomizations. Do our two estimators vary in the same ways? How should we interpret this plot?</p>
+<p>Our estimates vary across randomizations. Do our two estimators vary
+in the same ways? How should we interpret this plot?</p>
 <p><img src="figs/figsim_plot-1.png" width=".8\textwidth"  /></p>
 </section>
-<section id="which-estimator-is-closer-to-the-truth" class="slide level2">
+<section id="which-estimator-is-closer-to-the-truth"
+class="slide level2">
 <h2>Which estimator is closer to the truth?</h2>
-<p>One way to choose among estimators is to choose the one that is <strong>close to the truth</strong> whenever we use it — regardless of the specific randomization.</p>
-<p>An “unbiased” estimator is one for which <strong>average of the estimates across repeated designs</strong> is the same as the truth (or <span class="math inline">\(E_R(\hat{\bar{\tau}})=\bar{\tau}\)</span>). An unbiased estimator has “no systematic error” but doesn’t guarantee closeness to the truth.</p>
-<p>Another measure of closeness is <strong>root mean squared error</strong> (RMSE) which records squared distances between the truth and the individual estimates.</p>
-<p>Which estimator is better? (One is closer to the truth on average (RMSE) and is more precise. The other has no systematic error — is unbiased.)</p>
+<p>One way to choose among estimators is to choose the one that is
+<strong>close to the truth</strong> whenever we use it — regardless of
+the specific randomization.</p>
+<p>An “unbiased” estimator is one for which <strong>average of the
+estimates across repeated designs</strong> is the same as the truth (or
+<span class="math inline">\(E_R(\hat{\bar{\tau}})=\bar{\tau}\)</span>).
+An unbiased estimator has “no systematic error” but doesn’t guarantee
+closeness to the truth.</p>
+<p>Another measure of closeness is <strong>root mean squared
+error</strong> (RMSE) which records squared distances between the truth
+and the individual estimates.</p>
+<p>Which estimator is better? (One is closer to the truth on average
+(RMSE) and is more precise. The other has no systematic error — is
+unbiased.)</p>
 <table>
 <thead>
 <tr class="header">
-<th style="text-align: left;">Estimator Label</th>
+<th style="text-align: left;">Estimator</th>
 <th style="text-align: left;">Bias</th>
 <th style="text-align: left;">RMSE</th>
 <th style="text-align: left;">SD Estimate</th>
@@ -935,19 +1148,19 @@ document.getElementsByTagName('head')[0].appendChild(style);
 <tbody>
 <tr class="odd">
 <td style="text-align: left;">Diff-Means/OLS</td>
-<td style="text-align: left;">-7.68</td>
-<td style="text-align: left;">54.87</td>
-<td style="text-align: left;">54.60</td>
-<td style="text-align: left;">57.46</td>
-<td style="text-align: left;">0.10</td>
+<td style="text-align: left;">-5.70</td>
+<td style="text-align: left;">71.23</td>
+<td style="text-align: left;">71.36</td>
+<td style="text-align: left;">66.54</td>
+<td style="text-align: left;">0.09</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Top-coded Diff Means</td>
-<td style="text-align: left;">-18.77</td>
-<td style="text-align: left;">53.06</td>
-<td style="text-align: left;">49.88</td>
-<td style="text-align: left;">51.49</td>
-<td style="text-align: left;">0.12</td>
+<td style="text-align: left;">-25.50</td>
+<td style="text-align: left;">64.86</td>
+<td style="text-align: left;">59.94</td>
+<td style="text-align: left;">64.53</td>
+<td style="text-align: left;">0.03</td>
 </tr>
 </tbody>
 </table>
@@ -956,9 +1169,14 @@ document.getElementsByTagName('head')[0].appendChild(style);
 <h2>Unbiased and biased estimators</h2>
 <p>Summary:</p>
 <ul>
-<li><p>We have a <em>choice</em> of both estimands and estimators</p></li>
-<li><p>A good estimator performs well regardless of the particular randomization of a given design. And <em>performs well</em> can mean “unbiased” and/or “low mse” (or “consistent” — which means increasingly close to the truth as the sample size increases).</p></li>
-<li><p>We can learn about how a given estimator performs in a given study using simulation.</p></li>
+<li><p>We have a <em>choice</em> of both estimands and
+estimators</p></li>
+<li><p>A good estimator performs well regardless of the particular
+randomization of a given design. And <em>performs well</em> can mean
+“unbiased” and/or “low mse” (or “consistent” — which means increasingly
+close to the truth as the sample size increases).</p></li>
+<li><p>We can learn about how a given estimator performs in a given
+study using simulation.</p></li>
 </ul>
 </section></section>
 <section>
@@ -966,33 +1184,59 @@ document.getElementsByTagName('head')[0].appendChild(style);
 <h1>Block randomization</h1>
 
 </section>
-<section id="block-randomized-experiments-are-a-collection-of-mini-experiments" class="slide level2">
-<h2>Block-randomized experiments are a collection of mini-experiments</h2>
-<p>What is the ** ATE** estimand in a block-randomized experiment?</p>
-<p>If we think of the unit-level ATE as: <span class="math inline">\((1/N) \sum_{i=1}^N y_{i,1} - y_{i,0}\)</span> then we could re-express this equivalently using the ATE in block <span class="math inline">\(j\)</span> is <span class="math inline">\(ATE_j\)</span> as follows:</p>
+<section
+id="block-randomized-experiments-are-a-collection-of-mini-experiments"
+class="slide level2">
+<h2>Block-randomized experiments are a collection of
+mini-experiments</h2>
+<p>What is the <strong>ATE</strong> estimand in a block-randomized
+experiment?</p>
+<p>If we think of the unit-level ATE as: <span
+class="math inline">\((1/N) \sum_{i=1}^N y_{i,1} - y_{i,0}\)</span> then
+we could re-express this equivalently using the ATE in block <span
+class="math inline">\(j\)</span> is <span
+class="math inline">\(ATE_j\)</span> as follows:</p>
 <p><span class="math display">\[
-ATE = \frac{1}{J}\sum^J_{j=1} \sum^{N_j}_{i=1} \frac{y_{i,1} - y_{i,0}}{N_j}  = \sum^J_{j=1} \frac{N_j}{N} ATE_j
+ATE = \frac{1}{J}\sum^J_{j=1} \sum^{N_j}_{i=1} \frac{y_{i,1} -
+y_{i,0}}{N_j}  = \sum^J_{j=1} \frac{N_j}{N} ATE_j
 \]</span></p>
-<p>And it would be natural to <em>estimate</em> this quantity by plugging in what we can calculate: <span class="math inline">\(\widehat{ATE} = \displaystyle\sum^J_{j=1} \frac{N_j}{N} \widehat{ATE}_j\)</span></p>
+<p>And it would be natural to <em>estimate</em> this quantity by
+plugging in what we can calculate: <span
+class="math inline">\(\widehat{ATE} = \displaystyle\sum^J_{j=1}
+\frac{N_j}{N} \widehat{ATE}_j\)</span></p>
 </section>
-<section id="block-randomized-experiments-are-a-collection-of-mini-experiments-1" class="slide level2">
-<h2>Block-randomized experiments are a collection of mini-experiments</h2>
-<p>And we could <em>define</em> the standard error of the estimator by also just averaging the within-block standard errors (if our blocks are large enough):</p>
-<p><span class="math inline">\(SE(\widehat{ATE}) = \sqrt{\sum^J_{j=1} (\frac{N_{j}}{N})^2SE^2(\widehat{ATE}_j)}\)</span></p>
+<section
+id="block-randomized-experiments-are-a-collection-of-mini-experiments-1"
+class="slide level2">
+<h2>Block-randomized experiments are a collection of
+mini-experiments</h2>
+<p>And we could <em>define</em> the standard error of the estimator by
+also just averaging the within-block standard errors (if our blocks are
+large enough):</p>
+<p><span class="math inline">\(SE(\widehat{ATE}) = \sqrt{\sum^J_{j=1}
+(\frac{N_{j}}{N})^2SE^2(\widehat{ATE}_j)}\)</span></p>
 </section>
-<section id="estimating-the-ate-in-block-randomized-experiments" class="slide level2">
+<section id="estimating-the-ate-in-block-randomized-experiments"
+class="slide level2">
 <h2>Estimating the ATE in block-randomized experiments</h2>
-<p>One approach to estimation simply replaces <span class="math inline">\(ATE_j\)</span> with <span class="math inline">\(\widehat{ATE}\)</span> above:</p>
+<p>One approach to estimation simply replaces <span
+class="math inline">\(ATE_j\)</span> with <span
+class="math inline">\(\widehat{ATE}\)</span> above:</p>
 <div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">with</span>(dat, <span class="fu">table</span>(b, Z))</span></code></pre></div>
 <pre><code>   Z
 b   0 1
   a 4 2
   b 2 2</code></pre>
-<p>We have 6 units in block <code>a</code>, 2 of which are assigned to treatment, and 4 units in block <code>b</code>, 2 of which are assignment to treatment.</p>
+<p>We have 6 units in block <code>a</code>, 2 of which are assigned to
+treatment, and 4 units in block <code>b</code>, 2 of which are
+assignment to treatment.</p>
 </section>
-<section id="estimating-the-ate-in-block-randomized-experiments-1" class="slide level2">
+<section id="estimating-the-ate-in-block-randomized-experiments-1"
+class="slide level2">
 <h2>Estimating the ATE in block-randomized experiments</h2>
-<p>One approach to estimation simply replaces <span class="math inline">\(ATE_j\)</span> with <span class="math inline">\(\widehat{ATE}\)</span> above:</p>
+<p>One approach to estimation simply replaces <span
+class="math inline">\(ATE_j\)</span> with <span
+class="math inline">\(\widehat{ATE}\)</span> above:</p>
 <div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>datb <span class="ot">&lt;-</span> dat <span class="sc">%&gt;%</span></span>
 <span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(b) <span class="sc">%&gt;%</span></span>
 <span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(</span>
@@ -1000,7 +1244,7 @@ b   0 1
 <span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">ateb =</span> <span class="fu">mean</span>(y1 <span class="sc">-</span> y0), <span class="at">.groups =</span> <span class="st">&quot;drop&quot;</span></span>
 <span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a>  )</span>
 <span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a>datb</span></code></pre></div>
-<pre><code># A tibble: 2 x 5
+<pre><code># A tibble: 2 × 5
   b        nb    pb estateb  ateb
   &lt;chr&gt; &lt;int&gt; &lt;dbl&gt;   &lt;dbl&gt; &lt;dbl&gt;
 1 a         6 0.333    16.8    60
@@ -1012,18 +1256,22 @@ b   0 1
 <span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a><span class="fu">with</span>(datb, <span class="fu">sum</span>(ateb <span class="sc">*</span> (nb <span class="sc">/</span> <span class="fu">sum</span>(nb))))</span></code></pre></div>
 <pre><code>[1] 54</code></pre>
 </section>
-<section id="estimating-the-ate-in-block-randomized-experiments-2" class="slide level2">
+<section id="estimating-the-ate-in-block-randomized-experiments-2"
+class="slide level2">
 <h2>Estimating the ATE in block-randomized experiments</h2>
-<p>One approach is to estimate the overall ATE using block-size weights:</p>
+<p>One approach is to estimate the overall ATE using block-size
+weights:</p>
 <div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Showing that difference_in_means uses the blocksize weight.</span></span>
 <span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>e1 <span class="ot">&lt;-</span> <span class="fu">difference_in_means</span>(Y <span class="sc">~</span> Z, <span class="at">blocks =</span> b, <span class="at">data =</span> dat)</span>
 <span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>e2 <span class="ot">&lt;-</span> <span class="fu">with</span>(datb, <span class="fu">sum</span>(estateb <span class="sc">*</span> (nb <span class="sc">/</span> <span class="fu">sum</span>(nb))))</span>
 <span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(<span class="fu">coef</span>(e1)[[<span class="st">&quot;Z&quot;</span>]], e2)</span></code></pre></div>
 <pre><code>[1] 108.2 108.2</code></pre>
 </section>
-<section id="estimating-the-ate-in-block-randomized-experiments-3" class="slide level2">
+<section id="estimating-the-ate-in-block-randomized-experiments-3"
+class="slide level2">
 <h2>Estimating the ATE in block-randomized experiments</h2>
-<p>Notice that this is <strong>not</strong> the same as either of the following:</p>
+<p>Notice that this is <strong>not</strong> the same as either of the
+following:</p>
 <div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Ignoring blocks</span></span>
 <span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>e3 <span class="ot">&lt;-</span> <span class="fu">lm</span>(Y <span class="sc">~</span> Z, <span class="at">data =</span> dat)</span>
 <span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a><span class="fu">coef</span>(e3)[[<span class="st">&quot;Z&quot;</span>]]</span></code></pre></div>
@@ -1032,41 +1280,49 @@ b   0 1
 <span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>e4 <span class="ot">&lt;-</span> <span class="fu">lm</span>(Y <span class="sc">~</span> Z <span class="sc">+</span> block, <span class="at">data =</span> dat)</span>
 <span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a><span class="fu">coef</span>(e4)[[<span class="st">&quot;Z&quot;</span>]]</span></code></pre></div>
 <pre><code>[1] 114.8</code></pre>
-<p>How do they differ? (The first ignores the blocks. The second uses a different set of weights that are created by use of “fixed effects” or “indicator” or “dummy” variables.)</p>
+<p>How do they differ? (The first ignores the blocks. The second uses a
+different set of weights that are created by use of “fixed effects” or
+“indicator” or “dummy” variables.)</p>
 </section>
 <section id="which-estimator-should-we-use" class="slide level2">
 <h2>Which estimator should we use?</h2>
-<p>We now have three estimators each with a different estimate (imagining they all target the same estimand):</p>
+<p>We now have three estimators each with a different estimate
+(imagining they all target the same estimand):</p>
 <div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(<span class="fu">coef</span>(e1)[[<span class="st">&quot;Z&quot;</span>]], <span class="fu">coef</span>(e3)[[<span class="st">&quot;Z&quot;</span>]], <span class="fu">coef</span>(e4)[[<span class="st">&quot;Z&quot;</span>]])</span></code></pre></div>
 <pre><code>[1] 108.2 131.8 114.8</code></pre>
-<p>Which estimator should we use for this design? We can set up a DeclareDesign simulation to figure this out.</p>
+<p>Which estimator should we use for this design? We can set up a
+DeclareDesign simulation to figure this out.</p>
 <div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="do">## declare a new base design that includes the block indicator b</span></span>
 <span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>base_design_blocks <span class="ot">&lt;-</span></span>
 <span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a>  <span class="co"># declare the population</span></span>
 <span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">declare_population</span>(dat[, <span class="fu">c</span>(<span class="st">&quot;b&quot;</span>, <span class="st">&quot;y0&quot;</span>, <span class="st">&quot;y1&quot;</span>)]) <span class="sc">+</span></span>
 <span id="cb42-5"><a href="#cb42-5" aria-hidden="true" tabindex="-1"></a>  <span class="co"># tell DD that b indicates block and to assign 2 treated units in each block</span></span>
-<span id="cb42-6"><a href="#cb42-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">declare_assignment</span>(<span class="at">m =</span> <span class="dv">2</span>, <span class="at">blocks =</span> b) <span class="sc">+</span></span>
-<span id="cb42-7"><a href="#cb42-7" aria-hidden="true" tabindex="-1"></a>  <span class="co"># relationship of potential outcomes to observed outcome</span></span>
-<span id="cb42-8"><a href="#cb42-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">declare_potential_outcomes</span>(Y <span class="sc">~</span> Z <span class="sc">*</span> y1 <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">-</span> Z) <span class="sc">*</span> y0) <span class="sc">+</span></span>
-<span id="cb42-9"><a href="#cb42-9" aria-hidden="true" tabindex="-1"></a>  <span class="co"># observed outcome and treatment assignment</span></span>
-<span id="cb42-10"><a href="#cb42-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">declare_reveal</span>(Y, Z)</span></code></pre></div>
+<span id="cb42-6"><a href="#cb42-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">declare_assignment</span>(</span>
+<span id="cb42-7"><a href="#cb42-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">Z =</span> <span class="fu">conduct_ra</span>(<span class="at">N =</span> N, <span class="at">m =</span> <span class="dv">2</span>, <span class="at">blocks =</span> b),</span>
+<span id="cb42-8"><a href="#cb42-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">Z_cond_prob =</span></span>
+<span id="cb42-9"><a href="#cb42-9" aria-hidden="true" tabindex="-1"></a>      <span class="fu">obtain_condition_probabilities</span>(<span class="at">assignment =</span> Z, <span class="at">m =</span> <span class="dv">2</span>)</span>
+<span id="cb42-10"><a href="#cb42-10" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb42-11"><a href="#cb42-11" aria-hidden="true" tabindex="-1"></a>  <span class="co"># relationship of potential outcomes to observed outcome</span></span>
+<span id="cb42-12"><a href="#cb42-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">declare_potential_outcomes</span>(Y <span class="sc">~</span> Z <span class="sc">*</span> y1 <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">-</span> Z) <span class="sc">*</span> y0) <span class="sc">+</span></span>
+<span id="cb42-13"><a href="#cb42-13" aria-hidden="true" tabindex="-1"></a>  <span class="co"># observed outcome and treatment assignment</span></span>
+<span id="cb42-14"><a href="#cb42-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">declare_reveal</span>(Y, Z)</span></code></pre></div>
 </section>
 <section id="which-estimator-should-we-use-1" class="slide level2">
 <h2>Which estimator should we use?</h2>
 <div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="co"># the estimand is the average treatment effect</span></span>
-<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>estimandATEb <span class="ot">&lt;-</span> <span class="fu">declare_estimand</span>(<span class="at">ATE =</span> <span class="fu">mean</span>(Y_Z_1 <span class="sc">-</span> Y_Z_0))</span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>estimandATEb <span class="ot">&lt;-</span> <span class="fu">declare_inquiry</span>(<span class="at">ATE =</span> <span class="fu">mean</span>(Y_Z_1 <span class="sc">-</span> Y_Z_0))</span>
 <span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb43-4"><a href="#cb43-4" aria-hidden="true" tabindex="-1"></a><span class="co"># three different estimators</span></span>
 <span id="cb43-5"><a href="#cb43-5" aria-hidden="true" tabindex="-1"></a>est1 <span class="ot">&lt;-</span> <span class="fu">declare_estimator</span>(Y <span class="sc">~</span> Z,</span>
-<span id="cb43-6"><a href="#cb43-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">estimand =</span> estimandATEb, <span class="at">model =</span> lm_robust,</span>
+<span id="cb43-6"><a href="#cb43-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">inquiry =</span> estimandATEb, <span class="at">model =</span> lm_robust,</span>
 <span id="cb43-7"><a href="#cb43-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">label =</span> <span class="st">&quot;Ignores Blocks&quot;</span></span>
 <span id="cb43-8"><a href="#cb43-8" aria-hidden="true" tabindex="-1"></a>)</span>
 <span id="cb43-9"><a href="#cb43-9" aria-hidden="true" tabindex="-1"></a>est2 <span class="ot">&lt;-</span> <span class="fu">declare_estimator</span>(Y <span class="sc">~</span> Z,</span>
-<span id="cb43-10"><a href="#cb43-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">estimand =</span> estimandATEb, <span class="at">model =</span> difference_in_means, <span class="at">blocks =</span> b,</span>
+<span id="cb43-10"><a href="#cb43-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">inquiry =</span> estimandATEb, <span class="at">model =</span> difference_in_means, <span class="at">blocks =</span> b,</span>
 <span id="cb43-11"><a href="#cb43-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">label =</span> <span class="st">&quot;DiM: Block-Size Weights&quot;</span></span>
 <span id="cb43-12"><a href="#cb43-12" aria-hidden="true" tabindex="-1"></a>)</span>
 <span id="cb43-13"><a href="#cb43-13" aria-hidden="true" tabindex="-1"></a>est3 <span class="ot">&lt;-</span> <span class="fu">declare_estimator</span>(Y <span class="sc">~</span> Z,</span>
-<span id="cb43-14"><a href="#cb43-14" aria-hidden="true" tabindex="-1"></a>  <span class="at">estimand =</span> estimandATEb, <span class="at">model =</span> lm_robust,</span>
+<span id="cb43-14"><a href="#cb43-14" aria-hidden="true" tabindex="-1"></a>  <span class="at">inquiry =</span> estimandATEb, <span class="at">model =</span> lm_robust,</span>
 <span id="cb43-15"><a href="#cb43-15" aria-hidden="true" tabindex="-1"></a>  <span class="at">weights =</span> (Z <span class="sc">/</span> Z_cond_prob) <span class="sc">+</span> ((<span class="dv">1</span> <span class="sc">-</span> Z) <span class="sc">/</span> (Z_cond_prob)),</span>
 <span id="cb43-16"><a href="#cb43-16" aria-hidden="true" tabindex="-1"></a>  <span class="at">label =</span> <span class="st">&quot;LM: Block Size Weights&quot;</span></span>
 <span id="cb43-17"><a href="#cb43-17" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
@@ -1075,25 +1331,28 @@ b   0 1
 <h2>Which estimator should we use?</h2>
 <div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="co"># two more estimators</span></span>
 <span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a>est4 <span class="ot">&lt;-</span> <span class="fu">declare_estimator</span>(Y <span class="sc">~</span> Z,</span>
-<span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">estimand =</span> estimandATEb,</span>
+<span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">inquiry =</span> estimandATEb,</span>
 <span id="cb44-4"><a href="#cb44-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">model =</span> lm_robust, <span class="at">fixed_effects =</span> <span class="sc">~</span>b, <span class="at">label =</span> <span class="st">&quot;Precision Weights&quot;</span></span>
 <span id="cb44-5"><a href="#cb44-5" aria-hidden="true" tabindex="-1"></a>)</span>
 <span id="cb44-6"><a href="#cb44-6" aria-hidden="true" tabindex="-1"></a>est5 <span class="ot">&lt;-</span> <span class="fu">declare_estimator</span>(Y <span class="sc">~</span> Z <span class="sc">+</span> b,</span>
-<span id="cb44-7"><a href="#cb44-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">estimand =</span> estimandATEb,</span>
+<span id="cb44-7"><a href="#cb44-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">inquiry =</span> estimandATEb,</span>
 <span id="cb44-8"><a href="#cb44-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">model =</span> lm_robust, <span class="at">label =</span> <span class="st">&quot;Precision Weights (LSDV)&quot;</span></span>
 <span id="cb44-9"><a href="#cb44-9" aria-hidden="true" tabindex="-1"></a>)</span>
 <span id="cb44-10"><a href="#cb44-10" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb44-11"><a href="#cb44-11" aria-hidden="true" tabindex="-1"></a><span class="do">## new design object has the base design, the estimand, and five estimators</span></span>
 <span id="cb44-12"><a href="#cb44-12" aria-hidden="true" tabindex="-1"></a>design_blocks <span class="ot">&lt;-</span> base_design_blocks <span class="sc">+</span> estimandATEb <span class="sc">+</span></span>
 <span id="cb44-13"><a href="#cb44-13" aria-hidden="true" tabindex="-1"></a>  est1 <span class="sc">+</span> est2 <span class="sc">+</span> est3 <span class="sc">+</span> est4 <span class="sc">+</span> est5</span></code></pre></div>
-<p>Then we will run 10,000 simulations (reassign treatment 10,000 times) and summarize the estimates produced by each of these five estimators.</p>
+<p>Then we will run 10,000 simulations (reassign treatment 10,000 times)
+and summarize the estimates produced by each of these five
+estimators.</p>
 </section>
 <section id="which-estimator-should-we-use-3" class="slide level2">
 <h2>Which estimator should we use?</h2>
 <p>How should we interpret this plot?</p>
 <p><img src="figs/figsim_plot2-1.png" width=".9\textwidth"  /></p>
 </section>
-<section id="which-estimator-is-closer-to-the-truth-1" class="slide level2">
+<section id="which-estimator-is-closer-to-the-truth-1"
+class="slide level2">
 <h2>Which estimator is closer to the truth?</h2>
 <p>Which estimator works better on this design and these data?</p>
 <table>
@@ -1129,12 +1388,12 @@ b   0 1
 </tr>
 <tr class="odd">
 <td style="text-align: left;">LM: Block Size Weights</td>
-<td style="text-align: left;">-0.63</td>
-<td style="text-align: left;">53.08</td>
-<td style="text-align: left;">53.11</td>
-<td style="text-align: left;">60.57</td>
-<td style="text-align: left;">0.08</td>
-<td style="text-align: left;">0.93</td>
+<td style="text-align: left;">14.48</td>
+<td style="text-align: left;">55.23</td>
+<td style="text-align: left;">53.33</td>
+<td style="text-align: left;">60.79</td>
+<td style="text-align: left;">0.10</td>
+<td style="text-align: left;">0.97</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Precision Weights</td>
@@ -1156,47 +1415,99 @@ b   0 1
 </tr>
 </tbody>
 </table>
-<p>Notice that the coverage is not always at 95% in all cases. We used 10,000 simulations so simulation error is around <span class="math inline">\(\pm 2 \sqrt{p(1-p)/10000}\)</span> or, say, for coverage calculated as .93, a different simulation could have easily produced 0.9249 or 0.9351 (or would rarely have produced coverage numbers outside that range just by chance).</p>
+<p>Notice that the coverage is not always at 95% in all cases. We used
+10,000 simulations so simulation error is around <span
+class="math inline">\(\pm 2 \sqrt{p(1-p)/10000}\)</span> or, say, for
+coverage calculated as .93, a different simulation could have easily
+produced 0.9249 or 0.9351 (or would rarely have produced coverage
+numbers outside that range just by chance).</p>
 </section></section>
 <section>
 <section id="cluster-randomization" class="title-slide slide level1">
 <h1>Cluster randomization</h1>
 
 </section>
-<section id="in-cluster-randomized-experiments-units-are-randomized-as-a-group-cluster-to-treatment" class="slide level2 allowframebreaks">
-<h2 class="allowframebreaks">In cluster-randomized experiments, units are randomized as a group (cluster) to treatment</h2>
+<section
+id="in-cluster-randomized-experiments-units-are-randomized-as-a-group-cluster-to-treatment"
+class="slide level2 allowframebreaks">
+<h2 class="allowframebreaks">In cluster-randomized experiments, units
+are randomized as a group (cluster) to treatment</h2>
 <ul>
-<li><strong>Example 1:</strong> an intervention is randomized across neighborhoods, so <strong>all</strong> households in a neighborhood will be assigned to the same treatment condition, but different neighborhoods will be assigned different treatment conditions.</li>
-<li><strong>Example 2:</strong> an intervention is randomized across people and each person is measured four times after treatment, so our data contain four rows per person.</li>
-<li><strong>Not An Example 1:</strong> Neighborhoods are chosen for the study. Within each neighborhood about half of the people are assigned to treatment and half to control. (What kind of study is this? It is not a cluster-randomized study.)</li>
-<li><strong>Not an Example 2:</strong> an intervention is randomized to some neighborhoods and not to others, the outcomes include measurements of neighborhood-level trust in government and total land area in the neighborhood devoted to gardens. (Sometimes a cluster randomized experiment can be turned into a simple randomized experiment. Or may contain more than one possible approach to analysis and interpretation.)</li>
+<li><strong>Example 1:</strong> an intervention is randomized across
+neighborhoods, so <strong>all</strong> households in a neighborhood will
+be assigned to the same treatment condition, but different neighborhoods
+will be assigned different treatment conditions.</li>
+<li><strong>Example 2:</strong> an intervention is randomized across
+people and each person is measured four times after treatment, so our
+data contain four rows per person.</li>
+<li><strong>Not An Example 1:</strong> Neighborhoods are chosen for the
+study. Within each neighborhood about half of the people are assigned to
+treatment and half to control. (What kind of study is this? It is not a
+cluster-randomized study.)</li>
+<li><strong>Not an Example 2:</strong> an intervention is randomized to
+some neighborhoods and not to others, the outcomes include measurements
+of neighborhood-level trust in government and total land area in the
+neighborhood devoted to gardens. (Sometimes a cluster randomized
+experiment can be turned into a simple randomized experiment. Or may
+contain more than one possible approach to analysis and
+interpretation.)</li>
 </ul>
-<p>How might the distribution of test statistics and estimators differ from an experiment where individual units (not clusters) are randomized?</p>
+<p>How might the distribution of test statistics and estimators differ
+from an experiment where individual units (not clusters) are
+randomized?</p>
 </section>
-<section id="estimating-the-ate-in-cluster-randomized-experiments" class="slide level2">
+<section id="estimating-the-ate-in-cluster-randomized-experiments"
+class="slide level2">
 <h2>Estimating the ATE in cluster-randomized experiments</h2>
 <p>Bias problems in cluster-randomized experiments:</p>
 <ul>
-<li><p>When clusters are the same size, the usual difference-in-means estimator is unbiased.</p></li>
-<li><p>But be careful when clusters have different numbers of units or you have very few clusters because then treatment effects may be correlated with cluster size.</p></li>
-<li><p>When cluster size is related to potential outcomes, the usual difference-in-means estimator is biased. <a href="https://declaredesign.org/blog/bias-cluster-randomized-trials.html" class="uri">https://declaredesign.org/blog/bias-cluster-randomized-trials.html</a></p></li>
+<li><p>When clusters are the same size, the usual difference-in-means
+estimator is unbiased.</p></li>
+<li><p>But be careful when clusters have different numbers of units or
+you have very few clusters because then treatment effects may be
+correlated with cluster size.</p></li>
+<li><p>When cluster size is related to potential outcomes, the usual
+difference-in-means estimator is biased. <a
+href="https://declaredesign.org/blog/bias-cluster-randomized-trials.html"
+class="uri">https://declaredesign.org/blog/bias-cluster-randomized-trials.html</a></p></li>
 </ul>
 </section>
-<section id="estimating-the-se-for-the-ate-in-cluster-randomized-experiments" class="slide level2 allowframebreaks">
-<h2 class="allowframebreaks">Estimating the SE for the ATE in cluster-randomized experiments</h2>
+<section
+id="estimating-the-se-for-the-ate-in-cluster-randomized-experiments"
+class="slide level2 allowframebreaks">
+<h2 class="allowframebreaks">Estimating the SE for the ATE in
+cluster-randomized experiments</h2>
 <ul>
-<li><p><strong>Misleading statistical inferences:</strong> The default SE will generally underestimate precision in such designs and thus produce tests with false positive rates that are too high (or equivalently confidence intervals coverage rates that are too low).</p></li>
-<li><p>The “cluster robust standard errors” implemented in common software work well <strong>when the number of clusters is large</strong> (like more than 50 in some simulation studies).</p></li>
-<li><p>The default cluster-appropriate standard errors in <code>lm_robust</code> (the <code>CR2</code> SEs) work better than the common approach in Stata (as of this writing).</p></li>
-<li><p>The wild bootstrap helps control error rates but gives up statistical power much more than perhaps necessary in a cluster randomized study where direct randomization inference is possible.</p></li>
-<li><p>When in doubt, one can produce <span class="math inline">\(p\)</span>-values by direct simulation (direct randomization inference) to see if they agree with one of the cluster robust approaches.</p></li>
+<li><p><strong>Misleading statistical inferences:</strong> The default
+SE will generally underestimate precision in such designs and thus
+produce tests with false positive rates that are too high (or
+equivalently confidence intervals coverage rates that are too
+low).</p></li>
+<li><p>The “cluster robust standard errors” implemented in common
+software work well <strong>when the number of clusters is large</strong>
+(like more than 50 in some simulation studies).</p></li>
+<li><p>The default cluster-appropriate standard errors in
+<code>lm_robust</code> (the <code>CR2</code> SEs) work better than the
+common approach in Stata (as of this writing).</p></li>
+<li><p>The wild bootstrap helps control error rates but gives up
+statistical power much more than perhaps necessary in a cluster
+randomized study where direct randomization inference is
+possible.</p></li>
+<li><p>When in doubt, one can produce <span
+class="math inline">\(p\)</span>-values by direct simulation (direct
+randomization inference) to see if they agree with one of the cluster
+robust approaches.</p></li>
 </ul>
-<p>Overall, it is worth simulating to study the performance of your estimators, tests, and confidence intervals if you have any worries or doubts.</p>
+<p>Overall, it is worth simulating to study the performance of your
+estimators, tests, and confidence intervals if you have any worries or
+doubts.</p>
 </section>
 <section id="an-example-of-estimation" class="slide level2">
 <h2>An example of estimation</h2>
-<p>Imagine we had data from 10 clusters with either 100 people (for 2 clusters) or 10 people per cluster (for 8 clusters). The total size of the data is 280.</p>
-<pre><code># A tibble: 6 x 6
+<p>Imagine we had data from 10 clusters with either 100 people (for 2
+clusters) or 10 people per cluster (for 8 clusters). The total size of
+the data is 280.</p>
+<pre><code># A tibble: 6 × 6
 # Groups:   clus_id [2]
   clus_id indiv Y_Z_0 Y_Z_1     Z     Y
   &lt;chr&gt;   &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;int&gt; &lt;dbl&gt;
@@ -1209,7 +1520,8 @@ b   0 1
 </section>
 <section id="an-example-of-estimation-1" class="slide level2">
 <h2>An example of estimation</h2>
-<p>Which estimator should we use? Which test should we use? On what basis should we choose among these approaches?</p>
+<p>Which estimator should we use? Which test should we use? On what
+basis should we choose among these approaches?</p>
 <div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a>lmc1 <span class="ot">&lt;-</span> <span class="fu">lm_robust</span>(Y <span class="sc">~</span> Z, <span class="at">data =</span> dat1)</span>
 <span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a>lmc2 <span class="ot">&lt;-</span> <span class="fu">lm_robust</span>(Y <span class="sc">~</span> Z, <span class="at">clusters =</span> clus_id, <span class="at">data =</span> dat1)</span>
 <span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a>lmc3 <span class="ot">&lt;-</span> <span class="fu">lm_robust</span>(Y <span class="sc">~</span> Z <span class="sc">+</span> cl_sizeF, <span class="at">clusters =</span> clus_id, <span class="at">data =</span> dat1)</span>
@@ -1223,15 +1535,21 @@ b   0 1
 <pre><code>  term estimate std.error statistic p.value conf.low conf.high    df outcome
 2    Z   0.3024     0.306    0.9882  0.4386   -1.194     1.799 1.769       Y</code></pre>
 </section>
-<section id="use-simulation-to-assess-estimators-and-tests" class="slide level2">
+<section id="use-simulation-to-assess-estimators-and-tests"
+class="slide level2">
 <h2>Use simulation to assess estimators and tests</h2>
-<p>If you look at the code for the slides you will see that we simulate the design 5000 times, each time calculating an estimate and confidence interval for different estimators of the ATE.</p>
-<p>What should we learn from this table? (Coverage? <code>sd_estimate</code> versus <code>mean_se</code>).</p>
+<p>If you look at the code for the slides you will see that we simulate
+the design 5000 times, each time calculating an estimate and confidence
+interval for different estimators of the ATE.</p>
+<p>What should we learn from this table? (Coverage?
+<code>sd_estimate</code> versus <code>mean_se</code>).</p>
 <table>
-<caption>Estimator and Test Performance in 5000 simulations of the cluster randomized design for different estimators and confidence intervals</caption>
+<caption>Estimator and Test Performance in 5000 simulations of the
+cluster randomized design for different estimators and confidence
+intervals</caption>
 <thead>
 <tr class="header">
-<th style="text-align: left;">estimator_label</th>
+<th style="text-align: left;">estimator</th>
 <th style="text-align: right;">coverage</th>
 <th style="text-align: right;">sd_estimate</th>
 <th style="text-align: right;">mean_se</th>
@@ -1240,57 +1558,60 @@ b   0 1
 <tbody>
 <tr class="odd">
 <td style="text-align: left;">Y~Z, CR2</td>
-<td style="text-align: right;">0.55</td>
-<td style="text-align: right;">1.10</td>
-<td style="text-align: right;">0.71</td>
+<td style="text-align: right;">0.53</td>
+<td style="text-align: right;">1.12</td>
+<td style="text-align: right;">0.70</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Y~Z, cl_size fe, CR2</td>
 <td style="text-align: right;">0.74</td>
 <td style="text-align: right;">0.36</td>
-<td style="text-align: right;">0.29</td>
+<td style="text-align: right;">0.30</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Y~Z, HC2</td>
-<td style="text-align: right;">0.55</td>
-<td style="text-align: right;">1.10</td>
+<td style="text-align: right;">0.53</td>
+<td style="text-align: right;">1.12</td>
 <td style="text-align: right;">0.13</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Y~Z, IID</td>
-<td style="text-align: right;">0.55</td>
-<td style="text-align: right;">1.10</td>
+<td style="text-align: right;">0.53</td>
+<td style="text-align: right;">1.12</td>
 <td style="text-align: right;">0.12</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Y~Z, weight=clus_size, CR2</td>
-<td style="text-align: right;">0.55</td>
-<td style="text-align: right;">1.25</td>
-<td style="text-align: right;">0.82</td>
+<td style="text-align: right;">0.53</td>
+<td style="text-align: right;">1.27</td>
+<td style="text-align: right;">0.80</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Y~Z*I(cl_size-mean(cl_size)), CR2</td>
 <td style="text-align: right;">0.74</td>
-<td style="text-align: right;">1.65</td>
+<td style="text-align: right;">1.63</td>
 <td style="text-align: right;">0.06</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Y~Z+cl_sizeF, CR2</td>
 <td style="text-align: right;">0.74</td>
 <td style="text-align: right;">0.36</td>
-<td style="text-align: right;">0.29</td>
+<td style="text-align: right;">0.30</td>
 </tr>
 </tbody>
 </table>
 </section>
-<section id="use-simulation-to-assess-estimators-and-tests-1" class="slide level2">
+<section id="use-simulation-to-assess-estimators-and-tests-1"
+class="slide level2">
 <h2>Use simulation to assess estimators and tests</h2>
 <p>What should we learn from this table? (Bias? Closeness to truth?)</p>
 <table>
-<caption>Estimator and Test Performance in 5000 simulations of the cluster randomized design for different estimators and confidence intervals</caption>
+<caption>Estimator and Test Performance in 5000 simulations of the
+cluster randomized design for different estimators and confidence
+intervals</caption>
 <thead>
 <tr class="header">
-<th style="text-align: left;">estimator_label</th>
+<th style="text-align: left;">estimator</th>
 <th style="text-align: right;">bias</th>
 <th style="text-align: right;">rmse</th>
 </tr>
@@ -1298,54 +1619,63 @@ b   0 1
 <tbody>
 <tr class="odd">
 <td style="text-align: left;">Y~Z, CR2</td>
-<td style="text-align: right;">0.151</td>
-<td style="text-align: right;">1.107</td>
+<td style="text-align: right;">0.110</td>
+<td style="text-align: right;">1.124</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Y~Z, cl_size fe, CR2</td>
-<td style="text-align: right;">0.289</td>
-<td style="text-align: right;">0.461</td>
+<td style="text-align: right;">0.298</td>
+<td style="text-align: right;">0.466</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Y~Z, HC2</td>
-<td style="text-align: right;">0.151</td>
-<td style="text-align: right;">1.107</td>
+<td style="text-align: right;">0.110</td>
+<td style="text-align: right;">1.124</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Y~Z, IID</td>
-<td style="text-align: right;">0.151</td>
-<td style="text-align: right;">1.107</td>
+<td style="text-align: right;">0.110</td>
+<td style="text-align: right;">1.124</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Y~Z, weight=clus_size, CR2</td>
-<td style="text-align: right;">0.011</td>
-<td style="text-align: right;">1.253</td>
+<td style="text-align: right;">-0.035</td>
+<td style="text-align: right;">1.273</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Y~Z*I(cl_size-mean(cl_size)), CR2</td>
-<td style="text-align: right;">0.890</td>
-<td style="text-align: right;">1.877</td>
+<td style="text-align: right;">0.858</td>
+<td style="text-align: right;">1.839</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Y~Z+cl_sizeF, CR2</td>
-<td style="text-align: right;">0.289</td>
-<td style="text-align: right;">0.461</td>
+<td style="text-align: right;">0.298</td>
+<td style="text-align: right;">0.466</td>
 </tr>
 </tbody>
 </table>
 </section>
-<section id="use-simulation-to-assess-estimators-and-tests-2" class="slide level2">
+<section id="use-simulation-to-assess-estimators-and-tests-2"
+class="slide level2">
 <h2>Use simulation to assess estimators and tests</h2>
 <p>How should we interpret this plot?</p>
 <p><img src="figs/figsim_plot_clus-1.png" width=".95\textwidth"  /></p>
 </section>
-<section id="summary-of-estimation-and-testing-in-cluster-randomized-trials" class="slide level2">
+<section
+id="summary-of-estimation-and-testing-in-cluster-randomized-trials"
+class="slide level2">
 <h2>Summary of estimation and testing in cluster-randomized trials</h2>
 <ul>
-<li><p>Cluster randomized trials pose special problems for standard approaches to estimation and testing.</p></li>
-<li><p>If randomization is at the cluster level, then uncertainty arises from the cluster level randomization.</p></li>
-<li><p>If we have enough clusters, then one of the “cluster robust” standard errors can help us produce confidence intervals with correct coverage. <strong>Cluster robust standard errors require many clusters</strong>.</p></li>
-<li><p>If cluster size (or characteristic) is related to effect size, then we can have bias (and we need to adjust somehow).</p></li>
+<li><p>Cluster randomized trials pose special problems for standard
+approaches to estimation and testing.</p></li>
+<li><p>If randomization is at the cluster level, then uncertainty arises
+from the cluster level randomization.</p></li>
+<li><p>If we have enough clusters, then one of the “cluster robust”
+standard errors can help us produce confidence intervals with correct
+coverage. <strong>Cluster robust standard errors require many
+clusters</strong>.</p></li>
+<li><p>If cluster size (or characteristic) is related to effect size,
+then we can have bias (and we need to adjust somehow).</p></li>
 </ul>
 </section></section>
 <section>
@@ -1353,8 +1683,11 @@ b   0 1
 <h1>Binary outcomes</h1>
 
 </section>
-<section id="binary-outcomes-set-up-our-data-for-simulation-in-declaredesign" class="slide level2">
-<h2>Binary outcomes: Set up our data for simulation in DeclareDesign</h2>
+<section
+id="binary-outcomes-set-up-our-data-for-simulation-in-declaredesign"
+class="slide level2">
+<h2>Binary outcomes: Set up our data for simulation in
+DeclareDesign</h2>
 <div class="sourceCode" id="cb52"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a><span class="co"># population size</span></span>
 <span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a>N <span class="ot">&lt;-</span> <span class="dv">20</span></span>
 <span id="cb52-3"><a href="#cb52-3" aria-hidden="true" tabindex="-1"></a><span class="co"># declare the population</span></span>
@@ -1368,21 +1701,24 @@ b   0 1
 <span id="cb52-11"><a href="#cb52-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">prob =</span> <span class="fl">0.5</span> <span class="sc">+</span> <span class="fl">0.05</span> <span class="sc">*</span> Z <span class="sc">+</span> x1 <span class="sc">*</span> .<span class="dv">05</span></span>
 <span id="cb52-12"><a href="#cb52-12" aria-hidden="true" tabindex="-1"></a>))</span>
 <span id="cb52-13"><a href="#cb52-13" aria-hidden="true" tabindex="-1"></a><span class="co"># two possible targets: difference in means or difference in log-odds</span></span>
-<span id="cb52-14"><a href="#cb52-14" aria-hidden="true" tabindex="-1"></a>thetarget_ate <span class="ot">&lt;-</span> <span class="fu">declare_estimand</span>(<span class="at">ate =</span> <span class="fu">mean</span>(Y_Z_1 <span class="sc">-</span> Y_Z_0))</span>
-<span id="cb52-15"><a href="#cb52-15" aria-hidden="true" tabindex="-1"></a>thetarget_logodds <span class="ot">&lt;-</span> <span class="fu">declare_estimand</span>(</span>
+<span id="cb52-14"><a href="#cb52-14" aria-hidden="true" tabindex="-1"></a>thetarget_ate <span class="ot">&lt;-</span> <span class="fu">declare_inquiry</span>(<span class="at">ate =</span> <span class="fu">mean</span>(Y_Z_1 <span class="sc">-</span> Y_Z_0))</span>
+<span id="cb52-15"><a href="#cb52-15" aria-hidden="true" tabindex="-1"></a>thetarget_logodds <span class="ot">&lt;-</span> <span class="fu">declare_inquiry</span>(</span>
 <span id="cb52-16"><a href="#cb52-16" aria-hidden="true" tabindex="-1"></a>  <span class="at">logodds =</span> <span class="fu">log</span>(<span class="fu">mean</span>(Y_Z_1) <span class="sc">/</span> (<span class="dv">1</span> <span class="sc">-</span> <span class="fu">mean</span>(Y_Z_1))) <span class="sc">-</span></span>
 <span id="cb52-17"><a href="#cb52-17" aria-hidden="true" tabindex="-1"></a>    <span class="fu">log</span>(<span class="fu">mean</span>(Y_Z_0) <span class="sc">/</span> (<span class="dv">1</span> <span class="sc">-</span> <span class="fu">mean</span>(Y_Z_0)))</span>
 <span id="cb52-18"><a href="#cb52-18" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
 </section>
-<section id="binary-outcomes-set-up-our-data-for-simulation-in-declaredesign-1" class="slide level2">
-<h2>Binary outcomes: Set up our data for simulation in DeclareDesign</h2>
+<section
+id="binary-outcomes-set-up-our-data-for-simulation-in-declaredesign-1"
+class="slide level2">
+<h2>Binary outcomes: Set up our data for simulation in
+DeclareDesign</h2>
 <div class="sourceCode" id="cb53"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a><span class="co"># declare how treatment is assigned</span></span>
 <span id="cb53-2"><a href="#cb53-2" aria-hidden="true" tabindex="-1"></a><span class="co"># m units are assigned to levels of treatment Z</span></span>
-<span id="cb53-3"><a href="#cb53-3" aria-hidden="true" tabindex="-1"></a>theassign_bin <span class="ot">&lt;-</span> <span class="fu">declare_assignment</span>(<span class="at">m =</span> <span class="fu">floor</span>(N <span class="sc">/</span> <span class="dv">3</span>))</span>
+<span id="cb53-3"><a href="#cb53-3" aria-hidden="true" tabindex="-1"></a>theassign_bin <span class="ot">&lt;-</span> <span class="fu">declare_assignment</span>(<span class="at">Z =</span> <span class="fu">conduct_ra</span>(<span class="at">N =</span> N, <span class="at">m =</span> <span class="fu">floor</span>(N <span class="sc">/</span> <span class="dv">3</span>)))</span>
 <span id="cb53-4"><a href="#cb53-4" aria-hidden="true" tabindex="-1"></a><span class="co"># declare what outcome values are revealed for possible values of Z</span></span>
 <span id="cb53-5"><a href="#cb53-5" aria-hidden="true" tabindex="-1"></a>thereveal_bin <span class="ot">&lt;-</span> <span class="fu">declare_reveal</span>(Y, Z)</span>
 <span id="cb53-6"><a href="#cb53-6" aria-hidden="true" tabindex="-1"></a><span class="co"># pull this all together: population, potential outcomes, assignment,</span></span>
-<span id="cb53-7"><a href="#cb53-7" aria-hidden="true" tabindex="-1"></a><span class="do">## outcome values connected to Z</span></span>
+<span id="cb53-7"><a href="#cb53-7" aria-hidden="true" tabindex="-1"></a><span class="co"># outcome values connected to Z</span></span>
 <span id="cb53-8"><a href="#cb53-8" aria-hidden="true" tabindex="-1"></a>des_bin <span class="ot">&lt;-</span> thepop_bin <span class="sc">+</span> thepo_bin <span class="sc">+</span> theassign_bin <span class="sc">+</span> thereveal_bin</span>
 <span id="cb53-9"><a href="#cb53-9" aria-hidden="true" tabindex="-1"></a><span class="co"># then make one draw (randomize treatment once)</span></span>
 <span id="cb53-10"><a href="#cb53-10" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">12345</span>)</span>
@@ -1390,20 +1726,28 @@ b   0 1
 </section>
 <section id="binary-outcomes-estimands-i" class="slide level2">
 <h2>Binary outcomes: Estimands I</h2>
-<p>How would we interpret the following true quantities or estimands? (<code>Y_Z_1</code>, <code>Y_Z_0</code> are potential outcomes, <code>Y</code> is observed, <code>x1</code>, <code>x2</code> are covariates, <code>Z</code> is treatment assignment. Here <span class="math inline">\(N\)</span>=20.</p>
+<p>How would we interpret the following true quantities or estimands?
+<code>Y_Z_1</code>, <code>Y_Z_0</code> are potential outcomes,
+<code>Y</code> is observed, <code>x1</code>, <code>x2</code> are
+covariates, <code>Z</code> is treatment assignment. Here <span
+class="math inline">\(N\)</span>=20.</p>
 <div class="sourceCode" id="cb54"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Look at the first 6 observations only:</span></span>
 <span id="cb54-2"><a href="#cb54-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(dat2[, <span class="sc">-</span><span class="dv">7</span>])</span></code></pre></div>
-<pre><code>  ID x1      x2 Y_Z_0 Y_Z_1 Z Y
-1 01  1 -0.1162     0     1 0 0
-2 02  1  1.8173     0     1 1 1
-3 03  1  0.3706     0     1 0 0
-4 04  1  0.5202     1     1 0 1
-5 05  0 -0.7505     1     0 1 0
-6 06  0  0.8169     0     1 0 0</code></pre>
+<pre><code>  ID x1      x2 Y_Z_0 Y_Z_1 Z
+1 01  1 -0.1162     0     1 0
+2 02  1  1.8173     0     1 1
+3 03  1  0.3706     0     1 0
+4 04  1  0.5202     1     1 0
+5 05  0 -0.7505     1     0 1
+6 06  0  0.8169     0     1 0</code></pre>
 </section>
 <section id="binary-outcomes-estimands-ii" class="slide level2">
 <h2>Binary outcomes: Estimands II</h2>
-<p>How would we interpret the following true quantities or estimands? (<code>Y_Z_1</code>, <code>Y_Z_0</code> are potential outcomes, <code>Y</code> is observed, <code>x1</code>, <code>x2</code> are covariates, <code>Z</code> is treatment assignment. Here <span class="math inline">\(N\)</span>=20.</p>
+<p>How would we interpret the following true quantities or estimands?
+(<code>Y_Z_1</code>, <code>Y_Z_0</code> are potential outcomes,
+<code>Y</code> is observed, <code>x1</code>, <code>x2</code> are
+covariates, <code>Z</code> is treatment assignment. Here <span
+class="math inline">\(N\)</span>=20.</p>
 <div class="sourceCode" id="cb56"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a>ate_bin <span class="ot">&lt;-</span> <span class="fu">with</span>(dat2, <span class="fu">mean</span>(Y_Z_1 <span class="sc">-</span> Y_Z_0))</span>
 <span id="cb56-2"><a href="#cb56-2" aria-hidden="true" tabindex="-1"></a>bary1 <span class="ot">&lt;-</span> <span class="fu">mean</span>(dat2<span class="sc">$</span>Y_Z_1)</span>
 <span id="cb56-3"><a href="#cb56-3" aria-hidden="true" tabindex="-1"></a>bary0 <span class="ot">&lt;-</span> <span class="fu">mean</span>(dat2<span class="sc">$</span>Y_Z_0)</span>
@@ -1422,19 +1766,31 @@ b   0 1
 <h2>Binary outcomes: Estimands III</h2>
 <p>Do you want to estimate the difference in log-odds?</p>
 <p><span class="math display">\[\begin{equation}
-\delta = \log \frac{\bar{y}_{1}}{1-\bar{y}_{1}} - \log \frac{ \bar{y}_0}{1- \bar{y}_0}
+\delta = \log \frac{\bar{y}_{1}}{1-\bar{y}_{1}} - \log \frac{
+\bar{y}_0}{1- \bar{y}_0}
 \end{equation}\]</span></p>
 <p>Or the difference in proportions?</p>
 <p><span class="math display">\[\begin{equation}
 \bar{\tau} = \bar{y}_{1} - \bar{y}_0
 \end{equation}\]</span></p>
-<p>Recall that <span class="math inline">\(\bar{y}_1\)</span> is the <em>proportion</em> of <span class="math inline">\(y_{1}=1\)</span> in the data.</p>
-<p><span class="citation" data-cites="freedman2008randomization"><a href="#/ref-freedman2008randomization" role="doc-biblioref">Freedman</a> (<a href="#/ref-freedman2008randomization" role="doc-biblioref">2008b</a>)</span> shows us that the logit coefficient estimator is a biased estimator of the difference in log-odds estimand. He also shows an unbiased estimator of that estimand.</p>
-<p>We know that the difference of proportions in the sample should be an unbiased estimator of the difference of proportions.</p>
+<p>Recall that <span class="math inline">\(\bar{y}_1\)</span> is the
+<em>proportion</em> of <span class="math inline">\(y_{1}=1\)</span> in
+the data.</p>
+<p><span class="citation"
+data-cites="freedman2008randomization">Freedman (<a
+href="#/ref-freedman2008randomization"
+role="doc-biblioref">2008b</a>)</span> shows us that the logit
+coefficient estimator is a biased estimator of the difference in
+log-odds estimand. He also shows an unbiased estimator of that
+estimand.</p>
+<p>We know that the difference of proportions in the sample should be an
+unbiased estimator of the difference of proportions.</p>
 </section>
 <section id="an-example-of-estimation-i" class="slide level2">
 <h2>An example of estimation I</h2>
-<p>How should we interpret the following estimates? (What does the difference of means estimator require in terms of assumptions? What does the logistic regression estimator require in terms of assumptions?)</p>
+<p>How should we interpret the following estimates? (What does the
+difference of means estimator require in terms of assumptions? What does
+the logistic regression estimator require in terms of assumptions?)</p>
 <div class="sourceCode" id="cb58"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a>lmbin1 <span class="ot">&lt;-</span> <span class="fu">lm_robust</span>(Y <span class="sc">~</span> Z, <span class="at">data =</span> dat2)</span>
 <span id="cb58-2"><a href="#cb58-2" aria-hidden="true" tabindex="-1"></a>glmbin1 <span class="ot">&lt;-</span> <span class="fu">glm</span>(Y <span class="sc">~</span> Z, <span class="at">data =</span> dat2, <span class="at">family =</span> <span class="fu">binomial</span>(<span class="at">link =</span> <span class="st">&quot;logit&quot;</span>))</span>
 <span id="cb58-3"><a href="#cb58-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1442,7 +1798,7 @@ b   0 1
 <pre><code>  term estimate std.error statistic p.value conf.low conf.high df outcome
 2    Z  -0.4048    0.2159    -1.875 0.07716  -0.8584   0.04884 18       Y</code></pre>
 <div class="sourceCode" id="cb60"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tidy</span>(glmbin1)[<span class="dv">2</span>, ]</span></code></pre></div>
-<pre><code># A tibble: 1 x 5
+<pre><code># A tibble: 1 × 5
   term  estimate std.error statistic p.value
   &lt;chr&gt;    &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;   &lt;dbl&gt;
 1 Z        -1.90      1.22     -1.55   0.120</code></pre>
@@ -1457,7 +1813,7 @@ b   0 1
 <pre><code>  term estimate std.error statistic p.value conf.low conf.high df outcome
 2    Z  -0.4058    0.2179    -1.862 0.07996  -0.8656   0.05398 17       Y</code></pre>
 <div class="sourceCode" id="cb64"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb64-1"><a href="#cb64-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tidy</span>(glmbin2)[<span class="dv">2</span>, ]</span></code></pre></div>
-<pre><code># A tibble: 1 x 5
+<pre><code># A tibble: 1 × 5
   term  estimate std.error statistic p.value
   &lt;chr&gt;    &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;   &lt;dbl&gt;
 1 Z        -1.90      1.22     -1.55   0.120</code></pre>
@@ -1474,7 +1830,8 @@ b   0 1
 <pre><code>    dim  dim_x1     glm  glm_x1 
 -0.4048 -0.4058 -1.8971 -1.9025 </code></pre>
 </section>
-<section id="an-example-of-estimation-the-freedman-plugin-estimators-i" class="slide level2">
+<section id="an-example-of-estimation-the-freedman-plugin-estimators-i"
+class="slide level2">
 <h2>An example of estimation: The Freedman plugin estimators I</h2>
 <p>No covariate: </p>
 <div class="sourceCode" id="cb68"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb68-1"><a href="#cb68-1" aria-hidden="true" tabindex="-1"></a>freedman_plugin_estfn1 <span class="ot">&lt;-</span> <span class="cf">function</span>(data) {</span>
@@ -1487,7 +1844,8 @@ b   0 1
 <span id="cb68-8"><a href="#cb68-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(<span class="fu">data.frame</span>(<span class="at">estimate =</span> diff_log_odds))</span>
 <span id="cb68-9"><a href="#cb68-9" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
 </section>
-<section id="an-example-of-estimation-the-freedman-plugin-estimators-ii" class="slide level2">
+<section id="an-example-of-estimation-the-freedman-plugin-estimators-ii"
+class="slide level2">
 <h2>An example of estimation: The Freedman plugin estimators II</h2>
 <p>With covariate: </p>
 <div class="sourceCode" id="cb69"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb69-1"><a href="#cb69-1" aria-hidden="true" tabindex="-1"></a>freedman_plugin_estfn2 <span class="ot">&lt;-</span> <span class="cf">function</span>(data) {</span>
@@ -1505,47 +1863,56 @@ b   0 1
 <pre><code>       dim     dim_x1        glm     glm_x1   freedman freeman_x1 
    -0.4048    -0.4058    -1.8971    -1.9025    -1.8971    -1.9020 </code></pre>
 </section>
-<section id="an-example-of-using-declaredesign-to-assess-our-estimators-i" class="slide level2">
+<section
+id="an-example-of-using-declaredesign-to-assess-our-estimators-i"
+class="slide level2">
 <h2>An example of using DeclareDesign to assess our estimators I</h2>
 <div class="sourceCode" id="cb71"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb71-1"><a href="#cb71-1" aria-hidden="true" tabindex="-1"></a><span class="co"># declare 4 estimators for DD</span></span>
 <span id="cb71-2"><a href="#cb71-2" aria-hidden="true" tabindex="-1"></a><span class="co"># first estimator: linear regression with ATE as target</span></span>
 <span id="cb71-3"><a href="#cb71-3" aria-hidden="true" tabindex="-1"></a>estb1 <span class="ot">&lt;-</span> <span class="fu">declare_estimator</span>(Y <span class="sc">~</span> Z,</span>
 <span id="cb71-4"><a href="#cb71-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">model =</span> lm_robust, <span class="at">label =</span> <span class="st">&quot;lm1:Z&quot;</span>,</span>
-<span id="cb71-5"><a href="#cb71-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">estimand =</span> thetarget_ate</span>
+<span id="cb71-5"><a href="#cb71-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">inquiry =</span> thetarget_ate</span>
 <span id="cb71-6"><a href="#cb71-6" aria-hidden="true" tabindex="-1"></a>)</span>
 <span id="cb71-7"><a href="#cb71-7" aria-hidden="true" tabindex="-1"></a><span class="co"># second estimator: linear regression with covariate, with ATE as target</span></span>
 <span id="cb71-8"><a href="#cb71-8" aria-hidden="true" tabindex="-1"></a>estb2 <span class="ot">&lt;-</span> <span class="fu">declare_estimator</span>(Y <span class="sc">~</span> Z <span class="sc">+</span> x1,</span>
 <span id="cb71-9"><a href="#cb71-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">model =</span> lm_robust, <span class="at">label =</span> <span class="st">&quot;lm1:Z,x1&quot;</span>,</span>
-<span id="cb71-10"><a href="#cb71-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">estimand =</span> thetarget_ate</span>
+<span id="cb71-10"><a href="#cb71-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">inquiry =</span> thetarget_ate</span>
 <span id="cb71-11"><a href="#cb71-11" aria-hidden="true" tabindex="-1"></a>)</span>
 <span id="cb71-12"><a href="#cb71-12" aria-hidden="true" tabindex="-1"></a><span class="co"># third estimator: logistic regression, with log odds as target</span></span>
 <span id="cb71-13"><a href="#cb71-13" aria-hidden="true" tabindex="-1"></a>estb3 <span class="ot">&lt;-</span> <span class="fu">declare_estimator</span>(Y <span class="sc">~</span> Z,</span>
 <span id="cb71-14"><a href="#cb71-14" aria-hidden="true" tabindex="-1"></a>  <span class="at">model =</span> glm, <span class="at">family =</span> <span class="fu">binomial</span>(<span class="at">link =</span> <span class="st">&quot;logit&quot;</span>),</span>
-<span id="cb71-15"><a href="#cb71-15" aria-hidden="true" tabindex="-1"></a>  <span class="at">label =</span> <span class="st">&quot;glm1:Z&quot;</span>, <span class="at">estimand =</span> thetarget_logodds</span>
+<span id="cb71-15"><a href="#cb71-15" aria-hidden="true" tabindex="-1"></a>  <span class="at">label =</span> <span class="st">&quot;glm1:Z&quot;</span>, <span class="at">inquiry =</span> thetarget_logodds</span>
 <span id="cb71-16"><a href="#cb71-16" aria-hidden="true" tabindex="-1"></a>)</span>
 <span id="cb71-17"><a href="#cb71-17" aria-hidden="true" tabindex="-1"></a><span class="co"># fourth estimtor: logistic regression with covariate, with log odds as target</span></span>
 <span id="cb71-18"><a href="#cb71-18" aria-hidden="true" tabindex="-1"></a>estb4 <span class="ot">&lt;-</span> <span class="fu">declare_estimator</span>(Y <span class="sc">~</span> Z <span class="sc">+</span> x1,</span>
 <span id="cb71-19"><a href="#cb71-19" aria-hidden="true" tabindex="-1"></a>  <span class="at">model =</span> glm, <span class="at">family =</span> <span class="fu">binomial</span>(<span class="at">link =</span> <span class="st">&quot;logit&quot;</span>),</span>
-<span id="cb71-20"><a href="#cb71-20" aria-hidden="true" tabindex="-1"></a>  <span class="at">label =</span> <span class="st">&quot;glm1:Z,x1&quot;</span>, <span class="at">estimand =</span> thetarget_logodds</span>
+<span id="cb71-20"><a href="#cb71-20" aria-hidden="true" tabindex="-1"></a>  <span class="at">label =</span> <span class="st">&quot;glm1:Z,x1&quot;</span>, <span class="at">inquiry =</span> thetarget_logodds</span>
 <span id="cb71-21"><a href="#cb71-21" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
 </section>
-<section id="an-example-of-using-declaredesign-to-assess-our-estimators-ii" class="slide level2">
+<section
+id="an-example-of-using-declaredesign-to-assess-our-estimators-ii"
+class="slide level2">
 <h2>An example of using DeclareDesign to assess our estimators II</h2>
 <div class="sourceCode" id="cb72"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb72-1"><a href="#cb72-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Pull together: des_bin is population, potential outcomes, assignment,</span></span>
 <span id="cb72-2"><a href="#cb72-2" aria-hidden="true" tabindex="-1"></a><span class="co"># outcome values connected to Z.  We add the two targets and four estimators.</span></span>
 <span id="cb72-3"><a href="#cb72-3" aria-hidden="true" tabindex="-1"></a>des_bin_plus_est <span class="ot">&lt;-</span> des_bin <span class="sc">+</span> thetarget_ate <span class="sc">+</span> thetarget_logodds <span class="sc">+</span></span>
 <span id="cb72-4"><a href="#cb72-4" aria-hidden="true" tabindex="-1"></a>  estb1 <span class="sc">+</span> estb2 <span class="sc">+</span> estb3 <span class="sc">+</span> estb4</span></code></pre></div>
 </section>
-<section id="using-simulation-to-assess-our-estimators" class="slide level2">
+<section id="using-simulation-to-assess-our-estimators"
+class="slide level2">
 <h2>Using simulation to assess our estimators</h2>
-<p>How should we interpret this plot? (Differences in scales make it difficult.)</p>
+<p>How should we interpret this plot? (Differences in scales make it
+difficult.)</p>
 <p><img src="figs/figsim_plot_bin-1.png" width=".95\textwidth"  /></p>
 </section>
-<section id="which-estimator-is-closer-to-the-truth-2" class="slide level2">
+<section id="which-estimator-is-closer-to-the-truth-2"
+class="slide level2">
 <h2>Which estimator is closer to the truth?</h2>
 <p>Which estimator works better on this design and these data?</p>
 <table>
-<caption>Estimator and Test Performance in 5000 simulations of the different estimators and confidence intervals for a binary outcome and completely randomized design.</caption>
+<caption>Estimator and Test Performance in 5000 simulations of the
+different estimators and confidence intervals for a binary outcome and
+completely randomized design.</caption>
 <thead>
 <tr class="header">
 <th style="text-align: left;">est</th>
@@ -1603,115 +1970,208 @@ b   0 1
 </table>
 </section></section>
 <section>
-<section id="other-topics-in-estimation" class="title-slide slide level1">
+<section id="other-topics-in-estimation"
+class="title-slide slide level1">
 <h1>Other topics in estimation</h1>
 
 </section>
 <section id="covariance-adjustment-estimands" class="slide level2">
 <h2>Covariance adjustment: Estimands</h2>
-<p>In general, simply “controlling for” produces a biased estimator of the ATE <strong>or</strong> ITT estimand. See for example <span class="citation" data-cites="lin_agnostic_2013"><a href="#/ref-lin_agnostic_2013" role="doc-biblioref">Lin</a> (<a href="#/ref-lin_agnostic_2013" role="doc-biblioref">2013</a>)</span> and <span class="citation" data-cites="freedman2008rae"><a href="#/ref-freedman2008rae" role="doc-biblioref">Freedman</a> (<a href="#/ref-freedman2008rae" role="doc-biblioref">2008a</a>)</span>. <span class="citation" data-cites="lin_agnostic_2013"><a href="#/ref-lin_agnostic_2013" role="doc-biblioref">Lin</a> (<a href="#/ref-lin_agnostic_2013" role="doc-biblioref">2013</a>)</span> shows how to reduce this bias and, importantly, that this bias tends to be small as the sample size increases.</p>
+<p>In general, simply “controlling for” produces a biased estimator of
+the ATE <strong>or</strong> ITT estimand. See for example <span
+class="citation" data-cites="lin_agnostic_2013">Lin (<a
+href="#/ref-lin_agnostic_2013" role="doc-biblioref">2013</a>)</span> and
+<span class="citation" data-cites="freedman2008rae">Freedman (<a
+href="#/ref-freedman2008rae" role="doc-biblioref">2008a</a>)</span>.
+<span class="citation" data-cites="lin_agnostic_2013">Lin (<a
+href="#/ref-lin_agnostic_2013" role="doc-biblioref">2013</a>)</span>
+shows how to reduce this bias and, importantly, that this bias tends to
+be small as the sample size increases.</p>
 </section></section>
 <section>
 <section id="conclusion" class="title-slide slide level1">
 <h1>Conclusion</h1>
 
 </section>
-<section id="final-thoughts-on-basics-of-estimation" class="slide level2">
+<section id="final-thoughts-on-basics-of-estimation"
+class="slide level2">
 <h2>Final thoughts on basics of estimation</h2>
 <ul>
-<li><p>Counterfactual causal estimands are unobserved functions of potential outcomes.</p></li>
-<li><p>Estimators are recipes or computational formulas that use observed data to learn about an estimand.</p></li>
-<li><p>Good estimators produce estimates that are close to the true estimand</p></li>
-<li><p>(Connecting estimation with testing) Standard errors of estimators allow us to calculate confidence intervals and <span class="math inline">\(p\)</span>-values. Certain estimators have larger or smaller (or more or less correct) standard errors.</p></li>
-<li><p>You can assess the utility of a chosen estimator for a chosen estimand by simulation.</p></li>
+<li><p>Counterfactual causal estimands are unobserved functions of
+potential outcomes.</p></li>
+<li><p>Estimators are recipes or computational formulas that use
+observed data to learn about an estimand.</p></li>
+<li><p>Good estimators produce estimates that are close to the true
+estimand</p></li>
+<li><p>(Connecting estimation with testing) Standard errors of
+estimators allow us to calculate confidence intervals and <span
+class="math inline">\(p\)</span>-values. Certain estimators have larger
+or smaller (or more or less correct) standard errors.</p></li>
+<li><p>You can assess the utility of a chosen estimator for a chosen
+estimand by simulation.</p></li>
 </ul>
 </section></section>
 <section>
-<section id="causal-effects-that-differ-by-groups-or-covariates" class="title-slide slide level1">
+<section id="causal-effects-that-differ-by-groups-or-covariates"
+class="title-slide slide level1">
 <h1>Causal effects that differ by groups or covariates</h1>
 
 </section>
 <section id="effects-that-differ-by-groups-i" class="slide level2">
 <h2>Effects that differ by groups I</h2>
-<p>If our theory suggests that effects should differ by group, how can we assess evidence for or against such claims?</p>
+<p>If our theory suggests that effects should differ by group, how can
+we assess evidence for or against such claims?</p>
 <ul>
-<li><p>We can <strong>design</strong> for an assessment of this theory by creating a block-randomized study — with blocked defined by the theoretically relevant groups.</p></li>
-<li><p>We can <strong>plan</strong> for such an assessment by (1) <strong>pre-registering specific subgroup analyses</strong> (whether or not we block on that group in the design phase) and (2) making sure to measure group membership during baseline data collection pre-treatment</p></li>
+<li><p>We can <strong>design</strong> for an assessment of this theory
+by creating a block-randomized study — with blocked defined by the
+theoretically relevant groups.</p></li>
+<li><p>We can <strong>plan</strong> for such an assessment by (1)
+<strong>pre-registering specific subgroup analyses</strong> (whether or
+not we block on that group in the design phase) and (2) making sure to
+measure group membership during baseline data collection
+pre-treatment</p></li>
 </ul>
 </section>
 <section id="effects-that-differ-by-groups-ii" class="slide level2">
 <h2>Effects that differ by groups II</h2>
 <ul>
-<li><p>If we have not planned ahead, subgroup-specific analyses can be useful as explorations but should not be understood as confirmatory: they can too easily create problems of testing too many hypotheses thus inflated false positive rates.</p></li>
-<li><p>We <strong>should not use groups formed by treatment</strong>. (This is either “mediation analysis” or “conditioning on post-treatment variables” and deserves its own module).</p></li>
+<li><p>If we have not planned ahead, subgroup-specific analyses can be
+useful as explorations but should not be understood as confirmatory:
+they can too easily create problems of testing too many hypotheses thus
+inflated false positive rates.</p></li>
+<li><p>We <strong>should not use groups formed by treatment</strong>.
+(This is either “mediation analysis” or “conditioning on post-treatment
+variables” and deserves its own module).</p></li>
 </ul>
 </section></section>
 <section>
-<section id="causal-effects-when-we-do-not-control-the-dose" class="title-slide slide level1">
+<section id="causal-effects-when-we-do-not-control-the-dose"
+class="title-slide slide level1">
 <h1>Causal effects when we do not control the dose</h1>
 
 </section>
 <section id="defining-causal-effects-i" class="slide level2">
 <h2>Defining causal effects I</h2>
-<p>Imagine a door-to-door communication experiment where some houses are randomly assigned to receive a visit. Note that we now use <span class="math inline">\(Z\)</span> and <span class="math inline">\(d\)</span> instead of <span class="math inline">\(T\)</span>.</p>
+<p>Imagine a door-to-door communication experiment where some houses are
+randomly assigned to receive a visit. Note that we now use <span
+class="math inline">\(Z\)</span> and <span
+class="math inline">\(d\)</span> instead of <span
+class="math inline">\(T\)</span>.</p>
 <ul>
-<li><span class="math inline">\(Z_i\)</span> is random assignment to a visit (<span class="math inline">\(Z_i=1\)</span>) or not (<span class="math inline">\(Z_i=0\)</span>).</li>
-<li><span class="math inline">\(d_{i,Z_i=1}=1\)</span> means that person <span class="math inline">\(i\)</span> would open the door to have a conversation when assigned a visit.</li>
-<li><span class="math inline">\(d_{i,Z_i=1}=0\)</span> means that person <span class="math inline">\(i\)</span> would not open the door to have a conversation when assigned a visit.</li>
+<li><span class="math inline">\(Z_i\)</span> is random assignment to a
+visit (<span class="math inline">\(Z_i=1\)</span>) or not (<span
+class="math inline">\(Z_i=0\)</span>).</li>
+<li><span class="math inline">\(d_{i,Z_i=1}=1\)</span> means that person
+<span class="math inline">\(i\)</span> would open the door to have a
+conversation when assigned a visit.</li>
+<li><span class="math inline">\(d_{i,Z_i=1}=0\)</span> means that person
+<span class="math inline">\(i\)</span> would not open the door to have a
+conversation when assigned a visit.</li>
 <li>Opening the door is an outcome of the treatment.</li>
 </ul>
 </section>
 <section id="defining-causal-effects-ii" class="slide level2">
 <h2>Defining causal effects II</h2>
 <ul>
-<li><p><span class="math inline">\(y_{i,Z_i = 1, d_{i,Z_i=1}=1}\)</span> is the potential outcome for people who were assigned a visit and who opened the door. (“Compliers” or “Always-takers”)</p></li>
-<li><p><span class="math inline">\(y_{i,1, d_{i,Z_i=1}=0}\)</span> is the potential outcome for people who were assigned a visit and who did not open the door. (“Never-takers” or “Defiers”)</p></li>
-<li><p><span class="math inline">\(y_{i,0, d_{i,0}=1}\)</span> is the potential outcome for people who were not assigned a visit and who opened the door. (“Defiers” or “Always-takers”)</p></li>
-<li><p><span class="math inline">\(y_{i,0, d_{i,0}=0}\)</span> is the potential outcome for people who were not assigned a visit and who would not have opened the door. (“Compliers” or “Never-takers”)</p></li>
+<li><p><span class="math inline">\(y_{i,Z_i = 1, d_{i,Z_i=1}=1}\)</span>
+is the potential outcome for people who were assigned a visit and who
+opened the door. (“Compliers” or “Always-takers”)</p></li>
+<li><p><span class="math inline">\(y_{i,1, d_{i,Z_i=1}=0}\)</span> is
+the potential outcome for people who were assigned a visit and who did
+not open the door. (“Never-takers” or “Defiers”)</p></li>
+<li><p><span class="math inline">\(y_{i,0, d_{i,0}=1}\)</span> is the
+potential outcome for people who were not assigned a visit and who
+opened the door. (“Defiers” or “Always-takers”)</p></li>
+<li><p><span class="math inline">\(y_{i,0, d_{i,0}=0}\)</span> is the
+potential outcome for people who were not assigned a visit and who would
+not have opened the door. (“Compliers” or “Never-takers”)</p></li>
 </ul>
 </section>
 <section id="defining-causal-effects-iii" class="slide level2">
 <h2>Defining causal effects III</h2>
-<p>We could also write <span class="math inline">\(y_{i,Z_i = 0, d_{i,Z_i=1}=1}\)</span> for people who were not assigned a visit but who would have opened the door had they been assigned a visit etc.</p>
+<p>We could also write <span class="math inline">\(y_{i,Z_i = 0,
+d_{i,Z_i=1}=1}\)</span> for people who were not assigned a visit but who
+would have opened the door had they been assigned a visit etc.</p>
 <p>In this case we can simplify our potential outcomes:</p>
 <ul>
-<li><span class="math inline">\(y_{i,0, d_{i,1}=1} = y_{i,0, d_{i,1}=0} = y_{i,0, d_{i,0}=0}\)</span> because your outcome is the same regardless of how you don’t open the door.</li>
+<li><span class="math inline">\(y_{i,0, d_{i,1}=1} = y_{i,0, d_{i,1}=0}
+= y_{i,0, d_{i,0}=0}\)</span> because your outcome is the same
+regardless of how you don’t open the door.</li>
 </ul>
 </section>
 <section id="defining-causal-effects-iv" class="slide level2">
 <h2>Defining causal effects IV</h2>
-<p>We can simplify the ways in which people get a dose of the treatment like so (where <span class="math inline">\(d\)</span> is lower case reflecting the idea that whether you open the door when visited or not is a fixed attribute like a potential outcome).</p>
+<p>We can simplify the ways in which people get a dose of the treatment
+like so (where <span class="math inline">\(d\)</span> is lower case
+reflecting the idea that whether you open the door when visited or not
+is a fixed attribute like a potential outcome).</p>
 <ul>
-<li><span class="math inline">\(Y\)</span> : outcome (<span class="math inline">\(y_{i,Z}\)</span> or <span class="math inline">\(y_{i,Z_i=1}\)</span> for potential outcome to treatment for person <span class="math inline">\(i\)</span>, fixed)</li>
-<li><span class="math inline">\(X\)</span> : covariate/baseline variable</li>
-<li><span class="math inline">\(Z\)</span> : treatment assignment (<span class="math inline">\(Z_i=1\)</span> if assigned to a visit, <span class="math inline">\(Z_i=0\)</span> if not assigned to a visit)</li>
-<li><span class="math inline">\(D\)</span> : treatment received (<span class="math inline">\(D_i=1\)</span> if answered phone, <span class="math inline">\(D_i=0\)</span> if person <span class="math inline">\(i\)</span> dd not answer the door) (using <span class="math inline">\(D\)</span> here because <span class="math inline">\(D_i = d_{i,1} Z_{i} + d_{i,0} (1-Z_i)\)</span>)</li>
+<li><span class="math inline">\(Y\)</span> : outcome (<span
+class="math inline">\(y_{i,Z}\)</span> or <span
+class="math inline">\(y_{i,Z_i=1}\)</span> for potential outcome to
+treatment for person <span class="math inline">\(i\)</span>, fixed)</li>
+<li><span class="math inline">\(X\)</span> : covariate/baseline
+variable</li>
+<li><span class="math inline">\(Z\)</span> : treatment assignment (<span
+class="math inline">\(Z_i=1\)</span> if assigned to a visit, <span
+class="math inline">\(Z_i=0\)</span> if not assigned to a visit)</li>
+<li><span class="math inline">\(D\)</span> : treatment received (<span
+class="math inline">\(D_i=1\)</span> if answered phone, <span
+class="math inline">\(D_i=0\)</span> if person <span
+class="math inline">\(i\)</span> did not answer the door) (using <span
+class="math inline">\(D\)</span> here because <span
+class="math inline">\(D_i = d_{i,1} Z_{i} + d_{i,0}
+(1-Z_i)\)</span>)</li>
 </ul>
 </section>
 <section id="defining-causal-effects-v" class="slide level2">
 <h2>Defining causal effects V</h2>
-<p>We have two causal effects of <span class="math inline">\(Z\)</span>: <span class="math inline">\(Z \rightarrow Y\)</span> (<span class="math inline">\(\delta\)</span>, ITT, ITT<span class="math inline">\(_Y\)</span>), and <span class="math inline">\(Z \rightarrow D\)</span> (GG call this ITT<span class="math inline">\(_D\)</span>).</p>
-<p>And different types of people can react differently to the attempt to move the dose with the instrument.</p>
+<p>We have two causal effects of <span class="math inline">\(Z\)</span>:
+<span class="math inline">\(Z \rightarrow Y\)</span> (<span
+class="math inline">\(\delta\)</span>, ITT, ITT<span
+class="math inline">\(_Y\)</span>), and <span class="math inline">\(Z
+\rightarrow D\)</span> (GG call this ITT<span
+class="math inline">\(_D\)</span>).</p>
+<p>And different types of people can react differently to the attempt to
+move the dose with the instrument.</p>
 </section>
 <section id="defining-causal-effects-vi" class="slide level2">
 <h2>Defining causal effects VI</h2>
-<p>The <span class="math inline">\(ITT=ITT_Y=\delta= \bar{y}_{Z=1} - \bar{y}_{Z=0}\)</span>.</p>
-<p>But, in this design, <span class="math inline">\(\bar{y}_{Z=1}=\bar{y}_{1}\)</span> is split into pieces: the outcome of those who answered the door (Compliers and Always-takers and Defiers). Write <span class="math inline">\(p_C\)</span> for the proportion of compliers in the study.</p>
+<p>The <span class="math inline">\(ITT=ITT_Y=\delta= \bar{y}_{Z=1} -
+\bar{y}_{Z=0}\)</span>.</p>
+<p>But, in this design, <span
+class="math inline">\(\bar{y}_{Z=1}=\bar{y}_{1}\)</span> is split into
+pieces: the outcome of those who answered the door (Compliers and
+Always-takers and Defiers). Write <span
+class="math inline">\(p_C\)</span> for the proportion of compliers in
+the study.</p>
 <p><span class="math display">\[\begin{equation}
-\bar{y}_{1}=(\bar{y}_{1}|C)p_C + (\bar{y}_{1}|A)p_A + (\bar{y}_1|N)p_N + (\bar{y}_1|D)p_D.
+\bar{y}_{1}=(\bar{y}_{1}|C)p_C + (\bar{y}_{1}|A)p_A + (\bar{y}_1|N)p_N +
+(\bar{y}_1|D)p_D.
 \end{equation}\]</span></p>
-<p>And <span class="math inline">\(\bar{y}_{0}\)</span> is also split into pieces:</p>
+<p>And <span class="math inline">\(\bar{y}_{0}\)</span> is also split
+into pieces:</p>
 <p><span class="math display">\[\begin{equation}
-\bar{y}_{0}=(\bar{y}_{0}|C)p_C + (\bar{y}_{1}|A)p_A + (\bar{y}_{0}|N)p_N + (\bar{y}_0|D)p_D.
+\bar{y}_{0}=(\bar{y}_{0}|C)p_C + (\bar{y}_{1}|A)p_A + (\bar{y}_{0}|N)p_N
++ (\bar{y}_0|D)p_D.
 \end{equation}\]</span></p>
 </section>
 <section id="defining-causal-effects-vii" class="slide level2">
 <h2>Defining causal effects VII</h2>
-<p>So, the ITT itself is a combination of the effects of <span class="math inline">\(Z\)</span> on <span class="math inline">\(Y\)</span> within these different groups (imagine substituting in and then re-arranging so that we have a set of ITTs, one for each type of subject). But, we can still estimate it because we have unbiased estimators of <span class="math inline">\(\bar{y}_1\)</span> and <span class="math inline">\(\bar{y}_0\)</span> within each type.</p>
+<p>So, the ITT itself is a combination of the effects of <span
+class="math inline">\(Z\)</span> on <span
+class="math inline">\(Y\)</span> within these different groups (imagine
+substituting in and then re-arranging so that we have a set of ITTs, one
+for each type of subject). But, we can still estimate it because we have
+unbiased estimators of <span class="math inline">\(\bar{y}_1\)</span>
+and <span class="math inline">\(\bar{y}_0\)</span> within each type.</p>
 </section>
 <section id="learning-about-the-itt-i" class="slide level2">
 <h2>Learning about the ITT I</h2>
-<p>First, let’s learn about the effect of the policy itself. To write down the ITT, we do not need to consider all of the types above. We have no defiers (<span class="math inline">\(p_D=0\)</span>) and we know the ITT for both Always-takers and Never-takers is 0.</p>
+<p>First, let’s learn about the effect of the policy itself. To write
+down the ITT, we do not need to consider all of the types above. We have
+no defiers (<span class="math inline">\(p_D=0\)</span>) and we know the
+ITT for both Always-takers and Never-takers is 0.</p>
 <p><span class="math display">\[\begin{equation}
 \bar{y}_{1}=(\bar{y}_{1}|C)p_C + (\bar{y}_{1}|A)p_A + (\bar{y}_1|N)p_N
 \end{equation}\]</span></p>
@@ -1721,35 +2181,50 @@ b   0 1
 </section>
 <section id="learning-about-the-itt-ii" class="slide level2">
 <h2>Learning about the ITT II</h2>
-<p>First, let’s learn about the effect of the policy itself. To write down the ITT, we do not need to consider all of the types above. We have no defiers (<span class="math inline">\(p_D=0\)</span>) and we know the ITT for both Always-takers and Never-takers is 0.</p>
+<p>First, let’s learn about the effect of the policy itself. To write
+down the ITT, we do not need to consider all of the types above. We have
+no defiers (<span class="math inline">\(p_D=0\)</span>) and we know the
+ITT for both Always-takers and Never-takers is 0.</p>
 <p><span class="math display">\[\begin{align}
 ITT    = &amp; \bar{y}_{1} - \bar{y}_{0} \\
-        = &amp; ( (\bar{y}_{1}|C)p_C + (\bar{y}_{1}|A)p_A + (\bar{y}_1|N)p_N ) - \\
-       &amp; ( (\bar{y}_{0}|C)p_C + (\bar{y}_{0}|A)p_A + (\bar{y}_{0}|N)p_N )  \\
-       \intertext{collecting each type together --- to have an ITT for each type}
-       = &amp; ( (\bar{y}_{1}|C)p_C -  (\bar{y}_{0}|C)p_C )  +   ( (\bar{y}_{1}|A)p_A - (\bar{y}_{1}|A)p_A ) + \\
+        = &amp; ( (\bar{y}_{1}|C)p_C + (\bar{y}_{1}|A)p_A +
+(\bar{y}_1|N)p_N ) - \\
+       &amp; ( (\bar{y}_{0}|C)p_C + (\bar{y}_{0}|A)p_A +
+(\bar{y}_{0}|N)p_N )  \\
+       \intertext{collecting each type together --- to have an ITT for
+each type}
+       = &amp; ( (\bar{y}_{1}|C)p_C -  (\bar{y}_{0}|C)p_C )  +   (
+(\bar{y}_{1}|A)p_A - (\bar{y}_{1}|A)p_A ) + \\
        &amp; ( (\bar{y}_1|N)p_N  - (\bar{y}_{0}|N)p_N ) \\
-       = &amp; \left( (\bar{y}_{1}|C) -  (\bar{y}_{0}|C) \right)p_C   +  \\
-       &amp; \left( (\bar{y}_{1}|A)- (\bar{y}_{0}|A) \right)p_A  +  \left( (\bar{y}_1|N) - (\bar{y}_{0}|N) \right)p_N
+       = &amp; \left( (\bar{y}_{1}|C) -  (\bar{y}_{0}|C)
+\right)p_C   +  \\
+       &amp; \left( (\bar{y}_{1}|A)- (\bar{y}_{0}|A)
+\right)p_A  +  \left( (\bar{y}_1|N) - (\bar{y}_{0}|N) \right)p_N
 \end{align}\]</span></p>
 </section>
 <section id="learning-about-the-itt-iii" class="slide level2">
 <h2>Learning about the ITT III</h2>
 <p><span class="math display">\[\begin{align}
 ITT     = &amp;   \bar{y}_{1} - \bar{y}_{0} \\
-        = &amp;  ( (\bar{y}_{1}|C)p_C + (\bar{y}_{1}|A)p_A + (\bar{y}_1|N)p_N ) - \\
-       &amp; ( (\bar{y}_{0}|C)p_C + (\bar{y}_{0}|A)p_A + (\bar{y}_{0}|N)p_N )  \\
-        = &amp;   ( (\bar{y}_{1}|C)p_C -  (\bar{y}_{0}|C)p_C )  +   ( (\bar{y}_{1}|A)p_A - (\bar{y}_{1}|A)p_A ) + \\
+        = &amp;  ( (\bar{y}_{1}|C)p_C + (\bar{y}_{1}|A)p_A +
+(\bar{y}_1|N)p_N ) - \\
+       &amp; ( (\bar{y}_{0}|C)p_C + (\bar{y}_{0}|A)p_A +
+(\bar{y}_{0}|N)p_N )  \\
+        = &amp;   ( (\bar{y}_{1}|C)p_C -  (\bar{y}_{0}|C)p_C )  +   (
+(\bar{y}_{1}|A)p_A - (\bar{y}_{1}|A)p_A ) + \\
        &amp; ( (\bar{y}_1|N)p_N  - (\bar{y}_{0}|N)p_N ) \\
-        = &amp;   ( (\bar{y}_{1}|C) -  (\bar{y}_{0}|C))p_C   +   ( (\bar{y}_{1}|A)- (\bar{y}_{0}|A))p_A  + \\
+        = &amp;   ( (\bar{y}_{1}|C) -  (\bar{y}_{0}|C))p_C   +   (
+(\bar{y}_{1}|A)- (\bar{y}_{0}|A))p_A  + \\
        &amp; ( (\bar{y}_1|N) - (\bar{y}_{0}|N) )p_N
 \end{align}\]</span></p>
 </section>
 <section id="learning-about-the-itt-iv" class="slide level2">
 <h2>Learning about the ITT IV</h2>
-<p>And, if the effect of the dose can only occur for those who open the door, and you can only open the door when assigned to do so then:</p>
+<p>And, if the effect of the dose can only occur for those who open the
+door, and you can only open the door when assigned to do so then:</p>
 <p><span class="math display">\[\begin{equation}
-( (\bar{y}_{1}|A)- (\bar{y}_{0}|A))p_A = 0  \text{ and } ( (\bar{y}_1|N) - (\bar{y}_{0}|N) )p_N = 0
+( (\bar{y}_{1}|A)- (\bar{y}_{0}|A))p_A = 0  \text{ and } ( (\bar{y}_1|N)
+- (\bar{y}_{0}|N) )p_N = 0
 \end{equation}\]</span></p>
 <p>And</p>
 <p><span class="math display">\[\begin{equation}
@@ -1758,17 +2233,30 @@ ITT =  ( (\bar{y}_{1}|C) -  (\bar{y}_{0}|C))p_C  = ( CACE ) p_C.
 </section>
 <section id="the-complier-average-causal-effect-i" class="slide level2">
 <h2>The complier average causal effect I</h2>
-<p>We would also like to learn about the causal effect of answering the door and having the conversation, the theoretically interesting effect.</p>
-<p>But this comparison is confounded by <span class="math inline">\(x\)</span>: a simple <span class="math inline">\(\bar{Y}|D=1 - \bar{Y}|D=0\)</span> comparison tells us about differences in the outcome due to <span class="math inline">\(x\)</span> in addition to the difference caused by <span class="math inline">\(D\)</span>. (Numbers below from some simulated data)</p>
+<p>We would also like to learn about the causal effect of answering the
+door and having the conversation, the theoretically interesting
+effect.</p>
+<p>But this comparison is confounded by <span
+class="math inline">\(x\)</span>: a simple <span
+class="math inline">\(\bar{Y}|D=1 - \bar{Y}|D=0\)</span> comparison
+tells us about differences in the outcome due to <span
+class="math inline">\(x\)</span> in addition to the difference caused by
+<span class="math inline">\(D\)</span>. (Numbers below from some
+simulated data)</p>
 </section>
-<section id="the-complier-average-causal-effect-ii" class="slide level2">
+<section id="the-complier-average-causal-effect-ii"
+class="slide level2">
 <h2>The complier average causal effect II</h2>
 <div class="sourceCode" id="cb73"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb73-1"><a href="#cb73-1" aria-hidden="true" tabindex="-1"></a><span class="fu">with</span>(dat, <span class="fu">cor</span>(Y, x)) <span class="do">## can be any number</span></span>
 <span id="cb73-2"><a href="#cb73-2" aria-hidden="true" tabindex="-1"></a><span class="fu">with</span>(dat, <span class="fu">cor</span>(d, x)) <span class="do">## can be any number</span></span>
 <span id="cb73-3"><a href="#cb73-3" aria-hidden="true" tabindex="-1"></a><span class="fu">with</span>(dat, <span class="fu">cor</span>(Z, x)) <span class="do">## should be near 0</span></span></code></pre></div>
-<p>But we just saw that, in this design, and with these assumptions (including a SUTVA assumption) that <span class="math inline">\(ITT = ( (\bar{y}_{1}|C) - (\bar{y}_{0}|C))p_C = (CACE) p_C\)</span>, so we can define <span class="math inline">\(CACE=ITT/p_C\)</span>.</p>
+<p>But we just saw that, in this design, and with these assumptions
+(including a SUTVA assumption) that <span class="math inline">\(ITT = (
+(\bar{y}_{1}|C) - (\bar{y}_{0}|C))p_C = (CACE) p_C\)</span>, so we can
+define <span class="math inline">\(CACE=ITT/p_C\)</span>.</p>
 </section>
-<section id="how-to-calculate-the-itt-and-cacelate-i" class="slide level2">
+<section id="how-to-calculate-the-itt-and-cacelate-i"
+class="slide level2">
 <h2>How to calculate the ITT and CACE/LATE I</h2>
 <p>Some example data (where we know all potential outcomes):</p>
 <table>
@@ -1779,7 +2267,6 @@ ITT =  ( (\bar{y}_{1}|C) -  (\bar{y}_{0}|C))p_C  = ( CACE ) p_C.
 <th style="text-align: left;">type</th>
 <th style="text-align: right;">Z</th>
 <th style="text-align: right;">pZ</th>
-<th style="text-align: right;">DZ0</th>
 <th style="text-align: right;">DZ1</th>
 <th style="text-align: right;">YD0Z0</th>
 <th style="text-align: right;">YD1Z0</th>
@@ -1795,7 +2282,6 @@ ITT =  ( (\bar{y}_{1}|C) -  (\bar{y}_{0}|C))p_C  = ( CACE ) p_C.
 <td style="text-align: right;">1.95</td>
 <td style="text-align: left;">Complier</td>
 <td style="text-align: right;">0</td>
-<td style="text-align: right;">0.5</td>
 <td style="text-align: right;">0</td>
 <td style="text-align: right;">1</td>
 <td style="text-align: right;">1.95</td>
@@ -1810,7 +2296,6 @@ ITT =  ( (\bar{y}_{1}|C) -  (\bar{y}_{0}|C))p_C  = ( CACE ) p_C.
 <td style="text-align: right;">0.05</td>
 <td style="text-align: left;">Complier</td>
 <td style="text-align: right;">1</td>
-<td style="text-align: right;">0.5</td>
 <td style="text-align: right;">0</td>
 <td style="text-align: right;">1</td>
 <td style="text-align: right;">0.05</td>
@@ -1823,7 +2308,8 @@ ITT =  ( (\bar{y}_{1}|C) -  (\bar{y}_{0}|C))p_C  = ( CACE ) p_C.
 </tbody>
 </table>
 </section>
-<section id="how-to-calculate-the-itt-and-cacelate-ii" class="slide level2">
+<section id="how-to-calculate-the-itt-and-cacelate-ii"
+class="slide level2">
 <h2>How to calculate the ITT and CACE/LATE II</h2>
 <p>The ITT and CACE (the parts)</p>
 <div class="sourceCode" id="cb74"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb74-1"><a href="#cb74-1" aria-hidden="true" tabindex="-1"></a>itt_y <span class="ot">&lt;-</span> <span class="fu">difference_in_means</span>(Y <span class="sc">~</span> Z, <span class="at">data =</span> dat0)</span>
@@ -1837,9 +2323,11 @@ Z  0.08725      0.233  0.3745   0.7089  -0.3752   0.5497 97.97</code></pre>
   Estimate Std. Error t value  Pr(&gt;|t|) CI Lower CI Upper    DF
 Z     0.68    0.07307   9.307 8.454e-15   0.5348   0.8252 89.31</code></pre>
 </section>
-<section id="how-to-calculate-the-itt-and-cacelate-iii" class="slide level2">
+<section id="how-to-calculate-the-itt-and-cacelate-iii"
+class="slide level2">
 <h2>How to calculate the ITT and CACE/LATE III</h2>
-<p>All together:<a href="#/fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a></p>
+<p>All together:<a href="#/fn1" class="footnote-ref" id="fnref1"
+role="doc-noteref"><sup>1</sup></a></p>
 <div class="sourceCode" id="cb78"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb78-1"><a href="#cb78-1" aria-hidden="true" tabindex="-1"></a>cace_est <span class="ot">&lt;-</span> <span class="fu">iv_robust</span>(Y <span class="sc">~</span> D <span class="sc">|</span> Z, <span class="at">data =</span> dat0)</span>
 <span id="cb78-2"><a href="#cb78-2" aria-hidden="true" tabindex="-1"></a>cace_est</span></code></pre></div>
 <pre><code>            Estimate Std. Error t value Pr(&gt;|t|) CI Lower CI Upper DF
@@ -1849,7 +2337,8 @@ D             0.1283     0.3404  0.3769  0.70705 -0.54727   0.8039 98</code></pr
 <span id="cb80-2"><a href="#cb80-2" aria-hidden="true" tabindex="-1"></a><span class="fu">coef</span>(itt_y)[[<span class="st">&quot;Z&quot;</span>]] <span class="sc">/</span> <span class="fu">coef</span>(itt_d)[[<span class="st">&quot;Z&quot;</span>]]</span></code></pre></div>
 <pre><code>[1] 0.1283</code></pre>
 </section>
-<section id="summary-of-encouragementcomplierdose-oriented-designs" class="slide level2">
+<section id="summary-of-encouragementcomplierdose-oriented-designs"
+class="slide level2">
 <h2>Summary of Encouragement/Complier/Dose oriented designs:</h2>
 <ul>
 <li>Analyze as you randomized, even when you don’t control the dose</li>
@@ -1858,25 +2347,43 @@ D             0.1283     0.3404  0.3769  0.70705 -0.54727   0.8039 98</code></pr
 </section>
 <section id="references" class="slide level2 unnumbered">
 <h2 class="unnumbered">References</h2>
-<div id="refs" class="references csl-bib-body hanging-indent" role="doc-bibliography">
+<div id="refs" class="references csl-bib-body hanging-indent"
+role="doc-bibliography">
 <div id="ref-freedman2008rae" class="csl-entry" role="doc-biblioentry">
-Freedman, David A. 2008a. <span>“<span class="nocase">On regression adjustments to experimental data</span>.”</span> <em>Advances in Applied Mathematics</em> 40 (2): 180–93.
+Freedman, David A. 2008a. <span>“<span class="nocase">On regression
+adjustments to experimental data</span>.”</span> <em>Advances in Applied
+Mathematics</em> 40 (2): 180–93.
 </div>
-<div id="ref-freedman2008randomization" class="csl-entry" role="doc-biblioentry">
-———. 2008b. <span>“Randomization Does Not Justify Logistic Regression.”</span> <em>Statistical Science</em> 23 (2): 237–49.
+<div id="ref-freedman2008randomization" class="csl-entry"
+role="doc-biblioentry">
+———. 2008b. <span>“Randomization Does Not Justify Logistic
+Regression.”</span> <em>Statistical Science</em> 23 (2): 237–49.
 </div>
 <div id="ref-imbens2005robust" class="csl-entry" role="doc-biblioentry">
-Imbens, Guido W., and Paul R. Rosenbaum. 2005. <span>“Robust, Accurate Confidence Intervals with a Weak Instrument: Quarter of Birth and Education.”</span> <em>Journal of the Royal Statistical Society Series A</em> 168 (1): 109–26.
+Imbens, Guido W., and Paul R. Rosenbaum. 2005. <span>“Robust, Accurate
+Confidence Intervals with a Weak Instrument: Quarter of Birth and
+Education.”</span> <em>Journal of the Royal Statistical Society Series
+A</em> 168 (1): 109–26.
 </div>
-<div id="ref-lin_agnostic_2013" class="csl-entry" role="doc-biblioentry">
-Lin, Winston. 2013. <span>“Agnostic Notes on Regression Adjustments to Experimental Data: <span>Reexamining</span> <span>Freedman</span>’s Critique.”</span> <em>The Annals of Applied Statistics</em> 7 (1): 295–318.
+<div id="ref-lin_agnostic_2013" class="csl-entry"
+role="doc-biblioentry">
+Lin, Winston. 2013. <span>“Agnostic Notes on Regression Adjustments to
+Experimental Data: <span>Reexamining</span> <span>Freedman</span>’s
+Critique.”</span> <em>The Annals of Applied Statistics</em> 7 (1):
+295–318.
 </div>
 </div>
 </section></section>
-<section class="footnotes" role="doc-endnotes">
+<section class="footnotes footnotes-end-of-document"
+role="doc-endnotes">
 <hr />
 <ol>
-<li id="fn1" role="doc-endnote"><p>works when <span class="math inline">\(Z \rightarrow D\)</span> is not weak see <span class="citation" data-cites="imbens2005robust"><a href="#/ref-imbens2005robust" role="doc-biblioref">Imbens and Rosenbaum</a> (<a href="#/ref-imbens2005robust" role="doc-biblioref">2005</a>)</span> for a cautionary tale<a href="#/fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn1" role="doc-endnote"><p>works when <span
+class="math inline">\(Z \rightarrow D\)</span> is not weak see <span
+class="citation" data-cites="imbens2005robust">Imbens and Rosenbaum (<a
+href="#/ref-imbens2005robust" role="doc-biblioref">2005</a>)</span> for
+a cautionary tale<a href="#/fnref1" class="footnote-back"
+role="doc-backlink">↩︎</a></p></li>
 </ol>
 </section>
     </div>
@@ -1890,18 +2397,43 @@ Lin, Winston. 2013. <span>“Agnostic Notes on Regression Adjustments to Experim
       // Full list of configuration options available at:
       // https://github.com/hakimel/reveal.js#configuration
       Reveal.initialize({
+        // Display controls in the bottom right corner
+        controls: true,
+        // Display a presentation progress bar
+        progress: true,
         // Display the page number of the current slide
         slideNumber: true,
         // Push each slide change to the browser history
         history: true,
+        // Enable keyboard shortcuts for navigation
+        keyboard: true,
+        // Enable the slide overview mode
+        overview: true,
         // Vertical centering of slides
         center: false,
+        // Enables touch navigation on devices with touch input
+        touch: true,
+        // Turns fragments on and off globally
+        fragments: true,
+        // Flags if we should show a help overlay when the questionmark
+        // key is pressed
+        help: true,
+        // Number of milliseconds between automatically proceeding to the
+        // next slide, disabled when set to 0, this value can be overwritten
+        // by using a data-autoslide attribute on your slides
+        autoSlide: 0,
+        // Stop auto-sliding after user input
+        autoSlideStoppable: true,
         // Opens links in an iframe preview overlay
         previewLinks: true,
         // Transition style
         transition: 'fade', // none/fade/slide/convex/concave/zoom
+        // Transition speed
+        transitionSpeed: 'default', // default/fast/slow
         // Transition style for full page slide backgrounds
         backgroundTransition: 'default', // none/fade/slide/convex/concave/zoom
+        // Number of slides away from the current that are visible
+        viewDistance: 3,
 
 
 
