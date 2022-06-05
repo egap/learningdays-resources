@@ -1,0 +1,61 @@
+---
+title: "Statistics of Causal Inference: Estimands, Estimation, Hypotheses, Tests"
+author: "Jake Bowers"
+date: "`r format(Sys.time(), '%d %B, %Y')`"
+bibliography: ../learningdays-book.bib
+biblio-style: apalike
+link-citations: yes
+colorlinks: yes
+header-includes: |
+   \setbeamertemplate{footline}{\begin{beamercolorbox}{section in head/foot}
+   \includegraphics[height=.5cm]{../Images/egap-logo.png} \hfill
+   \insertframenumber/\inserttotalframenumber \end{beamercolorbox}}
+output:
+  beamer_presentation:
+    keep_tex: true
+    toc: true
+    pandoc_args: [ "--toc" ]
+  revealjs::revealjs_presentation:
+    fig_caption: true
+    theme: default
+    highlight: pygments
+    center: false
+    transition: fade
+    smart: false
+    self_contained: false
+    reveal_plugins: ["notes", "search", "chalkboard"]
+    pandoc_args: [ "--toc" ]
+    reveal_options:
+      slideNumber: true
+      previewLinks: true
+      chalkboard:
+        theme: whiteboard
+        toggleNotesButton: false
+---
+
+```{r setup, include=FALSE}
+library(knitr)
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+# Main
+
+## Key points for this lecture
+
+ - Attrition (missing data on outcomes)
+
+ - Non-compliance
+
+ - Spillovers
+
+ - Hawthorne effects
+
+ - Differential treatment of treatment arms
+
+##
+
+```{r randomsampling, echo=FALSE, out.width='95%',fig.cap=''}
+knitr::include_graphics("./statistics_of_causal_inference_figs/1.pdf")
+```
+
+# References
