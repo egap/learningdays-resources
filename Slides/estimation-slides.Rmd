@@ -62,27 +62,27 @@ library(styler)
   - To learn about $\tau_{i}$, we can treat $\tau_{i}$ as an **estimand** or
    target quantity to be estimated (discussed here) or as a target quantity to be hypothesized about (session on hypothesis testing).
 
-  - Many focus on the **average treatment effect (ATE)**, $\bar{\tau}=\sum_{i=1}^n\tau_{i}$, in part, because it allows for easy **estimation**.
+  - Many focus on the **average treatment effect (ATE)**, $\bar{\tau}=\sum_{i=1}^n\tau_{i}$, in part, because it is easy to **estimate** and its variability from experiment to experiment is easy to calculate.
 
 ## Key points about estimation II
 
  - The key to estimation for causal inference is to choose an estimand that helps you learn about your theoretical or policy question. So, one could use
    the ATE but other common estimands include the ITT, LATE/CACE, ATT, or ATE
-   for some subgroup (or even a different of causal effects between groups).
+   for some subgroup (or even a difference of causal effects between groups) or
+   even quantile effect.
 
   - An **estimator** is a recipe for calculating a guess about the value of  an estimand. For example, the difference of observed means for $m$ treated units is one estimator of $\bar{\tau}$:
    $\hat{\bar{\tau}} = \frac{\sum_{i=1}^n (T_i Y_i)}{m} - \frac{\sum_{i=1}^n ( ( 1 - T_i)Y_i)}{(n-m)}$.
 
 ## Key points about estimation III
 
- - The **standard error** of an estimator in a randomized experiment summarizes how the estimates would vary if the experiment were repeated.
+ - The **standard error** of an estimator in a randomized experiment summarizes how the estimates would vary if the experiment were repeated. Different randomizations will produce different values of the same estimator targeting the same estimand. A **standard error** summarizes this variability in an estimator.
 
- - We use the **standard error** to produce **confidence intervals** and
-   **p-values**: so that we can begin with an estimator and end at a hypothesis test.
+ - We use the **standard error**  and assumptions about the distribution of a
+   test statistic to produce **confidence intervals** and
+   **p-values**: so that we can begin with an estimator, treat it as a test statistic, and end at a hypothesis test.
 
-  - Different randomizations will produce different values of the same estimator targeting the same estimand. A **standard error** summarizes this variability in an estimator.
-
-  - A $100(1-\alpha)$% **confidence interval** is a collection of hypotheses that cannot be rejected at the $\alpha$ level. We tend to report confidence intervals containing hypotheses about values of our estimand and use our estimator as a test statistic.
+  - A $100(1-\alpha)$% **confidence interval** is a collection of hypotheses that cannot be rejected at the $\alpha$ level. We tend to report confidence intervals containing hypotheses about values of our estimand and use our estimator as a test statistic: at least this is what most regression tables report.
 
 ## Key points about estimation IV
 
@@ -97,9 +97,9 @@ library(styler)
 
 ## Key points about estimation V
 
- - **Analyze as you randomize** in the context of estimation means that (1) our standard errors should measure variability from randomization and (2) our estimators should target estimands defined in terms of potential outcomes.
+ - **Analyze as you randomize** in the context of estimation means that (1) our standard errors should measure variability arising from randomization (not necessarily variability arising from sampling unless we know how the sample was sampled from the population) and (2) our estimators should target estimands defined in terms of potential outcomes.
 
- - We do not **control for** background covariates when we analyze data from randomized experiments. But covariates can make our estimation more **precise**. This is called **covariance adjustment** (or covariate adjustment). **Covariance adjustment** in randomized experiments differs from controlling for in observational studies.
+ - We do not **control for** background covariates when we analyze data from randomized experiments. But covariates can make our estimation more **precise**. This is called **covariance adjustment** (or covariate adjustment). **Covariance adjustment** in randomized experiments differs from covariance adjustment in observational studies.
 
 # Review
 
@@ -124,7 +124,7 @@ $Y_{i}(T_{i}=1) -  Y_{i}(T_{i}=0) \ne 0$ or $Y_{i}(T_{i}=1) \ne Y_{i}(T_{i}=0)$.
  1. Recall: we can **test hypotheses** about the pair of potential outcomes $\{ Y_{i}(T_{i}=1), Y_{i}(T_{i}=0) \}$.
 
  2. We can **define estimands** in terms of $\{ Y_{i}(T_{i}=1), Y_{i}(T_{i}=0) \}$ or $\tau_i$, **develop estimators** for those estimands,
-    and then calculate values and standard errors for those estimators.
+    and then calculate **estimates** and **standard errors** for those estimators.
 
 ## A common estimand and estimator: The average treatment effect and the difference of means
 
@@ -364,7 +364,7 @@ design_plus_ests <- base_design + estimandATE + diff_means +
 diagnosis1 <- diagnose_design(design_plus_ests,
                               bootstrap_sims = 0, sims = 100)
 sims1 <- get_simulations(diagnosis1)
-head(sims1[,-c(1:6)])
+head(sims1[,-c(1,2,3,6,9,13)])
 ```
 
 ## How do our estimators behave in general for this design?
@@ -377,6 +377,7 @@ sim_plot <- ggplot(sims1, aes(y = estimate, x = estimator, color = estimator)) +
   geom_boxplot() +
   geom_hline(yintercept = trueATE) +
   geom_point(aes(group = estimator)) +
+  geom_text(aes(x=.5,y=trueATE),label="True ATE", inherit.aes =FALSE)+
   theme(text = element_text(size=20))
 print(sim_plot)
 ```
@@ -866,8 +867,7 @@ dat2 <- draw_data(des_bin)
 
 ## Binary outcomes: Estimands I
 
-How would we interpret the following true
-quantities or estimands? `Y_Z_1`, `Y_Z_0` are potential
+The simulated data: `Y_Z_1`, `Y_Z_0` are potential
 outcomes, `Y` is observed, `x1`, `x2` are covariates, `Z` is treatment assignment. Here $N$=`r nrow(dat2)`.
 
 ```{r dat2echo, echo=TRUE}
