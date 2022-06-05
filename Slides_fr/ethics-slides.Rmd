@@ -1,0 +1,242 @@
+---
+title: "Considérations éthiques dans la recherche expérimentale en sciences sociales"
+author: "Mettre votre nom"
+date: '`r format(Sys.time(), "%d-%m-%Y")`'
+bibliography: ../learningdays-book.bib
+biblio-style: apalike
+link-citations: yes
+colorlinks: yes
+fig_caption: yes
+header-includes: |
+   \setbeamertemplate{footline}{\begin{beamercolorbox}{section in head/foot}
+   \includegraphics[height=.5cm]{../Images/egap-logo.png} \hfill
+   \insertframenumber/\inserttotalframenumber \end{beamercolorbox}}
+   \usepackage{tikz}
+   \usepackage{tikz-cd}
+   \usepackage{textpos}
+   \usepackage{booktabs,multirow,makecell}
+output:
+  beamer_presentation:
+    keep_tex: yes
+    toc: yes
+    pandoc_args: [ "--toc" ]
+    fig_caption: true
+  revealjs::revealjs_presentation:
+    center: no
+    highlight: pygments
+    reveal_options:
+      chalkboard:
+        theme: whiteboard
+        toggleNotesButton: no
+      previewLinks: yes
+      slideNumber: yes
+    reveal_plugins:
+    - notes
+    - search
+    - chalkboard
+    self_contained: no
+    smart: no
+    theme: default
+    transition: fade
+---
+
+# Considérations éthiques pendant la conception de votre recherche
+## Considérations éthiques
+
+- La recherche en sciences sociales implique souvent des sujets humains, sur et auprès desquels nous collectons des données.
+
+- De plus, par nature, la recherche expérimentale est interventionniste.
+
+- Les expériences de terrain cherchent à générer des impacts réels sur la société, les processus politiques et les résultats économiques.
+  C'est-à-dire que les expérimentateurs sont des humains qui changent la vie d'autres humains
+  --- espérons-le pour le mieux, mais généralement sans une demande directe de ceux dont la vie est en train d'être changée.
+
+- Nous avons des responsabilités éthiques en tant que chercheurs et êtres humains.
+
+## Peser avantages vs. risques potentiels
+
+- Nous devons prendre grand soin de peser les *avantages potentiels de la connaissance gagnée* et des *améliorations à court et à long terme dans la vie des individus et des communautés participant à la recherche* par rapport au *préjudice potentiel* pour ces individus et ces communautés.
+
+- Ce n'est pas si facile.
+
+     - Le fait qu'un résultat soit bon ou mauvais peut dépendre du point de vue de chacun, ce qui rend parfois difficile l'évaluation de l'équilibre bénéfices-risques.
+
+     - Nous sommes enclins à surestimer considérablement les avantages de la connaissance --- nous devons donc être prudents et avoir des contrôles extérieurs.
+
+     - Une vie meilleure pour certaines personnes peut impliquer une vie pire pour d'autres.
+
+## Certains contrôles institutionnels existent...
+
+- Un comité de revue institutionnel (institutional review board, IRB) ou un autre comité d'éthique pour la recherche peut examiner vos plans d'interactions directes avec des sujets humains pour la collecte de données.
+
+- Les gouvernements peuvent avoir leurs propres règles et procédures. Par exemple, le gouvernement fédéral américain a défini la [politique fédérale pour la protection des sujets humains](https://www.hhs.gov/ohrp/regulations-and-policy/regulations/common-rule/index.html).
+   Des groupes comme [OES](https://oes.gsa.gov) ou USAID appliquent cette règle à leurs propres recherches.
+
+- EGAP a élaboré des directives liées au COVID pour la recherche afin de protéger la sécurité des sujets, communautés, enquêteurs et autres membres du personnel de recherche.
+
+## ... mais c'est vous qui portez la responsabilité principale
+
+- Il n'y a pas d'autorité centrale qui détermine si vos interventions sont éthiques au sens large.
+
+- Il vaut toujours la peine de se mettre à la place de ses sujets de recherche
+   --- à la fois ceux qui ont à gagner et à perdre d'une intervention donnée.
+
+- Au-delà des protections de base des sujets humains examinées par les comités d'éthique pour la recherche comme les IRB, il appartient à la communauté des chercheurs d'élaborer et d'appliquer des normes.
+
+# Protections des sujets humains et comités de revue institutionnels
+## Développement de la protection des sujets humains
+
+- Des normes pour la protection des sujets de recherche ont été élaborées autour des préoccupations concernant leurs interactions directes avec les chercheurs au cours de la collecte de données.
+
+- Quelques recherches infâmes ont abusé de leurs sujets jusqu'au milieu du 20e siècle :
+     - Les expériences nazies qui ont conduit à l'élaboration du Code de Nuremberg, qui dit que "le consentement volontaire du sujet humain est absolument essentiel"
+     - L'étude Tuskegee (qui a eu des effets à très long terme sur la recherche avec les Afro-Américains aux États-Unis)
+     - L'étude Milgram
+     - L'expérience carcérale de Stanford
+
+## Principes fondamentaux de la recherche avec des sujets humains
+
+- Les chercheurs doivent respecter pour chaque sujet :
+
+     - Vie privée
+
+     - Autonomie
+
+## Consentement éclairé
+
+- **De base**, les chercheurs doivent d'abord obtenir le consentement éclairé des sujets. Cela nécessite que les sujets aient :
+
+     - la capacité à consentir à la participation à l'étude
+
+     - l'absence de coercition dans la décision de participer
+
+     - la compréhension des risques et bénéfices de la recherche
+
+     - la liberté de se retirer de l'étude à tout moment
+
+- Une bonne règle générale : pensez au processus de consentement du point de vue du sujet.
+
+## Dynamique de pouvoir et sujets vulnérables
+
+- Certaines personnes --- les enfants, les prisonniers, d'autres personnes vulnérables sans pouvoir --- peuvent ne pas être, ou se sentir, capables de refuser de participer ou de comprendre les risques et les avantages.
+
+     - Mais nous devons être conscients des dynamiques de pouvoir de manière générale. Il peut sembler difficile de refuser de coopérer avec des donateurs ou des figures d'autorité.
+
+- Si l'étude peut être menée de manière significative auprès d'une population moins vulnérable, elle doit l'être.
+
+- Nous exigeons des standards plus élevés de bénéfices potentiels *pour* les populations vulnérables étudiées.
+
+## Anonymat et confidentialité
+
+- **De base**, on requiert l'anonymat (toutes les informations d'identification sont détruites après l'étude), car il offre la plus grande protection aux sujets.
+
+- Parfois, l'anonymat n'est pas possible. Mais notez que les promesses de confidentialité des chercheurs aux sujets peuvent être annulées par ordonnance d'un tribunal.
+
+- Par exemple : Boston College et les bandes son sur les troubles en Irlande du Nord (https://www.bbc.com/news/uk-northern-ireland-27238797).
+
+## Comités de revue institutionnels (IRB) / comités d'éthique pour la recherche
+
+- Aux États-Unis et dans de nombreux autres pays, il existe des réglementations formelles obligeant les chercheurs à minimiser les risques pour les sujets et à peser le pour et le contre entre les connaissances généralisées à acquérir par rapport aux risques pour les sujets.
+
+- Il existe une procédure formelle standard auprès d'un comité de revue pour l'approbation de la recherche avec des sujets humains.
+
+- Ceci n'est **pas** facultatif. Vous ne pouvez pas interagir avec des sujets humains *avant* l'approbation.
+
+- Le comité peut considérer que votre recherche est exemptée, mais c'est le comité qui en décide (pas vous !).
+
+- Vous êtes tenu de signaler les "événements indésirables" au comité de revue.
+
+## Éléments typiques d'une demande auprès d'un comité de revue
+
+- Description de la population concernée, comment seront-ils recrutés, comment seront-ils rémunérés (le cas échéant), le contexte de la recherche et ce que vous ferez.
+
+- Formulaire de consentement et éléments standard requis pour expliquer la recherche aux sujets.
+
+- L'instrument de collecte des données (questionnaire d'enquête, etc.).
+
+- Énoncé des avantages et des risques anticipés, y compris la façon dont vous diffuserez les résultats.
+
+- Comment les sujets pourront poser des questions et signaler tout problème au comité de revue et/ou à vous en temps réel.
+
+- Comment les données seront stockées en toute sécurité et la vie privée des sujets protégée ; comment les identifiants seront détruits ; quelles données seront conservées.
+
+## Comités de revue éthique en dehors des États-Unis
+
+- Les universités, instituts ou organisations de recherche (comme l'IPA) ont souvent leurs propres comités de revue éthique.
+
+- Dans certains pays, le comité de revue éthique sera logé dans un ministère de la technologie/des sciences et sera plus habitué à traiter de la recherche médicale que de la recherche en sciences sociales.
+
+- Soyez prêt à vous expliquer un peu plus. Prévoyez peut-être une réunion pour contextualiser la recherche en sciences sociales à un membre d'un comité de revue médical.
+
+## Assurez-vous de prévoir du temps pour votre comité de revue éthique
+
+- Prévoyez suffisamment de temps pour les allers-retours avec le comité éthique au cas où des questions se poseraient sur votre demande et que vous deviez apporter des modifications à votre étude.
+    - Cela peut être rapide ou prendre des mois !
+
+- Certains bailleurs de fonds exigeront que les chercheurs obtiennent l'approbation du comité de revue éthique dans les établissements d'origine de *tous* les chercheurs participant au projet, pas seulement un.
+
+- Vous ne pourrez pas publier dans des revues académiques avec des données de sujets humains collectées sans l'approbation ou l'exemption du comité éthique.
+
+# Interventions
+
+## Deux études récentes
+
+- Hong Kong -- Cantoni et al. (2019) ont fourni des informations à des étudiants universitaires sur les intentions d'autres personnes de participer à des manifestations pour voir comment cela affecte leur propre participation aux manifestations.
+
+- Kenya -- Coville et al. (2020) avec la Nairobi City Water and Sewerage Company a testé deux approches pour augmenter les taux de paiement. Un bras de traitement comprenait des avis officiels de déconnexion, en cas de non-paiement.
+
+## Peser les avantages et les inconvénients potentiels
+
+- Les personnes susceptibles d'être affectées par l'étude peuvent ne pas être les mêmes que l'ensemble des personnes qui interagissent directement avec le chercheur. Il y a plus de parties prenantes que les personnes avec lesquelles vous interagissez.
+
+- Les interventions dans les processus sociaux, politiques et économiques pourraient changer qui a le pouvoir, ce qui a des impacts au-delà de votre recherche.
+
+     - Exemple : Faut-il éviter les interventions qui pourraient changer le résultat d'élections serrées ? Les chercheurs devraient-ils modifier ces résultats électoraux ?
+
+- Humilité : les chercheurs eux-mêmes peuvent ne pas être conscients des dommages potentiels. Comment peut-on en prendre conscience ?
+
+     - Les partenariats locaux ne sont pas une solution automatique.
+
+## Concevoir votre intervention
+
+- N'utilisez pas d'interventions dont nous pensons qu'elles nuiraient aux sujets par rapport à ce qui se passerait sans l'intervention ("norme de soins").
+
+- Ne pas impliquer plus de personnes que nécessaire pour la recherche.
+
+- Ne pas rendre l'intervention plus forte que nécessaire pour la recherche.
+
+- Ne fournissez pas de fausses informations. Évitez les tromperies.
+
+- Partenariats : vous devez déclarer votre implication dans la conception de l'intervention.
+
+## Collecte de données
+
+- Offrir aux personnes un moyen de signaler leurs préoccupations et les dommages potentiels au cours de l'étude.
+
+- Recueillir des données sur les dommages potentiels. Mettre fin à une étude plus tôt s'il y a une accumulation de preuves de dommages qui ne seraient pas compensés par les avantages potentiels.
+
+- Signalez les résultats importants qui peuvent éclairer la programmation dès que possible.
+
+- Collectez et stockez des données de manière à protéger l'identité de vos sujets.
+    - Anonymiser ou agréger les données de manière à ce que les individus ne puissent pas être identifiés.
+
+## Consentement éclairé
+
+- Le consentement éclairé nécessite d'expliquer les objectifs de l'étude. Cependant, la recherche peut être compromise en informant les sujets qu'ils sont étudiés ou en faisant apparaître le statut de leur traitement.
+
+- La recherche peut-elle être conçue de manière à permettre un consentement éclairé ?
+
+     - Si non, doit-on poursuivre la recherche ?
+
+- Consentement éclairé. Comment ? Pour qui ? Quelles sont les parties prenantes concernées ?
+
+     - Est-il approprié de considérer qu'une personne s'exprime au nom d'une communauté en donnant son consentement ?
+     - Comment répertorier toutes les personnes susceptibles d'être concernées par une intervention ? Doit-on le faire ? Où s'arrêter avec le consentement ?
+
+## Références
+
+  - Les principes de recherche EGAP, 2011. [(Lien)](https://egap.org/wp-content/uploads/2020/05/egap-research-principles.pdf)
+
+  - Cantoni, D. et al. 2019. "Protests as Strategic Games: Experimental Evidence from Hong Kong's Antiauthoritarian Movement." *Quarterly Journal of Economics* 134(2): 1021-1077.
+
+  - Coville, A. et al. 2020. "Enforcing Payment for Water and Sanitation Services in Nairobi’s Slums." NBER Working Paper 27569. [(Lien)](https://www.nber.org/papers/w27569)

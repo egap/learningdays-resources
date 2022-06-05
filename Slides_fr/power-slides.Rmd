@@ -1,0 +1,547 @@
+---
+title: "La puissance statistique"
+author: "Mettre votre nom"
+date: '`r format(Sys.time(), "%d-%m-%Y")`'
+header-includes: |
+   \setbeamertemplate{footline}{\begin{beamercolorbox}{section in head/foot}
+   \includegraphics[height=.5cm]{../Images/egap-logo.png} \hfill
+   \insertframenumber/\inserttotalframenumber \end{beamercolorbox}}
+output:
+  beamer_presentation:
+    keep_tex: yes
+    toc: yes
+  revealjs::revealjs_presentation:
+    center: no
+    highlight: pygments
+    reveal_options:
+      chalkboard:
+        theme: whiteboard
+        toggleNotesButton: no
+      previewLinks: yes
+      slideNumber: yes
+    reveal_plugins:
+    - notes
+    - search
+    - chalkboard
+    self_contained: no
+    smart: no
+    theme: default
+    transition: fade
+---
+
+```{r setup, include=FALSE, echo=FALSE}
+source("rmd_setup.R")
+```
+
+# Qu'est-ce que la puissance statistique ?
+## Qu'est-ce que la puissance statistique ?
+
+- Nous voulons séparer le signal du bruit.
+
+- Puissance statistique = probabilité de rejeter l'hypothèse nulle, compte tenu d'un effet réel $\ne$ 0.
+
+- En d'autres termes, c'est la capacité à détecter un effet étant donné qu'il existe.
+
+-  Formellement : (1 - Type II) taux d'erreur.
+
+- Ainsi, la puissance statistique $\in$ (0, 1).
+
+- Seuils standard : 0,8 ou 0,9.
+
+## Point de départ pour l'analyse de puissance
+
+- L'analyse de puissance est quelque chose que nous faisons *avant* de mener une étude pour aider à :
+
+    - déterminer l'échantillon dont vous avez besoin pour détecter une taille d'effet donnée.
+
+    - déterminer une différence détectable minimale compte tenu d'une taille d'échantillon définie.
+
+    - décider si vous souhaitez mener une étude.
+
+- Il est difficile d'apprendre d'un résultat nul sous-alimenté.
+
+    - Y a-t-il eu un effet, mais nous n'avons pas pu le détecter ? N'y a-t-il eu aucun effet ? Impossible à dire.
+
+
+## La puissance statistique
+- Disons qu'il y a vraiment un effet de traitement et que vous exécutez votre expérience plusieurs fois. À quelle fréquence obtiendrez-vous un résultat statistiquement significatif ?
+
+- Quelques conjectures pour répondre à cette question.
+
+    - Quelle est l'ampleur de l'effet de votre traitement ?
+
+    - Combien d'unités sont traitées, mesurées ?
+
+    - Quelle quantité de bruit y a-t-il dans la mesure de votre résultat ?
+
+
+## Approches pour calculer la puissance statistique
+- Calcul analytique
+
+- Simulation
+
+
+## Outils de calcul de puissance statistique
+- Interactifs
+
+    - [Le calculateur de puissance de EGAP](https://egap.shinyapps.io/power-app/)
+
+    - [rpsychologist](https://rpsychologist.com/d3/NHST/)
+
+- Packages R
+
+    - [pwr](https://cran.r-project.org/web/packages/pwr/index.html)
+
+    - [DeclareDesign](https://cran.r-project.org/web/packages/DeclareDesign/index.html), voir aussi <https://declaredesign.org/>
+
+
+# Calcul analytique de puissance
+## Calcul analytique de puissance
+- Formule:
+  \begin{align*}
+  \text{Puissance} &= \Phi\left(\frac{|\tau| \sqrt{N}}{2\sigma}- \Phi^{-1}(1- \frac{\alpha}{2})\right)
+  \end{align*}
+
+- Composants:
+  - $\phi$ : la fonction de répartition de la loi normale (strictement croissante)
+  - $\tau$ : la taille de l'effet
+  - $N$ : la taille de l'échantillon
+  - $\sigma$ : l'écart type du résultat
+  - $\alpha$ : le niveau de signification (typiquement 0,05)
+
+
+## Exemple : calcul analytique de puissance
+
+```{r pwrsimp, echo=TRUE, include=TRUE}
+# Puissance statistique pour une étude avec 80 observations
+# et un effet de taille de 0,25
+library(pwr)
+pwr.t.test(n = 40, d = 0.25, sig.level = 0.05,
+           power = NULL, type = c("two.sample",
+                      "one.sample", "paired"))
+```
+
+## Limites du calcul analytique de puissance
+
+- Dérivé uniquement pour certaines statistiques de test (différence des moyennes)
+
+- Fait des hypothèses spécifiques sur le processus de génération de données
+
+- Incompatible avec des conceptions plus complexes
+
+
+# Calcul de puissance par simulation
+## Calcul de puissance par simulation
+- Créer un ensemble de données et simuler la conception de recherche.
+
+- Des hypothèses sont nécessaires pour les études de simulation, mais vous faites les vôtres.
+
+- Pour l'approche DeclareDesign, voir <https://declaredesign.org/>
+
+## Étapes
+
+- Définir l'échantillon et la fonction des résultats potentiels.
+
+- Définir la procédure d'assignation du traitement.
+
+- Créer des données.
+
+- Assigner un traitement, puis estimer l'effet.
+
+- Répéter de nombreuses fois.
+
+
+## Exemples
+
+- Randomisation complète
+
+- Avec covariables
+
+- Avec une randomisation par grappe
+
+## Exemple : Calcul de puissance par simulation pour une randomisation complète
+
+```{r powersim, echo=TRUE, include=TRUE}
+# install.packages("randomizr")
+library(randomizr)
+library(estimatr)
+
+## Y0 est fixe dans la plupart des expériences sur le terrain.
+## Nous ne le générons donc qu'une seule fois:
+make_Y0 <- function(N){  rnorm(n = N) }
+repeat_experiment_and_test <- function(N, Y0, tau){
+    Y1 <- Y0 + tau
+    Z <- complete_ra(N = N)
+    Yobs <- Z * Y1 + (1 - Z) * Y0
+    estimator <- lm_robust(Yobs ~ Z)
+    pval <- estimator$p.value[2]
+    return(pval)
+}
+```
+
+## Exemple : Calcul de puissance par simulation pour une randomisation complète
+```{r powersim2, echo=TRUE, include=TRUE}
+power_sim <- function(N,tau,sims){
+    Y0 <- make_Y0(N)
+    pvals <- replicate(n=sims,
+      repeat_experiment_and_test(N=N,Y0=Y0,tau=tau))
+    pow <- sum(pvals < .05) / sims
+    return(pow)
+}
+
+set.seed(12345)
+power_sim(N=80,tau=.25,sims=100)
+power_sim(N=80,tau=.25,sims=100)
+```
+
+## Exemple : Avec DeclareDesign {.allowframebreaks}
+```{r ddversion, echo=TRUE, message=FALSE, warning=FALSE}
+library(DeclareDesign)
+library(tidyverse)
+P0 <- declare_population(N,u0=rnorm(N))
+# declarer Y(Z=1) et Y(Z=0)
+O0 <- declare_potential_outcomes(Y_Z_0 = 5 + u0, Y_Z_1 = Y_Z_0 + tau)
+# assigner m unités au traitement
+A0 <- declare_assignment(Z=conduct_ra(N=N, m=round(N/2)))
+# le paramètre est la différence moyenne entre Y(Z=1) et Y(Z=0)
+estimand_ate <- declare_inquiry(ATE=mean(Y_Z_1 - Y_Z_0))
+R0 <- declare_reveal(Y,Z)
+design0_base <- P0 + A0 + O0 + R0
+
+## Par exemple:
+design0_N100_tau25 <- redesign(design0_base,N=100,tau=.25)
+dat0_N100_tau25 <- draw_data(design0_N100_tau25)
+head(dat0_N100_tau25)
+with(dat0_N100_tau25,mean(Y_Z_1 - Y_Z_0)) # effet moyen réel du traitement
+with(dat0_N100_tau25,mean(Y[Z==1]) - mean(Y[Z==0])) # estimation
+lm_robust(Y~Z,data=dat0_N100_tau25)$coef # estimation
+```
+
+```{r ddversion_sim, echo=TRUE, warnings=FALSE}
+E0 <- declare_estimator(Y~Z,model=lm_robust,label="test-t 1",
+                        inquiry="ATE")
+t_test <- function(data) {
+       test <- with(data, t.test(x = Y[Z == 1], y = Y[Z == 0]))
+       data.frame(statistic = test$statistic, p.value = test$p.value)
+}
+T0 <- declare_test(handler=label_test(t_test),label="test-t 2")
+design0_plus_tests <- design0_base + E0 + T0
+
+design0_N100_tau25_plus <- redesign(design0_plus_tests,N=100,tau=.25)
+
+## Répète seulement l'assignation aléatoire, pas la création de Y0.
+## Ignorer le warning
+names(design0_N100_tau25_plus)
+design0_N100_tau25_sims <- simulate_design(design0_N100_tau25_plus,
+          sims=c(1,100,1,1,1,1)) # Répète seulement l'assignation aléatoire
+# design0_N100_tau25_sims a 200 lignes
+# = 2 tests * 100 assignations aleatoires
+# regardons les 6 premières lignes
+head(design0_N100_tau25_sims)
+
+# pour chaque estimateur,
+# puissance = proportion de simulations avec une p-valeur < 0,05
+design0_N100_tau25_sims %>% group_by(estimator) %>%
+  summarize(pow=mean(p.value < .05),.groups="drop")
+```
+
+# Puissance statistique avec ajustement de covariable
+## Ajustement de covariable et puissance statistique
+
+- L'ajustement de covariable peut améliorer la puissance statistique car il atténue la variation du résultat.
+    - S'il est pronostique, l'ajustement de covariable peut réduire considérablement la variance. Une variance plus faible signifie une puissance plus élevée.
+
+    - S'il est non pronostique, les gains de puissance sont minimes.
+
+- Toutes les covariables doivent être pré-traitement. N'abandonnez pas d'observations pour cause de données manquantes.
+
+    - Voir le module sur [les menaces à la validité interne](threats-to-internal-validity-of-randomized-experiments.html) et les [10 choses à savoir sur l'ajustement de covariable](https://egap.org/resource/10-things-to-know-about-covariate-adjustment/).
+
+- Observez le biais de Freedman tandis que le nombre d'observations n diminue et que le nombre de covariables K augmente.
+
+## Découpage par bloc
+
+-  Découper par bloc : assignez de manière aléatoire un traitement au sein des blocs
+
+    - Ajustement de covariable "ex-ante"
+
+    - Une précision/efficacité plus élevée implique plus de puissance statistique
+
+    - Réduire le "biais conditionnel" : association entre l'assignation du traitement et les résultats potentiels
+
+    - L'avantage des blocs sur l'ajustement de covariable est plus clair dans les petites expériences
+
+## Exemple : Calcul de puissance par simulation avec une covariable {.allowframebreaks}
+
+```{r powsimcov, echo=TRUE}
+
+## Y0 est fixe dans la plupart des expériences sur le terrain.
+## Nous ne le générons donc qu'une seule fois:
+make_Y0_cov <- function(N){
+    u0 <- rnorm(n = N)
+    x <- rpois(n=N,lambda=2)
+    Y0 <- .5 * sd(u0) * x + u0
+    return(data.frame(Y0=Y0,x=x))
+ }
+
+##  X prédit modérément Y0.
+test_dat <- make_Y0_cov(100)
+test_lm  <- lm_robust(Y0~x,data=test_dat)
+summary(test_lm)
+
+## maintenant mettre en place la simulation
+repeat_experiment_and_test_cov <- function(N, tau, Y0, x){
+    Y1 <- Y0 + tau
+    Z <- complete_ra(N = N)
+    Yobs <- Z * Y1 + (1 - Z) * Y0
+    estimator <- lm_robust(Yobs ~ Z+x,data=data.frame(Y0,Z,x))
+    pval <- estimator$p.value[2]
+    return(pval)
+}
+
+## créer les données une fois
+## assigner de manière aléatoire le traitement sims fois
+## rapporte quelle proportion renvoie une valeur p < 0,05
+power_sim_cov <- function(N,tau,sims){
+    dat <- make_Y0_cov(N)
+    pvals <- replicate(n=sims, repeat_experiment_and_test_cov(N=N,
+                          tau=tau,Y0=dat$Y0,x=dat$x))
+    pow <- sum(pvals < .05) / sims
+    return(pow)
+}
+```
+
+## Exemple : Calcul de puissance par simulation avec une covariable IV
+
+```{r, echo=TRUE}
+set.seed(12345)
+power_sim_cov(N=80,tau=.25,sims=100)
+power_sim_cov(N=80,tau=.25,sims=100)
+
+```
+
+
+# Puissance statistique pour la randomisation par grappe
+
+## Puissance statistique et conception par grappe
+- Voir le [module sur la randomisation](randomization.html).
+
+- Etant donné un $N$ fixe, une conception par grappe est légèrement moins puissante qu'une conception sans grappe.
+     - La différence est souvent substantielle.
+
+- Il faut estimer correctement la variance :
+     - erreur type robuste pour grappe (robust clustered standard error, RCSE)
+     - Inférence de randomisation
+
+- Pour augmenter la puissance :
+     - Mieux vaut augmenter le nombre de grappes que le nombre d'unités par grappe.
+     - Dans quelle mesure les grappes réduisent la puissance statistique dépend de manière critique de la corrélation intra-grappe (intra-cluster correlation, ICC)
+       (i.e. le rapport de la variance au sein des grappes à la variance totale).
+
+## La conception par grappe dans la recherche observationelle
+
+- Souvent négligé, conduisant à (peut-être) une incertitude extrêmement sous-estimée.
+
+   - Inférence fréquentiste basée sur le ratio $\hat{\beta}/\hat{se}$
+
+   - Si nous sous-estimons $\hat{se}$, nous sommes beaucoup plus susceptibles de rejeter $H_0$. (Le taux d'erreur de type I est trop élevé.)
+
+- De nombreuses conceptions d'observation sont beaucoup moins puissantes qu'on ne le pense.
+
+## Exemple : Puissance statistique basée sur la simulation pour la randomisation par grappe {.allowframebreaks}
+
+```{r powsimclus, echo=TRUE}
+## Y0 est fixe dans la plupart des expériences sur le terrain.
+## Nous ne le générons donc qu'une seule fois:
+make_Y0_clus <- function(n_indivs,n_clus){
+    # n_indivs est le nombre de personnes par grappe
+    # n_clus est le nombre de grappes
+    clus_id <- gl(n_clus,n_indivs)
+    N <- n_clus * n_indivs
+    u0 <- fabricatr::draw_normal_icc(N=N,clusters=clus_id,ICC=.1)
+    Y0 <- u0
+    return(data.frame(Y0=Y0,clus_id=clus_id))
+ }
+
+test_dat <- make_Y0_clus(n_indivs=10,n_clus=100)
+# confirmer que cela produit des données avec 10 dans chacune des 100 grappes
+table(test_dat$clus_id)
+# confirmer l'ICC
+ICC::ICCbare(y=Y0,x=clus_id,data=test_dat)
+
+
+repeat_experiment_and_test_clus <- function(N, tau, Y0, clus_id){
+    Y1 <- Y0 + tau
+    # ici, nous randomisons Z au niveau de la grappe
+    Z <- cluster_ra(clusters=clus_id)
+    Yobs <- Z * Y1 + (1 - Z) * Y0
+    estimator <- lm_robust(Yobs ~ Z, clusters = clus_id,
+                    data=data.frame(Y0,Z,clus_id), se_type = "CR2")
+    pval <- estimator$p.value[2]
+    return(pval)
+  }
+power_sim_clus <- function(n_indivs,n_clus,tau,sims){
+    dat <- make_Y0_clus(n_indivs,n_clus)
+    N <- n_indivs * n_clus
+    # randomiser le traitement sims fois
+    pvals <- replicate(n=sims,
+                repeat_experiment_and_test_clus(N=N,tau=tau,
+                                Y0=dat$Y0,clus_id=dat$clus_id))
+    pow <- sum(pvals < .05) / sims
+    return(pow)
+}
+```
+
+```{r, echo=TRUE}
+set.seed(12345)
+power_sim_clus(n_indivs=8,n_clus=100,tau=.25,sims=100)
+power_sim_clus(n_indivs=8,n_clus=100,tau=.25,sims=100)
+
+```
+
+## Exemple : Puissance statistique basée sur la simulation pour la randomisation par grappe (DeclareDesign) {.allowframebreaks}
+
+```{r ddversion_clus, echo=TRUE}
+
+P1 <- declare_population(N = n_clus * n_indivs,
+    clusters=gl(n_clus,n_indivs),
+    u0=draw_normal_icc(N=N,clusters=clusters,ICC=.2))
+O1 <- declare_potential_outcomes(Y_Z_0 = 5 + u0, Y_Z_1 = Y_Z_0 + tau)
+A1 <- declare_assignment(Z=conduct_ra(N=N, clusters=clusters))
+estimand_ate <- declare_inquiry(ATE=mean(Y_Z_1 - Y_Z_0))
+R1 <- declare_reveal(Y,Z)
+design1_base <- P1 + A1 + O1 + R1 + estimand_ate
+
+## Par exemple:
+design1_test <- redesign(design1_base,n_clus=10,n_indivs=100,tau=.25)
+test_d1 <- draw_data(design1_test)
+# confirmer que tous les individus d'un groupe
+# ont la même assignation de traitement
+with(test_d1,table(Z,clusters))
+# les trois estimateurs diffèrent par se_type:
+E1a <- declare_estimator(Y~Z,model=lm_robust,clusters=clusters,
+                         se_type="CR2", label="test-t CR2 (robuste pour grappe)",
+                         inquiry="ATE")
+E1b <- declare_estimator(Y~Z,model=lm_robust,clusters=clusters,
+                         se_type="CR0", label="test-t CR0 (robuste pour grappe)",
+                         inquiry="ATE")
+E1c <- declare_estimator(Y~Z,model=lm_robust,clusters=clusters,
+                         se_type="stata", label="test-t RCSE en stata",
+                         inquiry="ATE")
+
+design1_plus <- design1_base + E1a + E1b + E1c
+
+design1_plus_tosim <- redesign(design1_plus,n_clus=10,n_indivs=100,tau=.25)
+```
+
+```{r ddversion_clus_sims, echo=TRUE, cache=TRUE, warnings=FALSE}
+## Répéter seulement l'assignation aléatoire, pas la création de Y0.
+## Ignorer le warning
+## Nous voudrions plus de simulations en pratique.
+set.seed(12355)
+design1_sims <- simulate_design(design1_plus_tosim,
+                    sims=c(1,1000,rep(1,length(design1_plus_tosim)-2)))
+design1_sims %>% group_by(estimator) %>%
+  summarize(
+    puissance = mean(p.value < .05),
+    couverture = mean(estimand <= conf.high & estimand >= conf.low),
+    .groups="drop"
+  )
+```
+
+```{r ddversion_clus_2, echo=TRUE, cache=TRUE, results='hide', warning=FALSE}
+library(DesignLibrary)
+## Cela peut être plus simple que ce qui précède :
+d1 <- block_cluster_two_arm_designer(N_blocks = 1,
+    N_clusters_in_block = 10,
+    N_i_in_cluster = 100,
+    sd_block = 0,
+    sd_cluster = .3,
+    ate = .25)
+d1_plus <- d1 + E1b + E1c
+d1_sims <- simulate_design(d1_plus,sims=c(1,1,1000,1,1,1,1,1))
+```
+
+```{r ddversion_clus_2_print, echo=TRUE}
+d1_sims %>% group_by(estimator) %>% summarize(
+    puissance = mean(p.value < .05),
+    couverture = mean(estimand <= conf.high & estimand >= conf.low),
+    .groups="drop")
+```
+
+# Statique comparative
+## Statique comparative
+- La puissance
+   - augmente avec $N$
+   - augmente avec $|\tau|$
+   - diminue avec $\sigma$
+
+## Puissance par taille d'échantillon {.allowframebreaks}
+
+```{r powplot_by_n, echo=TRUE}
+some_ns <- seq(10,800,by=10)
+pow_by_n <- sapply(some_ns, function(then){
+    pwr.t.test(n = then, d = 0.25, sig.level = 0.05)$power
+            })
+plot(some_ns,pow_by_n,
+    xlab="Taille d'échantillon",
+    ylab="Puissance")
+abline(h=.8)
+## Voir https://cran.r-project.org/web/packages/pwr/vignettes/pwr-vignette.html
+## pour des courbes plus jolies
+## ptest <-  pwr.t.test(n = NULL, d = 0.25, sig.level = 0.05, power = .8)
+## plot(ptest)
+```
+
+
+## Puissance par taille d'effet de traitement {.allowframebreaks}
+
+```{r powplot_by_tau, echo=TRUE}
+some_taus <- seq(0,1,by=.05)
+pow_by_tau <- sapply(some_taus, function(thetau){
+    pwr.t.test(n = 200, d = thetau, sig.level = 0.05)$power
+            })
+plot(some_taus,pow_by_tau,
+    xlab="Effet moyen du traitement (standardisé)",
+    ylab="Puissance")
+abline(h=.8)
+```
+
+## La calculateur de puissance EGAP
+
+- À essayer sur https://egap.shinyapps.io/power-app/
+
+- Pour les conceptions de randomisation par grappe, essayez d'ajuster:
+
+   - Nombre de grappes
+   - Nombre d'unités par grappe
+   - Corrélation intra-grappe
+   - Effet de traitement
+
+
+## Commentaires
+
+- Connaissez votre variable de résultat.
+
+- Quels effets pouvez-vous réellement attendre de votre traitement ?
+
+- Quelle est la plage de variation plausible de la variable de résultat ?
+
+     - Une conception peut ne pas être puissante si le mouvement possible est limité pour la variable de résultat.
+
+
+## Conclusion : comment améliorer votre puissance
+
+1. Augmenter $N$
+
+     - En cas de grappe, augmenter le nombre de grappes si possible
+
+2. Renforcer le traitement
+
+3. Améliorer la précision
+
+     - Ajustement de covariable
+
+     - Découpage par bloc
+
+4. Meilleure mesure de la variable de résultat

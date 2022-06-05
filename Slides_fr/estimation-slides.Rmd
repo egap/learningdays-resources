@@ -1,0 +1,1393 @@
+---
+title: "Estimer les paramètres avec des estimateurs"
+author: "Mettre votre nom"
+date: "`r format(Sys.time(), '%d-%m-%Y')`"
+output:
+  beamer_presentation:
+    keep_tex: yes
+    slide_level: 2
+    toc: yes
+  revealjs::revealjs_presentation:
+    center: no
+    fig_caption: yes
+    highlight: pygments
+    pandoc_args: --toc
+    reveal_options:
+      chalkboard:
+        theme: whiteboard
+        toggleNotesButton: no
+      previewLinks: yes
+      slideNumber: yes
+    reveal_plugins:
+    - notes
+    - search
+    - chalkboard
+    self_contained: no
+    smart: no
+    theme: default
+    transition: fade
+bibliography: ../learningdays-book.bib
+header-includes: |
+   \setbeamertemplate{footline}{\begin{beamercolorbox}{section in head/foot}
+   \includegraphics[height=.5cm]{../Images/egap-logo.png} \hfill
+   \insertframenumber/\inserttotalframenumber \end{beamercolorbox}}
+   \usepackage{makecell}
+   \usepackage{tikz}
+   \usepackage{tikz-cd}
+   \usetikzlibrary{arrows,automata,positioning,trees,babel}
+   \usepackage{textpos}
+   \usepackage{booktabs,multirow}
+link-citations: yes
+colorlinks: yes
+biblio-style: apalike
+---
+
+```{r setup, include=FALSE}
+source("rmd_setup.R")
+# Load all the libraries we need
+library(here)
+library(tidyverse)
+library(kableExtra)
+library(DeclareDesign)
+library(estimatr)
+library(styler)
+```
+
+# Points clés
+
+## Points clés sur l'estimation I
+
+  - Un effet causal, $\tau_i$, est une comparaison des résultats potentiels non observés pour chaque unité $i$ : exemples  $\tau_{i} = Y_{i}(T_{i}=1) -  Y_{i}(T_{i}=0)$ ou  $\tau_{i} = \frac{Y_{i}(T_{i}=1)}{ Y_{i}(T_{i}=0)}$.
+
+  - Pour en savoir plus sur $\tau_{i}$, nous pouvons traiter $\tau_{i}$ comme un **paramètre** ou une quantité cible à estimer (discutée ici) ou comme quantité cible hypothétique (voir module sur les tests d'hypothèses).
+
+  - Beaucoup se concentrent sur l'**effet moyen du traitement (average treatment effect, ATE)**, $\bar{\tau}=\sum_{i=1}^n\tau_{i}$, en partie parce qu'il permet une **estimation** facile.
+
+## Points clés sur l'estimation II
+
+ - La clé de l'estimation pour l'inférence causale consiste à choisir un paramètre qui vous aide à en savoir plus sur votre question théorique ou politique. Ainsi, on pourrait utiliser l'ATE mais aussi d'autres paramètres courants tels que l'effet d'intention de traiter (intent to treat effect, ITT), l'effet moyen local du traitement (local average treatment effect, LATE), l'effet causal moyen pour ceux qui se conforment au traitement (complier average causal effect, CACE), l'effet moyen du traitement sur les traités (average treatment effect on the treated, ATT) ou l'ATE pour certains sous-groupes.
+
+  - Un **estimateur** est une recette pour calculer approximativement la valeur d'un paramètre. Par exemple, la différence des moyennes observées pour $m$ unités traitées est un estimateur de $\bar{\tau}$:
+   $\hat{\bar{\tau}} = \frac{\sum_{i=1}^n (T_i Y_i)}{m} - \frac{\sum_{i=1}^n ( ( 1 - T_i)Y_i)}{(n-m)}$.
+
+## Points clés sur l'estimation III
+
+ - L'**erreur type** d'un estimateur dans une expérience aléatoire résume comment les estimations varieraient si l'expérience était répétée.
+
+ - Nous utilisons l'**erreur type** pour produire des **intervalles de confiance** et des **p-valeurs**
+   afin de commencer par un estimateur et terminer par un test d'hypothèse.
+
+  - Différentes randomisations produiront différentes valeurs du même estimateur ciblant le même paramètre. L'**erreur type** résume la variabilité de cet estimateur.
+
+  - Un **intervalle de confiance** de *$100(1-\alpha)$%* est un ensemble d'hypothèses qui ne peuvent être rejetées au niveau $\alpha$. Nous avons tendance à rapporter des intervalles de confiance contenant des hypothèses sur les valeurs de notre paramètre et à utiliser notre estimateur comme une statistique de test.
+
+
+## Points clés sur l'estimation IV
+
+ - Les estimateurs doivent :
+
+      - éviter l'erreur systématique dans leur approximation du paramètre (i.e. être sans biais)
+
+      - peu varier d'une expérience à l'autre (être précis ou efficace)
+
+      - peut-être idéalement converger vers le paramètre quand ils utilisent de plus en plus d'informations (être cohérent).
+
+## Points clés sur l'estimation V
+
+ - **Analyser au fur et à mesure de la randomisation** dans le contexte de l'estimation signifie que (1) nos erreurs types doivent mesurer la variabilité à partir de la randomisation et (2) nos estimateurs doivent cibler des paramètres définis en termes de résultats potentiels.
+
+ - Nous ne **contrôlons pas** les covariables lorsque nous analysons les données d'expériences aléatoires. Mais les covariables peuvent rendre notre estimation plus **précise**. C'est ce qu'on appelle **l'ajustement de covariance** (ou ajustement de covariable). **L'ajustement de covariance** dans les expériences aléatoires diffère du contrôle dans les études observationnelles.
+
+# Revue
+
+## Revue : effet causal
+
+L'inférence causale fait référence à la comparaison de résultats potentiels non observés, fixes.
+
+Par exemple :
+
+  - le résultat potentiel de l'unité $i$ lorsqu'elle est assignée au traitement, $T_i=1$ est $Y_{i}(T_{i}=1)$.
+  - le résultat potentiel de l'unité $i$ lorsqu'elle est assignée au contrôle, $T_i=0$ est $Y_{i}(T_{i}=0)$.
+
+L'assignation de traitement, $T_i$, a un effet causal sur l'unité $i$, que nous appelons $\tau_i$, si
+$Y_{i}(T_{i}=1) -  Y_{i}(T_{i}=0) \ne 0$ ou $Y_{i}(T_{i}=1) \ne Y_{i}(T_{i}=0)$.
+
+# Paramètres, estimateurs et moyennes
+
+## Comment en savoir plus sur les effets causaux à partir des données observées ?
+
+ 1. Rappel : nous pouvons **tester les hypothèses** sur la paire de résultats potentiels $\{ Y_{i}(T_{i}=1), Y_{i}(T_{i}=0) \}$.
+
+ 2. Nous pouvons **définir les paramètres** en termes de $\{ Y_{i}(T_{i}=1), Y_{i}(T_{i}=0) \}$ ou $\tau_i$, **développer des estimateurs** pour ces paramètres,
+    puis calculer les valeurs et les erreurs types pour ces estimateurs.
+
+## Un paramètre et un estimateur usuels : l'effet moyen du traitement et la différence des moyennes
+
+Soit $\bar{\tau}=\sum_{i=1}^n \tau_{i}$, l'effet moyen du traitement. Quel serait un bon estimateur ?
+
+Deux candidats :
+
+ 1. La différence des moyennes : $\hat{\bar{\tau}} = \frac{\sum_{i=1}^n (T_i Y_i)}{m} -
+    \frac{\sum_{i=1}^n ( ( 1 - T_i) Y_i)}{n-m}$.
+
+ 2. La différence des moyennes avec plafonnement de l'observation $Y_i$ la plus haute
+    (une sorte de moyenne "winsorisée" pour éviter que les valeurs extrêmes n'exercent trop d'influence sur notre estimateur --- pour augmenter la *précision*).
+
+Comment saurons-nous quel estimateur convient le mieux à notre conception de recherche ?
+
+Simulons-le !
+
+## Étape 1 de la simulation : créer des données avec un ATE connu
+
+Notez que nous devons *connaître* les résultats potentiels et l'assignation de traitement afin de savoir si notre estimateur performe bien.
+
+```{r echo=FALSE}
+
+## Tout d'abord, créez des données,
+##  y0 est le résultat potentiel du contrôle
+N <- 10
+y0 <- c(0, 0, 0, 1, 1, 3, 4, 5, 190, 200)
+## Chaque unité a son propre effet de traitement
+tau <- c(10, 30, 200, 90, 10, 20, 30, 40, 90, 20)
+## y1 est le résultat potentiel du traitement
+y1 <- y0 + tau
+## Z est l'assignation de traitement (notez que nous utilisons Z au lieu de T)
+set.seed(12345)
+block <- c("a","a","a","a","a","a","b","b","b","b")
+Z <- c(0,0,0,0,1,1,0,0,1,1)
+## Y est le résultats observé
+Y <- Z * y1 + (1 - Z) * y0
+## Les données
+dat <- data.frame(Z = Z, y0 = y0, y1 = y1, tau = tau, b=block,Y=Y)
+## dat <- dat[,c("Z","y0","y1")]
+```
+
+\begin{center}
+```{r}
+kableExtra::kable(dat[,c("Z","y0","y1")])
+```
+\end{center}
+
+```{r ate, echo=FALSE, results="markup", message=TRUE}
+ATE <- with(dat, mean(y1 - y0))
+message("Le vrai ATE est ", ATE)
+```
+
+En réalité, nous n'observons qu'un seul des résultats potentiels.
+
+Notez que chaque unité a son propre effet de traitement.
+
+## Commencez par créer de fausses données
+
+Le tableau de la slide précédente a été généré en R avec :
+
+```{r echo=TRUE}
+# Nous avons dix unités
+N <- 10
+#  y0 est le résultat potentiel du contrôle
+y0 <- c(0, 0, 0, 1, 1, 3, 4, 5, 190, 200)
+# Chaque unité a son propre effet de traitement
+tau <- c(10, 30, 200, 90, 10, 20, 30, 40, 90, 20)
+# y1 est le résultat potentiel du traitement
+y1 <- y0 + tau
+# 2 blocs, a et b
+block <- c("a","a","a","a","a","a","b","b","b","b")
+# Z est l'assignation de traitement (notez que nous utilisons Z au lieu de T)
+Z <- c(0,0,0,0,1,1,0,0,1,1)
+# Y est le résultat observé
+Y <- Z * y1 + (1 - Z) * y0
+# Les données
+dat <- data.frame(Z = Z, y0 = y0, y1 = y1, tau = tau, b=block,Y=Y)
+set.seed(12345)
+```
+
+
+## Avec DeclareDesign
+
+DeclareDesign représente les conceptions de recherche en quelques étapes illustrées ci-dessous :
+
+```{r dd1, echo=TRUE}
+# prendre uniquement les résultats potentiels du traitement
+# et du contrôle à partir de nos fausses données
+small_dat <- dat[, c("y0", "y1")]
+
+# DeclareDesign vous demande d'abord de déclarer votre population
+pop <- declare_population(small_dat)
+N <- nrow(small_dat)
+
+# 5 unités assignées au traitement ; la valeur par défaut
+# est l'assignation aléatoire simple avec une probabilité de 0,5
+trt_assign <- declare_assignment(Z = conduct_ra(N=N,m = 2),legacy=FALSE)
+
+# Y observé est y1 si Z=1 et y0 si Z=0
+pot_out <- declare_potential_outcomes(Y ~ Z * y1 + (1 - Z) * y0)
+
+# spécifier les variables de résultat et d'assignation
+reveal <- declare_reveal(Y, Z)
+
+# l'objet de conception de recherche basique comprend ces quatre objets
+base_design <- pop + trt_assign + pot_out + reveal
+```
+
+## Avec DeclareDesign : créer de fausses données
+
+DeclareDesign renomme par défaut `y0` et `y1` : `Y_Z_0` et `Y_Z_1` :
+
+```{r echo=TRUE}
+## Une simulation est une assignation de traitement aléatoire
+sim_dat1 <- draw_data(base_design)
+
+## Données simulées (seulement les 6 premières lignes)
+head(sim_dat1)
+```
+
+## Avec DeclareDesign : définir le paramètre et les estimateurs
+
+Pas de sortie ici. Il suffit de définir fonctions et estimateurs ainsi qu'un paramètre.
+
+```{r dd2, echo=TRUE}
+## Le paramètre
+estimandATE <- declare_inquiry(ATE = mean(Y_Z_1 - Y_Z_0))
+
+## Le premier estimateur est la différence des moyennes
+diff_means <- declare_estimator(Y ~ Z, inquiry = estimandATE,
+  model = lm_robust, se_type = "classical", label = "Diff des moyennes/MCO")
+```
+
+## Avec DeclareDesign : définir le paramètre et les estimateurs
+
+```{r dd2a, echo=TRUE}
+## Le deuxième estimateur est la différence des moyennes winsorisées
+diff_means_topcoded_fn <- function(data) {
+  data$rankY <- rank(data$Y)
+  ## Remplacer la valeur maximale de Y par la seconde valeur maximale de Y
+  data$newY <- with(data,
+    ifelse(rankY == max(rankY), Y[rankY == (max(rankY) - 1)], Y))
+  obj <- lm_robust(newY ~ Z, data = data, se_type = "classical")
+  res <- tidy(obj) %>% filter(term == "Z")
+  return(res)
+}
+diff_means_topcoded <- declare_estimator(
+  handler = label_estimator(diff_means_topcoded_fn),
+  inquiry = estimandATE, label = "Diff des moyennes winsorisée"
+)
+```
+
+## Avec DeclareDesign : définir le paramètre et les estimateurs
+
+Nous montrons ici comment fonctionnent les estimateurs avec la méthode des doubles différences en utilisant nos données simulées.
+
+```{r dd3, echo=TRUE}
+## Démontrer que le paramètre fonctionne :
+estimandATE(sim_dat1)
+
+## Démontrer que les estimateurs estiment correctement
+## Estimateur 1 (différence des moyennes)
+diff_means(sim_dat1)[-c(1,2,10,11)]
+
+## Estimateur 2 (différence des moyennes winsorisée)
+diff_means_topcoded(sim_dat1)[-c(1,2,10,11)]
+```
+
+
+## Puis simuler avec une randomisation
+
+Rappelons le vrai ATE :
+
+```{r trueATE, echo=TRUE}
+trueATE <- with(sim_dat1, mean(y1 - y0))
+with(sim_dat1, mean(Y_Z_1 - Y_Z_0))
+```
+
+Dans une expérience (une simulation des données), voici les estimations simples :
+
+```{r echo=TRUE}
+## Deux façons de calculer l'estimateur de la différence des moyennes
+est_diff_means_1 <- with(sim_dat1, mean(Y[Z == 1]) - mean(Y[Z == 0]))
+est_diff_means_2 <- coef(lm_robust(Y ~ Z,
+  data = sim_dat1,
+  se = "classical"
+))[["Z"]]
+c(est_diff_means_1,est_diff_means_2)
+```
+
+## Puis simuler avec une randomisation
+
+Dans une expérience (une simulation des données), voici les estimations après winsorisation :
+
+```{r echo=TRUE}
+## 2 façons de calculer l'estimateur de la différence des moyennes winsorisées
+sim_dat1$rankY <- rank(sim_dat1$Y)
+sim_dat1$Y_tc <- with(sim_dat1, ifelse(rankY == max(rankY),
+                                       Y[rankY == (max(rankY) - 1)], Y))
+est_topcoded_1 <- with(sim_dat1, mean(Y_tc[Z == 1]) - mean(Y_tc[Z == 0]))
+est_topcoded_2 <- coef(lm_robust(Y_tc ~ Z, data = sim_dat1,
+        se = "classical"))[["Z"]]
+c(est_topcoded_1,est_topcoded_2)
+```
+
+
+## Ensuite simuler une randomisation différente et estimer l'ATE avec les mêmes estimateurs
+
+Calculez maintenant votre estimation avec les mêmes estimateurs en utilisant une randomisation **différente**. Notez que les réponses diffèrent. Les estimateurs estiment le *même paramètre* mais ils travaillent maintenant avec une randomisation différente.
+
+```{r echo=TRUE}
+# faire une autre assignation aléatoire du traitement dans DeclareDesign
+# cela produit un nouveau jeu de données simulées
+# avec une assignation aléatoire différente
+sim_dat2 <- draw_data(base_design)
+# le premier estimateur (différence des moyennes)
+coef(lm_robust(Y ~ Z, data = sim_dat2, se = "classical"))[["Z"]]
+# le second estimateur (différence des moyennes winsorisées)
+sim_dat2$rankY <- rank(sim_dat2$Y)
+sim_dat2$Y_tc <- with(sim_dat2, ifelse(rankY == max(rankY),
+        Y[rankY == (max(rankY) - 1)], Y))
+coef(lm_robust(Y_tc ~ Z, data = sim_dat2, se = "classical"))[["Z"]]
+```
+
+
+## Comment nos estimateurs se comportent-ils en général pour cette conception ?
+
+Nos estimations varient selon la randomisation. Nos deux estimateurs varient-ils de la même façon ?
+
+```{r diagnose, echo=TRUE, cache=TRUE}
+## Combiner dans un seul objet DeclareDesign
+## Cela contient la conception de base, le paramètre, puis nos deux estimateurs (diff_means et diff_means_topcoded)
+design_plus_ests <- base_design + estimandATE + diff_means + diff_means_topcoded
+## Exécuter 100 simulations (réassignations de traitement) et
+## appliquer les deux estimateurs
+diagnosis1 <- diagnose_design(design_plus_ests,
+                              bootstrap_sims = 0, sims = 100)
+sims1 <- get_simulations(diagnosis1)
+head(sims1[,-c(1:6)])
+```
+
+## Comment nos estimateurs se comportent-ils en général pour cette conception ?
+
+Nos estimations varient selon la randomisation. Nos deux estimateurs varient-ils de la même façon ?
+Comment interpréter cette figure ?
+
+```{r sim_plot, out.width=".8\\textwidth"}
+sim_plot <- ggplot(sims1, aes(y = estimate, x = estimator, color = estimator)) +
+  geom_boxplot() +
+  geom_hline(yintercept = trueATE) +
+  geom_point(aes(group = estimator)) +
+  theme(text = element_text(size=20))
+print(sim_plot)
+```
+
+
+## Quel estimateur est le plus proche de la vérité ?
+
+Une façon de choisir parmi les estimateurs est de choisir celui qui est **proche de la vérité** chaque fois que nous l'utilisons --- quelle que soit la randomisation choisie.
+
+Un estimateur "sans biais" est un estimateur pour lequel la **moyenne des estimations pour des conceptions répétées** est la même que la vérité (ou $E_R(\hat{\bar{\tau}})=\bar{\tau}$). Un estimateur sans biais n'a "pas d'erreur systématique" mais ne garantit pas la proximité avec la vérité.
+
+Une autre mesure de proximité est la **racine de l'erreur quadratique moyenne** (REQM) qui agrège les distances au carré entre la vérité et les estimations individuelles.
+
+Quel estimateur est le meilleur ? (L'un est plus proche de la vérité en moyenne (REQM) et il est plus précis. L'autre n'a pas d'erreur systématique --- il est non-biaisé.)
+
+```{r}
+kableExtra::kable(reshape_diagnosis(diagnosis1, select = c("Estimator", "Bias", "RMSE", "SD Estimate", "Mean Se", "Power"))[,-c(1,2,4,5,6)])
+```
+
+## Estimateurs biaisés et non-biaisés
+
+Résumé :
+
+  - Nous avons un *choix* de paramètres et d'estimateurs
+
+  - Un bon estimateur performe bien quelle que soit la randomisation particulière d'une conception donnée.
+    Et *bien performer* peut signifier "être sans biais" et/ou "avoir une faible erreur quadratique moyenne"
+    (ou "être cohérent" --- ce qui signifie être de plus en plus proche de la vérité à mesure que la taille de l'échantillon augmente).
+
+  - Nous pouvons apprendre comment un estimateur donné se comporte dans une étude donnée en utilisant la simulation.
+
+# Randomisation par bloc
+
+## Les expériences aléatoires par bloc sont une collection de mini-expériences
+
+Quel est le paramètre de l'**effet moyen du traitement** dans une expérience aléatoire par bloc ?
+
+Si nous considérons l'ATE au niveau de l'unité comme : $(1/N) \sum_{i=1}^N y_{i,1} - y_{i,0}$ alors nous pourrions réexprimer cela de manière équivalente en sachant que l'ATE par bloc $j$ est $ATE_j$ comme suit :
+
+\[
+ATE = \frac{1}{J}\sum^J_{j=1} \sum^{N_j}_{i=1} \frac{y_{i,1} - y_{i,0}}{N_j}  = \sum^J_{j=1} \frac{N_j}{N} ATE_j
+\]
+
+Et il serait naturel d'*estimer* cette quantité en y introduisant ce qu'on peut calculer :
+$\widehat{ATE} = \displaystyle\sum^J_{j=1} \frac{N_j}{N} \widehat{ATE}_j$
+
+## Les expériences aléatoires par bloc sont une collection de mini-expériences
+
+Et nous pourrions *définir* l'erreur type de l'estimateur en faisant la moyenne intra-bloc des erreurs types (si nos blocs sont suffisamment grands) :
+
+$SE(\widehat{ATE}) = \sqrt{\sum^J_{j=1} (\frac{N_{j}}{N})^2SE^2(\widehat{ATE}_j)}$
+
+## Estimer l'ATE dans les expériences aléatoires par bloc
+
+Une approche de l'estimation remplace simplement $ATE_j$ par $\widehat{ATE}$ ci-dessous :
+
+```{r br1, echo=TRUE}
+with(dat,table(b,Z))
+```
+
+Nous avons 6 unités dans le bloc `a`, dont 2 sont assignées au traitement et 4 unités dans le bloc `b`, dont 2 sont assignées au traitement.
+
+## Estimer l'ATE dans les expériences aléatoires par bloc
+
+Une approche de l'estimation remplace simplement $ATE_j$ par $\widehat{ATE}$ ci-dessus :
+
+```{r br2, echo=TRUE}
+datb <- dat %>% group_by(b) %>% summarize(nb=n(),pb=mean(Z),estateb=mean(Y[Z==1]) - mean(Y[Z==0]),
+    ateb=mean(y1-y0),.groups="drop")
+datb
+## le vrai ATE par bloc :
+with(dat,mean(y1-y0))
+## Une autre façon de calculer le vrai ATE
+with(datb, sum( ateb*(nb/sum(nb))) )
+```
+
+## Estimer l'ATE dans les expériences aléatoires par bloc
+
+Une approche consiste à estimer l'ATE global pondéré par la taille de bloc :
+
+```{r br3, echo=TRUE}
+## Montrer que la difference des moyennes est pondérée par la taille du bloc.
+e1 <- difference_in_means(Y~Z,blocks=b,data=dat)
+e2 <- with(datb, sum( estateb*(nb/sum(nb))) )
+c(coef(e1)[["Z"]],e2)
+```
+
+## Estimer l'ATE dans les expériences aléatoires par bloc
+
+Notez que ce n'est **pas** la même chose que les deux éléments suivants :
+
+```{r br4, echo=TRUE}
+## En ignorant les blocs
+e3 <- lm(Y~Z,data=dat)
+coef(e3)[["Z"]]
+
+## Avec les effets de blocs fixes
+e4 <- lm(Y~Z+block,data=dat)
+coef(e4)[["Z"]]
+```
+
+En quoi diffèrent-ils ? (Le premier ignore les blocs. Le second utilise un ensemble différent de poids créés à l'aide d'indicateurs, de variables muettes ou de variables à "effets fixes".)
+
+## Quel estimateur doit-on utiliser ?
+
+Nous avons maintenant 3 estimateurs, chacun avec une estimation différente (en imaginant qu'ils ciblent tous le même paramètre) :
+
+```{r echo=TRUE}
+c(coef(e1)[["Z"]],coef(e3)[["Z"]], coef(e4)[["Z"]])
+```
+
+Quel estimateur doit-on utiliser pour cette conception ? Simulons avec DeclareDesign pour le savoir.
+
+```{r blockdd0, cache=TRUE, echo=TRUE}
+## déclarer une nouvelle conception de base qui inclut b, l'indicateur de bloc
+base_design_blocks <-
+    declare_population(dat[, c("b","y0", "y1")]) +
+    # dire à la méthode des doubles différences que b signifie bloc
+    # et assigner 2 unités au traitement dans chaque bloc
+    declare_assignment(Z=conduct_ra(N=N, m=2,blocks=b),
+                       Z_cond_prob =
+      obtain_condition_probabilities(assignment = Z, m = 2)) +
+    # relation entre les résultats potentiels et les résultats observés
+    declare_potential_outcomes(Y ~ Z * y1 + (1 - Z) * y0)+
+    # résultat observé et assignation de traitement
+    declare_reveal(Y, Z)
+```
+
+## Quel estimateur doit-on utiliser ?
+
+```{r blockdd1, echo=TRUE, cache=TRUE}
+# Le paramètre est l'effet moyen du traitement
+estimandATEb <- declare_inquiry(ATE = mean(Y_Z_1 - Y_Z_0))
+
+# 3 estimateurs différents
+est1 <- declare_estimator(Y ~ Z, inquiry = estimandATEb, model = lm_robust,
+    label = "Ignore les blocs")
+est2 <- declare_estimator(Y ~ Z, inquiry = estimandATEb, model = difference_in_means, blocks=b,
+    label = "Diff des moyennes pondérée par bloc")
+est3 <- declare_estimator(Y ~ Z, inquiry = estimandATEb, model=lm_robust,
+    weights=(Z / Z_cond_prob) + ((1 - Z) / ( Z_cond_prob)),
+    label = "MCO pondérée par bloc")
+```
+
+## Quel estimateur doit-on utiliser ?
+
+
+```{r blockdd1a, echo=TRUE, cache=TRUE}
+# deux autres estimateurs
+est4 <- declare_estimator(Y ~ Z, inquiry = estimandATEb,
+    model = lm_robust, fixed_effects=~b, label = "Pondérée par précision")
+est5 <- declare_estimator(Y ~ Z + b, inquiry = estimandATEb,
+    model = lm_robust, label = "Pondérée par précision (LSDV)")
+
+## la nouvelle conception a la conception de base, le paramètre et cinq estimateurs
+design_blocks <- base_design_blocks + estimandATEb +
+  est1 + est2 + est3 + est4 + est5
+```
+
+Ensuite, nous allons exécuter 10 000 simulations (réassigner le traitement 10 000 fois) et résumer les estimations produites par chacun de ces cinq estimateurs.
+
+## Quel estimateur doit-on utiliser ?
+
+```{r futurelibs, echo=FALSE}
+## Ceci permet le traitement parallèle lors des diagnostics.
+## Notez que nous avons activé le "cache" pour certains morceaux de code afin qu'ils ne soient pas
+## réexécuter chaque fois que nous changeons les slides.
+library(future)
+library(future.apply)
+```
+
+```{r diagnosis2, echo=FALSE, cache=TRUE}
+## Les lignes suivantes utilisent tous les cœurs de votre ordinateur pour accélérer le calcul
+
+# plan(multicore)
+set.seed(12345)
+diagnosis2 <- diagnose_design(design_blocks, bootstrap_sims = 0, sims = 1000)
+sims2 <- get_simulations(diagnosis2)
+# plan(sequential)
+```
+
+Comment interpréter cette figure ?
+
+```{r sim_plot2, message=FALSE, warning=FALSE, out.width=".9\\textwidth"}
+sim_plot2 <- ggplot(sims2, aes(y = estimate, x = estimator, color = estimator)) +
+  geom_boxplot() +
+  geom_hline(yintercept = trueATE) +
+  geom_point(aes(group = estimator)) +
+  theme(text = element_text(size=20),axis.text.x = element_text(angle=45, hjust=1),
+      legend.position="none",legend.title = element_blank()) +
+  xlab("")
+print(sim_plot2)
+```
+
+
+## Quel estimateur est le plus proche de la vérité ?
+
+Quel estimateur fonctionne le mieux pour cette conception et ces données ?
+
+```{r blocktab}
+blocktab <- reshape_diagnosis(diagnosis2, select = c("Estimator", "Bias", "RMSE","SD Estimate", "Mean Se", "Power",  "Coverage"))[,-c(1,2,4,5,6)]
+kableExtra::kable(blocktab,col.names = c("Estimator","Bias","RMSE","SD Est","Mean SE","Power","Coverage"))
+```
+
+Notez que la couverture n'est pas toujours à 95 % dans tous les cas. Nous avons simulé 10 000 fois, donc l'erreur de simulation est d'environ $\pm 2 \sqrt{p(1-p)/10000}$ ou, disons, pour une couverture calculée à 0,93, une simulation différente aurait pu facilement produire `r .93 -2 *sqrt( .93 * (1-.93)/10000 )` ou `r .93+2*sqrt( .93 * (1-.93)/10000 )` (ou la couverture sera rarement en dehors de cette plage juste par hasard).
+
+
+
+# Randomisation par grappe
+
+## Dans les expériences aléatoires par grappe, les unités sont randomisées par grappe pour le traitement {.allowframebreaks}
+
+- **Exemple 1 :** une intervention est randomisée entre les quartiers, donc **tous** les ménages d'un quartier seront assignés à la même condition de traitement, mais différents quartiers seront assignés à des conditions de traitement différentes.
+- **Exemple 2 :** une intervention est randomisée sur plusieurs personnes et chaque personne est mesurée quatre fois après le traitement. Nos données contiennent donc quatre lignes par personne.
+
+- **Pas un exemple 1 :** Les quartiers sont choisis pour l'étude. Dans chaque quartier, environ la moitié des personnes sont assignées au traitement et l'autre moitié au contrôle. (De quel type d'étude s'agit-il ? Ce n'est pas une étude randomisée par grappe.)
+- **Pas un exemple 2 :** une intervention est randomisée à certains quartiers et pas à d'autres, les résultats incluent des mesures de la confiance au niveau du quartier envers le gouvernement et la superficie totale du quartier consacrée aux jardins. (Parfois, une expérience randomisée par grappe peut être transformée en une expérience randomisée simple. Ou elle peut contenir plus d'une approche possible d'analyse et d'interprétation.)
+
+En quoi la distribution des statistiques de test et des estimateurs peut-elle différer d'une expérience où des unités individuelles (et non des grappes) sont randomisées ?
+
+## Estimation de l'ATE dans des expériences aléatoires par grappe
+
+Problèmes de biais dans les expériences aléatoires par grappe :
+
+- Lorsque les grappes ont la même taille, l'estimateur habituel de différences des moyennes est sans biais.
+
+- Mais soyez prudent lorsque les grappes ont des tailles différentes ou que vous avez très peu de grappes car les effets de traitement peuvent être corrélés à la taille des grappes.
+
+- Lorsque la taille de la grappe est liée aux résultats potentiels, l'estimateur habituel de différences des moyennes est biaisé. [Lien](https://declaredesign.org/blog/bias-cluster-randomized-trials.html)
+
+
+## Estimation de l'erreur type pour l'ATE dans des expériences aléatoires par grappe {.allowframebreaks}
+
+- **Inférences statistiques trompeuses :** L'erreur type par défaut sous-estimera généralement la précision dans de telles conceptions et produira ainsi des tests avec des taux de faux positifs trop élevés (ou, de manière équivalente, des taux de couverture pour les intervalles de confiance trop faibles).
+
+- "L'erreur type robuste pour grappe" implémentée dans les logiciels courants fonctionnent bien **lorsque le nombre de grappes est important** (plus de 50 grappes dans certaines études de simulation).
+
+- L'erreur type par défaut adaptée aux grappes dans `lm_robust` (l'erreur type `CR2`) fonctionne mieux que l'approche basique en Stata (à ce jour).
+
+- Le "wild bootstrap" aide à contrôler les taux d'erreur mais abandonne beaucoup plus de puissance statistique qu'il n'est peut-être nécessaire dans une étude aléatoire par grappe où l'inférence de randomisation directe est possible.
+
+- En cas de doute, on peut produire des $p$-valeurs ​​par simulation directe (inférence de randomisation directe) pour voir si elles sont en accord avec l'une des approches robustes pour grappe (cluster).
+
+Globalement, cela vaut la peine de simuler pour étudier les performances de vos estimateurs, tests et intervalles de confiance si vous avez des inquiétudes ou des doutes.
+
+## Un exemple d'estimation
+
+```{r makedatclus, echo=FALSE, results="hide"}
+## voir https://declaredesign.org/blog/bias-cluster-randomized-trials.html
+## pour plus d'info.
+N_clusters <- 10  # nombre de grappes
+n_indivs <- c(100,10) # tailles possibles de grappe
+thepop <- declare_population(clus_id = add_level(
+            # définir les tailles des grappes
+            N = N_clusters,
+            # 1/5 des grappes ont 100 individus, 4/5 des grappes ont 10 individus
+            cl_size = rep(n_indivs, c(N/5, N - N/5)),
+            cl_sizeF = factor(cl_size),
+            # Chaque grappe a un niveau moyen différent (u) et une variabilité de base différente (sd de u)
+            effect = ifelse(cl_size == 100, .1, 1)),
+            indiv = add_level(N = cl_size, u = rnorm(N, mean=log(cl_size), sd = effect)))
+
+theys <- declare_potential_outcomes(Y_Z_0 = u, Y_Z_1 = Y_Z_0 + effect)
+
+thetarget_indiv <- declare_inquiry(ATE_indiv = mean(Y_Z_1 - Y_Z_0))
+
+## Assignation aléatoire complète pour les grappes
+theassign <- declare_assignment(Z=conduct_ra(N=N, clusters = clus_id))
+
+thereveal <-   declare_reveal(Y, Z)
+
+## 7 estimateurs différents
+est1 <-   declare_estimator(Y ~ Z, inquiry = "ATE_indiv", clusters = clus_id,
+                    model = lm_robust, label = "Y~Z, CR2 SE")
+
+est2 <- declare_estimator(Y ~ Z, inquiry = "ATE_indiv",
+                    model = lm_robust, label = "Y~Z, HC2 SE")
+
+est3 <- declare_estimator(Y ~ Z, inquiry = "ATE_indiv",
+                    model = lm_robust,se_type="classical", label = "Y~Z, IID SE")
+
+est4 <- declare_estimator(Y ~ Z + cl_sizeF, inquiry = "ATE_indiv",clusters = clus_id,
+                    model = lm_robust, label = "Y~Z+clus_size_fixed_effects, CR2 SE")
+
+est5 <- declare_estimator(Y ~ Z, inquiry = "ATE_indiv", fixed_effects=~cl_sizeF,clusters = clus_id,
+                    model = lm_robust, label = "Y~Z, fixed_effects=~clus_size_fixed_effects, CR2 SE ")
+
+est6 <-  declare_estimator(Y ~ Z, inquiry = "ATE_indiv", covariates=~cl_size,clusters = clus_id,
+                    model = lm_lin, label = "Y~Z*I(clus_size-mean(clus_size)), CR2 SE")
+
+est7 <-  declare_estimator(Y ~ Z, inquiry = "ATE_indiv", weight=cl_size,clusters = clus_id,
+                    model = lm_robust, label = "Y~Z, weight=clus_size, CR2 SE")
+
+### Some experimental stuff here:
+## remotes::install_github("markmfredrickson/RItools",ref="proj1-balT")
+## est7tmp <-  balanceTest(Z~Y+cluster(clus_id),data=dat1,report="all")
+##
+## est7fn <- function(data){
+##     bt <- balanceTest(Z~Y+cluster(clus_id),data=data,report="all")
+##     resdat <- data.frame(estimate=bt$results[,"adj.mean diff",])
+##     return(resdat)
+## }
+## est7fn <- function(data){
+##     thelme <- lmer(Y~Z+(1|clus_id),data=data)
+##     cilme <- confint(thelme)
+##     lmecoef <- summary(thelme)$coefficients["Z",]
+##     resdat <- data.frame(estimate=lmecoef["Estimate"],
+##         std.error=lmecoef["Std. Error"],
+##             statistic=lmecoef["t value"],
+##             p.value=NA,
+##         conf.low=min(cilme["Z",]),
+##         conf.high=max(cilme["Z",]))
+##     return(resdat)
+## }
+##
+## est7 <- declare_estimator(handler=tidy_estimator(est7fn),label="mlm: rand intercept")
+
+des <- thepop + theys + theassign + thereveal
+
+set.seed(12345)
+dat1 <- draw_data(des)
+
+head(dat1)
+
+table(dat1$clus_id)
+with(dat1,table(clus_id,Z))
+dat1 %>% group_by(clus_id) %>% summarize(mean(Y_Z_1 - Y_Z_0))
+
+## g1 <- ggplot(data=dat1,aes(x=Y,group=clus_id,fill=clus_id,color=clus_id))+
+##     geom_density()
+## g1
+
+est1(dat1)
+est2(dat1)
+est3(dat1)
+est4(dat1)
+est5(dat1)
+est6(dat1)
+est7(dat1)
+
+```
+
+Imaginez que nous ayons des données de 10 grappes avec soit 100 personnes (pour 2 grappes) soit 10 personnes par grappe (pour 8 grappes). La taille totale des données est `r nrow(dat1)`.
+
+```{r}
+tmp <- dplyr::filter(dat1,clus_id %in% c("03","01")) %>% group_by(clus_id) %>%
+    sample_n(3) %>% arrange(clus_id,indiv)
+
+tmp
+```
+
+## Un exemple d'estimation
+
+Quel estimateur doit-on utiliser ? Quel test doit-on utiliser ? Sur quelle base choisir parmi ces approches ?
+
+```{r clusest, echo=TRUE}
+lmc1 <- lm_robust(Y~Z,data=dat1)
+lmc2 <- lm_robust(Y~Z,clusters=clus_id,data=dat1)
+lmc3 <- lm_robust(Y~Z+cl_sizeF,clusters=clus_id,data=dat1)
+tidy(lmc1)[2,]
+tidy(lmc2)[2,]
+tidy(lmc3)[2,]
+```
+
+
+## Simuler pour évaluer les estimateurs et les tests
+
+Si vous regardez le code des slides, vous verrez que nous simulons la conception 5000 fois, en calculant à chaque fois une estimation et un intervalle de confiance pour différents estimateurs de l'ATE.
+
+Que devons-nous apprendre de ce tableau ? (Couverture ? `sd_estimate` vs. `mean_se`).
+
+```{r simdesign, warning=FALSE, results="hide"}
+des_plus_est <- des + thetarget_indiv + est1 + est2 + est3 + est4 + est5 + est6 + est7
+des_plus_est
+```
+
+```{r diag_clust, cache=TRUE, warning=FALSE, message=FALSE}
+set.seed(12346)
+plan(multicore)
+diag_clus <- diagnose_design(des_plus_est,bootstrap_sims = 0, sims=1000)
+sim_clus <- get_simulations(diag_clus) # simulate_design(des_plus_est,sims=1000)
+trueclusATE <- thetarget_indiv(dat1)[["estimand"]]
+plan(sequential)
+```
+
+
+```{r cluster_sim_res}
+## Notez que l'estimateur linéaire est excellent mais peut parfois ne pas produire de réponse
+res_clus <- sim_clus %>% na.omit() %>% group_by(estimator) %>%
+    summarize(bias = mean(estimate - estimand),
+     rmse = sqrt(mean((estimate - estimand) ^ 2)),
+     power = mean(p.value < .05),
+     coverage = mean(estimand <= conf.high & estimand >= conf.low),
+     # mean_estimate = mean(estimate),
+     sd_estimate = sd(estimate),
+     mean_se = mean(std.error))
+res_clus[2,"estimator"] <- "Y~Z, cl_size fe, CR2"
+res_clus[6,"estimator"] <- "Y~Z*I(cl_size-mean(cl_size)), CR2"
+res_clus[7,"estimator"] <- "Y~Z+cl_sizeF, CR2"
+res_clus$estimator <- gsub(" SE","",res_clus$estimator)
+```
+
+```{r showresclus1}
+kableExtra::kable(res_clus[,c(1,5:7)], digits=2,booktabs=TRUE,linesep="",caption="Performances de l'estimateur et des tests pour 5000 simulations de la conception randomisée par grappe pour différents estimateurs et intervalles de confiance")
+```
+
+
+
+
+## Simuler pour évaluer les estimateurs et les tests
+
+Que devons-nous apprendre de ce tableau ? (Biais ? Proximité avec la vérité ?)
+
+```{r showresclus2}
+kableExtra::kable(res_clus[,c(1:3)], digits=3,booktabs=TRUE,linesep="",caption="Performances de l'estimateur et des tests pour 5000 simulations de la conception randomisée par grappe pour différents estimateurs et intervalles de confiance")
+```
+
+## Simuler pour évaluer les estimateurs et les tests
+
+Comment interpréter cette figure ?
+
+```{r sim_plot_clus, warning=FALSE, out.width=".95\\textwidth"}
+sim_plot3 <- ggplot(sim_clus, aes(y = estimate, x = estimator, color = estimator)) +
+  geom_boxplot() +
+  coord_flip()+
+  geom_hline(yintercept = trueclusATE) +
+  geom_point(aes(group = estimator)) +
+  theme(text = element_text(size=20),
+      legend.position="none",legend.title = element_blank()) +
+  ylab("")
+print(sim_plot3)
+```
+
+## Résumé de l'estimation et des tests dans les essais aléatoires par grappe
+
+ - Les essais aléatoires par grappe posent des problèmes particuliers pour les approches standard d'estimation et de test.
+
+ - Si la randomisation est au niveau de la grappe, alors l'incertitude provient de la randomisation au niveau de la grappe.
+
+ - Si nous avons suffisamment de grappes, alors "l'erreur type robuste pour grappe" peut nous aider à produire des intervalles de confiance avec une couverture correcte. **L'erreur type robuste pour grappe nécessite de nombreux grappes**.
+
+ - Si la taille de la grappe (ou caractéristique) est liée à la taille de l'effet, alors nous pouvons avoir un biais (et nous devons ajuster d'une manière ou d'une autre).
+
+# Résultats binaires
+
+## Résultats binaires : configurons nos données pour simuler avec DeclareDesign
+```{r setupbin, echo=TRUE}
+# taille de la population
+N <- 20
+# déclarer la population
+thepop_bin <- declare_population(N=N, x1 = draw_binary(prob = .5, N = N),
+x2=rnorm(N))
+# déclarer les résultats potentiels
+thepo_bin <- declare_potential_outcomes(Y ~ rbinom(n = N, size = 1,
+                                                   prob = 0.5 + 0.05 * Z + x1*.05))
+# deux cibles possibles : différences des moyennes et différence log-odds
+thetarget_ate <- declare_inquiry(ate = mean(Y_Z_1 - Y_Z_0))
+thetarget_logodds <- declare_inquiry(
+    logodds = log(mean(Y_Z_1)/(1-mean(Y_Z_1))) -
+    log(mean(Y_Z_0)/(1-mean(Y_Z_0)))
+)
+```
+
+## Résultats binaires : configurons nos données pour simuler avec DeclareDesign
+```{r setupbin2, echo=TRUE}
+# déclarer comment le traitement est assigné
+# m unités sont assignées aux niveaux de traitement Z
+theassign_bin <- declare_assignment(Z=conduct_ra(N=N, m=floor(N/3)))
+# déclarer quelles valeurs de résultat sont révélées
+# pour les valeurs possibles de Z
+thereveal_bin <- declare_reveal(Y,Z)
+# combiner population, résultats potentiels, assignation
+# et valeurs de résultat liées à Z
+des_bin <- thepop_bin+thepo_bin+theassign_bin+thereveal_bin
+# puis faire un tirage (randomiser le traitement une fois)
+set.seed(12345)
+dat2 <- draw_data(des_bin)
+```
+
+## Résultats binaires : paramètres I
+
+Comment interpréterions-nous les vraies quantités ou paramètres suivants ?
+`Y_Z_1`, `Y_Z_0` sont des résultats potentiels, `Y` est l'observation, `x1`, `x2` sont des covariables, `Z` est l'assignation de traitement.
+$N$=`r nrow(dat2)`.
+
+```{r dat2echo, echo=TRUE}
+## Voici les 6 premières observations seulement :
+head(dat2[,-7])
+```
+
+
+## Résultats binaires : paramètres II
+
+Comment interpréterions-nous les vraies quantités ou paramètres suivants ?
+`Y_Z_1`, `Y_Z_0` sont des résultats potentiels, `Y` est l'observation, `x1`, `x2` sont des covariables, `Z` est l'assignation de traitement.
+$N$=`r nrow(dat2)`.
+
+```{r bin1, echo=TRUE}
+ate_bin <- with(dat2,mean(Y_Z_1 - Y_Z_0))
+bary1  <- mean(dat2$Y_Z_1)
+bary0 <- mean(dat2$Y_Z_0)
+diff_log_odds_bin <- with(dat2,
+    log(bary1/(1-bary1)) - log(bary0/(1-bary0)))
+c(bary1=bary1,bary0=bary0,true_ate=ate_bin,
+    true_diff_log_odds= diff_log_odds_bin)
+```
+
+## Résultats binaires : paramètres III
+
+Voulez-vous estimer la différence log-odds ?
+
+\begin{equation}
+\delta = \log \frac{\bar{y}_{1}}{1-\bar{y}_{1}} - \log \frac{ \bar{y}_0}{1- \bar{y}_0}
+\end{equation}
+
+Ou la différence en proportions ?
+
+\begin{equation}
+\bar{\tau} = \bar{y}_{1} - \bar{y}_0
+\end{equation}
+
+Rappelons que $\bar{y}_1$ est la *proportion* de $y_{1}=1$ dans les données.
+
+@freedman2008randomization montre que l'estimateur du coefficient logit est un estimateur biaisé de la différence du paramètre log-odds. Il montre également un estimateur sans biais de ce paramètre.
+
+Nous savons que la différence en proportions dans l'échantillon devrait être un estimateur sans biais de la différence en proportions.
+
+
+## Un exemple d'estimation I
+
+Comment interpréter les estimations suivantes ?
+Que requiert l'estimateur de la différence des moyennes en termes d'hypothèses ?
+Que requiert l'estimateur de régression logistique en termes d'hypothèses ?
+
+```{r estexample, echo=TRUE}
+lmbin1 <- lm_robust(Y~Z,data=dat2)
+glmbin1 <- glm(Y~Z,data=dat2,family=binomial(link="logit"))
+
+tidy(lmbin1)[2,]
+tidy(glmbin1)[2,]
+```
+
+## Un exemple d'estimation II
+
+Quid des covariables ? Pourquoi utiliser des covariables ?
+
+```{r estexample2, echo=TRUE}
+lmbin2 <- lm_robust(Y~Z+x1,data=dat2)
+glmbin2 <- glm(Y~Z+x1,data=dat2,family=binomial(link="logit"))
+
+tidy(lmbin2)[2,]
+tidy(glmbin2)[2,]
+```
+
+## Un exemple d'estimation III
+
+Comparons nos estimations
+
+```{r estexample3, echo=TRUE}
+c(dim=coef(lmbin1)[["Z"]],
+  dim_x1=coef(lmbin2)[["Z"]],
+  glm=coef(glmbin1)[["Z"]],
+  glm_x1=coef(glmbin2)[["Z"]])
+```
+
+## Un exemple d'estimation : les estimateurs de plugin Freedman I
+
+Sans covariable :
+```{r pluginest, echo=TRUE }
+freedman_plugin_estfn1 <- function(data){
+    glmbin <- glm(Y~Z,data=dat2,family=binomial(link="logit"))
+    preddat <- data.frame(Z=rep(c(0,1),nrow(dat2)))
+    preddat$yhat <- predict(glmbin,newdata=preddat,type="response")
+    bary1 <- mean(preddat$yhat[preddat$Z==1])
+    bary0 <- mean(preddat$yhat[preddat$Z==0])
+    diff_log_odds <- log(bary1/(1-bary1)) - log(bary0/(1-bary0))
+    return(data.frame(estimate=diff_log_odds))
+}
+```
+
+## Un exemple d'estimation : les estimateurs de plugin Freedman II
+
+Avec covariable :
+```{r pluginest2, echo=TRUE }
+freedman_plugin_estfn2 <- function(data){
+    N <- nrow(data)
+    glmbin <- glm(Y~Z+x1,data=data,family=binomial(link="logit"))
+    preddat <- data.frame(Z=rep(c(0,1),each=N))
+    preddat$x1 <- rep(data$x1,2)
+    preddat$yhat <- predict(glmbin,newdata=preddat,type="response")
+    bary1 <- mean(preddat$yhat[preddat$Z==1])
+    bary0 <- mean(preddat$yhat[preddat$Z==0])
+    diff_log_odds <- log(bary1/(1-bary1)) - log(bary0/(1-bary0))
+    return(data.frame(estimate=diff_log_odds))
+}
+```
+
+Comparons nos estimations à partir des six estimateurs différents
+```{r echo=FALSE}
+c(dim=coef(lmbin1)[["Z"]],
+  dim_x1=coef(lmbin2)[["Z"]],
+  glm=coef(glmbin1)[["Z"]],
+  glm_x1=coef(glmbin2)[["Z"]],
+freedman=freedman_plugin_estfn1(dat2)[["estimate"]],
+freeman_x1=freedman_plugin_estfn2(dat2)[["estimate"]]
+)
+```
+
+
+```{r tmleapproach, eval=FALSE}
+# Voici une autre approche pour utiliser l'estimateur du plugin
+# mais en tenant compte de l'erreur type, etc.
+# Cela ne nécessite pas de fonction manuscrite comme celles ci-dessus.
+library(tmle)
+Y <- as.matrix(dat2$Y,ncol=1)
+A <- as.matrix(dat2$Z,ncol=1)
+W <- as.matrix(dat2[,c("x1","x2")],ncol=1)
+colnames(W) <- paste("W",1:2,sep="")
+tmle1 <- tmle(Y=Y,A=A,W=W,
+              family="binomial",Qform=Y~A,gform=A~1,cvQinit=FALSE,
+              Q.SL.library = "SL.glm", g.SL.library="SL.glm",g.Delta.SL.library = "SL.glm")
+
+tmle1$estimates$ATE
+tmle1$estimates$OR
+
+tmle2 <- tmle(Y=Y,A=A,W=W,
+              family="binomial",Qform=Y~A+W1,gform=A~1,cvQinit=FALSE,#V=0,
+              Q.SL.library = "SL.glm", g.SL.library="SL.glm",g.Delta.SL.library = "SL.glm")
+
+tmle2$estimates$ATE
+tmle2$estimates$OR
+```
+
+## Un exemple avec DeclareDesign pour évaluer nos estimateurs I
+
+```{r ddbinsetup, echo=TRUE}
+# déclarer 4 estimateurs pour DeclareDesign
+# premier estimateur : régression linéaire avec l'ATE comme cible
+estb1 <- declare_estimator(Y~Z,model=lm_robust,label="lm1:Z",
+                           inquiry=thetarget_ate )
+# deuxième estimateur : régression linéaire avec covariable,
+# avec l'ATE comme cible
+estb2 <- declare_estimator(Y~Z+x1,model=lm_robust,label="lm1:Z,x1",
+                           inquiry=thetarget_ate)
+# troisième estimateur : régression logistique, avec log odds comme cible
+estb3 <- declare_estimator(Y~Z,model=glm,family=binomial(link="logit"),
+                           label="glm1:Z",inquiry=thetarget_logodds)
+# quatrième estimateur : régression logistique avec covariable,
+# avec log odds comme cible
+estb4 <- declare_estimator(Y~Z+x1,model=glm,family=binomial(link="logit"),
+                           label="glm1:Z,x1", inquiry=thetarget_logodds)
+```
+
+## Un exemple avec DeclareDesign pour évaluer nos estimateurs II
+
+```{r ddbinsetup2, echo=TRUE}
+# des_bin combine population, résultats potentiels,
+# assignation et valeurs de résultat liées à Z
+# On ajoute les deux cibles et les quatre estimateurs.
+des_bin_plus_est <- des_bin + thetarget_ate + thetarget_logodds +
+  estb1 + estb2 + estb3 + estb4
+```
+
+```{r diagnosis_bin, echo=FALSE, cache=TRUE, warning=FALSE, message=FALSE}
+## Les lignes suivantes utilisent tous les cœurs de votre ordinateur pour accélérer le calcul
+library(future)
+library(future.apply)
+# plan(multiprocess)
+set.seed(12345)
+diagnosis_bin <- diagnose_design(des_bin_plus_est, bootstrap_sims = 0, sims = 1000)
+sims_bin <- get_simulations(diagnosis_bin)
+trueATE_bin <- thetarget_ate(dat2)[["estimand"]]
+truelo_bin <- thetarget_logodds(dat2)[["estimand"]]
+# plan(sequential)
+```
+
+## Simuler pour évaluer nos estimateurs
+
+Comment interpréter cette figure ? (Les différences d'échelle rendent la tâche difficile.)
+
+```{r sim_plot_bin, out.width=".95\\textwidth"}
+estimand_dat <- sims_bin %>% group_by(inquiry) %>% summarize(meanestimand=mean(estimand))
+sim_plot_bin <- ggplot(sims_bin, aes(y = estimate, x = estimator, color = estimator)) +
+  geom_boxplot() +
+  geom_point() +
+  facet_wrap(~inquiry,scales="free") +
+  geom_hline(data=estimand_dat,aes(yintercept=meanestimand)) +
+  theme(text = element_text(size=20),
+      legend.position="none",legend.title = element_blank())
+print(sim_plot_bin)
+```
+
+## Quel estimateur est le plus proche de la vérité ?
+
+Quel estimateur fonctionne le mieux pour cette conception et ces données ?
+
+```{r bin_sim_res}
+## Notez que l'estimateur linéaire est excellent mais peut parfois ne pas produire de réponse
+res_bin <- sims_bin %>% group_by(estimator,inquiry) %>%
+  summarize(bias = mean(estimate - estimand),
+            rmse = sqrt(mean((estimate - estimand) ^ 2)),
+            power = mean(p.value < .05),
+            coverage = mean(estimand <= conf.high & estimand >= conf.low,na.rm=TRUE),
+            # mean_estimate = mean(estimate),
+            sd_est = sd(estimate),
+            mean_se = mean(std.error))
+names(res_bin)[1:2] <- c("est","estimand")
+```
+
+```{r showresbin1}
+kableExtra::kable(res_bin, digits=3,booktabs=TRUE,linesep="",caption="Performances de l'estimateur et des tests pour 5000 simulations des différents estimateurs et intervalles de confiance pour un résultat binaire et une conception totalement randomisée.")
+
+```
+
+
+# Autres sujets liés à l'estimation
+
+## L'ajustement de covariable : paramètres
+
+En général, le simple fait de "contrôler pour" produit un estimateur biaisé du paramètre ATE **ou** ITT. Voir par exemple @lin_agnostic_2013 et @freedman2008rae.
+@lin_agnostic_2013 montre comment réduire ce biais et, surtout, que ce biais a tendance à être faible à mesure que la taille de l'échantillon augmente.
+
+
+# Conclusion
+
+## Réflexions finales sur l'estimation
+
+- Les paramètres causaux contrefactuels sont des fonctions non observées des résultats potentiels.
+
+- Les estimateurs sont des recettes ou des formules de calcul qui utilisent des données observées pour en savoir plus sur un paramètre.
+
+- Les bons estimateurs produisent des estimations proches du vrai paramètre.
+
+- (Liant l'estimation aux tests) l'erreur type des estimateurs nous permet de calculer les intervalles de confiance et les $p$-valeurs.
+  Certains estimateurs ont une erreur type plus grande ou plus petite (ou plus ou moins correcte).
+
+- Vous pouvez évaluer l'utilité d'un estimateur choisi pour un paramètre choisi par simulation.
+
+# Effets causaux qui diffèrent selon les groupes ou covariables
+
+## Effets différents selon les groupes I
+
+Si notre théorie suggère que les effets devraient différer selon le groupe, comment pouvons-nous évaluer les preuves pour ou contre une telle affirmation ?
+
+ - Nous pouvons **concevoir** une évaluation de cette théorie en créant une étude aléatoire par bloc
+   --- avec des blocs définis par des groupes théoriquement pertinents.
+
+ - Nous pouvons **planifier** une telle évaluation
+   en (1) **pré-enregistrant des analyses de sous-groupes spécifiques** (que nous retenons ou non ce groupe dans la phase de conception)
+   et en (2) veillant à mesurer l'appartenance au groupe pendant la collecte des données de base pré-traitement
+
+
+## Effets différents selon les groupes II
+ - Si on ne l'a pas prévu en avance, les analyses par sous-groupes peuvent être utiles pour explorer mais pas pour confirmer:
+   elles peuvent trop facilement apporter trop d'hypothèses de test et donc gonfler le taux de faux positifs.
+
+ - Nous **ne devrions pas utiliser des groupes formés par traitement**. (Il s'agit soit d'une "analyse de médiation" soit d'un "conditionnement sur les variables post-traitement" et mérite son propre module).
+
+# Effets causaux quand on ne contrôle pas la dose
+
+## Définir l'effet causal I
+
+Imaginez une expérience de porte-à-porte où certaines maisons sont assignées de manière aléatoire pour recevoir une visite. Notez que nous utilisons maintenant $Z$ et $d$ au lieu de $T$.
+
+- $Z_i$ est l'assignation aléatoire à une visite ($Z_i=1$) ou non ($Z_i=0$).
+- $d_{i,Z_i=1}=1$ signifie que la personne $i$ ouvrirait la porte pour avoir une conversation lors d'une visite.
+- $d_{i,Z_i=1}=0$ signifie que la personne $i$ n'ouvrirait pas la porte pour avoir une conversation lors d'une visite.
+- L'ouverture de la porte est un résultat du traitement.
+
+\begin{center}
+\begin{tikzcd}[ampersand replacement=\&]
+Z  \arrow[from=1-1,to=1-2, "\ne 0"] \arrow[from=1-1, to=1-4, bend left, "\text{0 (exclusion)}"] \& d  \arrow[from=1-2,to=1-4] \& \& y \\
+(x_1 \ldots x_p) \arrow[from=2-1,to=1-1, "\text{0 (comme si randomisé)}"]  \arrow[from=2-1,to=1-2] \arrow[from=2-1,to=1-4]
+\end{tikzcd}
+\end{center}
+
+
+## Définir l'effet causal II
+  - $y_{i,Z_i = 1, d_{i,Z_i=1}=1}$ est le résultat potentiel pour les personnes qui ont reçu une visite et qui ont ouvert la porte. ("Conformistes" ou "Toujours preneurs")
+
+  - $y_{i,1, d_{i,Z_i=1}=0}$ est le résultat potentiel pour les personnes qui ont reçu une visite et qui n'ont pas ouvert la porte. ("Jamais preneurs" ou "Non-conformistes")
+
+  - $y_{i,0, d_{i,0}=1}$ est le résultat potentiel pour les personnes qui n'ont pas reçu de visite et qui ont ouvert la porte. ("Non-conformistes" ou "Toujours preneurs")
+
+  - $y_{i,0, d_{i,0}=0}$ est le résultat potentiel pour les personnes qui n'ont pas reçu de visite et qui n'auraient pas ouvert la porte. ("Conformistes" ou "Jamais preneurs")
+
+## Définir l'effet causal III
+
+On pourrait aussi écrire $y_{i,Z_i = 0, d_{i,Z_i=1}=1}$ pour les personnes qui n'avaient pas reçu de visite mais qui auraient ouvert la porte si une visite leur avait été assignée, etc.
+
+Dans ce cas, nous pouvons simplifier nos résultats potentiels:
+
+   - $y_{i,0, d_{i,1}=1} = y_{i,0, d_{i,1}=0} = y_{i,0, d_{i,0}=0}$ parce que votre résultat est le même quelle que soit la façon dont vous n'ouvrez pas la porte.
+
+## Définir l'effet causal IV
+
+Nous pouvons simplifier les façons dont les gens reçoivent une dose du traitement comme ceci:
+(où $d$ est en minuscule reflétant l'idée que le fait d'ouvrir ou non la porte est un attribut fixe comme un résultat potentiel).
+
+  - $Y$ : le résultat ($y_{i,Z}$ ou $y_{i,Z_i=1}$ pour le résultat potentiel du traitement pour la personne $i$, fixe)
+  - $X$ : covariable/variable de base
+  - $Z$ : assignation de traitement ($Z_i=1$ si assigné à une visite, $Z_i=0$ si non assigné à une visite)
+  - $D$ : traitement reçu ($D_i=1$ si a répondu, $D_i=0$ si la personne $i$ n'a pas répondu) (en utilisant $D$ ici car $D_i = d_{i,1} Z_ {i} + d_{i,0} (1-Z_i)$)
+
+## Définir l'effet causal V
+
+Nous avons deux effets causaux de $Z$ : $Z \rightarrow Y$ ($\delta$, ITT, ITT$_Y$) et $Z \rightarrow D$ (Gerber et Green appelle cela ITT$_D$).
+
+Et différents types de personnes peuvent réagir différemment à la tentative de déplacer la dose avec l'instrument.
+
+\centering
+\begin{tabular}{llcc}
+                       &        & \multicolumn{2}{c}{$Z=1$} \\
+		       &       & $D=0$ & $D=1$ \\
+		       \midrule
+\multirow{2}{*}{$Z=0$} & $D=0$ & Jamais preneur  & Conformiste \\
+                       & $D=1$ & Non conformiste & Toujours preneur \\
+		       \bottomrule
+\end{tabular}
+
+
+## Définir l'effet causal VI
+
+
+$ITT=ITT_Y=\delta= \bar{y}_{Z=1} - \bar{y}_{Z=0}$
+
+\medskip
+
+Mais, dans cette conception, $\bar{y}_{Z=1}=\bar{y}_{1}$ est divisé en plusieurs parties : le résultat de ceux qui ont répondu à la porte (conformistes et toujours-preneurs et non-conformistes).
+Écrivez $p_C$ pour la proportion de conformistes dans cette étude.
+
+\begin{equation}
+\bar{y}_{1}=(\bar{y}_{1}|C)p_C + (\bar{y}_{1}|A)p_A + (\bar{y}_1|N)p_N + (\bar{y}_1|D)p_D.
+\end{equation}
+
+Et $\bar{y}_{0}$ est divisé en plusieurs parties:
+
+\begin{equation}
+\bar{y}_{0}=(\bar{y}_{0}|C)p_C + (\bar{y}_{1}|A)p_A + (\bar{y}_{0}|N)p_N + (\bar{y}_0|D)p_D.
+\end{equation}
+
+## Définir l'effet causal VII
+
+Ainsi, l'ITT lui-même est une combinaison des effets de $Z$ sur $Y$ au sein de ces différents groupes
+(imaginez une substitution puis réorganisation de sorte que nous ayons un ensemble d'ITT, un pour chaque type de sujet).
+Mais, nous pouvons toujours l'estimer car nous avons des estimateurs sans biais de $\bar{y}_1$ et $\bar{y}_0$ au sein de chaque type.
+
+## Comprendre l'ITT I
+
+Tout d'abord, découvrons l'effet de la politique elle-même. Pour écrire l'ITT, nous n'avons pas besoin de considérer tous les types ci-dessus.
+Nous n'avons pas de non-conformistes ($p_D=0$) et nous savons que l'ITT pour les toujours-preneurs et les jamais-preneurs est de 0.
+
+\begin{equation}
+\bar{y}_{1}=(\bar{y}_{1}|C)p_C + (\bar{y}_{1}|A)p_A + (\bar{y}_1|N)p_N
+\end{equation}
+
+\begin{equation}
+\bar{y}_{0}=(\bar{y}_{0}|C)p_C + (\bar{y}_{0}|A)p_A + (\bar{y}_{0}|N)p_N
+\end{equation}
+
+## Comprendre l'ITT II
+
+Tout d'abord, découvrons l'effet de la politique elle-même. Pour écrire l'ITT, nous n'avons pas besoin de considérer tous les types ci-dessus.
+Nous n'avons pas de non-conformistes ($p_D=0$) et nous savons que l'ITT pour les toujours-preneurs et les jamais-preneurs est de 0.
+
+\begin{align}
+ITT    = & \bar{y}_{1} - \bar{y}_{0} \\
+        = & ( (\bar{y}_{1}|C)p_C + (\bar{y}_{1}|A)p_A + (\bar{y}_1|N)p_N ) - \\
+       & ( (\bar{y}_{0}|C)p_C + (\bar{y}_{0}|A)p_A + (\bar{y}_{0}|N)p_N )  \\
+       \intertext{en collectant ensemble chaque type --- pour avoir un ITT pour chaque type}
+       = & ( (\bar{y}_{1}|C)p_C -  (\bar{y}_{0}|C)p_C )  +   ( (\bar{y}_{1}|A)p_A - (\bar{y}_{1}|A)p_A ) + \\
+       & ( (\bar{y}_1|N)p_N  - (\bar{y}_{0}|N)p_N ) \\
+       = & \left( (\bar{y}_{1}|C) -  (\bar{y}_{0}|C) \right)p_C   +  \\
+       & \left( (\bar{y}_{1}|A)- (\bar{y}_{0}|A) \right)p_A  +  \left( (\bar{y}_1|N) - (\bar{y}_{0}|N) \right)p_N
+\end{align}
+
+## Comprendre l'ITT
+
+\begin{align}
+ITT     = &   \bar{y}_{1} - \bar{y}_{0} \\
+        = &  ( (\bar{y}_{1}|C)p_C + (\bar{y}_{1}|A)p_A + (\bar{y}_1|N)p_N ) - \\
+       & ( (\bar{y}_{0}|C)p_C + (\bar{y}_{0}|A)p_A + (\bar{y}_{0}|N)p_N )  \\
+        = &   ( (\bar{y}_{1}|C)p_C -  (\bar{y}_{0}|C)p_C )  +   ( (\bar{y}_{1}|A)p_A - (\bar{y}_{1}|A)p_A ) + \\
+       & ( (\bar{y}_1|N)p_N  - (\bar{y}_{0}|N)p_N ) \\
+        = &   ( (\bar{y}_{1}|C) -  (\bar{y}_{0}|C))p_C   +   ( (\bar{y}_{1}|A)- (\bar{y}_{0}|A))p_A  + \\
+       & ( (\bar{y}_1|N) - (\bar{y}_{0}|N) )p_N
+\end{align}
+
+
+## Comprendre l'ITT IV
+
+Et, si l'effet de la dose ne peut se produire que pour ceux qui ouvrent la porte, et que vous ne pouvez ouvrir la porte que lorsque vous êtes assigné au traitement, alors:
+
+\begin{equation}
+( (\bar{y}_{1}|A)- (\bar{y}_{0}|A))p_A = 0  \text{ and } ( (\bar{y}_1|N) - (\bar{y}_{0}|N) )p_N = 0
+\end{equation}
+
+Et
+
+\begin{equation}
+ITT =  ( (\bar{y}_{1}|C) -  (\bar{y}_{0}|C))p_C  = ( CACE ) p_C.
+\end{equation}
+
+## L’effet causal moyen pour ceux qui se conforment au traitement I
+
+Nous aimerions également en savoir plus sur l'effet causal d'ouvrir la porte et d'avoir la conversation, un effet théoriquement intéressant.
+
+Mais cette comparaison est mise à mal par $x$ : une simple comparaison $\bar{Y}|D=1 - \bar{Y}|D=0$ nous renseigne sur les différences de résultat dues à $x$ en plus de la différence causée par $D$.
+(Voir les chiffres ci-dessous à partir de certaines données simulées)
+
+\begin{center}
+\begin{tikzcd}[ampersand replacement=\&]
+Z  \arrow[from=1-1,to=1-2] \arrow[from=1-1, to=1-4, bend left, "\text{0 (exclusion)}"] \& D  \arrow[from=1-2,to=1-4] \& \& y \\
+(x_1 \ldots x_p) \arrow[from=2-1,to=1-1, "\text{-.006 (comme si randomisé)}"]  \arrow[from=2-1,to=1-2, ".06"] \arrow[from=2-1,to=1-4, ".48"]
+\end{tikzcd}
+\end{center}
+
+
+## L’effet causal moyen pour ceux qui se conforment au traitement II
+
+```{r cors, eval=FALSE, echo=TRUE, results="hide"}
+with(dat, cor(Y, x)) ## peut être quelconque
+with(dat, cor(d, x)) ## peut être quelconque
+with(dat, cor(Z, x)) ## devrait être proche de 0
+```
+
+Mais nous venons de voir que, dans cette conception et avec ces hypothèses (y compris l'hypothèse SUTVA) que
+$ITT = ( (\bar{y}_{1}|C) -  (\bar{y}_{0}|C))p_C  = (CACE) p_C$, on peut donc définir $CACE=ITT/p_C$.
+
+## Comment calculer l'ITT et le CACE/LATE I
+
+```{r simivdesign, echo=FALSE}
+prob_comply <- .8
+tau <- .5
+
+the_pop <- declare_population(N=100,
+    X = sample(1:4, N, replace = TRUE),
+    u = rnorm(N),
+    type = sample(c("Toujours preneur", "Jamais preneur", "Conformiste", "Non-conformiste"),N, replace = TRUE,
+        prob = c(.1, 1 - unique(prob_comply), unique(prob_comply), 0))
+)
+
+## Les résultats potentiels non observés, Y(Z=1) et Y(Z=0) se rapportent au résultat observé, Y, via l'assignation de traitement et un effet additif constant de tau.
+## D fait référence à l'obtention d'une dose de feedback
+  d_po <- declare_potential_outcomes(
+      D ~ case_when(
+          Z == 0 & type %in% c("Jamais preneur", "Conformiste") ~ 0,
+          Z == 1 & type %in% c("Jamais preneur", "Non-conformiste") ~ 0,
+          Z == 0 & type %in% c("Toujours preneur", "Non-conformiste") ~ 1,
+          Z == 1 & type %in% c("Toujours preneur", "Conformiste") ~ 1
+      )
+  )
+
+  y_po <- declare_potential_outcomes(
+    Y ~ tau * sd(u) * D + u,
+    assignment_variables = c("D", "Z")
+  )
+
+## L'assignation de traitement pour une ville donnée est une simple proportion fixe. Il devrait s'agir d'une assignation complète (ie, par tirage dans une urne), et non simple (pile ou face).
+## theassign <- declare_assignment(m=m)
+the_assign<- declare_assignment(Z=complete_ra(N))
+
+## declare_reveal est fondamentalement le même que declare_potential_outcomes. Je pense qu'ils ont cela ici pour faire face aux situations de données manquantes ou de non-conformité.
+# thereveal <- declare_reveal(Y, Z)
+d_reveal <- declare_reveal(D, assignment_variable = "Z")
+y_reveal <- declare_reveal(Y, assignment_variables = c("D", "Z"))
+
+base_design <- the_pop + the_assign +  d_po + y_po + d_reveal + y_reveal
+
+dat0 <- draw_data(base_design)
+
+estimand_cace <- declare_inquiry(
+    CACE = mean((Y_D_1_Z_1 + Y_D_1_Z_0) / 2 -
+      (Y_D_0_Z_1 + Y_D_0_Z_0) / 2),
+    subset = type == "Complier"
+  )
+estimand_ate <- declare_inquiry(ATE = mean((Y_D_1_Z_1 + Y_D_1_Z_0) / 2 -
+    (Y_D_0_Z_1 + Y_D_0_Z_0) / 2))
+```
+
+Un exemple de données (où nous connaissons tous les résultats potentiels):
+
+```{r showdat0}
+tempdat <- dat0[1:2,-1]
+## Change names to make the table below easier to read
+names(tempdat)[5] <- "pZ"
+names(tempdat) <- gsub("_","",names(tempdat))
+kableExtra::kable(tempdat, digits = 2)
+```
+
+## Comment calculer l'ITT et le CACE/LATE II
+
+L'ITT et le CACE
+
+```{r echo=TRUE}
+itt_y <- difference_in_means(Y~Z,data=dat0)
+itt_y
+itt_d <- difference_in_means(D~Z,data=dat0)
+itt_d
+```
+
+## Comment calculer l'ITT et le CACE/LATE III
+
+Tous ensemble ^[fonctionne quand $Z \rightarrow D$ n'est pas faible ; voir @imbens2005robust pour les précautions d'usage]
+
+```{r echo=TRUE}
+cace_est <- iv_robust(Y~D|Z,data=dat0)
+cace_est
+## Remarquez que c'est identique ci-dessous:
+coef(itt_y)[["Z"]]/coef(itt_d)[["Z"]]
+```
+
+## Résumé des conceptions incitatives / conformistes / par dose:
+
+ - Analysez au fur et à mesure de la randomisation, même lorsque vous ne contrôlez pas la dose
+ - Le danger de l'analyse par protocole.
+
+
+## Références

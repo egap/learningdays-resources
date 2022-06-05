@@ -1,0 +1,753 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="generator" content="pandoc">
+  <meta name="author" content="Fill In Your Name" />
+  <title>Threats to the internal validity of randomized experiments</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <link rel="stylesheet" href="threats-slides_files/reveal.js-3.3.0.1/css/reveal.css"/>
+
+
+
+<link rel="stylesheet" href="threats-slides_files/reveal.js-3.3.0.1/css/theme/simple.css" id="theme">
+
+
+  <!-- some tweaks to reveal css -->
+  <style type="text/css">
+    .reveal h1 { font-size: 2.0em; }
+    .reveal h2 { font-size: 1.5em;  }
+    .reveal h3 { font-size: 1.25em;	}
+    .reveal h4 { font-size: 1em;	}
+
+    .reveal .slides>section,
+    .reveal .slides>section>section {
+      padding: 0px 0px;
+    }
+
+
+
+    .reveal table {
+      border-width: 1px;
+      border-spacing: 2px;
+      border-style: dotted;
+      border-color: gray;
+      border-collapse: collapse;
+      font-size: 0.7em;
+    }
+
+    .reveal table th {
+      border-width: 1px;
+      padding-left: 10px;
+      padding-right: 25px;
+      font-weight: bold;
+      border-style: dotted;
+      border-color: gray;
+    }
+
+    .reveal table td {
+      border-width: 1px;
+      padding-left: 10px;
+      padding-right: 25px;
+      border-style: dotted;
+      border-color: gray;
+    }
+
+
+  </style>
+
+    <style type="text/css">code{white-space: pre;}</style>
+
+
+<!-- Printing and PDF exports -->
+<script id="paper-css" type="application/dynamic-css">
+
+/* Default Print Stylesheet Template
+   by Rob Glazebrook of CSSnewbie.com
+   Last Updated: June 4, 2008
+
+   Feel free (nay, compelled) to edit, append, and
+   manipulate this file as you see fit. */
+
+
+@media print {
+
+	/* SECTION 1: Set default width, margin, float, and
+	   background. This prevents elements from extending
+	   beyond the edge of the printed page, and prevents
+	   unnecessary background images from printing */
+	html {
+		background: #fff;
+		width: auto;
+		height: auto;
+		overflow: visible;
+	}
+	body {
+		background: #fff;
+		font-size: 20pt;
+		width: auto;
+		height: auto;
+		border: 0;
+		margin: 0 5%;
+		padding: 0;
+		overflow: visible;
+		float: none !important;
+	}
+
+	/* SECTION 2: Remove any elements not needed in print.
+	   This would include navigation, ads, sidebars, etc. */
+	.nestedarrow,
+	.controls,
+	.fork-reveal,
+	.share-reveal,
+	.state-background,
+	.reveal .progress,
+	.reveal .backgrounds {
+		display: none !important;
+	}
+
+	/* SECTION 3: Set body font face, size, and color.
+	   Consider using a serif font for readability. */
+	body, p, td, li, div {
+		font-size: 20pt!important;
+		font-family: Georgia, "Times New Roman", Times, serif !important;
+		color: #000;
+	}
+
+	/* SECTION 4: Set heading font face, sizes, and color.
+	   Differentiate your headings from your body text.
+	   Perhaps use a large sans-serif for distinction. */
+	h1,h2,h3,h4,h5,h6 {
+		color: #000!important;
+		height: auto;
+		line-height: normal;
+		font-family: Georgia, "Times New Roman", Times, serif !important;
+		text-shadow: 0 0 0 #000 !important;
+		text-align: left;
+		letter-spacing: normal;
+	}
+	/* Need to reduce the size of the fonts for printing */
+	h1 { font-size: 28pt !important;  }
+	h2 { font-size: 24pt !important; }
+	h3 { font-size: 22pt !important; }
+	h4 { font-size: 22pt !important; font-variant: small-caps; }
+	h5 { font-size: 21pt !important; }
+	h6 { font-size: 20pt !important; font-style: italic; }
+
+	/* SECTION 5: Make hyperlinks more usable.
+	   Ensure links are underlined, and consider appending
+	   the URL to the end of the link for usability. */
+	a:link,
+	a:visited {
+		color: #000 !important;
+		font-weight: bold;
+		text-decoration: underline;
+	}
+	/*
+	.reveal a:link:after,
+	.reveal a:visited:after {
+		content: " (" attr(href) ") ";
+		color: #222 !important;
+		font-size: 90%;
+	}
+	*/
+
+
+	/* SECTION 6: more reveal.js specific additions by @skypanther */
+	ul, ol, div, p {
+		visibility: visible;
+		position: static;
+		width: auto;
+		height: auto;
+		display: block;
+		overflow: visible;
+		margin: 0;
+		text-align: left !important;
+	}
+	.reveal pre,
+	.reveal table {
+		margin-left: 0;
+		margin-right: 0;
+	}
+	.reveal pre code {
+		padding: 20px;
+		border: 1px solid #ddd;
+	}
+	.reveal blockquote {
+		margin: 20px 0;
+	}
+	.reveal .slides {
+		position: static !important;
+		width: auto !important;
+		height: auto !important;
+
+		left: 0 !important;
+		top: 0 !important;
+		margin-left: 0 !important;
+		margin-top: 0 !important;
+		padding: 0 !important;
+		zoom: 1 !important;
+
+		overflow: visible !important;
+		display: block !important;
+
+		text-align: left !important;
+		-webkit-perspective: none;
+		   -moz-perspective: none;
+		    -ms-perspective: none;
+		        perspective: none;
+
+		-webkit-perspective-origin: 50% 50%;
+		   -moz-perspective-origin: 50% 50%;
+		    -ms-perspective-origin: 50% 50%;
+		        perspective-origin: 50% 50%;
+	}
+	.reveal .slides section {
+		visibility: visible !important;
+		position: static !important;
+		width: auto !important;
+		height: auto !important;
+		display: block !important;
+		overflow: visible !important;
+
+		left: 0 !important;
+		top: 0 !important;
+		margin-left: 0 !important;
+		margin-top: 0 !important;
+		padding: 60px 20px !important;
+		z-index: auto !important;
+
+		opacity: 1 !important;
+
+		page-break-after: always !important;
+
+		-webkit-transform-style: flat !important;
+		   -moz-transform-style: flat !important;
+		    -ms-transform-style: flat !important;
+		        transform-style: flat !important;
+
+		-webkit-transform: none !important;
+		   -moz-transform: none !important;
+		    -ms-transform: none !important;
+		        transform: none !important;
+
+		-webkit-transition: none !important;
+		   -moz-transition: none !important;
+		    -ms-transition: none !important;
+		        transition: none !important;
+	}
+	.reveal .slides section.stack {
+		padding: 0 !important;
+	}
+	.reveal section:last-of-type {
+		page-break-after: avoid !important;
+	}
+	.reveal section .fragment {
+		opacity: 1 !important;
+		visibility: visible !important;
+
+		-webkit-transform: none !important;
+		   -moz-transform: none !important;
+		    -ms-transform: none !important;
+		        transform: none !important;
+	}
+	.reveal section img {
+		display: block;
+		margin: 15px 0px;
+		background: rgba(255,255,255,1);
+		border: 1px solid #666;
+		box-shadow: none;
+	}
+
+	.reveal section small {
+		font-size: 0.8em;
+	}
+
+}  
+</script>
+
+
+<script id="pdf-css" type="application/dynamic-css">
+    
+/**
+ * This stylesheet is used to print reveal.js
+ * presentations to PDF.
+ *
+ * https://github.com/hakimel/reveal.js#pdf-export
+ */
+
+* {
+	-webkit-print-color-adjust: exact;
+}
+
+body {
+	margin: 0 auto !important;
+	border: 0;
+	padding: 0;
+	float: none !important;
+	overflow: visible;
+}
+
+html {
+	width: 100%;
+	height: 100%;
+	overflow: visible;
+}
+
+/* Remove any elements not needed in print. */
+.nestedarrow,
+.reveal .controls,
+.reveal .progress,
+.reveal .playback,
+.reveal.overview,
+.fork-reveal,
+.share-reveal,
+.state-background {
+	display: none !important;
+}
+
+h1, h2, h3, h4, h5, h6 {
+	text-shadow: 0 0 0 #000 !important;
+}
+
+.reveal pre code {
+	overflow: hidden !important;
+	font-family: Courier, 'Courier New', monospace !important;
+}
+
+ul, ol, div, p {
+	visibility: visible;
+	position: static;
+	width: auto;
+	height: auto;
+	display: block;
+	overflow: visible;
+	margin: auto;
+}
+.reveal {
+	width: auto !important;
+	height: auto !important;
+	overflow: hidden !important;
+}
+.reveal .slides {
+	position: static;
+	width: 100%;
+	height: auto;
+
+	left: auto;
+	top: auto;
+	margin: 0 !important;
+	padding: 0 !important;
+
+	overflow: visible;
+	display: block;
+
+	-webkit-perspective: none;
+	   -moz-perspective: none;
+	    -ms-perspective: none;
+	        perspective: none;
+
+	-webkit-perspective-origin: 50% 50%; /* there isn't a none/auto value but 50-50 is the default */
+	   -moz-perspective-origin: 50% 50%;
+	    -ms-perspective-origin: 50% 50%;
+	        perspective-origin: 50% 50%;
+}
+
+.reveal .slides section {
+	page-break-after: always !important;
+
+	visibility: visible !important;
+	position: relative !important;
+	display: block !important;
+	position: relative !important;
+
+	margin: 0 !important;
+	padding: 0 !important;
+	box-sizing: border-box !important;
+	min-height: 1px;
+
+	opacity: 1 !important;
+
+	-webkit-transform-style: flat !important;
+	   -moz-transform-style: flat !important;
+	    -ms-transform-style: flat !important;
+	        transform-style: flat !important;
+
+	-webkit-transform: none !important;
+	   -moz-transform: none !important;
+	    -ms-transform: none !important;
+	        transform: none !important;
+}
+
+.reveal section.stack {
+	margin: 0 !important;
+	padding: 0 !important;
+	page-break-after: avoid !important;
+	height: auto !important;
+	min-height: auto !important;
+}
+
+.reveal img {
+	box-shadow: none;
+}
+
+.reveal .roll {
+	overflow: visible;
+	line-height: 1em;
+}
+
+/* Slide backgrounds are placed inside of their slide when exporting to PDF */
+.reveal section .slide-background {
+	display: block !important;
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	z-index: -1;
+}
+
+/* All elements should be above the slide-background */
+.reveal section>* {
+	position: relative;
+	z-index: 1;
+}
+
+/* Display slide speaker notes when 'showNotes' is enabled */
+.reveal .speaker-notes-pdf {
+	display: block;
+	width: 100%;
+	max-height: none;
+	left: auto;
+	top: auto;
+	z-index: 100;
+}
+
+/* Display slide numbers when 'slideNumber' is enabled */
+.reveal .slide-number-pdf {
+	display: block;
+	position: absolute;
+	font-size: 14px;
+}
+
+</script>
+
+
+<script>
+var style = document.createElement( 'style' );
+style.type = 'text/css';
+var style_script_id = window.location.search.match( /print-pdf/gi ) ? 'pdf-css' : 'paper-css';
+var style_script = document.getElementById(style_script_id).text;
+style.innerHTML = style_script;
+document.getElementsByTagName('head')[0].appendChild(style);
+</script>
+
+    <script src="threats-slides_files/header-attrs-2.10/header-attrs.js"></script>
+    <link href="threats-slides_files/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
+    <link href="threats-slides_files/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+<section>
+    <h1 class="title">Threats to the internal validity of randomized experiments</h1>
+    <h2 class="author">Fill In Your Name</h2>
+    <h3 class="date">03 September, 2021</h3>
+</section>
+<section id="TOC">
+<ul>
+<li><a href="#/puntos-clave-de-esta-presentación">Puntos clave de esta presentación</a></li>
+<li><a href="#/supuestos-principales">Supuestos principales</a>
+<ul>
+<li><a href="#/revisión-de-los-supuestos-principales">Revisión de los supuestos principales</a></li>
+</ul></li>
+<li><a href="#/deserción">Deserción</a>
+<ul>
+<li><a href="#/deserción-variables-de-interés-con-datos-faltantes">Deserción (variables de interés con datos faltantes)</a></li>
+<li><a href="#/qué-podemos-hacer">¿Qué podemos hacer?</a></li>
+<li><a href="#/qué-podemos-hacer-1">¿Qué podemos hacer?</a></li>
+<li><a href="#/las-covariables-con-datos-faltantes-no-son-tan-problemáticas">Las covariables con datos faltantes no son tan problemáticas</a></li>
+</ul></li>
+<li><a href="#/incumplimiento">Incumplimiento</a>
+<ul>
+<li><a href="#/incumplimiento-1">Incumplimiento</a></li>
+<li><a href="#/latecace">LATE/CACE</a></li>
+</ul></li>
+<li><a href="#/propagación">Propagación</a>
+<ul>
+<li><a href="#/propagación-e-interferencia-entre-unidades">Propagación e interferencia entre unidades</a></li>
+<li><a href="#/estudiar-los-efectos-secundarios">Estudiar los efectos secundarios</a></li>
+</ul></li>
+<li><a href="#/efecto-hawthorne">Efecto Hawthorne</a>
+<ul>
+<li><a href="#/efecto-hawthorne-1">Efecto Hawthorne</a></li>
+<li><a href="#/buenas-practicas">Buenas practicas</a></li>
+</ul></li>
+<li><a href="#/no-excluibilidad">No excluibilidad</a>
+<ul>
+<li><a href="#/diferencias-entre-los-grupos-de-tratamiento-y-control-más-allá-del-tratamiento">Diferencias entre los grupos de tratamiento y control más allá del tratamiento</a></li>
+</ul></li>
+</ul>
+</section>
+
+<section id="puntos-clave-de-esta-presentación" class="slide level2">
+<h2>Puntos clave de esta presentación</h2>
+<ul>
+<li><p>Deserción (variables de interés con datos faltantes)</p></li>
+<li><p>Incumplimiento</p></li>
+<li><p>Propagación</p></li>
+<li><p>Efectos Hawthorne</p></li>
+<li><p>Tratamientos diferenciales en los distintos brazos de tratamiento</p></li>
+</ul>
+</section>
+<section>
+<section id="supuestos-principales" class="title-slide slide level1">
+<h1>Supuestos principales</h1>
+
+</section>
+<section id="revisión-de-los-supuestos-principales" class="slide level2">
+<h2>Revisión de los supuestos principales</h2>
+<ol type="1">
+<li><p>Exclusión</p></li>
+<li><p>No interferencia</p></li>
+<li><p>Asignación aleatoria de sujetos al tratamiento</p></li>
+</ol>
+</section></section>
+<section>
+<section id="deserción" class="title-slide slide level1">
+<h1>Deserción</h1>
+
+</section>
+<section id="deserción-variables-de-interés-con-datos-faltantes" class="slide level2">
+<h2>Deserción (variables de interés con datos faltantes)</h2>
+<ul>
+<li><p>Algunas unidades pueden tener datos faltantes para las variables de resultado (= las unidades desertan) cuando:</p>
+<ul>
+<li><p>algunos encuestados no pueden ser encontrados o se niegan a participar en la recolección de datos finales.</p></li>
+<li><p>se pierden algunos registros.</p></li>
+</ul></li>
+<li><p>Este es problemático cuando los datos faltantes han sido ocasionados por el tratamiento.</p>
+<ul>
+<li>Por ejemplo, las unidades asignadas a control pueden estar menos dispuestas a responder las preguntas de la encuesta.</li>
+<li>Por ejemplo, el tratamiento puede haber provocado la migración de unidades y no hay forma de acceder a ellas.</li>
+</ul></li>
+<li><p>Si analizamos los datos descartando unidades con datos faltantes para la variable de resultado, entonces ya estaríamos comparando grupos de tratamiento y control similares.</p></li>
+</ul>
+</section>
+<section id="qué-podemos-hacer" class="slide level2">
+<h2>¿Qué podemos hacer?</h2>
+<ul>
+<li><p>Compruebe si las tasas de deserción son similares en los grupos de tratamiento y control.</p></li>
+<li><p>Compruebe si las covariables de los grupos de tratamiento y control tienen patrones similares.</p></li>
+<li><p>No elimine las observaciones a las que les falten datos para la variable de resultado.</p></li>
+<li><p>A veces, cuando faltan datos para la variable de resultados, podemos <strong>acotar</strong> nuestras estimaciones del efecto del tratamiento.</p></li>
+</ul>
+</section>
+<section id="qué-podemos-hacer-1" class="slide level2">
+<h2>¿Qué podemos hacer?</h2>
+<ul>
+<li><p>Pero la mejor solución es tratar de anticipar y prevenir la deserción.</p>
+<ul>
+<li><p>Personas que no sepan a qué condición del tratamiento fueron asignadas.</p></li>
+<li><p>Prometerle al grupo control que va a recibir el tratamiento una vez se termine la investigación.</p></li>
+<li><p>Planificar ex ante para poder contectar los sujetos en para la recolección final de datos.</p></li>
+<li><p>Contar con presupuesto para haver seguimiento intensivo a una muestra aleatoria de los sujetos que desierten</p></li>
+</ul></li>
+</ul>
+</section>
+<section id="las-covariables-con-datos-faltantes-no-son-tan-problemáticas" class="slide level2">
+<h2>Las covariables con datos faltantes no son tan problemáticas</h2>
+<ul>
+<li><p>Las <strong>covariables de contexto</strong> (es decir, variables cuyos valores no cambian como resultado del tratamiento) con datos faltantes para algunas observaciones son menos problemáticas.</p></li>
+<li><p>Podemos aprender sobre el efecto causal de un experimento sin esas covariables, como vimos en los módulos [Prueba de hipótesis] (hypothesistesting.html) y [Estimación] (estimación.html).</p></li>
+<li><p>También podemos usar la covariable de contexto según lo planeado imputando los datos faltantes.</p></li>
+<li><p>También podemos condicionar nuestro análisis directamente a esos datos faltantes</p></li>
+</ul>
+</section></section>
+<section>
+<section id="incumplimiento" class="title-slide slide level1">
+<h1>Incumplimiento</h1>
+
+</section>
+<section id="incumplimiento-1" class="slide level2">
+<h2>Incumplimiento</h2>
+<ul>
+<li><p>En algunas ocasiones las unidades que son asignadas al tratamiento terminan no recibiéndolo. Es decir, no cumplen la asignación.</p>
+<ul>
+<li>Cuando todas las unidades asignadas al grupo control no toman el tratamiento, pero sólo algunas unidades asignadas al tratamiento sí lo toman, estamos frente a un caso de incumplimiento unilateral.</li>
+</ul></li>
+<li><p>El efecto de ser asignado al tratamiento no es el mismo que el de recibir el tratamiento.</p></li>
+<li><p>El efecto de recibir el tratamiento es comunmente conocido como “efecto local promedio del tratamiento” (Local Average Treatment Effect, LATE) o efecto promedio del tratamiento para el cumplidor (Complier Average Causal Effect, CACE).</p>
+<ul>
+<li>La palabra “local” hace referencia a la idea que el efecto solo ocurre para algunas personas que toman el tratamiento cuando son asignadas a él (el tipo de gente).</li>
+</ul></li>
+</ul>
+</section>
+<section id="latecace" class="slide level2">
+<h2>LATE/CACE</h2>
+<ul>
+<li>Se requiere que se cumplan dos supuesto para poder estimar el LATE/CACE a partir de un experimento aleatorio.</li>
+</ul>
+<ol type="1">
+<li>Restricción de exclusión: la asignación del tratamiento solo afecta la variable de resultado a través del “recibo” del tratamiento y no a través de ningún otro canal.</li>
+<li>Supuesto de monotonicidad: no hay unidades que desafían, es decir, unidades que toman el tratamiento solo cuando son asignadas a control pero no toman el tratamiento cuando son asignados a este.</li>
+</ol>
+</section></section>
+<section>
+<section id="propagación" class="title-slide slide level1">
+<h1>Propagación</h1>
+
+</section>
+<section id="propagación-e-interferencia-entre-unidades" class="slide level2">
+<h2>Propagación e interferencia entre unidades</h2>
+<ul>
+<li><p>A veces tendremos sospechas de que la asignación al tratamiento de una unidad afecta los resultados de otras unidades.</p></li>
+<li><p>Si el tratamiento de una unidad afecta el resultado de otra unidad, estamos frente a un caso de violación de uno de los supuestos básicos de la inferencia causal.</p></li>
+<li><p>Podemos seleccionar unidades que están lejos unas de otras para evitar la “transmisión” del tratamiento entre unidades.</p></li>
+</ul>
+</section>
+<section id="estudiar-los-efectos-secundarios" class="slide level2">
+<h2>Estudiar los efectos secundarios</h2>
+<ul>
+<li><p>Esto no es un problema si diseña un estudio que permita investigar la propagación, es decir, que los resultados de una unidad pueden depender del tratamiento de otras unidades.</p></li>
+<li><p>Para investigar los efectos de propagacióno:</p>
+<ul>
+<li><p>Podemos recolectar datos de la variable de resultadao para las unidades que nunca fueron elegibles para la asignación aleatoria al tratamiento, pero que estaban cerca de unidades que sí eran elegibles para el tratamiento y que pudieron verse afectadas por efectos de propagación.</p></li>
+<li><p>Puede utilizar un diseño de asignación aleatoria en dos etapas.</p></li>
+<li><p>Puede asignar grupos de unidades (p. Ej., Distritos) a diferentes niveles de intensidad de tratamiento (p. Ej., Usar una proporción diferente de aldeas en los distritos asignados al tratamiento).</p></li>
+</ul></li>
+</ul>
+</section></section>
+<section>
+<section id="efecto-hawthorne" class="title-slide slide level1">
+<h1>Efecto Hawthorne</h1>
+
+</section>
+<section id="efecto-hawthorne-1" class="slide level2">
+<h2>Efecto Hawthorne</h2>
+<ul>
+<li><p>El efecto Hawthorne: saber que están siendo observados/estudiados puede llevar a los sujetos a comportarse de manera diferente.</p></li>
+<li><p>Esto podría crear un error de medición sistemático tanto en los grupos de tratamiento como en los de control.</p></li>
+<li><p>También podría resultar de una mayor atención prestada al grupo de tratamiento, deshaciendo la creación de grupos de tratamiento y control equivalentes creados a través de la asignación aleatoria</p></li>
+</ul>
+</section>
+<section id="buenas-practicas" class="slide level2">
+<h2>Buenas practicas</h2>
+<ul>
+<li><p>Recolectar datos de la forma más discreta posible.</p></li>
+<li><p>En la medida de lo posible, nadie más que el propio sujeto debe conocer a qué condición tratamiento fue asignado.</p></li>
+<li><p>Encuestadores/investigadores deberían desconocer la condición del tratamiento de los sujetos.</p></li>
+<li><p>No haga mediciones adicionales para el grupo de tratamiento.</p></li>
+</ul>
+</section></section>
+<section>
+<section id="no-excluibilidad" class="title-slide slide level1">
+<h1>No excluibilidad</h1>
+
+</section>
+<section id="diferencias-entre-los-grupos-de-tratamiento-y-control-más-allá-del-tratamiento" class="slide level2">
+<h2>Diferencias entre los grupos de tratamiento y control más allá del tratamiento</h2>
+<ul>
+<li><p>Manejar los grupos de tratamiento y control de manera diferente significa que las diferencias observadas en las variable de resultado entre estos grupos pueden deberse al tratamiento y/o al manejo diferente.</p></li>
+<li><p>Los ejemplos incluyen el uso de diferentes cuestionarios para la recolección de datos o rondas adicionales de recolección de datos para el grupo de tratamiento con la intención de obtener información sobre los mecanismos.</p></li>
+<li><p>Recuerde diseñar su estudio y sus encuesta para tratar todos los brazos de tratamiento por igual, excepto por el tratamiento en sí.</p></li>
+</ul>
+</section></section>
+    </div>
+  </div>
+
+  <script src="threats-slides_files/reveal.js-3.3.0.1/lib/js/head.min.js"></script>
+  <script src="threats-slides_files/reveal.js-3.3.0.1/js/reveal.js"></script>
+
+  <script>
+
+      // Full list of configuration options available at:
+      // https://github.com/hakimel/reveal.js#configuration
+      Reveal.initialize({
+        // Display controls in the bottom right corner
+        controls: true,
+        // Display a presentation progress bar
+        progress: true,
+        // Display the page number of the current slide
+        slideNumber: true,
+        // Push each slide change to the browser history
+        history: true,
+        // Enable keyboard shortcuts for navigation
+        keyboard: true,
+        // Enable the slide overview mode
+        overview: true,
+        // Vertical centering of slides
+        center: false,
+        // Enables touch navigation on devices with touch input
+        touch: true,
+        // Turns fragments on and off globally
+        fragments: true,
+        // Flags if we should show a help overlay when the questionmark
+        // key is pressed
+        help: true,
+        // Number of milliseconds between automatically proceeding to the
+        // next slide, disabled when set to 0, this value can be overwritten
+        // by using a data-autoslide attribute on your slides
+        autoSlide: 0,
+        // Stop auto-sliding after user input
+        autoSlideStoppable: true,
+        // Opens links in an iframe preview overlay
+        previewLinks: true,
+        // Transition style
+        transition: 'fade', // none/fade/slide/convex/concave/zoom
+        // Transition speed
+        transitionSpeed: 'default', // default/fast/slow
+        // Transition style for full page slide backgrounds
+        backgroundTransition: 'default', // none/fade/slide/convex/concave/zoom
+        // Number of slides away from the current that are visible
+        viewDistance: 3,
+
+
+
+        chalkboard: {
+          toggleNotesButton: false,
+          theme: 'whiteboard',
+        },
+
+        keyboard: {
+          67: function() { RevealChalkboard.toggleNotesCanvas() },    // toggle notes canvas when 'c' is pressed
+          66: function() { RevealChalkboard.toggleChalkboard() }, // toggle chalkboard when 'b' is pressed
+          46: function() { RevealChalkboard.clear() },    // clear chalkboard when 'DEL' is pressed
+           8: function() { RevealChalkboard.reset() },    // reset chalkboard data on current slide when 'BACKSPACE' is pressed
+          68: function() { RevealChalkboard.download() }, // downlad recorded chalkboard drawing when 'd' is pressed
+        },
+
+        // Optional reveal.js plugins
+        dependencies: [
+          { src: 'threats-slides_files/reveal.js-3.3.0.1/plugin/notes/notes.js', async: true },
+          { src: 'threats-slides_files/reveal.js-3.3.0.1/plugin/search/search.js', async: true },
+          { src: 'threats-slides_files/reveal.js-3.3.0.1/plugin/chalkboard/chalkboard.js', async: true },
+        ]
+      });
+    </script>
+  <!-- dynamically load mathjax for compatibility with self-contained -->
+  <script>
+    (function () {
+      var script = document.createElement("script");
+      script.type = "text/javascript";
+      script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+      document.getElementsByTagName("head")[0].appendChild(script);
+    })();
+  </script>
+
+<script>
+  (function() {
+    if (window.jQuery) {
+      Reveal.addEventListener( 'slidechanged', function(event) {  
+        window.jQuery(event.previousSlide).trigger('hidden');
+        window.jQuery(event.currentSlide).trigger('shown');
+      });
+    }
+  })();
+</script>
+
+
+  </body>
+</html>

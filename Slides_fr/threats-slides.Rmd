@@ -1,0 +1,181 @@
+---
+title: "Menaces sur la validité interne des expériences aléatoires"
+author: "Mettre votre nom"
+date: "`r format(Sys.time(), '%d-%m-%Y')`"
+bibliography: ../learningdays-book.bib
+biblio-style: apalike
+link-citations: yes
+colorlinks: yes
+header-includes: |
+   \setbeamertemplate{footline}{\begin{beamercolorbox}{section in head/foot}
+   \includegraphics[height=.5cm]{../Images/egap-logo.png} \hfill
+   \insertframenumber/\inserttotalframenumber \end{beamercolorbox}}
+output:
+  beamer_presentation:
+    keep_tex: true
+    toc: true
+    pandoc_args: [ "--toc" ]
+  revealjs::revealjs_presentation:
+    fig_caption: true
+    theme: default
+    highlight: pygments
+    center: false
+    transition: fade
+    smart: false
+    self_contained: false
+    reveal_plugins: ["notes", "search", "chalkboard"]
+    pandoc_args: [ "--toc" ]
+    reveal_options:
+      slideNumber: true
+      previewLinks: true
+      chalkboard:
+        theme: whiteboard
+        toggleNotesButton: false
+---
+
+```{r setup, include=FALSE}
+library(knitr)
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+## Points principaux
+
+ - Attrition (données manquantes pour les résultats)
+
+ - Non-conformité
+
+ - Effet de contamination
+
+ - Effet Hawthorne
+
+ - Traitement différentiel des bras de traitement
+ 
+# Hypothèses de base
+## Revue des hypothèses de base
+
+  1. Exclusion
+
+  2. Non-interférence
+
+  3. Assignation aléatoire des sujets au traitement
+
+# Attrition
+## Attrition (données manquantes pour les résultats)
+
+- Certaines unités peuvent avoir des données manquantes pour les résultats lorsque :
+
+   - certains répondants sont introuvables ou refusent de participer à la collecte des données finales.
+
+   - certains enregistrements sont perdus.
+
+- C'est un problème lorsque le traitement affecte la disparition.
+
+   - Par exemple, les unités de contrôle peuvent être moins disposées à répondre aux questions de l'enquête.
+   - Par exemple, le traitement peut avoir pousser des unités à émigrer et elles ne sont plus joignables
+
+- Si nous analysons les données en supprimant les unités avec des résultats manquants, alors nous ne comparons plus des groupes de traitement et de contrôle similaires.
+
+## Que pouvons-nous faire ?
+
+- Vérifiez si les taux d'attrition sont similaires dans les groupes de traitement et de contrôle.
+
+- Vérifier si les groupes de traitement et de contrôle ont des profils de covariables similaires.
+
+- Ne pas supprimer de votre analyse les observations pour lesquelles il manque des données sur les résultats.
+
+- Lorsque les données sur les résultats sont manquantes, nous pouvons parfois **borner** nos estimations de l'effet de traitement.
+
+
+## Que pouvons-nous faire ?
+
+- Mais la meilleure approche est d'essayer d'anticiper et de prévenir l'attrition.
+
+    - Les personnes ne doivent pas connaître leur statut de traitement.
+
+    - Promettez de livrer le traitement au groupe témoin une fois la recherche terminée.
+
+    - Planifiez en avance d'atteindre tous les sujets à la fin.
+
+    - Budgétez pour un suivi intensif d'un échantillon aléatoire concerné par l'attrition.
+
+## Les données manquantes sur les covariables ne sont pas aussi problématiques
+
+- Des **covariables** manquantes (c'est-à-dire des variables dont les valeurs ne changent pas à la suite du traitement) pour certaines observations est moins problématique.
+
+   - Nous pouvons toujours en apprendre davantage sur l'effet causal d'une expérience sans ces covariables,
+     comme nous l'avons vu dans les modules [tests d'hypothèses](hypothesistesting.html) et [estimation](estimation.html).
+
+   - On peut aussi utiliser la covariable comme prévu en imputant les valeurs manquantes.
+
+   - On peut aussi conditionner directement cette absence.
+
+# Non-conformité
+## Non-conformité
+
+  - Parfois, les unités ne prennent pas le traitement. Elles ne remplissent pas leur mission.
+  
+      - Si toutes les unités assignées au contrôle ne prennent pas le traitement, mais que seules certaines unités assignées au traitement prennent le traitement, nous avons une non-conformité unilatérale.
+
+  - L'effet de l'assignation de traitement n'est pas le même que l'effet de recevoir le traitement.
+
+  - L'effet de recevoir le traitement est souvent appelé "effet moyen local du traitement" (local average treatment effect, LATE) ou "effet causal moyen conforme" (complier average causal effect, CACE).
+
+       - "Local" fait référence à l'idée que l'effet ne se produit que sur les personnes qui prennent le traitement lorsqu'elles sont assignées au traitement.
+
+## LATE/CACE
+
+   - Nous avons besoin de deux hypothèses pour estimer le LATE/CACE à partir d'une expérience randomisée.
+
+   1. La restriction d'exclusion est que l'assignation au traitement n'a d'effet sur le résultat que par la réception du traitement et par aucun autre canal.
+
+   2. L'hypothèse de monotonie est qu'il n'y a pas de non-conformistes - des unités qui prendraient le traitement si elles étaient assignées au contrôle, mais ne le prendraient pas si elles étaient assignées au traitement.
+
+# Effets de contamination
+## Effets de contamination et interférence entre unités
+
+- Parfois, nous soupçonnons que le traitement assigné à une unité affecte les résultats des autres unités.
+
+- Si le statut de traitement d'une unité affecte les résultats d'une autre unité, nous avons une violation de l'une des hypothèses de base pour l'inférence causale.
+
+- Vous pouvez échantillonner des unités éloignées les unes des autres pour empêcher la "transmission" du traitement entre les unités.
+
+## Étude des effets de contamination
+
+- Ce n'est pas un problème si vous concevez une étude pour étudier les effets de contamination dans lesquelles les résultats d'une unité peuvent dépendre du statut de traitement d'autres unités.
+
+- Pour étudier les contaminations:
+
+     - Vous pouvez collecter des données de résultats pour des unités qui n'ont jamais été éligibles à une assignation de traitement aléatoire mais qui sont voisines d'unités éligibles au traitement à partir desquelles des contaminations pourraient se produire.
+
+     - Vous pouvez utiliser une conception de randomisation en deux étapes.
+
+     - Vous pouvez assigner des ensembles d'unités (par exemple, des districts) à différents niveaux d'intensité de traitement (par exemple, des proportions différentes de villages assignés au traitement par district).
+
+# L'effet Hawthorne
+## L'effet Hawthorne
+
+- L'effet Hawthorne : se savoir observé ou étudié peut amener le sujet à se comporter différemment.
+
+- Cela peut créer une erreur de mesure systématique dans les groupes de traitement et de contrôle.
+
+- Cela peut aussi résulter d'une plus grande attention accordée au groupe de traitement, rendant caduques les groupes de traitement et de contrôle équivalents obtenus grâce à la randomisation.
+
+## Bonnes practiques
+  
+   - Collecter les données de la manière la plus discrète possible.
+   
+   - Autant que possible, personne d'autre que le sujet lui-même ne doit connaître son statut de traitement.
+
+   - Ne pas révéler aux énumérateurs ou chercheurs le statut de traitement des sujets.
+
+   - Ne pas prendre de mesures supplémentaires pour le groupe de traitement.
+
+# La non-exclusion
+
+## Les différences entre les groupes de traitement et de contrôle autres que le traitement
+
+   - Une gestion différente des groupes de traitement et de contrôle signifie que les différences observées dans les résultats entre ces groupes peuvent être dues au traitement et/ou à cette différence de gestion.
+
+   - Les exemples incluent l'utilisation d'instruments différents pour la collecte de données ou des séries de collecte supplémentaires pour le groupe de traitement dans le but d'obtenir des données sur les mécanismes en jeu.
+
+   - Concevez votre étude et vos instruments pour traiter tous les bras de traitement de la même manière, à l'exception du traitement lui-même.

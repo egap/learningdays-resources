@@ -1,0 +1,1004 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="generator" content="pandoc">
+  <meta name="author" content="Fill In Your Name" />
+  <title>Aleatorización</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <link rel="stylesheet" href="randomization-slides_files/reveal.js-3.3.0.1/css/reveal.css"/>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<link rel="stylesheet" href="randomization-slides_files/reveal.js-3.3.0.1/css/theme/simple.css" id="theme">
+
+
+  <!-- some tweaks to reveal css -->
+  <style type="text/css">
+    .reveal h1 { font-size: 2.0em; }
+    .reveal h2 { font-size: 1.5em;  }
+    .reveal h3 { font-size: 1.25em;	}
+    .reveal h4 { font-size: 1em;	}
+
+    .reveal .slides>section,
+    .reveal .slides>section>section {
+      padding: 0px 0px;
+    }
+
+
+
+    .reveal table {
+      border-width: 1px;
+      border-spacing: 2px;
+      border-style: dotted;
+      border-color: gray;
+      border-collapse: collapse;
+      font-size: 0.7em;
+    }
+
+    .reveal table th {
+      border-width: 1px;
+      padding-left: 10px;
+      padding-right: 25px;
+      font-weight: bold;
+      border-style: dotted;
+      border-color: gray;
+    }
+
+    .reveal table td {
+      border-width: 1px;
+      padding-left: 10px;
+      padding-right: 25px;
+      border-style: dotted;
+      border-color: gray;
+    }
+
+
+  </style>
+
+    <style type="text/css">code{white-space: pre;}</style>
+
+
+<!-- Printing and PDF exports -->
+<script id="paper-css" type="application/dynamic-css">
+
+/* Default Print Stylesheet Template
+   by Rob Glazebrook of CSSnewbie.com
+   Last Updated: June 4, 2008
+
+   Feel free (nay, compelled) to edit, append, and
+   manipulate this file as you see fit. */
+
+
+@media print {
+
+	/* SECTION 1: Set default width, margin, float, and
+	   background. This prevents elements from extending
+	   beyond the edge of the printed page, and prevents
+	   unnecessary background images from printing */
+	html {
+		background: #fff;
+		width: auto;
+		height: auto;
+		overflow: visible;
+	}
+	body {
+		background: #fff;
+		font-size: 20pt;
+		width: auto;
+		height: auto;
+		border: 0;
+		margin: 0 5%;
+		padding: 0;
+		overflow: visible;
+		float: none !important;
+	}
+
+	/* SECTION 2: Remove any elements not needed in print.
+	   This would include navigation, ads, sidebars, etc. */
+	.nestedarrow,
+	.controls,
+	.fork-reveal,
+	.share-reveal,
+	.state-background,
+	.reveal .progress,
+	.reveal .backgrounds {
+		display: none !important;
+	}
+
+	/* SECTION 3: Set body font face, size, and color.
+	   Consider using a serif font for readability. */
+	body, p, td, li, div {
+		font-size: 20pt!important;
+		font-family: Georgia, "Times New Roman", Times, serif !important;
+		color: #000;
+	}
+
+	/* SECTION 4: Set heading font face, sizes, and color.
+	   Differentiate your headings from your body text.
+	   Perhaps use a large sans-serif for distinction. */
+	h1,h2,h3,h4,h5,h6 {
+		color: #000!important;
+		height: auto;
+		line-height: normal;
+		font-family: Georgia, "Times New Roman", Times, serif !important;
+		text-shadow: 0 0 0 #000 !important;
+		text-align: left;
+		letter-spacing: normal;
+	}
+	/* Need to reduce the size of the fonts for printing */
+	h1 { font-size: 28pt !important;  }
+	h2 { font-size: 24pt !important; }
+	h3 { font-size: 22pt !important; }
+	h4 { font-size: 22pt !important; font-variant: small-caps; }
+	h5 { font-size: 21pt !important; }
+	h6 { font-size: 20pt !important; font-style: italic; }
+
+	/* SECTION 5: Make hyperlinks more usable.
+	   Ensure links are underlined, and consider appending
+	   the URL to the end of the link for usability. */
+	a:link,
+	a:visited {
+		color: #000 !important;
+		font-weight: bold;
+		text-decoration: underline;
+	}
+	/*
+	.reveal a:link:after,
+	.reveal a:visited:after {
+		content: " (" attr(href) ") ";
+		color: #222 !important;
+		font-size: 90%;
+	}
+	*/
+
+
+	/* SECTION 6: more reveal.js specific additions by @skypanther */
+	ul, ol, div, p {
+		visibility: visible;
+		position: static;
+		width: auto;
+		height: auto;
+		display: block;
+		overflow: visible;
+		margin: 0;
+		text-align: left !important;
+	}
+	.reveal pre,
+	.reveal table {
+		margin-left: 0;
+		margin-right: 0;
+	}
+	.reveal pre code {
+		padding: 20px;
+		border: 1px solid #ddd;
+	}
+	.reveal blockquote {
+		margin: 20px 0;
+	}
+	.reveal .slides {
+		position: static !important;
+		width: auto !important;
+		height: auto !important;
+
+		left: 0 !important;
+		top: 0 !important;
+		margin-left: 0 !important;
+		margin-top: 0 !important;
+		padding: 0 !important;
+		zoom: 1 !important;
+
+		overflow: visible !important;
+		display: block !important;
+
+		text-align: left !important;
+		-webkit-perspective: none;
+		   -moz-perspective: none;
+		    -ms-perspective: none;
+		        perspective: none;
+
+		-webkit-perspective-origin: 50% 50%;
+		   -moz-perspective-origin: 50% 50%;
+		    -ms-perspective-origin: 50% 50%;
+		        perspective-origin: 50% 50%;
+	}
+	.reveal .slides section {
+		visibility: visible !important;
+		position: static !important;
+		width: auto !important;
+		height: auto !important;
+		display: block !important;
+		overflow: visible !important;
+
+		left: 0 !important;
+		top: 0 !important;
+		margin-left: 0 !important;
+		margin-top: 0 !important;
+		padding: 60px 20px !important;
+		z-index: auto !important;
+
+		opacity: 1 !important;
+
+		page-break-after: always !important;
+
+		-webkit-transform-style: flat !important;
+		   -moz-transform-style: flat !important;
+		    -ms-transform-style: flat !important;
+		        transform-style: flat !important;
+
+		-webkit-transform: none !important;
+		   -moz-transform: none !important;
+		    -ms-transform: none !important;
+		        transform: none !important;
+
+		-webkit-transition: none !important;
+		   -moz-transition: none !important;
+		    -ms-transition: none !important;
+		        transition: none !important;
+	}
+	.reveal .slides section.stack {
+		padding: 0 !important;
+	}
+	.reveal section:last-of-type {
+		page-break-after: avoid !important;
+	}
+	.reveal section .fragment {
+		opacity: 1 !important;
+		visibility: visible !important;
+
+		-webkit-transform: none !important;
+		   -moz-transform: none !important;
+		    -ms-transform: none !important;
+		        transform: none !important;
+	}
+	.reveal section img {
+		display: block;
+		margin: 15px 0px;
+		background: rgba(255,255,255,1);
+		border: 1px solid #666;
+		box-shadow: none;
+	}
+
+	.reveal section small {
+		font-size: 0.8em;
+	}
+
+}  
+</script>
+
+
+<script id="pdf-css" type="application/dynamic-css">
+    
+/**
+ * This stylesheet is used to print reveal.js
+ * presentations to PDF.
+ *
+ * https://github.com/hakimel/reveal.js#pdf-export
+ */
+
+* {
+	-webkit-print-color-adjust: exact;
+}
+
+body {
+	margin: 0 auto !important;
+	border: 0;
+	padding: 0;
+	float: none !important;
+	overflow: visible;
+}
+
+html {
+	width: 100%;
+	height: 100%;
+	overflow: visible;
+}
+
+/* Remove any elements not needed in print. */
+.nestedarrow,
+.reveal .controls,
+.reveal .progress,
+.reveal .playback,
+.reveal.overview,
+.fork-reveal,
+.share-reveal,
+.state-background {
+	display: none !important;
+}
+
+h1, h2, h3, h4, h5, h6 {
+	text-shadow: 0 0 0 #000 !important;
+}
+
+.reveal pre code {
+	overflow: hidden !important;
+	font-family: Courier, 'Courier New', monospace !important;
+}
+
+ul, ol, div, p {
+	visibility: visible;
+	position: static;
+	width: auto;
+	height: auto;
+	display: block;
+	overflow: visible;
+	margin: auto;
+}
+.reveal {
+	width: auto !important;
+	height: auto !important;
+	overflow: hidden !important;
+}
+.reveal .slides {
+	position: static;
+	width: 100%;
+	height: auto;
+
+	left: auto;
+	top: auto;
+	margin: 0 !important;
+	padding: 0 !important;
+
+	overflow: visible;
+	display: block;
+
+	-webkit-perspective: none;
+	   -moz-perspective: none;
+	    -ms-perspective: none;
+	        perspective: none;
+
+	-webkit-perspective-origin: 50% 50%; /* there isn't a none/auto value but 50-50 is the default */
+	   -moz-perspective-origin: 50% 50%;
+	    -ms-perspective-origin: 50% 50%;
+	        perspective-origin: 50% 50%;
+}
+
+.reveal .slides section {
+	page-break-after: always !important;
+
+	visibility: visible !important;
+	position: relative !important;
+	display: block !important;
+	position: relative !important;
+
+	margin: 0 !important;
+	padding: 0 !important;
+	box-sizing: border-box !important;
+	min-height: 1px;
+
+	opacity: 1 !important;
+
+	-webkit-transform-style: flat !important;
+	   -moz-transform-style: flat !important;
+	    -ms-transform-style: flat !important;
+	        transform-style: flat !important;
+
+	-webkit-transform: none !important;
+	   -moz-transform: none !important;
+	    -ms-transform: none !important;
+	        transform: none !important;
+}
+
+.reveal section.stack {
+	margin: 0 !important;
+	padding: 0 !important;
+	page-break-after: avoid !important;
+	height: auto !important;
+	min-height: auto !important;
+}
+
+.reveal img {
+	box-shadow: none;
+}
+
+.reveal .roll {
+	overflow: visible;
+	line-height: 1em;
+}
+
+/* Slide backgrounds are placed inside of their slide when exporting to PDF */
+.reveal section .slide-background {
+	display: block !important;
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	z-index: -1;
+}
+
+/* All elements should be above the slide-background */
+.reveal section>* {
+	position: relative;
+	z-index: 1;
+}
+
+/* Display slide speaker notes when 'showNotes' is enabled */
+.reveal .speaker-notes-pdf {
+	display: block;
+	width: 100%;
+	max-height: none;
+	left: auto;
+	top: auto;
+	z-index: 100;
+}
+
+/* Display slide numbers when 'slideNumber' is enabled */
+.reveal .slide-number-pdf {
+	display: block;
+	position: absolute;
+	font-size: 14px;
+}
+
+</script>
+
+
+<script>
+var style = document.createElement( 'style' );
+style.type = 'text/css';
+var style_script_id = window.location.search.match( /print-pdf/gi ) ? 'pdf-css' : 'paper-css';
+var style_script = document.getElementById(style_script_id).text;
+style.innerHTML = style_script;
+document.getElementsByTagName('head')[0].appendChild(style);
+</script>
+
+    <script src="randomization-slides_files/header-attrs-2.10/header-attrs.js"></script>
+    <link href="randomization-slides_files/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
+    <link href="randomization-slides_files/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+<section>
+    <h1 class="title">Aleatorización</h1>
+    <h2 class="author">Fill In Your Name</h2>
+    <h3 class="date">03-09-2021</h3>
+</section>
+<section id="TOC">
+<ul>
+<li><a href="#/aleatorización">Aleatorización</a>
+<ul>
+<li><a href="#/aleatorización-de-la-asignación-del-tratamiento">Aleatorización de la asignación del tratamiento</a></li>
+<li><a href="#/asignación-aleatoria-neq-muestreo-aleatorio">Asignación aleatoria <span class="math inline">\(\neq\)</span> muestreo aleatorio</a></li>
+<li><a href="#/asignación-aleatoria-neq-muestreo-aleatorio-1">Asignación aleatoria <span class="math inline">\(\neq\)</span> muestreo aleatorio</a></li>
+<li><a href="#/la-aleatorización-está-estrechamente-relacionada-con-el-diseño-de-la-investigación">La aleatorización está estrechamente relacionada con el diseño de la investigación</a></li>
+<li><a href="#/nivel-del-tratamiento-y-de-la-medición-de-variables-de-resultados">Nivel del tratamiento y de la medición de variables de resultados</a></li>
+</ul></li>
+<li><a href="#/algunos-tipos-comunes-de-aleatorización">Algunos tipos comunes de aleatorización</a>
+<ul>
+<li><a href="#/aleatorización-simple-lanzamiento-de-moneda">Aleatorización simple (lanzamiento de moneda)</a></li>
+<li><a href="#/ejemplo-aleatorización-simple-i">Ejemplo: aleatorización simple I</a></li>
+<li><a href="#/ejemplo-aleatorización-simple-ii">Ejemplo: Aleatorización simple II</a></li>
+<li><a href="#/aleatorización-completa-sacando-bolas-de-una-urna">Aleatorización completa (sacando bolas de una urna)</a></li>
+<li><a href="#/ejemplo-aleatorización-completa-i">Ejemplo: Aleatorización completa I</a></li>
+<li><a href="#/ejemplo-aleatorización-completa-ii">Ejemplo: Aleatorización completa II</a></li>
+<li><a href="#/aleatorización-en-bloque-o-estratificada-i">Aleatorización en bloque (o estratificada) I</a></li>
+<li><a href="#/aleatorización-en-bloque-o-estratificada-ii">Aleatorización en bloque (o estratificada) II</a></li>
+<li><a href="#/aleatorización-por-conglomerados-i">Aleatorización por conglomerados I</a></li>
+<li><a href="#/aleatorización-por-conglomerados-ii">Aleatorización por conglomerados II</a></li>
+<li><a href="#/aleatorización-por-conglomerados-ii-1">Aleatorización por conglomerados II</a></li>
+<li><a href="#/usted-puede-combinar-bloques-y-conglomerados">Usted puede combinar bloques y conglomerados</a></li>
+</ul></li>
+<li><a href="#/buenas-prácticas">Buenas prácticas</a>
+<ul>
+<li><a href="#/buenas-prácticas-replicabilidad">Buenas prácticas: replicabilidad</a></li>
+<li><a href="#/buenas-prácticas-balance">Buenas Prácticas: balance</a></li>
+<li><a href="#/buenas-prácticas-balance-1">Buenas prácticas: balance</a></li>
+</ul></li>
+<li><a href="#/algunos-diseños-experimentales">Algunos diseños experimentales</a>
+<ul>
+<li><a href="#/acceso">Acceso</a></li>
+<li><a href="#/acceso-retrasado-fase-transitoria-o-lista-de-espera">Acceso retrasado (fase transitoria o lista de espera)</a></li>
+<li><a href="#/asignación-factorial-o-cruzada">Asignación factorial o cruzada</a></li>
+<li><a href="#/estímulo">Estímulo</a></li>
+</ul></li>
+<li><a href="#/algunos-limites">Algunos limites</a>
+<ul>
+<li><a href="#/límites-para-los-estudios-aleatorizados">Límites para los estudios aleatorizados</a></li>
+<li><a href="#/referencias">Referencias</a></li>
+</ul></li>
+</ul>
+</section>
+
+<section>
+<section id="aleatorización" class="title-slide slide level1">
+<h1>Aleatorización</h1>
+
+</section>
+<section id="aleatorización-de-la-asignación-del-tratamiento" class="slide level2 allowframebreaks">
+<h2 class="allowframebreaks">Aleatorización de la asignación del tratamiento</h2>
+<p>Comenzar con un grupo de unidades que se puedan observar directamente, como las personas que se presentaron a un laboratorio, las aldeas de una región, las personas dispuestas a responder una encuesta.</p>
+<ul>
+<li><p>Cada observación tiene una probabilidad conocida de asignación al tratamiento entre 0 y 1.</p>
+<ul>
+<li>Ninguna unidad de la muestra experimental está asignada al tratamiento o al control con certeza.</li>
+</ul></li>
+<li><p>Las unidades pueden variar en su probabilidad de asignación al tratamiento.</p>
+<ul>
+<li><p>Por ejemplo, la probabilidad puede variar según el grupo: las mujeres pueden tener un 75% de probabilidad de ser asignadas al tratamiento.</p></li>
+<li><p>Las probabilidades de asignación pueden incluso variar entre unidades <strong>siempre que se conozca la probabilidad de todas y cada una de las unidades</strong>, aunque igual esto complicaría el análisis.</p></li>
+</ul></li>
+</ul>
+</section>
+<section id="asignación-aleatoria-neq-muestreo-aleatorio" class="slide level2">
+<h2>Asignación aleatoria <span class="math inline">\(\neq\)</span> muestreo aleatorio</h2>
+<ul>
+<li><p>Muestreo aleatorio (de la población): A partir de una población definida, seleccionar unidades con una probabilidad conocida para formar una muestra. No se puede observar directamente a toda la población y por esto se selecciona una muestra.</p></li>
+<li><p>Aleatorización (del tratamiento): Asignar sujetos provenientes de un grupo existente a las distintas condiciones experimentales con un probabilidad conocida.</p>
+<ul>
+<li><p>Debe poder observar la realización de la variable de resultado y la asignación del tratamiento para cada sujeto del grupo</p></li>
+<li><p>Esta asignación aleatoria del tratamiento se puede combinar con cualquier tipo de muestra (muestra aleatoria, muestra de conveniencia, etc.) o incluso con toda la población todos los hospitales, todos los jueces).</p></li>
+</ul></li>
+</ul>
+</section>
+<section id="asignación-aleatoria-neq-muestreo-aleatorio-1" class="slide level2">
+<h2>Asignación aleatoria <span class="math inline">\(\neq\)</span> muestreo aleatorio</h2>
+<ul>
+<li><p>La forma en que se selecciona el grupo inicial (o grupo experimental) importa:</p>
+<ul>
+<li><p>un grupo inicial grande se traduce en un experimento más grande y en más poder estadístico para detectar efectos pequeños.</p></li>
+<li><p>un grupo inicial seleccionado usando muestreo aleatorio a partir de una población conocida le da validez al argumento de que los efectos podrían ser los mismos o similares si se hiciera este experimento con otra muestra a partir de la misma población.</p></li>
+<li><p>un grupo experimental seleccionado usando muestreo aleatorio también le da soporte al argumento de que el efecto debe ser similar si escalara la intervención a toda la población dependiendo de los factores de equilibrio global.</p></li>
+</ul></li>
+</ul>
+</section>
+<section id="la-aleatorización-está-estrechamente-relacionada-con-el-diseño-de-la-investigación" class="slide level2">
+<h2>La aleatorización está estrechamente relacionada con el diseño de la investigación</h2>
+<ul>
+<li><p>Ver módulo sobre <a href="/research-design.html">Diseño de investigación</a></p></li>
+<li><p>Recuerden que se necesita definir y justificar la condición de control:</p>
+<ul>
+<li>esta puede ser ninguna intervención</li>
+<li>o un placebo</li>
+</ul></li>
+</ul>
+</section>
+<section id="nivel-del-tratamiento-y-de-la-medición-de-variables-de-resultados" class="slide level2">
+<h2>Nivel del tratamiento y de la medición de variables de resultados</h2>
+<ul>
+<li><p>El tratamiento se puede asignar a diferentes niveles: individuos, grupos, instituciones, comunidades, períodos de tiempo o muchos niveles diferentes.</p></li>
+<li><p>Es posible que no se tenga total libertad al momento de decidir a qué nivel se <em>asigna</em> el tratamiento y a qué nivel se <em>miden</em> las variables de resultado.</p>
+<ul>
+<li><p>Ejemplo: Tratamiento a nivel aula, pero variables a nivel alumno.</p></li>
+<li><p>Ejemplo: tratamiento a nivel distrito, pero variables a nivel comunidad.</p></li>
+</ul></li>
+<li><p>El nivel al que se asigna el tratamiento y al que se miden las variables de resultado afecta lo que un estudio puede demostrar.</p></li>
+</ul>
+</section></section>
+<section>
+<section id="algunos-tipos-comunes-de-aleatorización" class="title-slide slide level1">
+<h1>Algunos tipos comunes de aleatorización</h1>
+
+</section>
+<section id="aleatorización-simple-lanzamiento-de-moneda" class="slide level2">
+<h2>Aleatorización simple (lanzamiento de moneda)</h2>
+<ul>
+<li><p>Para cada unidad, se lanza una moneda para ver si esta será tratada. Luego se miden las variable de resultados distinguiendo entre los valores de la moneda.</p></li>
+<li><p>Las monedas no tienen que estar equilibradas (50-50), pero se debe conocer la probabilidad de asignación al tratamiento.</p></li>
+<li><p>No se puede garantizar un número específico de unidades tratadas y unidades de control.</p></li>
+<li><p>Ejemplo: si tiene 6 unidades y lanza una moneda equilibrada por cada una, tiene aproximadamente un 3% de posibilidades de asignar <strong>todas</strong> las unidades al tratamiento o asignar <strong>todas</strong> las unidades al control.</p></li>
+</ul>
+</section>
+<section id="ejemplo-aleatorización-simple-i" class="slide level2">
+<h2>Ejemplo: aleatorización simple I</h2>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Definir un número de semilla aleatoria  para asegurarse</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="co"># que el código es replicable</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">12345</span>)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Definir un tamaño de muestra</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>N <span class="ot">&lt;-</span> <span class="dv">200</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Crear la asignación aleatoria simple</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="co"># (Tengan en cuenta que en un experimento se</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="co"># tiene solo un intento y por lo tanto size=1)</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Llamamos simple.ra a nuestro objeto</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="co"># con N personas en total</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>simple.ra <span class="ot">&lt;-</span> <span class="fu">rbinom</span>(<span class="at">n =</span> N, <span class="at">size =</span> <span class="dv">1</span>, <span class="at">prob =</span> .<span class="dv">5</span>)</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="co"># 112 personas fueron asignadas al tratamiento</span></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(simple.ra)</span></code></pre></div>
+<pre><code>[1] 112</code></pre>
+</section>
+<section id="ejemplo-aleatorización-simple-ii" class="slide level2">
+<h2>Ejemplo: Aleatorización simple II</h2>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># También pueden utilizar el paqueter randomizr</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(randomizr)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Para que sea replicable</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">23456</span>)</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Para hacer aleatorización simple</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="co"># utilizamos  la función simple_ra</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Nuestro objecto con N personas en total</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="co"># se llama treatment</span></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>treatment <span class="ot">&lt;-</span> <span class="fu">simple_ra</span>(</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">N    =</span> N, <span class="co"># total sample size</span></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">prob =</span> <span class="fl">0.5</span> <span class="co"># probability of receiving treatment</span></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(treatment)</span></code></pre></div>
+<pre><code>[1] 96</code></pre>
+</section>
+<section id="aleatorización-completa-sacando-bolas-de-una-urna" class="slide level2">
+<h2>Aleatorización completa (sacando bolas de una urna)</h2>
+<ul>
+<li><p>Se asigna al tratamiento un número fijo <span class="math inline">\(m\)</span> de <span class="math inline">\(N\)</span> unidades.</p></li>
+<li><p>La probabilidad de que se asigne una unidad al tratamiento es <span class="math inline">\(m/N\)</span>.</p></li>
+<li><p>Esto es como tener una urna o tazón con <span class="math inline">\(N\)</span> bolas de las cuales <span class="math inline">\(m\)</span> se marcan como tratamiento y <span class="math inline">\(N-m\)</span> como control. Las loterías públicas utilizan este método.</p></li>
+</ul>
+</section>
+<section id="ejemplo-aleatorización-completa-i" class="slide level2">
+<h2>Ejemplo: Aleatorización completa I</h2>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Defina el tamaño de la muestra  N</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>N <span class="ot">&lt;-</span> <span class="dv">200</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Defina la cantidad de unidades tratatadas m</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>m <span class="ot">&lt;-</span> <span class="dv">100</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Cree un vector de m 1&#39;s y N-m 0&#39;s</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>complete.ra <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">rep</span>(<span class="dv">1</span>, m), <span class="fu">rep</span>(<span class="dv">0</span>, N <span class="sc">-</span> m))</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a><span class="co"># y después reorganícelo utilizando sample()</span></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Por defecto la función hace muestreo sin reemplazo</span></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">12345</span>) <span class="co"># para que sea replicable</span></span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>complete.ra <span class="ot">&lt;-</span> <span class="fu">sample</span>(complete.ra)</span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(complete.ra)</span></code></pre></div>
+<pre><code>[1] 100</code></pre>
+</section>
+<section id="ejemplo-aleatorización-completa-ii" class="slide level2">
+<h2>Ejemplo: Aleatorización completa II</h2>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># También puede usar el paquete randomizr</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(randomizr)</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="co"># para replicar</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">23456</span>)</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Asignación utilizando aleatorización completa</span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>treatment <span class="ot">&lt;-</span> <span class="fu">complete_ra</span>(</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">N =</span> <span class="dv">200</span>, <span class="co"># tamaño de la muestra</span></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">m =</span> <span class="dv">100</span></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>) <span class="co"># No. de unidades asignadas al</span></span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a><span class="co"># tratamiento</span></span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(treatment)</span></code></pre></div>
+<pre><code>[1] 100</code></pre>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Pruebe que pasa si no se especifica m</span></span></code></pre></div>
+</section>
+<section id="aleatorización-en-bloque-o-estratificada-i" class="slide level2">
+<h2>Aleatorización en bloque (o estratificada) I</h2>
+<ul>
+<li><p>Creamos bloques de unidades y seleccionamos unidades al azar dentro de cada bloque por separado. Es como si hicieramos mini-experimentos en cada bloque.</p>
+<ul>
+<li>Ejemplo: bloque = distrito, unidades = comunidades. Aleatorizamos el tratamiento al nivel de la comunidad <strong>dentro de un distrito</strong> y también medimos nuestras variables de resultado al nivel de la comunidad.</li>
+</ul></li>
+<li><p>Los bloques que representan un subgrupo sustancialmente significativo pueden ayudarnos a entender cómo los efectos pueden diferir por subgrupo.</p>
+<ul>
+<li><p>Al controlar el número de sujetos por subgrupo nos aseguramos de tener suficientes sujetos en cada grupo.</p></li>
+<li><p>Esto es especialmente útil cuando se tiene un grupo atípico: por simple chance puede que resulten muy pocas unidades de ese grupo en el tratamiento o en el control, incluso si hacemos asignación aleatoria (o puede que haya algún desbalance).</p></li>
+</ul></li>
+</ul>
+</section>
+<section id="aleatorización-en-bloque-o-estratificada-ii" class="slide level2">
+<h2>Aleatorización en bloque (o estratificada) II</h2>
+<ul>
+<li>Los bloques homogéneos con respecto a una variable de resultado aumentan la precisión de estimación para esa variable en comparación con un experimento sin bloques. (Hablaremos de esto en más detalle en la sección de poder estadístico).</li>
+</ul>
+</section>
+<section id="aleatorización-por-conglomerados-i" class="slide level2">
+<h2>Aleatorización por conglomerados I</h2>
+<ul>
+<li><p>Un conglomerado es un <strong>grupo de unidades</strong>. En un estudio aleatorizado por conglomerados, todas las unidades del conglomerado se asignan al mismo estado de tratamiento.</p></li>
+<li><p>Se debe usar la aleatorización por conglomerados si la intervención se lleva a cabo al nivel de conglomerados.</p>
+<ul>
+<li>Por ejemplo, si la intervención tiene que ver con los patios de recreo de la escuela, entonces la escuela es la unidad de asignación, incluso si la salud de los estudiantes es una variable de interés medida al nivel de los estudiantes.</li>
+</ul></li>
+<li><p>Tener pocos conglomerados perjudica nuestra capacidad para detectar efectos del tratamiento y puede que conduzca a valores <span class="math inline">\(p\)</span> e intervalos de confianza incorrectos (o incluso estimaciones incorrectas). <em>Qué tanto</em> depende de la correlación intra-clúster (ICC o <span class="math inline">\(\rho\)</span>).</p></li>
+</ul>
+</section>
+<section id="aleatorización-por-conglomerados-ii" class="slide level2">
+<h2>Aleatorización por conglomerados II</h2>
+<ul>
+<li><p>Es peor entre más alto es el <span class="math inline">\(\rho\)</span> :</p>
+<ul>
+<li>Si <span class="math inline">\(\rho = 0\)</span>, la aldea no es relevante en el comportamiento de los individuos.</li>
+<li>Si <span class="math inline">\(\rho = 1\)</span>, todas las personas de la aldea darían exactamente la misma respuesta. Incluir a otra persona de esta aldea no nos daría información adicional ya que el valor para la variable de resultado es idéntico al de las personas que ya habían sido seleccionadas.</li>
+</ul></li>
+<li><p>Dado un número fijo de unidades, un número <strong>máyor de conglomerados</strong> con menos unidades por conglomerado puede ayudar.</p></li>
+</ul>
+</section>
+<section id="aleatorización-por-conglomerados-ii-1" class="slide level2">
+<h2>Aleatorización por conglomerados II</h2>
+<ul>
+<li><p>Hay una disyuntiva entre propagación y poder.</p></li>
+<li><p>Si ustedes consideran que un experimento con 10 unidades no es ideal, entonces tampoco deberían estar satisfechos con un experimento con 10 conglomerados de 100 unidades cada uno. El tamaño de muestra efectivo de este experimento aleatorio de conglomerados está entre 10 y 10 <span class="math inline">\(\times\)</span> 100 = 1000, pero más cerca de 10 cuanto mayor sea el <span class="math inline">\(\rho\)</span>.</p></li>
+</ul>
+</section>
+<section id="usted-puede-combinar-bloques-y-conglomerados" class="slide level2">
+<h2>Usted puede combinar bloques y conglomerados</h2>
+<ul>
+<li><p>Puede haber conglomerados dentro de los bloques</p>
+<ul>
+<li><p>Ejemplo: bloque = distrito, conglomerado = comunidades, unidades = individuos. Las variables se miden al nivel del individuo.</p></li>
+<li><p>Ejemplo: bloque = provincia, conglomerado = distrito, unidades = comunidades. Las variables se miden al nivel de la comunidad.</p></li>
+</ul></li>
+<li><p>No debe haber bloques dentro de los conglomerados</p></li>
+<li><p>Para hacer aleatorización por bloques o conglomerados, puede utlizar las funciones <code>block_ra</code> y <code>cluster_ra</code> del paquete de R, <code>randomizr</code>.</p></li>
+<li><p>Para diseños más complejos el paquete de R, DeclareDesign` (<a href="https://declaredesign.org" class="uri">https://declaredesign.org</a>), les puede ser útil.</p></li>
+</ul>
+</section></section>
+<section>
+<section id="buenas-prácticas" class="title-slide slide level1">
+<h1>Buenas prácticas</h1>
+
+</section>
+<section id="buenas-prácticas-replicabilidad" class="slide level2">
+<h2>Buenas prácticas: replicabilidad</h2>
+<ul>
+<li><p>Guía de métodos de EGAP sobre aleatoriedad (<a href="https://egap.org/resource/10-things-to-know-about-randomization/" class="uri">https://egap.org/resource/10-things-to-know-about-randomization/</a>)</p></li>
+<li><p>Definir una semilla (seed) y guardar el código y la columna con la asignación aleatoria.</p></li>
+<li><p>Verificar</p></li>
+<li><p>En algunas ocasiones mayor transparencia &gt; replicabilidad</p></li>
+</ul>
+</section>
+<section id="buenas-prácticas-balance" class="slide level2">
+<h2>Buenas Prácticas: balance</h2>
+<ul>
+<li>Revisar el balance general del estudio con una prueba D cuadrado (D-square test) utilizando la función <code>xBalance</code> en el paquete <code>RItools</code> (<span class="citation" data-cites="hansen:bowers:2008">Hansen and Bowers (<a href="#/ref-hansen:bowers:2008" role="doc-biblioref">2008</a>)</span>)(inferencia de aleatorización con muestras grandes):</li>
+</ul>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">xBalance</span>(treatment <span class="sc">~</span> x1 <span class="sc">+</span> x2, <span class="at">data =</span> dat, <span class="at">report =</span> <span class="st">&quot;chisquare&quot;</span>)</span></code></pre></div>
+<ul>
+<li><p>También puede ver <code>independence_test</code> del paquete <code>coin</code>, la versión basada en permutaciones</p></li>
+<li><p>Use la prueba F de una regresión, tomando la asignación al tratamiento como variable dependiente y las covariables como variables explicativas.</p></li>
+</ul>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(<span class="fu">lm</span>(treatment <span class="sc">~</span> <span class="dv">1</span>, <span class="at">data =</span> dat),</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">lm</span>(treatment <span class="sc">~</span> x1 <span class="sc">+</span> x2 <span class="sc">+</span> x3, <span class="at">data =</span> dat),</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">test =</span> <span class="st">&quot;F&quot;</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+</section>
+<section id="buenas-prácticas-balance-1" class="slide level2">
+<h2>Buenas prácticas: balance</h2>
+<ul>
+<li><p>La asignación aleatoria nos da, en valor esperado, <strong>balance general</strong> en las distintas covariables. Esto no garantiza que todas las relaciones entre el tratamiento y las covariables sean cero. De hecho, en un experimento pequeño, la magnitud del desbalance puede llegar ser alta, incluso si la aleatorización se produjo perfectamente.</p>
+<ul>
+<li>Es común ver pruebas t realizadas de a una en una por cada covariable. Por simple chance, es posible ques se obtenga diferencias estadísticamente significativas para una variable. Si se hacen pruebas de balance para 100 variables por separado, para 5 de ella se rechazará la hipótesis nula de que no hay relación, incluso cuando verdaderamente no hay relación.</li>
+</ul></li>
+</ul>
+</section></section>
+<section>
+<section id="algunos-diseños-experimentales" class="title-slide slide level1">
+<h1>Algunos diseños experimentales</h1>
+
+</section>
+<section id="acceso" class="slide level2">
+<h2>Acceso</h2>
+<ul>
+<li><p>Seleccionar al azar un grupo que recibirá tratamiento a través de una lotería o un mecanismo equivalente que aleatoriza <strong>el acceso</strong> al programa.</p></li>
+<li><p>Útil cuando no se tienen suficientes recursos para tratar a todos.</p></li>
+<li><p>A veces algunas unidades (personas, comunidades) deben tener acceso a un programa.</p>
+<ul>
+<li>Por ejemplo: una organización asociada no quiere arriesgar que una comunidad vulnerable NO obtenga un programa (quiere una garantía de que siempre serán tratados).</li>
+<li>Puede excluir esas unidades del experimento y realizar una asignación aleatoria entre las unidades restantes que tienen una probabilidad de asignación estrictamente entre (y sin incluir) 0 y 1.</li>
+</ul></li>
+</ul>
+</section>
+<section id="acceso-retrasado-fase-transitoria-o-lista-de-espera" class="slide level2">
+<h2>Acceso retrasado (fase transitoria o lista de espera)</h2>
+<ul>
+<li><p>Aleatorizar <em>el momento</em> de acceso al programa.</p></li>
+<li><p>A menudo no se tiene la capacidad para implementar el tratamiento en muchos lugares a la vez.</p></li>
+<li><p>Cuando una intervención puede o debe implementarse en etapas, se puede aleatorizar el orden en el que se tratan las unidades.</p></li>
+<li><p>El grupo de control serían las unidades que aún no han sido tratadas.</p></li>
+<li><p>Tengan cuidado: la probabilidad de asignación al tratamiento variará con el tiempo porque las unidades que se asignan al tratamiento en las primeras etapas no son elegibles para ser asignadas al tratamiento en etapas posteriores.</p></li>
+</ul>
+</section>
+<section id="asignación-factorial-o-cruzada" class="slide level2">
+<h2>Asignación factorial o cruzada</h2>
+<ul>
+<li><p>El diseño factorial permite evaluar más de un tratamiento.</p></li>
+<li><p>Puede analizar un tratamiento a la vez.</p></li>
+<li><p>O combinaciones de los mismos.</p></li>
+<li><p>Ejemplo:</p></li>
+</ul>
+<p>Podríamos interesarnos en un estimando como <span class="math inline">\(\mathbb{E}[Y(X_1=1, X_2=1)]-\mathbb{E}[Y(X_1=0, X_2=0)]\)</span>.</p>
+</section>
+<section id="estímulo" class="slide level2">
+<h2>Estímulo</h2>
+<ul>
+<li><p>Aleatorizar el <strong>estímulo</strong> para tomar el tratamiento, como una invitación o un subsidio para participar en un programa.</p></li>
+<li><p>Útil cuando no se puede obligar a un sujeto a participar.</p></li>
+<li><p>Estimaciones:</p>
+<ul>
+<li><p>el ATE del estímulo para la muestra experimental.</p></li>
+<li><p>el ATE de la participación (no el estímulo) para las unidades que participarían sólo cuando reciben el estímulo y no participarían cuando no lo reciben (cumplidores).</p></li>
+</ul></li>
+<li><p>Análisis de variables instrumentales para el ATE del cumplidor con la asignación como instrumento. Tenga en cuenta la restricción de exclusión.</p></li>
+</ul>
+</section></section>
+<section>
+<section id="algunos-limites" class="title-slide slide level1">
+<h1>Algunos limites</h1>
+
+</section>
+<section id="límites-para-los-estudios-aleatorizados" class="slide level2">
+<h2>Límites para los estudios aleatorizados</h2>
+<ul>
+<li><p>Ética: ¿Es ético este tipo de manipulación? A veces no lo será.</p></li>
+<li><p>Debe realizarse en tiempo real antes de que comience la intervención.</p></li>
+<li><p>Se reduce la flexibilidad para las organizaciones asociadas (problema para cualquier evaluación prospectiva).</p></li>
+<li><p>Límites al tamaño del grupo experimental.</p></li>
+<li><p>Costo.</p></li>
+<li><p>Restricción al poder estadístico: se necesitan muchas unidades (problema para muchos métodos estadísticos).</p></li>
+<li><p>Violaciones de los supuestos clave (propagación; violación del segundo supuesto clave de la <a href="causalinference.html">Inferencia causal</a>).</p></li>
+<li><p>Validez externa (problema para cualquier evaluación y ciencias sociales en general).</p></li>
+</ul>
+</section>
+<section id="referencias" class="slide level2 unnumbered">
+<h2 class="unnumbered">Referencias</h2>
+<div id="refs" class="references csl-bib-body hanging-indent" role="doc-bibliography">
+<div id="ref-hansen:bowers:2008" class="csl-entry" role="doc-biblioentry">
+Hansen, Ben B., and Jake Bowers. 2008. <span>“Covariate Balance in Simple, Stratified and Clustered Comparative Studies.”</span> <em>Statistical Science</em> 23 (2): 219–36.
+</div>
+</div>
+</section></section>
+    </div>
+  </div>
+
+  <script src="randomization-slides_files/reveal.js-3.3.0.1/lib/js/head.min.js"></script>
+  <script src="randomization-slides_files/reveal.js-3.3.0.1/js/reveal.js"></script>
+
+  <script>
+
+      // Full list of configuration options available at:
+      // https://github.com/hakimel/reveal.js#configuration
+      Reveal.initialize({
+        // Display controls in the bottom right corner
+        controls: true,
+        // Display a presentation progress bar
+        progress: true,
+        // Display the page number of the current slide
+        slideNumber: true,
+        // Push each slide change to the browser history
+        history: true,
+        // Enable keyboard shortcuts for navigation
+        keyboard: true,
+        // Enable the slide overview mode
+        overview: true,
+        // Vertical centering of slides
+        center: false,
+        // Enables touch navigation on devices with touch input
+        touch: true,
+        // Turns fragments on and off globally
+        fragments: true,
+        // Flags if we should show a help overlay when the questionmark
+        // key is pressed
+        help: true,
+        // Number of milliseconds between automatically proceeding to the
+        // next slide, disabled when set to 0, this value can be overwritten
+        // by using a data-autoslide attribute on your slides
+        autoSlide: 0,
+        // Stop auto-sliding after user input
+        autoSlideStoppable: true,
+        // Opens links in an iframe preview overlay
+        previewLinks: true,
+        // Transition style
+        transition: 'fade', // none/fade/slide/convex/concave/zoom
+        // Transition speed
+        transitionSpeed: 'default', // default/fast/slow
+        // Transition style for full page slide backgrounds
+        backgroundTransition: 'default', // none/fade/slide/convex/concave/zoom
+        // Number of slides away from the current that are visible
+        viewDistance: 3,
+
+
+
+        chalkboard: {
+          toggleNotesButton: false,
+          theme: 'whiteboard',
+        },
+
+        keyboard: {
+          67: function() { RevealChalkboard.toggleNotesCanvas() },    // toggle notes canvas when 'c' is pressed
+          66: function() { RevealChalkboard.toggleChalkboard() }, // toggle chalkboard when 'b' is pressed
+          46: function() { RevealChalkboard.clear() },    // clear chalkboard when 'DEL' is pressed
+           8: function() { RevealChalkboard.reset() },    // reset chalkboard data on current slide when 'BACKSPACE' is pressed
+          68: function() { RevealChalkboard.download() }, // downlad recorded chalkboard drawing when 'd' is pressed
+        },
+
+        // Optional reveal.js plugins
+        dependencies: [
+          { src: 'randomization-slides_files/reveal.js-3.3.0.1/plugin/notes/notes.js', async: true },
+          { src: 'randomization-slides_files/reveal.js-3.3.0.1/plugin/search/search.js', async: true },
+          { src: 'randomization-slides_files/reveal.js-3.3.0.1/plugin/chalkboard/chalkboard.js', async: true },
+        ]
+      });
+    </script>
+  <!-- dynamically load mathjax for compatibility with self-contained -->
+  <script>
+    (function () {
+      var script = document.createElement("script");
+      script.type = "text/javascript";
+      script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+      document.getElementsByTagName("head")[0].appendChild(script);
+    })();
+  </script>
+
+<script>
+  (function() {
+    if (window.jQuery) {
+      Reveal.addEventListener( 'slidechanged', function(event) {  
+        window.jQuery(event.previousSlide).trigger('hidden');
+        window.jQuery(event.currentSlide).trigger('shown');
+      });
+    }
+  })();
+</script>
+
+
+  </body>
+</html>

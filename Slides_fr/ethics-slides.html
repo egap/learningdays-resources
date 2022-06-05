@@ -1,0 +1,920 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="generator" content="pandoc">
+  <meta name="author" content="Mettre votre nom" />
+  <title>Considérations éthiques dans la recherche expérimentale en sciences sociales</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <link rel="stylesheet" href="ethics-slides_files/reveal.js-3.3.0.1/css/reveal.css"/>
+
+
+
+<link rel="stylesheet" href="ethics-slides_files/reveal.js-3.3.0.1/css/theme/simple.css" id="theme">
+
+
+  <!-- some tweaks to reveal css -->
+  <style type="text/css">
+    .reveal h1 { font-size: 2.0em; }
+    .reveal h2 { font-size: 1.5em;  }
+    .reveal h3 { font-size: 1.25em;	}
+    .reveal h4 { font-size: 1em;	}
+
+    .reveal .slides>section,
+    .reveal .slides>section>section {
+      padding: 0px 0px;
+    }
+
+
+
+    .reveal table {
+      border-width: 1px;
+      border-spacing: 2px;
+      border-style: dotted;
+      border-color: gray;
+      border-collapse: collapse;
+      font-size: 0.7em;
+    }
+
+    .reveal table th {
+      border-width: 1px;
+      padding-left: 10px;
+      padding-right: 25px;
+      font-weight: bold;
+      border-style: dotted;
+      border-color: gray;
+    }
+
+    .reveal table td {
+      border-width: 1px;
+      padding-left: 10px;
+      padding-right: 25px;
+      border-style: dotted;
+      border-color: gray;
+    }
+
+
+  </style>
+
+    <style type="text/css">code{white-space: pre;}</style>
+
+
+<!-- Printing and PDF exports -->
+<script id="paper-css" type="application/dynamic-css">
+
+/* Default Print Stylesheet Template
+   by Rob Glazebrook of CSSnewbie.com
+   Last Updated: June 4, 2008
+
+   Feel free (nay, compelled) to edit, append, and
+   manipulate this file as you see fit. */
+
+
+@media print {
+
+	/* SECTION 1: Set default width, margin, float, and
+	   background. This prevents elements from extending
+	   beyond the edge of the printed page, and prevents
+	   unnecessary background images from printing */
+	html {
+		background: #fff;
+		width: auto;
+		height: auto;
+		overflow: visible;
+	}
+	body {
+		background: #fff;
+		font-size: 20pt;
+		width: auto;
+		height: auto;
+		border: 0;
+		margin: 0 5%;
+		padding: 0;
+		overflow: visible;
+		float: none !important;
+	}
+
+	/* SECTION 2: Remove any elements not needed in print.
+	   This would include navigation, ads, sidebars, etc. */
+	.nestedarrow,
+	.controls,
+	.fork-reveal,
+	.share-reveal,
+	.state-background,
+	.reveal .progress,
+	.reveal .backgrounds {
+		display: none !important;
+	}
+
+	/* SECTION 3: Set body font face, size, and color.
+	   Consider using a serif font for readability. */
+	body, p, td, li, div {
+		font-size: 20pt!important;
+		font-family: Georgia, "Times New Roman", Times, serif !important;
+		color: #000;
+	}
+
+	/* SECTION 4: Set heading font face, sizes, and color.
+	   Differentiate your headings from your body text.
+	   Perhaps use a large sans-serif for distinction. */
+	h1,h2,h3,h4,h5,h6 {
+		color: #000!important;
+		height: auto;
+		line-height: normal;
+		font-family: Georgia, "Times New Roman", Times, serif !important;
+		text-shadow: 0 0 0 #000 !important;
+		text-align: left;
+		letter-spacing: normal;
+	}
+	/* Need to reduce the size of the fonts for printing */
+	h1 { font-size: 28pt !important;  }
+	h2 { font-size: 24pt !important; }
+	h3 { font-size: 22pt !important; }
+	h4 { font-size: 22pt !important; font-variant: small-caps; }
+	h5 { font-size: 21pt !important; }
+	h6 { font-size: 20pt !important; font-style: italic; }
+
+	/* SECTION 5: Make hyperlinks more usable.
+	   Ensure links are underlined, and consider appending
+	   the URL to the end of the link for usability. */
+	a:link,
+	a:visited {
+		color: #000 !important;
+		font-weight: bold;
+		text-decoration: underline;
+	}
+	/*
+	.reveal a:link:after,
+	.reveal a:visited:after {
+		content: " (" attr(href) ") ";
+		color: #222 !important;
+		font-size: 90%;
+	}
+	*/
+
+
+	/* SECTION 6: more reveal.js specific additions by @skypanther */
+	ul, ol, div, p {
+		visibility: visible;
+		position: static;
+		width: auto;
+		height: auto;
+		display: block;
+		overflow: visible;
+		margin: 0;
+		text-align: left !important;
+	}
+	.reveal pre,
+	.reveal table {
+		margin-left: 0;
+		margin-right: 0;
+	}
+	.reveal pre code {
+		padding: 20px;
+		border: 1px solid #ddd;
+	}
+	.reveal blockquote {
+		margin: 20px 0;
+	}
+	.reveal .slides {
+		position: static !important;
+		width: auto !important;
+		height: auto !important;
+
+		left: 0 !important;
+		top: 0 !important;
+		margin-left: 0 !important;
+		margin-top: 0 !important;
+		padding: 0 !important;
+		zoom: 1 !important;
+
+		overflow: visible !important;
+		display: block !important;
+
+		text-align: left !important;
+		-webkit-perspective: none;
+		   -moz-perspective: none;
+		    -ms-perspective: none;
+		        perspective: none;
+
+		-webkit-perspective-origin: 50% 50%;
+		   -moz-perspective-origin: 50% 50%;
+		    -ms-perspective-origin: 50% 50%;
+		        perspective-origin: 50% 50%;
+	}
+	.reveal .slides section {
+		visibility: visible !important;
+		position: static !important;
+		width: auto !important;
+		height: auto !important;
+		display: block !important;
+		overflow: visible !important;
+
+		left: 0 !important;
+		top: 0 !important;
+		margin-left: 0 !important;
+		margin-top: 0 !important;
+		padding: 60px 20px !important;
+		z-index: auto !important;
+
+		opacity: 1 !important;
+
+		page-break-after: always !important;
+
+		-webkit-transform-style: flat !important;
+		   -moz-transform-style: flat !important;
+		    -ms-transform-style: flat !important;
+		        transform-style: flat !important;
+
+		-webkit-transform: none !important;
+		   -moz-transform: none !important;
+		    -ms-transform: none !important;
+		        transform: none !important;
+
+		-webkit-transition: none !important;
+		   -moz-transition: none !important;
+		    -ms-transition: none !important;
+		        transition: none !important;
+	}
+	.reveal .slides section.stack {
+		padding: 0 !important;
+	}
+	.reveal section:last-of-type {
+		page-break-after: avoid !important;
+	}
+	.reveal section .fragment {
+		opacity: 1 !important;
+		visibility: visible !important;
+
+		-webkit-transform: none !important;
+		   -moz-transform: none !important;
+		    -ms-transform: none !important;
+		        transform: none !important;
+	}
+	.reveal section img {
+		display: block;
+		margin: 15px 0px;
+		background: rgba(255,255,255,1);
+		border: 1px solid #666;
+		box-shadow: none;
+	}
+
+	.reveal section small {
+		font-size: 0.8em;
+	}
+
+}  
+</script>
+
+
+<script id="pdf-css" type="application/dynamic-css">
+    
+/**
+ * This stylesheet is used to print reveal.js
+ * presentations to PDF.
+ *
+ * https://github.com/hakimel/reveal.js#pdf-export
+ */
+
+* {
+	-webkit-print-color-adjust: exact;
+}
+
+body {
+	margin: 0 auto !important;
+	border: 0;
+	padding: 0;
+	float: none !important;
+	overflow: visible;
+}
+
+html {
+	width: 100%;
+	height: 100%;
+	overflow: visible;
+}
+
+/* Remove any elements not needed in print. */
+.nestedarrow,
+.reveal .controls,
+.reveal .progress,
+.reveal .playback,
+.reveal.overview,
+.fork-reveal,
+.share-reveal,
+.state-background {
+	display: none !important;
+}
+
+h1, h2, h3, h4, h5, h6 {
+	text-shadow: 0 0 0 #000 !important;
+}
+
+.reveal pre code {
+	overflow: hidden !important;
+	font-family: Courier, 'Courier New', monospace !important;
+}
+
+ul, ol, div, p {
+	visibility: visible;
+	position: static;
+	width: auto;
+	height: auto;
+	display: block;
+	overflow: visible;
+	margin: auto;
+}
+.reveal {
+	width: auto !important;
+	height: auto !important;
+	overflow: hidden !important;
+}
+.reveal .slides {
+	position: static;
+	width: 100%;
+	height: auto;
+
+	left: auto;
+	top: auto;
+	margin: 0 !important;
+	padding: 0 !important;
+
+	overflow: visible;
+	display: block;
+
+	-webkit-perspective: none;
+	   -moz-perspective: none;
+	    -ms-perspective: none;
+	        perspective: none;
+
+	-webkit-perspective-origin: 50% 50%; /* there isn't a none/auto value but 50-50 is the default */
+	   -moz-perspective-origin: 50% 50%;
+	    -ms-perspective-origin: 50% 50%;
+	        perspective-origin: 50% 50%;
+}
+
+.reveal .slides section {
+	page-break-after: always !important;
+
+	visibility: visible !important;
+	position: relative !important;
+	display: block !important;
+	position: relative !important;
+
+	margin: 0 !important;
+	padding: 0 !important;
+	box-sizing: border-box !important;
+	min-height: 1px;
+
+	opacity: 1 !important;
+
+	-webkit-transform-style: flat !important;
+	   -moz-transform-style: flat !important;
+	    -ms-transform-style: flat !important;
+	        transform-style: flat !important;
+
+	-webkit-transform: none !important;
+	   -moz-transform: none !important;
+	    -ms-transform: none !important;
+	        transform: none !important;
+}
+
+.reveal section.stack {
+	margin: 0 !important;
+	padding: 0 !important;
+	page-break-after: avoid !important;
+	height: auto !important;
+	min-height: auto !important;
+}
+
+.reveal img {
+	box-shadow: none;
+}
+
+.reveal .roll {
+	overflow: visible;
+	line-height: 1em;
+}
+
+/* Slide backgrounds are placed inside of their slide when exporting to PDF */
+.reveal section .slide-background {
+	display: block !important;
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	z-index: -1;
+}
+
+/* All elements should be above the slide-background */
+.reveal section>* {
+	position: relative;
+	z-index: 1;
+}
+
+/* Display slide speaker notes when 'showNotes' is enabled */
+.reveal .speaker-notes-pdf {
+	display: block;
+	width: 100%;
+	max-height: none;
+	left: auto;
+	top: auto;
+	z-index: 100;
+}
+
+/* Display slide numbers when 'slideNumber' is enabled */
+.reveal .slide-number-pdf {
+	display: block;
+	position: absolute;
+	font-size: 14px;
+}
+
+</script>
+
+
+<script>
+var style = document.createElement( 'style' );
+style.type = 'text/css';
+var style_script_id = window.location.search.match( /print-pdf/gi ) ? 'pdf-css' : 'paper-css';
+var style_script = document.getElementById(style_script_id).text;
+style.innerHTML = style_script;
+document.getElementsByTagName('head')[0].appendChild(style);
+</script>
+
+    <script src="ethics-slides_files/header-attrs-2.10/header-attrs.js"></script>
+    <link href="ethics-slides_files/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
+    <link href="ethics-slides_files/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+<section>
+    <h1 class="title">Considérations éthiques dans la recherche
+expérimentale en sciences sociales</h1>
+    <h2 class="author">Mettre votre nom</h2>
+    <h3 class="date">02-03-2022</h3>
+</section>
+
+<section>
+<section
+id="considérations-éthiques-pendant-la-conception-de-votre-recherche"
+class="title-slide slide level1">
+<h1>Considérations éthiques pendant la conception de votre
+recherche</h1>
+
+</section>
+<section id="considérations-éthiques" class="slide level2">
+<h2>Considérations éthiques</h2>
+<ul>
+<li><p>La recherche en sciences sociales implique souvent des sujets
+humains, sur et auprès desquels nous collectons des données.</p></li>
+<li><p>De plus, par nature, la recherche expérimentale est
+interventionniste.</p></li>
+<li><p>Les expériences de terrain cherchent à générer des impacts réels
+sur la société, les processus politiques et les résultats économiques.
+C’est-à-dire que les expérimentateurs sont des humains qui changent la
+vie d’autres humains — espérons-le pour le mieux, mais généralement sans
+une demande directe de ceux dont la vie est en train d’être
+changée.</p></li>
+<li><p>Nous avons des responsabilités éthiques en tant que chercheurs et
+êtres humains.</p></li>
+</ul>
+</section>
+<section id="peser-avantages-vs.-risques-potentiels"
+class="slide level2">
+<h2>Peser avantages vs. risques potentiels</h2>
+<ul>
+<li><p>Nous devons prendre grand soin de peser les <em>avantages
+potentiels de la connaissance gagnée</em> et des <em>améliorations à
+court et à long terme dans la vie des individus et des communautés
+participant à la recherche</em> par rapport au <em>préjudice
+potentiel</em> pour ces individus et ces communautés.</p></li>
+<li><p>Ce n’est pas si facile.</p>
+<ul>
+<li><p>Le fait qu’un résultat soit bon ou mauvais peut dépendre du point
+de vue de chacun, ce qui rend parfois difficile l’évaluation de
+l’équilibre bénéfices-risques.</p></li>
+<li><p>Nous sommes enclins à surestimer considérablement les avantages
+de la connaissance — nous devons donc être prudents et avoir des
+contrôles extérieurs.</p></li>
+<li><p>Une vie meilleure pour certaines personnes peut impliquer une vie
+pire pour d’autres.</p></li>
+</ul></li>
+</ul>
+</section>
+<section id="certains-contrôles-institutionnels-existent"
+class="slide level2">
+<h2>Certains contrôles institutionnels existent…</h2>
+<ul>
+<li><p>Un comité de revue institutionnel (institutional review board,
+IRB) ou un autre comité d’éthique pour la recherche peut examiner vos
+plans d’interactions directes avec des sujets humains pour la collecte
+de données.</p></li>
+<li><p>Les gouvernements peuvent avoir leurs propres règles et
+procédures. Par exemple, le gouvernement fédéral américain a défini la
+<a
+href="https://www.hhs.gov/ohrp/regulations-and-policy/regulations/common-rule/index.html">politique
+fédérale pour la protection des sujets humains</a>. Des groupes comme <a
+href="https://oes.gsa.gov">OES</a> ou USAID appliquent cette règle à
+leurs propres recherches.</p></li>
+<li><p>EGAP a élaboré des directives liées au COVID pour la recherche
+afin de protéger la sécurité des sujets, communautés, enquêteurs et
+autres membres du personnel de recherche.</p></li>
+</ul>
+</section>
+<section id="mais-cest-vous-qui-portez-la-responsabilité-principale"
+class="slide level2">
+<h2>… mais c’est vous qui portez la responsabilité principale</h2>
+<ul>
+<li><p>Il n’y a pas d’autorité centrale qui détermine si vos
+interventions sont éthiques au sens large.</p></li>
+<li><p>Il vaut toujours la peine de se mettre à la place de ses sujets
+de recherche — à la fois ceux qui ont à gagner et à perdre d’une
+intervention donnée.</p></li>
+<li><p>Au-delà des protections de base des sujets humains examinées par
+les comités d’éthique pour la recherche comme les IRB, il appartient à
+la communauté des chercheurs d’élaborer et d’appliquer des
+normes.</p></li>
+</ul>
+</section></section>
+<section>
+<section
+id="protections-des-sujets-humains-et-comités-de-revue-institutionnels"
+class="title-slide slide level1">
+<h1>Protections des sujets humains et comités de revue
+institutionnels</h1>
+
+</section>
+<section id="développement-de-la-protection-des-sujets-humains"
+class="slide level2">
+<h2>Développement de la protection des sujets humains</h2>
+<ul>
+<li><p>Des normes pour la protection des sujets de recherche ont été
+élaborées autour des préoccupations concernant leurs interactions
+directes avec les chercheurs au cours de la collecte de
+données.</p></li>
+<li><p>Quelques recherches infâmes ont abusé de leurs sujets jusqu’au
+milieu du 20e siècle :</p>
+<ul>
+<li>Les expériences nazies qui ont conduit à l’élaboration du Code de
+Nuremberg, qui dit que “le consentement volontaire du sujet humain est
+absolument essentiel”</li>
+<li>L’étude Tuskegee (qui a eu des effets à très long terme sur la
+recherche avec les Afro-Américains aux États-Unis)</li>
+<li>L’étude Milgram</li>
+<li>L’expérience carcérale de Stanford</li>
+</ul></li>
+</ul>
+</section>
+<section
+id="principes-fondamentaux-de-la-recherche-avec-des-sujets-humains"
+class="slide level2">
+<h2>Principes fondamentaux de la recherche avec des sujets humains</h2>
+<ul>
+<li><p>Les chercheurs doivent respecter pour chaque sujet :</p>
+<ul>
+<li><p>Vie privée</p></li>
+<li><p>Autonomie</p></li>
+</ul></li>
+</ul>
+</section>
+<section id="consentement-éclairé" class="slide level2">
+<h2>Consentement éclairé</h2>
+<ul>
+<li><p><strong>De base</strong>, les chercheurs doivent d’abord obtenir
+le consentement éclairé des sujets. Cela nécessite que les sujets aient
+:</p>
+<ul>
+<li><p>la capacité à consentir à la participation à l’étude</p></li>
+<li><p>l’absence de coercition dans la décision de participer</p></li>
+<li><p>la compréhension des risques et bénéfices de la
+recherche</p></li>
+<li><p>la liberté de se retirer de l’étude à tout moment</p></li>
+</ul></li>
+<li><p>Une bonne règle générale : pensez au processus de consentement du
+point de vue du sujet.</p></li>
+</ul>
+</section>
+<section id="dynamique-de-pouvoir-et-sujets-vulnérables"
+class="slide level2">
+<h2>Dynamique de pouvoir et sujets vulnérables</h2>
+<ul>
+<li><p>Certaines personnes — les enfants, les prisonniers, d’autres
+personnes vulnérables sans pouvoir — peuvent ne pas être, ou se sentir,
+capables de refuser de participer ou de comprendre les risques et les
+avantages.</p>
+<ul>
+<li>Mais nous devons être conscients des dynamiques de pouvoir de
+manière générale. Il peut sembler difficile de refuser de coopérer avec
+des donateurs ou des figures d’autorité.</li>
+</ul></li>
+<li><p>Si l’étude peut être menée de manière significative auprès d’une
+population moins vulnérable, elle doit l’être.</p></li>
+<li><p>Nous exigeons des standards plus élevés de bénéfices potentiels
+<em>pour</em> les populations vulnérables étudiées.</p></li>
+</ul>
+</section>
+<section id="anonymat-et-confidentialité" class="slide level2">
+<h2>Anonymat et confidentialité</h2>
+<ul>
+<li><p><strong>De base</strong>, on requiert l’anonymat (toutes les
+informations d’identification sont détruites après l’étude), car il
+offre la plus grande protection aux sujets.</p></li>
+<li><p>Parfois, l’anonymat n’est pas possible. Mais notez que les
+promesses de confidentialité des chercheurs aux sujets peuvent être
+annulées par ordonnance d’un tribunal.</p></li>
+<li><p>Par exemple : Boston College et les bandes son sur les troubles
+en Irlande du Nord (<a
+href="https://www.bbc.com/news/uk-northern-ireland-27238797"
+class="uri">https://www.bbc.com/news/uk-northern-ireland-27238797</a>).</p></li>
+</ul>
+</section>
+<section
+id="comités-de-revue-institutionnels-irb-comités-déthique-pour-la-recherche"
+class="slide level2">
+<h2>Comités de revue institutionnels (IRB) / comités d’éthique pour la
+recherche</h2>
+<ul>
+<li><p>Aux États-Unis et dans de nombreux autres pays, il existe des
+réglementations formelles obligeant les chercheurs à minimiser les
+risques pour les sujets et à peser le pour et le contre entre les
+connaissances généralisées à acquérir par rapport aux risques pour les
+sujets.</p></li>
+<li><p>Il existe une procédure formelle standard auprès d’un comité de
+revue pour l’approbation de la recherche avec des sujets
+humains.</p></li>
+<li><p>Ceci n’est <strong>pas</strong> facultatif. Vous ne pouvez pas
+interagir avec des sujets humains <em>avant</em> l’approbation.</p></li>
+<li><p>Le comité peut considérer que votre recherche est exemptée, mais
+c’est le comité qui en décide (pas vous !).</p></li>
+<li><p>Vous êtes tenu de signaler les “événements indésirables” au
+comité de revue.</p></li>
+</ul>
+</section>
+<section id="éléments-typiques-dune-demande-auprès-dun-comité-de-revue"
+class="slide level2">
+<h2>Éléments typiques d’une demande auprès d’un comité de revue</h2>
+<ul>
+<li><p>Description de la population concernée, comment seront-ils
+recrutés, comment seront-ils rémunérés (le cas échéant), le contexte de
+la recherche et ce que vous ferez.</p></li>
+<li><p>Formulaire de consentement et éléments standard requis pour
+expliquer la recherche aux sujets.</p></li>
+<li><p>L’instrument de collecte des données (questionnaire d’enquête,
+etc.).</p></li>
+<li><p>Énoncé des avantages et des risques anticipés, y compris la façon
+dont vous diffuserez les résultats.</p></li>
+<li><p>Comment les sujets pourront poser des questions et signaler tout
+problème au comité de revue et/ou à vous en temps réel.</p></li>
+<li><p>Comment les données seront stockées en toute sécurité et la vie
+privée des sujets protégée ; comment les identifiants seront détruits ;
+quelles données seront conservées.</p></li>
+</ul>
+</section>
+<section id="comités-de-revue-éthique-en-dehors-des-états-unis"
+class="slide level2">
+<h2>Comités de revue éthique en dehors des États-Unis</h2>
+<ul>
+<li><p>Les universités, instituts ou organisations de recherche (comme
+l’IPA) ont souvent leurs propres comités de revue éthique.</p></li>
+<li><p>Dans certains pays, le comité de revue éthique sera logé dans un
+ministère de la technologie/des sciences et sera plus habitué à traiter
+de la recherche médicale que de la recherche en sciences
+sociales.</p></li>
+<li><p>Soyez prêt à vous expliquer un peu plus. Prévoyez peut-être une
+réunion pour contextualiser la recherche en sciences sociales à un
+membre d’un comité de revue médical.</p></li>
+</ul>
+</section>
+<section
+id="assurez-vous-de-prévoir-du-temps-pour-votre-comité-de-revue-éthique"
+class="slide level2">
+<h2>Assurez-vous de prévoir du temps pour votre comité de revue
+éthique</h2>
+<ul>
+<li><p>Prévoyez suffisamment de temps pour les allers-retours avec le
+comité éthique au cas où des questions se poseraient sur votre demande
+et que vous deviez apporter des modifications à votre étude.</p>
+<ul>
+<li>Cela peut être rapide ou prendre des mois !</li>
+</ul></li>
+<li><p>Certains bailleurs de fonds exigeront que les chercheurs
+obtiennent l’approbation du comité de revue éthique dans les
+établissements d’origine de <em>tous</em> les chercheurs participant au
+projet, pas seulement un.</p></li>
+<li><p>Vous ne pourrez pas publier dans des revues académiques avec des
+données de sujets humains collectées sans l’approbation ou l’exemption
+du comité éthique.</p></li>
+</ul>
+</section></section>
+<section>
+<section id="interventions" class="title-slide slide level1">
+<h1>Interventions</h1>
+
+</section>
+<section id="deux-études-récentes" class="slide level2">
+<h2>Deux études récentes</h2>
+<ul>
+<li><p>Hong Kong – Cantoni et al. (2019) ont fourni des informations à
+des étudiants universitaires sur les intentions d’autres personnes de
+participer à des manifestations pour voir comment cela affecte leur
+propre participation aux manifestations.</p></li>
+<li><p>Kenya – Coville et al. (2020) avec la Nairobi City Water and
+Sewerage Company a testé deux approches pour augmenter les taux de
+paiement. Un bras de traitement comprenait des avis officiels de
+déconnexion, en cas de non-paiement.</p></li>
+</ul>
+</section>
+<section id="peser-les-avantages-et-les-inconvénients-potentiels"
+class="slide level2">
+<h2>Peser les avantages et les inconvénients potentiels</h2>
+<ul>
+<li><p>Les personnes susceptibles d’être affectées par l’étude peuvent
+ne pas être les mêmes que l’ensemble des personnes qui interagissent
+directement avec le chercheur. Il y a plus de parties prenantes que les
+personnes avec lesquelles vous interagissez.</p></li>
+<li><p>Les interventions dans les processus sociaux, politiques et
+économiques pourraient changer qui a le pouvoir, ce qui a des impacts
+au-delà de votre recherche.</p>
+<ul>
+<li>Exemple : Faut-il éviter les interventions qui pourraient changer le
+résultat d’élections serrées ? Les chercheurs devraient-ils modifier ces
+résultats électoraux ?</li>
+</ul></li>
+<li><p>Humilité : les chercheurs eux-mêmes peuvent ne pas être
+conscients des dommages potentiels. Comment peut-on en prendre
+conscience ?</p>
+<ul>
+<li>Les partenariats locaux ne sont pas une solution automatique.</li>
+</ul></li>
+</ul>
+</section>
+<section id="concevoir-votre-intervention" class="slide level2">
+<h2>Concevoir votre intervention</h2>
+<ul>
+<li><p>N’utilisez pas d’interventions dont nous pensons qu’elles
+nuiraient aux sujets par rapport à ce qui se passerait sans
+l’intervention (“norme de soins”).</p></li>
+<li><p>Ne pas impliquer plus de personnes que nécessaire pour la
+recherche.</p></li>
+<li><p>Ne pas rendre l’intervention plus forte que nécessaire pour la
+recherche.</p></li>
+<li><p>Ne fournissez pas de fausses informations. Évitez les
+tromperies.</p></li>
+<li><p>Partenariats : vous devez déclarer votre implication dans la
+conception de l’intervention.</p></li>
+</ul>
+</section>
+<section id="collecte-de-données" class="slide level2">
+<h2>Collecte de données</h2>
+<ul>
+<li><p>Offrir aux personnes un moyen de signaler leurs préoccupations et
+les dommages potentiels au cours de l’étude.</p></li>
+<li><p>Recueillir des données sur les dommages potentiels. Mettre fin à
+une étude plus tôt s’il y a une accumulation de preuves de dommages qui
+ne seraient pas compensés par les avantages potentiels.</p></li>
+<li><p>Signalez les résultats importants qui peuvent éclairer la
+programmation dès que possible.</p></li>
+<li><p>Collectez et stockez des données de manière à protéger l’identité
+de vos sujets.</p>
+<ul>
+<li>Anonymiser ou agréger les données de manière à ce que les individus
+ne puissent pas être identifiés.</li>
+</ul></li>
+</ul>
+</section>
+<section id="consentement-éclairé-1" class="slide level2">
+<h2>Consentement éclairé</h2>
+<ul>
+<li><p>Le consentement éclairé nécessite d’expliquer les objectifs de
+l’étude. Cependant, la recherche peut être compromise en informant les
+sujets qu’ils sont étudiés ou en faisant apparaître le statut de leur
+traitement.</p></li>
+<li><p>La recherche peut-elle être conçue de manière à permettre un
+consentement éclairé ?</p>
+<ul>
+<li>Si non, doit-on poursuivre la recherche ?</li>
+</ul></li>
+<li><p>Consentement éclairé. Comment ? Pour qui ? Quelles sont les
+parties prenantes concernées ?</p>
+<ul>
+<li>Est-il approprié de considérer qu’une personne s’exprime au nom
+d’une communauté en donnant son consentement ?</li>
+<li>Comment répertorier toutes les personnes susceptibles d’être
+concernées par une intervention ? Doit-on le faire ? Où s’arrêter avec
+le consentement ?</li>
+</ul></li>
+</ul>
+</section>
+<section id="références" class="slide level2">
+<h2>Références</h2>
+<ul>
+<li><p>Les principes de recherche EGAP, 2011. <a
+href="https://egap.org/wp-content/uploads/2020/05/egap-research-principles.pdf">(Lien)</a></p></li>
+<li><p>Cantoni, D. et al. 2019. “Protests as Strategic Games:
+Experimental Evidence from Hong Kong’s Antiauthoritarian Movement.”
+<em>Quarterly Journal of Economics</em> 134(2): 1021-1077.</p></li>
+<li><p>Coville, A. et al. 2020. “Enforcing Payment for Water and
+Sanitation Services in Nairobi’s Slums.” NBER Working Paper 27569. <a
+href="https://www.nber.org/papers/w27569">(Lien)</a></p></li>
+</ul>
+</section></section>
+    </div>
+  </div>
+
+  <script src="ethics-slides_files/reveal.js-3.3.0.1/lib/js/head.min.js"></script>
+  <script src="ethics-slides_files/reveal.js-3.3.0.1/js/reveal.js"></script>
+
+  <script>
+
+      // Full list of configuration options available at:
+      // https://github.com/hakimel/reveal.js#configuration
+      Reveal.initialize({
+        // Display controls in the bottom right corner
+        controls: true,
+        // Display a presentation progress bar
+        progress: true,
+        // Display the page number of the current slide
+        slideNumber: true,
+        // Push each slide change to the browser history
+        history: true,
+        // Enable keyboard shortcuts for navigation
+        keyboard: true,
+        // Enable the slide overview mode
+        overview: true,
+        // Vertical centering of slides
+        center: false,
+        // Enables touch navigation on devices with touch input
+        touch: true,
+        // Turns fragments on and off globally
+        fragments: true,
+        // Flags if we should show a help overlay when the questionmark
+        // key is pressed
+        help: true,
+        // Number of milliseconds between automatically proceeding to the
+        // next slide, disabled when set to 0, this value can be overwritten
+        // by using a data-autoslide attribute on your slides
+        autoSlide: 0,
+        // Stop auto-sliding after user input
+        autoSlideStoppable: true,
+        // Opens links in an iframe preview overlay
+        previewLinks: true,
+        // Transition style
+        transition: 'fade', // none/fade/slide/convex/concave/zoom
+        // Transition speed
+        transitionSpeed: 'default', // default/fast/slow
+        // Transition style for full page slide backgrounds
+        backgroundTransition: 'default', // none/fade/slide/convex/concave/zoom
+        // Number of slides away from the current that are visible
+        viewDistance: 3,
+
+
+
+        chalkboard: {
+          toggleNotesButton: false,
+          theme: 'whiteboard',
+        },
+
+        keyboard: {
+          67: function() { RevealChalkboard.toggleNotesCanvas() },    // toggle notes canvas when 'c' is pressed
+          66: function() { RevealChalkboard.toggleChalkboard() }, // toggle chalkboard when 'b' is pressed
+          46: function() { RevealChalkboard.clear() },    // clear chalkboard when 'DEL' is pressed
+           8: function() { RevealChalkboard.reset() },    // reset chalkboard data on current slide when 'BACKSPACE' is pressed
+          68: function() { RevealChalkboard.download() }, // downlad recorded chalkboard drawing when 'd' is pressed
+        },
+
+        // Optional reveal.js plugins
+        dependencies: [
+          { src: 'ethics-slides_files/reveal.js-3.3.0.1/plugin/notes/notes.js', async: true },
+          { src: 'ethics-slides_files/reveal.js-3.3.0.1/plugin/search/search.js', async: true },
+          { src: 'ethics-slides_files/reveal.js-3.3.0.1/plugin/chalkboard/chalkboard.js', async: true },
+        ]
+      });
+    </script>
+  <!-- dynamically load mathjax for compatibility with self-contained -->
+  <script>
+    (function () {
+      var script = document.createElement("script");
+      script.type = "text/javascript";
+      script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+      document.getElementsByTagName("head")[0].appendChild(script);
+    })();
+  </script>
+
+<script>
+  (function() {
+    if (window.jQuery) {
+      Reveal.addEventListener( 'slidechanged', function(event) {  
+        window.jQuery(event.previousSlide).trigger('hidden');
+        window.jQuery(event.currentSlide).trigger('shown');
+      });
+    }
+  })();
+</script>
+
+
+  </body>
+</html>
