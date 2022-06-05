@@ -1,6 +1,6 @@
 ---
 title: "Estimating Estimands with Estimators"
-author: "Fill In Your Name"
+author: "Jake Bowers"
 date: "`r format(Sys.time(), '%d %B %Y')`"
 output:
   beamer_presentation:
@@ -393,7 +393,7 @@ Another measure of closeness is **root mean squared error** (RMSE) which  record
 Which estimator is better? (One is closer to the truth on average (RMSE) and is more precise. The other has no systematic error --- is unbiased.)
 
 ```{r}
-kableExtra::kable(reshape_diagnosis(diagnosis1, select = c("Estimator", "Bias", "RMSE", "SD Estimate", "Mean Se", "Power"))[,-c(1,2,4,5,6)])
+kableExtra::kable(reshape_diagnosis(diagnosis1, select = c("Estimator", "Bias", "RMSE", "SD Estimate", "Power"))[,-c(1,2,4,5,6)])
 ```
 
 
@@ -582,8 +582,8 @@ Which estimator works better on this design and these data?
 
 
 ```{r blocktab}
-blocktab <- reshape_diagnosis(diagnosis2, select = c("Estimator", "Bias", "RMSE","SD Estimate", "Mean Se", "Power",  "Coverage"))[,-c(1,2,4,5,6)]
-kableExtra::kable(blocktab,col.names = c("Estimator","Bias","RMSE","SD Est","Mean SE","Power","Coverage"))
+blocktab <- reshape_diagnosis(diagnosis2, select = c("Estimator", "Bias", "RMSE","SD Estimate", "Power",  "Coverage"))[,-c(1,2,4,5,6)]
+kableExtra::kable(blocktab,col.names = c("Estimator","Bias","RMSE","SD Est","Power","Coverage"))
 ```
 
 Notice that the coverage is not always at 95% in all cases.  We used 10,000 simulations so simulation error is around $\pm 2 \sqrt{p(1-p)/10000}$ or, say, for coverage calculated as .93, a different simulation could have easily produced `r .93 -2*sqrt( .93 * (1-.93)/10000 )` or  `r .93+2*sqrt( .93 * (1-.93)/10000 )` (or would rarely have produced coverage numbers outside that range just by chance).

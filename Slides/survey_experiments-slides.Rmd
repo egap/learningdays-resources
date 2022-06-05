@@ -1,0 +1,62 @@
+---
+title: "Survey Experiments"
+author: "Jake Bowers"
+date: "`r format(Sys.time(), '%d %B, %Y')`"
+bibliography: ../learningdays-book.bib
+biblio-style: apalike
+link-citations: yes
+colorlinks: yes
+header-includes: |
+   \setbeamertemplate{footline}{\begin{beamercolorbox}{section in head/foot}
+   \includegraphics[height=.5cm]{../Images/egap-logo.png} \hfill
+   \insertframenumber/\inserttotalframenumber \end{beamercolorbox}}
+output:
+  beamer_presentation:
+    keep_tex: true
+    toc: true
+    pandoc_args: [ "--toc" ]
+  revealjs::revealjs_presentation:
+    fig_caption: true
+    theme: default
+    highlight: pygments
+    center: false
+    transition: fade
+    smart: false
+    self_contained: false
+    reveal_plugins: ["notes", "search", "chalkboard"]
+    pandoc_args: [ "--toc" ]
+    reveal_options:
+      slideNumber: true
+      previewLinks: true
+      chalkboard:
+        theme: whiteboard
+        toggleNotesButton: false
+---
+
+```{r setup, include=FALSE}
+library(knitr)
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+## Key points for this lecture
+
+ - Attrition (missing data on outcomes)
+
+ - Non-compliance
+
+ - Spillovers
+
+ - Hawthorne effects
+
+ - Differential treatment of treatment arms
+
+# Core assumptions
+## Review of core assumptions
+
+  1. Excludability
+
+  2. Non-interference
+
+  3. Random assignment of subjects treatment
+
+# References
