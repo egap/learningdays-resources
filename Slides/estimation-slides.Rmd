@@ -223,7 +223,7 @@ small_dat <- dat[, c("y0", "y1")]
 pop <- declare_population(small_dat)
 N <- nrow(small_dat)
 
-# 5 units assigned to treatment; default is simple random assignment with
+# 2 units assigned to treatment; default is simple random assignment with
 # probability 0.5
 trt_assign <- declare_assignment(Z = conduct_ra(N=N,m = 2),legacy=FALSE)
 
@@ -410,6 +410,30 @@ Summary:
 
 # Block randomization
 
+
+
+```{r setup_block_dat, echo=FALSE}
+library(randomizr)
+# We have ten units
+N_blocked <- 100
+# Three blocks, a and b and c
+block <- c(rep("a",10),rep("b",30),rep("c",N_blocked-(10+30)))
+set.seed(12345)
+# Z is treatment assignment (Z instead of T in the code)
+Z_blocked <- block_ra(blocks=block,block_m=c(5,5,5))
+dat_blocked <- data.frame(Z=Z_blocked,b=block)
+#  y0 is potential outcome to control
+dat_blocked <- dat_blocked %>% group_by(b) %>% mutate(nb=n(),
+    y0=rgeom(nb,prob= .1*(nb/N)),
+    tau=sd(y0)*runif(nb,min=0,max=max(y0)),
+    y1=y0+tau,
+    Y=Z*y1 + (1-Z)*y0
+)
+
+```
+
+
+
 ## Block-randomized experiments are a collection of mini-experiments
 
 What is the **ATE** estimand in a block-randomized experiment?
@@ -435,21 +459,23 @@ $SE(\widehat{ATE}) = \sqrt{\sum^J_{j=1} (\frac{N_{j}}{N})^2SE^2(\widehat{ATE}_j)
 One approach to estimation simply replaces $ATE_j$ with $\widehat{ATE}$ above:
 
 ```{r br1, echo=TRUE}
-with(dat,table(b,Z))
+with(dat_blocked,table(b,Z))
 ```
 
-We have 6 units in block `a`, 2 of which are assigned to treatment, and 4 units in block `b`, 2 of which are assignment to treatment.
+We have 10 units in block `a`, 5 of which are assigned to treatment, and 30 units in block `b`, 5 of which are assignment to treatment.
 
 ## Estimating the ATE in block-randomized experiments
 
-One approach to estimation simply replaces $ATE_j$ with $\widehat{ATE}$ above:
+Here we see that the true $ATE$ can be defined and calculated either using
+individual observations directly or as a block-size weighted average of the
+within-block true $ATE_j$.
 
 ```{r br2, echo=TRUE}
-datb <- dat %>% group_by(b) %>% summarize(nb=n(),pb=mean(Z),estateb=mean(Y[Z==1]) - mean(Y[Z==0]),
+datb <- dat_blocked %>% group_by(b) %>% summarize(nb=n(),pb=mean(Z),estateb=mean(Y[Z==1]) - mean(Y[Z==0]),
     ateb=mean(y1-y0),.groups="drop")
 datb
-## True ate by block:
-with(dat,mean(y1-y0))
+## Notice the True ate by block:
+with(dat_blocked,mean(y1-y0))
 ## This is another way to calculate the true ate
 with(datb, sum( ateb*(nb/sum(nb))) )
 ```
@@ -457,11 +483,12 @@ with(datb, sum( ateb*(nb/sum(nb))) )
 
 ## Estimating the ATE in block-randomized experiments
 
-One approach is to estimate the overall ATE using block-size weights:
+One approach is to estimate the overall ATE using block-size weights, simply replacing $ATE_j$ with $\widehat{ATE}$ above:
+
 
 ```{r br3, echo=TRUE}
 ## Showing that difference_in_means uses the blocksize weight.
-e1 <- difference_in_means(Y~Z,blocks=b,data=dat)
+e1 <- difference_in_means(Y~Z,blocks=b,data=dat_blocked)
 e2 <- with(datb, sum( estateb*(nb/sum(nb))) )
 c(coef(e1)[["Z"]],e2)
 ```
@@ -473,11 +500,11 @@ Notice that this is **not** the same as either of the following:
 
 ```{r br4, echo=TRUE}
 ## Ignoring blocks
-e3 <- lm(Y~Z,data=dat)
+e3 <- lm(Y~Z,data=dat_blocked)
 coef(e3)[["Z"]]
 
 ## With block fixed effects
-e4 <- lm(Y~Z+block,data=dat)
+e4 <- lm(Y~Z+b,data=dat_blocked)
 coef(e4)[["Z"]]
 ```
 
@@ -498,11 +525,11 @@ Which estimator should we use for this design?  We can set up a DeclareDesign si
 ## declare a new base design that includes the block indicator b
 base_design_blocks <-
     # declare the population
-    declare_population(dat[, c("b","y0", "y1")]) +
+    declare_population(dat_blocked[, c("b","y0", "y1")]) +
     # tell DD that b indicates block and to assign 2 treated units in each block
-    declare_assignment(Z=conduct_ra(N=N, m=2,blocks=b), 
-                       Z_cond_prob = 
-      obtain_condition_probabilities(assignment = Z, m = 2)) +
+    declare_assignment(Z=conduct_ra(N=N, block_m=c(5,5,5),blocks=b),
+                       Z_cond_prob =
+      obtain_condition_probabilities(assignment = Z, blocks=b,block_m=c(5,5,5))) +
     # relationship of potential outcomes to observed outcome
     declare_potential_outcomes(Y ~ Z * y1 + (1 - Z) * y0)+
     # observed outcome and treatment assignment
@@ -539,6 +566,8 @@ est5 <- declare_estimator(Y ~ Z + b, inquiry = estimandATEb,
 ## new design object has the base design, the estimand, and five estimators
 design_blocks <- base_design_blocks + estimandATEb +
   est1 + est2 + est3 + est4 + est5
+
+trueATE_blocked <- draw_estimand(design_blocks)$estimand
 ```
 
 Then we will run 10,000 simulations (reassign treatment 10,000 times) and summarize the estimates produced by each of these five estimators.
@@ -556,11 +585,11 @@ library(future.apply)
 ```{r diagnosis2, echo=FALSE, cache=TRUE}
 ## The next few lines use all of the cores on your computer to speed up the computation
 
-# plan(multicore)
+plan(multicore)
 set.seed(12345)
-diagnosis2 <- diagnose_design(design_blocks, bootstrap_sims = 0, sims = 1000)
+diagnosis2 <- diagnose_design(design_blocks, bootstrap_sims = 0, sims = 10000)
 sims2 <- get_simulations(diagnosis2)
-# plan(sequential)
+plan(sequential)
 ```
 
 How should we interpret this plot?
@@ -568,7 +597,7 @@ How should we interpret this plot?
 ```{r sim_plot2, message=FALSE, warning=FALSE, out.width=".9\\textwidth"}
 sim_plot2 <- ggplot(sims2, aes(y = estimate, x = estimator, color = estimator)) +
   geom_boxplot() +
-  geom_hline(yintercept = trueATE) +
+  geom_hline(yintercept = trueATE_blocked) +
   geom_point(aes(group = estimator)) +
   theme(text = element_text(size=20),axis.text.x = element_text(angle=45, hjust=1),
       legend.position="none",legend.title = element_blank()) +
@@ -588,12 +617,6 @@ kableExtra::kable(blocktab,col.names = c("Estimator","Bias","RMSE","SD Est","Pow
 ```
 
 Notice that the coverage is not always at 95% in all cases.  We used 10,000 simulations so simulation error is around $\pm 2 \sqrt{p(1-p)/10000}$ or, say, for coverage calculated as .93, a different simulation could have easily produced `r .93 -2*sqrt( .93 * (1-.93)/10000 )` or  `r .93+2*sqrt( .93 * (1-.93)/10000 )` (or would rarely have produced coverage numbers outside that range just by chance).
-
-
-
-
-
-
 
 # Cluster randomization
 
