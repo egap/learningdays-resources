@@ -124,12 +124,12 @@ be very close.
 
 ## Conjoint
 
-```{r , echo=FALSE, out.width='80%',fig.cap='',fig.align="center"}
+```{r , echo=FALSE, out.width='90%',fig.cap='',fig.align="center"}
 knitr::include_graphics("./figs/survey-exp-teele-2018.pdf")
 ```
 
 
-```{r , echo=FALSE, out.width='80%',fig.cap='',fig.align="center"}
+```{r , echo=FALSE, out.width='90%',fig.cap='',fig.align="center"}
 knitr::include_graphics("./figs/survey-exp-teele-2018-conjoint-attributes.pdf")
 ```
 
@@ -146,7 +146,16 @@ knitr::include_graphics("./figs/survey-exp-teele-2018-results.pdf")
 
 ## Conjoint Interpretation
 
-People exposed to 
+```{r , echo=FALSE, out.width='80%',fig.cap='',fig.align="center"}
+knitr::include_graphics("./figs/survey-exp-teele-2018-results-a.pdf")
+```
+
+When randomly assigned to one hypothetical candidate with "female" and another
+with "male", more people will choose the "female" candidate than the "male"
+candidate. (The effect of seeing "female" averaging over seeing the other
+attributes.
+
+
 
 
 # Examples for Measurement
@@ -274,24 +283,55 @@ knitr::include_graphics("./figs/survey-exp-bowers-1998-christian-threat.pdf")
 ## Other issues of interpretation {.allowframebreaks}
 
  - Do interpretations of the treatment depend on other questions asked
-   previously? (Not a problem of bias, but of interpretation).
+  previously? (Not a problem of bias, but of interpretation) See Norbert
+  Schwarz and book by Tourganeau on question order, on the survey context, etc.
+  (How do survey respondents interpret and learn from the response options? Or from the
+  framing of the question? Or from the order of the questions?)
  - What are alternative arguments about the **meaning** of the
-   treated-to-control comparison? (Does hearing "Gabriel" or "Gabriela" raise certain
-   considerations in respondents' minds that would change if they were asked
-   about "Jens Olaf" or "Shuyuan"?)
+  treated-to-control comparison? (Does hearing "Gabriel" or "Gabriela" raise certain
+  considerations in respondents' minds that would change if they were asked
+  about "Jens Olaf" or "Shuyuan"?)
  - Remember that a treatment effect is a comparison of two groups --- in survey
-   experiments the "control" condition tends not to be a status quo condition
+  experiments the "control" condition tends not to be a status quo condition.
+  Does this matter for for **this experiment**?
  - Does it matter than the effect of exposure to a survey treatment might go
-   away within minutes or seconds? Does it matter (and how and when) that the
-   outcome of a survey experiment is often measured within seconds or minutes of
-   the treatment? Can a short duration effect teach us about theory?
+  away within minutes or seconds? Does it matter (and how and when) that the
+  outcome of a survey experiment is often measured within seconds or minutes of
+  the treatment? Can a short duration effect teach us about theory?
  - Many online experimental pools are not representative samples. When might
-   this matter? When might this not matter
- - How to interpret experimental comparisons with no natural control group? 
+  this matter? When might this not matter
+ - How to interpret experimental comparisons with no natural control group?
 Should Winters and Weitz-Shapiro have had a pure control condition? Or
 could the difference in *time* or *effort* between a survey requiring someone to
 read a vignette and a survey that skips the vignette confuse interpretation of
 the findings?
+
+## Other issues of interpretation {.allowframebreaks}
+
+ - **Conjoint Experiments** Multiple comparisons problems and the false
+    positive rate (Even if there are no effects, we should see 1 out of 20 95% confidence
+    interval excluding 0.)
+ - **Conjoint Experiments** The effect is an average over the scenarios:
+    What does no effect of "mexican" on immigration preference mean? (Average
+    over preferences given existing stereotypes ( "less than high school
+    education", "poor" ) (negative effects) and
+    counter-stereotypes ("phd", "wealthy") (positive effects).)
+
+## Other issues of interpretation {.allowframebreaks}
+
+ - Issues of item order and relationships among items in List and Conjoint
+   experiments.
+
+Imagine (building on Garcia-Sanchez and Queirolo, 2021.)
+
+> I am going to show you a card in which there are mentioned various products, and I would like to ask you to tell me HOW MANY of these products you consume. Please tell me HOW MANY you consume. Do not tell me WHICH of these things you consume. Please give me a NUMBER
+Alcohol, Yerba mate [in Uruguay]/Coffee [in Colombia], Marijuana [excluded in the control group], Tobacco
+
+Adding "Marijuana" changes the interpretation of the other items: am I reporting
+the amount of "unhealthy actions"? Or amount of "ordinary consumption"?
+
+(The actual study added "Shark cartilage" as a more rare item to ensure that few
+people would say that they consumed all of the items)
 
 
 ## Realism and Learning about Theory
@@ -308,8 +348,10 @@ no effects of providing corruption information on voting in a field experiment.
 \medskip
 
 **Question:** What is the role of survey experiments in a research program? How can survey
-experiments contribute?
-.
+experiments contribute? When should you choose a survey experiment over a field
+experiment or a lab experiment? When should you choose a field experiment? When
+should you choose a lab experiment?
+
 
 
 
