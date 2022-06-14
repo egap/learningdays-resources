@@ -1,0 +1,2475 @@
+---
+title: "Statistical Inference about Causal Effects: Hypothesis Testing and Estimation"
+author: "Jake Bowers"
+date: "`r format(Sys.time(), '%d %B %Y')`"
+bibliography: ../learningdays-book.bib
+biblio-style: apalike
+link-citations: yes
+colorlinks: yes
+header-includes: |
+  \setbeamertemplate{footline}{\begin{beamercolorbox}{section in head/foot}
+  \insertframenumber/\inserttotalframenumber \end{beamercolorbox}}
+  \usepackage{tikz}
+  \usepackage{tikz-cd}
+  \usepackage{textpos}
+  \usepackage{booktabs,multirow,makecell}
+output:
+  beamer_presentation:
+    keep_tex: true
+    toc: true
+    pandoc_args: [ "--toc" ]
+    slide_level: 2
+  revealjs::revealjs_presentation:
+    fig_caption: true
+    theme: default
+    highlight: pygments
+    center: false
+    transition: fade
+    smart: false
+    self_contained: false
+    reveal_plugins: ["notes", "search", "chalkboard"]
+    pandoc_args: [ "--toc" ]
+    reveal_options:
+      slideNumber: true
+      previewLinks: true
+      chalkboard:
+        theme: whiteboard
+        toggleNotesButton: false
+---
+
+```{r setup, include=FALSE,echo=FALSE}
+source('rmd_setup.R')
+# Load all the libraries we need
+library(here)
+library(kableExtra)
+library(styler)
+library(coin)
+library(multcomp)
+library(devtools)
+library(randomizr)
+library(rcompanion) ## for pairwisePermutationTest()
+library(DeclareDesign)
+library(estimatr)
+library(tidyverse)
+```
+
+```{r setup2, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+
+## from https://bookdown.org/yihui/rmarkdown-cookbook/font-color.html
+colorize <- function(x, color) {
+  if (knitr::is_latex_output()) {
+    sprintf("\\textcolor{%s}{%s}", color, x)
+  } else if (knitr::is_html_output()) {
+    sprintf("<span style='color: %s;'>%s</span>", color,
+      x)
+  } else x
+}
+```
+
+# Hypothesizing about partially observed potential outcomes and summarizing evidence against those hypotheses
+
+## Statistical Approaches To Causal Inference: Potential Outcomes
+
+  \includegraphics[width=.7\textwidth]{Images/cartoonNeymanBayesFisherCropped.pdf}
+
+Imagine we would observe so many bushels of corn, $Y$, if plot $i$ were randomly assigned to new fertilizer, $Y_{i}
+(Z_i=1)$ (where $Z_i=1$ means "assigned to new fertilizer" and $Z_i=0$ means "assigned status quo fertilizer") and another amount of corn, $Y_{i}(Z_i=0)$, if the same plot were  assigned the status quo fertilizer condition. 
+These $Y$ are are *potential* or *partially observed* outcomes.
+
+## Statistical Approaches To To Causal Inference: Notation
+
+  - *Treatment* $T_i=1$ for treatment and $T_i=0$ for control for units $i$
+
+  - *One Causal Effect* for unit $i$ is $\tau_i$,  $\tau_i  = f(Y_{i}(1),Y_{i}(0))$. For example,$\tau_i = Y_i(1) - Y_i(0)$
+
+  - *Fundamental Problem of (Counterfactual) Causality* We only see one
+    potential outcome $Y_i = T_iY_i(1) + (1-T_i)Y_i(0)$ manifest in our observed outcome, $Y_i$. Treatment reveals one potential outcome to us in a simple randomized experiment.
+
+## Design Based Approach 1: Compare Models of Potential Outcomes to Data
+
+ 1. Posit a model of unobserved causal effects $\tau_i  = f(Y_{i}(1),Y_{i}(0))$. For example
+    $H_0: Y_{i}(1)=Y_{i}(0)+\tau_{i}$ and $\tau_i=0$ is the **sharp null hypothesis
+    of no effects.**
+ 2. Measure consistency of the data with this model given the research design and choice of test statistic (summarizing the treatment-to-outcome relationship).
+
+\centering
+  \includegraphics[width=.7\textwidth]{Images/cartoonFisherQuestionMarks.pdf}
+
+## Design Based Approach 1: Compare Models of Potential Outcomes to Data
+
+ 1. Make a guess (or model of) about $\tau_i$.
+ 2. Measure consistency of data with this model given the design and test statistic with a $p$-value.
+
+\centering
+  \includegraphics[width=.7\textwidth]{Images/cartoonFisher.pdf}
+
+## Design Based Approach 1: Compare Models of Potential Outcomes to Data
+
+\centering
+\includegraphics[width=\textwidth]{Images/cartoonFisherNew1.pdf}
+
+## Design Based Approach 1: Compare Models of Potential Outcomes to Data
+
+\centering
+\includegraphics[width=.9\textwidth]{Images/cartoonFisherNew2.pdf}
+
+## The role of hypothesis tests in causal inference
+
+- The hypothesis testing approach to causal inference doesn't provide a best guess but instead tells you *how much evidence or information the research design provides about a causal claim*.
+
+- The estimation approach provides a best guess but doesn't tell you how much you know about that guess.
+  - For example, a best guess with $N=10$ seems to tell us less about the effect than $N=1000$.
+  - For example, a best guess when 95% of $Y=1$ and 5% of $Y=0$ seems to tell us less than when outcomes are evenly split between 0 and 1.
+
+- We nearly always report both since both help us make decisions: "Our best guess of the treatment effect was 5, and we could reject the idea that the effect was 0 ($p$=.01)." (Is short hand for "I have a big enough sample or enough information (say, not a very rare outcome) that our hypothesized model of no effects would be surprising from the perspective of the observed data --- using a test statistic that is a mean difference.")
+
+
+# Hypothesis Testing Basics
+
+## Ingredients of a hypothesis test
+
+ - A **hypothesis** is a statement about a relationship among potential outcomes.
+
+ - A **test statistic** summarizes the relationship between treatment and observed outcomes.
+
+ - The **design** allows us to link the hypothesis and the test statistic: calculate a test statistic that describes a relationship between potential outcomes.
+
+ - The **design** also tells us how to generate a *distribution* of possible test statistics implied by the hypothesis.
+ 
+ - A **$p$-value** describes the relationship between our observed test statistic and the distribution of possible hypothesized test statistics.
+
+
+```{r echo=FALSE}
+## First, create some data,
+##  y0 is potential outcome to control
+N <- 10
+y0 <- c(0, 0, 0, 1, 1, 3, 4, 5, 190, 200)
+## Different individual level treatment effects
+tau <- c(10, 30, 200, 90, 10, 20, 30, 40, 90, 20)
+## y1 is potential outcome to treatment
+y1 <- y0 + tau
+# sd(y0)
+# mean(y1)-mean(y0)
+# mean(tau)
+## T is treatment assignment
+set.seed(12345)
+T <- complete_ra(N)
+## Y is observed outcomes
+Y <- T * y1 + (1 - T) * y0
+## The data
+dat <- data.frame( T = T, y0 = y0, tau = tau, y1 = y1,Y = Y)
+dat$Ybin <- as.numeric(dat$Y > 100)
+# dat
+# coin::pvalue(oneway_test(Y~factor(T),data=dat,distribution=exact(),alternative="less"))
+# coin::pvalue(wilcox_test(Y~factor(T),data=dat,distribution=exact(),alternative="less"))
+```
+
+
+```{r echo=FALSE}
+## Make a bigger dataset
+##  y0 is potential outcome to control
+bigN <- 60
+set.seed(12345)
+bigdat <- data.frame(y0 = c(rep(0, 20), rnorm(20, mean = 3, sd = .5), rnorm(20, mean = 150, sd = 10)))
+## Different individual level treatment effects
+bigdat$tau <- c(rnorm(20, mean = 10, sd = 2), rnorm(20, mean = 20, sd = 5), rnorm(20, mean = 5, sd = 10))
+## y1 is potential outcome to treatment
+bigdat$y1 <- bigdat$y0 + bigdat$tau
+# sd(y0)
+# mean(y1)-mean(y0)
+# mean(tau)
+## T is treatment assignment
+set.seed(12345)
+bigdat$T <- complete_ra(bigN)
+## Y is observed outcomes
+bigdat$Y <- with(bigdat, T * y1 + (1 - T) * y0)
+## The data
+bigdat$Ybin <- as.numeric(bigdat$Y > quantile(bigdat$Y, .85))
+```
+
+## A hypothesis is a statement about or model of a relationship between potential outcomes
+
+Example simulated data with known individual treatment effects (ITE) and potential outcomes
+
+```{r datable}
+kableExtra::kable(dat, col.names = c( "Treatment", "$Y_{i}(1)$", "ITE", "$Y_{i}(1)$", "Y", "$Y>100$"), escape=FALSE)
+```
+
+For example, the sharp, or strong, null hypothesis of no effects is $H_0: Y_{i}(1) = Y_{i}(0)$
+
+
+## Test statistics summarize treatment-to-outcome relationships
+
+```{r, echo=TRUE}
+## The mean difference test statistic
+meanTT <- function(ys, z) {
+  mean(ys[z == 1]) - mean(ys[z == 0])
+}
+## The difference of mean ranks test statistic
+meanrankTT <- function(ys, z) {
+  ranky <- rank(ys)
+  mean(ranky[z == 1]) - mean(ranky[z == 0])
+}
+
+observedMeanTT <- meanTT(ys = Y, z = T)
+observedMeanRankTT <- meanrankTT(ys = Y, z = T)
+observedMeanTT
+observedMeanRankTT
+```
+
+## The design links test statistic and hypothesis
+
+The outcome we observe for each person $i$, $Y_i$, is either what we would have
+observed in treatment ($Y_{i}(1)$) **or** what we would have observed in
+control ($Y_{i}(0)$).
+
+$$Y_i = T_i Y_{i}(1) + (1-T_i)* Y_{i}(0)$$
+
+So, if $Y_{i}(1)=Y_{i}(0)$ then algebra tells us that $Y_i = Y_{i}(0)$.
+
+What we *actually observe* is what we *would have observed in the control condition*.
+
+## The design guides creation of a **distribution** of hypothetical test statistics
+
+We need to know how to repeat our experiment:
+
+```{r, echo=TRUE}
+repeatExperiment <- function(N) {
+  complete_ra(N)
+}
+```
+
+Then  we repeat it,  calculating the implied test statistic by the hypothesis and design each time:
+
+```{r reps, echo=TRUE, cache=TRUE}
+set.seed(123456)
+possibleMeanDiffsH0 <- replicate(10000, 
+                                 meanTT(ys = Y, z = repeatExperiment(N = 10)))
+set.seed(123456)
+possibleMeanRankDiffsH0 <- replicate(10000, 
+                            meanrankTT(ys = Y, z = repeatExperiment(N = 10)))
+```
+
+## Plot the randomization distributions under the null
+
+```{r fig.cap="An example of using the design of the experiment to test a hypothesis with two different test statistics.", results='asis', echo=FALSE, fig.align='center'}
+par(mfrow = c(1, 2), mgp = c(2, .5, 0), mar = c(3, 3, 0, 0), oma = c(0, 0, 3, 0))
+plot(density(possibleMeanDiffsH0),
+  ylim = c(0, .04),
+  xlim = range(possibleMeanDiffsH0),
+  lwd = 2,
+  main = "", # Mean Difference Test Statistic",
+  xlab = "Mean Differences Consistent with H0",
+  cex.lab=1.25, cex.axis=1
+)
+rug(possibleMeanDiffsH0)
+rug(observedMeanTT, lwd = 3, ticksize = .51)
+text(observedMeanTT - 4, .022, "Observed Test Statistic")
+
+plot(density(possibleMeanRankDiffsH0),
+  lwd = 2,
+  ylim = c(0, .45),
+  xlim = c(-10, 10), # range(possibleMeanDiffsH0),
+  main = "", # Mean Difference of Ranks Test Statistic",
+  xlab = "Mean Difference of Ranks Consistent with H0",
+  cex.lab=1.25, cex.axis=1
+)
+rug(possibleMeanRankDiffsH0)
+rug(observedMeanRankTT, lwd = 3, ticksize = .9)
+text(observedMeanRankTT, .45, "Observed Test Statistic")
+
+mtext(side = 3, outer = TRUE, cex=1.75,
+    text = expression(paste("Distributions of Test Statistics Consistent with the Design and ", H0:y[i1] == y[i0])))
+```
+
+## $p$-values summarize the plots
+
+How should we interpret these $p$-values? (Notice that they are one-tailed.)
+
+```{r calcpvalues, echo=TRUE}
+pMeanTT <- mean(possibleMeanDiffsH0 >= observedMeanTT)
+pMeanRankTT <- mean(possibleMeanRankDiffsH0 >= observedMeanRankTT)
+pMeanTT
+pMeanRankTT
+```
+
+## How to do this in R: COIN
+
+```{r coinexample, echo=TRUE}
+## using the coin package
+library(coin)
+set.seed(12345)
+pMean2 <- coin::pvalue(oneway_test(Y ~ factor(T), data = dat, 
+                             distribution = approximate(nresample = 1000),alternative = "less"))
+dat$rankY <- rank(dat$Y)
+pMeanRank2 <- coin::pvalue(oneway_test(rankY ~ factor(T), data = dat, 
+                                 distribution = approximate(nresample = 1000),alternative = "less"))
+pMean2
+pMeanRank2
+```
+
+## How to do this in R: RItools  {.allowframebreaks}
+
+ First install a development version of the RItools package
+
+```{r installritools, eval=FALSE, echo=TRUE, results='hide',warnings=FALSE,cache=FALSE}
+#dev_mode() ## dont install the package globally
+renv::install("markmfredrickson/RItools@randomization-distribution", 
+               force = TRUE)
+#dev_mode()
+```
+
+Then use the `RItest` function.
+
+```{r useritools, eval=FALSE,echo=TRUE,cache=FALSE}
+#dev_mode()
+library(RItools)
+thedesignA <- simpleRandomSampler(total = N, z = dat$T, b = rep(1, N))
+pMean4 <- RItest(
+  y = dat$Y, z = dat$T, samples = 1000, test.stat = meanTT,
+  sampler = thedesignA
+)
+pMeanRank4 <- RItest(
+  y = dat$Y, z = dat$T, samples = 1000, test.stat = meanrankTT,
+  sampler = thedesignA
+)
+pMean4
+pMeanRank4
+#dev_mode() ## and turn off dev_mode
+```
+
+```{r ritoolsoutput, echo=TRUE, eval=FALSE, tidy=FALSE}
+pMean4
+Call:  RItest(y = dat$Y, z = dat$T, test.stat = meanTT, sampler = thedesignA,
+          samples = 1000)
+
+                        Value Pr(>x)
+Observed Test Statistic -49.6   0.78
+
+pMeanRank4
+Call:  RItest(y = dat$Y, z = dat$T, test.stat = meanrankTT, sampler = thedesignA,
+          samples = 1000)
+
+                        Value Pr(>x)
+Observed Test Statistic     1   0.32
+```
+
+
+
+## How to do this in R: RI2
+
+How should we interpret the two-tailed $p$-value here?
+
+```{r,echo=TRUE}
+## using the ri2 package
+library(ri2)
+thedesign <- declare_ra(N = N)
+dat$Z <- dat$T
+pMean4 <- conduct_ri(Y ~ Z,
+  declaration = thedesign,
+  sharp_hypothesis = 0, data = dat, sims = 1000
+)
+summary(pMean4)
+pMeanRank4 <- conduct_ri(rankY ~ Z,
+  declaration = thedesign,
+  sharp_hypothesis = 0, data = dat, sims = 1000
+)
+summary(pMeanRank4)
+```
+
+## Next topics
+
+ - Testing weak null hypotheses, $H_0: \bar{y}_{1} = \bar{y}_{0}$.
+
+ - Rejecting null hypotheses (and making false positive and/or false negative errors).
+
+ - Maintaining correct false positive error rates when testing more than one hypothesis.
+
+- Power of hypothesis tests ([Module on Statistical Power and Design Diagnosands tomorrow](https://egap.github.io/learningdays-book/statistical-power-and-design-diagnosands.html)).
+
+
+# Testing weak null hypotheses
+
+## Testing the weak null of no average effects
+
+- The weak null hypothesis is a claim about aggregates, and it is nearly always stated in terms of averages: $H_0: \bar{y}_{1} = \bar{y}_{0}$
+
+- The test statistic for this hypothesis is nearly always the simple difference of means (i.e., `meanTT()` above).
+
+```{r simpdiffs, echo=TRUE}
+lm1 <- lm(Y ~ T, data = dat)
+lm1P <- summary(lm1)$coef["T", "Pr(>|t|)"]
+ttestP1 <- t.test(Y ~ T, data = dat)$p.value
+library(estimatr)
+ttestP2 <- difference_in_means(Y ~ T, data = dat)
+c(lm1P=lm1P, ttestP1=ttestP1, tttestP2=ttestP2$p.value)
+```
+
+- Why is the OLS $p$-value different? What assumptions do we use to calculate it?
+
+## Testing the weak null of no average effects
+
+Both variation and location of $Y$ changes with treatment in this simulation, plus we have some extreme points --- like two groups that become much more similar after the intervention.
+
+```{r fig.cap="Boxplot of observed outcomes by treatment status", results='asis', out.width=".7\\textwidth"}
+g1 <- ggplot(dat,aes(y=Y,x=factor(T))) +
+    geom_boxplot()+
+    geom_point() +
+    theme_classic()
+print(g1)
+```
+
+
+## Testing the weak null of no average effects
+
+Reporting a two-sided $p$-value here:
+
+```{r, echo=TRUE}
+## By hand:
+varEstATE <- function(Y, T) {
+  var(Y[T == 1]) / sum(T) + var(Y[T == 0]) / sum(1 - T)
+}
+seEstATE <- sqrt(varEstATE(dat$Y, dat$T))
+obsTStat <- observedMeanTT / seEstATE
+c(
+  observedTestStat = observedMeanTT, 
+  stderror = seEstATE, 
+  tstat = obsTStat,
+  pval = 2 * min(
+    pt(obsTStat, df = 8, lower.tail = TRUE),
+    pt(obsTStat, df = 8, lower.tail = FALSE)
+  )
+)
+```
+
+# Rejecting null hypotheses
+
+## Rejecting hypotheses and making errors
+
+- "In typical use, the level of the test [$\alpha$] is a promise about the test’s performance and the size is a fact about its performance..." (Rosenbaum 2010, Glossary)
+
+- $\alpha$ is the probability of rejecting the null hypothesis when the null hypothesis is true.
+
+- How should we interpret $p$=`r  round(pMeanTT,2)`? What about $p$=`r round(pMeanRankTT,2)` (our tests of the sharp null)?
+
+- What does it mean to "reject" $H_0: Y_{i}(1)=Y_{i}(0)$ at $\alpha=.05$?
+
+
+
+## False positive rates in hypothesis testing {.allowframebreaks}
+
+```{r normp, echo=FALSE,out.width=".5\\textwidth",fig.cap="One-sided p-value from a Normally distributed test statistic."}
+library(tidyverse)
+ggplot(NULL, aes(c(-3, 3))) +
+  geom_area(stat = "function", fun = dnorm, fill = "#00998a", xlim = c(2, 3)) +
+  geom_area(stat = "function", fun = dnorm, fill = "grey80", xlim = c(-3, 2)) +
+  labs(x = "test stat (center=0)", y = "prob") +
+  geom_vline(xintercept = 2) +
+  scale_y_continuous(breaks = NULL) +
+  # scale_x_continuous(breaks = 4) +
+  theme_classic()
+```
+
+Notice:
+
+ - The curve is centered at the hypothesized value.
+ 
+ - The curve represents the world of the hypothesis.
+ 
+ - The $p$-value is how rare it would be to see the observed test statistic (or a value farther away from the hypothesized value) in the world of the null.
+ 
+ - In the picture, the observed value of the test statistic is consistent with the hypothesized distribution, but just not super consistent.
+ 
+ - Even if $p < .05$ (or $p < .001$) the observed test statistic must reflect some value on the hypothesized distribution. **This means that you can always make an error when you reject a null hypothesis.**
+
+## False positive and false negative errors 
+
+- If we say, "The experimental result is significantly different from the
+hypothesized value of zero ($p=.001$)! We reject that hypothesis!" **when the truth is zero** we are making a **false positive error** (claiming to detect something positively when there is no signal, only noise).
+
+- If we say, "We cannot distinguish this result from zero ($p=.3$). We cannot reject the hypothesis of zero." **when the truth is not zero** we are making a **false negative error** (claiming inability to detect something when there is a signal, but it is overwhelmed by noise.)
+
+## A single test of a single hypothesis
+
+- A single test of a single hypothesis should encourage false positive errors rarely. For example, if we set $\alpha=.05$, then we are saying that we are comfortable with our testing procedure making false positive errors in **no more than 5% of tests of a given treatment assignment in a given experiment**.
+
+- Also, a **single test of a single hypothesis** should detect a signal when it exists --- it should be have high **statistical power**. In other words, it should not fail to detect a signal when it exists (i.e. should have low false negative error rates).
+
+## Decisions imply errors
+
+You don't have to reject or not-reject. But it is difficult to *act* without deciding.
+
+- If errors are necessary, how can we diagnose them? How do we learn whether our hypothesis-testing procedure might generate too many false positive errors?
+
+- Diagnose by simulation!
+
+
+## Diagnosing false positive rates by simulation
+
+- Across repetitions of the design:
+
+  - Create a true null hypothesis.
+  - Test the true null.
+  - The $p$-value should be large if the test is operating correctly.
+
+- The proportion of small $p$-values should be no larger than $\alpha$ if the test is operating correctly.
+
+
+## Diagnosing false positive rates by simulation
+
+Example with a binary outcome. Does the test work as it should? What do the p-values look like when there is no effect?
+
+```{r, echo=TRUE}
+collectPValues <- function(y, z, thedistribution = exact()) {
+  ## Make Y and T have no relationship by re-randomizing T
+  newz <- repeatExperiment(length(y))
+  ## The four tests
+  thelm <- lm(y ~ newz, data = dat)
+  ttestP2 <- difference_in_means(y ~ newz, data = dat)
+  owP <- coin::pvalue(oneway_test(y ~ factor(newz), 
+                            distribution = thedistribution))
+  ranky <- rank(y)
+  owRankP <- coin::pvalue(oneway_test(ranky ~ factor(newz), 
+                                distribution = thedistribution))
+  ## Return the p-values
+  return(c(
+    lmp = summary(thelm)$coef["newz", "Pr(>|t|)"],
+    neyp = ttestP2$p.value[[1]],
+    rtp = owP,
+    rtpRank = owRankP
+  ))
+}
+```
+
+```{r fprdsim, cache=TRUE}
+set.seed(12345)
+pDist <- replicate(5000, collectPValues(y = dat$Ybin, z = dat$T))
+```
+
+## Diagnosing false positive rates by simulation
+
+- After setting the simulation to have no effect, a test of the null hypothesis of no effects should
+produce a **big** p-value. 
+
+- If the test is working well, we should see mostly big p-values and very few small p-values.
+
+- A few of the p-values for the four different tests (we did 5000 simulations, just showing 5)
+
+```{r, echo=FALSE}
+pDist[,1:5]
+```
+
+## Diagnosing false positive rates by simulation
+
+In fact, if there is no effect, and if we decided to reject the null hypothesis
+of no effects with $\alpha=.25$, we would want **no more than 25% of our
+p-values in this simulation to be less than p=.25**. What do we see here? Which
+tests appear to have false positive rates that are too high?
+
+```{r pdistsummary, echo=TRUE}
+## Calculate the proportion of p-values less than .25 for each row of pDist
+apply(pDist, 1, function(x) {
+  mean(x < .25)
+})
+```
+
+
+## Diagnosing false positive rates by simulation
+
+Compare tests by plotting the proportion of p-values less than any given number. The "randomization inference" tests control the false positive rate (these are the tests of using direct permutation, repeating the experiment).
+
+
+```{r plotecdf, results='asis', echo=FALSE, message=FALSE, warning=FALSE,fig.cap='P-value distributions when there are no effects for four tests with n=10. A test that controls its false positive rate should have points on or below the diagonal line.',out.width='.6\\textwidth'}
+par(mfrow = c(1, 1), mgp = c(2, .75, 0), oma = rep(0, 4), mar = c(3.5, 3.5, 0, 0))
+plot(c(0, 1), c(0, 1),
+  type = "n",
+  xlab = "p-value=p", ylab = "Proportion p-values < p",
+  cex.lab=2, cex.axis=2)
+for (i in 1:nrow(pDist)) {
+  lines(ecdf(pDist[i, ]), pch = i, col = i, cex=2,cex.axis=2,lwd=2)
+}
+abline(0, 1, col = "gray")
+legend("topleft",
+  legend = c("OLS", "Neyman", "Rand Inf Mean Diff", "Rand Inf Mean Diff Ranks"),
+  pch = 1:5, col = 1:5, lty = 1, bty = "n",cex=2
+)
+```
+
+## False positive rate with $N=60$ and binary outcome
+
+In this design only the direct randomization inference-based tests control the false positive rate.
+
+```{r fprdsimBig, cache=TRUE}
+set.seed(12345)
+## pDistBig <- replicate(1000,collectPValues(y=bigdat$Ybin,z=bigdat$T,thedistribution=approximate(B=1000)))
+library(parallel)
+pDistBigLst <- mclapply(1:1000, function(i) {
+  collectPValues(y = bigdat$Ybin, z = bigdat$T, thedistribution = approximate(nresample = 1000))
+}, mc.cores = 8)
+pDistBig <- simplify2array(pDistBigLst)
+```
+
+```{r plotecdfBig, results='asis', echo=FALSE, message=FALSE, warning=FALSE,out.width='.7\\textwidth',fig.cap="P-value distributions when there are no effects for four tests with n=60 and a binary outcome. A test that controls its false positive rate should have points on or below the diagonal line."}
+par(mfrow = c(1, 1), mgp = c(2, .75, 0), oma = rep(0, 4), mar = c(3.5, 3.5, 0, 0))
+plot(c(0, 1), c(0, 1),
+  type = "n",
+  xlab = "p-value=p", ylab = "Proportion p-values < p",
+  cex.lab=2, cex.axis=2
+)
+for (i in 1:nrow(pDistBig)) {
+  lines(ecdf(pDistBig[i, ]), pch = i, col = i,cex=2,cex.axis=2,lwd=2)
+}
+abline(0, 1, col = "gray")
+legend("topleft",
+  legend = c("OLS", "Neyman", "Rand Inf Mean Diff", "Rand Inf Mean Diff Ranks"),
+  pch = 1:5, col = 1:5, lty = 1, bty = "n",cex=2
+)
+```
+
+## False positive rate with $N=60$ and continuous outcome
+
+Here, all of the tests do a good job of controlling the false
+positive rate.
+
+
+```{r fprdsimBig2, cache=TRUE}
+set.seed(123456)
+pDistBigLst2 <- mclapply(1:1000, function(i) {
+  collectPValues(y = bigdat$Y, z = bigdat$T, thedistribution = approximate(nresample = 1000))
+}, mc.cores = 8)
+pDistBig2 <- simplify2array(pDistBigLst2)
+```
+
+```{r plotecdfBig2, results='asis', echo=FALSE, message=FALSE, warning=FALSE, out.width='.7\\textwidth',fig.cap='P-value distributions when there are no effects for four tests with n=60 and a continuous outcome. A test that controls its false positive rate should have points on or below the diagonal line.'}
+library(scales)
+par(mfrow = c(1, 1), mgp = c(2, .75, 0), oma = rep(0, 4), mar = c(3.5, 3.5, 0, 0))
+plot(c(0, 1), c(0, 1),
+  type = "n",
+  xlab = "p-value=p", ylab = "Proportion p-values < p",
+  cex.lab=2, cex.axis=2
+)
+for (i in 1:nrow(pDistBig2)) {
+  lines(ecdf(pDistBig2[i, ]), pch = i, col = alpha(i,.5), cex=2, cex.axis=2)
+}
+abline(0, 1, col = "gray")
+legend("topleft",
+  legend = c("OLS", "Neyman", "Rand Inf Mean Diff", "Rand Inf Mean Diff Ranks"),
+  pch = 1:5, col = 1:5, lty = 1, bty = "n", cex=2
+)
+```
+
+
+## Summary
+
+- A good test: 
+
+    1. casts doubt on the truth rarely, and 
+    
+    2. easily distinguishes signal from noise (casts doubt on falsehoods often).
+
+- We can learn whether our testing procedure controls false positive rates given our design using simulation.
+
+- When false positive rates are not controlled, what might be going wrong? (Often has to do with asymptotics.)
+
+# Advanced Topics in Hypothesis Testing
+
+## Some advanced topics connected to hypothesis testing
+
+ - Even if a given testing procedure controls the false positive rate for a single test, it may not control the rate for a group of multiple tests. See
+   [10 Things you need to know about multiple
+   comparisons](https://egap.org/methods-guides/10-things-you-need-know-about-multiple-comparisons)
+   for a guide to the approaches to controlling such rejection-rates in multiple tests.
+
+ - A $100(1-\alpha)$\% confidence interval can be defined as the range of hypotheses where all of the $p$-values are greater than or equal to $\alpha$. This is called inverting the hypothesis test (@rosenbaum2010design). That is, a confidence interval is a collection of hypothesis tests.
+
+## What else to know about hypothesis tests  {.allowframebreaks}
+
+ - A point estimate based on hypothesis testing is called a Hodges-Lehmann point estimate (@rosenbaum1993hlp,@hodges1963elb).
+
+ - A set of hypothesis tests can be combined into one single hypothesis test (@hansen:bowers:2008,@caughey2017nonparametric).
+
+ - In equivalence testing, one can hypothesize that two test-statistics are equivalent (i.e., the treatment group is the same as the control group) rather than only about one test-statistic (the difference between the two groups is zero) (@hartman2018equivalence).
+
+ - Since a hypothesis test is a model of potential outcomes, one can use hypothesis testing to learn about complex models, such as models of spillover and propagation of treatment effects across networks (@bowers2013reasoning, @bowers2016research, @bowers2018models)
+
+
+## Exercise: Hypothesis Tests and Test Statistics
+
+ 1. If an intervention was very effective at increasing the variability of an outcome but did not change the mean, would the $p$-value reported by R or Stata if we used `lm_robust()` or `difference_of_means()` or `reg` or `t.test` be large or small?
+
+ 2. If an intervention caused the mean in the control group to be moderately reduced but increased a few outcomes a lot (like a 10 times effect), would the $p$-value from R `lm_robust()` or `difference_of_means()` be large or small?
+
+
+# Testing many hypotheses
+
+## When might we test many hypotheses?
+
+- Does the effect of an experimental treatment differ between different groups? Could differences in treatment effect arise because of some background characteristics of experimental subjects?
+
+- Which, among several, strategies for communication were most effective on a single outcome?
+
+- Which, among several outcomes, were influenced by a single experimental intervention?
+
+
+
+## False positive rates in multiple hypothesis testing {.fragile}
+
+Say our probability of making a false positive error is .05 in a single test. What happens if we ask: (1) *which of these 10 outcomes has a statistically significant relationship with the two arms of treatment*? or (2) *which of these 10 treatment arms had a statistically significant relationship with the single outcome*?
+
+ - Prob of false positive error should be less than or equal to .05 in 1 test.
+ - Prob of one false positive error should be less than or equal to $1 - ( ( 1 - .05 ) \times (1 - .05) ) = .0975$ in 2 tests.
+ - Prob of at least one false positive error with $\alpha=.05$ in 10 tests should be $\le$ $1 - (1-.05)^{10}=.40$.
+
+## Discoveries with multiple tests
+
+**Number of errors committed when testing $m$ null hypotheses** [@benjamini1995
+'s Table 1]. Cells are numbers of tests.  $R$ is # of "discoveries" and $V$ is # of false discoveries, $U$ is # of correct
+non-rejections, and $S$ is # of correct rejections.
+
++---------------------------------------+--------------------------+----------------------+-----------+
+|                                       | Declared                 | Declared             |   Total   |
+|                                       | Non-Significant          | Significant          |           |
++=======================================+:========================:+:====================:+:=========:+
+| True null hypotheses ($H_{true}=0$)   |             U            |           V          |   $m_0$   |
++---------------------------------------+--------------------------+----------------------+-----------+
+| Not true null hyps ($H_{true} \ne 0$) |             T            |           S          | m - $m_0$ |
++---------------------------------------+--------------------------+----------------------+-----------+
+| Total                                 |            m-R           |           R          |    m      |
++---------------------------------------+--------------------------+----------------------+-----------+
+
+
+
+## Two main error rates to control when testing many hypotheses {.allowframebreaks}
+
+1. **Family wise error rate (FWER)** is $P(V>0)$ (Probability of any false
+       positive error).
+      
+    - We'd like to control this if we plan to make a decision
+       about the results of our multiple tests. The research project is mostly
+       confirmatory. 
+       
+    - See, for example, the projects of the OES
+       <http://oes.gsa.gov>: federal agencies will make decisions about
+       programs depending on whether they detect results or not.
+       
+2. **False Discovery Rate (FDR)** is  $E(V/R | R>0)$ (Average proportion of
+       false positive errors given some rejections). 
+   
+    - We'd like to control this if we are using *this* experiment to plan *the next* experiment. We are
+       willing to accept a higher probability of error in the interests of
+       giving us more possibilities for discovery. 
+
+    - For example, one could
+       imagine an organization, a government, an NGO, could decide to conduct
+       *a series* of experiments as a part of a *learning agenda*: no single
+       experiment determines decision making, more room for exploration.
+
+We will focus on FWER but recommend thinking about FDR and learning agendas as a very useful way to go.
+
+## Questions with multiple outcomes
+
+- What is the effect of one treatment on multiple outcomes? 
+
+- On which outcomes (out of many) did the treatment have an effect? 
+
+- The second question, in particular, can lead to the kind of uncontrolled family wise error rate problems that we referred to above.
+
+## Multiple hypothesis testing: Multiple Outcomes 
+
+Imagine we had five outcomes and one treatment (showing potential and observed outcomes here):
+
+```{r multtesting1}
+set.seed(23)
+thedat <- fabricate(
+  N = 100,
+  y0_1 = rnorm(N),
+  y0_2 = rnorm(N),
+  y0_3 = rnorm(N),
+  y0_4 = rnorm(N),
+  y0_5 = rnorm(N)
+)
+tau1 <- 0
+tau5 <- tau4 <- tau3 <- tau2 <- tau1
+thepop <- declare_population(thedat)
+theassign <- declare_assignment(m = 50,assignment_variable = "T")
+po_1 <- declare_potential_outcomes(Y1_T_0 = y0_1, Y1_T_1 = y0_1 + tau1)
+po_2 <- declare_potential_outcomes(Y2_T_0 = y0_2, Y2_T_1 = y0_2 + tau2)
+po_3 <- declare_potential_outcomes(Y3_T_0 = y0_3, Y3_T_1 = y0_3 + tau3)
+po_4 <- declare_potential_outcomes(Y4_T_0 = y0_4, Y4_T_1 = y0_4 + tau4)
+po_5 <- declare_potential_outcomes(Y5_T_0 = y0_5, Y5_T_1 = y0_5 + tau5)
+reveal_1 <- declare_reveal(Y1, T)
+reveal_2 <- declare_reveal(Y2, T)
+reveal_3 <- declare_reveal(Y3, T)
+reveal_4 <- declare_reveal(Y4, T)
+reveal_5 <- declare_reveal(Y5, T)
+
+des1 <- thepop + theassign +
+  po_1 + po_2 + po_3 + po_4 + po_5 +
+  reveal_1 + reveal_2 + reveal_3 + reveal_4 + reveal_5
+
+dat1 <- draw_data(des1)
+options(digits=2)
+head(dat1[,-c(2:6,8,17:23)])
+head(dat1[,c(1,17:23)])
+```
+
+## Can we detect an effect on outcome `Y1`?
+
+Can we detect an effect on outcome `Y1`? (i.e., does the hypothesis test produce a small enough $p$-value?)
+```{r p1, echo=TRUE}
+coin::pvalue(oneway_test(Y1 ~ factor(T), data = dat1))
+## Notice that the t-test p-value is also a chi-squared test
+## p-value.
+coin::pvalue(independence_test(Y1 ~ factor(T),
+  data = dat1,
+  teststat = "quadratic"
+))
+```
+
+## On which of the five outcomes can we detect an effect?
+
+On which of the five outcomes can we detect an effect? (i.e., does any of the five hypothesis tests produce a small enough $p$-value?)
+```{r pmult, echo=TRUE}
+p1 <- coin::pvalue(oneway_test(Y1 ~ factor(T), data = dat1))
+p2 <- coin::pvalue(oneway_test(Y2 ~ factor(T), data = dat1))
+p3 <- coin::pvalue(oneway_test(Y3 ~ factor(T), data = dat1))
+p4 <- coin::pvalue(oneway_test(Y4 ~ factor(T), data = dat1))
+p5 <- coin::pvalue(oneway_test(Y5 ~ factor(T), data = dat1))
+theps <- c(p1=p1, p2=p2, p3=p3, p4=p4, p5=p5)
+sort(theps)
+```
+
+
+## Can we detect an effect for *any* of the five outcomes?
+
+Can we detect an effect for *any* of the five outcomes? (i.e., does the hypothesis test for *all* five outcomes at once produce a small enough $p$-value?)
+```{r omnibus, echo=TRUE}
+coin::pvalue(independence_test(Y1 + Y2 + Y3 + Y4 + Y5 ~ factor(T),
+  data = dat1, teststat = "quadratic"
+))
+```
+
+Which approach is likely to mislead us with too many "statistically significant" results (5 tests or 1 omnibus test)?
+
+## Comparing approaches I
+
+Let's do a simulation to learn about these testing approaches.
+
+- We will (1) set the true causal effects to be 0, (2) repeatedly re-assign treatment, and (3) each time, do
+each of those three tests.
+
+- Since the true effect is 0, we expect *most* of the $p$-values to be large. (In fact, we'd like no more than 5% of
+the $p$-values to be greater than $p=.05$ if we are using the $\alpha=.05$ accept-reject criterion).
+
+```{r testsetup1, echo=FALSE, results="hide"}
+ttest_Y1fn <- function(data) {
+  p1 <- coin::pvalue(oneway_test(Y1 ~ factor(T), data = data))
+  return(data.frame(statistic = NA, p.value = p1))
+}
+ttest_multfn <- function(data) {
+  p1 <- coin::pvalue(oneway_test(Y1 ~ factor(T), data = data))
+  p2 <- coin::pvalue(oneway_test(Y2 ~ factor(T), data = data))
+  p3 <- coin::pvalue(oneway_test(Y3 ~ factor(T), data = data))
+  p4 <- coin::pvalue(oneway_test(Y4 ~ factor(T), data = data))
+  p5 <- coin::pvalue(oneway_test(Y5 ~ factor(T), data = data))
+  theps <- c(p1, p2, p3, p4, p5)
+  return(data.frame(statistic = NA, p.value = min(theps)))
+}
+ttest_mult_holmfn <- function(data) {
+  p1 <- coin::pvalue(oneway_test(Y1 ~ factor(T), data = data))
+  p2 <- coin::pvalue(oneway_test(Y2 ~ factor(T), data = data))
+  p3 <- coin::pvalue(oneway_test(Y3 ~ factor(T), data = data))
+  p4 <- coin::pvalue(oneway_test(Y4 ~ factor(T), data = data))
+  p5 <- coin::pvalue(oneway_test(Y5 ~ factor(T), data = data))
+  theps <- c(p1, p2, p3, p4, p5)
+  padj <- p.adjust(theps, method = "holm")
+  minp <- min(padj)
+  return(data.frame(statistic = NA, p.value = minp))
+}
+ttest_omnibusfn <- function(data) {
+  thep <- coin::pvalue(independence_test(Y1 + Y2 + Y3 + Y4 + Y5 ~ factor(T), data = data, teststat = "quadratic"))
+  return(data.frame(statistic = NA, p.value = thep))
+}
+
+ttest_Y1 <- declare_test(handler = label_test(ttest_Y1fn), label = "t-test Y1")
+ttest_mult <- declare_test(handler = label_test(ttest_multfn), label = "t-test all")
+ttest_mult_holm <- declare_test(handler = label_test(ttest_mult_holmfn), label = "t-test all holm adj")
+ttest_omnibus <- declare_test(handler = label_test(ttest_omnibusfn), label = "t-test omnibus")
+ttest_Y1(dat1)
+ttest_mult(dat1)
+ttest_mult_holm(dat1)
+ttest_omnibus(dat1)
+```
+
+
+```{r des1setup,echo=FALSE}
+des1_plus <- des1 + ttest_Y1 + ttest_mult + ttest_mult_holm + ttest_omnibus
+thediagnosands <- declare_diagnosands(fwer = mean(p.value < .05))
+### Errors about looking for an estimate
+## des1_diag <- diagnose_design(design = des1_plus, bootstrap_sims = 0,
+##     sims=10, diagnosands = thediagnosands)
+```
+
+```{r dd1tests, echo=TRUE, cache=TRUE}
+des1_sim <- simulate_design(des1_plus, sims = 1000)
+res1 <- des1_sim %>%
+  group_by(estimator_label) %>%
+  summarize(fwer = mean(p.value < .05), .groups = "drop")
+```
+
+## Comparing approaches II
+```{r}
+kableExtra::kable(res1,caption='Family wise error rates')
+```
+
+ - The approach using 5 tests produces a $p < .05$ much too often ---
+recall that there are no causal effects at all for any of these outcomes.
+
+ - A test of a single outcome (here `Y1`) has $p < .05$ no more than 5% of the simulations.
+
+ - The omnibus test also shows a well-controlled error rate.
+
+ - Using a multiple testing correction (here we use the "Holm" correction) also correctly controls the false positive rate.
+
+## The Holm correction
+
+FYI, here is how to use the Holm correction (Notice what happens to the $p$-values):
+
+```{r holmex, echo=TRUE}
+theps
+p.adjust(theps, method = "holm")
+## To show what happens with "significant" p-values
+theps_new <- sort(c(theps, newlowp=.01))
+p.adjust(theps_new, method = "holm")
+```
+
+
+## Multiple hypothesis testing: Multiple treatment arms {.allowframebreaks}
+
+- The same kind of problem can happen when the question is about the differential
+effects of a multi-armed treatment.
+
+- With 5 arms, "the effect of arm 1" could mean many different things: "Is the average potential outcome under arm 1
+bigger than arm 2?", "Are the potential outcomes of arm 1 bigger than the average potential outcomes of all of the other arms?"
+
+- If we just focus on pairwise comparisons across arms, we could have $((5 \times 5) - 5)/2 = 10$ unique tests!
+
+## Multiple hypothesis testing: Multiple treatment arms {.allowframebreaks}
+
+Here are some potential and observed outcomes and `T` with multiple values.
+
+```{r multitreatsetup, echo=FALSE}
+theassign_mult <- declare_assignment(
+  num_arms = 5,
+  conditions = c("1", "2", "3", "4", "5"), assignment_variable = T
+)
+po_mult <- declare_potential_outcomes(Y ~ y0_1 * (T == "1") + y0_2 * (T == "2") +
+  y0_3 * (T == "3") + y0_4 * (T == "4") + y0_5 * (T == "5"),
+conditions = c("1", "2", "3", "4", "5"),
+assignment_variables = T
+)
+reveal_mult <- declare_reveal(assignment_variables = T)
+des2 <- thepop + theassign_mult + po_mult + reveal_mult
+dat2 <- draw_data(des2)
+options(digits=2)
+## T is treatment arm: 1,2,3,4,5
+head(dat2[,-c(2:6,8)])
+options(digits=4)
+```
+
+## Multiple hypothesis testing: Multiple treatment arms {.allowframebreaks}
+
+
+Here are the 10 pairwise tests with and without adjustment for multiple
+testing. Notice how one "significant" result ($p=.01$) changes with adjustment.
+
+```{r}
+## this is an interface to coin's independence_test()
+pair_tests1 <- pairwisePermutationTest(Y ~ T, data = dat2, distribution = asymptotic(), method = "holm", teststat = "quadratic")
+pair_tests1
+```
+## Approaches to testing hypotheses with multiple arms
+
+We illustrate four different approaches:
+
+  1.  do all of the pairwise tests and choose the best one (a bad idea);
+  2.  do all the pairwise tests and choose the best one after adjusting
+the p-values for multiple testing (a fine idea but one with very low
+statistical power);
+  3. test the hypothesis of no relationship between *any arm* (an omnibus test)
+and the outcome (a fine idea);
+  4.  choose one arm to focus on in advance (a fine idea).
+
+```{r}
+ttest_T1_vs_allfn <- function(data) {
+  p1 <- coin::pvalue(oneway_test(Y ~ factor(T == "1"), data = data))
+  return(data.frame(statistic = NA, p.value = p1))
+}
+overall_Tfn <- function(data) {
+  itest <- independence_test(Y ~ T, data = data)
+  return(data.frame(statistic = NA, p.value = coin::pvalue(itest)))
+}
+pairwise_testsfn <- function(data) {
+  pair_tests <- pairwisePermutationTest(Y ~ T, data = data, distribution = asymptotic(), method = "holm", teststat = "quadratic")
+  return(data.frame(statistic = NA, p.value = min(pair_tests$p.value)))
+}
+pairwise_tests_adjfn <- function(data) {
+  pair_tests <- pairwisePermutationTest(Y ~ T, data = data, distribution = asymptotic(), method = "holm", teststat = "quadratic")
+  return(data.frame(statistic = NA, p.value = min(pair_tests$p.adjust)))
+}
+
+
+## dat2$TF <- factor(dat2$T)
+## blah <- independence_test(Y~TF,data=dat2,xtrafo = mcp_trafo(TF = "Tukey")) #,teststat="quadratic")
+## pair_tests2 <- coin::pvalue(blah,method="unadjusted")
+## pair_tests2
+## thecontrasts <- rbind("2 - 1 " = c(1,-1,0,0,0,0),
+## "3-1"=c(1,0,-1,0,0,0))
+## blah2<- independence_test(Y~TF,data=dat2,xtrafo = mcp_trafo(TF = thecontrasts))
+## coin::pvalue(blah2,method="single-step")
+##
+
+ttest_T1_vs_all <- declare_test(handler = label_test(ttest_T1_vs_allfn), label = "t-test T1 vs all")
+overall_T <- declare_test(handler = label_test(overall_Tfn), label = "Overall test")
+pairwise_test <- declare_test(handler = label_test(pairwise_testsfn), label = "Choose best pairwise test")
+pairwise_test_adj <- declare_test(handler = label_test(pairwise_tests_adjfn), label = "Choose best pairwise test after adjustment")
+```
+
+```{r des2diag, cache=TRUE}
+des2_plus <- des2 + ttest_T1_vs_all + overall_T + pairwise_test + pairwise_test_adj
+thediagnosands <- declare_diagnosands(fwer = mean(p.value < .05))
+des2_sim <- simulate_design(des2_plus, sims = 1000)
+res2 <- des2_sim %>%
+  group_by(estimator_label) %>%
+  summarize(fwer = mean(p.value < .05), .groups = "drop")
+kableExtra::kable(res2, caption='Approaches to testing in multi-arm experiments.')
+```
+
+## Summary
+
+- Multiple testing problems can arise from multiple outcomes or multiple
+  treatments (or multiple moderators/interaction terms).
+  
+- Procedures for making hypothesis tests and confidence intervals can involve
+  error. Ordinary practice controls the error rates in a single test (or single
+  confidence interval). But multiple tests require extra work to ensure that
+  error rates are controlled.
+
+- The loss of power arising from adjustment approaches encourages us to
+   consider what *questions we want to ask of the data*. For example, if we
+   want to know if the treatment had *any effect*, then a joint test or omnibus
+   test of multiple outcomes will increase our statistical power without
+   requiring adjustment.
+
+# Estimation
+
+
+## Based Approach 2: Estimate Averages of Potential Outcomes
+
+  1. Notice that the observed $Y_i$ are a sample from the (small, finite) population of unobserved potential outcomes $(y_{i,1},y_{i,0})$.
+  2. Decide to focus on the average, $\bar{\tau}$, because sample averages, $\hat{\bar{\tau}}$ are unbiased and consistent estimators of population averages.
+  3. Estimate $\bar{\tau}$ with the observed difference in means as $\hat{\bar{\tau}}$.
+
+\centering
+  \includegraphics[width=.7\textwidth]{Images/cartoonNeyman.pdf}
+
+## Design Based Approach 2: Estimate Averages of Potential Outcomes
+
+\centering
+  \includegraphics[width=.9\textwidth]{Images/cartoonNeyman.pdf}
+
+
+## Design Based Approach 2: Estimate Averages of Potential Outcomes
+
+Here using Neyman's standard errors (same as HC2 SEs) and Central Limit Theorem based $p$-values and 95% confidence intervals:
+
+\smallskip
+
+```{r dim, echo=TRUE}
+est1 <- difference_in_means(Y~T,data=dat)
+est1
+```
+
+
+# Key points
+
+## Key points about estimation I
+
+  -  A causal effect, $\tau_i$, is a comparison of unobserved potential outcomes for each unit $i$: examples  $\tau_{i} = Y_{i}(T_{i}=1) -  Y_{i}(T_{i}=0)$ or  $\tau_{i} = \frac{Y_{i}(T_{i}=1)}{ Y_{i}(T_{i}=0)}$.
+
+  - To learn about $\tau_{i}$, we can treat $\tau_{i}$ as an **estimand** or
+   target quantity to be estimated (discussed here) or as a target quantity to be hypothesized about (session on hypothesis testing).
+
+  - Many focus on the **average treatment effect (ATE)**, $\bar{\tau}=\sum_{i=1}^n\tau_{i}$, in part, because it allows for easy **estimation**.
+
+## Key points about estimation II
+
+ - They key to estimation for causal inference is to choose an estimand that helps you learn about your theoretical or policy question. So, one could use
+   the ATE but other common estimands include the ITT, LATE/CACE, ATT, or ATE
+   for some subgroup (or even a different of causal effects between groups).
+
+  - An **estimator** is a recipe for calculating a guess about the value of  an estimand. For example, the difference of observed means for $m$ treated units is one estimator of $\bar{\tau}$:
+   $\hat{\bar{\tau}} = \frac{\sum_{i=1}^n (T_i Y_i)}{m} - \frac{\sum_{i=1}^n ( ( 1 - T_i)Y_i)}{(n-m)}$.
+
+## Key points about estimation III
+
+ - The **standard error** of an estimator in a randomized experiment summarizes how the estimates would vary if the experiment were repeated.
+
+ - We use the **standard error** to produce **confidence intervals** and
+   **p-values**: so that we can begin with an estimator and end at a hypothesis test.
+
+  - Different randomizations will produce different values of the same estimator targeting the same estimand. A **standard error** summarizes this variability in an estimator.
+
+  - A $100(1-\alpha)$% **confidence interval** is a collection of hypotheses that cannot be rejected at the $\alpha$ level. We tend to report confidence intervals containing hypotheses about values of our estimand and use our estimator as a test statistic.
+
+## Key points about estimation IV
+
+ - Estimators should:
+ 
+      - avoid systematic error in their guessing of the estimand (be unbiased); 
+   
+      - vary little in their guesses from experiment to
+   experiment (be precise or efficient); and  
+   
+      - perhaps ideally converge to the estimand as they use more and more information (be consistent).
+
+## Key points about estimation V
+
+ - **Analyze as you randomize** in the context of estimation means that (1) our standard errors should measure variability from randomization and (2) our estimators should target estimands defined in terms of potential outcomes.
+
+ - We do not **control for** background covariates when we analyze data from randomized experiments. But covariates can make our estimation more **precise**. This is called **covariance adjustment** (or covariate adjustment). **Covariance adjustment** in randomized experiments differs from controlling for in observational studies.
+
+# Review
+
+## Review: Causal effects
+
+Review: Causal inference refers to a comparison of unobserved, fixed, potential outcomes.  
+
+For example:
+
+  -  the potential,  or possible,  outcome for unit  $i$ when assigned to
+    treatment, $T_i=1$ is  $Y_{i}(T_{i}=1)$.
+  -  the potential,  or possible,  outcome for unit  $i$ when assigned to
+    control, $T_i=0$ is  $Y_{i}(T_{i}=0)$.
+
+Treatment assignment, $T_i$, has a causal effect on  unit $i$, that we call $\tau_i$, if
+$Y_{i}(T_{i}=1) -  Y_{i}(T_{i}=0) \ne 0$ or $Y_{i}(T_{i}=1) \ne Y_{i}(T_{i}=0)$.
+
+# Estimands and estimators and averages
+
+## How can we learn about causal effects from observed data?
+
+ 1. Recall: we can **test hypotheses** about the pair of potential outcomes $\{ Y_{i}(T_{i}=1), Y_{i}(T_{i}=0) \}$.
+ 
+ 2. We can **define estimands** in terms of $\{ Y_{i}(T_{i}=1), Y_{i}(T_{i}=0) \}$ or $\tau_i$, **develop estimators** for those estimands,
+    and then calculate values and standard errors for those estimators.
+
+## A common estimand and estimator: The average treatment effect and the difference of means
+
+Say we are interested in the ATE, or $\bar{\tau}=\sum_{i=1}^n \tau_{i}$. What is a good estimator?
+
+Two candidates:
+
+ 1. The difference of means: $\hat{\bar{\tau}} = \frac{\sum_{i=1}^n (T_i Y_i)}{m} -
+    \frac{\sum_{i=1}^n ( ( 1 - T_i) Y_i)}{n-m}$.
+    
+ 2. A difference of means after top-coding the highest $Y_i$ observation (a
+    kind of "winsorized" mean to prevent extreme values from exerting too much
+    influence over our estimator --- to increase *precision*).
+
+How would we know which estimator is best for our particular research design?
+
+Let's simulate!
+
+## Simulation Step 1: create some data with a known ATE
+
+Notice that we need to *know* the potential outcomes and the treatment
+assignment in order to learn whether our proposed estimator does a good job.
+
+```{r echo=FALSE}
+
+## First, create some data,
+##  y0 is potential outcome to control
+N <- 10
+y0 <- c(0, 0, 0, 1, 1, 3, 4, 5, 190, 200)
+## Each unit has its own treatment effect
+tau <- c(10, 30, 200, 90, 10, 20, 30, 40, 90, 20)
+## y1 is potential outcome to treatment
+y1 <- y0 + tau
+## Z is treatment assignment (note we're using Z instead of T)
+set.seed(12345)
+block <- c("a","a","a","a","a","a","b","b","b","b")
+Z <- c(0,0,0,0,1,1,0,0,1,1)
+## Y is observed outcomes
+Y <- Z * y1 + (1 - Z) * y0
+## The data
+dat <- data.frame(Z = Z, y0 = y0, y1 = y1, tau = tau, b=block,Y=Y)
+## dat <- dat[,c("Z","y0","y1")]
+```
+
+\begin{center}
+```{r}
+kableExtra::kable(dat[,c("Z","y0","y1")])
+```
+\end{center}
+
+```{r ate, echo=FALSE, results="markup", message=TRUE}
+ATE <- with(dat, mean(y1 - y0))
+message("The true ATE is ", ATE)
+```
+
+In reality, we would observe only one of the potential outcomes.
+
+Note that each unit has its own treatment effect.  
+
+## First make fake data
+
+The table in the previous slide was generated in R with:
+
+
+```{r echo=TRUE}
+# We have ten units
+N <- 10
+#  y0 is potential outcome to control
+y0 <- c(0, 0, 0, 1, 1, 3, 4, 5, 190, 200)
+# Each unit has its own treatment effect
+tau <- c(10, 30, 200, 90, 10, 20, 30, 40, 90, 20)
+# y1 is potential outcome to treatment
+y1 <- y0 + tau
+# Two blocks, a and b
+block <- c("a","a","a","a","a","a","b","b","b","b")
+# Z is treatment assignment (Z instead of T in the code)
+Z <- c(0,0,0,0,1,1,0,0,1,1)
+# Y is observed outcomes
+Y <- Z * y1 + (1 - Z) * y0
+# The data
+dat <- data.frame(Z = Z, y0 = y0, y1 = y1, tau = tau, b=block,Y=Y)
+set.seed(12345)
+```
+
+
+## Using DeclareDesign 
+
+DeclareDesign represents research designs in a few steps shown below:
+
+```{r dd1, echo=TRUE}
+# take just the potential outcomes under treatment and control from our 
+# fake data
+small_dat <- dat[, c("y0", "y1")]
+
+# DeclareDesign first asks you to declare your population
+pop <- declare_population(small_dat)
+
+# 5 units assigned to treatment; default is simple random assignment with 
+# probability 0.5
+trt_assign <- declare_assignment(m = 5) 
+
+# observed Y is y1 if Z=1 and y0 if Z=0
+pot_out <- declare_potential_outcomes(Y ~ Z * y1 + (1 - Z) * y0)
+
+# specify outcome and assignment variables
+reveal <- declare_reveal(Y, Z) 
+
+# the basic research design object includes these four objects
+base_design <- pop + trt_assign + pot_out + reveal 
+```
+
+## Using DeclareDesign: make fake data
+
+DeclareDesign renames `y0` and `y1` by default to `Y_Z_0` and `Y_Z_1`:
+
+```{r echo=TRUE}
+## A simulation is one random assignment of treatment 
+sim_dat1 <- draw_data(base_design)
+
+## Simulated data (just the first 6 lines)
+head(sim_dat1)
+```
+
+## Using DeclareDesign: define estimand and estimators
+
+No output here. Just define functions and estimators and one estimand.
+
+```{r dd2, echo=TRUE}
+## The estimand
+estimandATE <- declare_estimand(ATE = mean(Y_Z_1 - Y_Z_0))
+
+## The first estimator is difference-in-means
+diff_means <- declare_estimator(Y ~ Z, estimand = estimandATE, 
+  model = lm_robust, se_type = "classical", label = "Diff-Means/OLS")
+```
+
+## Using DeclareDesign: define estimand and estimators
+```{r dd2a, echo=TRUE}
+## The second estimator is top-coded difference-in-means
+diff_means_topcoded_fn <- function(data) {
+  data$rankY <- rank(data$Y)
+  ## Code the maximum value of Y as the second to maximum value of Y
+  data$newY <- with(data,
+    ifelse(rankY == max(rankY), Y[rankY == (max(rankY) - 1)], Y))
+  obj <- lm_robust(newY ~ Z, data = data, se_type = "classical")
+  res <- tidy(obj) %>% filter(term == "Z")
+  return(res)
+}
+diff_means_topcoded <- declare_estimator(
+  handler = label_estimator(diff_means_topcoded_fn),
+  estimand = estimandATE, label = "Top-coded Diff Means"
+)
+```
+
+## Using DeclareDesign: define estimand and estimators
+
+Here we show how the DD estimators work using our simulated data.
+
+```{r dd3, echo=TRUE}
+## Demonstrate that the estimand works:
+estimandATE(sim_dat1)
+
+## Demonstrate that the estimators estimate
+## Estimator 1 (difference in means)
+diff_means(sim_dat1)[-c(1,2,10,11)]
+
+## Estimator 2 (top-coded difference in means)
+diff_means_topcoded(sim_dat1)[-c(1,2,10,11)]
+```
+
+
+## Then simulate with one randomization
+
+Recall the true ATE:
+  
+  ```{r trueATE, echo=TRUE}
+trueATE <- with(sim_dat1, mean(y1 - y0))
+with(sim_dat1, mean(Y_Z_1 - Y_Z_0))
+```
+
+In one experiment (one simulation of the data) here are the simple estimates:
+  
+  ```{r echo=TRUE}
+## Two ways to calculate the difference of means estimator
+est_diff_means_1 <- with(sim_dat1, mean(Y[Z == 1]) - mean(Y[Z == 0]))
+est_diff_means_2 <- coef(lm_robust(Y ~ Z, data = sim_dat1,
+        se = "classical"))[["Z"]]
+c(est_diff_means_1,est_diff_means_2)
+```
+
+## Then simulate with one randomization
+
+In one experiment (one simulation of the data) here are the estimates after top-coding:
+
+```{r echo=TRUE}
+## Two ways to calculate the topcoded difference of means estimator
+sim_dat1$rankY <- rank(sim_dat1$Y)
+sim_dat1$Y_tc <- with(sim_dat1, ifelse(rankY == max(rankY), 
+                                       Y[rankY == (max(rankY) - 1)], Y))
+est_topcoded_1 <- with(sim_dat1, mean(Y_tc[Z == 1]) - mean(Y_tc[Z == 0]))
+est_topcoded_2 <- coef(lm_robust(Y_tc ~ Z, data = sim_dat1, 
+        se = "classical"))[["Z"]]
+c(est_topcoded_1,est_topcoded_2)
+```
+
+
+## Then simulate a different randomization and estimate the ATE with the same estimators
+
+Now calculate your estimate with the same estimators using a  **different** randomization. Notice that the answers differ. The estimators are estimating the *same estimand* but now they have a different randomization to work with.
+
+```{r echo=TRUE}
+# do another random assignment of the treatment in DeclareDesign
+# this produces a new simulated dataset with a different random assignment 
+sim_dat2 <- draw_data(base_design)
+# the first estimator (difference in means)
+coef(lm_robust(Y ~ Z, data = sim_dat2, se = "classical"))[["Z"]]
+# the second estimator (top-coded difference in means)
+sim_dat2$rankY <- rank(sim_dat2$Y)
+sim_dat2$Y_tc <- with(sim_dat2, ifelse(rankY == max(rankY), 
+        Y[rankY == (max(rankY) - 1)], Y))
+coef(lm_robust(Y_tc ~ Z, data = sim_dat2, se = "classical"))[["Z"]]
+```
+
+
+## How do our estimators behave in general for this design?
+
+Our estimates vary across randomizations. Do our two estimators vary in the same ways?
+  
+```{r diagnose, echo=TRUE, cache=TRUE}
+## Combine into one DeclareDesign design object
+## This has the base design, estimand, then our two estimators
+design_plus_ests <- base_design + estimandATE + diff_means + 
+    diff_means_topcoded
+## Run 100 simulations (reassignments of treatment) and 
+## apply the two estimators (diff_means and diff_means_topcoded)
+diagnosis1 <- diagnose_design(design_plus_ests, 
+                              bootstrap_sims = 0, sims = 100)
+sims1 <- get_simulations(diagnosis1)
+head(sims1[,-c(1:6)])
+```
+
+## How do our estimators behave in general for this design?
+
+Our estimates vary across randomizations. Do our two estimators vary in the same ways?
+  How should we interpret this plot?
+  
+```{r sim_plot, out.width=".8\\textwidth"}
+sim_plot <- ggplot(sims1, aes(y = estimate, x = estimator_label, color = estimator_label)) +
+  geom_boxplot() +
+  geom_hline(yintercept = trueATE) +
+  geom_point(aes(group = estimator_label)) +
+  theme(text = element_text(size=20))
+print(sim_plot)
+```
+
+
+## Which estimator is closer to the truth?
+
+One way to choose among estimators is to choose the one that is **close to the truth** whenever we use it --- regardless of the specific randomization.
+
+An "unbiased" estimator is one for which **average of the estimates across repeated designs** is the  same as the  truth (or $E_R(\hat{\bar{\tau}})=\bar{\tau}$). An unbiased estimator has "no systematic error" but doesn't guarantee closeness to the truth.
+
+Another measure of closeness is **root mean squared error** (RMSE) which  records  squared distances  between the truth and the individual estimates.
+
+Which estimator is better? (One is closer to the truth on average (RMSE) and is more precise. The other has no systematic error --- is unbiased.)
+
+```{r}
+kableExtra::kable(reshape_diagnosis(diagnosis1, select = c("Estimator Label", "Bias", "RMSE", "SD Estimate", "Mean Se", "Power"))[,-c(1,2,4,5,6)])
+```
+
+
+## Unbiased and biased estimators
+
+Summary:
+
+ - We have a *choice* of both estimands and estimators
+ 
+ - A good estimator performs well regardless of the particular randomization of a given design. And *performs well* can mean "unbiased" and/or "low mse" (or "consistent" --- which means increasingly close to the truth as the sample size increases).
+ 
+ - We can learn about how a given estimator performs in a given study using simulation.
+
+# Block randomization
+
+## Block-randomized experiments are a collection of mini-experiments
+
+What is the ** ATE** estimand in a block-randomized experiment?
+
+If we think of the unit-level ATE as: $(1/N) \sum_{i=1}^N y_{i,1} - y_{i,0}$ then we could re-express this equivalently using the ATE in block $j$ is $ATE_j$ as follows:
+
+\[
+ATE = \frac{1}{J}\sum^J_{j=1} \sum^{N_j}_{i=1} \frac{y_{i,1} - y_{i,0}}{N_j}  = \sum^J_{j=1} \frac{N_j}{N} ATE_j
+\]
+
+And it would be natural to *estimate* this quantity by plugging in what we can calculate:
+$\widehat{ATE} = \displaystyle\sum^J_{j=1} \frac{N_j}{N} \widehat{ATE}_j$
+
+## Block-randomized experiments are a collection of mini-experiments
+
+And we could *define* the standard error of the estimator by also just averaging the within-block standard errors (if our blocks are large enough):
+
+$SE(\widehat{ATE}) = \sqrt{\sum^J_{j=1} (\frac{N_{j}}{N})^2SE^2(\widehat{ATE}_j)}$
+
+
+## Estimating the ATE in block-randomized experiments
+
+One approach to estimation simply replaces $ATE_j$ with $\widehat{ATE}$ above:
+
+```{r br1, echo=TRUE}
+with(dat,table(b,Z))
+```
+
+We have 6 units in block `a`, 2 of which are assigned to treatment, and 4 units in block `b`, 2 of which are assignment to treatment.
+
+## Estimating the ATE in block-randomized experiments
+
+One approach to estimation simply replaces $ATE_j$ with $\widehat{ATE}$ above:
+
+```{r br2, echo=TRUE}
+datb <- dat %>% group_by(b) %>% summarize(nb=n(),pb=mean(Z),estateb=mean(Y[Z==1]) - mean(Y[Z==0]),
+    ateb=mean(y1-y0),.groups="drop")
+datb
+## True ate by block:
+with(dat,mean(y1-y0))
+## This is another way to calculate the true ate
+with(datb, sum( ateb*(nb/sum(nb))) )
+```
+
+
+## Estimating the ATE in block-randomized experiments
+
+One approach is to estimate the overall ATE using block-size weights:
+
+```{r br3, echo=TRUE}
+## Showing that difference_in_means uses the blocksize weight.
+e1 <- difference_in_means(Y~Z,blocks=b,data=dat)
+e2 <- with(datb, sum( estateb*(nb/sum(nb))) )
+c(coef(e1)[["Z"]],e2)
+```
+
+
+## Estimating the ATE in block-randomized experiments
+
+Notice that this is **not** the same as either of the following:
+
+```{r br4, echo=TRUE}
+## Ignoring blocks
+e3 <- lm(Y~Z,data=dat)
+coef(e3)[["Z"]]
+
+## With block fixed effects 
+e4 <- lm(Y~Z+block,data=dat)
+coef(e4)[["Z"]]
+```
+
+How do they differ? (The first ignores the blocks. The second uses a different set of weights that are created by use of "fixed effects" or "indicator" or "dummy" variables.)
+
+## Which estimator should we use?
+
+We now have three estimators each with a different estimate (imagining they all target the same estimand):
+
+```{r echo=TRUE}
+c(coef(e1)[["Z"]],coef(e3)[["Z"]], coef(e4)[["Z"]])
+```
+
+Which estimator should we use for this design?  We can set up a DeclareDesign simulation to figure this out.
+
+
+```{r blockdd0, cache=TRUE, echo=TRUE}
+## declare a new base design that includes the block indicator b
+base_design_blocks <- 
+    # declare the population 
+    declare_population(dat[, c("b","y0", "y1")]) +
+    # tell DD that b indicates block and to assign 2 treated units in each block
+    declare_assignment(m=2,blocks=b) + 
+    # relationship of potential outcomes to observed outcome
+    declare_potential_outcomes(Y ~ Z * y1 + (1 - Z) * y0)+
+    # observed outcome and treatment assignment
+    declare_reveal(Y, Z)
+```
+
+## Which estimator should we use?
+
+
+```{r blockdd1, echo=TRUE, cache=TRUE}
+# the estimand is the average treatment effect
+estimandATEb <- declare_estimand(ATE = mean(Y_Z_1 - Y_Z_0))
+
+# three different estimators
+est1 <- declare_estimator(Y ~ Z, estimand = estimandATEb, model = lm_robust, 
+    label = "Ignores Blocks")
+est2 <- declare_estimator(Y ~ Z, estimand = estimandATEb, model = difference_in_means, blocks=b, 
+    label = "DiM: Block-Size Weights")
+est3 <- declare_estimator(Y ~ Z, estimand = estimandATEb, model=lm_robust, 
+    weights=(Z / Z_cond_prob) + ((1 - Z) / ( Z_cond_prob)), 
+    label = "LM: Block Size Weights")
+```
+
+## Which estimator should we use?
+
+
+```{r blockdd1a, echo=TRUE, cache=TRUE}
+# two more estimators
+est4 <- declare_estimator(Y ~ Z, estimand = estimandATEb, 
+    model = lm_robust, fixed_effects=~b, label = "Precision Weights")
+est5 <- declare_estimator(Y ~ Z + b, estimand = estimandATEb, 
+    model = lm_robust, label = "Precision Weights (LSDV)")
+
+## new design object has the base design, the estimand, and five estimators
+design_blocks <- base_design_blocks + estimandATEb + 
+  est1 + est2 + est3 + est4 + est5
+```
+
+Then we will run 10,000 simulations (reassign treatment 10,000 times) and summarize the estimates produced by each of these five estimators.
+
+## Which estimator should we use?
+
+```{r futurelibs, echo=FALSE}
+## This to enable parallel processing when doing the diagnoses.
+## Notice that we have turned on "cache" for some code chunks so that they are not 
+## re-run each time we change the slides.
+library(future)
+library(future.apply)
+```
+
+```{r diagnosis2, echo=FALSE, cache=TRUE}
+## The next few lines use all of the cores on your computer to speed up the computation
+
+# plan(multicore)
+set.seed(12345)
+diagnosis2 <- diagnose_design(design_blocks, bootstrap_sims = 0, sims = 1000)
+sims2 <- get_simulations(diagnosis2)
+# plan(sequential)
+```
+
+How should we interpret this plot?
+
+```{r sim_plot2, warning=FALSE, out.width=".9\\textwidth"}
+sim_plot2 <- ggplot(sims2, aes(y = estimate, x = estimator_label, color = estimator_label)) +
+  geom_boxplot() +
+  geom_hline(yintercept = trueATE) +
+  geom_point(aes(group = estimator_label)) +
+  theme(text = element_text(size=20),axis.text.x = element_text(angle=45, hjust=1), 
+      legend.position="none",legend.title = element_blank()) + 
+  xlab("")
+print(sim_plot2)
+```
+
+
+## Which estimator is closer to the truth?
+
+Which estimator works better on this design and these data?
+
+
+```{r blocktab}
+blocktab <- reshape_diagnosis(diagnosis2, select = c("Estimator Label", "Bias", "RMSE","SD Estimate", "Mean Se", "Power",  "Coverage"))[,-c(1,2,4,5,6)]
+kableExtra::kable(blocktab,col.names = c("Estimator","Bias","RMSE","SD Est","Mean SE","Power","Coverage"))
+```
+
+Notice that the coverage is not always at 95% in all cases.  We used 10,000 simulations so simulation error is around $\pm 2 \sqrt{p(1-p)/10000}$ or, say, for coverage calculated as .93, a different simulation could have easily produced `r .93 -2*sqrt( .93 * (1-.93)/10000 )` or  `r .93+2*sqrt( .93 * (1-.93)/10000 )` (or would rarely have produced coverage numbers outside that range just by chance).
+
+
+
+
+
+
+
+# Cluster randomization
+
+## In cluster-randomized experiments, units are randomized as a group (cluster) to treatment  {.allowframebreaks}
+
+- **Example 1:** an intervention is randomized across neighborhoods, so **all** households in a neighborhood will be assigned to the same treatment condition, but different neighborhoods will be assigned different treatment conditions.
+- **Example 2:** an intervention is randomized across people and each person is measured four times after treatment, so our data contain four rows per person.
+- **Not An Example 1:** Neighborhoods are chosen for the study. Within each neighborhood about half of the people are assigned to treatment and half to control. (What kind of study is this? It is not a cluster-randomized study.)
+- **Not an Example 2:** an intervention is randomized to some neighborhoods and not to others, the outcomes include measurements of neighborhood-level trust in government and total land area in the neighborhood devoted to gardens. (Sometimes a cluster randomized experiment can be turned into a simple randomized experiment. Or may contain more than one possible approach to analysis and interpretation.)
+
+How might the distribution of test statistics and estimators differ from an experiment where individual units (not clusters) are randomized?
+
+## Estimating the ATE in cluster-randomized experiments
+
+Bias problems in cluster-randomized experiments:
+
+- When clusters are the same size, the usual difference-in-means estimator is unbiased.
+
+- But be careful when clusters have different numbers of units or you have very few clusters because then treatment effects may be correlated with cluster size.
+
+- When cluster size is related to potential outcomes, the usual difference-in-means estimator is biased. <https://declaredesign.org/blog/bias-cluster-randomized-trials.html>
+
+## Estimating the SE for the ATE in cluster-randomized experiments  {.allowframebreaks}
+
+- **Misleading statistical inferences:** The default SE will generally underestimate precision in such designs and thus produce tests with false positive rates that are too high (or equivalently confidence intervals coverage rates that are too low).
+
+- The "cluster robust standard errors" implemented in common software work well **when the number of clusters is large** (like more than 50 in some simulation studies).
+
+- The default cluster-appropriate standard errors in `lm_robust` (the `CR2` SEs) work better than the common approach in Stata (as of this writing).
+- The wild bootstrap helps control error rates but gives up statistical power much more than perhaps necessary in a cluster randomized study where direct randomization inference is possible.
+
+- When in doubt, one can produce $p$-values by direct simulation (direct randomization inference) to see if they agree with one of the cluster robust approaches.
+
+Overall, it is worth simulating to study the performance of your estimators, tests, and confidence intervals if you have any worries or doubts.
+
+## An example of estimation
+
+```{r makedatclus, echo=FALSE, results="hide"}
+## see https://declaredesign.org/blog/bias-cluster-randomized-trials.html
+## for more like this.
+N_clusters <- 10  # number of clusters
+n_indivs <- c(100,10) # possible size of clusters 
+thepop <- declare_population(clus_id = add_level(
+            # set the number of clusters
+            N = N_clusters,
+            # 1/5 of clusters have 100 individuals, 4/5 of clusters have 10 individuals
+            cl_size = rep(n_indivs, c(N/5, N - N/5)), 
+            cl_sizeF = factor(cl_size),
+            # Each cluster has a different mean level (u) and different background variability (sd of u)
+            effect = ifelse(cl_size == 100, .1, 1)),
+            indiv = add_level(N = cl_size,
+                u = rnorm(N, mean=log(cl_size), sd = effect)))
+
+theys <- declare_potential_outcomes(Y_Z_0 = u, Y_Z_1 = Y_Z_0 + effect)
+
+thetarget_indiv <- declare_inquiry(ATE_indiv = mean(Y_Z_1 - Y_Z_0))
+
+## Complete random assignment to clusters
+theassign <- declare_assignment(clusters = clus_id)
+
+thereveal <-   declare_reveal(Y, Z)
+
+## 7 different estimators
+est1 <-   declare_estimator(Y ~ Z, inquiry = "ATE_indiv", clusters = clus_id,
+                    model = lm_robust, label = "Y~Z, CR2 SE")
+
+est2 <- declare_estimator(Y ~ Z, inquiry = "ATE_indiv",
+                    model = lm_robust, label = "Y~Z, HC2 SE")
+
+est3 <- declare_estimator(Y ~ Z, inquiry = "ATE_indiv",
+                    model = lm_robust,se_type="classical", label = "Y~Z, IID SE")
+
+est4 <- declare_estimator(Y ~ Z + cl_sizeF, inquiry = "ATE_indiv",clusters = clus_id,
+                    model = lm_robust, label = "Y~Z+clus_size_fixed_effects, CR2 SE")
+
+est5 <- declare_estimator(Y ~ Z, inquiry = "ATE_indiv", fixed_effects=~cl_sizeF,clusters = clus_id,
+                    model = lm_robust, label = "Y~Z, fixed_effects=~clus_size_fixed_effects, CR2 SE ")
+
+est6 <-  declare_estimator(Y ~ Z, inquiry = "ATE_indiv", covariates=~cl_size,clusters = clus_id,
+                    model = lm_lin, label = "Y~Z*I(clus_size-mean(clus_size)), CR2 SE")
+
+est7 <-  declare_estimator(Y ~ Z, inquiry = "ATE_indiv", weight=cl_size,clusters = clus_id,
+                    model = lm_robust, label = "Y~Z, weight=clus_size, CR2 SE")
+
+### Some experimental stuff here:
+## remotes::install_github("markmfredrickson/RItools",ref="proj1-balT")
+## est7tmp <-  balanceTest(Z~Y+cluster(clus_id),data=dat1,report="all")
+##
+## est7fn <- function(data){
+##     bt <- balanceTest(Z~Y+cluster(clus_id),data=data,report="all")
+##     resdat <- data.frame(estimate=bt$results[,"adj.mean diff",])
+##     return(resdat)
+## }
+## est7fn <- function(data){
+##     thelme <- lmer(Y~Z+(1|clus_id),data=data)
+##     cilme <- confint(thelme)
+##     lmecoef <- summary(thelme)$coefficients["Z",]
+##     resdat <- data.frame(estimate=lmecoef["Estimate"],
+##         std.error=lmecoef["Std. Error"],
+##             statistic=lmecoef["t value"],
+##             p.value=NA,
+##         conf.low=min(cilme["Z",]),
+##         conf.high=max(cilme["Z",]))
+##     return(resdat)
+## }
+##
+## est7 <- declare_estimator(handler=tidy_estimator(est7fn),label="mlm: rand intercept")
+
+des <- thepop + theys + theassign + thereveal
+
+set.seed(12345)
+dat1 <- draw_data(des)
+
+head(dat1)
+
+table(dat1$clus_id)
+with(dat1,table(clus_id,Z))
+dat1 %>% group_by(clus_id) %>% summarize(mean(Y_Z_1 - Y_Z_0))
+
+## g1 <- ggplot(data=dat1,aes(x=Y,group=clus_id,fill=clus_id,color=clus_id))+
+##     geom_density()
+## g1
+
+est1(dat1)
+est2(dat1)
+est3(dat1)
+est4(dat1)
+est5(dat1)
+est6(dat1)
+est7(dat1)
+
+```
+
+Imagine we had data from 10 clusters with either 100 people (for 2 clusters) or 10 people per cluster (for 8 clusters). The total size of the data is `r nrow(dat1)`.
+
+
+```{r}
+tmp <- dplyr::filter(dat1,clus_id %in% c("03","01")) %>% group_by(clus_id) %>%
+    sample_n(3) %>% arrange(clus_id,indiv) %>% dplyr::select(clus_id,indiv,Y_Z_0,Y_Z_1,Z,Y)
+
+tmp
+```
+
+## An example of estimation
+
+Which estimator should we use? Which test should we use? On what basis should we choose among these approaches?
+
+```{r clusest, echo=TRUE}
+lmc1 <- lm_robust(Y~Z,data=dat1)
+lmc2 <- lm_robust(Y~Z,clusters=clus_id,data=dat1)
+lmc3 <- lm_robust(Y~Z+cl_sizeF,clusters=clus_id,data=dat1)
+tidy(lmc1)[2,]
+tidy(lmc2)[2,]
+tidy(lmc3)[2,]
+```
+
+
+## Use simulation to assess estimators and tests
+
+If you look at the code for the slides you will see that we simulate the design 5000 times, each time calculating an estimate and confidence interval for different estimators of the ATE.
+
+What should we learn from this table? (Coverage? `sd_estimate` versus `mean_se`).
+
+```{r simdesign, warning=FALSE, results="hide"}
+des_plus_est <- des + thetarget_indiv + est1 + est2 + est3 + est4 + est5 + est6 + est7
+des_plus_est
+```
+
+```{r diag_clust, cache=TRUE, warning=FALSE}
+set.seed(12346)
+plan(multicore)
+diag_clus <- diagnose_design(des_plus_est,bootstrap_sims = 0, sims=1000)
+sim_clus <- get_simulations(diag_clus) # simulate_design(des_plus_est,sims=1000)
+trueclusATE <- thetarget_indiv(dat1)[["estimand"]]
+plan(sequential)
+```
+
+
+```{r cluster_sim_res}
+## Notice that the lin estimator is great but sometimes cannot produce an answer
+res_clus <- sim_clus %>% na.omit() %>% group_by(estimator_label) %>%
+    summarize(bias = mean(estimate - estimand),
+     rmse = sqrt(mean((estimate - estimand) ^ 2)),
+     power = mean(p.value < .05),
+     coverage = mean(estimand <= conf.high & estimand >= conf.low),
+     # mean_estimate = mean(estimate),
+     sd_estimate = sd(estimate),
+     mean_se = mean(std.error))
+res_clus[2,"estimator_label"] <- "Y~Z, cl_size fe, CR2"
+res_clus[6,"estimator_label"] <- "Y~Z*I(cl_size-mean(cl_size)), CR2"
+res_clus[7,"estimator_label"] <- "Y~Z+cl_sizeF, CR2"
+res_clus$estimator_label <- gsub(" SE","",res_clus$estimator_label)
+```
+
+```{r showresclus1}
+kableExtra::kable(res_clus[,c(1,5:7)], digits=2,booktabs=TRUE,linesep="",caption="Estimator and Test Performance in 5000 simulations of the cluster randomized design for different estimators and confidence intervals")
+```
+
+
+
+
+## Use simulation to assess estimators and tests
+
+What should we learn from this table? (Bias? Closeness to truth?)
+
+```{r showresclus2}
+kableExtra::kable(res_clus[,c(1:3)], digits=3,booktabs=TRUE,linesep="",caption="Estimator and Test Performance in 5000 simulations of the cluster randomized design for different estimators and confidence intervals")
+```
+
+## Use simulation to assess estimators and tests
+
+How should we interpret this plot?
+
+```{r sim_plot_clus, warning=FALSE, out.width=".95\\textwidth"}
+sim_plot3 <- ggplot(sim_clus, aes(y = estimate, x = estimator_label, color = estimator_label)) +
+  geom_boxplot() +
+  coord_flip()+
+  geom_hline(yintercept = trueclusATE) +
+  geom_point(aes(group = estimator_label)) +
+  theme(text = element_text(size=20),
+      legend.position="none",legend.title = element_blank()) + 
+  ylab("")
+print(sim_plot3)
+```
+
+## Summary of estimation and testing in cluster-randomized trials
+
+ - Cluster randomized trials pose special problems for standard approaches to estimation and testing.
+ 
+ - If randomization is at the cluster level, then uncertainty arises from the cluster level randomization.
+ 
+ - If we have enough clusters, then one of the "cluster robust" standard errors can help us produce confidence intervals with correct coverage. **Cluster robust standard errors require many clusters**.
+ 
+ - If cluster size (or characteristic) is related to effect size, then we can have bias (and we need to adjust somehow).
+
+
+# Binary outcomes
+
+## Binary outcomes: Set up our data for simulation in DeclareDesign
+```{r setupbin, echo=TRUE}
+# population size
+N <- 20
+# declare the population
+thepop_bin <- declare_population(N=N, x1 = draw_binary(prob = .5, N = N),
+x2=rnorm(N))
+# declare the potential outcomes
+thepo_bin <- declare_potential_outcomes(Y ~ rbinom(n = N, size = 1, 
+                                                   prob = 0.5 + 0.05 * Z + x1*.05))
+# two possible targets: difference in means or difference in log-odds
+thetarget_ate <- declare_estimand(ate = mean(Y_Z_1 - Y_Z_0))
+thetarget_logodds <- declare_estimand(
+    logodds = log(mean(Y_Z_1)/(1-mean(Y_Z_1))) - 
+    log(mean(Y_Z_0)/(1-mean(Y_Z_0)))
+)
+```
+
+## Binary outcomes: Set up our data for simulation in DeclareDesign
+```{r setupbin2, echo=TRUE}
+# declare how treatment is assigned
+# m units are assigned to levels of treatment Z
+theassign_bin <- declare_assignment(m=floor(N/3))
+# declare what outcome values are revealed for possible values of Z
+thereveal_bin <- declare_reveal(Y,Z)
+# pull this all together: population, potential outcomes, assignment,
+## outcome values connected to Z
+des_bin <- thepop_bin+thepo_bin+theassign_bin+thereveal_bin
+# then make one draw (randomize treatment once)
+set.seed(12345)
+dat2 <- draw_data(des_bin)
+```
+
+## Binary outcomes: Estimands I
+
+How would we interpret the following true
+quantities or estimands? (`Y_Z_1`, `Y_Z_0` are potential
+outcomes, `Y` is observed, `x1`, `x2` are covariates, `Z` is treatment assignment. Here $N$=`r nrow(dat2)`.
+
+```{r dat2echo, echo=TRUE}
+## Look at the first 6 observations only:
+head(dat2[,-7])
+```
+
+
+## Binary outcomes: Estimands II
+
+How would we interpret the following true
+quantities or estimands? (`Y_Z_1`, `Y_Z_0` are potential
+outcomes, `Y` is observed, `x1`, `x2` are covariates, `Z` is treatment assignment. Here $N$=`r nrow(dat2)`.
+
+```{r bin1, echo=TRUE}
+ate_bin <- with(dat2,mean(Y_Z_1 - Y_Z_0))
+bary1  <- mean(dat2$Y_Z_1)
+bary0 <- mean(dat2$Y_Z_0)
+diff_log_odds_bin <- with(dat2, 
+    log(bary1/(1-bary1)) - log(bary0/(1-bary0)))
+c(bary1=bary1,bary0=bary0,true_ate=ate_bin,
+    true_diff_log_odds= diff_log_odds_bin)
+```
+
+## Binary outcomes: Estimands III
+
+Do you want to estimate the difference in log-odds?
+
+\begin{equation}
+\delta = \log \frac{\bar{y}_{1}}{1-\bar{y}_{1}} - \log \frac{ \bar{y}_0}{1- \bar{y}_0}
+\end{equation}
+
+Or the difference in proportions?
+
+\begin{equation}
+\bar{\tau} = \bar{y}_{1} - \bar{y}_0
+\end{equation}
+
+Recall that $\bar{y}_1$ is the *proportion* of $y_{1}=1$ in the data.
+
+@freedman2008randomization shows us that the logit coefficient estimator is a biased estimator of the difference in log-odds estimand. He also shows an unbiased estimator of that estimand.
+
+We know that the difference of proportions in the sample should be an unbiased estimator of the difference of proportions.
+
+
+## An example of estimation I
+
+How should we interpret the following estimates? (What does the difference of
+means estimator require in terms of assumptions? What does the logistic
+regression estimator require in terms of assumptions?)
+
+```{r estexample, echo=TRUE}
+lmbin1 <- lm_robust(Y~Z,data=dat2)
+glmbin1 <- glm(Y~Z,data=dat2,family=binomial(link="logit"))
+
+tidy(lmbin1)[2,]
+tidy(glmbin1)[2,]
+```
+
+## An example of estimation II
+
+What about with covariates?  Why use covariates?
+
+```{r estexample2, echo=TRUE}
+lmbin2 <- lm_robust(Y~Z+x1,data=dat2)
+glmbin2 <- glm(Y~Z+x1,data=dat2,family=binomial(link="logit"))
+
+tidy(lmbin2)[2,]
+tidy(glmbin2)[2,]
+```
+
+## An example of estimation III
+
+Let's compare our estimates
+
+```{r estexample3, echo=TRUE}
+c(dim=coef(lmbin1)[["Z"]],
+  dim_x1=coef(lmbin2)[["Z"]],
+  glm=coef(glmbin1)[["Z"]],
+  glm_x1=coef(glmbin2)[["Z"]])
+```
+
+## An example of estimation: The Freedman plugin estimators I
+
+No covariate:
+```{r pluginest, echo=TRUE }
+freedman_plugin_estfn1 <- function(data){
+    glmbin <- glm(Y~Z,data=dat2,family=binomial(link="logit"))
+    preddat <- data.frame(Z=rep(c(0,1),nrow(dat2)))
+    preddat$yhat <- predict(glmbin,newdata=preddat,type="response")
+    bary1 <- mean(preddat$yhat[preddat$Z==1])
+    bary0 <- mean(preddat$yhat[preddat$Z==0])
+    diff_log_odds <- log(bary1/(1-bary1)) - log(bary0/(1-bary0))
+    return(data.frame(estimate=diff_log_odds))
+}
+```
+
+## An example of estimation: The Freedman plugin estimators II
+
+With covariate:
+```{r pluginest2, echo=TRUE }
+freedman_plugin_estfn2 <- function(data){
+    N <- nrow(data)
+    glmbin <- glm(Y~Z+x1,data=data,family=binomial(link="logit"))
+    preddat <- data.frame(Z=rep(c(0,1),each=N))
+    preddat$x1 <- rep(data$x1,2)
+    preddat$yhat <- predict(glmbin,newdata=preddat,type="response")
+    bary1 <- mean(preddat$yhat[preddat$Z==1])
+    bary0 <- mean(preddat$yhat[preddat$Z==0])
+    diff_log_odds <- log(bary1/(1-bary1)) - log(bary0/(1-bary0))
+    return(data.frame(estimate=diff_log_odds))
+}
+```
+
+Let's compare our estimates from the six different estimators
+```{r echo=FALSE}
+c(dim=coef(lmbin1)[["Z"]],
+  dim_x1=coef(lmbin2)[["Z"]],
+  glm=coef(glmbin1)[["Z"]],
+  glm_x1=coef(glmbin2)[["Z"]],
+freedman=freedman_plugin_estfn1(dat2)[["estimate"]],
+freeman_x1=freedman_plugin_estfn2(dat2)[["estimate"]]
+)
+```
+
+
+```{r tmleapproach, eval=FALSE}
+## Here is another approach to using the plugin estimator but allowing for standard errors, etc.. 
+## Doesn't require a handwritten function like the ones used above.
+library(tmle)
+Y <- as.matrix(dat2$Y,ncol=1)
+A <- as.matrix(dat2$Z,ncol=1)
+W <- as.matrix(dat2[,c("x1","x2")],ncol=1)
+colnames(W) <- paste("W",1:2,sep="")
+tmle1 <- tmle(Y=Y,A=A,W=W,
+              family="binomial",Qform=Y~A,gform=A~1,cvQinit=FALSE,
+              Q.SL.library = "SL.glm", g.SL.library="SL.glm",g.Delta.SL.library = "SL.glm")
+
+tmle1$estimates$ATE
+tmle1$estimates$OR
+
+tmle2 <- tmle(Y=Y,A=A,W=W,
+              family="binomial",Qform=Y~A+W1,gform=A~1,cvQinit=FALSE,#V=0,
+              Q.SL.library = "SL.glm", g.SL.library="SL.glm",g.Delta.SL.library = "SL.glm")
+
+tmle2$estimates$ATE
+tmle2$estimates$OR
+```
+
+## An example of using DeclareDesign to assess our estimators I
+
+```{r ddbinsetup, echo=TRUE}
+# declare 4 estimators for DD
+# first estimator: linear regression with ATE as target
+estb1 <- declare_estimator(Y~Z,model=lm_robust,label="lm1:Z",
+                           estimand=thetarget_ate )
+# second estimator: linear regression with covariate, with ATE as target
+estb2 <- declare_estimator(Y~Z+x1,model=lm_robust,label="lm1:Z,x1",
+                           estimand=thetarget_ate)
+# third estimator: logistic regression, with log odds as target
+estb3 <- declare_estimator(Y~Z,model=glm,family=binomial(link="logit"),
+                           label="glm1:Z",estimand=thetarget_logodds)
+# fourth estimtor: logistic regression with covariate, with log odds as target
+estb4 <- declare_estimator(Y~Z+x1,model=glm,family=binomial(link="logit"),
+                           label="glm1:Z,x1", estimand=thetarget_logodds)
+```
+
+
+## An example of using DeclareDesign to assess our estimators II
+
+```{r ddbinsetup2, echo=TRUE}
+# Pull together: des_bin is population, potential outcomes, assignment, 
+# outcome values connected to Z.  We add the two targets and four estimators.
+des_bin_plus_est <- des_bin + thetarget_ate + thetarget_logodds + 
+  estb1 + estb2 + estb3 + estb4
+```
+
+```{r diagnosis_bin, echo=FALSE, cache=TRUE, warning=FALSE, message=FALSE}
+## The next few lines use all of the cores on your computer to speed up the computation
+library(future)
+library(future.apply)
+# plan(multiprocess)
+set.seed(12345)
+diagnosis_bin <- diagnose_design(des_bin_plus_est, bootstrap_sims = 0, sims = 1000)
+sims_bin <- get_simulations(diagnosis_bin)
+trueATE_bin <- thetarget_ate(dat2)[["estimand"]]
+truelo_bin <- thetarget_logodds(dat2)[["estimand"]]
+# plan(sequential)
+```
+
+## Using simulation to assess our estimators
+
+How should we interpret this plot? (Differences in scales make it difficult.)
+  
+```{r sim_plot_bin, out.width=".95\\textwidth"}
+estimand_dat <- sims_bin %>% group_by(inquiry_label) %>% summarize(meanestimand=mean(estimand))
+sim_plot_bin <- ggplot(sims_bin, aes(y = estimate, x = estimator_label, color = estimator_label)) +
+  geom_boxplot() +
+  geom_point() +
+  facet_wrap(~inquiry_label,scales="free") +
+  geom_hline(data=estimand_dat,aes(yintercept=meanestimand)) +
+  theme(text = element_text(size=20),
+      legend.position="none",legend.title = element_blank())
+print(sim_plot_bin)
+```
+
+## Which estimator is closer to the truth?
+
+Which estimator works better on this design and these data?
+  
+```{r bin_sim_res}
+## Notice that the lin estimator is great but sometimes cannot produce an answer
+res_bin <- sims_bin %>% group_by(estimator_label,inquiry_label) %>%
+  summarize(bias = mean(estimate - estimand),
+            rmse = sqrt(mean((estimate - estimand) ^ 2)),
+            power = mean(p.value < .05),
+            coverage = mean(estimand <= conf.high & estimand >= conf.low,na.rm=TRUE),
+            # mean_estimate = mean(estimate),
+            sd_est = sd(estimate),
+            mean_se = mean(std.error))
+names(res_bin)[1:2] <- c("est","estimand")
+```
+
+```{r showresbin1}
+kableExtra::kable(res_bin, digits=3,booktabs=TRUE,linesep="",caption="Estimator and Test Performance in 5000 simulations of the different estimators and confidence intervals for a binary outcome and completely randomized design.")
+```
+
+
+# Other topics in estimation
+
+## Covariance adjustment: Estimands
+
+In general, simply "controlling for" produces a biased estimator of the ATE **or** ITT estimand. See for example @lin_agnostic_2013 and @freedman2008rae.
+@lin_agnostic_2013 shows how to reduce this bias and, importantly, that this bias tends to be small as the sample size increases.
+
+
+# Conclusion
+
+## Final thoughts on basics of estimation
+
+- Counterfactual causal estimands are unobserved functions of potential
+outcomes.
+
+- Estimators are recipes or computational formulas that use observed data to
+learn about an estimand.
+
+- Good estimators produce estimates that are close to the true estimand
+
+- (Connecting estimation with testing) Standard errors of estimators allow us
+to calculate confidence intervals and $p$-values. Certain estimators have
+larger or smaller (or more or less correct) standard errors.
+
+- You can assess the utility of a chosen estimator for a chosen estimand by simulation.
+
+# Causal effects that differ by groups or covariates
+
+## Effects that differ by groups I
+
+If our theory suggests that effects should differ by group, how can we assess evidence for or against such claims?
+
+ - We can **design** for an assessment of this theory by creating a
+   block-randomized study --- with blocked defined by the theoretically
+   relevant groups.
+   
+ - We can **plan** for such an assessment by (1) **pre-registering specific
+   subgroup analyses** (whether or not we block on that group in the design
+   phase) and (2) making sure to measure group membership during baseline data
+   collection pre-treatment
+   
+   
+## Effects that differ by groups II
+ - If we have not planned ahead, subgroup-specific analyses can be useful as
+   explorations but should not be understood as confirmatory: they can too
+   easily create problems of testing too many hypotheses thus inflated false
+   positive rates.
+ 
+ - We **should not use groups formed by treatment**. (This is either "mediation analysis"  or "conditioning on post-treatment variables" and deserves its own module).
+
+# Causal effects when we do not control the dose
+
+## Defining causal effects I
+
+Imagine a door-to-door communication experiment where some houses are randomly assigned to receive a visit.  Note that we now use $Z$ and $d$ instead of $T$.
+
+ - $Z_i$ is random assignment to a visit ($Z_i=1$) or not ($Z_i=0$).
+ - $d_{i,Z_i=1}=1$ means that person $i$ would open the door to have a conversation when assigned a visit.
+ - $d_{i,Z_i=1}=0$ means that person $i$ would not open the door to have a conversation when assigned a visit.
+ - Opening the door is an outcome of the treatment.
+
+\begin{center}
+\begin{tikzcd}[ampersand replacement=\&]
+Z  \arrow[from=1-1,to=1-2, "\ne 0"] \arrow[from=1-1, to=1-4, bend left, "\text{0 (exclusion)}"] \& d  \arrow[from=1-2,to=1-4] \& \& y \\
+(x_1 \ldots x_p) \arrow[from=2-1,to=1-1, "\text{0 (as if randomized)}"]  \arrow[from=2-1,to=1-2] \arrow[from=2-1,to=1-4]
+\end{tikzcd}
+\end{center}
+
+
+## Defining causal effects II
+ - $y_{i,Z_i = 1, d_{i,Z_i=1}=1}$ is the potential outcome for people who were assigned a visit and who opened the door. ("Compliers" or "Always-takers")
+ 
+ - $y_{i,1, d_{i,Z_i=1}=0}$ is the potential outcome for people who were assigned a visit and who did not open the door. ("Never-takers" or "Defiers")
+ 
+ - $y_{i,0, d_{i,0}=1}$ is the potential outcome for people who were not assigned a visit and who opened the door. ("Defiers" or "Always-takers")
+ 
+ - $y_{i,0, d_{i,0}=0}$ is the potential outcome for people who were not assigned a visit and who would not have opened the door. ("Compliers" or "Never-takers")
+
+## Defining causal effects III
+ We could also write $y_{i,Z_i = 0, d_{i,Z_i=1}=1}$ for people who were not assigned a visit but who would have opened the door had they been assigned a visit etc.
+
+In this case we can simplify our potential outcomes:
+
+  - $y_{i,0, d_{i,1}=1} = y_{i,0, d_{i,1}=0} = y_{i,0, d_{i,0}=0}$ because your outcome is the same regardless of how you don't open the door.
+
+
+## Defining causal effects IV
+
+We can simplify the ways in which people get a dose of the treatment like so
+(where $d$ is lower case reflecting the idea that whether you open the door
+when visited or not is a fixed attribute like a potential outcome).
+
+ - $Y$ : outcome ($y_{i,Z}$ or $y_{i,Z_i=1}$ for potential outcome to
+   treatment for person $i$, fixed)
+ - $X$ : covariate/baseline variable
+ - $Z$ : treatment assignment ($Z_i=1$ if assigned to a visit, $Z_i=0$ if not
+   assigned to a visit)
+ -  $D$ : treatment received ($D_i=1$ if answered phone, $D_i=0$ if person $i$
+   dd not answer the door) (using $D$ here because $D_i = d_{i,1} Z_{i} + d_{i,0} (1-Z_i)$)
+
+## Defining causal effects V
+
+We have two causal effects of $Z$: $Z \rightarrow Y$ ($\delta$, ITT, ITT$_Y$), and $Z \rightarrow D$ (GG
+call this ITT$_D$).
+
+And different types of people can react differently to the attempt to move the
+dose with the instrument.
+
+\centering
+\begin{tabular}{llcc}
+                       &        & \multicolumn{2}{c}{$Z=1$} \\
+		       &       & $D=0$ & $D=1$ \\
+		       \midrule
+\multirow{2}{*}{$Z=0$} & $D=0$ & Never taker & Complier \\
+                       & $D=1$ & Defier     & Always taker \\
+		       \bottomrule
+\end{tabular}
+
+
+##  Defining causal effects VI
+
+
+The $ITT=ITT_Y=\delta= \bar{y}_{Z=1} - \bar{y}_{Z=0}$.
+
+\medskip
+
+But, in this design, $\bar{y}_{Z=1}=\bar{y}_{1}$ is split into pieces: the outcome of
+those who answered the door (Compliers and Always-takers and Defiers). Write
+$p_C$ for the proportion of compliers in the study.
+
+\begin{equation}
+\bar{y}_{1}=(\bar{y}_{1}|C)p_C + (\bar{y}_{1}|A)p_A + (\bar{y}_1|N)p_N + (\bar{y}_1|D)p_D.
+\end{equation}
+
+And $\bar{y}_{0}$ is also split into pieces:
+
+\begin{equation}
+\bar{y}_{0}=(\bar{y}_{0}|C)p_C + (\bar{y}_{1}|A)p_A + (\bar{y}_{0}|N)p_N + (\bar{y}_0|D)p_D.
+\end{equation}
+
+##  Defining causal effects VII
+
+So, the ITT itself is a combination of the effects of $Z$ on $Y$ within these
+different groups (imagine substituting in and then re-arranging so that we
+have a set of ITTs, one for each type of subject). But, we can still estimate it because we have unbiased
+estimators of $\bar{y}_1$ and $\bar{y}_0$ within each type.
+
+## Learning about the ITT I
+
+First, let's learn about the effect of the policy itself. To write down the
+ITT, we do not need to consider all of the types above.  We have no defiers
+($p_D=0$) and we know the ITT for both Always-takers and Never-takers is 0.
+
+\begin{equation}
+\bar{y}_{1}=(\bar{y}_{1}|C)p_C + (\bar{y}_{1}|A)p_A + (\bar{y}_1|N)p_N
+\end{equation}
+
+\begin{equation}
+\bar{y}_{0}=(\bar{y}_{0}|C)p_C + (\bar{y}_{0}|A)p_A + (\bar{y}_{0}|N)p_N
+\end{equation}
+
+
+## Learning about the ITT II
+
+First, let's learn about the effect of the policy itself. To write down the
+ITT, we do not need to consider all of the types above.  We have no defiers
+($p_D=0$) and we know the ITT for both Always-takers and Never-takers is 0.
+
+
+\begin{align}
+ITT    = & \bar{y}_{1} - \bar{y}_{0} \\
+        = & ( (\bar{y}_{1}|C)p_C + (\bar{y}_{1}|A)p_A + (\bar{y}_1|N)p_N ) - \\
+       & ( (\bar{y}_{0}|C)p_C + (\bar{y}_{0}|A)p_A + (\bar{y}_{0}|N)p_N )  \\
+       \intertext{collecting each type together --- to have an ITT for each type}
+       = & ( (\bar{y}_{1}|C)p_C -  (\bar{y}_{0}|C)p_C )  +   ( (\bar{y}_{1}|A)p_A - (\bar{y}_{1}|A)p_A ) + \\
+       & ( (\bar{y}_1|N)p_N  - (\bar{y}_{0}|N)p_N ) \\
+       = & \left( (\bar{y}_{1}|C) -  (\bar{y}_{0}|C) \right)p_C   +  \\
+       & \left( (\bar{y}_{1}|A)- (\bar{y}_{0}|A) \right)p_A  +  \left( (\bar{y}_1|N) - (\bar{y}_{0}|N) \right)p_N
+\end{align}
+
+## Learning about the ITT III
+
+\begin{align}
+ITT     = &   \bar{y}_{1} - \bar{y}_{0} \\
+        = &  ( (\bar{y}_{1}|C)p_C + (\bar{y}_{1}|A)p_A + (\bar{y}_1|N)p_N ) - \\
+       & ( (\bar{y}_{0}|C)p_C + (\bar{y}_{0}|A)p_A + (\bar{y}_{0}|N)p_N )  \\
+        = &   ( (\bar{y}_{1}|C)p_C -  (\bar{y}_{0}|C)p_C )  +   ( (\bar{y}_{1}|A)p_A - (\bar{y}_{1}|A)p_A ) + \\
+       & ( (\bar{y}_1|N)p_N  - (\bar{y}_{0}|N)p_N ) \\
+        = &   ( (\bar{y}_{1}|C) -  (\bar{y}_{0}|C))p_C   +   ( (\bar{y}_{1}|A)- (\bar{y}_{0}|A))p_A  + \\
+       & ( (\bar{y}_1|N) - (\bar{y}_{0}|N) )p_N
+\end{align}
+
+
+## Learning about the ITT IV
+
+And, if the effect of the dose can only occur for those who open the door, and you can only open the door when assigned to do so then:
+
+\begin{equation}
+( (\bar{y}_{1}|A)- (\bar{y}_{0}|A))p_A = 0  \text{ and } ( (\bar{y}_1|N) - (\bar{y}_{0}|N) )p_N = 0
+\end{equation}
+
+And
+
+\begin{equation}
+ITT =  ( (\bar{y}_{1}|C) -  (\bar{y}_{0}|C))p_C  = ( CACE ) p_C.
+\end{equation}
+
+
+## The complier average causal effect I
+
+We would also like to learn about the causal effect of answering the door and
+having the conversation, the theoretically interesting effect. 
+
+But this comparison is confounded by $x$: a simple $\bar{Y}|D=1 - \bar{Y}|D=0$
+comparison tells us about differences in the outcome due to $x$ in addition to
+the difference caused by $D$. (Numbers below from some simulated data)
+
+\begin{center}
+\begin{tikzcd}[ampersand replacement=\&]
+Z  \arrow[from=1-1,to=1-2] \arrow[from=1-1, to=1-4, bend left, "\text{0 (exclusion)}"] \& D  \arrow[from=1-2,to=1-4] \& \& y \\
+(x_1 \ldots x_p) \arrow[from=2-1,to=1-1, "\text{-.006 (as if randomized)}"]  \arrow[from=2-1,to=1-2, ".06"] \arrow[from=2-1,to=1-4, ".48"]
+\end{tikzcd}
+\end{center}
+
+
+## The complier average causal effect II
+
+```{r cors, eval=FALSE, echo=TRUE, results="hide"}
+with(dat, cor(Y, x)) ## can be any number
+with(dat, cor(d, x)) ## can be any number
+with(dat, cor(Z, x)) ## should be near 0
+```
+
+But we just saw that, in this design, and with these assumptions (including a
+SUTVA assumption) that 
+$ITT =  ( (\bar{y}_{1}|C) -  (\bar{y}_{0}|C))p_C  = (CACE) p_C$, so we can define $CACE=ITT/p_C$.
+
+
+## How to calculate the ITT and CACE/LATE I
+
+```{r simivdesign, echo=FALSE}
+prob_comply <- .8
+tau <- .5
+
+the_pop <- declare_population(N=100,
+    X = sample(1:4, N, replace = TRUE),
+    u = rnorm(N),
+    type = sample(c("Always-Taker", "Never-Taker", "Complier", "Defier"),N, replace = TRUE, 
+        prob = c(.1, 1 - unique(prob_comply), unique(prob_comply), 0))
+)
+
+##  The unobserved potential outcomes,  Y(Z=1) and Y(Z=0) relate to the observed outcome, Y, via treatment assignment and a const  ant additive effect of tau.
+  ## D refers to getting a dose of feedback
+  d_po <- declare_potential_outcomes(
+      D ~ case_when(
+          Z == 0 & type %in% c("Never-Taker", "Complier") ~ 0,
+          Z == 1 & type %in% c("Never-Taker", "Defier") ~ 0,
+          Z == 0 & type %in% c("Always-Taker", "Defier") ~ 1,
+          Z == 1 & type %in% c("Always-Taker", "Complier") ~ 1
+      )
+  )
+
+  y_po <- declare_potential_outcomes(
+    Y ~ tau * sd(u) * D + u,
+    assignment_variables = c("D", "Z")
+  )
+
+## Treatment  assignment for  any given city is a simple fixed  proportion. It should be complete  or  urn-drawing assignment, no  t  simple or  coin-flipping assignment.
+## theassign <- declare_assignment(m=m)
+the_assign<- declare_assignment(assignment_variable = "Z")
+
+## declare_reveal is basically the same as declare_potential_outcomes. I  think they  have this  here  to deal with situations of   missing data or non-compliance.
+# thereveal <- declare_reveal(Y, Z)
+d_reveal <- declare_reveal(D, assignment_variable = "Z")
+y_reveal <- declare_reveal(Y, assignment_variables = c("D", "Z"))
+
+base_design <- the_pop + the_assign +  d_po + y_po + d_reveal + y_reveal
+
+dat0 <- draw_data(base_design)
+
+ estimand_cace <- declare_estimand(
+    CACE = mean((Y_D_1_Z_1 + Y_D_1_Z_0) / 2 -
+      (Y_D_0_Z_1 + Y_D_0_Z_0) / 2),
+    subset = type == "Complier"
+  )
+  estimand_ate <- declare_estimand(ATE = mean((Y_D_1_Z_1 + Y_D_1_Z_0) / 2 -
+    (Y_D_0_Z_1 + Y_D_0_Z_0) / 2))
+```
+
+Some example data (where we know all potential outcomes):
+
+```{r showdat0}
+tempdat <- dat0[1:2,-1]
+names(tempdat)[5] <- "pZ"
+names(tempdat) <- gsub("_","",names(tempdat))
+kableExtra::kable(tempdat, digits = 2)
+```
+
+## How to calculate the ITT and CACE/LATE II
+
+The ITT and CACE (the parts)
+
+```{r echo=TRUE}
+itt_y <- difference_in_means(Y~Z,data=dat0)
+itt_y
+itt_d <- difference_in_means(D~Z,data=dat0)
+itt_d
+```
+
+## How to calculate the ITT and CACE/LATE III
+
+All together:^[works when $Z \rightarrow D$ is not weak see @imbens2005robust for a cautionary tale]
+
+```{r echo=TRUE}
+cace_est <- iv_robust(Y~D|Z,data=dat0)
+cace_est
+## Notice same as below:
+coef(itt_y)[["Z"]]/coef(itt_d)[["Z"]]
+```
+
+## Summary of Encouragement/Complier/Dose oriented designs:
+
+ - Analyze as you randomized, even when you don't control the dose
+ - The danger of per-protocol analysis.
+
+# Summary
+
+## Summary
+
+ - Statistics helps us make infer about counterfactual causal effects
+ - We can hypothesize about those effects and summarize how much evidence our design and data provide.
+ - We can calculate best guesses about aggregates of causal effects.
+ - We can test hypotheses about the aggregates, too.
+ - The statistical properties of our tests and estimators arise from the
+   randomization, from the structure of the design.
+
+## References {.allowframebreaks}
+
+# References
+
+## References

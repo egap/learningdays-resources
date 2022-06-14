@@ -1,0 +1,361 @@
+---
+title: "Survey Experiments"
+author: "Jake Bowers, Nahomi Ichino and Maarten Voors"
+date: "`r format(Sys.time(), '%d %B, %Y')`"
+bibliography: ../learningdays-book.bib
+biblio-style: apalike
+link-citations: yes
+colorlinks: yes
+header-includes: |
+   \setbeamertemplate{footline}{\begin{beamercolorbox}{section in head/foot}
+   \includegraphics[height=.5cm]{../Images/egap-logo.png} \hfill
+   \insertframenumber/\inserttotalframenumber \end{beamercolorbox}}
+output:
+  beamer_presentation:
+    keep_tex: true
+    toc: true
+    slide_level: 2
+    pandoc_args: [ "--toc" ]
+  revealjs::revealjs_presentation:
+    fig_caption: true
+    theme: default
+    highlight: pygments
+    center: false
+    transition: fade
+    smart: false
+    self_contained: false
+    reveal_plugins: ["notes", "search", "chalkboard"]
+    pandoc_args: [ "--toc" ]
+    reveal_options:
+      slideNumber: true
+      previewLinks: true
+      chalkboard:
+        theme: whiteboard
+        toggleNotesButton: false
+---
+
+```{r setup, include=FALSE}
+library(knitr)
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+# Overview: Why, What, When Survey Experiments
+
+## Key points for this lecture {.allowframebreaks}
+
+ - A survey experiment involves a randomized experiment within a survey. See [10
+   Things to Know About Survey
+   Experiments](https://egap.org/resource/10-things-to-know-about-survey-experiments/).
+   See also @mutz2011population. See also [Time Sharing Experiments in the
+   Social Sciences](https://www.tessexperiments.org).
+
+ - Two types:
+   - For **measuring** otherwise hard to measure concepts: "Hostility toward
+     female candidates","Anti-black prejudice", "Willingness to pay" <!--
+     <https://www.qualtrics.com/uk/experience-management/product/conjoint-analysis/?rid=ip&prevsite=en&newsite=uk&geo=IT&geomatch=uk>
+     <https://www.coursera.org/learn/uva-darden-bcg-pricing-strategy-customer-value#syllabus>
+     -->
+   - For **causal inference** to learn about a theory (of attitudes, of behavior
+     (when people are offered a behavioral outcome), beliefs, judgement).
+
+ - How?
+   - All survey modes can have randomization of content to display to
+     respondents.
+   - Randomization is much easier if you use a tablet or online or otherwise
+     computer aided survey. (But you can do simple randomization with paper
+     questionnares.)
+
+ - Why or When?
+   - You want to learn about theories that explain attitudes, beliefs, behaviors
+     of lots of people.
+   - A focus on individual people and what they say and can do in the context of
+     a survey.
+   - Sometimes the **sample** of people contacted in a survey **represents** a
+     population well. (Say, if the sample is random.)
+   - Survey experiments done online can be cheap.
+   - Computer aided survey experiments can allow large scale access to
+     lab experiment-style research.
+
+# Example Treatments for Causal Inference
+
+## Photos and Ballots
+
+```{r , echo=FALSE, out.width='70%',fig.cap='',fig.align="center"}
+knitr::include_graphics("./figs/survey-exp-aguilar-18_ballots.pdf")
+```
+
+Outcome: Candidate Choice (Aguiler et al 2018).
+
+## Photos and Ballots
+
+```{r , echo=FALSE, out.width='80%',fig.cap='',fig.align="center"}
+knitr::include_graphics("./figs/survey-exp-aguilar-18.pdf")
+```
+
+Outcome: Candidate Choice (Aguiler et al 2018).
+
+## Videos
+
+
+```{r , echo=FALSE, out.width='65%',fig.cap='',fig.align="center"}
+knitr::include_graphics("./figs/survey-exp-valentino-2002.pdf")
+```
+
+Outcome: Candidate preference (Gore vs. Bush).
+
+(Valentino et al, 2002)
+
+## Vignette
+
+Effect of a set of information about corruption on support for politicians:
+
+> Imagine a person named Gabriel (or Gabriela), who is a person like you, living
+in a neighborhood like yours, but in a different city in Brazil. The mayor of
+Gabriel’s city is running for reelection in October. He is a member of the PT
+[Partido dos Trabalhadores] (or PSDB [Partido da Social Democracia Brasileira]).
+In Gabriel’s city, it is well known that the mayor never takes bribes (or
+frequently takes bribes) when giving out government contracts. The mayor has
+completed few (or many; or omit the entire sentence) public works projects
+during his term in office. In this city, the election for mayor is expected to
+be very close.
+
+(Winters and Weitz-Shapiro, 2013)
+
+
+## Conjoint
+
+```{r , echo=FALSE, out.width='90%',fig.cap='',fig.align="center"}
+knitr::include_graphics("./figs/survey-exp-teele-2018.pdf")
+```
+
+
+```{r , echo=FALSE, out.width='90%',fig.cap='',fig.align="center"}
+knitr::include_graphics("./figs/survey-exp-teele-2018-conjoint-attributes.pdf")
+```
+
+(Teele et all 2018)
+
+
+## Conjoint
+
+```{r , echo=FALSE, out.width='80%',fig.cap='',fig.align="center"}
+knitr::include_graphics("./figs/survey-exp-teele-2018-results.pdf")
+```
+
+(Teele et all 2018)
+
+## Conjoint Interpretation
+
+```{r , echo=FALSE, out.width='80%',fig.cap='',fig.align="center"}
+knitr::include_graphics("./figs/survey-exp-teele-2018-results-a.pdf")
+```
+
+When randomly assigned to one hypothetical candidate with "female" and another
+with "male", more people will choose the "female" candidate than the "male"
+candidate. (The effect of seeing "female" averaging over seeing the other
+attributes.
+
+
+
+
+# Examples for Measurement
+
+## Measurement of Concepts in General
+
+Say we want to measure "math ability".  We could
+
+ - watch people pay for coffee and make change (a behavioral measure capturing
+   one aspect of math ability).
+ - ask people on a survey "What is 2+2?"
+ - ask people on a survey "Solve for $x$ in $y=x/2$."
+ - ask people **both** questions.
+
+Often surveys allow multiple questions to measure concepts more cheaply and quickly
+than watching behavior (Trading off measuring one concept well versus other
+concepts less well.)
+
+If the survey sample is representative, we learn about prevalence of a given
+concept in a population.
+
+For more on measurement in experiments (including field experiments) see
+[10 Things to Know About Measurement in Experiments](https://egap.org/resource/10-things-to-know-about-measurement-in-experiments/)
+
+## Measurement of Sensisitive Topics: Example of the List Experiment {.shrink}
+
+Now I am going to read you three things that sometimes make people angry or upset.  After I read all three, just tell me HOW MANY of them upset you.  I don't want to know which ones, just HOW MANY.
+
+(1) the federal government increasing the tax on gasoline
+
+(2) professional athletes getting million-dollar contracts
+
+(3) large corporations polluting the environment
+
+_(4) a black family moving in next door_ (randomly assigned to half of the
+respondents)
+
+Baseline Condition: Only 3 items
+
+Sensitive Item Condition: Add the "black family" item (4 items total)
+
+Outcome: Did more people choose 4 items in the "sensitive item"?
+
+(Kuklinski 1997)
+
+For more on measurement of sensitive topics in survey experiments see
+[10 Things to Know About Survey Experiments](https://egap.org/resource/10-things-to-know-about-survey-experiments/).
+
+
+# General Considerations in Interpreting Results from Survey Experiments
+
+
+## Considerations in Interpreting the results of Survey Experiments
+
+Are the survey respondents "pre-treated" by the political, social, informational
+context?
+
+Example:
+
+Treatment: The researcher in June of 2022 randomly assigns people to learn that Russia has
+invaded Ukraine.
+
+Outcome: Attitudes toward Russia.
+
+Did the reseacher learn about the effect of information about invasions on
+attitudes toward the invader? What if this experiment had been done in 2013? Or
+2015 (just after the invasion of Crimea)?
+
+## Compliance and Non-Randomized Comparisons
+
+Did the respondent **understand** and/or **absorb** or otherwise **attend to** the treatment (Manipulation checks; Attention Checks).
+
+For example, this Attention Check:
+
+```{r , echo=FALSE, out.width='70%',fig.cap='',fig.align="center"}
+knitr::include_graphics("./figs/survey-exp-berinsky_2019.pdf")
+```
+
+(Berinsky et al, 2019)
+
+## Compliance and Non-Randomized Comparisons
+
+Did the respondent **understand** and/or **absorb** or otherwise **attend to** the treatment (Manipulation checks; Attention Checks).
+
+
+For example a Manipulation Check done after the survey might say: "Was the name of the person in the
+vignette you just read (a) Maarten (b) Gabriella (c) Jake or (d) Nahomi?"
+
+**Questions:**
+
+ - What should you do if 25% of your respondents fail the Manipulation
+Check?
+
+ - Should your attention check come before or after randomization? What should you
+do with people who fail an attention check?
+
+## Moderation and Post-Treatment Bias
+
+If the theory implies a moderated relationship (high and low income respondents should react differently to the randomized tax rate), is the moderator asked **after** or **before** the treatment during the survey?
+
+If **after** could the treatment possibly affect the moderator?
+
+You might mislead yourself if you calculated different effects by subgroups
+where subgroup membership is caused by treatment. (If all treated subjects
+report high income and all control subjects report low income, then an analysis
+of treatment effects within subgroup is no longer a randomized comparison ---
+and in this case would just return `NA` values.)
+
+## Lack of information equivalence and SUTVA Violations
+
+Not everyone understands the treatment the same way (Dafoe et al 2018): (from Bowers 1998):
+
+```{r , echo=FALSE, out.width='80%',fig.cap='',fig.align="center"}
+knitr::include_graphics("./figs/survey-exp-bowers-1998-black-threat.pdf")
+```
+
+## Lack of information equivalence and SUTVA Violations
+
+Not everyone understands the treatment the same way (Dafoe et al 2018): (from Bowers 1998):
+
+```{r , echo=FALSE, out.width='80%',fig.cap='',fig.align="center"}
+knitr::include_graphics("./figs/survey-exp-bowers-1998-christian-threat.pdf")
+```
+
+## Other issues of interpretation {.allowframebreaks}
+
+ - Do interpretations of the treatment depend on other questions asked
+  previously? (Not a problem of bias, but of interpretation) See Norbert
+  Schwarz and book by Tourganeau on question order, on the survey context, etc.
+  (How do survey respondents interpret and learn from the response options? Or from the
+  framing of the question? Or from the order of the questions?)
+ - What are alternative arguments about the **meaning** of the
+  treated-to-control comparison? (Does hearing "Gabriel" or "Gabriela" raise certain
+  considerations in respondents' minds that would change if they were asked
+  about "Jens Olaf" or "Shuyuan"?)
+ - Remember that a treatment effect is a comparison of two groups --- in survey
+  experiments the "control" condition tends not to be a status quo condition.
+  Does this matter for for **this experiment**?
+ - Does it matter than the effect of exposure to a survey treatment might go
+  away within minutes or seconds? Does it matter (and how and when) that the
+  outcome of a survey experiment is often measured within seconds or minutes of
+  the treatment? Can a short duration effect teach us about theory?
+ - Many online experimental pools are not representative samples. When might
+  this matter? When might this not matter
+ - How to interpret experimental comparisons with no natural control group?
+Should Winters and Weitz-Shapiro have had a pure control condition? Or
+could the difference in *time* or *effort* between a survey requiring someone to
+read a vignette and a survey that skips the vignette confuse interpretation of
+the findings?
+ - Could non-response to the survey itself change how we interpret the causal
+   effect of the survey experimental treatment? (The context of the survey or of
+   the kinds of people willing to answer this survey.)
+
+## Other issues of interpretation {.allowframebreaks}
+
+ - **Conjoint Experiments** Multiple comparisons problems and the false
+    positive rate (Even if there are no effects, we should see 1 out of 20 95% confidence
+    interval excluding 0.)
+ - **Conjoint Experiments** The effect is an average over the scenarios:
+    What does no effect of "mexican" on immigration preference mean? (Average
+    over preferences given existing stereotypes ( "less than high school
+    education", "poor" ) (negative effects) and
+    counter-stereotypes ("phd", "wealthy") (positive effects).)
+
+## Other issues of interpretation {.allowframebreaks}
+
+ - Issues of item order and relationships among items in List and Conjoint
+   experiments.
+
+Imagine (building on Garcia-Sanchez and Queirolo, 2021.)
+
+> I am going to show you a card in which there are mentioned various products, and I would like to ask you to tell me HOW MANY of these products you consume. Please tell me HOW MANY you consume. Do not tell me WHICH of these things you consume. Please give me a NUMBER
+Alcohol, Yerba mate [in Uruguay]/Coffee [in Colombia], Marijuana [excluded in the control group], Tobacco
+
+Adding "Marijuana" changes the interpretation of the other items: am I reporting
+the amount of "unhealthy actions"? Or amount of "ordinary consumption"?
+
+(The actual study added "Shark cartilage" as a more rare item to ensure that few
+people would say that they consumed all of the items)
+
+
+## Realism and Learning about Theory
+
+What do we learn from survey respondents' short term reactions to hypothetical choices and
+situations?
+
+> “In your opinion, what is the likelihood that Gabriel(a) will vote for this mayor in the next election: very likely, somewhat likely, unlikely, not at all likely?”
+
+Winters and Weitz-Shapiro(2013) and Boas et al (2018) found negative effects of
+corruption information in survey experiments in Brasil. Boas et al (2018) found
+no effects of providing corruption information on voting in a field experiment.
+
+\medskip
+
+**Question:** What is the role of survey experiments in a research program? How can survey
+experiments contribute? When should you choose a survey experiment over a field
+experiment or a lab experiment? When should you choose a field experiment? When
+should you choose a lab experiment?
+
+
+
+
+# References

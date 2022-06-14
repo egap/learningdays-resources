@@ -1,0 +1,226 @@
+---
+title: "Statistics of Causal Inference: Estimands, Estimation, Hypotheses, Tests"
+author: "Jake Bowers"
+date: "`r format(Sys.time(), '%d %B, %Y')`"
+bibliography: ../learningdays-book.bib
+biblio-style: apalike
+link-citations: yes
+colorlinks: yes
+header-includes: |
+   \setbeamertemplate{footline}{\begin{beamercolorbox}{section in head/foot}
+   \includegraphics[height=.5cm]{../Images/egap-logo.png} \hfill
+   \insertframenumber/\inserttotalframenumber \end{beamercolorbox}}
+output:
+  beamer_presentation:
+    keep_tex: true
+    toc: true
+    slide_level: 2
+    pandoc_args: [ "--toc" ]
+  revealjs::revealjs_presentation:
+    fig_caption: true
+    theme: default
+    highlight: pygments
+    center: false
+    transition: fade
+    smart: false
+    self_contained: false
+    reveal_plugins: ["notes", "search", "chalkboard"]
+    pandoc_args: [ "--toc" ]
+    reveal_options:
+      slideNumber: true
+      previewLinks: true
+      chalkboard:
+        theme: whiteboard
+        toggleNotesButton: false
+---
+
+```{r setup, include=FALSE}
+library(knitr)
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+
+## Key points for this lecture
+
+ - Randomization helps us learn about the unobservable using the observed
+
+ - We can assess the evidence pertaining to provisional ideas arising from theories explaining the treatment
+   mechanism (like the hypothesis that despite our theoretical expectations, the
+   treatment had no effect on any unit).
+     - We can evaluate tests: We'd like them to rarely cast doubt on truth
+       claims (low and controlled false positive rate) and often cast doubt on
+       false claims (high statistical power).
+
+## Key points for this lecture
+
+ - Randomization helps us learn about the unobservable using the observed
+
+ - We can calculate guesses (estimates) of certain unobserved aggregated quantities (like the average of the causal effects).
+
+    - The recipe for calculating estimates is called an "estimator"
+    - The recipe for summarizing how the guesses might vary depending on
+      different specific manifestations of the design (different randomizations)
+      is called the "variance" of the estimator: $\sqrt{\text{variance}}$ is the
+      "standard error".
+    - We can evaluate estimators (we'd like them to be "unbiased" or at least
+      "consistent" or "precise" or "efficient").
+
+# Statistics and Causal Inference: Review of Hypothesis Testing
+
+##
+
+```{r title, echo=FALSE, out.width='105%',fig.cap='',fig.align="center"}
+knitr::include_graphics("./statistics_of_causal_inference_figs/1.pdf")
+```
+
+
+##
+
+```{r , echo=FALSE, out.width='105%',fig.cap='',fig.align="center"}
+knitr::include_graphics("./statistics_of_causal_inference_figs/2.pdf")
+```
+
+
+##
+
+```{r , echo=FALSE, out.width='105%',fig.cap='',fig.align="center"}
+knitr::include_graphics("./statistics_of_causal_inference_figs/3.pdf")
+```
+
+
+
+##
+
+```{r , echo=FALSE, out.width='105%',fig.cap='',fig.align="center"}
+knitr::include_graphics("./statistics_of_causal_inference_figs/4.pdf")
+```
+
+
+
+##
+
+```{r , echo=FALSE, out.width='105%',fig.cap='',fig.align="center"}
+knitr::include_graphics("./statistics_of_causal_inference_figs/5.pdf")
+```
+
+
+
+##
+
+```{r , echo=FALSE, out.width='105%',fig.cap='',fig.align="center"}
+knitr::include_graphics("./statistics_of_causal_inference_figs/7.pdf")
+```
+
+
+##
+
+```{r , echo=FALSE, out.width='105%',fig.cap='',fig.align="center"}
+knitr::include_graphics("./statistics_of_causal_inference_figs/8.pdf")
+```
+
+
+##
+
+```{r , echo=FALSE, out.width='105%',fig.cap='',fig.align="center"}
+knitr::include_graphics("./statistics_of_causal_inference_figs/9.pdf")
+```
+
+
+##
+
+```{r , echo=FALSE, out.width='105%',fig.cap='',fig.align="center"}
+knitr::include_graphics("./statistics_of_causal_inference_figs/10.pdf")
+```
+
+
+
+##
+
+```{r , echo=FALSE, out.width='105%',fig.cap='',fig.align="center"}
+knitr::include_graphics("./statistics_of_causal_inference_figs/11.pdf")
+```
+
+##
+
+```{r , echo=FALSE, out.width='105%',fig.cap='',fig.align="center"}
+knitr::include_graphics("./statistics_of_causal_inference_figs/12.pdf")
+```
+
+##
+
+```{r , echo=FALSE, out.width='105%',fig.cap='',fig.align="center"}
+knitr::include_graphics("./statistics_of_causal_inference_figs/13.pdf")
+```
+
+
+##
+
+```{r , echo=FALSE, out.width='105%',fig.cap='',fig.align="center"}
+knitr::include_graphics("./statistics_of_causal_inference_figs/14.pdf")
+```
+
+
+## What else to know about hypothesis testing?
+
+Things to learn about later. Things to remember.
+
+ - An estimator can be used as a test-statistic. (Regression tables are confusing! @bowers2020causality explain how the difference of means produced as an estimator of the average causal effect in a regression table can also be a test statistic for the weak null of no effects if it is an unbiased estimator.)
+
+Things to learn later:
+
+ - A good testing procedure controls the false positive rate and keeps it low
+   (if I'm willing to reject the null up to 5% of the time, then my test should
+   not encourage me to reject the null 10% of the time).
+ - A good testing procedure should be sensitive to departures from the null (it
+   should detect signal from noise; it has high statistical power; it has low
+   false negative rate --- rarely says "not enough information to seriously
+   doubt the null of no effects"  if we should doubt the null (because the
+   treatment had an effect).
+
+## Quiz:
+
+What are the key ingredients of the hypothesis testing approach to statistical inference
+for counterfactual causal effects? (Roughly 5 or 6 ingredients).
+
+## Some quiz answers {.shrink}
+
+- A hypothesis stated in terms of potential outcomes
+
+ - A connection between potential outcomes and observed outcomes. (The identity function above, for example).
+
+ - A way to reflect the hypothesis in terms of observed data --- an answer to to "What would we see granting the hypothesis for the sake of argument?" (A test statistic and a connection between potential outcomes and observed outcomes.)
+
+ - The distribution the test statistic would take on if the hypothesis were true. An explanation for why we would use **this** over **that** distribution. In an experiment we use the design of the study to construct this explanation.
+
+ - An observed value of the test statistic.
+
+ - A $p$-value to summarize the information that the design and test statistic contain that pertains to the hypothesis: a large $p$-value suggests that the design  and test statistic has little to say about the hypothesis, a small $p$-value says that the observed value of the test statistic would be surprising from the perspective of the hypothesis --- it encourages us to doubt the hypothesis.
+
+# Statistics and Causal Inference: Estimation
+
+
+
+##
+
+```{r , echo=FALSE, out.width='105%',fig.cap='',fig.align="center"}
+knitr::include_graphics("./statistics_of_causal_inference_figs/6.pdf")
+```
+
+
+##
+
+```{r , echo=FALSE, out.width='105%',fig.cap='',fig.align="center"}
+knitr::include_graphics("./statistics_of_causal_inference_figs/15.pdf")
+```
+
+
+##
+
+```{r , echo=FALSE, out.width='105%',fig.cap='',fig.align="center"}
+knitr::include_graphics("./statistics_of_causal_inference_figs/16.pdf")
+```
+
+
+# References
+
+## References
