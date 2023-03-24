@@ -1,0 +1,387 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+\PassOptionsToPackage{dvipsnames,svgnames,x11names}{xcolor}
+%
+\documentclass[
+  ignorenonframetext,
+]{beamer}
+\usepackage{pgfpages}
+\setbeamertemplate{caption}[numbered]
+\setbeamertemplate{caption label separator}{: }
+\setbeamercolor{caption name}{fg=normal text.fg}
+\beamertemplatenavigationsymbolsempty
+% Prevent slide breaks in the middle of a paragraph
+\widowpenalties 1 10000
+\raggedbottom
+\setbeamertemplate{part page}{
+  \centering
+  \begin{beamercolorbox}[sep=16pt,center]{part title}
+    \usebeamerfont{part title}\insertpart\par
+  \end{beamercolorbox}
+}
+\setbeamertemplate{section page}{
+  \centering
+  \begin{beamercolorbox}[sep=12pt,center]{part title}
+    \usebeamerfont{section title}\insertsection\par
+  \end{beamercolorbox}
+}
+\setbeamertemplate{subsection page}{
+  \centering
+  \begin{beamercolorbox}[sep=8pt,center]{part title}
+    \usebeamerfont{subsection title}\insertsubsection\par
+  \end{beamercolorbox}
+}
+\AtBeginPart{
+  \frame{\partpage}
+}
+\AtBeginSection{
+  \ifbibliography
+  \else
+    \frame{\sectionpage}
+  \fi
+}
+\AtBeginSubsection{
+  \frame{\subsectionpage}
+}
+\usepackage{amsmath,amssymb}
+\usepackage{lmodern}
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math}
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\newif\ifbibliography
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+\newenvironment{cols}[1][]{}{}
+
+\newenvironment{col}[1]{\begin{minipage}{#1}\ignorespaces}{%
+\end{minipage}
+\ifhmode\unskip\fi
+\aftergroup\useignorespacesandallpars}
+
+\def\useignorespacesandallpars#1\ignorespaces\fi{%
+#1\fi\ignorespacesandallpars}
+
+\makeatletter
+\def\ignorespacesandallpars{%
+  \@ifnextchar\par
+    {\expandafter\ignorespacesandallpars\@gobble}%
+    {}%
+}
+\makeatother
+\setbeamertemplate{footline}{\begin{beamercolorbox}{section in head/foot}
+\includegraphics[height=.5cm]{../Images/egap-logo.png} \hfill
+\insertframenumber/\inserttotalframenumber \end{beamercolorbox}}
+\usepackage{tikz}
+\usepackage{tikz-cd}
+\usepackage{textpos}
+\usepackage{booktabs,multirow,makecell}
+
+\ifLuaTeX
+  \usepackage{selnolig}  % disable illegal ligatures
+\fi
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same} % disable monospaced font for URLs
+\hypersetup{
+  pdftitle={Hypothesis Testing: Summarizing Information about Causal Effects \textbar{} Tests d'hypothèses : Résumer les informations sur les effets causaux},
+  pdfauthor={Fill In Your Name},
+  colorlinks=true,
+  linkcolor={Maroon},
+  filecolor={Maroon},
+  citecolor={Blue},
+  urlcolor={Blue},
+  pdfcreator={LaTeX via pandoc}}
+
+\title{Hypothesis Testing: Summarizing Information about Causal Effects
+\textbar{} Tests d'hypothèses : Résumer les informations sur les effets
+causaux}
+\author{Fill In Your Name}
+\date{21 March 2023}
+
+\begin{document}
+\frame{\titlepage}
+
+\begin{frame}[allowframebreaks]
+  \tableofcontents[hideallsubsections]
+\end{frame}
+\hypertarget{the-role-of-hypothesis-tests-in-causal-inference-le-ruxf4le-des-tests-dhypothuxe8se-dans-linfuxe9rence-causale}{%
+\section{\texorpdfstring{The Role of Hypothesis Tests in Causal
+Inference \textbar{} \emph{Le rôle des tests d'hypothèse dans
+l'inférence
+causale}}{The Role of Hypothesis Tests in Causal Inference \textbar{} Le rôle des tests d'hypothèse dans l'inférence causale}}\label{the-role-of-hypothesis-tests-in-causal-inference-le-ruxf4le-des-tests-dhypothuxe8se-dans-linfuxe9rence-causale}}
+
+\begin{frame}{Key points for this lecture \textbar{} \emph{Points clés
+de cette conférence}}
+\protect\hypertarget{key-points-for-this-lecture-points-cluxe9s-de-cette-confuxe9rence}{}
+\begin{cols}
+
+\begin{col}{0.48\textwidth}
+
+\footnotesize
+
+\begin{itemize}
+\item
+  Statistical inference (e.g., hypothesis tests and confidence
+  intervals) requires \textbf{inference} --- reasoning about the
+  unobserved.
+\item
+  \(p\)-values require probability distributions.
+\item
+  Randomization (or Design) + a Hypothesis + a Test Statistic Function
+  \(\rightarrow\) probability distributions representing the hypothesis
+  (reference distributions)
+\item
+  Observed Values of Test Statistics + Reference Distribution
+  \(\rightarrow\) \(p\)-value.
+\end{itemize}
+
+\end{col}
+
+\begin{col}{0.04\textwidth}
+~
+
+\end{col}
+
+\begin{col}{0.48\textwidth}
+
+\footnotesize
+
+\begin{itemize}
+\item
+  L'inférence statistique (par exemple, les tests d'hypothèse et les
+  intervalles de confiance) nécessite une \textbf{inférence},
+  c'est-à-dire un raisonnement sur des éléments non observés.
+\item
+  Les valeurs \(p\) nécessitent des distributions de probabilité.
+\item
+  Randomisation (ou plan) + une hypothèse + une fonction de statistique
+  de test \(\rightarrow\) distributions de probabilité représentant
+  l'hypothèse (distributions de référence)
+\item
+  Valeurs observées des statistiques du test + Distribution de référence
+  \(\rightarrow\) \(p\)-value.
+\end{itemize}
+
+\end{col}
+
+\end{cols}
+\end{frame}
+
+\begin{frame}{The role of hypothesis tests in causal inference I
+\textbar{} \emph{Le rôle des tests d'hypothèse dans l'inférence causale
+I}}
+\protect\hypertarget{the-role-of-hypothesis-tests-in-causal-inference-i-le-ruxf4le-des-tests-dhypothuxe8se-dans-linfuxe9rence-causale-i}{}
+\begin{cols}
+
+\begin{col}{0.48\textwidth}
+
+\footnotesize
+
+\begin{itemize}
+\item
+  The \textbf{fundamental problem of causal inference} says that we can
+  see only one potential outcome for any given unit.
+\item
+  So, if a counterfactual causal effect of the treatment, \(T\), for
+  Jake occurs when \(y_{\text{Jake},T=1} \ne y_{\text{Jake},T=0}\), then
+  how can we learn about the causal effect?
+\item
+  One solution is the \textbf{\href{estimation-slides.Rmd}{estimation}
+  of averages of causal effects} (the ATE, ITT, LATE).
+\item
+  This is what we call Neyman's approach.
+\end{itemize}
+
+\end{col}
+
+\begin{col}{0.04\textwidth}
+~
+
+\end{col}
+
+\begin{col}{0.48\textwidth}
+
+\footnotesize
+
+\begin{itemize}
+\item
+  Le \textbf{problème fondamental de l'inférence causale} dit que nous
+  ne pouvons voir qu'un seul résultat potentiel pour une unité donnée.
+\item
+  Ainsi, si un effet causal contrefactuel du traitement, \(T\), pour
+  Jake se produit lorsque \(y_{text{Jake},T=1} \ne y_{text{Jake},T=0}\),
+  comment pouvons-nous en savoir plus sur l'effet causal ?
+\item
+  Une solution consiste à \textbf{\href{estimation-slides.Rmd}{estimer}
+  des moyennes des effets causaux} (ATE, ITT, LATE).
+\item
+  C'est ce que nous appelons l'approche de Neyman.
+\end{itemize}
+
+\end{col}
+
+\end{cols}
+\end{frame}
+
+\begin{frame}{The role of hypothesis tests in causal inference II
+\textbar{} \emph{Le rôle des tests d'hypothèse dans l'inférence causale
+II}}
+\protect\hypertarget{the-role-of-hypothesis-tests-in-causal-inference-ii-le-ruxf4le-des-tests-dhypothuxe8se-dans-linfuxe9rence-causale-ii}{}
+\begin{cols}
+
+\begin{col}{0.48\textwidth}
+
+\footnotesize
+
+\begin{itemize}
+\item
+  Another solution is to make \textbf{claims} or \textbf{guesses} about
+  the causal effects.
+\item
+  We could say, ``I think that the effect on Jake is 5.'' or ``This
+  experiment had no effect on anyone.'' And then we ask ``How much
+  evidence does this experiment have about that claim?''
+\item
+  This evidence is summarized in a \(p\)-value.
+\item
+  We call this Fisher's approach.
+\end{itemize}
+
+\end{col}
+
+\begin{col}{0.04\textwidth}
+~
+
+\end{col}
+
+\begin{col}{0.48\textwidth}
+
+\footnotesize
+
+\begin{itemize}
+\item
+  Une autre solution consiste à faire des \textbf{revendications} ou des
+  \textbf{conjectures} sur les effets causaux.
+\item
+  Nous pourrions dire : ``Je pense que l'effet sur Jake est de 5'' ou
+  ``Cette expérience n'a eu d'effet sur personne''. Puis nous demandons
+  : ``Quelle preuve cette expérience apporte-t-elle à cette affirmation
+  ?''
+\item
+  Cette preuve est résumée dans une valeur \(p\).
+\item
+  C'est ce que nous appelons l'approche de Fisher.
+\end{itemize}
+
+\end{col}
+
+\end{cols}
+\end{frame}
+
+\begin{frame}{The role of hypothesis tests in causal inference III
+\textbar{} \emph{Le rôle des tests d'hypothèse dans l'inférence causale
+III}}
+\protect\hypertarget{the-role-of-hypothesis-tests-in-causal-inference-iii-le-ruxf4le-des-tests-dhypothuxe8se-dans-linfuxe9rence-causale-iii}{}
+\begin{cols}
+
+\begin{col}{0.48\textwidth}
+
+\tiny
+
+\begin{itemize}
+\item
+  The hypothesis testing approach to causal inference doesn't provide a
+  best guess but instead tells you \emph{how much evidence or
+  information the research design provides about a causal claim}.
+\item
+  The estimation approach provides a best guess but doesn't tell you how
+  much you know about that guess.
+
+  \begin{itemize}
+  \tightlist
+  \item
+    \tiny For example, a best guess with \(N=10\) seems to tell us less
+    about the effect than \(N=1000\).
+  \item
+    For example, a best guess when 95\% of \(Y=1\) and 5\% of \(Y=0\)
+    seems to tell us less than when outcomes are evenly split betwee 0
+    and 1.
+  \end{itemize}
+\item
+  We nearly always report both since both help us make decisions: ``Our
+  best guess of the treatment effect was 5, and we could reject the idea
+  that the effect was 0 (\(p\)=.01).''
+\end{itemize}
+
+\end{col}
+
+\begin{col}{0.04\textwidth}
+~
+
+\end{col}
+
+\begin{col}{0.48\textwidth}
+
+\tiny
+
+\begin{itemize}
+\item
+  L'approche du test d'hypothèse pour l'inférence causale ne fournit pas
+  une meilleure estimation, mais vous indique \emph{la quantité de
+  preuves ou d'informations que le modèle de recherche fournit à propos
+  d'une allégation causale}.
+\item
+  L'approche de l'estimation permet d'obtenir la meilleure estimation
+  possible, mais ne permet pas de savoir ce que l'on sait de cette
+  estimation.
+
+  \begin{itemize}
+  \tightlist
+  \item
+    \tiny Par exemple, une meilleure estimation avec \(N=10\) semble
+    nous en dire moins sur l'effet que \(N=1000\).
+  \item
+    Par exemple, une meilleure estimation lorsque 95\% de \(Y=1\) et 5\%
+    de \(Y=0\) semble nous en dire moins que lorsque les résultats sont
+    également répartis entre 0 et 1.
+  \end{itemize}
+\item
+  Nous indiquons presque toujours les deux, car ils nous aident à
+  prendre des décisions : ``Notre meilleure estimation de l'effet du
+  traitement était de 5, et nous pouvions rejeter l'idée que l'effet
+  était de 0 (\(p\)=.01)''.
+\end{itemize}
+
+\end{col}
+
+\end{cols}
+\end{frame}
+
+\end{document}
