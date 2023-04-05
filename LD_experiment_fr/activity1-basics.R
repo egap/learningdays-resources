@@ -7,7 +7,7 @@
 # <- this is a comment in the code, starting with a #. We'll use these to provide instructions. 
 
 # === 
-# Exercise 1: download the data
+# Exercise 1: download the data / Telecharger les donnees
 
 # First, you need to download the data. Follow the instructions from the instructors to place the .csv file in the directory where your R project is. You should see a file called "learningdays.Rproj" in the folder where you put the data.
 
