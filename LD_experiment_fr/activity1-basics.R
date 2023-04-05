@@ -2,7 +2,7 @@
 # Welcome to R! In this first activity, we will help you get a flavor of basic data analysis in R.
 # Goals: learn how to load data, inspect data to see what variables there are, and to conduct basic data summaries
 
-# Let's get started!
+# Let's get started! C'est parti!
 
 # <- this is a comment in the code, starting with a #. We'll use these to provide instructions. 
 
