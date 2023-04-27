@@ -35,7 +35,7 @@ experiment_data <- read.csv("data_for_analysis.csv")
 set.seed(YOU_CHOOSE_A_SEED_HERE)
 
 # Now, we will take the experiment_data object, add a variable to it called treatment_simple, which will be a randomly-assigned treatment status randomized using simple randomization. Here's how:
-# nous allons prendre l'objet experiment_data, y ajouter une variable appelée treatment_simple, qui sera un statut de traitement attribué au hasard et randomisé à l'aide d'une randomisation simple. Voici comment:
+# nous allons prendre l'objet experiment_data, y ajouter une variable appelée treatment_simple, qui sera un statut de traitement attribué de manière aléatoire et randomisé à l'aide d'une randomisation simple. 
 experiment_data$treatment_simple <- rbinom(n = nrow(experiment_data), size = 1, prob = 0.5)
 
 # Let's unpack what happened here. There are two parts, separated by <-. On the right starting with rbinom is what we're going to do -- randomize -- and on the left is where we are going to save the result. We always save the result to an "object." experiment_data is one object, which you inspected in the last exercise. The special thing we did here was that we saved the result not into experiment_data, but as a particular variable here representing the new randomization, and we called it treatment_simple.
