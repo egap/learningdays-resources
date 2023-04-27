@@ -32,7 +32,7 @@
 dir()
 
 # Question 1: is the data file you downloaded in the list that the function returned? If not, please consult an instructor. 
-# Question 1: le fichier de données que vous avez téléchargé figure-t-il dans la liste renvoyée par la fonction? Si ce n'est pas le cas, appelez instructeur.
+# Question 1: le fichier de données que vous avez téléchargé figure-t-il dans la liste renvoyée par la fonction? Si ce n'est pas le cas, appelez l'instructeur.
 # Answer / Réponse
 
 # ===
