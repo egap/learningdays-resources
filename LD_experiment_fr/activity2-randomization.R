@@ -46,7 +46,7 @@ experiment_data$treatment_simple <- rbinom(n = nrow(experiment_data), size = 1, 
 # Pour définir l'argument n, nous avons utilisé une fonction pratique appelée nrow(), qui calcule le nombre de lignes dans un dataframe. Dans ce cas, le nombre de 0 et de 1 que nous voulions devait être le même que le nombre de lignes dans le dataframe puisque chaque ligne est un répondant.
 
 # To summarize: we used a function to randomly assign 0's and 1's representing treatment and control, and we saved those into a new variable. That new variable is what you would use to allocate treatment -- to say that one person gets treatment and another person gets control.
-# Pour résumer: nous avons utilisé une fonction pour attribuer au hasard des 0 et des 1 représentant le traitement et le contrôle, et nous les avons enregistrés dans une nouvelle variable. Cette nouvelle variable est ce que vous utiliseriez pour assigner le traitement -- pour dire qu'une personne reçoit un traitement et qu'une autre personne appartient au contrôle.
+# Pour résumer: nous avons utilisé une fonction pour attribuer au hasard des 0 et des 1 représentant le traitement et le contrôle, et nous les avons enregistrés dans une nouvelle variable. Cette nouvelle variable est ce que vous utiliseriez pour assigner le traitement -- pour dire qu'une personne reçoit le traitement et qu'une autre personne reçoit le contrôle.
 
 
 # === 
