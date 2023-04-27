@@ -132,18 +132,18 @@ experiment_data$treatment_complete2 <- complete_ra(N = nrow(experiment_data), pr
 # using randomizr to do blocked random assignment
 # Because you've now learned how to use randomizr, you can do more complex random assignment schemes more easily. Let's try block random assignment.
 # As a reminder, blocked random assignment is where you take a set of blocks (also known as strata) and do mini-experiments within them. The blocks come from your data -- they might be variables representing gender or towns or a combination of multiple variables. We'll use the gender of participants here. In this case, block random assignment means that you will conduct two mini-experiments, one among women and one among men, but you'll do it all at once. 
-# utiliser randomizr pour faire une assignation aléatoire bloquée
+# utiliser randomizr pour faire une assignation aléatoire stratifiée par bloc
 # Parce que vous avez maintenant appris à utiliser randomizr, vous pouvez faire plus facilement des schémas d'assignation aléatoire plus complexes. Essayons l'assignation aléatoire par bloc.
-# Rappel, l'assignation aléatoire par bloc consiste à prendre un ensemble de blocs (également appelés strates) et à y faire des mini-expériences. Les blocs proviennent de vos données: il peut s'agir de variables représentant le sexe ou la ville, ou d'une combinaison de plusieurs variables. Nous utiliserons ici le sexe des participants. Dans ce cas, l'assignation aléatoire par bloc signifie que vous allez mener deux mini-expériences, une chez les femmes et une chez les hommes, mais vous allez tout faire en même temps.
+# Rappel, l'assignation aléatoire stratifiée par bloc consiste à prendre un ensemble de blocs (également appelés strates) et à y faire des mini-expériences. Les blocs proviennent de vos données: il peut s'agir de variables représentant le genre ou la ville, ou d'une combinaison de plusieurs variables. Nous utiliserons ici le genre des participants. Dans ce cas, l'assignation aléatoire par bloc signifie que vous allez mener deux mini-expériences, une chez les femmes et une chez les hommes, mais vous allez tout faire en même temps.
 
 # Step 1: identify the block variable. Inspect the data frame and find out what the name of the gender variable is. Note variables are "case sensitive", meaning if there are capital letters that's important to remember.
 # Etape 1: identifiez la variable de bloc. Inspectez le data frame et trouvez le nom de la variable de genre. Les variables sont "sensibles à la casse", ce qui signifie qu'il faut se souvenir des majuscules.
 
 # What is the variable named? Answer: 
-# Quelle est la variable nommée? Réponse:
+# Quelle est le nom de la variable ? Réponse:
 
 # Step 2: Randomize. To do this, you'll use the function block_ra, and the difference between block_ra and complete_ra is you have to tell block_ra what the block variable is. You won't need to tell it the N any more, because the software can figure that out from the block variable.
-# Étape 2: Randomiser. Pour ce faire, vous utiliserez la fonction block_ra, et la différence entre block_ra et complete_ra est que vous devez lui dire quelle est la variable de bloc. Vous n'aurez plus besoin de lui dire le N, car le logiciel peut le comprendre à partir de la variable de bloc.
+# Étape 2: Randomiser. Pour ce faire, vous utiliserez la fonction block_ra. La différence entre block_ra et complete_ra est que vous devez lui dire quelle est la variable de bloc. Vous n'aurez plus besoin de lui dire le N, car le logiciel peut le comprendre à partir de la variable de bloc.
 
 experiment_data$treatment_blocked <- block_ra(blocks = ??, prob = 0.5)
 
@@ -151,4 +151,4 @@ experiment_data$treatment_blocked <- block_ra(blocks = ??, prob = 0.5)
 # Étape 3 : vérifiez les données en utilisant inspect et table.
 
 # Are approximately the same number *within each block* treated? As in, are the same number of men treated as the number of women who are treated? (Note if there are odd numbers, of course it won't be exactly equal.) Answer: 
-# Est-ce qu'environ le même nombre *dans chaque bloc* est traité? Comme dans, y a-t-il le même nombre d'hommes traités que le nombre de femmes qui sont traitées? (Notez que s'il y a des nombres impairs, bien sûr, ils ne seront pas exactement égaux.) Réponse:
+# Y a-t-il à peu près le même nombre d'unités traitées *dans chaque bloc* ? Autrement dit, y a-t-il autant de femmes que d'hommes dans le groupe de traitement ? (Notez que s'il y a des nombres impairs, bien sûr, il n'y aura pas exactement le même nombre d'hommes et de femmes dans le groupe de traitement.) Réponse:
