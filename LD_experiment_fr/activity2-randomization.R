@@ -54,7 +54,7 @@ experiment_data$treatment_simple <- rbinom(n = nrow(experiment_data), size = 1, 
 # check your randomization
 # After you randomly assign, you want to be sure it worked. Do a few checks. In this case, there should be approximately, but not necessarily exactly, half of subjects assigned to treatment.
 # vérifiez votre randomisation
-# Après avoir assigné au hasard, vous voulez être sûr que cela a fonctionné. Faites quelques vérifications. Dans ce cas, il devrait y avoir environ, mais pas nécessairement exactement, la moitié des sujets affectés au traitement.
+# Après avoir assigné au hasard, vous voulez être sûr que cela a fonctionné. Faites quelques vérifications. Dans ce cas, il devrait y avoir environ, mais pas nécessairement exactement, la moitié des sujets assignés au traitement.
 
 # Part A:
 # inspect the data, and check that there are some people with treatment and some with control.
