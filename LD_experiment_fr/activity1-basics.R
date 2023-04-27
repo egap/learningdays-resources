@@ -57,7 +57,7 @@ experiment_data <- read.csv("data_for_analysis.csv")
 # Exercise 3: inspect the data / inspecter les données
 
 # Take a moment to look at the data itself. To do this, find the Environment tab and click once on the object experiment_data. That brings up the "data viewer." This is always a good place to start to see what's in the data.
-# Prenez un moment pour regarder les données elles-mêmes. Pour ce faire, dans l'onglet Environnement et cliquez une fois sur l'objet experiment_data. Cela ouvre le "data viewer". C'est toujours un bon endroit pour commencer à voir ce qu'il y a dans les données.
+# Prenez un moment pour regarder les données elles-mêmes. Pour ce faire, trouvez l'onglet Environnement et cliquez une fois sur l'objet experiment_data. Cela ouvre le "data viewer". C'est toujours un bon endroit pour commencer à voir ce qu'il y a dans les données.
 # Question: what are the variable names in the data?
 # Question : quels sont les noms de variables dans les données ?
 
