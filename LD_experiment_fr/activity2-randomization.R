@@ -61,7 +61,7 @@ experiment_data$treatment_simple <- rbinom(n = nrow(experiment_data), size = 1, 
 # inspectez les données et vérifiez qu'il y a des personnes sous traitement et d'autres sous contrôle.
 
 # Can you see the variable you created, treatment_simple? Are there some treated and some control? Answer: 
-# Pouvez-vous voir la variable que vous avez créée, treatment_simple? Y a-t-il des unités dans les groupes de traitement et des contrôle ? Réponse:
+# Pouvez-vous voir la variable que vous avez créée, treatment_simple? Y a-t-il des unités dans le groupe de traitement ainsi que dans le groupe de contrôle ? Réponse:
 
 # Part B:
 # Count the number of treated and control using the table function.
