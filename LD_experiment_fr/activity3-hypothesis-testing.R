@@ -28,7 +28,7 @@ experiment_data <- read.csv("data_for_analysis.csv")
 # === 
 # Exercise 2:
 # calculate the difference-in-means in the experiment
-# calculer la différence de moyennes dans l'expérience
+# calculer la différence des moyennes dans l'expérience
 
 # Step 1: What is the name of the outcome variable? What is the name of the treatment variable?
 # Inspect the data and work out what the variable names are.
@@ -49,7 +49,7 @@ mean(experiment_data$`NAME OF OUTCOME VARIABLE HERE`, na.rm = TRUE)
 # This turns out to be a problem! We can't learn what the treatment effect is if we don't know how some of the units respond to treatment.
 # For now, we're going to remove these folks -- na.rm means remove NAs; NA is one way of saying a missing value.
 
-# Il y a plusieurs parties dans cette commande. Premièrement, il y a la fonction mean(), qui calcule, comme vous l'avez peut-être deviné, la moyenne.
+# Il y a plusieurs parties dans cette commande. Premièrement, il y a la fonction mean(), qui calcule la moyenne.
 # Le premier argument que vous mettez est la variable elle-même. Pour appeler une variable, comme nous l'avons fait dans l'activité 2, nous devons dire dataframename$variablename.
 # Ici, le nom du dataframe est experiment_data et le nom de la variable vient après le $. Il y a une autre option ici : na.rm.
 # Cela signifie que nous voulons supprimer toutes les valeurs manquantes. Si quelqu'un oublie de remplir le résultat, nous n'avons aucune information pour lui.
@@ -62,15 +62,15 @@ mean(experiment_data$`NAME OF OUTCOME VARIABLE HERE`, na.rm = TRUE)
 # Replace the variable names and also the value for treatment. If you don't know which value represents treatment, go back to inspect the data and see what values it takes. 
 
 # Étape 3 : calculer la moyenne dans le groupe de traitement
-# Ensuite, nous nous attarderons sur le calcul de la différence de moyennes, qui se compose de deux nombres : le résultat moyen dans le groupe de traitement et le résultat moyen dans le groupe de contrôle.
+# Ensuite, nous calculons la différence des moyennes, qui se compose de deux nombres : le résultat moyen dans le groupe de traitement et le résultat moyen dans le groupe de contrôle.
 # Pour calculer le résultat moyen du traitement, nous utilisons la même commande qu'à l'étape 2, mais nous le faisons pour un *sous-ensemble* des données, dans ce cas le groupe de traitement.
-# Remplacez les noms des variables ainsi que la valeur pour le traitement. Si vous ne savez pas quelle valeur représente le traitement, revenez en arrière pour inspecter les données et voir quelles valeurs elles prennent.
+# Remplacez les noms des variables ainsi que la valeur pour le traitement. 
 
 mean(experiment_data$`NAME OF OUTCOME VARIABLE HERE`[experiment_data$`TREATMENT VARIABLE NAME` == VALUE], na.rm = TRUE)
 
 
 # Step 4: Do the same but for the control group
-# Etape 4 : Faites de même mais pour le groupe contrôle
+# Etape 4 : Faites la même chose pour le groupe de contrôle
 
 # Step 5: Subtract the two numbers.
 # That difference is the estimated treatment effect
