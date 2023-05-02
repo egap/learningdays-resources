@@ -2,7 +2,7 @@
 # Nous allons maintenant explorer différentes procédures d'estimation.
 
 # Here, we're going to prove to ourselves that different answer strategies yield different *answers*.
-# Ici, nous allons nous prouver que différentes stratégies de réponse produisent des *réponses* différentes.
+# Ici, nous allons montrer que différentes stratégies d'estimation produisent des *réponses* différentes.
 
 # As we learned in the estimation lecture, what answer strategy is the "best" depends on the *data strategy*. 
 # Now we will reinforce the idea that these choices matter, and change what answer you get.
@@ -28,23 +28,23 @@ experiment_data <- read.csv("data_for_analysis.csv")
 library(estimatr)
 
 # Step 2: analyze using the lm_robust function, which runs a difference-in-means for you and calculates standard errors
-# Étape 2: analyser en utilisant la fonction lm_robust, qui exécute une différence de moyennes pour vous et calcule les erreurs standards
+# Étape 2: analyser en utilisant la fonction lm_robust, qui exécute une différence des moyennes et calcule l'erreur type
 difference_in_means(OUTCOME_VARIABLE_HERE ~ TREATMENT_VARIABLE_HERE, data = experiment_data)
 
 # Step 3: compare to your difference-in-means estimate from hypothesis testing. 
-# Étape 3: comparez à votre estimation de différence de moyennes à partir de l'activité "tests d'hypothèse".
+# Étape 3: comparez à votre estimation de différence des moyennes à partir de l'activité "tests d'hypothèse".
 # Question: do you get the same number? If not, check with your instructor.
 # Question: Obtenez-vous le même nombre ? Si ce n'est pas le cas, vérifiez avec votre instructeur.
 
 # Answer / Réponse:
 
 # Step 4: now analyze as if it is a blocked experiment
-# Étape 4: Analysez maintenant comme s'il s'agissait d'une expérience par bloc.
+# Étape 4: Analysez maintenant comme s'il s'agissait d'une expérience randomisée par bloc (ou stratifiée).
 
 difference_in_means(OUTCOME_VARIABLE_HERE ~ TREATMENT_VARIABLE_HERE, blocks = Gender, data = experiment_data)
 
 # Question: do you get the same answer in the Estimate column and the Std. Error column? 
-# Question: obtenez-vous la même réponse dans la colonne "Estimation" et la colonne "Erreur standard"?
+# Question: obtenez-vous la même réponse dans la colonne "Estimate" et la colonne "Std. Error"?
 # Answer / Réponse:
 
 # Remember, you should choose based on your data strategy!
