@@ -20,8 +20,8 @@ responses <-
 
 participants <- read_excel("participants_with_randomization.xlsx")
 
-# join the responses to the participants list. if the names differ from the participants spreadsheet and the google form responses, you may have to manually munge
-# Joint les réponses à la liste des participants. Si les noms sont différents entre l'Excel et le formulaire Google, vous devrez peut-être les ajuster manuellement.
+# join the responses to the participants list. if the names differ from the participants spreadsheet and the google form responses, you may have to manually merge
+# Joindre les réponses à la liste des participants. Si les noms sont différents entre l'Excel et le formulaire Google, vous devrez peut-être les ajuster à la main.
 responses <-
   participants |> 
   left_join(responses, by = "Name")
