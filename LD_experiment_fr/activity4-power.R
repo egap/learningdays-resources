@@ -12,9 +12,9 @@
 # === 
 # Exercise 1:
 # calculate the statistical power using the EGAP power calculator
-# calculer la puissance statistique à l'aide de la calculatrice de puissance EGAP
+# calculer la puissance statistique à l'aide du calculateur de puissance EGAP
 #
-# Go to the EGAP Power Calculator, accédez à la calculatrice de puissance EGAP - https://egap.shinyapps.io/power-app
+# Go to the EGAP Power Calculator, accédez au calculateur de puissance EGAP - https://egap.shinyapps.io/power-app
 # 
 # You have four options in the calculator, which we'll explain now:
 # 1. Significance level. This is usually left at the standard value of 0.05 (which is related to the choice of a 95% confidence interval)
@@ -23,7 +23,7 @@
 # 4. Power target. This is like the significance level, it's typically fixed, so you can leave it at 80%, which means that you want to have an 80% probability of detecting a true effect. 
 # 5. Maximum number of subjects. This is just defining how wide the x-axis on the graph is.
 #
-# Vous avez quatre options dans la calculatrice, que nous allons vous expliquer maintenant:
+# Vous avez quatre options dans le calculateur, que nous allons vous expliquer maintenant:
 # 1. Niveau de signification. Ceci prend généralement la valeur standard de 0,05 (qui est liée au choix d'un intervalle de confiance à 95%).
 # 2. Taille de l'effet du traitement. Quelle taille d'effet *attendez-vous*? C'est une supposition. Mais cela peut être une supposition éclairée basée sur des études précédentes. Il est souvent utile de penser de manière conservatrice (c'est-à-dire une taille d'effet plus petite que celle des études précédentes ou de ce que vous espérez).
 # 3. Écart type de la variable de résultat. Pensez au groupe de contrôle et demandez vous quel est l'écart type de votre résultat? Il s'agit d'une mesure de la variabilité du résultat. Un résultat qui suit une loi normale avec une moyenne de zéro et un écart type de 5 aura souvent des valeurs aussi grandes que -10 et 10. Mais un résultat avec un écart type de 1 aura généralement des valeurs entre -4 et 4. Ceci est aussi une supposition. Cela est important car la puissance est liée à la taille de l'effet du traitement et à l'écart type. Si l'écart type est faible, il est plus facile de détecter un effet de traitement toutes choses égales par ailleurs. S'il est plus grand, vous ne pourrez peut-être détecter qu'une grande taille d'effet.
