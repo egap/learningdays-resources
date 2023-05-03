@@ -1,0 +1,1800 @@
+---
+title: "Inquiries and Answer strategies | Requêtes et stratégies de réponse"
+output:
+  beamer_presentation:
+    keep_tex: true
+    includes:
+      in_header: columns.tex
+    toc: true
+    pandoc_args: [ "--toc" ]
+    fig_caption: true
+  revealjs::revealjs_presentation:
+    fig_caption: true
+    theme: default
+    highlight: pygments
+    center: false
+    transition: fade
+    smart: false
+    self_contained: false
+    reveal_plugins: ["notes", "search", "chalkboard"]
+    pandoc_args: [ "--toc" ]
+    reveal_options:
+      slideNumber: true
+      previewLinks: true
+      chalkboard:
+        theme: whiteboard
+        toggleNotesButton: false
+header-includes: |
+   \setbeamertemplate{footline}{\begin{beamercolorbox}{section in head/foot}
+   \includegraphics[height=.5cm]{egap-logo.png} \hfill
+   \insertframenumber / \inserttotalframenumber \end{beamercolorbox}}
+   \usepackage{tikz}
+   \usepackage{tikz-cd}
+   \usepackage{textpos}
+   \usepackage{booktabs,multirow,makecell}
+---
+
+
+```{r, echo=FALSE, eval=TRUE}
+#Effacer tous les objets présents dans l'espace de travail
+rm(list = ls())
+```
+```{r installation des librairies, echo=FALSE, eval=TRUE}
+#Vérifier et installer les packages manquants
+list.of.packages <- c("knitr", "DeclareDesign", "tidyverse", "estimatr", "patchwork")
+new.packages <- list.of.packages[!(list.of.packages %in% installed.packages()[,"Package"])]
+if(length(new.packages)) install.packages(new.packages)
+```
+
+
+```{r, echo = FALSE, warning = FALSE, message = FALSE}
+library(knitr)
+library(DeclareDesign)
+library(tidyverse)
+library(patchwork)
+opts_chunk$set(warning = FALSE, message = FALSE)
+```
+
+```{r, echo = FALSE, cache = TRUE}
+MI <-
+  declare_model(
+    N = 250,
+    X = sample(rep(c(0, 1), each = N / 2), N, replace = FALSE),
+    U = rnorm(N, sd = 0.25),
+    potential_outcomes(Y ~ 0.1 * Z + X + U)
+  ) + 
+  declare_inquiry(SATE = mean(Y_Z_1 - Y_Z_0))
+
+D_complete <-
+  declare_assignment(Z = complete_ra(N, prob = 0.5)) +
+  declare_measurement(Y = reveal_outcomes(Y ~ Z))
+
+D_blocked <- 
+  declare_assignment(
+    Z = block_ra(blocks = X, block_prob = c(0.2, 0.5)),
+    probs =
+      obtain_condition_probabilities(assignment = Z, 
+                                     blocks = X, 
+                                     block_prob = c(0.2, 0.5)),
+    ipw = 1 / probs
+  ) +
+  declare_measurement(Y = reveal_outcomes(Y ~ Z))
+
+A_lm <- 
+  declare_estimator(
+    Y ~ Z,
+    .method = lm,
+    label = "difference-in-means"
+  ) 
+
+A_blocked_dim <- 
+  declare_estimator(
+    Y ~ Z,
+    blocks = X,
+    .method = difference_in_means,
+    label = "blocked difference-in-means"
+  ) 
+
+design_complete <- MI + D_complete + A_lm
+design_blocked <- MI + D_blocked + A_lm
+design_blocked_adjusted <- MI + D_blocked + A_blocked_dim
+
+diagnosis <- diagnose_design(
+  design_complete, design_blocked, design_blocked_adjusted, 
+  diagnosands = declare_diagnosands(bias = mean(estimate - estimand),
+                                    coverage = mean(conf.low <= estimand & conf.high >= estimand),
+                                    sd_estimate = sd(estimate),
+                                    se_bias = mean(std.error - sd(estimate)),
+                                    power = mean(p.value <= 0.05),
+                                    rmse = sqrt(mean((estimate - estimand)^2))),
+  sims = 1000)
+```
+
+
+
+
+## How we define and answer questions | Comment nous définissons les questions et y répondons
+
+:::::: {.cols data-latex=""}
+::: {.col data-latex="{0.48\textwidth}"}
+**Inquiry**: research question
+
+$\rightarrow$ **Estimand**: the true answer to the inquiry
+:::
+
+::: {.col data-latex="{0.04\textwidth}"}
+\ 
+<!-- an empty Div (with a white space), serving as
+a column separator -->
+:::
+
+
+::: {.col data-latex="{0.48\textwidth}"}
+**Requête**: question de recherche
+
+$\rightarrow$ **Estimande**: la vraie réponse à la question 
+:::
+::::::
+
+\bigskip
+
+\bigskip
+
+:::::: {.cols data-latex=""}
+::: {.col data-latex="{0.48\textwidth}"}
+**Answer strategy**: how you will generate answers from the data
+
+$\rightarrow$ **Estimate**: empirical answer to your inquiry | réponse empirique à votre demande
+:::
+
+
+::: {.col data-latex="{0.04\textwidth}"}
+\ 
+<!-- an empty Div (with a white space), serving as
+a column separator -->
+:::
+
+
+::: {.col data-latex="{0.48\textwidth}"}
+**Stratégie de réponse**: comment allez-vous générer des réponses à partir des données
+
+$\rightarrow$ **Estimation**: réponse empirique à votre demande
+
+:::
+::::::
+
+
+
+
+
+
+
+## Inquiries | Requêtes $\rightarrow$ estimands | paramètres
+
+:::::: {.cols data-latex=""}
+::: {.col data-latex="{0.48\textwidth}"}
+- Your inquiry is your *question*
+- Your estimand is the *true answer* to the question
+:::
+
+::: {.col data-latex="{0.04\textwidth}"}
+\ 
+<!-- an empty Div (with a white space), serving as
+a column separator -->
+:::
+
+::: {.col data-latex="{0.48\textwidth}"}
+- Votre demande est votre *question*
+- Votre estimation est la *vraie réponse*
+:::
+::::::
+
+
+
+
+
+## Inquiries | Requêtes
+
+
+:::::: {.cols data-latex=""}
+::: {.col data-latex="{0.48\textwidth}"}
+**What is your question?**
+
+Is the average effect positive in the sample?
+
+<!-- Is hypothesis 1 true? -->
+
+What is the average effect in the sample?
+
+What is the effect among people who comply with treatment?
+
+What is the effect among women in the sample?
+
+<!-- add more notation -->
+
+:::
+
+::: {.col data-latex="{0.04\textwidth}"}
+\ 
+<!-- an empty Div (with a white space), serving as
+a column separator -->
+:::
+
+::: {.col data-latex="{0.48\textwidth}"}
+**Quelle est votre question?**
+
+L'effet moyen est-il positif dans l'échantillon ?
+
+<!-- Is hypothesis 1 true? -->
+
+Quel est l'effet moyen dans l'échantillon?
+
+Quel est l'effet sur les personnes qui se conforment au traitement?
+
+Quel est l'effet sur les femmes de l'échantillon?
+
+<!-- add more notation -->
+
+:::
+::::::
+
+
+
+## Inquiries | Requêtes
+
+
+:::::: {.cols data-latex=""}
+::: {.col data-latex="{0.48\textwidth}"}
+**Sample average treatment effect**
+Average difference between treated and control potential outcomes *among sampled units*
+:::
+
+::: {.col data-latex="{0.04\textwidth}"}
+\ 
+<!-- an empty Div (with a white space), serving as
+a column separator -->
+:::
+
+::: {.col data-latex="{0.48\textwidth}"}
+**Effet moyen du traitement sur l'échantillon**
+Différence moyenne entre les résultats potentiels des unités traitées et des unités de contrôle *parmi les unités échantillonnées*
+:::
+::::::
+
+
+## Inquiries | Requêtes
+
+
+
+**Sample average treatment effect: | Effet moyen du traitement sur l'échantillon: ** $$\frac{1}{n} \left\{\sum_{i \leq n} Y_i(1) - \sum_{i \leq n} Y_i(0) \right\}$$
+
+## Inquiries | Requêtes $\rightarrow$ estimands | paramètres
+
+<!-- - Your inquiry is your *question* -->
+
+<!-- - Your estimand is the *true answer* to the question -->
+
+
+| Inquiry                                                              | Estimand |
+|----------------------------------------------------------------------|----------|
+| What is the causal effect of CCTs on gender inequality?              | ?        |
+| What is the causal effect of coffee on whether I got the quiz right? | ?        |
+| Is the average effect positive?                                      | ?        |
+
+
+| Requêtes                                                                             |Paramètres |
+|--------------------------------------------------------------------------------------|----------|
+| Quel est l'effet causal des CCTs sur l'inégalité entre les sexes ?                   | ?        |
+| Quel est l'effet causal du café sur le fait que j'ai bien répondu au questionnaire ? | ?        |
+| L'effet moyen est-il positif ?                                                       | ?        |
+
+
+
+
+## Inquiries | Requêtes $\rightarrow$ estimands | paramètres
+
+<!-- - Your inquiry is your *question* -->
+
+<!-- - Your estimand is the *true answer* to the question -->
+
+
+| Inquiry                                                              | Estimand |
+|----------------------------------------------------------------------|----------|
+| What is the causal effect of CCTs on gender inequality?              | -0.2     |
+| What is the causal effect of coffee on whether I got the quiz right? | 0.05     |
+| Is the average effect positive?                                      | Yes      |
+
+
+| Requêtes                                                                             |Paramètre |
+|--------------------------------------------------------------------------------------|----------|
+| Quel est l'effet causal des CCTs sur l'inégalité entre les sexes ?                   | -0.2     |
+| Quel est l'effet causal du café sur le fait que j'ai bien répondu au questionnaire ? | 0.05     |
+| L'effet moyen est-il positif ?                                                       | Oui      |
+
+
+
+
+
+## Answer strategies | Stratégies de réponse
+
+
+:::::: {.cols data-latex=""}
+::: {.col data-latex="{0.48\textwidth}"}
+Answer strategy takes *data* and returns an *estimate* (answer) <br><br>
+Many answer strategies could target same inquiry!
+:::
+  
+::: {.col data-latex="{0.04\textwidth}"}
+\ 
+<!-- an empty Div (with a white space), serving as
+a column separator -->
+:::
+  
+::: {.col data-latex="{0.48\textwidth}"}
+La stratégie de réponse prend des *données* et renvoie une *estimation* (réponse) <br><br>.
+Plusieurs stratégies de réponse peuvent cibler la même question!
+:::
+::::::
+  
+  
+
+\bigskip
+
+
+:::::: {.cols data-latex=""}
+::: {.col data-latex="{0.48\textwidth}"}
+Examples:
+- Linear regression with $Y \sim Z + X$ (take coefficient on $Z$)
+
+<!-- - Linear regression with $Y \sim Z + X_c + Z:X_c$ (take Z) -->
+
+- Probit regression $\rightarrow$ difference in predicted probability
+:::
+  
+::: {.col data-latex="{0.04\textwidth}"}
+\ 
+<!-- an empty Div (with a white space), serving as
+a column separator -->
+:::
+  
+::: {.col data-latex="{0.48\textwidth}"}
+Exemples:
+- Régression linéaire avec $Y \sim Z + X$ (prendre le coefficient sur $Z$)
+
+<!-- - Linear regression with $Y \sim Z + X_c + Z:X_c$ (take Z) -->
+
+- Régression probit $\rightarrow$ différence dans la probabilité prédite
+:::
+::::::
+
+
+
+## How to select an answer strategy |  Comment choisir une stratégie de réponse ?
+
+:::::: {.cols data-latex=""}
+::: {.col data-latex="{0.48\textwidth}"}
+**Analyze as you randomize**:
+
+1.  Plug-in principle
+
+2.  Reverse distortions created by your design
+
+<!-- (want to learn about unknown quantities, plug in random samples of those quantities and apply same function) -->
+
+<!-- "What data stands in for each part of the inquiry?" -->
+
+<!-- (if you introduce distortions in your data strategy, reverse them in your answer strategy) -->
+
+<!-- "Were there distortions introduced in the data strategy?" -->
+
+:::
+  
+::: {.col data-latex="{0.04\textwidth}"}
+\ 
+<!-- an empty Div (with a white space), serving as
+a column separator -->
+:::
+
+  
+::: {.col data-latex="{0.48\textwidth}"}
+**Analysez selon le niveau de randomisation** :
+
+1.  Principe de l'enfichage
+
+2.  Inverser les distorsions créées par votre conception
+
+<!-- (want to learn about unknown quantities, plug in random samples of those quantities and apply same function) -->
+
+<!-- "What data stands in for each part of the inquiry?" -->
+
+<!-- (if you introduce distortions in your data strategy, reverse them in your answer strategy) -->
+
+<!-- "Were there distortions introduced in the data strategy?" -->
+
+:::
+::::::
+  
+
+
+
+
+## Plug-in principle |  Principe de l'enfichage
+
+:::::: {.cols data-latex=""}
+::: {.col data-latex="{0.48\textwidth}"}
+To estimate unknown quantities, "plug in" observed data and apply the same function (e.g., average)
+:::
+  
+::: {.col data-latex="{0.04\textwidth}"}
+\ 
+<!-- an empty Div (with a white space), serving as
+a column separator -->
+:::
+
+::: {.col data-latex="{0.48\textwidth}"}
+Pour estimer des quantités inconnues, il faut "brancher" les données observées et appliquer la même fonction (par exemple, la moyenne).
+:::
+::::::
+  
+  
+  
+  
+
+## Plug-in principle | Principe de l'enfichage
+
+::: {.col data-latex="{0.48\textwidth}"}
+**Example**: sample average treatment effect after complete random assignment
+
+- Inquiry: Average treated potential outcome - Average control potential outcome
+
+<!-- <font size=6>Average treated potential outcome - Average control potential outcome</font> -->
+
+- Answer strategy: Average outcome in treatment group - Average outcome in control group
+
+<!-- <font size=6>Average outcome in treatment group - Average outcome in control group</font> -->
+
+:::
+  
+::: {.col data-latex="{0.04\textwidth}"}
+\ 
+<!-- an empty Div (with a white space), serving as
+a column separator -->
+:::
+
+::: {.col data-latex="{0.48\textwidth}"}
+**Exemple** : effet moyen du traitement de l'échantillon après une randomisaion complète
+
+- Enquête : Résultat potentiel moyen du traitement - Résultat potentiel moyen du contrôle
+
+<!-- <font size=6>Average treated potential outcome - Average control potential outcome</font> -->
+
+- Stratégie de réponse : Résultat moyen dans le groupe de traitement - Résultat moyen dans le groupe de contrôle
+
+<!-- <font size=6>Average outcome in treatment group - Average outcome in control group</font> -->
+
+:::
+<!-- :::::: -->
+
+
+
+
+
+
+## Plug-in principle | Principe de l'enfichage
+
+:::::: {.cols data-latex=""}
+::: {.col data-latex="{0.48\textwidth}"}
+Inquiry:
+
+$$\frac{1}{n} \sum_{i \leq n} Y_i(1) - \frac{1}{n} \sum_{i \leq n} Y_i(0)$$
+**Example**: sample average treatment effect after complete random assignment
+
+
+Answer strategy:
+
+$$\frac{1}{n_1} \sum_{i : Z_i = 1} Y_i - \frac{1}{n_0} \sum_{i : Z_i = 0} Y_i$$
+
+:::
+  
+::: {.col data-latex="{0.04\textwidth}"}
+\ 
+<!-- an empty Div (with a white space), serving as
+a column separator -->
+:::
+  
+::: {.col data-latex="{0.48\textwidth}"}
+Requête:
+
+$$\frac{1}{n} \sum_{i \leq n} Y_i(1) - \frac{1}{n} \sum_{i \leq n} Y_i(0)$$
+**Exemple**: effet moyen du traitement de l'échantillon après une randomisation complète
+
+
+Stratégie de réponse:
+
+$$\frac{1}{n_1} \sum_{i : Z_i = 1} Y_i - \frac{1}{n_0} \sum_{i : Z_i = 0} Y_i$$
+
+:::
+::::::
+  
+  
+  
+  
+
+
+## Plug-in principle | Principe de l'enfichage
+
+
+:::::: {.cols data-latex=""}
+::: {.col data-latex="{0.48\textwidth}"}
+**Example**: sample average treatment effect after complete random assignment
+
+Inquiry:
+
+$$\frac{1}{n} \sum_{i \leq n} Y_i(1) - \frac{1}{n} \sum_{i \leq n} Y_i(0)$$
+
+Answer strategy:
+
+summarize(data, 
+estimate = mean(Y[Z == 1]) - mean(Y[Z == 0]))
+
+:::
+  
+::: {.col data-latex="{0.04\textwidth}"}
+\ 
+<!-- an empty Div (with a white space), serving as
+a column separator -->
+:::
+  
+::: {.col data-latex="{0.48\textwidth}"}
+**Example**: effet moyen du traitement de l'échantillon après une randomisation complète
+
+Requête:
+
+$$\frac{1}{n} \sum_{i \leq n} Y_i(1) - \frac{1}{n} \sum_{i \leq n} Y_i(0)$$
+
+Stratégie de réponse:
+
+summarize(data, estimate = mean(Y[Z == 1]) - mean(Y[Z == 0]))
+
+:::
+::::::
+
+
+
+
+------------------------------------------------------------------------
+
+## Applying the answer strategy | Application de la stratégie de réponse
+
+:::::: {.cols data-latex=""}
+::: {.col data-latex="{0.5\textwidth}"}
+Let's look at just the top six rows in our observed data: 
+
+```{r, echo = FALSE}
+data <- draw_data(design_complete)
+data |> select(ID, X, Z, Y) |> head() |> kable(digits = 2)
+```
+:::
+  
+::: {.col data-latex="{0.04\textwidth}"}
+\ 
+<!-- an empty Div (with a white space), serving as
+a column separator -->
+:::
+  
+::: {.col data-latex="{0.5\textwidth}"}
+Examinons uniquement les six premières lignes de nos données observées :
+
+```{r, echo = FALSE}
+data <- draw_data(design_complete)
+data |> select(ID, X, Z, Y) |> head() |> kable(digits = 2)
+```
+:::
+::::::
+
+
+
+## Applying the answer strategy | Application de la stratégie de réponse
+
+
+:::::: {.cols data-latex=""}
+::: {.col data-latex="{0.48\textwidth}"}
+Our answer strategy:
+
+`summarize(data, mean(Y[Z == 1]) - mean(Y[Z == 0]))` (difference-in-means)
+
+Our estimate:
+
+```{r, echo = FALSE}
+summarize(data, 
+          estimate = mean(Y[Z == 1]) - mean(Y[Z == 0]))
+```
+:::
+  
+::: {.col data-latex="{0.04\textwidth}"}
+\ 
+<!-- an empty Div (with a white space), serving as
+a column separator -->
+:::
+  
+::: {.col data-latex="{0.48\textwidth}"}
+Notre stratégie de réponse :
+
+`summarize(data, mean(Y[Z == 1]) - mean(Y[Z == 0]))` (difference-in-means)
+
+Notre estimation :
+
+```{r, echo = FALSE}
+summarize(data, 
+          estimate = mean(Y[Z == 1]) - mean(Y[Z == 0]))
+```
+
+:::
+::::::
+  
+
+
+
+
+## How to assess your answers | Comment évaluer vos réponses
+
+
+:::::: {.cols data-latex=""}
+::: {.col data-latex="{0.48\textwidth}"}
+- Assess your *answer strategy* through simulation (diagnosis)
+
+- Assess your *answer* using uncertainty estimate (standard errors, confidence intervals)
+
+<!-- -- "how sure should we be?" -->
+:::
+  
+::: {.col data-latex="{0.04\textwidth}"}
+\ 
+<!-- an empty Div (with a white space), serving as
+a column separator -->
+:::
+  
+::: {.col data-latex="{0.48\textwidth}"}
+- Évaluer votre *stratégie de réponse* par la simulation (diagnostic)
+
+- Évaluez votre *réponse* en utilisant une estimation d'incertitude (erreurs type, intervalles de confiance).
+
+<!-- -- "how sure should we be?" -->
+:::
+::::::
+  
+
+
+
+
+
+
+
+## Answer strategies | Stratégies de réponse
+
+:::::: {.cols data-latex=""}
+::: {.col data-latex="{0.48\textwidth}"}
+
+We want an answer strategy that is:
+
+(a) *unbiased* (valid),
+
+(b) *low variance* (reliable), and
+
+(c) for which we can characterize our uncertainty
+
+:::
+  
+::: {.col data-latex="{0.04\textwidth}"}
+\ 
+<!-- an empty Div (with a white space), serving as
+a column separator -->
+:::
+  
+::: {.col data-latex="{0.48\textwidth}"}
+
+Nous voulons une stratégie de réponse qui soit :
+
+(a) *non biaisée* (valide),
+
+(b) *faible variance* (fiable), et
+
+(c) pour lesquels nous pouvons caractériser notre incertitude
+
+:::
+::::::
+  
+
+
+  
+
+
+## Answer strategies | Stratégies de réponse 
+
+![](bullseye.pdf)
+
+## How do we assess answer strategies | Comment évaluer les stratégies de réponse
+
+:::::: {.cols data-latex=""}
+::: {.col data-latex="{0.48\textwidth}"}
+
+**Sampling distribution:**\newline
+What happens when we run the experiment many times? 
+
+```{r, echo = FALSE}
+set.seed(10)
+
+design <- 
+  declare_model(
+    N = 100,
+    SD_U = runif(N, min = 0.1, max = 5),
+    U = rnorm(N, sd = SD_U),
+    potential_outcomes(Y ~ 0.2 * Z + U)
+  ) + 
+  declare_inquiries(ATE = mean(Y_Z_1 - Y_Z_0)) + 
+  declare_assignment(Z = complete_ra(N),
+                     Z_fct = factor(Z, levels = c(0, 1), labels = c("Control", "Treatment"))) + 
+  declare_measurement(Y = reveal_outcomes(Y ~ Z)) + 
+  declare_estimator(Y ~ Z, .method = lm_robust)
+
+dat_list <- map(1:1000, ~draw_data(design))
+est_list <- map(dat_list, ~get_estimates(design, data = .))
+estimands <- draw_estimands(design)
+
+sampling_distribution <- function(i) {
+  diff_plot <-
+    ggplot(est_list[[i]]) + 
+    geom_point(aes(y = 0, x = estimate)) + 
+    geom_vline(xintercept = 0, lty = "dashed", color = "darkgray") + 
+    geom_errorbarh(aes(y = 0, xmin = conf.low, xmax = conf.high), height = 0.01) + 
+    coord_cartesian(ylim = c(-0.1, 0.1), xlim = c(-2.2, 2.2)) + 
+    labs(y = "Estimate", title = str_c("Estimate #", i)) + 
+    theme_minimal() + 
+    theme(axis.title.x = element_blank(),
+          axis.text.x = element_blank(),
+          axis.ticks.x = element_blank(),
+          panel.grid.minor.x = element_blank(),
+          panel.grid.minor.y = element_blank(),
+          title = element_text(size = 10))
+  
+  hist_plot <- 
+    ggplot(est_list |> bind_rows() |> slice(1:i)) + 
+    geom_histogram(aes(x = estimate, y = (after_stat(count))/sum(after_stat(count))), binwidth = 0.1, col = NA) + 
+    geom_histogram(aes(x = est_list[[i]]$estimate, y = (after_stat(count))/sum(after_stat(count))), binwidth = 0.1, col = NA, fill = "lightblue") + 
+    scale_y_continuous("Percent of sampling distribution", labels = scales::percent) +
+    scale_x_continuous("") +
+    coord_cartesian(xlim = c(-2.2, 2.2), ylim = c(0, 0.1)) + 
+    labs(title = "Sampling distribution of estimates") + 
+    theme_minimal() +
+    theme(title = element_text(size = 10))
+  
+  gg <- (hist_plot / diff_plot) + plot_layout(heights = c(3, 1))
+  gg
+}
+```
+
+:::
+  
+::: {.col data-latex="{0.04\textwidth}"}
+\ 
+<!-- an empty Div (with a white space), serving as
+a column separator -->
+:::
+  
+::: {.col data-latex="{0.48\textwidth}"}
+**Distribution d'échantillonnage:**\newline
+Que se passe-t-il si nous répétons l'expérience plusieurs fois ? 
+
+```{r, echo = FALSE}
+set.seed(10)
+
+design <- 
+  declare_model(
+    N = 100,
+    SD_U = runif(N, min = 0.1, max = 5),
+    U = rnorm(N, sd = SD_U),
+    potential_outcomes(Y ~ 0.2 * Z + U)
+  ) + 
+  declare_inquiries(ATE = mean(Y_Z_1 - Y_Z_0)) + 
+  declare_assignment(Z = complete_ra(N),
+                     Z_fct = factor(Z, levels = c(0, 1), labels = c("Control", "Treatment"))) + 
+  declare_measurement(Y = reveal_outcomes(Y ~ Z)) + 
+  declare_estimator(Y ~ Z, .method = lm_robust)
+
+dat_list <- map(1:1000, ~draw_data(design))
+est_list <- map(dat_list, ~get_estimates(design, data = .))
+estimands <- draw_estimands(design)
+
+sampling_distribution <- function(i) {
+  diff_plot <-
+    ggplot(est_list[[i]]) + 
+    geom_point(aes(y = 0, x = estimate)) + 
+    geom_vline(xintercept = 0, lty = "dashed", color = "darkgray") + 
+    geom_errorbarh(aes(y = 0, xmin = conf.low, xmax = conf.high), height = 0.01) + 
+    coord_cartesian(ylim = c(-0.1, 0.1), xlim = c(-2.2, 2.2)) + 
+    labs(y = "Estimate", title = str_c("Estimate #", i)) + 
+    theme_minimal() + 
+    theme(axis.title.x = element_blank(),
+          axis.text.x = element_blank(),
+          axis.ticks.x = element_blank(),
+          panel.grid.minor.x = element_blank(),
+          panel.grid.minor.y = element_blank(),
+          title = element_text(size = 10))
+  
+  hist_plot <- 
+    ggplot(est_list |> bind_rows() |> slice(1:i)) + 
+    geom_histogram(aes(x = estimate, y = (after_stat(count))/sum(after_stat(count))), binwidth = 0.1, col = NA) + 
+    geom_histogram(aes(x = est_list[[i]]$estimate, y = (after_stat(count))/sum(after_stat(count))), binwidth = 0.1, col = NA, fill = "lightblue") + 
+    scale_y_continuous("Percent of sampling distribution", labels = scales::percent) +
+    scale_x_continuous("") +
+    coord_cartesian(xlim = c(-2.2, 2.2), ylim = c(0, 0.1)) + 
+    labs(title = "Sampling distribution of estimates") + 
+    theme_minimal() +
+    theme(title = element_text(size = 10))
+  
+  gg <- (hist_plot / diff_plot) + plot_layout(heights = c(3, 1))
+  gg
+}
+```
+
+:::
+::::::
+  
+
+
+
+
+
+## What is a sampling distribution? | Qu'est-ce qu'une distribution d'échantillonnage ?
+
+```{r, echo = FALSE, fig.width = 7, fig.height = 5}
+i <- 1
+sampling_distribution(1)
+```
+
+
+
+
+## What is a sampling distribution? | Qu'est-ce qu'une distribution d'échantillonnage ?
+
+```{r, echo = FALSE, fig.width = 7, fig.height = 5}
+i <- 1
+sampling_distribution(2)
+```
+
+
+
+## What is a sampling distribution? | Qu'est-ce qu'une distribution d'échantillonnage ?
+
+```{r, echo = FALSE, fig.width = 7, fig.height = 5}
+i <- 1
+sampling_distribution(5)
+```
+
+
+
+## What is a sampling distribution? | Qu'est-ce qu'une distribution d'échantillonnage ?
+
+```{r, echo = FALSE, fig.width = 7, fig.height = 5}
+i <- 1
+sampling_distribution(50)
+```
+
+
+
+## What is a sampling distribution? | Qu'est-ce qu'une distribution d'échantillonnage ?
+
+```{r, echo = FALSE, fig.width = 7, fig.height = 5}
+i <- 1
+sampling_distribution(1000)
+```
+
+
+
+
+
+## What is a sampling distribution? | Qu'est-ce qu'une distribution d'échantillonnage ?
+
+```{r, echo = FALSE, fig.width = 7, fig.height = 5}
+i <- 1000
+diff_plot <-
+  ggplot(est_list[[i]]) + 
+  geom_point(aes(y = 0, x = estimate)) + 
+  geom_vline(xintercept = 0, lty = "dashed", color = "darkgray") + 
+  geom_errorbarh(aes(y = 0, xmin = conf.low, xmax = conf.high), height = 0.01) + 
+  coord_cartesian(ylim = c(-0.1, 0.1), xlim = c(-2.2, 2.2)) + 
+  labs(y = "Estimate", title = str_c("Estimate #", i)) + 
+  theme_minimal() + 
+  theme(axis.title.x = element_blank(),
+        axis.text.x = element_blank(),
+        axis.ticks.x = element_blank(),
+        panel.grid.minor.x = element_blank(),
+        panel.grid.minor.y = element_blank(),
+        title = element_text(size = 10))
+
+hist_plot <- 
+  ggplot(est_list |> bind_rows() |> slice(1:i)) + 
+  geom_histogram(aes(x = estimate, y = (after_stat(count))/sum(after_stat(count))), binwidth = 0.1, col = NA) + 
+  geom_histogram(aes(x = est_list[[i]]$estimate, y = (after_stat(count))/sum(after_stat(count))), binwidth = 0.1, col = NA, fill = "lightblue") + 
+  
+  geom_vline(xintercept = 0.2, color = "red", linewidth = 1.5) +
+  annotate("text", y = 0.095, x = -0.2, label = "Estimand", color = "red", size = 5, font = "bold") +
+  scale_y_continuous("Percent of sampling distribution", labels = scales::percent) +
+  scale_x_continuous("") +
+  coord_cartesian(xlim = c(-2.2, 2.2), ylim = c(0, 0.1)) + 
+  labs(title = "Sampling distribution of estimates") + 
+  theme_minimal() +
+  theme(title = element_text(size = 10))
+
+gg <- (hist_plot / diff_plot) + plot_layout(heights = c(3, 1))
+gg
+
+```
+
+
+
+
+
+
+
+## How do we assess answer strategies | Comment évaluer les stratégies de réponse
+:::::: {.cols data-latex=""}
+::: {.col data-latex="{0.48\textwidth}"}
+
+**Bias:**
+
+What's the average difference between our estimates and the estimand?
+
+**Standard deviation of estimates:**
+
+How much do our estimates vary?
+
+**Root mean squared error:**
+
+How far off are we on average? (Combines bias and s.d.!)
+
+:::
+  
+::: {.col data-latex="{0.04\textwidth}"}
+\ 
+<!-- an empty Div (with a white space), serving as
+a column separator -->
+:::
+  
+::: {.col data-latex="{0.48\textwidth}"}
+
+**Bias:**
+
+Quelle est la différence moyenne entre nos estimations et le paramètre ?
+
+**Écart-type des estimations:**
+
+De combien varient nos estimations ?
+
+**Erreur quadratique moyenne:**
+
+Quelle est la différence moyenne entre nos estimations et le paramètre ? (Combine le biais et l'écart-type !)
+
+:::
+::::::
+  
+
+
+
+
+
+## How do we assess answer strategies | Comment évaluer les stratégies de réponse
+
+
+:::::: {.cols data-latex=""}
+::: {.col data-latex="{0.48\textwidth}"}
+
+
+**Bias:**
+
+`mean(estimate - estimand)`
+
+**Standard deviation of estimates:**
+
+`sd(estimate))`
+
+**Mean squared error:**
+
+`sqrt(mean((estimate - estimand)^2))`
+
+:::
+  
+::: {.col data-latex="{0.04\textwidth}"}
+\ 
+<!-- an empty Div (with a white space), serving as
+a column separator -->
+:::
+  
+::: {.col data-latex="{0.48\textwidth}"}
+
+
+**Bias:**
+
+`moyenne(estimation - paramètre)`
+
+**Écart-type des estimations:**
+
+`sd(estimation))`
+
+**Erreur quadratique moyenne:**
+
+`sqrt(mean((estimate - estimand)^2))`
+
+:::
+::::::
+  
+
+
+
+
+
+## Unbiased, precise | Sans biais, précis
+
+```{r, echo = FALSE, fig.width = 7, fig.height = 5}
+design <- 
+  declare_model(
+    N = 100,
+    SD_U = runif(N, min = 0.1, max = 0.8),
+    U = rnorm(N, sd = SD_U),
+    potential_outcomes(Y ~ 0.2 * Z + U)
+  ) + 
+  declare_inquiries(ATE = mean(Y_Z_1 - Y_Z_0)) + 
+  declare_assignment(Z = complete_ra(N),
+                     Z_fct = factor(Z, levels = c(0, 1), labels = c("Control", "Treatment"))) + 
+  declare_measurement(Y = reveal_outcomes(Y ~ Z)) + 
+  declare_estimator(Y ~ Z, .method = lm_robust)
+
+dat_list <- map(1:1000, ~draw_data(design))
+est_list <- map(dat_list, ~get_estimates(design, data = .))
+estimands <- draw_estimands(design)
+
+i <- 1000
+hist_plot <- 
+  ggplot(est_list |> bind_rows() |> slice(1:i)) + 
+  geom_histogram(aes(x = estimate, y = (after_stat(count))/sum(after_stat(count))), binwidth = 0.1, col = NA) + 
+  # geom_histogram(aes(x = est_list[[i]]$estimate, y = (after_stat(count))/sum(after_stat(count))), binwidth = 0.1, col = NA, fill = "lightblue") + 
+  geom_vline(xintercept = 0.2, color = "red", linewidth = 1.5) +
+  # annotate("text", y = 0.095, x = -0.2, label = "Estimand", color = "red", size = 5, font = "bold") +
+  scale_y_continuous("Percent of sampling distribution", labels = scales::percent) +
+  scale_x_continuous("") +
+  coord_cartesian(xlim = c(-2.2, 2.2), ylim = c(0, 0.1)) + 
+  labs(title = "Sampling distribution of estimates") + 
+  theme_minimal() +
+  theme(title = element_text(size = 10))
+
+hist_plot
+```
+
+
+
+
+
+## Unbiased, imprecise | Sans biais, imprécis
+
+```{r, echo = FALSE, fig.width = 7, fig.height = 5}
+design <- 
+  declare_model(
+    N = 100,
+    SD_U = runif(N, min = 0.1, max = 5),
+    U = rnorm(N, sd = SD_U),
+    potential_outcomes(Y ~ 0.2 * Z + U)
+  ) + 
+  declare_inquiries(ATE = mean(Y_Z_1 - Y_Z_0)) + 
+  declare_assignment(Z = complete_ra(N),
+                     Z_fct = factor(Z, levels = c(0, 1), labels = c("Control", "Treatment"))) + 
+  declare_measurement(Y = reveal_outcomes(Y ~ Z)) + 
+  declare_estimator(Y ~ Z, .method = lm_robust)
+
+dat_list <- map(1:1000, ~draw_data(design))
+est_list <- map(dat_list, ~get_estimates(design, data = .))
+estimands <- draw_estimands(design)
+
+i <- 1000
+hist_plot <- 
+  ggplot(est_list |> bind_rows() |> slice(1:i)) + 
+  geom_histogram(aes(x = estimate, y = (after_stat(count))/sum(after_stat(count))), binwidth = 0.1, col = NA) + 
+  # geom_histogram(aes(x = est_list[[i]]$estimate, y = (after_stat(count))/sum(after_stat(count))), binwidth = 0.1, col = NA, fill = "lightblue") + 
+  geom_vline(xintercept = 0.2, color = "red", linewidth = 1.5) +
+  # annotate("text", y = 0.095, x = -0.2, label = "Estimand", color = "red", size = 5, font = "bold") +
+  scale_y_continuous("Percent of sampling distribution", labels = scales::percent) +
+  scale_x_continuous("") +
+  coord_cartesian(xlim = c(-2.2, 2.2), ylim = c(0, 0.1)) + 
+  labs(title = "Sampling distribution of estimates") + 
+  theme_minimal() +
+  theme(title = element_text(size = 10))
+
+hist_plot
+```
+
+
+
+
+
+
+## Biased, precise | Biaisé, précis
+
+```{r, echo = FALSE, fig.width = 7, fig.height = 5}
+design <- 
+  declare_model(
+    N = 100,
+    SD_U = runif(N, min = 0.1, max = 0.8),
+    U = rnorm(N, sd = SD_U),
+    potential_outcomes(Y ~ 0.2 * Z + U)
+  ) + 
+  declare_inquiries(ATE = mean(Y_Z_1 - Y_Z_0)) + 
+  declare_assignment(Z = complete_ra(N),
+                     Z_fct = factor(Z, levels = c(0, 1), labels = c("Control", "Treatment"))) + 
+  declare_measurement(Y = reveal_outcomes(Y ~ Z),
+                      Y = if_else(Z == 1, Y + 0.5, Y)) + 
+  declare_estimator(Y ~ Z, .method = lm_robust)
+
+dat_list <- map(1:1000, ~draw_data(design))
+est_list <- map(dat_list, ~get_estimates(design, data = .))
+estimands <- draw_estimands(design)
+
+i <- 1000
+hist_plot <- 
+  ggplot(est_list |> bind_rows() |> slice(1:i)) + 
+  geom_histogram(aes(x = estimate, y = (after_stat(count))/sum(after_stat(count))), binwidth = 0.1, col = NA) + 
+  # geom_histogram(aes(x = est_list[[i]]$estimate, y = (after_stat(count))/sum(after_stat(count))), binwidth = 0.1, col = NA, fill = "lightblue") + 
+  geom_vline(xintercept = 0.2, color = "red", linewidth = 1.5) +
+  # annotate("text", y = 0.095, x = -0.2, label = "Estimand", color = "red", size = 5, font = "bold") +
+  scale_y_continuous("Percent of sampling distribution", labels = scales::percent) +
+  scale_x_continuous("") +
+  coord_cartesian(xlim = c(-2.2, 2.2), ylim = c(0, 0.1)) + 
+  labs(title = "Sampling distribution of estimates") + 
+  theme_minimal() +
+  theme(title = element_text(size = 10))
+
+hist_plot
+```
+
+
+
+
+
+
+## Biased, imprecise | Biaisé, imprécis
+
+
+```{r, echo = FALSE, fig.width = 7, fig.height = 5}
+design <- 
+  declare_model(
+    N = 100,
+    SD_U = runif(N, min = 0.1, max = 5),
+    U = rnorm(N, sd = SD_U),
+    potential_outcomes(Y ~ 0.2 * Z + U)
+  ) + 
+  declare_inquiries(ATE = mean(Y_Z_1 - Y_Z_0)) + 
+  declare_assignment(Z = complete_ra(N),
+                     Z_fct = factor(Z, levels = c(0, 1), labels = c("Control", "Treatment"))) + 
+  declare_measurement(Y = reveal_outcomes(Y ~ Z),
+                      Y = if_else(Z == 1, Y + 0.5, Y)) + 
+  declare_estimator(Y ~ Z, .method = lm_robust)
+
+dat_list <- map(1:1000, ~draw_data(design))
+est_list <- map(dat_list, ~get_estimates(design, data = .))
+estimands <- draw_estimands(design)
+
+i <- 1000
+hist_plot <- 
+  ggplot(est_list |> bind_rows() |> slice(1:i)) + 
+  geom_histogram(aes(x = estimate, y = (after_stat(count))/sum(after_stat(count))), binwidth = 0.1, col = NA) + 
+  # geom_histogram(aes(x = est_list[[i]]$estimate, y = (after_stat(count))/sum(after_stat(count))), binwidth = 0.1, col = NA, fill = "lightblue") + 
+  geom_vline(xintercept = 0.2, color = "red", linewidth = 1.5) +
+  # annotate("text", y = 0.095, x = -0.2, label = "Estimand", color = "red", size = 5, font = "bold") +
+  scale_y_continuous("Percent of sampling distribution", labels = scales::percent) +
+  scale_x_continuous("") +
+  coord_cartesian(xlim = c(-2.2, 2.2), ylim = c(0, 0.1)) + 
+  labs(title = "Sampling distribution of estimates") + 
+  theme_minimal() +
+  theme(title = element_text(size = 10))
+
+hist_plot
+```
+
+
+
+
+## Assessing the answer strategy | Évaluation de la stratégie de réponse
+
+:::::: {.cols data-latex=""}
+::: {.col data-latex="{0.48\textwidth}"}
+Back to example: 
+
+- **Experiment:** complete random assignment
+- **Inquiry:** sample average treatment effect
+- **Answer strategy:** difference-in-means
+
+:::
+  
+::: {.col data-latex="{0.04\textwidth}"}
+\ 
+<!-- an empty Div (with a white space), serving as
+a column separator -->
+:::
+  
+::: {.col data-latex="{0.48\textwidth}"}
+Retour à l'exemple : 
+
+- **Expérience:** Randomisation complète
+- **Interrogation:** effet moyen du traitement sur l'échantillon
+- **Stratégie de réponse:** différence de moyenne
+
+:::
+::::::
+  
+
+
+\bigskip
+
+```{r, echo = FALSE}
+tidy(diagnosis) |> 
+  filter(diagnosand %in% 
+           c("bias", "sd_estimate", "rmse")) |> 
+  filter(design == "design_complete") |> 
+  mutate(assignment = str_replace(design, "design_", "")) |> 
+  transmute(assignment, 
+            `answer strategy` = estimator, diagnosand, 
+            estimate) |> 
+  mutate(estimate = round(estimate, 2)) |> 
+  kable()
+```
+
+
+
+
+
+## Assessing answers |  Évaluer les réponses
+
+
+:::::: {.cols data-latex=""}
+::: {.col data-latex="{0.48\textwidth}"}
+
+*Standard error* - estimate of the true standard deviation of the sampling distribution
+
+*Confidence interval* - interval designed to cover the true estimand 95% of the time
+
+:::
+  
+::: {.col data-latex="{0.04\textwidth}"}
+\ 
+<!-- an empty Div (with a white space), serving as
+a column separator -->
+:::
+  
+::: {.col data-latex="{0.48\textwidth}"}
+
+*Erreur type* - estimation de l'écart type réel de la distribution d'échantillonnage.
+
+*Intervalle de confiance* - intervalle conçu pour couvrir la vraie valeur du paramètre dans 95 % des cas.
+
+:::
+::::::
+  
+  
+  
+
+`difference_in_means(Y ~ Z, data = experiment_df)`
+
+
+```{r, echo = FALSE}
+set.seed(5)
+draw_data(design_complete) |> 
+  difference_in_means(formula = Y ~ Z, data = _) |> 
+  tidy() |> 
+  select(estimate, std.error, conf.low, conf.high) |> 
+  transmute(Estimate = estimate, `Standard error` = std.error, `Confidence interval` = str_c("(", round(conf.low, 2), ", ", round(conf.high, 2), ")")) |> 
+  kable(digits = 2)
+```
+
+<!-- discuss interpretation -->
+
+
+------------------------------------------------------------------------
+
+```{r, eval = FALSE, echo = FALSE}
+sims_df <- 
+  get_simulations(diagnosis) |> 
+  filter(design == "design_complete") |> 
+  mutate(design = case_when(
+    design == "design_blocked" ~ "Block randomization",
+    design == "design_complete" ~ "Complete randomization"
+  )) 
+
+
+# ggplot(sims_df, aes(estimate)) + 
+#   # geom_histogram() + 
+#   geom_histogram(aes(y = (..count..)/sum(..count..)), fill = "lightblue", color = NA) + 
+#   # annotate("text", x = 0.11, y = 0.12, hjust = 0, label = "Inquiry: SATE\nEstimand: 0.1", size = 5) + 
+#   scale_y_continuous("Percent of simulated estimates", labels = scales::percent) +
+#   labs(x = "Estimate") + 
+#   # geom_vline(xintercept = 0.1, lty = "dashed", color = "red") + 
+#   facet_grid(design ~ .) + 
+#   theme_minimal() + 
+#   theme(strip.text.y = element_text(size = 15), 
+#         axis.text.x = element_text(size = 12),
+#         axis.title.x = element_text(size = 15))
+```
+
+
+```{r, eval = FALSE, echo = FALSE, warning=F, message=F}
+summary_df <- 
+  sims_df |> 
+  group_by(design, estimator) |> 
+  summarize(mean_estimate = mean(estimate),
+            estimand = 0.1)
+
+# ggplot(sims_df, aes(x = estimate)) + 
+#   # geom_histogram() + 
+#   geom_histogram(aes(y = (..count..)/sum(..count..)), fill = "lightblue", color = NA) + 
+#   annotate("text", x = 0.11, y = 0.07, hjust = 0, label = "Inquiry: SATE\nEstimand: 0.1", size = 5, color = "red") +
+#   # geom_vline(data = summary_df, aes(xintercept = mean_estimate)) + 
+#   geom_vline(data = summary_df, xintercept = 0.1, color = "red", lty = "dashed") + 
+#   # geom_text(data = summary_df, aes(x = mean_estimate-0.01, y = 0.1, label = glue::glue("Answer strategy: {estimator}\nEstimate: {round(mean_estimate, 2)}")), hjust = 1, size = 5) + 
+#   scale_y_continuous("Percent of simulated estimates", labels = scales::percent) +
+#   labs(x = "Estimate") + 
+#   facet_grid(design ~ .) + 
+#   theme_minimal() + 
+#   theme(strip.text.y = element_text(size = 15), 
+#         axis.text.x = element_text(size = 12),
+#         axis.title.x = element_text(size = 15))
+```
+
+
+```{r, eval = FALSE, echo = FALSE, warning=FALSE, message=FALSE }
+ggplot(sims_df, aes(x = estimate)) + 
+  # geom_histogram() + 
+  geom_histogram(aes(y = (..count..)/sum(..count..)), bins=50, fill = "lightblue", color = NA) + 
+  annotate("text", x = 0.11, y = 0.07, hjust = 0, label = "Inquiry: SATE\nEstimand: 0.1", size = 5, color = "red") +
+  geom_vline(data = summary_df, aes(xintercept = mean_estimate)) +
+  geom_vline(xintercept = 0.1, color = "red", lty = "dashed") + 
+  geom_text(data = summary_df, aes(x = mean_estimate-0.01, y = 0.07, label = glue::glue("Average estimate: {round(mean_estimate, 3)}")), hjust = 1, size = 5) +
+  scale_y_continuous("Percent of simulated estimates", labels = scales::percent) +
+  labs(x = "Estimate") + 
+  facet_grid(design ~ .) + 
+  theme_minimal() + 
+  theme(strip.text.y = element_text(size = 15), 
+        axis.text.x = element_text(size = 12),
+        axis.title.x = element_text(size = 15))
+```
+
+## Review | Révision
+
+
+:::::: {.cols data-latex=""}
+::: {.col data-latex="{0.48\textwidth}"}
+
+**Analyze as you randomize**:
+
+1.  Plug-in principle
+
+2.  Correct for distortions
+
+Select an answer strategy that is unbiased, low variance, and quantify level of uncertainty
+
+:::
+  
+::: {.col data-latex="{0.04\textwidth}"}
+\ 
+<!-- an empty Div (with a white space), serving as
+a column separator -->
+:::
+  
+::: {.col data-latex="{0.48\textwidth}"}
+
+**Analysez selon le niveau de randomisation** :
+
+1.  Principe de l'enfichage
+
+2.  Corriger les distorsions
+
+Sélectionner une stratégie de réponse sans biais, à faible variance, et quantifier le niveau d'incertitude.
+
+:::
+::::::
+  
+
+
+
+## New example: block randomization
+
+:::::: {.cols data-latex=""}
+::: {.col data-latex="{0.48\textwidth}"}
+
+Inquiry: sample average treatment effect
+
+Random assignment procedure: block randomization
+
+:::
+  
+::: {.col data-latex="{0.04\textwidth}"}
+\ 
+<!-- an empty Div (with a white space), serving as
+a column separator -->
+:::
+  
+::: {.col data-latex="{0.48\textwidth}"}
+Requête : effet moyen du traitement sur l'échantillon
+
+Procédure d'assignation aléatoire: randomisation par blocs
+
+:::
+::::::
+  
+
+`mutate(data, Z = block_ra(blocks = X, block_prob = c(0.2, 0.5)))`
+
+:::::: {.cols data-latex=""}
+::: {.col data-latex="{0.48\textwidth}"}
+First six rows of data:
+
+```{r, echo = FALSE}
+
+data <- draw_data(design_blocked)
+data |> select(ID, X, Z, Y) |> head() |> kable(digits = 2)
+```
+:::
+  
+::: {.col data-latex="{0.04\textwidth}"}
+\ 
+<!-- an empty Div (with a white space), serving as
+a column separator -->
+:::
+  
+::: {.col data-latex="{0.48\textwidth}"}
+ Six premières lignes de données :
+ 
+```{r, echo = FALSE}
+
+data <- draw_data(design_blocked)
+data |> select(ID, X, Z, Y) |> head() |> kable(digits = 2)
+```
+:::
+::::::
+
+
+
+
+
+
+## New example: block randomization | Nouvel exemple : la randomisation par blocs
+
+:::::: {.cols data-latex=""}
+::: {.col data-latex="{0.48\textwidth}"}
+
+Inquiry: sample average treatment effect
+
+Random assignment procedure: block randomization
+
+:::
+  
+::: {.col data-latex="{0.04\textwidth}"}
+\ 
+<!-- an empty Div (with a white space), serving as
+a column separator -->
+:::
+  
+::: {.col data-latex="{0.48\textwidth}"}
+Requête : effet moyen du traitement sur l'échantillon
+
+Procédure d'assignation aléatoire : randomisation par blocs
+
+:::
+::::::
+
+Summary of same data:
+```{r, echo = FALSE}
+
+data |> count(X, Z) |> pivot_wider(id_cols = X, names_from = Z, values_from = n, names_prefix = "Z = ") |> kable(digits = 2)
+```
+
+
+
+
+
+## New example: block randomization | Nouvel exemple : la randomisation par blocs
+
+What answer strategy should we select? | Quelle stratégie de réponse devons-nous choisir ?
+
+
+
+
+## New example: block randomization | Nouvel exemple : la randomisation par blocs
+
+:::::: {.cols data-latex=""}
+::: {.col data-latex="{0.48\textwidth}"}
+1.  Plug-in principle
+
+Two mini-experiments $\rightarrow$ two difference-in-means estimates $\rightarrow$ average across blocks
+
+
+:::
+  
+::: {.col data-latex="{0.04\textwidth}"}
+\ 
+<!-- an empty Div (with a white space), serving as
+a column separator -->
+:::
+  
+::: {.col data-latex="{0.48\textwidth}"}
+1.  Principe de l'enfichage
+
+Deux mini-expériences $\rightarrow$ deux estimations de la différence des moyennes $\rightarrow$ moyenne entre les blocs
+
+:::
+::::::
+  
+## New example: block randomization | Nouvel exemple : la randomisation par blocs 
+```{r, eval = FALSE}
+data |> 
+  group_by(X) |> 
+  summarize(block_estimate =
+              mean(Y[Z == 1]) - mean(Y[Z == 0])) |> 
+  summarize(estimate = mean(block_estimate))
+```
+
+```{r, echo = FALSE}
+data |> 
+  group_by(X) |> 
+  summarize(block_estimate = mean(Y[Z == 1]) - mean(Y[Z == 0])) |> 
+  kable(digits = 2)
+```
+
+```{r, echo = FALSE}
+data |> 
+  group_by(X) |> 
+  summarize(block_estimate = 
+              mean(Y[Z == 1]) - mean(Y[Z == 0])) |> 
+  summarize(estimate = mean(block_estimate)) |> 
+  kable(digits = 2)
+```
+
+
+
+
+## Assessing our answer strategy |  Évaluer notre stratégie de réponse
+
+
+
+
+```{r, echo = FALSE, message=FALSE, warning=FALSE}
+sims_df <- 
+  get_simulations(diagnosis) |> 
+  filter(design != "design_blocked_adjusted") |> 
+  mutate(design = case_when(
+    design == "design_blocked" ~ "Block randomization",
+    design == "design_complete" ~ "Complete randomization"
+  )) 
+
+summary_df <- 
+  sims_df |> 
+  group_by(design, estimator) |> 
+  summarize(mean_estimate = mean(estimate),
+            estimand = 0.1)
+
+ggplot(sims_df, aes(estimate)) + 
+  geom_histogram(aes(y = (..count..)/sum(..count..)), fill = "lightblue", color = NA) + 
+  annotate("text", x = 0.11, y = 0.07, hjust = 0, label = "Inquiry: SATE\nEstimand: 0.1", size = 5, color = "red") +
+  geom_vline(data = summary_df, aes(xintercept = mean_estimate)) +
+  geom_vline(xintercept = 0.1, color = "red", lty = "dashed") + 
+  geom_text(data = summary_df, aes(x = mean_estimate-0.01, y = 0.07, label = glue::glue("Average estimate:\n {round(mean_estimate, 3)}")), hjust = 1, size = 5) +
+  scale_y_continuous("Percent of simulated estimates", labels = scales::percent) +
+  labs(x = "Estimate") + 
+  facet_grid(design ~ .) + 
+  theme_minimal() + 
+  theme(strip.text.y = element_text(size = 15), 
+        axis.text.x = element_text(size = 12),
+        axis.title.x = element_text(size = 15))
+```
+
+## What answer strategy should we select? | Quelle stratégie de réponse devons-nous choisir ?
+
+:::::: {.cols data-latex=""}
+::: {.col data-latex="{0.48\textwidth}"}
+
+2.  Reverse distortions
+
+Probability of assignment differs across units!
+
+Reverse by weights: $\frac{1}{\mathrm{Pr}(\mathrm{assignment})}$
+
+:::
+  
+::: {.col data-latex="{0.04\textwidth}"}
+\ 
+<!-- an empty Div (with a white space), serving as
+a column separator -->
+:::
+  
+::: {.col data-latex="{0.48\textwidth}"}
+
+2.  Inverser les distorsions
+
+La probabilité d'affectation diffère d'une unité à l'autre !
+
+Inversion par les poids : $\frac{1}{\mathrm{Pr}(\mathrm{assignment})}$
+
+:::
+::::::
+  
+
+
+## What answer strategy should we select? | Quelle stratégie de réponse devons-nous choisir ?
+
+```{r, echo = FALSE, warning=FALSE, message=FALSE}
+sims_df <- 
+  get_simulations(diagnosis) |> 
+  mutate(design = case_when(
+    design == "design_blocked" ~ "Block randomization\nUnadjusted",
+    design == "design_blocked_adjusted" ~ "Block randomization\nAdjusted",
+    design == "design_complete" ~ "Complete randomization\nDifference-in-means"
+  )) 
+
+summary_df <- 
+  sims_df |> 
+  group_by(design, estimator) |> 
+  summarize(mean_estimate = mean(estimate),
+            estimand = 0.1)
+
+ggplot(sims_df, aes(estimate)) + 
+  geom_histogram(aes(y = (..count..)/sum(..count..)), fill = "lightblue", color = NA) + 
+  annotate("text", x = 0.11, y = 0.07, hjust = 0, label = "Inquiry: SATE\nEstimand: 0.1", size = 5, color = "red") +
+  geom_vline(data = summary_df, aes(xintercept = mean_estimate)) +
+  geom_vline(xintercept = 0.1, color = "red", lty = "dashed") + 
+  geom_text(data = summary_df, aes(x = mean_estimate-0.01, y = 0.07, label = glue::glue("Average estimate:\n {round(mean_estimate, 3)}")), hjust = 1, size = 5) +
+  scale_y_continuous("Percent of simulated estimates", labels = scales::percent) +
+  labs(x = "Estimate") + 
+  facet_grid(design ~ .) + 
+  theme_minimal() + 
+  theme(strip.text.y = element_text(size = 15), 
+        axis.text.x = element_text(size = 12),
+        axis.title.x = element_text(size = 15))
+```
+
+
+
+
+## Returning to assessing answers | Retour à l'évaluation des réponses
+
+
+```{r, echo=FALSE}
+draw_estimates(design_complete, design_blocked) |> 
+  mutate(design = str_replace(design, "design_", "")) |> 
+  select(-term, -statistic, -p.value) |> kable(digits = 2)
+```
+
+
+
+
+## How to select a standard error estimator | Comment sélectionner un estimateur de l'erreur type
+
+
+:::::: {.cols data-latex=""}
+::: {.col data-latex="{0.48\textwidth}"}
+
+Guidance is harder!
+
+1.  Use robust standard errors
+
+2.  Is assignment clustered? $\rightarrow$ cluster-robust s.e. at level where assignment took place
+
+3.  Is the inquiry about a population from which you randomly sampled? Advice above may not apply.
+
+
+:::
+  
+::: {.col data-latex="{0.04\textwidth}"}
+\ 
+<!-- an empty Div (with a white space), serving as
+a column separator -->
+:::
+  
+::: {.col data-latex="{0.48\textwidth}"}
+
+L'orientation est plus difficile !
+
+1.  Utiliser des erreurs type robustes
+
+2.  L'affectation est-elle en grappe (cluster) ? $\rightarrow$ Erreur type robuste en grappe au niveau où l'assignation a eu lieu.
+
+3.  L'enquête porte-t-elle sur une population dont l'échantillon a été sélectionné au hasard ? Les conseils ci-dessus peuvent ne pas s'appliquer.
+
+:::
+::::::
+  
+
+
+## How do we assess uncertainty estimates | Comment évaluer les estimations de l'incertitude
+
+:::::: {.cols data-latex=""}
+::: {.col data-latex="{0.48\textwidth}"}
+
+1.  Standard error is an estimate! Calculate bias
+
+2.  Compare rate CI contains ("covers") the truth -- "coverage" -- to selected nominal rate e.g. 95%
+
+:::
+
+::: {.col data-latex="{0.04\textwidth}"}
+\ 
+<!-- an empty Div (with a white space), serving as
+a column separator -->
+:::
+  
+::: {.col data-latex="{0.48\textwidth}"}
+
+1.  L'erreur type est une estimation ! Calculer le biais
+
+2.  Comparer le taux d'IC qui contient ("couvre") la vérité -- "couverture" -- au taux nominal sélectionné, par exemple 95%.
+
+:::
+::::::
+
+
+
+```{r, echo=F}
+tidy(diagnosis) |> 
+  filter(diagnosand %in% c("coverage", "se_bias")) |> 
+  mutate(assignment = str_replace(design, "design_", "")) |> 
+  arrange(desc(diagnosand), design) |> 
+  select(assignment, diagnosand, estimate) |> 
+  kable(digits = 2)
+```
+
+## Review | Révision
+
+:::::: {.cols data-latex=""}
+::: {.col data-latex="{0.5\textwidth}"}
+
+1. **Choose an answer strategy** using the plug-in principle and then reverse distortions from the design.
+
+2. **Assess your answer strategy** (through simulation): is it unbiased and low variance? Can you characterize uncertainty? 
+
+:::
+  
+::: {.col data-latex="{0.04\textwidth}"}
+\ 
+<!-- an empty Div (with a white space), serving as
+a column separator -->
+:::
+  
+::: {.col data-latex="{0.5\textwidth}"}
+
+1. **Choisissez une stratégie de réponse** en utilisant le principe du "plug-in" et en inversant les distorsions de la conception.
+
+2. **Évaluez votre stratégie de réponse** (par simulation) : est-elle sans biais et à faible variance ? Pouvez-vous caractériser l'incertitude ? 
+
+:::
+::::::
+  
+## Review | Révision
+
+:::::: {.cols data-latex=""}
+::: {.col data-latex="{0.5\textwidth}"}
+
+3. **Choose an unbiased estimator of your uncertainty**. Use robust standard errors. If you use cluster assignment, cluster-robust standard errors. 
+
+4. **Assess your answers**: is the standard error small (confidence interval narrow) enough to be confident in your decision? 
+
+:::
+  
+::: {.col data-latex="{0.04\textwidth}"}
+\ 
+<!-- an empty Div (with a white space), serving as
+a column separator -->
+:::
+  
+::: {.col data-latex="{0.5\textwidth}"}
+
+3. **Choisissez un estimateur sans biais de votre incertitude**. Utilisez des erreurs type robustes. Si vous utilisez une assignation par grappes, utilisez des erreurs type robustes. 
+
+4. **Évaluez vos réponses** : l'erreur type est-elle suffisamment petite (intervalle de confiance étroit) pour que vous soyez sûr de votre décision ? 
+
+:::
+::::::
