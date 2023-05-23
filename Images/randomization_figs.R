@@ -7,7 +7,7 @@ library(plotrix)
 
 
 ## simple randomization
-png(file="./Images/simple_randomization.png", width=960, height=760, pointsize=36)
+png(file="simple_randomization.png", width=960, height=760, pointsize=36)
 par(mar=c(0,0,0,0))
 s=.5
 r=.08
@@ -63,7 +63,7 @@ dev.off()
 
 
 ## complete randomization
-png(file="./Images/complete_randomization.png", width=960, height=960, pointsize=36)
+png(file="complete_randomization.png", width=960, height=960, pointsize=36)
 par(mar=c(0,0,0,0))
 
 x=.5
@@ -122,7 +122,7 @@ text(-x, 1, "6")
 dev.off()
 
 ## block randomization
-png(file="./Images/block_randomization.png", width=960, height=300, pointsize=36)
+png(file="block_randomization.png", width=960, height=300, pointsize=36)
 par(mar=c(0,0,0,0))
 
 x=.5
@@ -158,9 +158,46 @@ segments(x0=3.5, y0=-0.5, x1=3.5, y1=2.5, lty=2)
 
 dev.off()
 
+## block randomization with different block sizes and diff prob of T assignment
+png(file="block_randomization_diff.png", width=960, height=300, pointsize=36)
+par(mar=c(0,0,0,0))
+
+x=.5
+r=.09
+l=1
+plot(c(-1,4), c(2.5,-1), type="n", main="", xlab="", ylab="", axes=FALSE)
+
+draw.circle(0,0,r, col="#009E73")
+draw.circle(x,0,r)
+draw.circle(2*x,0,r, col="#009E73")
+draw.circle(3*x,0,r)
+
+draw.circle(0,1,r, col="#009E73")
+draw.circle(x,1,r)
+draw.circle(2*x,1,r)
+draw.circle(3*x,1,r)
+
+draw.circle(5*x,0,r, col="#CC79A7")
+draw.circle(6*x,0,r)
+draw.circle(5*x,1,r)
+draw.circle(6*x,1,r, col="#CC79A7")
+
+
+text(x*1.5, 2, "Block A")
+text(x*5.5, 2, "Block B")
+
+segments(x0=2, y0=-0.5, x1=2, y1=2.5, lty=2)
+segments(x0=-0.5, y0=2.5, x1=3.5, y1=2.5, lty=2)
+segments(x0=-0.5, y0=-0.5, x1=3.5, y1=-0.5, lty=2)
+segments(x0=-0.5, y0=-0.5, x1=-0.5, y1=2.5, lty=2)
+segments(x0=3.5, y0=-0.5, x1=3.5, y1=2.5, lty=2)
+
+
+dev.off()
+
 
 ## cluster randomization
-png(file="./Images/cluster_randomization.png", width=960, height=960, pointsize=36)
+png(file="cluster_randomization.png", width=960, height=960, pointsize=36)
 par(mar=c(0,0,0,0))
 
 x=.5
@@ -228,7 +265,7 @@ dev.off()
 
 
 ## block-cluster randomization
-png(file="./Images/blockcluster_randomization.png", width=960, height=480, pointsize=36)
+png(file="blockcluster_randomization.png", width=960, height=480, pointsize=36)
 par(mar=c(0,0,0,0))
 
 x=.5
