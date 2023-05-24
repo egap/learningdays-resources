@@ -158,8 +158,46 @@ segments(x0=3.5, y0=-0.5, x1=3.5, y1=2.5, lty=2)
 
 dev.off()
 
-## block randomization with different block sizes and diff prob of T assignment
-png(file="block_randomization_diff.png", width=960, height=300, pointsize=36)
+## block randomization with diff prob of treatment assignment
+png(file="block_randomization_diffprob.png", width=960, height=300, pointsize=36)
+par(mar=c(0,0,0,0))
+
+x=.5
+r=.09
+l=1
+plot(c(-1,4), c(2.5,-1), type="n", main="", xlab="", ylab="", axes=FALSE)
+
+draw.circle(0,0,r, col="#009E73")
+draw.circle(x,0,r)
+draw.circle(2*x,0,r, col="#009E73")
+
+draw.circle(0,1,r, col="#009E73")
+draw.circle(x,1,r)
+draw.circle(2*x,1,r)
+
+draw.circle(4*x,0,r, col="#CC79A7")
+draw.circle(5*x,0,r)
+draw.circle(6*x,0,r)
+draw.circle(4*x,1,r)
+draw.circle(5*x,1,r)
+draw.circle(6*x,1,r, col="#CC79A7")
+
+
+text(x, 2, "Block A")
+text(x*5, 2, "Block B")
+
+segments(x0=1.5, y0=-0.5, x1=1.5, y1=2.5, lty=2)
+segments(x0=-0.5, y0=2.5, x1=3.5, y1=2.5, lty=2)
+segments(x0=-0.5, y0=-0.5, x1=3.5, y1=-0.5, lty=2)
+segments(x0=-0.5, y0=-0.5, x1=-0.5, y1=2.5, lty=2)
+segments(x0=3.5, y0=-0.5, x1=3.5, y1=2.5, lty=2)
+
+
+dev.off()
+
+
+## block randomization with different block sizes 
+png(file="block_randomization_diffsize.png", width=960, height=300, pointsize=36)
 par(mar=c(0,0,0,0))
 
 x=.5
@@ -173,7 +211,7 @@ draw.circle(2*x,0,r, col="#009E73")
 draw.circle(3*x,0,r)
 
 draw.circle(0,1,r, col="#009E73")
-draw.circle(x,1,r)
+draw.circle(x,1,r, col="#009E73")
 draw.circle(2*x,1,r)
 draw.circle(3*x,1,r)
 
