@@ -1,5 +1,5 @@
 ---
-title: "Randomization 2 | *Randomisation 2*"
+title: "Randomization 2: More complex designs & common threats to inference | *Randomisation 2: à traduire*"
 author: "Alyssa René HEINZE"
 date: "17-06-2023"
 bibliography: ../learningdays-book.bib
@@ -62,19 +62,19 @@ editor_options:
 
 
 
-## Key points for this lecture \| *Points clés du cours*
+## Key points for this lecture \| *Points clés*
 
 ::: {.cols data-latex=""}
 ::: {.col data-latex="{0.48\\textwidth}"}
--   Distinction between level of treatment assignment and outcome
-    measurement.
 
--   What we mean by randomization.
+-   Randomization and design: What we've learned, what's next.
 
--   Different types of randomization: simple, complete, block, cluster,
-    combinations.
+-   Common constraints, more complex designs.
 
--   Some common designs.
+-   Anticipating common threats in designs.
+
+-   A plug for simplicity.
+
 :::
 
 ::: {.col data-latex="{0.04\\textwidth}"}
@@ -89,24 +89,49 @@ a column separator -->
 
 -  
 
+:::
+:::
+
+# Randomization and design: What we've learned, what's next. \| *à traduire*
+
+## Randomization and design:: What we've learned. \| *à traduire*
+
+::: {.cols data-latex=""}
+::: {.col data-latex="{0.48\\textwidth}"}
+-   What we've covered:
+
+    -   4 types of randomization: Simple, complete, block, and cluster
+    -   And we can combine them: block-cluster, factorial designs
+
+-   Most of the time these designs suffice.
+    
+:::
+
+::: {.col data-latex="{0.04\\textwidth}"}
+  <!-- an empty Div (with a white space), serving as
+a column separator -->
+:::
+
+::: {.col data-latex="{0.48\\textwidth}"}
 -   
 :::
 :::
 
-# Randomization \| *Randomisation*
-
-## Treatments \| *Traitements*
+## Randomization and design:: What's next. \| *à traduire*
 
 ::: {.cols data-latex=""}
 ::: {.col data-latex="{0.48\\textwidth}"}
--   You have to define what you mean by control:
+-   _BUT_ we often face:
+    -   Practical constraints in our context
+    -   Common threats to inference
 
-    -   Absence of the intervention.
-
-    -   Placebo.
-
--   Treatment can be assigned at different levels: individuals, groups,
-    institutions, communities, time periods, etc.
+-   *So* we need to take these into account in the _design_ of our experiment.
+    -   How?
+    -   Designing to take into account context-specific constraints:
+        -   Waitlist designs, encouragement designs
+    -   Designing to anticipate problems:
+        -   Attrition, spillover
+    
 :::
 
 ::: {.col data-latex="{0.04\\textwidth}"}
@@ -115,27 +140,19 @@ a column separator -->
 :::
 
 ::: {.col data-latex="{0.48\\textwidth}"}
--   Vous devez définir et justifier votre condition de contrôle :
+-   
 
-    -   Absence d'intervention.
-
-    -   Placebo.
-
--   Le traitement peut être assigné à différents niveaux : individus,
-    groupes, institutions, communautés, période temporelle, etc.
 :::
 :::
 
-## Level of treatment assignment and outcome measurement \| *Niveau d'assignation du traitement et le niveau de mesure des résultats*
+# Common constraints, more complex designs. \| *à traduire*
+
+## Common constraints \| *a traduire*
 
 ::: {.cols data-latex=""}
 ::: {.col data-latex="{0.48\\textwidth}"}
--   You may be constrained in what level you can *assign* treatment and
-    *measure* outcomes.
-    -   Example: Treatment at the district level, but outcomes at the
-        community level.
--   The level at which treatment is assigned and at which outcomes are
-    measured affect what your study can demonstrate.
+1. Constrained in how many units can be treated at one time
+2. You can't force people to take your treatment
 :::
 
 ::: {.col data-latex="{0.04\\textwidth}"}
@@ -144,26 +161,20 @@ a column separator -->
 :::
 
 ::: {.col data-latex="{0.48\\textwidth}"}
--   Vous pouvez être limité (contraint) dans le niveau auquel vous
-    pouvez *assigner* le traitement et *mesurer* les résultats.
-
-    -   Exemple : Traitement au niveau du district, mais les résultats
-        au niveau communautaire.
-
--   Le niveau d'assignation du traitement et le niveau de mesure des
-    résultats affectent ce que votre étude peut démontrer.
+1.  a traduire
+2.  pareil 
 :::
 :::
 
-## Randomization \| *Randomisation*
+
+## More complex designs (1): Waitlist design \| *a traduire*
 
 ::: {.cols data-latex=""}
 ::: {.col data-latex="{0.48\\textwidth}"}
-1.  Every observation has a known probability of treatment assignment
-    between 0 and 1.
+- Constraint: Only certain number of units can be treated at a time
+- Solution: _Waitlist_ design
 
-    -   No unit in the experimental sample is assigned to treatment or
-        to control with certainty.
+
 :::
 
 ::: {.col data-latex="{0.04\\textwidth}"}
@@ -172,25 +183,26 @@ a column separator -->
 :::
 
 ::: {.col data-latex="{0.48\\textwidth}"}
-1.  Chaque observation a une probabilité connue d'assignation au
-    traitement comprise entre 0 et 1.
 
-    -   Aucune unité de l'échantillon expérimental n'est assignée au
-        traitement ou au contrôle avec certitude.
+1.  a.t.
+
+    -   a.t.
+    
 :::
 :::
 
-## Randomization \| *Randomisation*
+## 1. Delayed access (Phase-in or wait list) \| Accès différé (Accès graduel ou liste d'attente)
+
+\vspace{.03in}
+
+![](../Images/delayed_access.png){width="280"}
 
 ::: {.cols data-latex=""}
 ::: {.col data-latex="{0.48\\textwidth}"}
-2.  Units can vary in their probability of treatment assignment.
+-   When an intervention can be or must be rolled out in stages, you can
+    randomize the order (*timing*) in which units are treated.
 
-    -   The probability might vary by subgroup.
-
-    -   Assignment probabilities can even vary across individual units
-        **as long as you know the probability for each and every unit**,
-        though that would complicate your analysis.
+-   Your control group are the as-yet untreated units.
 :::
 
 ::: {.col data-latex="{0.04\\textwidth}"}
@@ -199,30 +211,97 @@ a column separator -->
 :::
 
 ::: {.col data-latex="{0.48\\textwidth}"}
-2.  Les unités peuvent varier dans leur probabilité d'assignation au
+-   Lorsqu'une intervention peut ou doit être déployée par étapes, vous
+    pouvez randomiser l'ordre (*timing*) de traitement des unités.
+
+-   Votre groupe de contrôle sont les unités pas encore traitées.
+
+:::
+:::
+
+## 1. Delayed access (Phase-in or wait list) \| Accès différé (Accès graduel ou liste d'attente)
+
+::: {.cols data-latex=""}
+::: {.col data-latex="{0.48\\textwidth}"}
+-   Be careful: the probability of assignment to treatment will vary
+    over time because units that are assigned to treatment in earlier
+    stages are not eligible to be assigned to treatment in later stages.
+:::
+
+::: {.col data-latex="{0.04\\textwidth}"}
+  <!-- an empty Div (with a white space), serving as
+a column separator -->
+:::
+
+::: {.col data-latex="{0.48\\textwidth}"}
+-   Attention : la probabilité d'assignation au traitement variera dans
+    le temps car les unités assignées au traitement à des stades
+    antérieurs ne sont pas éligibles pour être assignées à un traitement
+    à des stades ultérieurs.
+:::
+:::
+
+## More complex designs (2): Encouragement design \| *à traduire.*
+
+::: {.cols data-latex=""}
+::: {.col data-latex="{0.48\\textwidth}"}
+- Constraint: You can't force people to take (receive) your treatment
+- Solution: __Encouragement__ design
+
+:::
+
+::: {.col data-latex="{0.04\\textwidth}"}
+  <!-- an empty Div (with a white space), serving as
+a column separator -->
+:::
+
+::: {.col data-latex="{0.48\\textwidth}"}
+- a.t. 
+
+:::
+:::
+
+## 2. Encouragement (planning for non-compliance) \| *Incitations*
+
+::: {.cols data-latex=""}
+::: {.col data-latex="{0.48\\textwidth}"}
+-   Randomize **encouragement** to take the treatment, such as a request
+    to drink coffee or offering a subsidy to participate in a program.
+
+-   Useful when you cannot force a subject to take the assigned
+    treatment.
+
+-   We can learn the average effect of the encouragement to take the
+    treatment.
+:::
+
+::: {.col data-latex="{0.04\\textwidth}"}
+  <!-- an empty Div (with a white space), serving as
+a column separator -->
+:::
+
+::: {.col data-latex="{0.48\\textwidth}"}
+-   Randomisez l'**incitation** à suivre le traitement, en demandant par
+    exmple aux individus de boire du café ou en offrant une subvention
+    pour participer à un programme.
+
+-   Utile lorsque vous ne pouvez pas forcer un sujet à participer.
+
+-   Nous pouvons connaître l'effet moyen de l'encouragement à suivre le
     traitement.
-
-    -   La probabilité peut varier selon le groupe.
-
-    -   Les probabilités d'assignation peuvent même varier d'une unité à
-        l'autre **tant que vous connaissez la probabilité pour chaque
-        unité**, bien que cela compliquerait votre analyse.
 :::
 :::
 
-# Some common types of randomization \| *Quelques types courants de randomisation*
 
-## Some common types of randomization \| *Quelques types courants de randomisation*
+## 2. Encouragement (planning for non-compliance) \| *Incitations*
 
 ::: {.cols data-latex=""}
 ::: {.col data-latex="{0.48\\textwidth}"}
-1.  Simple
+-   We can also learn the average effect of the taking the treatment
+    \emph{for those subjects that would take the treatment when assigned to treatment and not take the treatment when assigned to control}.
 
-2.  Complete
-
-3.  Block
-
-4.  Cluster
+-   But we need an additional assumption (exclusion restriction) and
+    estimation is more complicated (instrumental variables).
 :::
 
 ::: {.col data-latex="{0.04\\textwidth}"}
@@ -231,13 +310,65 @@ a column separator -->
 :::
 
 ::: {.col data-latex="{0.48\\textwidth}"}
-1.  Simple
+-   Nous pouvons également connaître l'effet moyen de la prise du
+    traitement
+    \emph{pour les sujets qui prendraient le traitement lorsqu'ils sont assignés au traitement et qui ne prendraient pas le traitement lorsqu'ils sont assignés au contrôle (les conformistes)}.
 
-2.  Complète
+-   Mais nous avons besoin d'une hypothèse supplémentaire (restriction
+    d'exclusion) et l'estimation est plus compliquée avec l'assignation
+    comme instrument.
+:::
+:::
 
-3.  Par bloc (ou stratifiée)
 
-4.  Par grappe (cluster)
+# Anticipating common threats in designs. \| *a traduire*
+
+## Common threats to inference \| *a traduire*
+
+::: {.cols data-latex=""}
+::: {.col data-latex="{0.48\\textwidth}"}
+
+1.  Attrition: People do not respond to follow up surveys or are hard to find
+
+2.  Spillover: The effects of a treatment may spill over from people treated to their neighbors, friends, or family members, making it hard to nail down the effect on any one person
+
+:::
+
+::: {.col data-latex="{0.04\\textwidth}"}
+  <!-- an empty Div (with a white space), serving as
+a column separator -->
+:::
+
+::: {.col data-latex="{0.48\\textwidth}"}
+
+1.  a.t
+
+2.  a.t
+
+:::
+:::
+
+## Anticipating threats via design (1): Attrition \| *a traduire*
+
+::: {.cols data-latex=""}
+::: {.col data-latex="{0.48\\textwidth}"}
+- Challenge: Attrition
+- Solution: 
+
+
+:::
+
+::: {.col data-latex="{0.04\\textwidth}"}
+  <!-- an empty Div (with a white space), serving as
+a column separator -->
+:::
+
+::: {.col data-latex="{0.48\\textwidth}"}
+
+1.  a.t.
+
+    -   a.t.
+    
 :::
 :::
 
