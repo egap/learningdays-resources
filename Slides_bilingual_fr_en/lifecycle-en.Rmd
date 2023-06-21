@@ -1,0 +1,493 @@
+---
+title: "Lifecycle of an experiment | *yy*"
+author: "Graeme Blair"
+date: "29 June 2023"
+colorlinks: yes
+fig_caption: yes
+header-includes: |
+   \setbeamertemplate{footline}{\begin{beamercolorbox}{section in head/foot}
+   \includegraphics[height=.5cm]{../Images/egap-logo.png} \hfill
+   \insertframenumber/\inserttotalframenumber \end{beamercolorbox}}
+   \usepackage{tikz}
+   \usepackage{tikz-cd}
+   \usepackage{textpos}
+   \usepackage{booktabs,multirow,makecell}
+output:
+  beamer_presentation:
+    keep_tex: true
+    includes:
+      in_header: columns.tex
+    fig_caption: true
+  revealjs::revealjs_presentation:
+    fig_caption: true
+    theme: default
+    highlight: pygments
+    center: false
+    transition: fade
+    smart: false
+    self_contained: false
+    reveal_plugins: ["notes", "search", "chalkboard"]
+    pandoc_args: [ "--toc" ]
+    reveal_options:
+      slideNumber: true
+      previewLinks: true
+      chalkboard:
+        theme: whiteboard
+        toggleNotesButton: false
+editor_options: 
+  markdown: 
+    wrap: 72
+---
+
+## Key points for this lecture \| *Points clés du cours*
+
+::: {.cols data-latex=""}
+::: {.col data-latex="{0.48\\textwidth}"}
+
+- Find a design that is scientifically sound, cost-effective, ethical, and that is (maximimally) informative for decisionmakers 
+- Build credibility in your design by registering a detailed plan first
+- Things will happen that are not expected!  
+- Report on what happened honestly, enable future researchers to confirm what you found and build on it
+
+:::
+
+::: {.col data-latex="{0.04\\textwidth}"}
+  <!-- an empty Div (with a white space), serving as
+a column separator -->
+:::
+
+::: {.col data-latex="{0.48\\textwidth}"}
+
+yy
+
+:::
+:::
+
+
+## Where to start \| *yy*
+
+::: {.cols data-latex=""}
+::: {.col data-latex="{0.48\\textwidth}"}
+
+Who finds the idea:
+
+- You
+- Partner organization
+- Funding sources 
+
+\bigskip
+
+Where the idea comes from:
+ 
+- Reading literature (create gap map, replication)
+- Interviews/participant observation with beneficiaries or partners
+- Identify evidence gaps in practice 
+
+:::
+
+::: {.col data-latex="{0.04\\textwidth}"}
+  <!-- an empty Div (with a white space), serving as
+a column separator -->
+:::
+
+::: {.col data-latex="{0.48\\textwidth}"}
+
+yy
+   
+:::
+:::
+
+
+
+## Finding an implementer \| *yy*
+
+::: {.cols data-latex=""}
+::: {.col data-latex="{0.48\\textwidth}"}
+
+A good implementing partner:
+
+- Shares your learning goals
+- Can work at the scale needed for power
+- Has buy-in from relevant internal and external decisionmakers
+- Ideally, has funds for implementation (and even measurement) or can help raise them
+
+:::
+
+::: {.col data-latex="{0.04\\textwidth}"}
+  <!-- an empty Div (with a white space), serving as
+a column separator -->
+:::
+
+::: {.col data-latex="{0.48\\textwidth}"}
+
+yy
+   
+:::
+:::
+
+
+
+## Working with partners \| *yy*
+
+::: {.cols data-latex=""}
+::: {.col data-latex="{0.48\\textwidth}"}
+
+- What to do when partner goals conflict with scientific goals?
+- Publication rights 
+- Contribute to partner's decisionmaking 
+
+:::
+
+::: {.col data-latex="{0.04\\textwidth}"}
+  <!-- an empty Div (with a white space), serving as
+a column separator -->
+:::
+
+::: {.col data-latex="{0.48\\textwidth}"}
+
+yy
+   
+:::
+:::
+
+
+## Working with partners \| *Points clés du cours*
+
+![](./partner-figure.pdf){height=100%}
+
+
+## Declare (define) your design \| *yy*
+
+::: {.cols data-latex=""}
+::: {.col data-latex="{0.48\\textwidth}"}
+
+- Causal model (how you think it works)
+- Specific research question 
+- Randomization and measurement procedures
+- Analysis procedure
+
+:::
+
+::: {.col data-latex="{0.04\\textwidth}"}
+  <!-- an empty Div (with a white space), serving as
+a column separator -->
+:::
+
+::: {.col data-latex="{0.48\\textwidth}"}
+
+yy
+   
+:::
+:::
+
+
+
+## Assess your design \| *yy*
+
+::: {.cols data-latex=""}
+::: {.col data-latex="{0.48\\textwidth}"}
+
+- It it powered?
+- Is your analysis procedure biased? (Analyze as your randomize!)
+- Can you quantify uncertainty?
+- Is it cost effective?
+- Do benefits outweigh costs to participants?
+- What are risks to participants, communities, research staff?
+
+:::
+
+::: {.col data-latex="{0.04\\textwidth}"}
+  <!-- an empty Div (with a white space), serving as
+a column separator -->
+:::
+
+::: {.col data-latex="{0.48\\textwidth}"}
+
+yy
+   
+:::
+:::
+
+
+
+## Funding \| *yy*
+
+::: {.cols data-latex=""}
+::: {.col data-latex="{0.48\\textwidth}"}
+
+- Pilot funding
+- Implementation funding
+- Research funding 
+  - National research agencies
+  - National development agencies
+  - JPAL, IPA
+  - Philanthropies
+  - Implementer
+
+:::
+
+::: {.col data-latex="{0.04\\textwidth}"}
+  <!-- an empty Div (with a white space), serving as
+a column separator -->
+:::
+
+::: {.col data-latex="{0.48\\textwidth}"}
+
+yy
+   
+:::
+:::
+
+
+
+
+## Scoping and piloting \| *yy*
+
+::: {.cols data-latex=""}
+::: {.col data-latex="{0.48\\textwidth}"}
+
+- Is the intervention feasible?
+- Is your measurement strategy feasible?
+- What information/data do you need to carry out your experiment?
+- Cannot learn much about the effect size! 
+- Large pilots not worth it -- except as proof of concept
+
+:::
+
+::: {.col data-latex="{0.04\\textwidth}"}
+  <!-- an empty Div (with a white space), serving as
+a column separator -->
+:::
+
+::: {.col data-latex="{0.48\\textwidth}"}
+
+yy
+   
+:::
+:::
+
+
+## Feedback \| *yy*
+
+::: {.cols data-latex=""}
+::: {.col data-latex="{0.48\\textwidth}"}
+
+- Who: researchers, implementers, policymakers, and participants/beneficiaries 
+- What: will the research provide (maximally) useful evidence? Is the study worth running?
+- When: before scoping, before preanalysis plan, before analysis
+
+:::
+
+::: {.col data-latex="{0.04\\textwidth}"}
+  <!-- an empty Div (with a white space), serving as
+a column separator -->
+:::
+
+::: {.col data-latex="{0.48\\textwidth}"}
+
+yy
+   
+:::
+:::
+
+
+
+
+
+## Preanalysis plans \| *yy*
+
+::: {.cols data-latex=""}
+::: {.col data-latex="{0.48\\textwidth}"}
+
+Two risks to science: "p-hacking" and the "file drawer problem" \bigskip
+
+Partial solution: register your study and how you plan to analyze it in advance
+
+:::
+
+::: {.col data-latex="{0.04\\textwidth}"}
+  <!-- an empty Div (with a white space), serving as
+a column separator -->
+:::
+
+::: {.col data-latex="{0.48\\textwidth}"}
+
+yy
+   
+:::
+:::
+
+
+
+
+## p-hacking \| *yy*
+
+![](phacking-zcurve.png)
+
+## File drawer problem \| *yy*
+
+![](nullresults.pdf)
+
+## What to include in a PAP \| *yy*
+
+::: {.cols data-latex=""}
+::: {.col data-latex="{0.48\\textwidth}"}
+
+- Describe randomization, measurement, and analysis plans
+- Use mock data to create mock tables and figures
+- Power analysis 
+
+:::
+
+::: {.col data-latex="{0.04\\textwidth}"}
+  <!-- an empty Div (with a white space), serving as
+a column separator -->
+:::
+
+::: {.col data-latex="{0.48\\textwidth}"}
+
+yy
+   
+:::
+:::
+
+
+
+
+## Pivoting \| *yy*
+
+::: {.cols data-latex=""}
+::: {.col data-latex="{0.48\\textwidth}"}
+
+- Things often don't go according to plan! 
+- Go/no go decision
+- Pivot to other questions, imperfect design for same questions
+
+:::
+
+::: {.col data-latex="{0.04\\textwidth}"}
+  <!-- an empty Div (with a white space), serving as
+a column separator -->
+:::
+
+::: {.col data-latex="{0.48\\textwidth}"}
+
+yy
+   
+:::
+:::
+
+
+
+## Populated preanalysis plan \| *yy*
+
+::: {.cols data-latex=""}
+::: {.col data-latex="{0.48\\textwidth}"}
+
+Dutifully follow the PAP 
+
+\bigskip
+
+Post on your website or public archive
+
+:::
+
+::: {.col data-latex="{0.04\\textwidth}"}
+  <!-- an empty Div (with a white space), serving as
+a column separator -->
+:::
+
+::: {.col data-latex="{0.48\\textwidth}"}
+
+yy
+   
+:::
+:::
+
+
+
+## Reconciliation with PAP \| *yy*
+
+::: {.cols data-latex=""}
+::: {.col data-latex="{0.48\\textwidth}"}
+
+Analyize as you randomize $\rightarrow$ changes 
+
+:::
+
+::: {.col data-latex="{0.04\\textwidth}"}
+  <!-- an empty Div (with a white space), serving as
+a column separator -->
+:::
+
+::: {.col data-latex="{0.48\\textwidth}"}
+
+yy
+   
+:::
+:::
+
+
+
+
+## Communicating \| *yy*
+
+::: {.cols data-latex=""}
+::: {.col data-latex="{0.48\\textwidth}"}
+
+What you found, why it should be believed (design), and to whom/where the evidence applies
+
+\bigskip 
+
+Who are the consumers of your evidence, who might change their decisions based on it? Are you reaching them?
+
+:::
+
+::: {.col data-latex="{0.04\\textwidth}"}
+  <!-- an empty Div (with a white space), serving as
+a column separator -->
+:::
+
+::: {.col data-latex="{0.48\\textwidth}"}
+
+yy
+   
+:::
+:::
+
+
+
+
+## Archiving \| *yy*
+
+::: {.cols data-latex=""}
+::: {.col data-latex="{0.48\\textwidth}"}
+
+- Share data, code to enable reproduction of results
+- Share materials to enable replicating study (intervention details, survey questionnaires, etc.)
+
+:::
+
+::: {.col data-latex="{0.04\\textwidth}"}
+  <!-- an empty Div (with a white space), serving as
+a column separator -->
+:::
+
+::: {.col data-latex="{0.48\\textwidth}"}
+
+yy
+   
+:::
+:::
+
+
+
+
+
+
+
+
+
+
+
+
