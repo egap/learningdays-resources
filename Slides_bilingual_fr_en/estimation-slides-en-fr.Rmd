@@ -238,36 +238,6 @@ Quel est l'effet sur les femmes de l'échantillon?
 :::
 ::::::
 
-
-
-## Inquiries | Requêtes
-
-
-:::::: {.cols data-latex=""}
-::: {.col data-latex="{0.48\textwidth}"}
-**Sample average treatment effect**
-Average difference between treated and control potential outcomes *among sampled units*
-:::
-
-::: {.col data-latex="{0.04\textwidth}"}
-\ 
-<!-- an empty Div (with a white space), serving as
-a column separator -->
-:::
-
-::: {.col data-latex="{0.48\textwidth}"}
-**Effet moyen du traitement sur l'échantillon**
-Différence moyenne entre les résultats potentiels des unités traitées et des unités de contrôle *parmi les unités échantillonnées*
-:::
-::::::
-
-
-## Inquiries | Requêtes
-
-
-
-**Sample average treatment effect: | Effet moyen du traitement sur l'échantillon: ** $$\frac{1}{n} \left\{\sum_{i \leq n} Y_i(1) - \sum_{i \leq n} Y_i(0) \right\}$$
-
 ## Inquiries | Requêtes $\rightarrow$ estimands | paramètres
 
 <!-- - Your inquiry is your *question* -->
@@ -312,6 +282,33 @@ Différence moyenne entre les résultats potentiels des unités traitées et des
 | L'effet moyen est-il positif ?                                                       | Oui      |
 
 
+## Inquiries | Requêtes
+
+
+:::::: {.cols data-latex=""}
+::: {.col data-latex="{0.48\textwidth}"}
+**Sample average treatment effect**
+Average difference between treated and control potential outcomes *among sampled units*
+:::
+
+::: {.col data-latex="{0.04\textwidth}"}
+\ 
+<!-- an empty Div (with a white space), serving as
+a column separator -->
+:::
+
+::: {.col data-latex="{0.48\textwidth}"}
+**Effet moyen du traitement sur l'échantillon**
+Différence moyenne entre les résultats potentiels des unités traitées et des unités de contrôle *parmi les unités échantillonnées*
+:::
+::::::
+
+
+## Inquiries | Requêtes
+
+
+
+**Sample average treatment effect: | Effet moyen du traitement sur l'échantillon: ** $$\frac{1}{n} \left\{\sum_{i \leq n} Y_i(1) - \sum_{i \leq n} Y_i(0) \right\}$$
 
 
 
@@ -343,12 +340,12 @@ Plusieurs stratégies de réponse peuvent cibler la même question!
 
 :::::: {.cols data-latex=""}
 ::: {.col data-latex="{0.48\textwidth}"}
+
 Examples:
+
 - Linear regression with $Y \sim Z + X$ (take coefficient on $Z$)
-
-<!-- - Linear regression with $Y \sim Z + X_c + Z:X_c$ (take Z) -->
-
 - Probit regression $\rightarrow$ difference in predicted probability
+
 :::
   
 ::: {.col data-latex="{0.04\textwidth}"}
@@ -358,12 +355,11 @@ a column separator -->
 :::
   
 ::: {.col data-latex="{0.48\textwidth}"}
+
 Exemples:
 - Régression linéaire avec $Y \sim Z + X$ (prendre le coefficient sur $Z$)
-
-<!-- - Linear regression with $Y \sim Z + X_c + Z:X_c$ (take Z) -->
-
 - Régression probit $\rightarrow$ différence dans la probabilité prédite
+
 :::
 ::::::
 
@@ -1576,9 +1572,11 @@ summary_df <-
   sims_df |> 
   group_by(design, estimator) |> 
   summarize(mean_estimate = mean(estimate),
-            estimand = 0.1)
+            estimand = 0.1) |> 
+  ungroup() |> 
+  mutate(design = fct_rev(as.factor(design)))
 
-ggplot(sims_df, aes(estimate)) + 
+ggplot(sims_df |> mutate(design = fct_rev(as.factor(design))), aes(estimate)) + 
   geom_histogram(aes(y = (..count..)/sum(..count..)), fill = "lightblue", color = NA) + 
   annotate("text", x = 0.11, y = 0.07, hjust = 0, label = "Inquiry: SATE\nEstimand: 0.1", size = 5, color = "red") +
   geom_vline(data = summary_df, aes(xintercept = mean_estimate)) +
@@ -1591,7 +1589,7 @@ ggplot(sims_df, aes(estimate)) +
   theme(strip.text.y = element_text(size = 15), 
         axis.text.x = element_text(size = 12),
         axis.title.x = element_text(size = 15))
-```
+  ```
 
 ## What answer strategy should we select? | Quelle stratégie de réponse devons-nous choisir ?
 
@@ -1634,7 +1632,8 @@ sims_df <-
     design == "design_blocked" ~ "Block randomization\nUnadjusted",
     design == "design_blocked_adjusted" ~ "Block randomization\nAdjusted",
     design == "design_complete" ~ "Complete randomization\nDifference-in-means"
-  )) 
+  )) |> 
+  mutate(design = fct_rev(as.factor(design)))
 
 summary_df <- 
   sims_df |> 
