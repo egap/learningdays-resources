@@ -1,0 +1,180 @@
+---
+title: "Perigos à validade interna de experimentos aleatórios"
+author: "Traduzido por João Hofmeister e Cedric Antunes"
+date: "`r format(Sys.time(), '%d %B, %Y')`"
+bibliography: ../learningdays-book.bib
+biblio-style: apalike
+link-citations: yes
+colorlinks: yes
+header-includes: |
+   \setbeamertemplate{footline}{\begin{beamercolorbox}{section in head/foot}
+   \includegraphics[height=.5cm]{../Images/egap-logo.png} \hfill
+   \insertframenumber/\inserttotalframenumber \end{beamercolorbox}}
+output:
+  beamer_presentation:
+    keep_tex: true
+    toc: true
+    pandoc_args: [ "--toc" ]
+  revealjs::revealjs_presentation:
+    fig_caption: true
+    theme: default
+    highlight: pygments
+    center: false
+    transition: fade
+    smart: false
+    self_contained: false
+    reveal_plugins: ["notes", "search", "chalkboard"]
+    pandoc_args: [ "--toc" ]
+    reveal_options:
+      slideNumber: true
+      previewLinks: true
+      chalkboard:
+        theme: whiteboard
+        toggleNotesButton: false
+---
+
+```{r setup, include=FALSE}
+library(knitr)
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+## Pontos centrais da sessão 
+
+- Atrito (dados faltantes para variáveis de resultado)
+
+- Não adesão
+
+- Efeitos de transbordamento 
+
+- Efeitos de Hawthorne 
+
+- Tratamentos diferenciais para braços distintos da intervenção 
+
+# Suposições fundamentais
+## Revisão de suposições fundamentais
+
+1. Exclusão
+
+2. Não interferência 
+
+3. Atribuição aleatória do status de tratamento 
+
+# Atrito 
+## Atrito (dados faltantes para variáveis de resultado)
+
+- Podem faltar dados às variáveis de resultado para algumas unidades quando:
+
+   - Quando alguns participantes não são encontrados ou se recusam a participar da coleta de dados final (endline)
+
+   - Dados cotados se perdem. 
+
+- Isso não é um problema quando a intervenção de tratamento afeta dados faltantes. 
+
+   - Por exemplo, unidades no grupo de controle podem estar menos dispostas a responder questionários. 
+   - Por exemplo, a intervenção pode ter fomentado migração, de tal modo que indivíduos não podem ser encontrados ao fim estudo. 
+
+- Se analisamos os dados eliminando unidades com resultados faltantes, não estamos mais comparando grupos de tratamento e controle semelhantes. 
+
+# O que podemos fazer? 
+
+- Verificar se taxas de atrito são semelhantes entre grupos de tratamento e controle. 
+
+- Verificar se grupos de controle e tratamento são semelhantes em termos de covariáveis no nível das unidades. 
+
+- Não exclua observações com resultados faltantes da sua análise. 
+
+- Podemos **limitar** nossas estimativas dos efeitos do tratamento quando lidamos com dados faltantes. 
+
+## O que podemos fazer?
+
+- O melhor caminho é tentar antecipar e prevenir atrito. 
+
+   - Não revele o status de tratamento aos indivíduos. 
+   
+   - Prometa distribuir a intervenção de tratamento ao grupo de controle uma vez terminada a pesquisa. 
+
+   - Planeje, de antemão, contatar todos os indivíduos ao fim da intervenção (endline). 
+
+   - Guarde recursos para tentar contatar uma amostra aleatória de indivíduos em atrito
+
+## Falta de dados para covariáveis não é tão problemático 
+
+- Falta de **covariáveis padrão** (i.e., variáveis para as quais os valores não mudam em razão da intervenção de tratamento, como gênero) para algumas observações é menos problemático. 
+   
+   - Ainda podemos aprender sobre o efeito causal de um experimento sem essas covariáveis, tal como vimos nos módulos de [Teste de Hipóteses](hypothesistesting.html) e [Estimação](estimation.html). 
+
+   - Podemos recorrer, também, à covariáveis contextuais tal como planejado, imputando os valores faltantes.  
+
+   - Podemos, igualmente, condicionar nossa análise a esses dados faltantes. 
+
+# Não adesão
+
+## Não adesão 
+
+- Por vezes, unidades designadas ao status de tratamento não aderem (ou não consomem) a intervenção. Explicitamente, essas unidades não cumprem com seu status experimental. 
+
+   - Se todas as unidades atribuídas ao grupo de controle não aderem à intervenção de tratamento, mas apenas algumas unidades no grupo de tratamento fazem, temos um caso de não adesão unidimensional. 
+
+-  O efeito da atribuição do tratamento não é o mesmo de receber o tratamento. 
+
+- O efeito de receber o tratamento é comumente conhecido como "Efeito Médio Local do Tratamento" (LATE, na sigla em inglês) ou "Efeito Causal Médio da Adesão" (CACE, novamente no inglês). 
+
+   - A noção de "local" se refere à ideia de que há efeito apenas sobre os indivíduos que aderem ao tratamento quando designados ao grupo de tratamento. 
+
+## LATE/CACE 
+
+- Duas suposições devem se sustentar para que possamos estimar o LATE ou CACE a partir de um experimento aleatório. 
+
+1. A restrição de exclusão é a de que a atribuição do tratamento só tem efeito no resultado através do próprio tratamento, e não por meio de outros canais. 
+
+2. A suposição de monotonicidade é de que não temos "desafiadores" --- unidades que adeririam ao tratamento se designadas ao grupo de controle, mas que não adeririam caso no grupo de tratamento. 
+
+# Efeitos de transbordamento 
+## Efeitos de transbordamento entre unidades 
+
+- Às vezes, suspeitamos que atribuição da intervenção de tratamento a uma unidade pode impactar ou influenciar outra unidade (que não recebeu a intervenção)
+
+- Se o status de tratamento de uma unidade afeta o resultado potencial de outra unidade, temos uma violação de um dos pressupostos fundamentais da inferência causal. 
+- Você pode construir sua amostra com base em unidades "distantes", de modo a evitar o "contágio" (ou mera "transmissão") do tratamento entre unidades. 
+
+## Estudando efeitos de transbordamento 
+
+- Isso não é um problema caso seu desenho de pesquisa esteja preparado para investigar transbordamentos, isto é, casos em que o resultado para uma unidade depende do resultado observado para uma outra. 
+
+- Para investigar efeitos de transbordamento:
+
+   - Você pode coletar dados de resultado para unidades que nunca foram elegíveis à atribuição aleatória do tratamento, mas cujos "vizinhos" (unidades próximas dessas nunca elegíveis) eram elegíveis.
+
+   - Você pode recorrer a uma estratégia de aleatorização em dois estágios. 
+
+   - Você ainda pode atribuir conjuntos de unidades (e.g., distritos) a diferentes dosagens do tratamento (e.g., diferentes proporções de aldeias em distritos atribuídos ao tratamento). 
+
+# Efeitos de Hawthorne
+
+## Efeitos de Hawthorne 
+
+- Efeito de Hawthorne: indivíduos se comportam de maneira diferente uma vez que sabem que estão sendo observados/estudados. 
+
+- Isso pode criar erros sistemáticos de mensuração tanto no grupo de controle quanto no grupo de tratamento. 
+
+- Isso também pode ser produto de uma maior atenção dada ao grupo de tratamento, o que anula a efetividade da aleatorização em criar grupos de controle e tratamento equivalentes. 
+
+## Boas práticas
+
+   - Colete dados da maneira menos intrusiva possível. 
+
+   - Tanto quanto possível, ninguém além do próprio individuo deve saber seu status de tratamento. 
+
+   - Não revele o status de tratamento dos indivíduos a enumeradores ou outros membros da intervenção de campo
+
+   - Não tome medidas extras do grupo de tratamento. 
+
+# Não exclusão
+
+## Diferenças entre os grupos de tratamento e controle além da intervenção de tratamento
+
+- Lidar com o grupo de controle e tratamento de maneiras diferentes implica na possibilidade de que as diferenças observadas em resultados entre esses dois grupos sejam derivadas não do tratamento em si, mas desses procedimentos distintos. 
+
+- Exemplos incluem a utilização de diferentes instrumentos para coleta de dados ou rodadas adicionais de coleta apenas para o grupo de tratamento (num esforço, talvez, para obter mais dados quanto aos mecanismos). 
+
+- Lembre-se de desenhar seu estudo e seus instrumentos de tal modo a abordar todos os braços do tratamento da mesma maneira, exceto o tratamento em si.

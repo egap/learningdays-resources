@@ -1,0 +1,968 @@
+---
+title: "Teste de Hipóteses: Sintetizando Informações quanto a Efeitos Causais"
+author: "Traduzido por João Hofmeister e Cedric Antunes"
+date: "`r format(Sys.time(), '%d %B %Y')`"
+bibliography: ../learningdays-book.bib
+biblio-style: apalike
+link-citations: yes
+colorlinks: yes
+fig_caption: yes
+header-includes: |
+   \setbeamertemplate{footline}{\begin{beamercolorbox}{section in head/foot}
+   \includegraphics[height=.5cm]{../Images/egap-logo.png} \hfill
+   \insertframenumber/\inserttotalframenumber \end{beamercolorbox}}
+   \usepackage{tikz}
+   \usepackage{tikz-cd}
+   \usepackage{textpos}
+   \usepackage{booktabs,multirow,makecell}
+output:
+  revealjs::revealjs_presentation:
+    fig_caption: true
+    theme: default
+    highlight: pygments
+    center: false
+    transition: fade
+    smart: false
+    self_contained: false
+    reveal_plugins: ["notes", "search", "chalkboard"]
+    pandoc_args: [ "--toc" ]
+    reveal_options:
+      slideNumber: true
+      previewLinks: true
+      chalkboard:
+        theme: whiteboard
+        toggleNotesButton: false
+  beamer_presentation:
+    keep_tex: true
+    toc: true
+    pandoc_args: [ "--toc" ]
+    fig_caption: true
+---
+
+```{r setup, include=FALSE}
+source("rmd_setup.R")
+# Carregue todos os pacotes necessários
+library(here)
+library(tidyverse)
+library(kableExtra)
+library(DeclareDesign)
+library(estimatr)
+library(styler)
+library(coin)
+library(multcomp)
+library(devtools)
+library(randomizr)
+library(rcompanion) ## para pairwisePermutationTest()
+```
+
+# O Papel do Teste de Hipóteses na Inferência Causal 
+
+## Pontos principais dessa seção
+
+- Inferência estatística (e.g., testes de hipótese e intervalos de confiança) requerem **inferência** --- reflexões quanto aquilo que não observamos. 
+
+- $p$-valores requerem distribuições de probabilidade. 
+
+- Aleatorização (ou desenho de pesquisa) + uma Hipótese + uma função de estatística de teste $\rightarrow$ distribuições de probabilidade representando a hipótese (distribuições referenciais)
+
+- Valores Observados de uma Estatística de Teste + Distribuição Referencial $\rightarrow$ $p$-valor.
+
+## O papel de testes de hipótese em inferência causal I 
+
+- O **problema fundamental da inferência causal** enuncia que podemos observar apenas um resultado potencial para uma dada unidade.
+
+- Isto posto, se um efeito causal contrafactual do tratamento, $T$, ocorre para Jake quando $y_{\text{Jake},T=1} \ne y_{\text{Jake},T=0}$, como podemos, então, aprender sobre esse efeito causal? 
+
+- Uma solução envolve a **[estimação](estimation-slides.Rmd) de efeitos causais médios** (ATE, ITT, LATE). 
+
+- Conhecemos esse método como abordagem de Neyman. 
+
+## O papel de testes de hipótese em inferência causal II 
+
+- Uma solução alternativa está em fazer **afirmações** ou **suposições** quanto aos efeitos causais. 
+
+- Podemos dizer, “Acredito que o efeito em Jake seja 5" ou "Esse experimento não surtiu efeito em ninguém". Então, nos perguntamos: "Quanta evidência quanto à afirmação causal este experimento é capaz de gerar?"
+
+- Essa informação é sumarizada num $p$-valor. 
+
+- Conhecemos esse método como abordagem de Fisher. 
+
+## O papel de testes de hipótese em inferência causal III
+
+- A abordagem de teste de hipótese para inferência causal não garante a melhor estimativa, mas nos informa sobre *quanta evidência ou informação o desenho de pesquisa é capaz de gerar*.
+
+- A abordagem de estimação garante uma melhor estimativa, mas não informa o quanto você sabe sobre essa estimativa. 
+   - Por exemplo, uma melhor estimativa com $N=10$ parece nos dizer menos sobre o efeito do que com $N=1000$.
+   - Por exemplo, uma melhor estimativa quando 95% de $Y=1$ e 5% de $Y=0$ parece nos dizer menos do que quando resultados são igualmente divididos entre 0 e 1. 
+
+- Quase sempre, reportamos ambos, pois nos ajudam a tomar melhores decisões: "Nossa melhor estimativa do efeito do tratamento foi 5, e podemos rejeitar a noção de que o efeito foi 0 ($p$=.01)."
+
+# Noções básicas de teste de hipóteses 
+
+## Ingredientes de um teste de hipóteses 
+
+- Uma **hipótese** é uma afirmação quanto a uma relação entre resultados potenciais. 
+
+- Uma **estatística de teste** sintetiza a relação entre tratamento e resultados observados. 
+
+- O **desenho de pesquisa** nos permite relacionar hipóteses e estatísticas de teste: o cálculo de uma estatística de teste permite descrever a relação entre resultados potenciais. 
+
+- O **desenho de pesquisa** nos informa sobre como gerar uma **distribuição** de estatísticas de teste possíveis e derivadas da hipótese. 
+
+- Um **$p$-valor** descreve a relação entre nossas estatísticas de teste observadas e a distribuição de testes hipotética. 
+
+```{r echo=FALSE}
+## Primeiro, crie dados
+##  y0 denota o resultado potencial para o grupo de controle 
+N <- 10
+y0 <- c(0, 0, 0, 1, 1, 3, 4, 5, 190, 200)
+## Diferentes efeitos do tratamento no nível do indivíduo 
+tau <- c(10, 30, 200, 90, 10, 20, 30, 40, 90, 20)
+## y1 denota o resultado potencial para o grupo de tratamento 
+y1 <- y0 + tau
+# sd(y0)
+# mean(y1)-mean(y0)
+# mean(tau)
+## T é a atribuição do tratamento 
+set.seed(12345)
+T <- complete_ra(N)
+## Y denota resultados observados 
+Y <- T * y1 + (1 - T) * y0
+## Dados 
+dat <- data.frame(Y = Y, T = T, y0 = y0, tau = tau, y1 = y1)
+dat$Ybin <- as.numeric(dat$Y > 100)
+# dat
+# pvalue(oneway_test(Y~factor(T),data=dat,distribution=exact(),alternative="less"))
+# pvalue(wilcox_test(Y~factor(T),data=dat,distribution=exact(),alternative="less"))
+```
+
+```{r echo=FALSE}
+## Crie uma base de dados maior 
+##  y0 denota o resultado potencial para o grupo de controle 
+bigN <- 60
+set.seed(12345)
+bigdat <- data.frame(y0 = c(rep(0, 20), rnorm(20, mean = 3, sd = .5), rnorm(20, mean = 150, sd = 10)))
+## Diferentes efeitos do tratamento no nível do indivíduo 
+bigdat$tau <- c(rnorm(20, mean = 10, sd = 2), rnorm(20, mean = 20, sd = 5), rnorm(20, mean = 5, sd = 10))
+## y1 denota o resultado potencial para o grupo de tratamento 
+bigdat$y1 <- bigdat$y0 + bigdat$tau
+# sd(y0)
+# mean(y1)-mean(y0)
+# mean(tau)
+## T é a atribuição do tratamento 
+set.seed(12345)
+bigdat$T <- complete_ra(bigN)
+## Y são resultados observados 
+bigdat$Y <- with(bigdat, T * y1 + (1 - T) * y0)
+## Os dados 
+bigdat$Ybin <- as.numeric(bigdat$Y > quantile(bigdat$Y, .85))
+```
+
+## Uma hipótese é um modelo ou uma afirmação quanto à relação entre resultados potenciais 
+
+```{r}
+kableExtra::kable(dat, col.names = c("Resultado", "Tratamento", "$y_{i,0}$", "ITE", "$y_{i,1}$", "$Y>0$"), escape = FALSE)
+```
+
+Por exemplo, a hipótese nula forte de nenhum efeito é $H_0: y_{i,1} = y_{i,0}$ 
+ 
+
+## Estatísticas de teste sintetizam relações entre tratamento e resultados 
+
+```{r, echo=TRUE}
+## Estatística de teste de diferença de médias 
+meanTT <- function(ys, z) {
+  mean(ys[z == 1]) - mean(ys[z == 0])
+}
+## Ranque das estatísticas de teste de diferença de médias
+meanrankTT <- function(ys, z) {
+  ranky <- rank(ys)
+  mean(ranky[z == 1]) - mean(ranky[z == 0])
+}
+
+observedMeanTT <- meanTT(ys = Y, z = T)
+observedMeanRankTT <- meanrankTT(ys = Y, z = T)
+observedMeanTT
+observedMeanRankTT
+```
+
+## O desenho de pesquisa conecta as estatísticas de teste à hipótese 
+
+O que observamos para cada indivíduo $i$ ($Y_i$) é aquilo que observaríamos em tratamento ($y_{i,1}$) **ou** aquilo que observaríamos sob a condição de controle  ($y_{i,0}$).
+
+$$Y_i = T_i y_{i,1} + (1-T_i)* y_{i,0}$$
+
+Então, se $y_{i,1}=y_{i,0}$ logo $Y_i = y_{i,0}$.
+
+O que *de fato* observamos é aquilo que *teríamos observado na condição de controle*. 
+
+## O desenho de pesquisa orienta a criação e distribuição de estatísticas de teste hipotéticas 
+
+Precisamos saber como repetir nosso experimento: 
+
+```{r, echo=TRUE}
+repeatExperiment <- function(N) {
+  complete_ra(N)
+}
+```
+
+Calculamos a estatística de teste derivada da hipótese e do desenho de pesquisa em cada uma das repetições:
+
+```{r reps, echo=TRUE, cache=TRUE}
+set.seed(123456)
+possibleMeanDiffsH0 <- replicate(
+  10000,
+  meanTT(ys = Y, z = repeatExperiment(N = 10))
+)
+set.seed(123456)
+possibleMeanRankDiffsH0 <- replicate(
+  10000,
+  meanrankTT(ys = Y, z = repeatExperiment(N = 10))
+)
+```
+
+## Mostre as distribuições da aleatorização sob a hipótese nula graficamente 
+
+```{r fig.cap="Um exemplo do uso do desenho experimental para o teste de hipótese com duas estatísticas de teste", results='asis', echo=FALSE, fig.align='center'}
+par(mfrow = c(1, 2), mgp = c(2, .5, 0), mar = c(3, 3, 0, 0), oma = c(0, 0, 3, 0))
+plot(density(possibleMeanDiffsH0),
+  ylim = c(0, .04),
+  xlim = range(possibleMeanDiffsH0),
+  lwd = 2,
+  main = "", # Estatística de Teste de Diferença Média",
+  xlab = "Diferença Média Consistente com H0",
+  cex.lab = 1.25, cex.axis = 1
+)
+rug(possibleMeanDiffsH0)
+rug(observedMeanTT, lwd = 3, ticksize = .51)
+text(observedMeanTT - 4, .022, "Estatística de Teste Observada")
+
+plot(density(possibleMeanRankDiffsH0),
+  lwd = 2,
+  ylim = c(0, .45),
+  xlim = c(-10, 10), # range(possibleMeanDiffsH0),
+  main = "", # Diferença Média de Ranques de Estatísticas de Teste",
+  xlab = "Diferença Média de Ranques Consistente com H0",
+  cex.lab = 1.25, cex.axis = 1
+)
+rug(possibleMeanRankDiffsH0)
+rug(observedMeanRankTT, lwd = 3, ticksize = .9)
+text(observedMeanRankTT, .45, "Estatísitca de Teste Observada")
+
+mtext(
+  side = 3, outer = TRUE, cex = 1.75,
+  text = expression(paste("Distribuições das Estatísticas de Teste Consistentes com o Desenho e ", H0:y[i1] == y[i0]))
+)
+```
+
+## $p$-valores sintetizam as visualizações gráficas 
+ 
+```{r calcpvalues, echo=TRUE}
+pMeanTT <- mean(possibleMeanDiffsH0 >= observedMeanTT)
+pMeanRankTT <- mean(possibleMeanRankDiffsH0 >= observedMeanRankTT)
+pMeanTT
+pMeanRankTT
+```
+
+## Como fazer isso em R: COIN 
+
+```{r coinexample, echo=TRUE}
+## Usando o pacote coin
+library(coin)
+set.seed(12345)
+pMean2 <- coin::pvalue(oneway_test(Y ~ factor(T),
+  data = dat,
+  distribution = approximate(nresample = 1000), alternative = "less"
+))
+dat$rankY <- rank(dat$Y)
+pMeanRank2 <- coin::pvalue(oneway_test(rankY ~ factor(T),
+  data = dat,
+  distribution = approximate(nresample = 1000), alternative = "less"
+))
+pMean2
+pMeanRank2
+```
+
+## Como fazer isso em R: RItools {.allowframebreaks}
+
+Primeiro, instale a versão de desenvolvedor do pacote RItools. 
+
+```{r installritools, eval=FALSE, echo=TRUE, results='hide',warnings=FALSE,cache=FALSE}
+# dev_mode() ## não instale o pacote globalmente 
+renv::install("markmfredrickson/RItools@randomization-distribution",
+  force = TRUE
+)
+# dev_mode()
+```
+
+Então use a função `RItest`. 
+
+```{r useritools, eval=FALSE,echo=TRUE,cache=FALSE}
+# dev_mode()
+library(RItools)
+thedesignA <- simpleRandomSampler(total = N, z = dat$T, b = rep(1, N))
+pMean4 <- RItest(
+  y = dat$Y, z = dat$T, samples = 1000, test.stat = meanTT,
+  sampler = thedesignA
+)
+pMeanRank4 <- RItest(
+  y = dat$Y, z = dat$T, samples = 1000, test.stat = meanrankTT,
+  sampler = thedesignA
+)
+pMean4
+pMeanRank4
+# dev_mode() ## desligue o dev_mode
+```
+
+```{r ritoolsoutput, echo=TRUE, eval=FALSE, tidy=FALSE}
+pMean4
+Call:  RItest(y = dat$Y, z = dat$T, test.stat = meanTT, sampler = thedesignA,
+          samples = 1000)
+
+                        Value Pr(>x)
+Observed Test Statistic -49.6   0.78
+
+pMeanRank4
+Call:  RItest(y = dat$Y, z = dat$T, test.stat = meanrankTT, sampler = thedesignA,
+          samples = 1000)
+
+                        Value Pr(>x)
+Observed Test Statistic     1   0.32
+```
+
+## Como fazer isso em R: RI2
+
+Como devemos interpretar o $p$-valor bi-caudal aqui?
+
+```{r,echo=TRUE}
+## Usando o pacote ri2 
+library(ri2)
+thedesign <- declare_ra(N = N)
+dat$Z <- dat$T
+pMean4 <- conduct_ri(Y ~ Z,
+  declaration = thedesign,
+  sharp_hypothesis = 0, data = dat, sims = 1000
+)
+summary(pMean4)
+pMeanRank4 <- conduct_ri(rankY ~ Z,
+  declaration = thedesign,
+  sharp_hypothesis = 0, data = dat, sims = 1000
+)
+summary(pMeanRank4)
+```
+
+- Testando a hipótese nula fraca, $H_0: \bar{y}_{1} = \bar{y}_{0}$.
+
+- Rejeitando a hipótese nula (e assumindo falsos negativos e/ou falsos positivos). 
+
+- Mantendo taxas corretas de erros falsos positivos ao testar mais de uma hipótese. 
+
+- Poder das hipóteses de teste ([Módulo de Poder Estatístico e Desenho de Pesquisa)](https://egap.github.io/learningdays-book/statistical-power-and-design-diagnosands.html)).
+
+# Testando hipóteses nulas fracas 
+
+## Testando hipóteses nulas de nenhum efeito médio 
+
+- A hipótese nula fraca é uma afirmação quanto a resultados agregados, e é quase sempre exposta em termos de médias: $H_0: \bar{y}_{1} = \bar{y}_{0}$
+
+- A estatística de teste para essa hipótese é, via de regra, uma diferença de médias simples (i.e., `meanTT()`).
+
+```{r simpdiffs, echo=TRUE}
+lm1 <- lm(Y ~ T, data = dat)
+lm1P <- summary(lm1)$coef["T", "Pr(>|t|)"]
+ttestP1 <- t.test(Y ~ T, data = dat)$p.value
+library(estimatr)
+ttestP2 <- difference_in_means(Y ~ T, data = dat)
+c(lm1P = lm1P, ttestP1 = ttestP1, tttestP2 = ttestP2$p.value)
+```
+
+Por que o $p$-valor dos mínimos quadrados ordinários (OLS) é diferente? A quais suposições recorremos quando o calculamos?
+
+## Testando a hipótese nula de nenhum efeito médio 
+
+Tanto variação quanto o local de $Y$ mudam com o tratamento nessa simulação. 
+
+```{r fig.cap="Boxplot de resultados observados por status de tratamento", results='asis', out.width=".7\\textwidth"}
+boxplot(Y ~ T, data = dat)
+```
+
+## Testando a hipótese nula de nenhum efeito médio 
+
+```{r, echo=TRUE}
+## Na mão:
+varEstATE <- function(Y, T) {
+  var(Y[T == 1]) / sum(T) + var(Y[T == 0]) / sum(1 - T)
+}
+seEstATE <- sqrt(varEstATE(dat$Y, dat$T))
+obsTStat <- observedMeanTT / seEstATE
+c(
+  observedTestStat = observedMeanTT,
+  stderror = seEstATE,
+  tstat = obsTStat,
+  pval = 2 * min(
+    pt(obsTStat, df = 8, lower.tail = TRUE),
+    pt(obsTStat, df = 8, lower.tail = FALSE)
+  )
+)
+```
+
+# Rejeitando a hipótese nula 
+
+## Rejeitando hipóteses e cometendo erros 
+
+- "Tipicamente, o nível do teste de [$\alpha$] é uma promessa quanto ao desempenho do teste, enquanto o tamanho é um fato quanto ao seu desempenho..." (Rosenbaum 2010, Glossário, tradução livre do inglês). 
+
+- $\alpha$ é a probabilidade de rejeitarmos a hipótese nula quando a hipótese nula é verdade. 
+
+- Como devemos interpretar $p$=`r  round(pMeanTT,2)`? E $p$=`r round(pMeanRankTT,2)` (nossos testes da hipótese nula forte)?
+
+- O que significa "rejeitar" $H_0: y_{i,1}=y_{i,2}$ para $\alpha=.05$? 
+
+## Taxas de falsos positivos em testes de hipótese {.allowframebreaks}
+
+```{r normp, echo=FALSE,out.width=".5\\textwidth",fig.cap="p-valor uni-caudal de um teste estatístico com distribuição Normal"}
+library(tidyverse)
+ggplot(NULL, aes(c(-3, 3))) +
+  geom_area(stat = "function", fun = dnorm, fill = "#00998a", xlim = c(2, 3)) +
+  geom_area(stat = "function", fun = dnorm, fill = "grey80", xlim = c(-3, 2)) +
+  labs(x = "test stat (center=0)", y = "prob") +
+  geom_vline(xintercept = 2) +
+  scale_y_continuous(breaks = NULL) +
+  # scale_x_continuous(breaks = 4) +
+  theme_classic()
+```
+
+Nota: 
+
+- A curva é centralizada no valor hipotetizado. 
+
+- A curva representa o universo da hipótese. 
+
+- O $p$-valor denota o quão raro seria observar a estatística de teste (ou um valor distante do hipotetizado) no universo da hipótese nula. 
+
+- Na imagem, o valor observado da estatística de teste é consistente com a distribuição hipotetizada, mas não tão consistente assim. 
+
+- Mesmo se $p < .05$ (ou $p < .001$), a estatística de teste observada deve refletir algum valor na distribuição hipotética. Isso significa que você sempre pode cometer um erro ao rejeitar uma hipótese nula. 
+
+## Erros falsos positivos e falsos negativos 
+
+- Se afirmamos: "O resultado experimental é significativamente diferente do valor hipotetizado zero ($p=.001$)! Então rejeitamos essa hipótese!" **quando a verdade é zero**, estamos cometendo um **erro falso positivo** (afirmamos detectar um efeito positivo, quando na realidade há apenas ruído). 
+
+- E se afirmamos: "Não podemos distinguir o resultado experimental de zero ($p=.3$). Não podemos rejeitar a hipótese de que o efeito seja zero." **quando a verdade não é zero**, estamos cometendo um **erro falso negativo** (confirmamos nossa incapacidade de detectar qualquer efeito, quando um efeito de fato existe, mas é sobrecarregado por ruído). 
+
+## Um único teste de uma única hipótese 
+
+- Um único teste de uma única hipótese deve raramente encorajar erros do tipo falso positivo (por exemplo, se fixarmos $\alpha=.05$): estamos dizendo, então, que estamos confortáveis com a noção de que nosso procedimento de teste comete erros falso positivos em **não mais que 5% dos testes de uma determinada atribuição de tratamento em um dado experimento**.
+
+- Para além disso, um **único teste de uma única hipótese** deve detectar um sinal quando um existir --- isto é, o teste deve ter alto poder estatístico. Dito de outra forma, esperamos baixas taxas de erros falsos negativos). 
+
+## Decisões implicam em erros 
+
+- Se erros são necessários, como podemos diagnosticá-los? Como podemos aprender ser nosso procedimento de teste de hipótese pode gerar erros falsos positivos demais? 
+
+- Reposta: diagnóstico por simulação!
+
+## Diagnóstico de erros falsos positivos por simulação 
+
+- Ao longo de várias repetições do desenho de pesquisa:
+
+   - Crie uma hipótese nula verdadeira. 
+   - Teste a hipótese nula verdadeira. 
+   - O $p$-valor deve ser maior dado que o teste está operando corretamente. 
+
+## Diagnosticando taxas de erros falsos positivos por simulação 
+
+```{r, echo=TRUE}
+collectPValues <- function(y, trt, thedistribution = exact()) {
+  ## Faça com que Y e T não tenham relação ao re-aleatorizar T
+  new_trt <- repeatExperiment(length(y))
+  thedata <- data.frame(new_trt = new_trt, y = y)
+  thedata$ranky <- rank(y)
+  thedata$new_trtF <- factor(thedata$new_trt)
+  ## Os quatro testes 
+  thelm <- lm(y ~ new_trt, data = thedata)
+  t_test_CLT <- difference_in_means(y ~ new_trt, data = thedata)
+  t_test_exact <- oneway_test(y ~ new_trtF,
+    data = thedata,
+    distribution = thedistribution
+  )
+  t_test_rank_exact <- oneway_test(ranky ~ new_trtF,
+    data = thedata,
+    distribution = thedistribution
+  )
+  owP <- coin::pvalue(t_test_exact)[[1]]
+  owRankP <- coin::pvalue(t_test_rank_exact)[[1]]
+  ## Retorne os p-valores
+  return(c(
+    lmp = summary(thelm)$coef["new_trt", "Pr(>|t|)"],
+    neyp = t_test_CLT$p.value[[1]],
+    rtp = owP,
+    rtpRank = owRankP
+  ))
+}
+```
+
+```{r fprdsim, cache=TRUE, message=FALSE, warning=FALSE, results='hide'}
+set.seed(123456)
+theY <- dat$Ybin
+theT <- dat$T
+pDist <- replicate(5000, collectPValues(y = theY, trt = theT))
+```
+
+## Diagnosticando taxas de erros falsos positivos por simulação 
+
+- Quando não existe efeito, um teste da hipótese nula de nenhum efeito deve render um $p$-valor alto. 
+
+- Se o teste estiver operando corretamente, devemos observar - sobretudo - muitos $p$-valores altos e poucos $p$-valores pequenos. 
+
+- Alguns dos $p$-valores para os quatro testes diferentes (fizemos 5.000 simulações, mostrando apenas 5). 
+
+```{r, echo=FALSE}
+pDist[, 1:5]
+```
+
+## Diagnosticando taxas de erros falsos positivos com simulação 
+
+Na realidade, se de fato não existe efeito e decidimos rejeitar a hipótese nula de nenhum efeito com $\alpha=.25$, esperamos que **não mais do que 25% dos nossos $p$-valores nessa simulação sejam menores do que p=0,25**. O que vemos aqui? Quais testes parecem ter taxas de falsos positivos muito altas?
+
+```{r pdistsummary, echo=TRUE}
+## Calcule a proporção de p-valores menores do que .25 para cada observação de pDist
+apply(pDist, 1, function(x) {
+  mean(x < .25)
+})
+```
+
+## Diagnosticando taxas de falsos positivos com simulação 
+
+Compare testes traçando proporção de p-valores menor que um dado número. Os testes de "inferência aleatória" controlam taxas de falsos positivos (esses testes lançam mão de permutações diretas, repetindo o experimento). 
+
+```{r plotecdf, results='asis', echo=FALSE, message=FALSE, warning=FALSE,fig.cap='Distribuição de p-valores quando não há efeitos para quatro testes com n=10. Um teste que controla suas taxas de falsos positivos deve ter pontos sobre a linha diagonal, ou abaixo dela.',out.width='.6\\textwidth'}
+par(mfrow = c(1, 1), mgp = c(2, .75, 0), oma = rep(0, 4), mar = c(3.5, 3.5, 0, 0))
+plot(c(0, 1), c(0, 1),
+  type = "n",
+  xlab = "p-vaalor=p", ylab = "Proporção de p-valores < p",
+  cex.lab = 2, cex.axis = 2
+)
+for (i in 1:nrow(pDist)) {
+  lines(ecdf(pDist[i, ]), pch = i, col = i, cex = 2, cex.axis = 2, lwd = 2)
+}
+abline(0, 1, col = "gray")
+legend("topleft",
+  legend = c("OLS", "Neyman", "Rand Inf Mean Diff", "Rand Inf Mean Diff Ranks"),
+  pch = 1:5, col = 1:5, lty = 1, bty = "n", cex = 2
+)
+```
+
+## Taxas de falsos positivos com $N=60$ e resultados dicotômicos 
+
+Neste desenho, apenas inferência baseada em aleatorização direta controlam taxas de falsos positivos. 
+
+```{r fprdsimBig, cache=TRUE}
+set.seed(12345)
+## pDistBig <- replicate(1000,collectPValues(y=bigdat$Ybin,z=bigdat$T,thedistribution=approximate(B=1000)))
+library(parallel)
+pDistBigLst <- mclapply(1:1000, function(i) {
+  collectPValues(y = bigdat$Ybin, trt = bigdat$T, thedistribution = approximate(nresample = 1000))
+}, mc.cores = 8)
+pDistBig <- simplify2array(pDistBigLst)
+```
+
+```{r plotecdfBig, results='asis', echo=FALSE, message=FALSE, warning=FALSE,out.width='.7\\textwidth',fig.cap="Distribuição de p-valores quando não há efeitos para quatro testes com n=60 e resultados dicotômicos. Um teste que controla suas taxas de erros falsos positivos deve ter pontos sobre a linha diagonal, ou abaixo dela."}
+par(mfrow = c(1, 1), mgp = c(2, .75, 0), oma = rep(0, 4), mar = c(3.5, 3.5, 0, 0))
+plot(c(0, 1), c(0, 1),
+  type = "n",
+  xlab = "p-valor=p", ylab = "Proporção de p-valores < p",
+  cex.lab = 2, cex.axis = 2
+)
+for (i in 1:nrow(pDistBig)) {
+  lines(ecdf(pDistBig[i, ]), pch = i, col = i, cex = 2, cex.axis = 2, lwd = 2)
+}
+abline(0, 1, col = "gray")
+legend("topleft",
+  legend = c("OLS", "Neyman", "Rand Inf Mean Diff", "Rand Inf Mean Diff Ranks"),
+  pch = 1:5, col = 1:5, lty = 1, bty = "n", cex = 2
+)
+```
+
+## Taxas de erros falsos positivos com $N=60$ e resultados contínuos 
+
+Aqui, todos os testes performam bem ao controlar as taxas de erros falsos positivos.
+
+```{r fprdsimBig2, cache=TRUE}
+set.seed(123456)
+pDistBigLst2 <- mclapply(1:1000, function(i) {
+  collectPValues(y = bigdat$Y, trt = bigdat$T, thedistribution = approximate(nresample = 1000))
+}, mc.cores = 8)
+pDistBig2 <- simplify2array(pDistBigLst2)
+``` 
+
+```{r plotecdfBig2, results='asis', echo=FALSE, message=FALSE, warning=FALSE, out.width='.7\\textwidth',fig.cap='Distribuições de p-valores quando não há efeitos para quatro testes com n=60 e resultado contínuo. Um teste que controla suas taxas de erros falsos positivos deve ter pontos sobre a linha diagonal, ou abaixo dela.'}
+library(scales)
+par(mfrow = c(1, 1), mgp = c(2, .75, 0), oma = rep(0, 4), mar = c(3.5, 3.5, 0, 0))
+plot(c(0, 1), c(0, 1),
+  type = "n",
+  xlab = "p-valores=p", ylab = "Proporção de p-valores < p",
+  cex.lab = 2, cex.axis = 2
+)
+for (i in 1:nrow(pDistBig2)) {
+  lines(ecdf(pDistBig2[i, ]), pch = i, col = alpha(i, .5), cex = 2, cex.axis = 2)
+}
+abline(0, 1, col = "gray")
+legend("topleft",
+  legend = c("OLS", "Neyman", "Rand Inf Mean Diff", "Rand Inf Mean Diff Ranks"),
+  pch = 1:5, col = 1:5, lty = 1, bty = "n", cex = 2
+)
+```
+
+## Resumo 
+
+- Um bom teste:
+
+   1. Raramente lança dúvida sobre à verdade, e 
+   
+   2. É capaz de distinguir efeitos de ruído com facilidade 
+
+- Podemos aprender se nossos procedimentos de teste controlam para taxas de erros falsos positivos com base no desenho do nosso estudo. 
+
+- Quando nossos testes não controlam taxas de erros falsos positivos, o que pode estar ocorrendo de errado? (Via de regra, o problema está relacionado às assintóticas). 
+
+# Tópicos Avançados 
+
+## Alguns tópicos avançados relacionados a testes de hipóteses
+
+- Mesmo se um dado procedimento controla a taxa de erros falsos positivos para um único teste, esse mesmo procedimento pode não controlar a mesma taxa para um grupo de múltiplos testes. Veja [10 Coisas Para Saber Sobre Comparações Múltiplas](https://egap.org/resource/10-things-to-know-about-multiple-comparisons/) para um guia de abordagens de controle dessas taxas em diferentes testes. 
+
+- Um intervalo de confiança $100(1-\alpha)$ pode ser definido como a gama de hipóteses em que todos os $p$-valores são maiores ou iguais a $\alpha$. Chamamos isso de inversão dos testes de hipótese (@rosenbaum2010design). Dito de outra forma, um intervalo de confiança é um conjunto de testes de hipóteses. 
+
+## O que mais saber sobre testes de hipóteses {.allowframebreaks}
+
+- Uma estimativa pontual baseada em testes de hipótese é conhecida como estimativa pontual de Hodges-Lehmann (@rosenbaum1993hlp,@hodges1963elb).
+
+- Um conjunto de testes de hipóteses pode ser combinado num único teste de hipótese (@hansen:bowers:2008,@caughey2017nonparametric).
+
+- Em testes de equivalência, podemos levantar a hipótese de que duas estatísticas de teste são equivalentes (isto é, o grupo de tratamento é igual ao grupo de controle) em lugar da hipótese acerca de apenas uma estatística (a diferença entre os dois grupos é zero)(@hartman2018equivalence). 
+
+- Dado que o teste de hipótese é um modelo de resultados potenciais, podemos recorrer a testes de hipótese para aprender sobre modelos complexos, como modelos com efeitos de transbordamento e contágio em rede da intervenção de tratamento (@bowers2013reasoning, @bowers2016research, @bowers2018models). 
+
+## Exercício: Testes de Hipótese e Estatísticas de Teste 
+
+1. Se uma intervenção era efetiva em aumentar a variabilidade de uma variável de resultado, mas não alterava sua média, o $p$-valor reportado pelo R ou STATA quando usamos as funções `lm_robust()` ou `difference_of_means()` ou `reg` ou `t.test` seria grande ou pequeno?
+
+2. Se uma intervenção reduziu moderadamente a média no grupo de controle, mas aumentou consideravelmente os valores de resultado para algumas observações (algo duma magnitude de 10 vezes o efeito do tratamento), as funções `lm_robust()` ou `difference_of_means()` renderiam $p$-valores grandes ou pequenos?   
+
+# Testando muitas hipóteses 
+
+## Quando devemos testar muitas hipóteses? 
+
+- O efeito de um tratamento experimental difere entre grupos? Diferenças no efeito do tratamento poderiam surgir em razão de algumas características padrão dos indivíduos sob estudo?
+
+- Qual estratégia de comunicação, dentre diversas, foi mais eficaz num único resultado?
+
+- Quais resultados, dentre diversos, foram influenciados por uma única intervenção experimental? 
+
+## Taxas de erros falsos positivos em múltiplos testes de hipótese {.fragile}
+
+Digamos que nossa probabilidade de cometer um erro falso positivo seja de 0.5 em um único teste. O que aconteceria se nos perguntássemos: (1) *qual destes 10 resultados tem uma relação estatisticamente significativa com os dois braços de tratamento*? ou (2) *quais destes 10 braços de tratamento tiveram uma relação estatisticamente significativa com o único resultado*?
+
+   - Probabilidade de abraçarmos um erro do tipo falso positivo dever ser menor ou igual a 0.5 em um teste. 
+   - Probabilidade de abraçarmos um erro falso positivo deve ser menor ou igual a  $1 - ( ( 1 - .05 ) \times (1 - .05) ) = .0975$ em dois testes. 
+   - Probabilidade de abraçarmos ao menos um erros falso positivo com $\alpha=.05$ em 10 testes deve ser $\le$ $1 - (1-.05)^{10}=.40$.
+
+## Achados com testes múltiplos
+
+**Número de erros cometidos quando testando $m$ hipóteses nulas** [Tabela 1 de @benjamini1995]. Células correspondem ao número de testes. $R$ denota o número de achados e $V$ o número de achados falsos. $U$ captura o número de não-rejeições corretas, e $S$ o número de rejeições corretas.
+
++----------------------------------------------------+---------------------------+-----------------------+-----------+
+|                                                    | Declarado                 | Declarado             |   Total   |
+|                                                    | Não Significante          | Significante          |           |
++====================================================+:=========================:+:=====================:+:=========:+
+| Hipóteses nulas verdadeiras ($H_{true}=0$)         |             U             |           V           |   $m_0$   |
++----------------------------------------------------+---------------------------+-----------------------+-----------+
+| Hipóteses nulas não verdadeiras ($H_{true} \ne 0$) |             T             |           S           | m - $m_0$ |
++----------------------------------------------------+---------------------------+-----------------------+-----------+
+| Total                                              |            m-R            |           R           |    m      |
++----------------------------------------------------+---------------------------+-----------------------+-----------+ 
+
+
+## Duas taxas de erro principais para controlar quando testando muitas hipóteses {.allowframebreaks}
+
+1. A **taxa de erro global** (Family Wise Error Rate, ou FWER, no inglês) é $P(V>0)$ (Probabilidade de qualquer erro falso positivo). 
+
+   - Gostaríamos de controlar essa taxa de erro se planejamos tomar uma decisão quanto aos resultados dos nossos testes múltiplos. Nesse caso, nosso projeto de pesquisa é sobretudo confirmatório. 
+
+   - Veja, por exemplo, os projetos do OES  <https://oes.gsa.gov>: agências federais americana tomam decisões com base em resultados.   
+
+2. **Taxa de descobertas falsas** (FDR, na sigla em inglês) é $E(V/R | R>0)$ (Proporção média de erros falso positivos dadas algumas rejeições). 
+
+   - Gostaríamos de controlar essa taxa se estamos usando *este* experimento para planejar o nosso *próximo* experimento. Estamos dispostos a aceitar uma maior probabilidade de erro em troca de maiores chances de descobertas. 
+
+   - Imagine que, por exemplo, uma organização, uma agência do governo ou uma ONG decida conduzir uma *série* de experimentos como parte de uma *agenda de aprendizagem*: nenhum experimento único determina uma decisão, dando espaço para exploração. 
+
+Focaremos no FWER, mas recomendamos refletir sobre o FDR e nas agendas de aprendizagem como caminhos úteis a se seguir. 
+
+## Questões subjacentes a resultados múltiplos
+
+- Qual é o efeito de uma intervenção de tratamento sobre múltiplos resultados?
+
+- Sobre quais resultados (dentre vários) a intervenção de tratamento teve efeito? 
+
+- A segunda pergunta, em particular, pode ensejar erros do tipo FWER discutidos acima.  
+
+## Testando Múltiplas Hipóteses: Resultados Múltiplos 
+
+Imagine que temos cinco variáveis de resultado e apenas uma intervenção de tratamento (mostramos resultados potenciais e observados abaixo):
+
+```{r multtesting1}
+set.seed(23)
+thedat <- fabricate(
+  N = 100,
+  y0_1 = rnorm(N),
+  y0_2 = rnorm(N),
+  y0_3 = rnorm(N),
+  y0_4 = rnorm(N),
+  y0_5 = rnorm(N)
+)
+tau1 <- 0
+tau5 <- tau4 <- tau3 <- tau2 <- tau1
+thepop <- declare_population(thedat)
+theassign <- declare_assignment(T = complete_ra(N = N, m = 50))
+po_1 <- declare_potential_outcomes(Y1_T_0 = y0_1, Y1_T_1 = y0_1 + tau1)
+po_2 <- declare_potential_outcomes(Y2_T_0 = y0_2, Y2_T_1 = y0_2 + tau2)
+po_3 <- declare_potential_outcomes(Y3_T_0 = y0_3, Y3_T_1 = y0_3 + tau3)
+po_4 <- declare_potential_outcomes(Y4_T_0 = y0_4, Y4_T_1 = y0_4 + tau4)
+po_5 <- declare_potential_outcomes(Y5_T_0 = y0_5, Y5_T_1 = y0_5 + tau5)
+reveal_1 <- declare_reveal(Y1, T)
+reveal_2 <- declare_reveal(Y2, T)
+reveal_3 <- declare_reveal(Y3, T)
+reveal_4 <- declare_reveal(Y4, T)
+reveal_5 <- declare_reveal(Y5, T)
+
+des1 <- thepop + theassign +
+  po_1 + po_2 + po_3 + po_4 + po_5 +
+  reveal_1 + reveal_2 + reveal_3 + reveal_4 + reveal_5
+
+dat1 <- draw_data(des1)
+options(digits = 2)
+head(dat1[, -c(2:6, 18:22)])
+head(dat1[, c(1, 7, 18:22)])
+```
+
+## Podemos identificar um efeito sobre o resultado `Y1`?
+
+Podemos identificar um efeito sobre o resultado `Y1`? (i.e., o teste de hipótese rende um $p$-valor suficientemente pequeno?)
+
+```{r p1, echo=TRUE}
+coin::pvalue(oneway_test(Y1 ~ factor(T), data = dat1))
+## Note que o p-valor do teste t é equivalente a um teste chi-quadrado 
+## p-valor.
+coin::pvalue(independence_test(Y1 ~ factor(T),
+  data = dat1,
+  teststat = "quadratic"
+))
+```
+
+## Em quais das cinco variáveis de resultado podemos identificar um efeito? 
+
+Em quais das cinco variáveis de resultado podemos identificar um efeito? (i.e., algum dos cinco testes de hipótese rende um $p$-valor suficientemente pequeno?)
+```{r pmult, echo=TRUE}
+p1 <- coin::pvalue(oneway_test(Y1 ~ factor(T), data = dat1))
+p2 <- coin::pvalue(oneway_test(Y2 ~ factor(T), data = dat1))
+p3 <- coin::pvalue(oneway_test(Y3 ~ factor(T), data = dat1))
+p4 <- coin::pvalue(oneway_test(Y4 ~ factor(T), data = dat1))
+p5 <- coin::pvalue(oneway_test(Y5 ~ factor(T), data = dat1))
+theps <- c(p1 = p1, p2 = p2, p3 = p3, p4 = p4, p5 = p5)
+sort(theps)
+```
+
+## Podemos identificar um efeito para *alguma* das cinco variáveis de resultado? 
+
+Podemos identificar um efeito para *alguma* das cinco variáveis de resultado? (i.e., os testes de hipótese rendem um $p$-valor suficientemente pequeno para *todas* as cinco variáveis de resultado?) 
+```{r omnibus, echo=TRUE}
+coin::pvalue(independence_test(Y1 + Y2 + Y3 + Y4 + Y5 ~ factor(T),
+  data = dat1, teststat = "quadratic"
+))
+```
+
+Qual abordagem é mais provável de nos enganar com muitos resultados "estatisticamente significantes" (5 testes ou um teste abrangente)?
+
+## Comparando abordagens 
+
+Vamos simular para aprender sobre essas abordagens de teste.
+
+- Definimos (1) o efeito causal verdadeiro como 0, (2) repetimos a atribuição da intervenção de tratamento e (3), em cada uma das vezes, conduzimos cada um desses três testes.
+
+- Dado que o efeito verdadeiro é zero, esperamos que *a maioria* dos $p$-valores seja grande. (Na realidade, esperamos que não mais do que 5% dos $p$-valores sejam maiores do que $p=0.05$ se estamos ancorados no critério de aceitação-rejeição com $\alpha=0.005$).
+
+```{r testsetup1, echo=FALSE, results="hide"}
+ttest_Y1fn <- function(data) {
+  p1 <- coin::pvalue(oneway_test(Y1 ~ factor(T), data = data))
+  return(data.frame(statistic = NA, p.value = p1))
+}
+ttest_multfn <- function(data) {
+  p1 <- coin::pvalue(oneway_test(Y1 ~ factor(T), data = data))
+  p2 <- coin::pvalue(oneway_test(Y2 ~ factor(T), data = data))
+  p3 <- coin::pvalue(oneway_test(Y3 ~ factor(T), data = data))
+  p4 <- coin::pvalue(oneway_test(Y4 ~ factor(T), data = data))
+  p5 <- coin::pvalue(oneway_test(Y5 ~ factor(T), data = data))
+  theps <- c(p1, p2, p3, p4, p5)
+  return(data.frame(statistic = NA, p.value = min(theps)))
+}
+ttest_mult_holmfn <- function(data) {
+  p1 <- coin::pvalue(oneway_test(Y1 ~ factor(T), data = data))
+  p2 <- coin::pvalue(oneway_test(Y2 ~ factor(T), data = data))
+  p3 <- coin::pvalue(oneway_test(Y3 ~ factor(T), data = data))
+  p4 <- coin::pvalue(oneway_test(Y4 ~ factor(T), data = data))
+  p5 <- coin::pvalue(oneway_test(Y5 ~ factor(T), data = data))
+  theps <- c(p1, p2, p3, p4, p5)
+  padj <- p.adjust(theps, method = "holm")
+  minp <- min(padj)
+  return(data.frame(statistic = NA, p.value = minp))
+}
+ttest_omnibusfn <- function(data) {
+  thep <- coin::pvalue(independence_test(Y1 + Y2 + Y3 + Y4 + Y5 ~ factor(T), data = data, teststat = "quadratic"))
+  return(data.frame(statistic = NA, p.value = thep))
+}
+
+ttest_Y1 <- declare_test(handler = label_test(ttest_Y1fn), label = "t-test Y1")
+ttest_mult <- declare_test(handler = label_test(ttest_multfn), label = "t-test all")
+ttest_mult_holm <- declare_test(handler = label_test(ttest_mult_holmfn), label = "t-test all holm adj")
+ttest_omnibus <- declare_test(handler = label_test(ttest_omnibusfn), label = "t-test omnibus")
+ttest_Y1(dat1)
+ttest_mult(dat1)
+ttest_mult_holm(dat1)
+ttest_omnibus(dat1)
+```
+
+
+```{r des1setup,echo=FALSE}
+des1_plus <- des1 + ttest_Y1 + ttest_mult + ttest_mult_holm + ttest_omnibus
+thediagnosands <- declare_diagnosands(fwer = mean(p.value < .05))
+### Erros quanto às estimativas 
+## des1_diag <- diagnose_design(design = des1_plus, bootstrap_sims = 0,
+##     sims=10, diagnosands = thediagnosands)
+```
+
+## Comparando abordagens II
+```{r}
+kableExtra::kable(res1, caption = "Taxas de erro FWER")
+```
+
+- A abordagem que lança mão de 5 testes rende um $p < .05$ na maioria das vezes --- lembre-se de que não há qualquer efeito causal para nenhuma dessas variáveis de resultado. 
+
+- Um teste para um único resultado (nesse caso, `Y1`) rende um $p < .05$ em não mais do que 5% das simulações. 
+
+- O teste abrangente também sugeres taxas de erros controladas. 
+
+- Recorrer a uma correção de testes múltiplos (recorremos, aqui, à correção de "Holm") também corrige, corretamente, taxas de erros falsos positivos. 
+
+## A taxa de correção de Holm
+
+Mostramos aqui como usar a taxa de correção de Holm (note o que acontece com os $p$-valores):
+
+```{r holmex, echo=TRUE}
+theps
+p.adjust(theps, method = "holm")
+## Note o que ocorre com os $p$-valores significantes 
+theps_new <- sort(c(theps, newlowp = .01))
+p.adjust(theps_new, method = "holm")
+```
+
+## Teste de múltiplas hipóteses: múltiplos braços de tratamento {.allowframebreaks}
+
+- O mesmo tipo de problema pode ocorrer quando nos perguntamos sobre os diferentes efeitos de um tratamento com vários braços.
+
+- Com cinco braços, "o efeito do braço 1" pode sugerir muitas coisas: "O resultado potencial médio sob o braço 1 é maior do que o efeito potencial médio sob o braço 2?", "Os resultados potenciais sob o braço 1 são maiores do que os resultados potenciais médios sob todos os outros braços?"
+
+- Se focamos apenas em comparações pareadas, podemos ter $((5 \times 5) - 5)/2 = 10$ testes únicos!
+
+## Teste de múltiplas hipóteses: múltiplos braços de tratamento {.allowframebreaks}
+
+Aqui estão alguns resultados potenciais e observados e `T`com valores múltiplos.
+
+```{r multitreatsetup, echo=FALSE}
+theassign_mult <- declare_assignment(T = conduct_ra(N = N, num_arms = 5, conditions = c("1", "2", "3", "4", "5")))
+po_mult <- declare_potential_outcomes(Y ~ y0_1 * (T == "1") + y0_2 * (T == "2") +
+  y0_3 * (T == "3") + y0_4 * (T == "4") + y0_5 * (T == "5"),
+conditions = c("1", "2", "3", "4", "5"),
+assignment_variables = T
+)
+reveal_mult <- declare_reveal(assignment_variables = T)
+des2 <- thepop + theassign_mult + po_mult + reveal_mult
+dat2 <- draw_data(des2)
+options(digits = 2)
+## T é o braço de tratamento: 1,2,3,4,5
+head(dat2[, -c(2:6, 8)])
+options(digits = 4)
+```
+
+## Teste de múltiplas hipóteses: múltiplos braços de tratamento {.allowframebreaks}
+
+Listamos aqui 10 testes pareados com ou sem ajuste para testes múltiplos. Note que um resultado "significante" ($p=.01$) varia com o ajuste.
+
+```{r}
+## essa é uma interface do independence_test() do pacote coin
+pair_tests1 <- pairwisePermutationTest(Y ~ T, data = dat2, distribution = asymptotic(), method = "holm", teststat = "quadratic")
+pair_tests1
+``` 
+
+## Abordagens para testar hipótese com múltiplos braços 
+
+Ilustramos quatro abordagens distintas:
+
+1. Conduza todos os testes pareados e selecione o melhor (uma má ideia);
+2. Conduza todos os testes pareados e selecione o melhor após ajustar os $p$-valores para testes múltiplos (uma ideia válida, mas com baixo poder estatístico);
+3. Teste as hipóteses de nenhuma relação entre *qualquer braço da intervenção* (um teste abrangente) e um resultado (uma ideia razoável);
+4. Escolha um braço do tratamento para focar de antemão (uma ideia igualmente razoável)
+
+```{r}
+ttest_T1_vs_allfn <- function(data) {
+  p1 <- coin::pvalue(oneway_test(Y ~ factor(T == "1"), data = data))
+  return(data.frame(statistic = NA, p.value = p1))
+}
+overall_Tfn <- function(data) {
+  itest <- independence_test(Y ~ T, data = data)
+  return(data.frame(statistic = NA, p.value = coin::pvalue(itest)))
+}
+pairwise_testsfn <- function(data) {
+  pair_tests <- pairwisePermutationTest(Y ~ T, data = data, distribution = asymptotic(), method = "holm", teststat = "quadratic")
+  return(data.frame(statistic = NA, p.value = min(pair_tests$p.value)))
+}
+pairwise_tests_adjfn <- function(data) {
+  pair_tests <- pairwisePermutationTest(Y ~ T, data = data, distribution = asymptotic(), method = "holm", teststat = "quadratic")
+  return(data.frame(statistic = NA, p.value = min(pair_tests$p.adjust)))
+}
+
+
+## dat2$TF <- factor(dat2$T)
+## blah <- independence_test(Y~TF,data=dat2,xtrafo = mcp_trafo(TF = "Tukey")) #,teststat="quadratic")
+## pair_tests2 <- coin::pvalue(blah,method="unadjusted")
+## pair_tests2
+## thecontrasts <- rbind("2 - 1 " = c(1,-1,0,0,0,0),
+## "3-1"=c(1,0,-1,0,0,0))
+## blah2<- independence_test(Y~TF,data=dat2,xtrafo = mcp_trafo(TF = thecontrasts))
+## coin::pvalue(blah2,method="single-step")
+##
+
+ttest_T1_vs_all <- declare_test(handler = label_test(ttest_T1_vs_allfn), label = "t-test T1 vs all")
+overall_T <- declare_test(handler = label_test(overall_Tfn), label = "Overall test")
+pairwise_test <- declare_test(handler = label_test(pairwise_testsfn), label = "Choose best pairwise test")
+pairwise_test_adj <- declare_test(handler = label_test(pairwise_tests_adjfn), label = "Choose best pairwise test after adjustment")
+```
+
+```{r des2diag, cache=TRUE}
+des2_plus <- des2 + ttest_T1_vs_all + overall_T + pairwise_test + pairwise_test_adj
+thediagnosands <- declare_diagnosands(fwer = mean(p.value < .05))
+des2_sim <- simulate_design(des2_plus, sims = 1000)
+res2 <- des2_sim %>%
+  group_by(estimator) %>%
+  summarize(fwer = mean(p.value < .05), .groups = "drop")
+kableExtra::kable(res2, caption = "Approaches to testing in multi-arm experiments.")
+```
+
+## Sumário
+
+- Diferentes problemas relacionados ao teste de hipóteses podem surgir em razão de múltiplos tratamentos ou múltiplos resultados (ou múltiplas variáveis moderadoras ou termos de interação).
+
+- Procedimentos para conduzir testes de hipóteses e intervalos de confiança podem ensejar erros. A prática é controlar as taxas de erros em um único teste (ou único intervalo de confiança). Mas vários testes exigem trabalho a mais para garantir que as taxas de erro estão de fato controladas. 
+
+- A perda de poder estatístico em razão das abordagens de ajuste nos encoraja a considerar *questões que devemos levantar em relação aos dados*. Por exemplo, se quisermos saber se a intervenção de tratamento surtiu *algum efeito", então um teste conjunto (ou abrangente) de múltiplos resultados aumentará nosso poder estatístico sem requerer ajustes.

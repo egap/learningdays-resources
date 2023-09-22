@@ -1,0 +1,361 @@
+---
+title: "Aleatorização"
+author: "Traduzido por João Hofmesiter e Cedric Antunes"
+date: '`r format(Sys.time(), "%d %B %Y")`'
+bibliography: ../learningdays-book.bib
+biblio-style: apalike
+link-citations: yes
+colorlinks: yes
+fig_caption: yes
+header-includes: |
+   \setbeamertemplate{footline}{\begin{beamercolorbox}{section in head/foot}
+   \includegraphics[height=.5cm]{../Images/egap-logo.png} \hfill
+   \insertframenumber/\inserttotalframenumber \end{beamercolorbox}}
+   \usepackage{tikz}
+   \usepackage{tikz-cd}
+   \usepackage{textpos}
+   \usepackage{booktabs,multirow,makecell}
+output:
+  # powerpoint_presentation:
+  #   toc: true
+  beamer_presentation:
+    keep_tex: true
+    toc: true
+    pandoc_args: [ "--toc" ]
+    fig_caption: true
+  revealjs::revealjs_presentation:
+    fig_caption: true
+    theme: default
+    highlight: pygments
+    center: false
+    transition: fade
+    smart: false
+    self_contained: false
+    reveal_plugins: ["notes", "search", "chalkboard"]
+    pandoc_args: [ "--toc" ]
+    reveal_options:
+      slideNumber: true
+      previewLinks: true
+      chalkboard:
+        theme: whiteboard
+        toggleNotesButton: false
+---
+```{r setup, include=FALSE,echo=FALSE}
+source('rmd_setup.R')
+```
+
+# Aleatorização 
+
+## Aleatorização da atribuição do tratamento 
+
+Comece com um grupo de unidades que você pode observar diretamente: tal como indivíduos num estudo de laboratório, vilarejos numa dada região, participantes dispostos a responder um questionário. 
+
+- Cada observação pode ser atribuída ao grupo de tratamento com probabilidade conhecida entre 0 e 1. 
+
+   - Nenhuma unidade na amostra experimental é designada ao grupo de tratamento ou ao grupo de controle com 100% de certeza. 
+
+- Unidades podem variar em suas chances de serem designadas ao grupo de tratamento. 
+
+   - Por exemplo, as probabilidades podem variar entre grupos: mulheres podem ter 75% de chance de serem designadas ao grupo de tratamento, enquanto homens apenas 25%. 
+
+   - Probabilidades de atribuição da intervenção de tratamento ainda podem variar entre unidades **desde que as probabilidades para cada unidade sejam conhecidas**, apesar de que isso pode complicar sua análise. 
+
+## Atribuição aleatória $\neq$ amostragem aleatória 
+
+- Amostragem aleatória (a partir da população): selecionando, com probabilidades conhecidas, indivíduos a partir de uma dada população. Como você não pode observar toda a população diretamente, selecionamos uma amostra.
+
+- Aleatorização (do tratamento): atribuir indivíduos (de um dado grupo existente) a condições experimentais com probabilidades conhecidas. 
+   - Você deve ser capaz de observar resultados e atribuir a intervenção de tratamento para todos os indivíduos nesse grupo 
+   - Essa atribuição aleatória do tratamento pode ser combinada com qualquer tipo de amostra (aleatória, de conveniência, etc.) ou ainda com toda a população (todos os indivíduos, hospitais, juízes)
+
+## Atribuição aleatória $\neq$ amostragem aleatória 
+
+- Como você recrutará seu grupo inicial (ou pool experimental) é de suma importância:
+
+   - um grupo inicial grande implica num grande experimento e em maior poder estatístico para detectar efeitos pequenos 
+
+   - um grupo inicial que é uma amostra aleatória de uma população conhecida te ajuda a articular o argumento de que os efeitos que você observa podem ser os mesmos (ou, ao menos, similares) aos que você observaria caso re-conduzisse o experimento com uma outra amostra da mesma população. 
+
+   - um pool experimental que é uma amostra aleatória também pode embasar o argumento de que o efeito deve ser similar para o mesmo experimento, mas agora em escala para toda a população --- a depender dos fatores por detrás do equilíbrio global. 
+
+## Aleatorização está intimamente relacionada ao seu desenho de pesquisa
+
+- Ver módulo quanto ao [Desenho de Pesquisa](/research-design.html)
+
+- Lembre-se de que você deve definir e justificar suas condições de controle:
+   - não intervenção ou
+   - placebo
+
+## Níveis de tratamento e resultados 
+
+- A intervenção de tratamento pode ser atribuída em diferentes níveis: indivíduos, grupos, instituições, comunidades, recortes de tempo ou em vários níveis distintos. 
+
+- Você pode ter suas mãos amarradas quanto aos níveis nos quais você pode _atribuir_ o tratamento e _medir_ os resultados. 
+
+   - Exemplo: Tratamento no nível da sala de aula, resultados medidos no nível dos estudantes. 
+
+   - Exemplo: Tratamento no nível do distrito, resultados medidos no nível das comunidades. 
+
+- O nível no qual o tratamento é atribuído e em que os resultados são medidos são determinantes daquilo que seu estudo é capaz de demonstrar. 
+
+# Alguns tipos comuns de aleatorização 
+
+## Aleatorização simples (cara ou coroa)
+
+- Para cada unidade, tire cara ou coroa para determinar se uma unidade receberá a intervenção de tratamento ou não. Então, meça os resultados no mesmo nível da atribuição do tratamento (e.g., indivíduos). 
+
+- A moeda não precisa ser honesta (50-50), mas você deve conhecer a probabilidade de atribuição do tratamento.
+
+- Você não pode garantir de antemão um número específico de unidades no grupo de tratamento e no grupo de controle. 
+
+- Exemplo: Se você dispõe de seis unidades e tira cara ou coroa para cada uma dessas unidades, há próximo de 3% de chance de que **todas** as unidades recebam o tratamento ou de que **todas** as unidades sejam designadas para o grupo de controle. 
+
+## Exemplo de código para aleatorização simples I 
+
+```{r echo=TRUE}
+# defina uma semente aleatória para garantir replicabilidade 
+set.seed(12345)
+
+# defina o tamanho da amostra 
+N <- 200
+
+# Gere a atribuição aleatória simples 
+# (Note que num experimento temos um único
+# teste e portanto tamanho=1)
+# Nosso objeto com N indivíduos se chama simple.ra
+simple.ra <- rbinom(n = N,size = 1, prob = .5)
+
+# 112 indivíduos terminaram no grupo de tratamento 
+sum(simple.ra)
+```
+
+## Exemplo de código para aleatorização simples II
+
+```{r echo=TRUE}
+# você também pode recorrer ao pacote randomizr 
+library(randomizr)
+
+# para replicabilidade
+set.seed(23456)
+# Atribuição aleatória simples usando a função simple_ra 
+# Nosso objeto com N indivíduos é chamado treatment
+treatment <- simple_ra(N = N,  # tamanho total da amostra
+    prob = .5 # probabilidade de receber a intervenção de tratamento 
+)
+sum(treatment)
+```
+
+## Aleatorização completa (loteria)
+
+- Um número fixo $m$ a partir de $N$ unidades é atribuído ao grupo de tratamento. 
+
+- A probabilidade de uma unidade receber a intervenção de tratamento é $m/N$. 
+
+- É tal como numa urna com $N$ bolas, dentre as quais $m$ estão marcadas como "tratamento" e $N-m$ estão marcadas como "controle". Loterias federais se baseiam nesse método. 
+
+## Exemplo de código para aleatorização completa I
+
+``` {r echo=TRUE}
+# defina o tamanho da amostra N 
+N <- 200
+# defina o número m de unidades tratadas 
+m <- 100
+
+# crie um vetor de m1s e N-m0s
+complete.ra <- c(rep(1,m), rep(0,N-m))
+
+# Então embaralhe de forma aleatória usando sample()
+# O default é amostragem sem reposição 
+
+set.seed(12345) # para replicabilidade 
+complete.ra <- sample(complete.ra)
+
+sum(complete.ra)
+```
+
+## Exemplo de código para aleatorização completa II
+
+``` {r echo=TRUE}
+# você também pode recorrer ao pacote randomizr
+library(randomizr)
+
+# para replicabilidade
+set.seed(23456)
+
+# Atribuição aleatória completa:
+treatment <- complete_ra(N = 200, # tamanho total da amostra 
+            m = 100) # número de unidades tratadas
+
+sum(treatment)
+
+# note o que ocorre caso você não especifique m!
+```
+
+## Aleatorização em blocos (ou estratificada) I
+
+- Criamos blocos de unidades e aleatorizamos a atribuição do tratamento separadamente para cada bloco. É como se conduzíssemos um mini experimento em cada bloco. 
+
+   - Exemplo: bloco = distrito, unidades = comunidades. Aleatorizamos a atribuição do tratamento no nível da comunidade **dentro de cada distrito** e também medimos os resultados no nível da comunidade. 
+
+- Blocos que representam um subgrupo substancialmente significativo podem te ajudar a aprender sobre como efeitos podem diferir entre subgrupos. 
+
+   - Ao controlarmos para o número de indivíduos em cada subgrupo, garantimos que dispomos de indivíduos o suficiente em cada grupo. 
+
+   - Particularmente útil quando estamos lidando com um grupo raro --- por sorte você pode terminar com poucos indivíduos tanto no grupo de tratamento quanto no grupo de controle, mesmo com atribuição aleatória (ou você pode estar sofrendo com algum desbalanço). 
+
+## Aleatorização em blocos (ou estratificada) II
+
+- Blocos que são homogêneos para uma dada variável de resultado aumentam a precisão das nossas estimativas para essa variável comparado a experimentos em que não houve aleatorização em blocos. (Abordaremos esse ponto em mais detalhe na seção sobre análise de poder estatístico). 
+
+## Aleatorização em agrupamentos (clusters) I
+
+- Um agrupamento (cluster) é nada mais que um *grupo de unidades*. Num estudo com aleatorização por agrupamentos, todas as unidades em um dado agrupamento assumem o mesmo status de tratamento. 
+
+ - Recorra à aleatorização por agrupamentos se a intervenção ocorrer no nível desses agrupamentos. 
+
+   - Por exemplo, se a intervenção é sobre parques em escolas, a atribuição da intervenção de tratamento ocorre no nível da escola mesmo que, por exemplo, a saúde dos estudantes (resultado de interesse) seja medida no nível dos indivíduos.
+
+- Dispor de poucos agrupamentos pode minar sua habilidade de detectar efeitos do tratamento e pode levar a $p$-valores e intervalos de confiança (ou mesmo estimativas) enganoso(-a)s. *O número de agrupamentos* depende da correlação intra-agrupamentos (ICC, na abreviação em inglês, ou $\rho$).
+
+ ## Aleatorização em agrupamentos (clusters) II
+
+- Um alto $\rho$ é pior: 
+
+   - Quando $\rho=0$ o vilarejo (agrupamento) não é relevante para o comportamento dos indivíduos.
+   - Quando $\rho=1$ todo indivíduo no vilarejo responderia a uma dada pergunta exatamente da mesma forma. Dispor de um indivíduo a mais desse vilarejo não te renderia nenhuma informação adicional, dado que esse indivíduo se comportaria tal como todos os outros. 
+
+- Para o mesmo número de unidades, dispor de **mais agrupamentos** com menos unidades por agrupamento pode ajudar. 
+
+- Há um dilema entre efeitos de transbordamento e poder estatístico. 
+
+- Se você não quiser conduzir um experimento com 10 unidades, então você deve estar contente com um experimento com 10 agrupamentos com 100 indivíduos cada. O tamanho efetivo dessa amostra para esse estudo com aleatorização por agrupamentos é algo entre 10 e 10 $\times$ 100 = 1000, mas próximo de 10 o quão mais alto $\rho$.
+
+## Você pode combinar blocos e agrupamentos (clusters)
+
+- Você pode ter agrupamentos dentro de blocos. 
+
+   - Exemplo: bloco = distrito, agrupamento = comunidades, unidades = indivíduos. Você está medindo resultados no nível dos indivíduos. 
+
+   - Exemplo: bloco = província, agrupamento = distrito, unidades = comunidades. Você está medindo resultados no nível da comunidade. 
+
+- Você não pode ter blocos dentro de agrupamentos. 
+
+- Para aleatorização em blocos e agrupamentos, você pode usar block_ra` e `cluster_ra` do pacote `randomizr` em R. 
+
+- Para desenhos mais complexos, o `DeclareDesign` pode ser útil. (<https://declaredesign.org>)
+
+# Melhores práticas
+
+## Melhores práticas: replicabilidade 
+
+- Guia de Métodos do EGAP em aleatorização (<https://egap.org/resource/10-things-to-know-about-randomization/>)
+
+- Defina uma semente aleatória e salve seu código e coluna de atribuição aleatória 
+
+- Verifique
+
+- Por vezes, maior transparência => replicabilidade 
+
+## Melhores práticas: equilíbrio 
+
+- Verifique o equilíbrio geral com teste D-quadrado usando `xBalance` no pacote `RItools` (@hansen:bowers:2008) (inferência a partir de amostras grandes): 
+
+```{r echo=TRUE, eval=FALSE}
+xBal
+```
+
+- Confira também a função `independence_test` do pacote `coin` para permutações
+
+- Empregue um teste-F para a regressão da atribuição do tratamento sobre LHS e covariáveis de RHS (grandes amostras se aproximam da inferência aleatória):
+
+```{r echo=TRUE, eval=FALSE}
+anova(lm(treatment~1,data = dat),
+    lm(treatment~x1+x2+x3,data=dat), test = 'F')
+```
+
+## Melhores práticas: equilíbrio 
+
+   - Atribuição aleatória nos rende, em expectativa, **equilíbrio geral** entre várias covariáveis. Isso não garante que a relação entre tratamento e todas as covariáveis será zero. Na realidade, em um experimento pequeno, as magnitudes de desequilíbrio mesmo em caso de uma aleatorização perfeita. 
+
+- Você observará testes-t de covariáveis um a um. Por sorte, você pode observar diferenças estatisticamente significativas para uma variável. Se você checar o equilíbrio para 100 variáveis, você rejeitará a hipótese nula de nenhuma relação em cinco delas mesmo se de fato não há nenhuma relação.
+
+# Alguns desenhos experimentais 
+
+## Acesso à intervenção de tratamento
+
+- Selecione de maneira aleatória um grupo de tratamento num sorteio de loteria (ou mecanismo análogo), em que o **acesso** ao programa é aleatório. 
+
+- Uma alternativa útil quando você não dispõe de recursos o suficiente para tratar todo mundo. 
+
+- Por vezes, o acesso ao programa deve ser garantido para algumas unidades (povos, comunidades). 
+   - Por exemplo: uma organização parceira pode não quer arriscar que uma dada comunidade vulnerável NÃO consiga acesso ao programa (dito de outra forma, quer garantir que essa comunidade seja sempre tratada). 
+   - Você pode excluir essas unidades do seu experimento, e atribuir a intervenção de tratamento de modo aleatório entre as unidades restantes com probabilidade de receber a intervenção estritamente entre (e não incluindo) 0 e 1. 
+
+## Acesso retardado (lista de espera)
+
+- Aleatorize o *momento* de acesso ao programa. 
+
+- Às vezes, você pode não dispor de recursos o suficiente para implementar o tratamento em vários lugares ao mesmo tempo. 
+
+- Quando uma intervenção pode, ou deve, ser distribuída em estágios, você pode aleatorizar a ordem em que as unidades são tratadas. 
+
+- Seu grupo de controle, nesse caso, é composto de unidades a serem tratadas (ainda). 
+
+- Mas tome cuidado: a probabilidade de atribuição do tratamento deve variar ao longo do tempo, dado que unidades que receberam a intervenção em estágios iniciais não serão elegíveis para receber essa mesma intervenção (novamente) em estágios subsequentes. 
+
+## Atribuição fatorial ou cruzada 
+
+- Desenhos fatoriais permitem testes de mais de uma intervenção de tratamento. 
+
+- Você pode analisar uma intervenção por vez. 
+
+- Ou combinações dessas intervenções. 
+
+- Exemplo: 
+
+\begin{table}
+\begin{tabular}{r|c|c}
+ & $X_1=0$ & $X_1=1$ \\ \hline
+$X_2=1$ & A  & C  \\ \hline
+$X_2=0$ & B  & D  \\
+\hline
+\end{tabular}
+\end{table}
+
+Podemos focar numa estimativa como $\mathbb{E}[Y(X_1=1, X_2=1)]-\mathbb{E}[Y(X_1=0, X_2=0)]$.
+
+
+## Incentivo 
+
+- Aleatorize os **incentivos** à adesão ao tratamento. Esses incentivos podem ser convites ou subsídios para participar do programa. 
+
+- Útil quando você não pode forçar indivíduos a participar. 
+
+- Estimativas:
+   - o ATE do incentivo para sua amostra experimental. 
+
+   - o ATE da participação/adesão (e não do incentivo) que participariam quando incentivadas e que não participariam caso contrário (cumpridores). 
+
+- Análise de variável instrumental para ATE para cumpridores, com atribuição como instrumento. Nota de lembrete quando à restrição de exclusão. 
+
+# Alguns limites 
+
+## Limites em estudos aleatórios 
+
+- Ética --- esse tipo de manipulação de indivíduos e intervenções é ética? Por vezes, não!
+
+- Deve ser conduzido em tempo real, antes da distribuição da intervenção. 
+
+- Flexibilidade reduzida para uma organização parceira (problema para qualquer avaliação prospectiva). 
+
+- Limites ao tamanho do pool experimental. 
+
+- Custo. 
+
+- Os limites de poder estatístico --- você precisará de muitas unidades (dilema de muitas abordagens estatísticas). 
+
+- Violação de suposições fundamentais (efeitos de transbordamento; violação de suposições secundárias para [Inferência Causal](causalinference.html)).
+
+- Validade externa (problema para qualquer avaliação... e para as ciências sociais em geral). 
+
+## Referências
