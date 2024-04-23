@@ -1,0 +1,143 @@
+---
+title: "Quiz for Day 3"
+classoption: "aspectratio=169"
+output:
+  beamer_presentation:
+    keep_tex: true
+    includes:
+      in_header: columns.tex
+    fig_caption: true
+  revealjs::revealjs_presentation:
+    fig_caption: true
+    theme: default
+    highlight: pygments
+    center: false
+    transition: fade
+    smart: false
+    self_contained: false
+    reveal_plugins: ["notes", "search", "chalkboard"]
+    pandoc_args: [ "--toc" ]
+    reveal_options:
+      slideNumber: true
+      previewLinks: true
+      chalkboard:
+        theme: whiteboard
+        toggleNotesButton: false
+header-includes: |
+   \setbeamertemplate{footline}{\begin{beamercolorbox}{section in head/foot}
+   \includegraphics[height=.5cm]{egap-logo.png} \hfill
+   \insertframenumber / \inserttotalframenumber \end{beamercolorbox}}
+   \usepackage{tikz}
+   \usepackage{tikz-cd}
+   \usepackage{textpos}
+   \usepackage{booktabs,multirow,makecell}
+---
+
+## Question 1
+
+:::::: {.cols data-latex=""}
+::: {.col data-latex="{0.48\textwidth}"}
+I'm conducting a study and need to send an informational email to exactly 100 participants, with the rest (the other 100) receiving a control email. The only information I have about these participants is their email addresses. 
+
+Should I randomize using simple, complete, blocked, and clustered random assignment?
+:::
+
+::: {.col data-latex="{0.04\textwidth}"}
+\ 
+<!-- an empty Div (with a white space), serving as
+a column separator -->
+:::
+
+::: {.col data-latex="{0.48\textwidth}"}
+Je mène une étude et je dois envoyer un courriel informatif (le traitement) à exactement 100 participants, les autres recevant un courriel de contrôle. Je n'ai que les adresses électroniques des participants.
+
+Dois-je effectuer une assignation aléatoire simple, complète, par bloc ou par grappe ?
+:::
+::::::
+
+
+
+## Question 2
+
+|                 |                            |   Treatment 1  |         |
+|-----------------|----------------------------|----------------|---------|
+|                 |                            |   No cash      |   Cash  |
+|   Treatment 2   |   Placebo SMS              |   A            |   B     |
+|                 |   Information SMS          |   C            |   D     |
+
+I have the following factorial design. I want know what is the effect of:
+
+1. Getting cash and information vs neither;
+2. The effect of cash vs no cash;
+3. Among people who didn’t get cash, the effect of getting the information vs not
+
+For each one, what comparisons should I make between A B C and D?
+
+## Question 2
+
+|                 |                            |   Treatment 1  |         |
+|-----------------|----------------------------|----------------|---------|
+|                 |                            |   No cash      |   Cash  |
+|   Treatment 2   |   Placebo SMS              |   A            |   B     |
+|                 |   Information SMS          |   C            |   D     |
+
+J'ai cette conception factorielle. Je veux savoir quel est l'effet de :
+
+1. recevoir de l'argent et des informations par rapport au fait de ne pas recevoir d'argent ou d'informations
+2. recevoir de l'argent par rapport à ne pas recevoir d'argent
+3. recevoir de l'information par rapport à ne pas en recevoir, parmi les personnes qui n'ont pas reçu d'argent
+
+Pour chacune de ces questions, quelles comparaisons dois-je faire entre A, B, C et D?
+
+
+
+## Question 3 
+
+:::::: {.cols data-latex=""}
+::: {.col data-latex="{0.48\textwidth}"}
+Compare two experiments, one of which uses block random assignment and one of which uses cluster random assignment. Which one is which?
+
+a. In a district with 100 villages each with 100 people in them, I randomly assign 50 people per village to treatment and 50 to control.
+b. I randomly assign 100 people per village to treatment and 0 to control or 100 people per village to control and 0 to treatment.
+:::
+
+::: {.col data-latex="{0.04\textwidth}"}
+\ 
+<!-- an empty Div (with a white space), serving as
+a column separator -->
+:::
+
+::: {.col data-latex="{0.48\textwidth}"}
+Comparez deux expériences aléatoires. Une utilise une assignation aléatoire par bloc et l'autre une assignation aléatoire par grappe. Identifiez la description qui correspond à la randomisation par bloc et celle qui correspond à la randomisation par grappe.
+
+a. Dans un district composé de 100 villages comptant chacun 100 habitants, j'assigne de manière aléatoire 50 personnes par village au traitement et 50 au contrôle.
+b. Au même endroit, j'assigne aléatoirement 100 personnes par village au traitement et 0 au contrôle ou 100 personnes par village au contrôle et 0 au traitement.
+:::
+::::::
+
+
+
+## Question 4
+
+|   Estimate  |   Standard error  |   Bias  |   RMSE  |
+|-------------|-------------------|---------|---------|
+|   2.1       |   0.1             |   0.1   |   0.2   |
+|   0.0       |   0.5             |   0     |   0.5   |
+|   -1.2      |   1.0             |   0     |   1.0   |
+
+:::::: {.cols data-latex=""}
+::: {.col data-latex="{0.48\textwidth}"}
+You ran an experiment and your collaborator is analyzing the data. You didn’t have time to pick an answer strategy in advance (we’ll talk about why you might want to on Friday!), so you have to pick one now. You are considering four estimators, and your collaborator provides you with the following table to choose one. Which do you select?
+:::
+
+::: {.col data-latex="{0.04\textwidth}"}
+\ 
+<!-- an empty Div (with a white space), serving as
+a column separator -->
+:::
+
+::: {.col data-latex="{0.48\textwidth}"}
+Vous avez mené une expérience aléatoire et votre collaborateur est en train d'analyser les données. Vous n'avez pas eu le temps de choisir une stratégie de réponse à l'avance, vous devez donc en choisir une maintenant. Vous envisagez quatre estimateurs et votre collaborateur vous fournit le tableau suivant pour que vous puissiez en choisir un. Lequel choisissez-vous ?
+:::
+::::::
+
