@@ -1,0 +1,967 @@
+---
+title: "Power Calculation | Calcul de Puissance"
+author: "Horace  Gninafon"
+date: "June 29, 2023"
+link-citations: yes 
+colorlinks: yes
+fig_caption: yes
+header-includes: |
+   \setbeamertemplate{footline}{\begin{beamercolorbox}{section in head/foot}
+   \includegraphics[height=.75cm]{../Images/egap-logo.png} \hfill
+   \insertframenumber/\inserttotalframenumber \end{beamercolorbox}}
+   \usepackage{tikz}
+   \usepackage{tikz-cd}
+   \usepackage{textpos}
+   \usepackage{booktabs,multirow,makecell}
+output:
+  beamer_presentation:
+    keep_tex: true
+    includes:
+      in_header: columns.tex
+    fig_caption: true
+  revealjs::revealjs_presentation:
+    fig_caption: true
+    theme: default
+    highlight: pygments
+    center: false
+    transition: fade
+    self_contained: false
+    reveal_plugins: ["notes", "search", "chalkboard"]
+    pandoc_args: [ "--toc" ]
+    reveal_options: 
+      slideNumber: false
+      previewLinks: true
+      chalkboard:
+        theme: whiteboard
+        toggleNotesButton: false
+editor_options: 
+  markdown: 
+    wrap: 72
+---
+
+
+```{r, echo=FALSE, eval=TRUE}
+options(repos = "https://cran.rstudio.com/")
+#Effacer tous les objets présents dans l'espace de travail
+# Set the CRAN mirror
+rm(list = ls())
+```
+```{r installation des librairies, echo=FALSE, eval=TRUE}
+#Vérifier et installer les packages manquants
+list.of.packages <- c("knitr", "DeclareDesign", "tidyverse", "patchwork")
+new.packages <- list.of.packages[!(list.of.packages %in% installed.packages()[,"Package"])]
+if(length(new.packages)) install.packages(new.packages)
+```
+```{r, echo = FALSE, warning = FALSE, message = FALSE}
+library(knitr)
+library(DeclareDesign)
+library(tidyverse)
+library(patchwork)
+opts_chunk$set(warning = FALSE, message = FALSE)
+
+```
+
+## Key points for this lecture \| *Points clés du cours*
+
+::: {.cols data-latex=""}
+::: {.col data-latex="{0.48\\textwidth}"}
+-  Power is the ability of our experiment to detect statistically significant treatment effects, if they in fact exist
+-  Power matters: for practical reasons and for interpretation
+-  Increase power by strengthening intervention, reducing noise, and increasing sample size
+:::
+  
+::: {.col data-latex="{0.04\\textwidth}"}
+<!-- an empty Div (with a white space), serving as
+a column separator -->
+:::
+  
+::: {.col data-latex="{0.48\\textwidth}"}
+-  La puissance est la capacité de notre expérience à détecter des effets de traitement statistiquement significatifs, s'ils existent réellement
+-  La puissance est importante : pour des raisons pratiques et pour l'interprétation
+-  Augmenter la puissance en renforçant l'intervention, en réduisant le bruit et en augmentant la taille de l'échantillon
+:::
+:::
+
+# Review \| *Révision*
+## Review \| *Révision* (1)
+
+::: {.cols data-latex=""}
+::: {.col data-latex="{0.48\\textwidth}"}
+-   Estimand (the truth) vs estimate of the average treatment effect (ATE)
+
+-   Sampling distribution: distribution of estimates of the ATE from all possible randomizations
+
+
+
+:::
+
+::: {.col data-latex="{0.04\\textwidth}"}
+  <!-- an empty Div (with a white space), serving as
+a column separator -->
+:::
+
+::: {.col data-latex="{0.48\\textwidth}"}
+-   La paramétre (la vérité) vs l'estimation ponctuelle (la devinette) d'ATE
+
+-   Distribution d’échantillonage:  La distribution des effets moyens du traitement estimés pour toutes les affectations de traitement possibles.
+
+
+:::
+:::
+
+
+
+## Review \| *Révision* (2)
+
+::: {.cols data-latex=""}
+::: {.col data-latex="{0.48\\textwidth}"}
+-   Standard deviation of a distribution
+
+-   Standard error: standard devision of the sampling distribution 
+
+
+
+:::
+
+::: {.col data-latex="{0.04\\textwidth}"}
+  <!-- an empty Div (with a white space), serving as
+a column separator -->
+:::
+
+::: {.col data-latex="{0.48\\textwidth}"}
+-   Un écart-type d’une distribution
+
+-   Standard error:  L’écart-type d’une distribution
+d’échantillonnage
+
+
+:::
+:::
+ $$SD_{x} = \sqrt{\frac{1}{n} \sum_{i=1}^{n} (Xi - \overline{X})^2 }$$
+
+
+# Power \| *La puissance*
+
+## Power \| *La puissance*
+
+\vspace{.03in}
+
+::: {.cols data-latex=""}
+::: {.col data-latex="{0.48\\textwidth}"}
+
+-   The ability of the experiment to detect statistically significant treatment effects, if the effect really exists
+
+-   Experiment’s ability to avoid making a Type II error (incorrect failure to reject the null hypothesis of no effect).
+
+
+:::
+::: {.col data-latex="{0.04\\textwidth}"}
+  <!-- an empty Div (with a white space), serving as
+a column separator -->
+:::
+
+::: {.col data-latex="{0.48\\textwidth}"}
+-   La capacité de notre expérience à détecter des effets de traitement statistiquement significatifs, s'ils existent réellement.
+
+-   La capacité de l'expérience à éviter de commettre une erreur de type II (incapacité à rejeter l'hypothèse nulle d'absence d'effet).
+
+
+:::
+:::
+
+
+
+
+## Power Analysis \| *L'analyse de la puissance* 
+
+\vspace{.03in}
+
+::: {.cols data-latex=""}
+::: {.col data-latex="{0.48\\textwidth}"}
+-  Power analysis is something we do before we run a study. 
+-  Goal: To discover whether our planned design has enough power to detect effects if they exist.
+
+
+:::
+
+::: {.col data-latex="{0.04\\textwidth}"}
+  <!-- an empty Div (with a white space), serving as
+a column separator -->
+:::
+
+::: {.col data-latex="{0.48\\textwidth}"}
+-  L'analyse de puissance est quelque chose que nous faisons avant de mener une étude.
+-  Objectif : Déterminer si le design de l'étude a suffisamment de puissance pour détecter les effets s'ils existent.
+
+
+:::
+:::
+
+## Power Analysis \| *L'analyse de la puissance* 
+
+\vspace{.03in}
+
+::: {.cols data-latex=""}
+::: {.col data-latex="{0.48\\textwidth}"}
+-  We usually state a hypothesis about the effect-size of a treatment and compare this against the null hypothesis of no effect.
+
+:::
+
+::: {.col data-latex="{0.04\\textwidth}"}
+  <!-- an empty Div (with a white space), serving as
+a column separator -->
+:::
+
+::: {.col data-latex="{0.48\\textwidth}"}
+-  Nous formulons généralement une hypothèse sur l'ampleur de l'effet d'un traitement et la comparons à l'hypothèse nulle d'absence d'effet.
+
+:::
+:::
+
+
+
+
+
+## What are the three main inputs into statistical power? \| *Quels sont les trois principaux éléments de la puissance statistique ?*
+
+::: {.cols data-latex=""}
+::: {.col data-latex="{0.48\\textwidth}"}
+-  Sample size;
+-  Noisiness of the outcome variable ($\sigma$);
+-  Treatment-effect size.
+:::
+
+::: {.col data-latex="{0.04\\textwidth}"}
+  <!-- an empty Div (with a white space), serving as
+a column separator -->
+:::
+
+::: {.col data-latex="{0.48\\textwidth}"}
+-  Taille de l'échantillon
+-  La dispersion de la variable de résultat (i.e. la variable dépendente) ($\sigma$)
+-  Taille de l'effet du traitement.
+:::
+:::
+
+
+
+## The Power Formula \| *The Power Formula   (1)*
+
+\begin{equation}
+\label{equation_1}
+   Power = \Phi(\frac{|\tau|\sqrt{N}}{2\sigma} - \Phi^{-1}(1 - \frac{\alpha}{2}) )
+\end{equation}
+
+
+::: {.cols data-latex=""}
+::: {.col data-latex="{0.48\\textwidth}"}
+-  Power is a number between $0$ and $1$; higher is better;
+-  $\Phi$ is the cummulative density function of the normal distribution: FIXED;
+-  $\tau$  is the effect size.
+
+:::
+
+::: {.col data-latex="{0.04\\textwidth}"}
+  <!-- an empty Div (with a white space), serving as
+a column separator -->
+:::
+
+::: {.col data-latex="{0.48\\textwidth}"}
+-  La puissance est un nombre compris entre $0$ et $1$ ; plus elle est élevée, mieux c'est...
+-  $\Phi$ est la fonction de densité cummulative de la distribution normale: FIXE
+-  $\tau$ est la taille de l'effet.
+
+:::
+:::
+
+## The Power Formula | *The Power Formula   (2)* 
+
+
+::: {.cols data-latex=""}
+::: {.col data-latex="{0.48\\textwidth}"}
+-  $N$ is the sample size
+-  $\sigma$ is the standard deviation of the outcome
+-  $\alpha$ is the significance level: FIXED (by convention)
+
+:::
+
+::: {.col data-latex="{0.04\\textwidth}"}
+  <!-- an empty Div (with a white space), serving as
+a column separator -->
+:::
+
+::: {.col data-latex="{0.48\\textwidth}"}
+-  $N$ est la taille de l'échantillon
+-  $\sigma$ est l'écart-type du résultat
+-  $\alpha$  est le niveau de signification: FIXE (par convention)
+
+:::
+:::
+
+
+## Three main inputs into statistical power 1: Sample size \| *Trois éléments principaux de la puissance statistique 1 : La taille de l'échantillon*
+::: {.cols data-latex=""}
+::: {.col data-latex="{0.48\\textwidth}"}
+-  More observations $\rightarrow$ more power
+-  Add observations!
+-  Problems?
+:::
+
+::: {.col data-latex="{0.04\\textwidth}"}
+  <!-- an empty Div (with a white space), serving as
+a column separator -->
+:::
+
+::: {.col data-latex="{0.48\\textwidth}"}
+-  Plus d'observations $\rightarrow$ plus de puissance
+-  Ajoutez des observations !
+-  Problèmes éventuels ?
+:::
+:::
+
+
+
+## Three main inputs into statistical power 2: Noisiness of outcome measure \| *Les trois principaux facteurs de la puissance statistique 2 : La dispersion de la variable dépendante*
+
+::: {.cols data-latex=""}
+::: {.col data-latex="{0.48\\textwidth}"}
+- Less noise $\rightarrow$ more power
+- Reduce noise. How?
+    -  Blocking — conduct experiments among subjects that look more similar;
+    -  Collect baseline covariates — background information about experimental units;
+- Problems?
+:::
+
+::: {.col data-latex="{0.04\\textwidth}"}
+  <!-- an empty Div (with a white space), serving as
+a column separator -->
+:::
+
+::: {.col data-latex="{0.48\\textwidth}"}
+- Faile dispersion $\rightarrow$ plus de puissance
+- Comment réduire la dispersion ?
+    -  Stratifier - mener des expériences avec des sujets qui se ressemblent le plus.
+    -  Recueillir des covariables de base - informations de base sur les unités expérimentales;
+- Problèmes éventuels ?
+:::
+:::
+
+
+
+
+
+## Three Main Inputs into Statistical Power 3: Size of Treatment Effect \| *Trois éléments principaux de la puissance statistique 3 : Taille de l'effet du traitement*
+
+::: {.cols data-latex=""}
+::: {.col data-latex="{0.48\\textwidth}"}
+- Bigger effect $\rightarrow$ more power;
+- Boost dosage / avoid very weak treatments;
+- Problems?
+:::
+
+::: {.col data-latex="{0.04\\textwidth}"}
+  <!-- an empty Div (with a white space), serving as
+a column separator -->
+:::
+
+::: {.col data-latex="{0.48\\textwidth}"}
+- Plus d'effet $\rightarrow$ plus de puissance;
+- Augmenter le dosage / éviter les traitements très faibles;
+- Problèmes éventuels ?
+:::
+:::
+
+
+
+## Power is the Art of Tweaking! \| La puissance est l'art du réglage !
+
+::: {.cols data-latex=""}
+::: {.col data-latex="{0.48\\textwidth}"}
+We tweak different parts of our design up front to make sure that our
+experiment has enough power to detect effects (assuming they exist)
+:::
+
+::: {.col data-latex="{0.04\\textwidth}"}
+  <!-- an empty Div (with a white space), serving as
+a column separator -->
+:::
+
+::: {.col data-latex="{0.48\\textwidth}"}
+Nous modifions les différentes parties de notre conception dès le départ afin de nous assurer que notre expérience a suffisamment de puissance pour détecter les effets (en supposant qu'ils existent).
+:::
+:::
+
+
+
+
+
+
+## Tweak Sample Size: How Does Power Respond? \| *Modifier la taille de l'échantillon : comment Power réagit-il* ?
+\vspace{.03in}
+
+![](../Images/tweak_samp_size.png){width="400"}
+
+
+## Tweak Effect Size: How Does Power Respond? \| *Modifier la taille de l'effet: comment Power réagit-il* ?
+\vspace{.03in}
+
+![](../Images/tweak_effect_size.png){width="400"}
+
+
+
+
+## Tweak SD of Outcome: How Does Power Respond? \| *Modifier l'Ecart type de la variable dépendante: comment la puissance réagit-elle* ?
+\vspace{.03in}
+
+![](../Images/tweak_sd.png){width="400"}
+
+
+
+
+## Your Turn! \| *A vous de jouer ! (1)*
+
+::: {.cols data-latex=""}
+::: {.col data-latex="{0.48\\textwidth}"}
+-  Go to http://egap.org/
+-  Tools -> Apps -> EGAP Tool: Power Calculator
+-  Set Significance Level at Alpha equal to 0.05
+-  Set Power Target at 0.8
+-  Set Maximum Number of Subjects at 1,000.
+:::
+
+::: {.col data-latex="{0.04\\textwidth}"}
+  <!-- an empty Div (with a white space), serving as
+a column separator -->
+:::
+
+::: {.col data-latex="{0.48\\textwidth}"}
+-  Aller sur http://egap.org/
+-  Outils -> Applications -> Outil EGAP : Calculateur de puissance
+-  Fixer le niveau de signification à Alpha egal à 0,05
+-  Fixer l'objectif de puissance à 0,8
+-  Fixer le nombre maximum de sujets à 1000.
+:::
+:::
+
+
+
+## Your Turn! \| *A vous de jouer ! (2)*
+
+::: {.cols data-latex=""}
+::: {.col data-latex="{0.48\\textwidth}"}
+-   Fix Standard Deviation of Outcome Variable at 10. How many subjects do I need if my Treatment Effect Size is 2 in order for my experiment to have 80% power? What about Treatment Effect Size 5? Treatment Effect Size 10?
+:::
+
+::: {.col data-latex="{0.04\\textwidth}"}
+  <!-- an empty Div (with a white space), serving as
+a column separator -->
+:::
+
+::: {.col data-latex="{0.48\\textwidth}"}
+-   Fixez l'écart-type de la variable de résultat à 10. De combien de sujets ai-je besoin si l'ampleur de l'effet de traitement est de 2 pour que mon expérience ait une puissance de 80 % ? Qu'en est-il si l'ampleur de l'effet de traitement est de 5 ou de 10? 
+:::
+:::
+
+
+
+## Example \| *Exemple*
+
+\vspace{.03in}
+
+::: {.cols data-latex=""}
+::: {.col data-latex="{0.48\\textwidth}"}
+- Caleb runs an experiment to see whether giving women cash reduce Intimate Partner Violence (IPV) their experience.
+
+- He finds no statistically significant difference between the groups.
+
+- What does this mean?
+
+:::
+
+::: {.col data-latex="{0.04\\textwidth}"}
+  <!-- an empty Div (with a white space), serving as
+a column separator -->
+:::
+
+::: {.col data-latex="{0.48\\textwidth}"}
+- Caleb a mèné une expérience pour déterminer si le fait de donner de l'argent liquide aux femmes a réduit les violences qu'elles subissent.
+
+- Il ne constate pas de différence statistiquement significative entre les deux groupes.
+
+- Qu'est-ce que cela signifie ?
+:::
+:::
+
+
+## Under-powered studies \| *Les études de faible puissance*
+
+
+::: {.cols data-latex=""}
+::: {.col data-latex="{0.48\\textwidth}"}
+-   With a study that does not have enough power, we can't tell whether a null finding (no statistically significant effect) means there is no effect or we just can't detect an effect that exists.
+
+
+:::
+
+::: {.col data-latex="{0.04\\textwidth}"}
+  <!-- an empty Div (with a white space), serving as
+a column separator -->
+:::
+
+::: {.col data-latex="{0.48\\textwidth}"}
+-   Dans le cas d'une étude dont la puissance est insuffisante, il est impossible de dire si un résultat nul (pas d'effet statistiquement significatif) signifie qu'il n'y a pas d'effet ou si nous ne pouvons tout simplement pas détecter un effet existant.
+
+
+
+:::
+:::
+
+## Under-powered studies \| *Les études de faible puissance*
+
+
+::: {.cols data-latex=""}
+::: {.col data-latex="{0.48\\textwidth}"}
+
+-   We don't know whether we should adopt this treatment because we don't know whether it's effective.
+
+-   Perhaps running this study is not a good use of our resources.
+
+:::
+
+::: {.col data-latex="{0.04\\textwidth}"}
+  <!-- an empty Div (with a white space), serving as
+a column separator -->
+:::
+
+::: {.col data-latex="{0.48\\textwidth}"}
+
+
+-   Nous ne savons pas si nous devons adopter ce traitement car nous ne savons pas s'il est efficace.
+
+-   Peut-être que la réalisation de cette étude n'est pas une bonne utilisation de nos ressources.
+
+:::
+:::
+
+# An Alternative Perspective: Minimum Detectable Effect \| *Une autre perspective : L'effet minimal détectable*
+
+##  Difficulty with Power Analysis \|
+::: {.cols data-latex=""}
+::: {.col data-latex="{0.48\\textwidth}"}
+-  Hardest part of power analysis is plugging in treatment effect : how can we possibly know before experiment has been run?
+:::
+
+::: {.col data-latex="{0.04\\textwidth}"}
+  <!-- an empty Div (with a white space), serving as
+a column separator -->
+:::
+
+::: {.col data-latex="{0.48\\textwidth}"}
+-  La partie la plus difficile de l'analyse de puissance consiste à introduire l'effet du traitement - comment pouvons-nous le savoir avant que l'expérience n'ait été réalisée?
+:::
+:::
+
+
+
+## Ask two questions: \| *Posez deux questions :*
+::: {.cols data-latex=""}
+::: {.col data-latex="{0.48\\textwidth}"}
+1.  For a give set of inputs, what’s the smallest effect that my study would be able to detect?
+
+2.  Would this effect-size be “satisfactory”?
+
+      -  Cost-effectiveness
+
+      -  Disciplinary rules of thumb (e.g. 0.2 SD effects in education research)
+
+      -  Other studies which had similar goals to yours
+:::
+
+::: {.col data-latex="{0.04\\textwidth}"}
+  <!-- an empty Div (with a white space), serving as
+a column separator -->
+:::
+
+::: {.col data-latex="{0.48\\textwidth}"}
+1.  Pour un ensemble donné de données, quel est le plus petit effet que mon étude pourrait détecter ?
+
+2.  Cette taille d'effet serait-elle "satisfaisante" ?
+
+      -  Coût-efficacité
+
+      -  Règles empiriques disciplinaires (par exemple, effets de 0,2 SD dans la recherche sur l'éducation)
+
+      -  Autres études ayant des objectifs similaires aux vôtres
+:::
+:::
+
+##  Minimum Detectable Effect \| *L'effet minimal détectable*
+
+
+::: {.cols data-latex=""}
+::: {.col data-latex="{0.48\\textwidth}"}
+-  After we answer these two questions, we design the study that will allow us to detect an effect with that size.
+
+:::
+
+::: {.col data-latex="{0.04\\textwidth}"}
+  <!-- an empty Div (with a white space), serving as
+a column separator -->
+:::
+
+::: {.col data-latex="{0.48\\textwidth}"}
+-  
+
+:::
+:::
+
+
+
+# Special Case: Cluster-Randomized Designs \| *Cas particulier : Designs d'une randomisation par grappe*
+
+## Special Case: Clustered-Randomized Designs \| *Cas particulier : Designs d'une randomisation par grappe*
+
+::: {.cols data-latex=""}
+::: {.col data-latex="{0.48\\textwidth}"}
+-  We often randomize treatment at the level of groups, but only have the ability to sample a few people within those groups.
+
+-  Also used if intervention has to function at the cluster level.
+
+-  Examples?
+
+:::
+
+::: {.col data-latex="{0.04\\textwidth}"}
+  <!-- an empty Div (with a white space), serving as
+a column separator -->
+:::
+
+::: {.col data-latex="{0.48\\textwidth}"}
+-  Nous randomisons le traitement au niveau des groupes, mais nous n'avons la possibilité d'échantillonner que quelques personnes au sein de ces groupes.
+
+-  Utiliser aussi cela si l'intervention doit s'effectuer au niveau de la grappe.
+
+-  Exemples ?
+
+:::
+:::
+
+
+## Special issues for power \| *Challenges particuliers liés à la puissance*
+
+::: {.cols data-latex=""}
+::: {.col data-latex="{0.48\\textwidth}"}
+
+-  Number of individuals sampled per cluster
+
+-  Intra-cluster correlation: how similar are people that are in the same cluster
+
+
+:::
+
+::: {.col data-latex="{0.04\\textwidth}"}
+  <!-- an empty Div (with a white space), serving as
+a column separator -->
+:::
+
+::: {.col data-latex="{0.48\\textwidth}"}
+-  Nombre d'individus échantillonnés par grappe
+
+-  Correlation intra-grappe: le dégré de similarité des individus qui sont dans la même grappe
+:::
+:::
+
+  
+  
+  
+## Example \| *Exemple*
+  
+::: {.cols data-latex=""}
+::: {.col data-latex="{0.48\\textwidth}"}
+- 4,000 bureaucrats, divided into 200 municipalities of 20 workers each; 100 municipalities in treatment and 100 municipalities in control.
+
+-  When the intracluster correlation is 0, bureaucrates within the same municipalities are not similar;
+-  It’s like assigning 4,000 bureaucrates to treatment or control!
+:::
+  
+::: {.col data-latex="{0.04\\textwidth}"}
+<!-- an empty Div (with a white space), serving as
+a column separator -->
+:::
+  
+::: {.col data-latex="{0.48\\textwidth}"}
+- 4000 bureaucrates, répartis en 200 communes de 20 bureaucrates par communes ; 100 communes dans le groupe de traitement et 100 communes dans le groupe de contrôle.
+-  Lorsque la corrélation intracluster est égale à 0, les bureaucrates d'une même municipalités ne sont pas semblables.
+  -  Cela revient à assigner 4000 bureaucrates qui seront répartis dans le groupe de traitement et dans le groupe de contrôle!
+:::
+:::
+
+
+
+## Example \| *Exemple*
+
+
+::: {.cols data-latex=""}
+::: {.col data-latex="{0.48\\textwidth}"}
+  -  When the intracluster correlation is 1, everyone within a municipality acts the same, and so you effectively have 200 independent observations
+  -  Implications for power?
+:::
+
+::: {.col data-latex="{0.04\\textwidth}"}
+  <!-- an empty Div (with a white space), serving as
+a column separator -->
+:::
+
+::: {.col data-latex="{0.48\\textwidth}"}
+  -  Lorsque la corrélation intra grappe est de 1, tous les individus d'une même municipalité agissent de la même manière et vous disposez donc de 200 observations indépendantes.
+-  Implications pour la puissance ?
+:::
+:::
+  
+
+  
+## Special Case: Clustered-Randomized Designs \| *Cas particulier : Plans d'échantillonnage aléatoire en grappes*
+  
+  
+  \vspace{.03in}
+
+![](../Images/cluster_randomization1.png){width="400"}
+
+
+
+
+## Special Case: Clustered-Randomized Designs \| *Cas particulier : Plans d'échantillonnage aléatoire en grappes*
+
+
+\vspace{.03in}
+
+![](../Images/cluster_randomization2.png){width="400"}
+
+
+
+## Special Case: Clustered-Randomized Designs \| *Cas particulier : Plans d'échantillonnage aléatoire en grappes*
+
+
+\vspace{.03in}
+
+![](../Images/cluster_randomization3.png){width="400"}
+
+
+## Tweak Intra-Cluster Correlation: How Does Power Respond? \| *Modifier la corrélation intra grappe : Comment la puissance réagit-elle ?* (1)
+
+
+::: {.cols data-latex=""}
+::: {.col data-latex="{0.48\\textwidth}"}
+- Number of clusters = 140; 10 sampled per cluster
+:::
+  
+::: {.col data-latex="{0.04\\textwidth}"}
+<!-- an empty Div (with a white space), serving as
+a column separator -->
+:::
+  
+::: {.col data-latex="{0.48\\textwidth}"}
+- Nombre de grappes = 140 ; 10 échantillonnées par grappe
+:::
+:::
+
+\centering  
+  
+  ![](../Images/tweak_icc_correlation.png){width="300"}
+
+
+## Tweak Number of Units Per Cluster: How Does Power Respond? \| *Modifier le nombre d'unités par grappe: Comment la puissance réagit-elle ?* (2)
+
+::: {.cols data-latex=""}
+::: {.col data-latex="{0.48\\textwidth}"}
+-  Another choice we have to make in cluster designs is how many units within clusters to sample
+-  Surely we want to sample as many as possible, right?
+  -  Hmm..
+:::
+  
+::: {.col data-latex="{0.04\\textwidth}"}
+<!-- an empty Div (with a white space), serving as
+a column separator -->
+:::
+  
+::: {.col data-latex="{0.48\\textwidth}"}
+-  Un autre choix à faire dans les conceptions par grappe est celui du nombre d'unités à échantillonner à l'intérieur des grappes
+-  Nous voulons certainement en échantillonner le plus possible, n'est-ce pas ?
+-  Hmm...
+:::
+:::
+
+## Tweak Number of Units Per Cluster: How Does Power Respond? \| Modifier le nombre d'unités par grappe : Comment la puissance réagit-elle ?
+\centering  
+  ![](../Images/tweak_icc_unit.png){width="300"}
+
+  
+
+
+## Golden Rule of Cluster-Randomized Designs \| *Règle d'or des plans randomisés en grappes*
+
+::: {.cols data-latex=""}
+::: {.col data-latex="{0.48\\textwidth}"}
+-   Unless intra-cluster correlation is very small, it’s always better to add more clusters than to sample more people within the clusters
+:::
+  
+::: {.col data-latex="{0.04\\textwidth}"}
+<!-- an empty Div (with a white space), serving as
+a column separator -->
+:::
+  
+::: {.col data-latex="{0.48\\textwidth}"}
+-   A moins que la correlation intra-grappe ne soit tres faible, il est toujours preferable d'ajouter des grappes plutot que d'échantillonner davantage de personnes à l'intérieur des grappes.
+:::
+:::
+
+
+## Your Turn! \| *À vous de jouer* !
+
+::: {.cols data-latex=""}
+::: {.col data-latex="{0.48\\textwidth}"}
+-  Go to http://egap.org/
+-  Tools > Apps > EGAP Tool: Power Calculator
+-  Click box which says “Clustered Design?”
+-  Set Significance Level at Alpha = 0.05
+-  Set Treatment Effect Size at 5
+-  Standard Deviation of Outcome Variable at 10
+-  Set Power Target at 0.8
+-  Set Maximum Number of Subjects at 2000
+:::
+
+::: {.col data-latex="{0.04\\textwidth}"}
+  <!-- an empty Div (with a white space), serving as
+a column separator -->
+:::
+
+::: {.col data-latex="{0.48\\textwidth}"}
+-  Aller sur http://egap.org/
+-  Outils > Applications > Outil EGAP : Calculateur de puissance
+-  Cliquez sur la case qui dit "Clustered Design ?"
+-  Fixez le niveau de signification à Alpha = 0,05
+-  Fixez la taille de l'effet de traitement à 5
+-  Écart-type de la variable de résultat à 10
+-  Fixer l'objectif de puissance à 0,8
+-  Fixer le nombre maximum de sujets à 2000
+:::
+:::
+
+
+## Your Turn! \| *À vous de jouer !* (1)
+
+::: {.cols data-latex=""}
+::: {.col data-latex="{0.48\\textwidth}"}
+1.  Fix Number of Clusters per Arm at 40. How many subjects do I need if my Intra-cluster Correlation is 0.6 in order for my experiment to have 80% power? What about Intra-cluster Correlation of 0.4? 0.1? 0?
+:::
+
+::: {.col data-latex="{0.04\\textwidth}"}
+  <!-- an empty Div (with a white space), serving as
+a column separator -->
+:::
+
+::: {.col data-latex="{0.48\\textwidth}"}
+1.  Fixer le nombre de grappes par traitement à 40. De combien de sujets ai-je besoin si ma corrélation intra-groupe est de 0,6 pour que mon expérience ait une puissance de 80 % ? Qu'en est-il d'une correlation intra-groupe de 0,4 ? 0.1 ? 0 ?
+:::
+:::
+
+
+
+## Your Turn! \| *À vous de jouer !* (2)
+
+::: {.cols data-latex=""}
+::: {.col data-latex="{0.48\\textwidth}"}
+2.  Fix Intra-cluster Correlation at 0.5. How many subjects do I need if the Number of Clusters per Arm is 100 in order for my experiment to have 80% power? What if the Number of Clusters per Arm is 50? 35? 20?
+:::
+
+::: {.col data-latex="{0.04\\textwidth}"}
+  <!-- an empty Div (with a white space), serving as
+a column separator -->
+:::
+
+::: {.col data-latex="{0.48\\textwidth}"}
+2.  Fixer la corrélation intra-grappe à 0,5. De combien de sujets ai-je besoin si le nombre de grappes par bras est de 100 pour que mon expérience ait une puissance de 80 % ? Quel serait le nombre d'individus par grappe à échantilloner  si le nombre de grappe par traitement est de 50 ? 35 ? 20 ?
+:::
+:::
+  
+  
+
+
+## Recap: What Have you Learned? \| *Récap : Qu'avez-vous appris ?* (1)
+  
+::: {.cols data-latex=""}
+::: {.col data-latex="{0.48\\textwidth}"}
+-  Power is the ability of our experiment to detect statistically significant treatment effects, if they in fact exist
+-  Power matters: for practical reasons and for interpretation
+-  Increase power by strengthening intervention, reducing noise, and increasing sample size
+:::
+  
+::: {.col data-latex="{0.04\\textwidth}"}
+<!-- an empty Div (with a white space), serving as
+a column separator -->
+:::
+  
+::: {.col data-latex="{0.48\\textwidth}"}
+-  La puissance est la capacité de notre expérience à détecter des effets de traitement statistiquement significatifs, s'ils existent réellement
+-  La puissance est importante : pour des raisons pratiques et pour l'interprétation
+-  Augmenter la puissance en renforçant l'intervention, en réduisant le bruit et en augmentant la taille de l'échantillon
+:::
+:::
+  
+  
+  
+  
+## Recap: What Have you Learned? \| *Récap : Qu'avez-vous appris ?* (2)
+  
+::: {.cols data-latex=""}
+::: {.col data-latex="{0.48\\textwidth}"}
+-  In cluster-randomized designs, almost always better to add more clusters rather than interview more people within clusters
+-  Always run a power analysis before committing to a final design
+-  But beware that it involves some guesswork; be skeptical and vary assumptions
+:::
+  
+::: {.col data-latex="{0.04\\textwidth}"}
+<!-- an empty Div (with a white space), serving as
+a column separator -->
+:::
+  
+::: {.col data-latex="{0.48\\textwidth}"}
+-  Dans les expériences randomisées par grappe, il est presque toujours preferable d'ajouter des grappes plutot que d'interroger davantage de personnes au sein des grappes.
+-  Effectuez toujours une analyse de puissance avant de vous engager dans une conception finale.
+-  Mais attention, cela implique des suppositions ; soyez sceptiques et variez les hypothèses.
+:::
+:::
+  
+  
+  
+##  References \| *Références*
+  
+::: {.cols data-latex=""}
+::: {.col data-latex="{0.48\\textwidth}"}
+-   Note: Most of these slides are not original. Material is borrowed from
+several sources:
+  
+    - Gareth Nellis, Learning Days slides (on power analysis)
+    - Cyrus Samii, NYU slides (on minimum detectable effects)
+    - Tara Slough, Columbia slides (graphs on the sensitivity of effects)
+:::
+  
+::: {.col data-latex="{0.04\\textwidth}"}
+<!-- an empty Div (with a white space), serving as
+a column separator -->
+:::
+  
+::: {.col data-latex="{0.48\\textwidth}"}
+-   Note: La plupart de ces slides ne sont pas originales. Le matériel est extrait de plusieurs sources:
+  
+    - Gareth Nellis, Slides des Journées d'Apprentissages de EGAP (Analyse de puissance)
+    - Cyrus Samii, NYU diapositives (sur les effets minimaux détectables)
+    - Tara Slough, Columbia diapositives (graphiques sur la sensibilité des effets)
+
+:::
+:::
+
+  
+
+
+
