@@ -1,7 +1,7 @@
 ## randomization_figs.R
 ##
 ## Nahomi Ichino, April 2023, for EGAP Learning Days
-## for lecture slides on randomization 
+## for lecture slides on randomization
 
 library(plotrix)
 
@@ -121,6 +121,74 @@ text(-x, 1, "6")
 
 dev.off()
 
+
+## complete randomization
+png(file="complete_randomization_wide.png", width=960, height=500, pointsize=36)
+par(mar=c(0,0,0,0))
+
+x=1
+r=.15
+l=1
+plot( c(6.5,0), c(-1,4.5), type="n", main="", xlab="", ylab="", axes=FALSE)
+# plot(c(-1,4), c(20,-2), type="n", main="", xlab="", ylab="", axes=FALSE)
+
+# draw.circle(0,0,r)
+# draw.circle(x,0,r)
+# draw.circle(2*x,0,r)
+# draw.circle(3*x,0,r)
+
+draw.circle(l,0,r)
+draw.circle(l,x,r)
+draw.circle(l,2*x,r, col="#009E73")
+draw.circle(l,3*x,r, col="#009E73")
+
+draw.circle(l*2,0,r)
+draw.circle(l*2,x,r, col="#009E73")
+draw.circle(l*2,2*x,r)
+draw.circle(l*2,3*x,r, col="#009E73")
+
+draw.circle(l*3,0,r)
+draw.circle(l*3,x,r, col="#009E73")
+draw.circle(l*3,2*x,r, col="#009E73")
+draw.circle(l*3,3*x,r)
+
+draw.circle(l*4,0,r, col="#009E73")
+draw.circle(l*4,x,r)
+draw.circle(l*4,2*x,r)
+draw.circle(l*4,3*x,r, col="#009E73")
+
+draw.circle(l*5,0,r, col="#009E73")
+draw.circle(l*5,x,r)
+draw.circle(l*5,2*x,r, col="#009E73")
+draw.circle(l*5,3*x,r)
+
+draw.circle(l*6,0,r, col="#009E73")
+draw.circle(l*6,x,r, col="#009E73")
+draw.circle(l*6,2*x,r)
+draw.circle(l*6,3*x,r)
+
+text(l,4*x,"1")
+text(2*l,4*x,"2")
+text(3*l,4*x,"3")
+text(4*l,4*x,"4")
+text(5*l,4*x,"5")
+text(6*l,4*x,"6")
+
+text(0, 3*x, "a")
+text(0, 2*x, "b")
+text(0, 1*x, "c")
+text(0, 0, "d")
+
+segments(x0=1.5*l, y0=-0.5*x, x1=1.5*l, y1=4.5*x, lty=2)
+segments(x0=2.5*l, y0=-0.5*x, x1=2.5*l, y1=4.5*x, lty=2)
+segments(x0=3.5*l, y0=-0.5*x, x1=3.5*l, y1=4.5*x, lty=2)
+segments(x0=4.5*l, y0=-0.5*x, x1=4.5*l, y1=4.5*x, lty=2)
+segments(x0=5.5*l, y0=-0.5*x, x1=5.5*l, y1=4.5*x, lty=2)
+
+
+dev.off()
+
+
 ## block randomization
 png(file="block_randomization.png", width=960, height=300, pointsize=36)
 par(mar=c(0,0,0,0))
@@ -138,12 +206,12 @@ draw.circle(0,1,r, col="#009E73")
 draw.circle(x,1,r)
 draw.circle(2*x,1,r)
 
-draw.circle(4*x,0,r, col="#CC79A7")
-draw.circle(5*x,0,r, col="#CC79A7")
+draw.circle(4*x,0,r, col="#009E73")
+draw.circle(5*x,0,r, col="#009E73")
 draw.circle(6*x,0,r)
 draw.circle(4*x,1,r)
 draw.circle(5*x,1,r)
-draw.circle(6*x,1,r, col="#CC79A7")
+draw.circle(6*x,1,r, col="#009E73")
 
 
 text(x, 2, "Block A")
@@ -157,6 +225,70 @@ segments(x0=3.5, y0=-0.5, x1=3.5, y1=2.5, lty=2)
 
 
 dev.off()
+
+
+## simple randomization
+png(file="simple_randomization_wide.png", width=800, height=500, pointsize=36)
+par(mar=c(0,0,0,0))
+s=.5
+r=.6
+plot(c(24,-3), c(-0.5,3.5*s), type="n", main="", xlab="", ylab="", axes=FALSE)
+
+draw.circle(0,0,r, col="#009E73")
+draw.circle(0,s,r, col="#009E73")
+draw.circle(0,2*s,r, col="#009E73")
+
+draw.circle(3,0,r)
+draw.circle(3,s,r, col="#009E73")
+draw.circle(3,2*s,r, col="#009E73")
+
+draw.circle(6,0,r, col="#009E73")
+draw.circle(6,s,r)
+draw.circle(6,2*s,r, col="#009E73")
+
+draw.circle(9,0,r, col="#009E73")
+draw.circle(9,s,r, col="#009E73")
+draw.circle(9,2*s,r)
+
+draw.circle(12,0,r)
+draw.circle(12,s,r)
+draw.circle(12,2*s,r, col="#009E73")
+
+draw.circle(15,0,r)
+draw.circle(15,s,r, col="#009E73")
+draw.circle(15,2*s,r)
+
+draw.circle(18,0,r, col="#009E73")
+draw.circle(18,s,r)
+draw.circle(18,2*s,r)
+
+draw.circle(21,0,r)
+draw.circle(21,s,r)
+draw.circle(21,2*s,r)
+
+# text(-2,0, "c")
+# text(-2,s, "b")
+# text(-2,2*s, "a")
+
+h=3
+
+text(21, h*s,"8")
+text(18, h*s,"7")
+text(15, h*s,"6")
+text(12, h*s,"5")
+text(9, h*s,"4")
+text(6, h*s,"3")
+text(3, h*s,"2")
+text(0, h*s,"1")
+
+for(i in 0:6){
+  segments(x0=1.5+3*i, y0=-0.5*s, x1=1.5+3*i, y1=3.25*s, lty=2)
+}
+
+
+
+dev.off()
+
 
 ## block randomization with diff prob of treatment assignment
 png(file="block_randomization_diffprob.png", width=960, height=300, pointsize=36)
@@ -175,12 +307,12 @@ draw.circle(0,1,r, col="#009E73")
 draw.circle(x,1,r)
 draw.circle(2*x,1,r)
 
-draw.circle(4*x,0,r, col="#CC79A7")
+draw.circle(4*x,0,r, col="#009E73")
 draw.circle(5*x,0,r)
 draw.circle(6*x,0,r)
 draw.circle(4*x,1,r)
 draw.circle(5*x,1,r)
-draw.circle(6*x,1,r, col="#CC79A7")
+draw.circle(6*x,1,r, col="#009E73")
 
 
 text(x, 2, "Block A")
@@ -196,7 +328,7 @@ segments(x0=3.5, y0=-0.5, x1=3.5, y1=2.5, lty=2)
 dev.off()
 
 
-## block randomization with different block sizes 
+## block randomization with different block sizes
 png(file="block_randomization_diffsize.png", width=960, height=300, pointsize=36)
 par(mar=c(0,0,0,0))
 
@@ -215,10 +347,10 @@ draw.circle(x,1,r, col="#009E73")
 draw.circle(2*x,1,r)
 draw.circle(3*x,1,r)
 
-draw.circle(5*x,0,r, col="#CC79A7")
+draw.circle(5*x,0,r, col="#009E73")
 draw.circle(6*x,0,r)
 draw.circle(5*x,1,r)
-draw.circle(6*x,1,r, col="#CC79A7")
+draw.circle(6*x,1,r, col="#009E73")
 
 
 text(x*1.5, 2, "Block A")
@@ -235,11 +367,11 @@ dev.off()
 
 
 ## cluster randomization
-png(file="cluster_randomization.png", width=960, height=960, pointsize=36)
+png(file="cluster_randomization.png", width=960, height=300, pointsize=36)
 par(mar=c(0,0,0,0))
 
-x=.5
-r=.09
+x=.7
+r=.2
 l=1
 plot(c(-1,15*x+1), c(3.5,-1), type="n", main="", xlab="", ylab="", axes=FALSE)
 
