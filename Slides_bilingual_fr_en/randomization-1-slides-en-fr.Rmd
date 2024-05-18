@@ -44,6 +44,7 @@ editor_options:
   markdown: 
     wrap: 72
 ---
+## Some common types of randomization \| *Quelques types courants de randomisation*
 
 ```{r setup, include=FALSE}
 # source("rmd_setup.R")
@@ -61,54 +62,7 @@ editor_options:
 # library(rcompanion) ## for pairwisePermutationTest()
 ```
 
-<!-- ## Key points for this lecture \| *Points clés de cette conférence* -->
 
-<!-- ::: {.cols data-latex=""} -->
-
-<!-- ::: {.col data-latex="{0.48\\textwidth}"} -->
-
-<!-- -   Distinction between level of treatment assignment and outcome -->
-
-<!--     measurement. -->
-
-<!-- -   What we mean by randomization. -->
-
-<!-- -   Different types of randomization: simple, complete, block, cluster, -->
-
-<!--     combinations. -->
-
-<!-- -   Some common designs. -->
-
-<!-- ::: -->
-
-<!-- ::: {.col data-latex="{0.04\\textwidth}"} -->
-
-  <!-- an empty Div (with a white space), serving as
-a column separator --> <!-- ::: -->
-
-<!-- ::: {.col data-latex="{0.48\\textwidth}"} -->
-
-<!-- -   Distinction entre le niveau d'affectation du traitement et la mesure -->
-
-<!--     des résultats. -->
-
-<!-- -   Ce que nous entendons par randomisation. -->
-
-<!-- -   Différents types de randomisation : simple, complète, par bloc (ou -->
-
-<!--     stratifiée), par grappe (cluster), combinée. -->
-
-<!-- -   Quelques conceptions courantes. -->
-
-<!-- ::: -->
-
-<!-- ::: -->
-
-<!-- # Randomization \| *Randomisation* -->
-
-<!-- # Some common types of randomization \| *Quelques types courants de randomisation* -->
-
-## Some common types of randomization \| *Quelques types courants de randomisation*
 
 ::: {.cols data-latex=""}
 ::: {.col data-latex="{0.48\\textwidth}"}
@@ -121,6 +75,8 @@ a column separator --> <!-- ::: -->
 4.  Cluster
 
 5.  Block-Cluster
+
+6.  Multi-arm Designs
 :::
 
 ::: {.col data-latex="{0.04\\textwidth}"}
@@ -138,6 +94,8 @@ a column separator -->
 4.  Par grappe (cluster)
 
 5.  Combinaison par bloc et par grappe
+
+6.  Les concéptions à plusiers bras
 :::
 :::
 
@@ -151,8 +109,6 @@ a column separator -->
 -   The coins don't have to be fair (50-50), but you have to know the
     probability of treatment assignment.
 
--   You can't guarantee a specific number of treated units and control
-    units.
 :::
 
 ::: {.col data-latex="{0.04\\textwidth}"}
@@ -168,15 +124,13 @@ a column separator -->
     mais vous devez connaître la probabilité d'assignation du
     traitement.
 
--   Vous ne pouvez pas garantir un nombre précis d'unités traitées et
-    d'unités de contrôle.
 :::
 :::
 
 ## 1. Simple randomization (coin-flipping) \| *Randomisation simple (tirage au sort)*
 
 \vspace{.03in}
-```{r, echo=FALSE, fig.align='center', out.width=380}
+```{r, echo=FALSE, fig.align='center', out.width=360}
 knitr::include_graphics("../Images/simple_randomization_wide.png")
 ```
 
@@ -242,7 +196,31 @@ a column separator -->
 knitr::include_graphics("../Images/complete_randomization_wide.png")
 ```
 
+## 2. Complete randomization (drawing from an urn) \| *Randomisation complète (tirage d'une urne)*
 
+::: {.cols data-latex=""}
+::: {.col data-latex="{0.48\\textwidth}"}
+-   Advantage:  Particularly useful when you have a small number of units.
+
+-   Disadvantage:  You need to know the total number of units in advance.  
+
+:::
+
+::: {.col data-latex="{0.04\\textwidth}"}
+  <!-- an empty Div (with a white space), serving as
+a column separator -->
+:::
+
+::: {.col data-latex="{0.48\\textwidth}"}
+
+- Avantage :  Particulièrement utile lorsque vous disposez d'un petit nombre d'unités.
+
+- Désavantage :  Il faut connaître à l'avance le nombre total d'unités.  
+
+
+
+:::
+:::
 ## 3. Block (or stratified) randomization \| *Randomisation par bloc (ou stratifiée)*
 
 ::: {.cols data-latex=""}
@@ -253,10 +231,6 @@ knitr::include_graphics("../Images/complete_randomization_wide.png")
 -   We are doing mini-experiments in each block so **we have
     both treated and control units in each block**.
 
--   Advantage: You avoid unlucky randomizations that create treatment and control groups that are different from each other.  
-
-<!-- unlucky randomizations that create treated and control groups ensure that you have enough subjects in each group. Especially -->
-<!--     useful for rare subgroups. -->
 :::
 
 ::: {.col data-latex="{0.04\\textwidth}"}
@@ -272,10 +246,36 @@ a column separator -->
     fait, **nous avons des unités traitées et des unités de contrôle
     dans chaque bloc**.
 
--   Avantage : Vous vévitez les randomisations malheureuses qui créent des groupes de traitement et de contrôle différents les uns des autres. 
 
-<!-- -   Avantage: Vous vous assurez d'avoir suffisamment de sujets dans chaque groupe. -->
-    <!-- Particulièrement utile lorsque vous avez un groupe rare. -->
+:::
+:::
+
+
+
+## 3. Block (or stratified) randomization \| *Randomisation par bloc (ou stratifiée)*
+
+::: {.cols data-latex=""}
+::: {.col data-latex="{0.48\\textwidth}"}
+
+-   Advantage: You avoid unlucky randomizations that create treatment and control groups that are different from each other on the variables used to create the blocks.  
+
+-   This is especially useful for rare subgroups.
+
+:::
+
+::: {.col data-latex="{0.04\\textwidth}"}
+  <!-- an empty Div (with a white space), serving as
+a column separator -->
+:::
+
+::: {.col data-latex="{0.48\\textwidth}"}
+
+
+-   Avantage : Vous évitez les randomisations malheureuses qui créent des groupes de traitement et de contrôle différents l'un de l'autre en fonction de la variable utilisée pour créer les blocs.
+
+-   Particulièrement utile lorsque vous avez un groupe rare.
+
+
 
 :::
 :::
@@ -510,6 +510,66 @@ a column separator -->
 -   Vous pouvez avoir des grappes dans des blocs.
 
 -   Est-ce que vous pouvez avoir de blocs dans les grappes?
+:::
+:::
+
+## 6. Multi-arm Design \| *Les concéptions à plusiers bras*
+
+::: {.cols data-latex=""}
+::: {.col data-latex="{0.48\\textwidth}"}
+-   You can randomize units to more conditions (arms) than just one
+    treatment arm and one control arm.
+
+-   For example, we might have a cash transfer arm, a job training arm,
+    and a control arm with no intervention.
+:::
+
+::: {.col data-latex="{0.04\\textwidth}"}
+  <!-- an empty Div (with a white space), serving as
+a column separator -->
+:::
+
+::: {.col data-latex="{0.48\\textwidth}"}
+-   Vous pouvez randomiser les unités dans plus de conditions (bras) qu'un seul bras de traitement et un bras de contrôle.
+
+-   Par exemple, nous pourrions avoir un groupe de transfert d'argent, un groupe de formation à l'emploi, et un groupe de contrôle sans intervention.
+:::
+:::
+
+
+
+## 6. Multi-arm Design \| *Conception à plusiers bras*
+
+\vspace{.03in}
+
+```{r, echo=FALSE, fig.align='center', out.width=250}
+knitr::include_graphics("../Images/multiarm_design_wide.png")
+```
+-   An example with complete randomization 
+
+-   *Un exemple avec une randomisation complète* 
+
+
+## 6. Multi-arm Design \| *Conception à plusiers bras*
+
+::: {.cols data-latex=""}
+::: {.col data-latex="{0.48\\textwidth}"}
+-   Advantages: We can compare each treatment to control or to each
+    other.
+
+-   Disadvantages: We can quickly end up with a very large number of
+    hypothesis tests, which creates issues.
+:::
+
+::: {.col data-latex="{0.04\\textwidth}"}
+  <!-- an empty Div (with a white space), serving as
+a column separator -->
+:::
+
+::: {.col data-latex="{0.48\\textwidth}"}
+-   Avantages : Nous pouvons comparer chaque traitement au contrôle ou l'un à l'autre.
+
+-   Désavantage : On peut rapidement se retrouver avec un très grand nombre de tests d'hypothèses, ce qui pose des problèmes.
 :::
 :::
 
