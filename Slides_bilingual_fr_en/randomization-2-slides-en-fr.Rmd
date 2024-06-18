@@ -185,6 +185,19 @@ a column separator -->
 :::
 :::
 
+## 1. Factorial Design \| *Conception factorielle*
+
+```{r, echo=TRUE}
+library(randomizr)
+
+Z1 <- complete_ra(N=24, m=12)
+
+Z2 <- block_ra(blocks = Z1)
+
+table(Z1,Z2)
+
+```
+
 ## 2. Waitlist design (delayed access) \| *Liste d'attente (Accès graduel)*
 
 ::: {.cols data-latex=""}
@@ -359,20 +372,7 @@ a column separator -->
 | Always Taker / *Toujours preneur*  | $D(1)=1$ | $D(0)=1$ |
 | **Complier / *Conformiste***  | $D(1)=1$ | $D(0)=0$ |
 | Never Taker / *Jamais preneur*   | $D(1)=0$ | $D(0)=0$ |
-| Defier / *Non-conformiste*  | $D(0)=0$ | $D(1)=1$ |
-
-## 3. Encouragement design \| *Conception incitative*
-
-\begin{figure}
-\begin{tikzpicture}
-%nodes
-\node[draw , rectangle, text centered] (d) at (0,0) {$D$ (treatment)};
-\node[draw , rectangle, text centered] (z) at (-2,2) {$Z$ (encouragement)};
-\node[draw , rectangle, text centered] (y) at (4,0) {$Y$ (outcome)};
-\draw[->, line width= 1/2](z) to (d);
-\draw[->, line width= 1/2](d) to (y);
-\end{tikzpicture}
-\end{figure}
+| Defier / *Non-conformiste*  | $D(1)=0$ | $D(0)=1$ |
 
 ## 3. Encouragement design \| *Conception incitative*
 
@@ -399,6 +399,21 @@ a column separator -->
     traitement $D$.
 :::
 :::
+
+## 3. Encouragement design \| *Conception incitative*
+
+\begin{figure}
+\begin{tikzpicture}
+%nodes
+\node[draw , rectangle, text centered] (d) at (0,0) {$D$ (treatment)};
+\node[draw , rectangle, text centered] (z) at (-2,2) {$Z$ (encouragement)};
+\node[draw , rectangle, text centered] (y) at (4,0) {$Y$ (outcome)};
+\draw[->, line width= 1/2](z) to (d);
+\draw[->, line width= 1/2](d) to (y);
+\end{tikzpicture}
+\end{figure}
+
+
 
 ## 3. Encouragement design \| *Conception incitative*
 
@@ -430,14 +445,14 @@ a column separator -->
 | Always Taker / *Toujours preneur*  | $D(1)=1$ | $D(0)=1$ |
 | **Complier / *Conformiste***  | $D(1)=1$ | $D(0)=0$ |
 | Never Taker / *Jamais preneur*   | $D(1)=0$ | $D(0)=0$ |
-| Defier / *Non-conformiste*  | $D(0)=0$ | $D(1)=1$ |
+| Defier / *Non-conformiste*  | $D(1)=0$ | $D(0)=1$ |
 
 ## 3. Encouragement design \| *Conception incitative*
 
 ::: {.cols data-latex=""}
 ::: {.col data-latex="{0.48\\textwidth}"}
 
--   If the treatment is only available through the study, there are no Always Takers.  This is *one-sided noncompliance*.
+-   If the treatment is only available through the study, there are no Always Takers or Defiers.  This is *one-sided noncompliance*.
 
 -   Otherwise, we have *two-sided noncompliance*.
 
@@ -454,7 +469,7 @@ a column separator -->
 <!--     traitement -->
 
 
--   Si le traitement n'est disponible par d'autres voies que l'étude, il n'y a pas aussi de Toujours preneurs.  On a la *non-conformité unilatérale*.
+-   Si le traitement n'est disponible par d'autres voies que l'étude, il n'y a pas aussi de Toujours preneurs ou Non-conformistes.  On a la *non-conformité unilatérale*.
 
 -   Sinon, on a la *non-conformité bilatérale*.
 
@@ -467,7 +482,27 @@ a column separator -->
 ::: {.cols data-latex=""}
 ::: {.col data-latex="{0.48\\textwidth}"}
 
--   Randomization of the encouragement means that we have similar proportions of Complier types in the assigned to encouragement ($Z=1$) and not assigned to encouragement ($Z=0$) groups.  
+-   Randomization of the encouragement means that we have similar proportions of complier types in the assigned to encouragement ($Z=1$) and not assigned to encouragement ($Z=0$) groups.  
+
+:::
+
+::: {.col data-latex="{0.04\\textwidth}"}
+  <!-- an empty Div (with a white space), serving as
+a column separator -->
+:::
+
+::: {.col data-latex="{0.48\\textwidth}"}
+
+-   Dans les deux cas, l'assignation aléatoire de l'encouragement signifie que nous avons des proportions similaires de types de conformistes dans les groupes soumis à l'encouragement ($Z=1$) et non soumis à l'encouragement ($Z=0$).  
+
+:::
+:::
+
+## 3. Encouragement design \| *Conception incitative*
+
+::: {.cols data-latex=""}
+::: {.col data-latex="{0.48\\textwidth}"}
+
 
 -   Careful (1)!  Do not compare those who take treatment ($D=1$) to those who do not ($D=0$).  Taking treatment is not randomly assigned and the two groups are not comparable.
 :::
@@ -478,12 +513,6 @@ a column separator -->
 :::
 
 ::: {.col data-latex="{0.48\\textwidth}"}
-<!-- -   Nous pouvons également connaître l'effet moyen de la prise du -->
-
-<!--     traitement -->
-
-
--   Dans les deux cas, l'assignation aléatoire de l'encouragement signifie que nous avons des proportions similaires de types de conformistes dans les groupes soumis à l'encouragement ($Z=1$) et non soumis à l'encouragement ($Z=0$).  
 
 - Attention (1) !  Ne comparez pas les sujets qui prendraient le traitement ($D=1$) à ceux qui ne le prendraient pas ($D=0$).  La prise du traitement n'est pas aléatoire et les deux groupes ne sont pas comparables.
 :::
