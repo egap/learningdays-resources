@@ -17,13 +17,29 @@ z0 <- jitter(rep(0,50))
 miny <- min(c(y0,y1))
 maxy <- max(c(y0,y1))
 
-png(file="regression1.png", width=760, height=760, pointsize=36)
-par(mar=c(2,2,1,1))
+png(file="diff-in-means.png", width=760, height=760, pointsize=36)
+# par(mar=c(3,3,2,2))
 
-plot(c(-0.25,1.25), c(0, 4.5), type="n", main="", xlab="", ylab="", axes=FALSE)
+plot(c(-0.25,1.25), c(0, 4.5), type="n", main="", xlab="Z", ylab="Y", axes=FALSE)
 axis(1, at=c(0,1))
 axis(2, at=c(0,2,4), las=2, pos=-0.25)
-axis(2, at=c(1,3), labels=c(expression(paste(beta[0])), expression(paste(beta[1]))), las=2, pos=-0.25)
+axis(2, at=c(1,3), labels=c("1", "3"), las=2, pos=-0.25)
+points(0,1, pch=16, col="blue")
+points(1,3, pch=16, col="red")
+points(z0,y0)
+points(z1,y1)
+# segments(x0=0, y0=1, x1=1, y1=3)
+
+dev.off()
+
+
+png(file="regression1.png", width=760, height=760, pointsize=36)
+# par(mar=c(2,3,1,1))
+
+plot(c(-0.25,1.25), c(0, 4.5), type="n", main="", xlab="Z", ylab="Y", axes=FALSE)
+axis(1, at=c(0,1))
+axis(2, at=c(0,2,4), las=2, pos=-0.25)
+axis(2, at=c(1,3), labels=c(expression(paste(hat(beta[0]))), expression(paste(hat(beta[0])+hat(beta[1])))), las=2, pos=-0.25)
 points(0,1, pch=16, col="blue")
 points(1,3, pch=16, col="red")
 points(z0,y0)

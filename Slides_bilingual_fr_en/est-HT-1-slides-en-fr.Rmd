@@ -172,7 +172,7 @@ a column separator -->
 ::: {.col data-latex="{0.48\\textwidth}"}
 -   In general, we prefer estimators that are:
 
-    -   Unbiased: We expect to the estimator to produce the estimand. If
+    -   Unbiased: If
         we run the experiment many times, each estimate might be a
         little too high or low, but it will be correct on average.
 
@@ -187,7 +187,7 @@ a column separator -->
 ::: {.col data-latex="{0.48\\textwidth}"}
 -   En général, nous préférons les estimateurs qui sont:
 
-    -   Non biaisé: Vous attendez qu'il renvoie le bon résultat. Cela
+    -   Non biaisé: Cela
         signifie que si vous deviez exécuter l’expérience plusieurs
         fois, l'estimation peut parfois être trop élevée ou trop faible,
         mais elle sera correcte en moyenne.
@@ -250,7 +250,13 @@ a column separator -->
 :::
 :::
 
-## Estimator 1: difference-in-means \| *Estimateur 1 : La différence des moyennes*
+## Estimator 1: Difference-in-means \| *Estimateur 1 : La différence des moyennes*
+
+\centering
+
+![](images/diff-in-means.png){width="260"}
+
+## Estimator 1: Difference-in-means \| *Estimateur 1 : La différence des moyennes*
 
 | Unit | $Z_i$ | $Y_i$ | $Y_i(1)$ | $Y_i(0)$ |
 |:----:|:-----:|:-----:|:--------:|:--------:|
@@ -263,7 +269,42 @@ a column separator -->
 |  g   |   0   |   0   |          |    0     |
 |  h   |   0   |   2   |          |    2     |
 
+\pause
+
 $$\frac{5+4+2+1}{4} - \frac{1+1+0+2}{4} = 3 - 1 = 2$$
+
+
+## Estimator 1: Difference-in-means \| *Estimateur 1 : La différence des moyennes*
+
+```{r, result='hide'}
+# mean(Y[treatment==1]) - mean(Y[treatment==0])
+
+# library(estimatr)
+# difference_in_means(Y ~ treatment)
+
+```
+
+## Estimator 2: Linear Regression \| *Estimateur 2 : La régression linéaire*
+
+::: {.cols data-latex=""}
+::: {.col data-latex="{0.68\\textwidth}"}
+![](images/regression1.png){width="360"}
+
+:::
+
+::: {.col data-latex="{0.04\\textwidth}"}
+  <!-- an empty Div (with a white space), serving as
+a column separator -->
+:::
+
+::: {.col data-latex="{0.28\\textwidth}"}
+$$Y_i = \beta_0 + \beta_1 Z_i + e_i$$
+$$Y_i = \hat{\beta_0} + \hat{\beta_1} Z_i + e_i$$
+:::
+:::
+
+
+
 
 ## Estimator 2: Linear Regression \| *Estimateur 2 : La régression linéaire*
 
@@ -294,11 +335,15 @@ a column separator -->
 :::
 :::
 
+
 ## Estimator 2: Linear Regression \| *Estimateur 2 : La régression linéaire*
 
-\centering
 
-![](images/regression1.png){width="260"}
+```{r}
+# summary(lm(Y ~ treatment))
+
+```
+
 
 # Hypothesis Testing \| *Les tests d’hypothèses*
 
@@ -531,7 +576,7 @@ a column separator -->
 ::: {.cols data-latex=""}
 ::: {.col data-latex="{0.48\\textwidth}"}
 -   Calculate the $\widehat{ATE_j}$ for each block using difference in
-    means
+    means.  $j$ indicates which block.
 
 -   The $\widehat{ATE}$ is the average of the block-level
     $\widehat{ATE_j}$ weighted by block size $N_j / N$.
@@ -593,9 +638,17 @@ a column separator -->
 :::
 :::
 
+## Estimator 1: Blocked Difference-in-Means \| *Estimateur 1 : La différence des moyennes par bloc*
+
+```{r}
+# library(estimatr)
+# difference_in_means(Y ~ treatment, blocks = Gender_Language)
+
+```
+
 ## Estimator 2: Linear Regression with Block Fixed Effects \| *Estimateur 2 : La régression linéaire avec effets fixes par bloc*
 
-$$Y_i = \beta_0 + \beta_1 Z_i + \gamma_A BlockA + \gamma_B BlockB + ... + e_i$$
+$$Y_{ij} = \beta_0 + \beta_1 Z_{ij} + \gamma_A BlockA_{ij} + \gamma_B BlockB_{ij} + ... + e_{ij}$$
 
 ::: {.cols data-latex=""}
 ::: {.col data-latex="{0.48\\textwidth}"}
@@ -622,14 +675,15 @@ a column separator -->
 
 ## Block Randomization \| *Randomisation par bloc*
 
-Convert into publication-style table?
 
 ```{r, echo=FALSE}
 blocks <- c("J","J","J","K","K","K","L","L","L") 
 z <- c(0,1,0,1,0,0,1,0,0) 
 y <- c(4,3,2,3,0,2,4,0,2)
+# round(summary(lm(y~z+as.factor(blocks)))$coef,3)
 ```
 
 ```{r, echo=TRUE}
-round(summary(lm(y~z+as.factor(blocks)))$coef,3)
+# summary(lm(Y ~ treatment + as.factor(blockvariable)))
+
 ```
