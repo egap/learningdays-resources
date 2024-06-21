@@ -69,6 +69,16 @@ mean(tau) #0.5
 mtext("true average treatment effect = 0.5", side=1, cex=2)
 dev.off()
 
+png(file="fig04-tau-noATE.png", width=960, height=760, pointsize=24)
+
+plot(x,y, lwd=2, cex=8,
+     main="", xlab="", ylab="", axes=FALSE,
+     xlim=c(0.75,(N/3)+0.25), ylim=c(0,3.25))
+text(x,y, tau, cex=2)
+mean(tau) #0.5
+# mtext("true average treatment effect = 0.5", side=1, cex=2)
+dev.off()
+
 ##################################
 # let's go back to the Y(1)
 
@@ -166,6 +176,22 @@ dev.off()
 # every time you sample Y(1), you're assigning treatment to those units.
 # and you're simultaneously randomly sampling those other units to learn about Y(0) by
 # assigning those other units to control.
+
+png(file="fig11-assignedcondition.png", width=960, height=760, pointsize=24)
+
+col_sample1 <- rep("red", N)
+col_sample1[-sample1] <- "blue"
+y_sample1 <- "D=1"
+y_sample1[-sample1] <- "D=0"
+
+plot(x,y, lwd=2, cex=8, col=col_sample1,
+     main="", xlab="", ylab="", axes=FALSE,
+     xlim=c(0.75,(N/3)+0.25), ylim=c(0,3.25))
+text(x[sample1], y[sample1], "D=1", cex=1.5, col="red")
+text(x[-sample1], y[-sample1], "D=0", cex=1.5, col="blue")
+
+dev.off()
+
 
 png(file="fig11-randomassignment1.png", width=960, height=760, pointsize=24)
 
@@ -265,8 +291,19 @@ taudist <- tau1%*%perms/6
 
 png(file="fig-y1dist.png", width=960, height=600, pointsize=24)
 
-hist(y1estdist, col="darkorange", breaks=16, main="Distribution of sample averages of Y(1)", xlab="")
+hist(y1estdist, col="red", breaks=16, main="Distribution of sample averages of Y(1)", xlab="")
 abline(v=mean(y1), lwd=2)
 
 dev.off()
 
+png(file="fig-taudist.png", width=960, height=400, pointsize=24)
+
+data <- data.frame(
+  name=c("0", "1/6", "1/3", "1/2", "2/3", "5/6", "1"),
+  value=c(1, 36, 225, 400, 225, 36, 1)
+)
+
+# The most basic barplot you can do:
+barplot(height=data$value, names=data$name, col="purple", main="Distribution of ATE estimates", ylab="Frequency")
+
+dev.off()

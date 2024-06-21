@@ -1,7 +1,7 @@
 ---
 title: "Causal Inference | *Inférence causale*"
-author: "Name"
-date: "Date"
+author: "Yabo Gwladys Vidogbena"
+date: "24 June/juin 2024"
 bibliography: ../learningdays-book.bib
 biblio-style: apalike
 link-citations: yes
@@ -176,11 +176,11 @@ a column separator -->
         financement adapté.
 
 -   "$D$ cause $Y$" n'implique pas nécessairement que $W$ ne cause pas
-    Y.
+    $Y$.
 :::
 :::
 
-## Key subtleties \| *Les sutilités clés*
+## Key subtleties \| *Les subtilités clés*
 
 ::: {.cols data-latex=""}
 ::: {.col data-latex="{0.48\\textwidth}"}
@@ -215,10 +215,10 @@ a column separator -->
     outcomes: $Y_i(1)$ and $Y_i(0)$.
 
 -   $Y_i(1)$ is the outcome that *would* obtain *if* the unit received
-    the treatment ($T_i=1$).
+    the treatment ($D_i=1$).
 
 -   $Y_i(0)$ is the outcome that *would* obtain *if* the unit received
-    the control ($T_i=0$).
+    the control ($D_i=0$).
 :::
 
 ::: {.col data-latex="{0.04\\textwidth}"}
@@ -231,10 +231,10 @@ a column separator -->
     *post-traitement* : $Y_i(1)$ et $Y_i(0)$.
 
 -   $Y_i(1)$ est le résultat qu'on *obtiendrait si* l'unité recevait le
-    traitement ($T_i=1$).
+    traitement ($D_i=1$).
 
 -   $Y_i(0)$ est le résultat qu'on *obtiendrait si* l'unité recevait le
-    contrôle ($T_i=0$).
+    contrôle ($D_i=0$).
 :::
 :::
 
@@ -260,12 +260,17 @@ a column separator -->
 
 \centering
 
-![](../Images/fig02-Y1.png){width="220"}![](../Images/fig03-Y0.png){width="220"}
+![](../Images/fig02-Y1.png){width="270"}![](../Images/fig03-Y0.png){width="270"}
 
 ## So each unit has a treatment effect $\tau_i = Y_i(1) - Y_i(0)$ \| *Alors, pour chaque unité, il y a un effet de traitement* $\tau_i = Y_i(1) - Y_i(0)$
 
 \centering
 
+![](../Images/fig04-tau-noATE.png){width="320"}
+
+## Average Treatment Effect / *L'effet moyen du traitement* (ATE) = $\overline{\tau_i}= \overline{Y_i(1)-Y_i(0)}$
+
+\centering
 ![](../Images/fig04-tau.png){width="320"}
 
 ## Fundamental problem of causal inference \| *Le problème fondamental de l'inférence causale*
@@ -350,30 +355,33 @@ a column separator -->
 :::
 :::
 
+## A random assignment \| *Une assignation aléatoire*
+
+\centering
+
+![](../Images/fig11-assignedcondition.png){width="320"}
+
+
 ## A random assignment produces an estimate \| *Une assignation aléatoire produit une estimation*
 
 \centering
 
 ![](../Images/fig11-randomassignment1.png){width="320"}
 
-## A different random assignment produces a different estimate \| *Une autre assignation aléatoire génère une autre estimation*
+## A different random assignment produces another estimate \| *Une autre assignation aléatoire génère une autre estimation*
 
 \centering
 
 ![](../Images/fig12-randomassignment2.png){width="320"}
 
 ## Randomization is powerful \| *Randomiser est puissant*
-$$0*\frac{1}{924} + \frac{1}{6}*\frac{36}{924} + \frac{1}{3}*\frac{225}{924} + \frac{1}{2}*\frac{400}{924} + \frac{2}{3}*\frac{225}{924} + \frac{5}{6}*\frac{36}{924} + 1*\frac{1}{924} = \frac{1}{2}$$
+\centering
 
-| $\widehat{ATE}$ | 0   | 1/6 | 1/3 | 1/2 | 2/3 | 5/6 | 1   |
-|-----------------|----:|----:|----:|----:|----:|----:|----:|
-| Count           | 1   | 36  | 225 | 400 | 225 | 36  | 1   |
-
-
+![](../Images/fig-taudist.png){width="380"}
 
 ::: {.cols data-latex=""}
 ::: {.col data-latex="{0.48\\textwidth}"}
--   A particular random assignment will give us the true average
+-   A particular random assignment will probably not give us the true average
     treatment effect.
 
 -   But the average of the estimates produced by all possible
@@ -393,6 +401,21 @@ a column separator -->
     valeur.
 :::
 :::
+
+
+## Randomization is powerful \| *Randomiser est puissant*
+\centering
+
+![](../Images/fig-taudist.png){width="380"}
+
+| $\widehat{ATE}$ | 0   | 1/6 | 1/3 | 1/2 | 2/3 | 5/6 | 1   |
+|-----------------|----:|----:|----:|----:|----:|----:|----:|
+| Count           | 1   | 36  | 225 | 400 | 225 | 36  | 1   |
+
+$$0*\frac{1}{924} + \frac{1}{6}*\frac{36}{924} + \frac{1}{3}*\frac{225}{924} + \frac{1}{2}*\frac{400}{924} + \frac{2}{3}*\frac{225}{924} + \frac{5}{6}*\frac{36}{924} + 1*\frac{1}{924} = \frac{1}{2}$$
+
+
+
 
 <!-- ## Let's get back to the $Y_i(0)$ \| *Revenons à* $Y_i(0)$ -->
 
@@ -427,14 +450,16 @@ a column separator -->
 ## Randomization is powerful \| *Randomiser est puissant*
 
 Average treatment effect / l'effet moyen du traitement (ATE):
-
-$$ATE = \overline{\tau_i}= \overline{Y_i(1)-Y_i(0)} = \overline{Y_i(1)}-\overline{Y_i(0)}$$
+\begin{align*}
+ATE = \overline{\tau_i} &= \overline{Y_i(1)-Y_i(0)} \\
+&= \overline{Y_i(1)}-\overline{Y_i(0)}
+\end{align*}
 
 ::: {.cols data-latex=""}
 ::: {.col data-latex="{0.48\\textwidth}"}
-We use two facts:
+<!-- We use this fact: -->
 
-1.  The average of a difference equals the difference of averages.
+1. The average of a difference equals the difference of averages.
 :::
 
 ::: {.col data-latex="{0.04\\textwidth}"}
@@ -443,25 +468,21 @@ a column separator -->
 :::
 
 ::: {.col data-latex="{0.48\\textwidth}"}
-Nous appuyons sur deux faits:
+<!-- Nous appuyons sur deux faits: -->
 
-1.  La moyenne des différences est égale à la différence des moyennes.
+1. La moyenne des différences est égale à la différence des moyennes.
 :::
 :::
 
 ## Randomization is powerful \| *Randomiser est puissant*
 
 $$Y_i = D_iY_i(1) + (1-D_i)Y_i(0)$$
-$$E_R[\overline{Y_i}|D_i=1]=\overline{Y_i(1)}$$
-$$E_R[\overline{Y_i}|D_i=0]=\overline{Y_i(0)}$$
 
 ::: {.cols data-latex=""}
 ::: {.col data-latex="{0.48\\textwidth}"}
-2.  Because the units were randomly assigned to treatment, $Y_i=Y_i(1)$
-    for the treated units represent the $Y_i(1)$ for all the units.
-    (What we observe is $Y_i$.)
+2.  For the treated units, we observe $Y_i=Y_i(1)$.  
 
-    The same logic applies to the units assigned to control.
+3.  For the control units, we observe $Y_i=Y_i(0)$.
 :::
 
 ::: {.col data-latex="{0.04\\textwidth}"}
@@ -470,14 +491,57 @@ a column separator -->
 :::
 
 ::: {.col data-latex="{0.48\\textwidth}"}
-2.  Parce que les unités ont été assignées de manière aléatoire au
-    traitement, $Y_i=Y_i(1)$ pour les unités traitées représentent les
-    $Y_i(1)$ pour toutes nos unités. (Ce que nous observons est $Y_i$.)
+2.  Pour les unités traitées, nous observons $Y_i=Y_i(1)$. 
 
+3.  Pour les unités au contrôle, nous observons $Y_i=Y_i(0)$. 
+:::
+:::
+## Randomization is powerful \| *Randomiser est puissant*
+
+$$E_R[\overline{Y_i}|D_i=1]=\overline{Y_i(1)}$$
+$$E_R[\overline{Y_i}|D_i=0]=\overline{Y_i(0)}$$
+
+
+::: {.cols data-latex=""}
+::: {.col data-latex="{0.48\\textwidth}"}
+4.  Because the units were randomly assigned to treatment, the average of the $Y_i=Y_i(1)$ for the treated units is a good estimate of the average of $Y_i(1)$ for all the units. The same logic applies to the units randomly assigned to control.
+:::
+
+::: {.col data-latex="{0.04\\textwidth}"}
+  <!-- an empty Div (with a white space), serving as
+a column separator -->
+:::
+
+::: {.col data-latex="{0.48\\textwidth}"}
+4.  Parce que les unités ont été assignées de manière aléatoire au
+    traitement, la moyenne de $Y_i=Y_i(1)$ pour les unités traitées est une bonne estimation de la moyenne de
+    $Y_i(1)$ pour toutes nos unités.
     La même logique s'applique pour les unités assignées aléatoirement
     au contrôle.
 :::
 :::
+
+
+## Randomization is powerful \| *Randomiser est puissant*
+
+$$ATE = \overline{Y_i(1)}-\overline{Y_i(0)}$$
+$$\widehat{ATE} = \overline{({Y_i}|D_i=1)} - \overline{({Y_i}|D_i=0)}$$
+
+::: {.cols data-latex=""}
+::: {.col data-latex="{0.48\\textwidth}"}
+5.  So we plug in these estimates for $\overline{Y_i(1)}$ and $\overline{Y_i(0)}$ to estimate the ATE.
+:::
+
+::: {.col data-latex="{0.04\\textwidth}"}
+  <!-- an empty Div (with a white space), serving as
+a column separator -->
+:::
+
+::: {.col data-latex="{0.48\\textwidth}"}
+5.  Donc nous utilisons ces estimations de $\overline{Y_i(1)}$ et $\overline{Y_i(0)}$ pour estimer l'ATE.
+:::
+:::
+
 
 ## Randomization is powerful \| *Randomiser est puissant*
 
@@ -506,39 +570,12 @@ a column separator -->
 
 -   $E_R[]$ signifie "moyenne sur des opérations répétées".
 
--   Nous n'obtenons pas exactement $\overline{Y_i(1)}$ d'une assignation
+-   Nous ne pourrions pas obtenir pas exactement $\overline{Y_i(1)}$ d'une assignation
     aléatoire particulière, mais nous pouvons nous attendre à
     $\overline{Y_i(1)}$ au cours d'expériences répétées.
 :::
 :::
 
-## Randomization is powerful \| *Randomiser est puissant*
-
-::: {.cols data-latex=""}
-::: {.col data-latex="{0.48\\textwidth}"}
--   Randomization creates two groups that are similar except that one
-    will receive the treatment and the other will not. Differences
-    before receiving treatment are only due to chance.
-
--   Differences after treatment can be attributed to the treatment
-    instead of other factors.
-:::
-
-::: {.col data-latex="{0.04\\textwidth}"}
-  <!-- an empty Div (with a white space), serving as
-a column separator -->
-:::
-
-::: {.col data-latex="{0.48\\textwidth}"}
--   L'assignation aléatoire crée deux groupes d'unités qui sont
-    similaires excepté qu'un recevra le traitement et l'autre non. Les
-    différences entre les groupes avant de recevoir le traitement ne
-    sont dues qu'au hasard.
-
--   Les différences entre les groupes après le traitement peuvent étre
-    attribuées au traitement plutôt qu'à d'autres facteurs.
-:::
-:::
 
 # Core assumptions \| *Hypothèses clés*
 
@@ -546,13 +583,14 @@ a column separator -->
 
 ::: {.cols data-latex=""}
 ::: {.col data-latex="{0.48\\textwidth}"}
+We have random assignment of treatment.
+
 We need two core assumptions for randomized experiments:
 
-1.  Random assignment of treatment.
 
-2.  SUTVA (Stable unit treatment value assumption).
+1.  SUTVA (Stable unit treatment value assumption).
 
-3.  Excludability.
+2.  Excludability.
 :::
 
 ::: {.col data-latex="{0.04\\textwidth}"}
@@ -561,25 +599,25 @@ a column separator -->
 :::
 
 ::: {.col data-latex="{0.48\\textwidth}"}
+Nous avons l'assignation aléatoire du traitement.
+
 Nous avons besoin de deux hypothèses clés pour les experiences
 aléatoires:
 
-1.  L'assignation aléatoire du traitement.
 
-2.  L'hypothèse SUTVA (Hypothèse stable de la valeur de traitement d'une
+1.  L'hypothèse SUTVA (Hypothèse stable de la valeur de traitement d'une
     unité).
 
-3.  La restriction d'exclusion.
+2.  La restriction d'exclusion.
 :::
 :::
 
-## Core assumption 1: Random assignment of treatment \| *Hypothèse clé 1: L'assignation aléatoire du traitement*
+## Definition: Random assignment of treatment \| *Le définition: L'assignation aléatoire du traitement*
 
 ::: {.cols data-latex=""}
 ::: {.col data-latex="{0.48\\textwidth}"}
 -   Random assignment means that each observation has a *known*
-    probability of assignment to experimental conditions *between* 0 and
-    1.
+    probability of assignment to experimental conditions *between* 0 and 1.
 
 -   No unit in the experimental sample is assigned to treatment with
     certainty (probability = 1) or to control with certainty
@@ -593,15 +631,14 @@ a column separator -->
 
 ::: {.col data-latex="{0.48\\textwidth}"}
 -   L'assignation aléatoire signifie que chaque observation a une
-    probabilité *connue* d'assignation au traitement comprise entre 0 et
-    1.
+    probabilité *connue* d'assignation au traitement comprise entre 0 et 1.
 
 -   Aucune unité de l'échantillon expérimental n'est assignée au
     traitement ou au contrôle avec certitude.
 :::
 :::
 
-## Core assumption 1: Random assignment of treatment \| *Hypothèse clé 1: L'assignation aléatoire du traitement*
+## Definition: Random assignment of treatment \| *Le définition: L'assignation aléatoire du traitement*
 
 ::: {.cols data-latex=""}
 ::: {.col data-latex="{0.48\\textwidth}"}
@@ -624,11 +661,11 @@ a column separator -->
 :::
 :::
 
-## Core assumption 2: SUTVA, part 1 \| *Hypothèse clé 2: SUTVA, partie 1*
+## Core assumption 1: SUTVA, part 1 \| *Hypothèse clé 1: SUTVA, partie 1*
 
 ::: {.cols data-latex=""}
 ::: {.col data-latex="{0.48\\textwidth}"}
-2.1 No interference -- A subject's potential outcome reflects only
+1.1 No interference -- A subject's potential outcome reflects only
 whether that subject receives the treatment himself/herself. It is not
 affected by how treatments happen to be allocated to other subjects.
 
@@ -642,7 +679,7 @@ a column separator -->
 :::
 
 ::: {.col data-latex="{0.48\\textwidth}"}
-2.1 La non-interférence -- Le résultat potentiel d'un sujet reflète
+1.1 La non-interférence -- Le résultat potentiel d'un sujet reflète
 uniquement la réception du traitement par ce sujet. Il n'est pas affecté
 par le statut du traitement des autres sujets.
 
@@ -651,11 +688,11 @@ par le statut du traitement des autres sujets.
 :::
 :::
 
-## Core assumption 2: SUTVA, part 2 \| *Hypothèse clé 2: SUTVA, partie 2*
+## Core assumption 1: SUTVA, part 2 \| *Hypothèse clé 1: SUTVA, partie 2*
 
 ::: {.cols data-latex=""}
 ::: {.col data-latex="{0.48\\textwidth}"}
-2.2 No hidden variations of the treatment
+1.2 No hidden variations of the treatment
 
 -   Say treatment is taking a vaccine, but there are two kinds of
     vaccines and they have different ingredients.
@@ -669,7 +706,7 @@ a column separator -->
 :::
 
 ::: {.col data-latex="{0.48\\textwidth}"}
-2.2 Pas de variations cachées du traitement
+1.2 Pas de variations cachées du traitement
 
 -   Disons que le traitement consiste à prendre un vaccin, mais il
     existe deux types de vaccins et ils ont des compositions
@@ -677,11 +714,11 @@ a column separator -->
 :::
 :::
 
-## Core assumption 3: Excludability \| *Hypothèse clé 3: La restriction d'exclusion*
+## Core assumption 2: Excludability \| *Hypothèse clé 2: La restriction d'exclusion*
 
 ::: {.cols data-latex=""}
 ::: {.col data-latex="{0.48\\textwidth}"}
-3.  Treatment assignment has no effect on outcomes except through its
+2.  Treatment assignment has no effect on outcomes except through its
     effect on whether treatment was received.
 
 -   Treatment and control groups should be treated the same, except for
@@ -694,7 +731,7 @@ a column separator -->
 :::
 
 ::: {.col data-latex="{0.48\\textwidth}"}
-3.  L'assignation au traitement n'a aucun effet sur les résultats, sauf
+2.  L'assignation au traitement n'a aucun effet sur les résultats, sauf
     à travers l'effet de recevoir ou non le traitement.
 
 -   Important de maintenir la symétrie entre les groupes de traitement
@@ -704,26 +741,6 @@ a column separator -->
 
 # Randomized experiments vs observational studies \| *Études aléatoires vs. études observationnelles*
 
-## Different types of studies \| *Les différents types d'études*
-
-::: {.cols data-latex=""}
-::: {.col data-latex="{0.48\\textwidth}"}
--   Observational studies
-
--   Randomized studies
-:::
-
-::: {.col data-latex="{0.04\\textwidth}"}
-  <!-- an empty Div (with a white space), serving as
-a column separator -->
-:::
-
-::: {.col data-latex="{0.48\\textwidth}"}
--   Études observationnelles
-
--   Études aléatoires
-:::
-:::
 
 ## Observational studies \| *Études observationnelles*
 
@@ -732,7 +749,7 @@ a column separator -->
 -   Treatment is not randomly assigned. It is observed, but not
     manipulated.
 
--   Differences might be due to underlying differences (selection bias)
+-   Differences in outcomes might be due to underlying differences (selection bias)
     or the treatment (plus noise). It's often very hard to tell.
 :::
 
@@ -745,7 +762,7 @@ a column separator -->
 -   Le traitement n'est pas assigné de manière aléatoire. Il est
     observé, mais pas manipulé.
 
--   Les différences peuvent être dues à des différences sous-jacentes
+-   Les différences de résultats peuvent être dues à des différences sous-jacentes
     (biais de sélection) ou au traitement (plus le bruit). C'est souvent
     très difficile à dire.
 :::
@@ -757,11 +774,15 @@ a column separator -->
 ::: {.col data-latex="{0.48\\textwidth}"}
 -   Randomize treatment, then go measure outcomes.
 
--   We can attribute differences in outcomes to the treatment (plus
-    chance).
+-   Randomization creates two groups that are similar except that one
+    will receive the treatment and the other will not. Differences
+    before receiving treatment are only due to chance.
 
--   This can breakdown when outcomes are not measured for some units
-    (attrition).
+-   We can attribute differences in outcomes to the treatment (plus
+    chance) instead of other factors.
+
+<!-- -   This can breakdown when outcomes are not measured for some units -->
+<!--     (attrition). -->
 :::
 
 ::: {.col data-latex="{0.04\\textwidth}"}
@@ -773,22 +794,54 @@ a column separator -->
 -   Le traitement est assigné de manière aléatoire, ensuite on mesure
     les résultats.
 
--   Nous pouvons attribuer les différences de résultats au traitement
-    (en plus du hasard).
+-   L'assignation aléatoire crée deux groupes d'unités qui sont
+    similaires excepté qu'un recevra le traitement et l'autre non. Les
+    différences entre les groupes avant de recevoir le traitement ne
+    sont dues qu'au hasard.
 
--   Cela peut échouer lorsque les résultats ne sont pas mesurés pour certaines unités (attrition).
+-   Nous pouvons attribuer les différences de résultats au traitement
+    (en plus du hasard) plutôt qu'à d'autres facteurs.
+
+<!-- -   Cela peut échouer lorsque les résultats ne sont pas mesurés pour certaines unités (attrition). -->
 :::
 :::
+
+<!-- ## Randomization is powerful \| *Randomiser est puissant* -->
+
+<!-- ::: {.cols data-latex=""} -->
+<!-- ::: {.col data-latex="{0.48\\textwidth}"} -->
+<!-- -   Randomization creates two groups that are similar except that one -->
+<!--     will receive the treatment and the other will not. Differences -->
+<!--     before receiving treatment are only due to chance. -->
+
+<!-- -   Differences after treatment can be attributed to the treatment -->
+<!--     instead of other factors. -->
+<!-- ::: -->
+
+<!-- ::: {.col data-latex="{0.04\\textwidth}"} -->
+<!--   <!-- an empty Div (with a white space), serving as -->
+<!-- a column separator --> 
+<!-- ::: -->
+
+<!-- ::: {.col data-latex="{0.48\\textwidth}"} -->
+<!-- -   L'assignation aléatoire crée deux groupes d'unités qui sont -->
+<!--     similaires excepté qu'un recevra le traitement et l'autre non. Les -->
+<!--     différences entre les groupes avant de recevoir le traitement ne -->
+<!--     sont dues qu'au hasard. -->
+
+<!-- -   Les différences entre les groupes après le traitement peuvent étre -->
+<!--     attribuées au traitement plutôt qu'à d'autres facteurs. -->
+<!-- ::: -->
+<!-- ::: -->
 
 ## Internal validity \| *La validité interne*
 
 ::: {.cols data-latex=""}
 ::: {.col data-latex="{0.48\\textwidth}"}
--   Randomized studies have high internal validity -- confidence that we
-    have learned the causal effect of a treatment on an outcome.
+-   Randomized studies have internal validity -- high confidence that we
+    have learned the causal effect of a treatment on an outcome -- from randomization.
 
--   Observational studies have to invoke additional strong assumptions
-    to make the same claim of a causal effect.
+-   Observational studies need additional strong assumptions to try to deal with selection bias.
 :::
 
 ::: {.col data-latex="{0.04\\textwidth}"}
@@ -799,14 +852,14 @@ a column separator -->
 ::: {.col data-latex="{0.48\\textwidth}"}
 -   La randomisation apporte une validité interne élevée à une étude --
     nous avons appris l'effet causal du traitement sur le résultat avec
-    un certain niveau de confiance.
+    un certain niveau de confiance -- grâce à l'assignation aléatoire.
 
--   Les études observationelles doivent invoquer d'autres hypothèses
-    fortes pour faire la même affirmation à propos d'un effet causal.
+-   Les études observationelles ont besoin d'autres hypothèses
+    fortes pour pour tenter de traiter le biais de sélection.
 :::
 :::
 
-## Generalizability (external validity) \| *Généralisabilité (la validité externe)*
+## External Validity (Generalizability) \| *La validité externe (Généralisabilité) *
 
 ::: {.cols data-latex=""}
 ::: {.col data-latex="{0.48\\textwidth}"}
