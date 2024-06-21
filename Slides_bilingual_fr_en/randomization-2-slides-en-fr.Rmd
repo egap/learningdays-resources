@@ -1,8 +1,8 @@
 ---
 title: "Randomization 2: Some common types of designs | *Randomisation 2: Quelques types courants de conception*"
 classoption: "aspectratio=169"
-author: "Name"
-date: "Date"
+author: "Oluwaremikun Jimoh and Christelle Zozoungbo"
+date: "25 June/juin 2024"
 bibliography: ../learningdays-book.bib
 biblio-style: apalike
 link-citations: yes
@@ -95,23 +95,41 @@ a column separator -->
 :::
 :::
 
+
 ## 1. Factorial Design \| *Conception factorielle*
 
 
 \begin{table}[]
-\begin{tabular}{|l|l|}
-\cline{1-2}
- Nothing & Transport                         \\
-\cline{1-2}
- Information & Information + Transport \\
-\cline{1-2}
+\begin{tabular}{llp{2in}p{2in}}
+&&&\\
+            &                          & \multicolumn{2}{c}{\textbf{Transport}}                 \\
+            &                          & \multicolumn{1}{c}{Yes}                   & \multicolumn{1}{c}{No}                   \\ \cline{3-4} 
+ & \multicolumn{1}{l|}{} & \multicolumn{1}{l|}{}& \multicolumn{1}{l|}{}\\ 
+ & \multicolumn{1}{l|}{Yes} & \multicolumn{1}{l|}{Information + Transportation} & \multicolumn{1}{l|}{Information only} \\ 
+ & \multicolumn{1}{l|}{} & \multicolumn{1}{l|}{}& \multicolumn{1}{l|}{}\\ \cline{3-4} 
+\textbf{Information}    & \multicolumn{1}{l|}{} & \multicolumn{1}{l|}{}& \multicolumn{1}{l|}{}\\
+        & \multicolumn{1}{l|}{No}  & \multicolumn{1}{l|}{Transport only} & \multicolumn{1}{l|}{Neither} \\ 
+            & \multicolumn{1}{l|}{} & \multicolumn{1}{l|}{}& \multicolumn{1}{l|}{}\\ \cline{3-4} 
+\end{tabular}
+\end{table}
+
+
+## 1. Factorial Design \| *Conception factorielle*
+
+
+
+\begin{table}[]
+\begin{tabular}{llp{2in}p{2in}}
+&&&\\
+&    & \multicolumn{2}{c}{\textbf{Transport}}                 \\
+&     & \multicolumn{1}{c}{Yes}    & \multicolumn{1}{c}{No}   \\ \cline{3-4} 
+\textbf{Information}   & \multicolumn{1}{l|}{Yes} & \multicolumn{1}{l|}{Information + Transportation} & \multicolumn{1}{l|}{Information only} \\ \cline{3-4}
+   & \multicolumn{1}{l|}{No}  & \multicolumn{1}{l|}{Transport only} & \multicolumn{1}{l|}{Neither} \\ \cline{3-4}
 \end{tabular}
 \end{table}
 
 ::: {.cols data-latex=""}
 ::: {.col data-latex="{0.48\\textwidth}"}
-
-For example:
 
 -   Factor 1: Giving information about the location of the polling station
         (conditions: yes / no)
@@ -128,7 +146,6 @@ a column separator -->
 
 ::: {.col data-latex="{0.48\\textwidth}"}
 
-Par exemple:
 
 -   Facteur 1: Donner des informations sur l'emplacement du bureau de vote
         (conditions : oui / non)
@@ -139,14 +156,26 @@ Par exemple:
 
 :::
 :::
-
 ## 1. Factorial Design \| *Conception factorielle*
+
+\begin{table}[]
+\begin{tabular}{llp{2in}p{2in}}
+&&&\\
+&    & \multicolumn{2}{c}{\textbf{Transport}}                 \\
+&     & \multicolumn{1}{c}{Yes}    & \multicolumn{1}{c}{No}   \\ \cline{3-4} 
+\textbf{Information}   & \multicolumn{1}{l|}{Yes} & \multicolumn{1}{l|}{Information + Transportation} & \multicolumn{1}{l|}{Information only} \\ \cline{3-4}
+   & \multicolumn{1}{l|}{No}  & \multicolumn{1}{l|}{Transport only} & \multicolumn{1}{l|}{Neither} \\ \cline{3-4}
+\end{tabular}
+\end{table}
+
+\bigskip
 
 ::: {.cols data-latex=""}
 ::: {.col data-latex="{0.48\\textwidth}"}
-There are many possible treatment effects (comparisons) in a factorial design.
+There are many possible treatment effects (comparisons) in a factorial design:
 
--   Average marginal effect: Main effect of each treatment in a factorial design.  It is the average of the conditional marginal effects for all the conditions of the other treatment, weighted by the proportion of the sample that was assigned to each condition.
+
+1.   Conditional Average Treatment Effect (CATE): the ATE of one factor fixing, the level of the other factor.
 
 
 :::
@@ -157,19 +186,30 @@ a column separator -->
 :::
 
 ::: {.col data-latex="{0.48\\textwidth}"}
-Il y a plusiers effets de traitement (comparaisons) dans une conception factorielle.
+Il y a plusiers effets de traitement (comparaisons) dans une conception factorielle:
 
--   Effet marginal moyen: Effet principal de chaque traitement dans une conception factorielle. C'est la moyenne des effets marginaux conditionnels pour toutes les conditions de l’autre traitement, pondérée par la proportion de l'échantillon qui a été assignée à chaque condition.
+1.   Effet marginal conditionnel (CATE): L'effet du traitement, conditionnel au maintien de l'autre pour une valeur fixe. 
 
 :::
 :::
+
 ## 1. Factorial Design \| *Conception factorielle*
+
+\begin{table}[]
+\begin{tabular}{llp{2in}p{2in}}
+&&&\\
+&    & \multicolumn{2}{c}{\textbf{Transport}}                 \\
+&     & \multicolumn{1}{c}{Yes}    & \multicolumn{1}{c}{No}   \\ \cline{3-4} 
+\textbf{Information}   & \multicolumn{1}{l|}{Yes} & \multicolumn{1}{l|}{Information + Transportation} & \multicolumn{1}{l|}{Information only} \\ \cline{3-4}
+   & \multicolumn{1}{l|}{No}  & \multicolumn{1}{l|}{Transport only} & \multicolumn{1}{l|}{Neither} \\ \cline{3-4}
+\end{tabular}
+\end{table}
+
+\bigskip
 
 ::: {.cols data-latex=""}
 ::: {.col data-latex="{0.48\\textwidth}"}
--   Conditional Average Treatment Effect (CATE): the ATE of one factor fixing, the level of the other factor.
-
--   Interaction effect: how much the ATE of one factor may differ by levels of the other factor.  A treatment effect may be larger or smaller depending on the other treatment.
+2.   Interaction effect: how much the ATE of one factor may differ by levels of the other factor.  A treatment effect may be larger or smaller depending on the other treatment.
 
 :::
 
@@ -179,22 +219,57 @@ a column separator -->
 :::
 
 ::: {.col data-latex="{0.48\\textwidth}"}
--   Effet marginal conditionnel (CATE): L'effet du traitement, conditionnel au maintien de l'autre pour une valeur fixe. 
+2.   Effet d'interaction : l'effet d’un traitement (peut-être) dépend de la condition d'assignation de l'unité à un autre traitment. Cela signifie qu’un traitement peut amplifier ou réduire l'effet de l'autre. 
+:::
+:::
 
--   Effet d'interaction : l'effet d’un traitement (peut-être) dépend de la condition d'assignation de l'unité à un autre traitment. Cela signifie qu’un traitement peut amplifier ou réduire l'effet de l'autre. 
+
+## 1. Factorial Design \| *Conception factorielle*
+\begin{table}[]
+\begin{tabular}{llp{2in}p{2in}}
+&&&\\
+&    & \multicolumn{2}{c}{\textbf{Transport}}                 \\
+&     & \multicolumn{1}{c}{Yes}    & \multicolumn{1}{c}{No}   \\ \cline{3-4} 
+\textbf{Information}   & \multicolumn{1}{l|}{Yes} & \multicolumn{1}{l|}{Information + Transportation} & \multicolumn{1}{l|}{Information only} \\ \cline{3-4}
+   & \multicolumn{1}{l|}{No}  & \multicolumn{1}{l|}{Transport only} & \multicolumn{1}{l|}{Neither} \\ \cline{3-4}
+\end{tabular}
+\end{table}
+
+\bigskip
+
+::: {.cols data-latex=""}
+::: {.col data-latex="{0.48\\textwidth}"}
+3.   Average marginal effect: Main effect of each treatment in a factorial design.  It is the average of the conditional marginal effects for all the conditions of the other treatment, weighted by the proportion of the sample that was assigned to each condition.
+
+
+:::
+
+::: {.col data-latex="{0.04\\textwidth}"}
+  <!-- an empty Div (with a white space), serving as
+a column separator -->
+:::
+
+::: {.col data-latex="{0.48\\textwidth}"}
+
+3.   Effet marginal moyen: Effet principal de chaque traitement dans une conception factorielle. C'est la moyenne des effets marginaux conditionnels pour toutes les conditions de l’autre traitement, pondérée par la proportion de l'échantillon qui a été assignée à chaque condition.
+
 :::
 :::
+
 
 ## 1. Factorial Design \| *Conception factorielle*
 
 ```{r, echo=TRUE}
 library(randomizr)
+set.seed(12345)
 
-Z1 <- complete_ra(N=24, m=12)
+# first randomly assign units to information or not
+information <- complete_ra(N=24, m=12)
 
-Z2 <- block_ra(blocks = Z1)
+# randomly assign to transport, blocking by information
+transport <- block_ra(blocks = information)
 
-table(Z1,Z2)
+table(information, transport)
 
 ```
 
@@ -206,6 +281,8 @@ table(Z1,Z2)
 
 -   When an intervention can be or must be rolled out in stages, you can
     randomize the order (*timing*) in which units are treated.
+    
+-   We measure the encouragement $Z$, taking the treatment $D$, and the outcome $Y$.    
 :::
 
 ::: {.col data-latex="{0.04\\textwidth}"}
@@ -219,6 +296,8 @@ a column separator -->
 
 -   Lorsqu'une intervention peut ou doit être déployée par étapes, vous
     pouvez procéder à une assignation aléatoire l'ordre (*timing*) de traitement des unités.
+    
+-   On mésure l'incitation $Z$, le traitement reçu $D$, et le résultat $Y$.    
 :::
 :::
 
@@ -269,6 +348,8 @@ a column separator -->
 
 ::: {.cols data-latex=""}
 ::: {.col data-latex="{0.48\\textwidth}"}
+-   We analyze the data from all time periods together.
+
 -   Be careful: the probability of assignment to treatment will vary
     over time because units that are assigned to treatment in earlier
     stages are not eligible to be assigned to treatment in later stages.
@@ -280,6 +361,8 @@ a column separator -->
 :::
 
 ::: {.col data-latex="{0.48\\textwidth}"}
+-   Nous analysons les données de toutes les périodes ensemble.
+
 -   Attention : la probabilité d'assignation au traitement variera dans
     le temps car les unités assignées au traitement à des stades
     antérieurs ne sont plus éligibles pour être assignées à un
@@ -367,7 +450,7 @@ a column separator -->
     contrôle.
 :::
 :::
-| Complier Types / *Type de conformiste*  |  $Z=1$   |  $Z=0$   |
+| Type / *Type*  |  $Z=1$   |  $Z=0$   |
 |:------------------------------|:--------:|:--------:|
 | Always Taker / *Toujours preneur*  | $D(1)=1$ | $D(0)=1$ |
 | **Complier / *Conformiste***  | $D(1)=1$ | $D(0)=0$ |
@@ -440,21 +523,56 @@ a column separator -->
 :::
 :::
 
-| Complier Types / *Type de conformiste*  |  $Z=1$   |  $Z=0$   |
+
+| Type / *Type*  |  $Z=1$   |  $Z=0$   |
 |:------------------------------|:--------:|:--------:|
 | Always Taker / *Toujours preneur*  | $D(1)=1$ | $D(0)=1$ |
 | **Complier / *Conformiste***  | $D(1)=1$ | $D(0)=0$ |
 | Never Taker / *Jamais preneur*   | $D(1)=0$ | $D(0)=0$ |
-| Defier / *Non-conformiste*  | $D(1)=0$ | $D(0)=1$ |
+
+
+
+<!-- ## 3. Encouragement design \| *Conception incitative* -->
+
+<!-- ::: {.cols data-latex=""} -->
+<!-- ::: {.col data-latex="{0.48\\textwidth}"} -->
+
+<!-- -   If the treatment is only available through the study, there are no Always Takers or Defiers.  This is *one-sided noncompliance*. -->
+
+<!-- -   Otherwise, we have *two-sided noncompliance*. -->
+
+<!-- ::: -->
+
+<!-- ::: {.col data-latex="{0.04\\textwidth}"} -->
+<!--   <!-- an empty Div (with a white space), serving as -->
+<!-- a column separator --> 
+<!-- ::: -->
+
+<!-- ::: {.col data-latex="{0.48\\textwidth}"} -->
+<!-- <!-- -   Nous pouvons également connaître l'effet moyen de la prise du --> 
+
+<!-- <!--     traitement -->
+
+
+<!-- -   Si le traitement n'est disponible par d'autres voies que l'étude, il n'y a pas aussi de Toujours preneurs ou Non-conformistes.  On a la *non-conformité unilatérale*. -->
+
+<!-- -   Sinon, on a la *non-conformité bilatérale*. -->
+
+
+<!-- ::: -->
+<!-- ::: -->
 
 ## 3. Encouragement design \| *Conception incitative*
 
 ::: {.cols data-latex=""}
 ::: {.col data-latex="{0.48\\textwidth}"}
 
--   If the treatment is only available through the study, there are no Always Takers or Defiers.  This is *one-sided noncompliance*.
+How do these assumptions get us to the CACE?
 
--   Otherwise, we have *two-sided noncompliance*.
+-   Randomization of the encouragement $Z$ means that the proportions of complier types in the $Z=1$ and $Z=0$ groups are expected to be similar.  
+
+<!-- -   We can estimate the proportion of Compliers by comparing $D$ for the $Z=1$ and $Z=0$ groups. -->
+
 
 :::
 
@@ -464,25 +582,30 @@ a column separator -->
 :::
 
 ::: {.col data-latex="{0.48\\textwidth}"}
-<!-- -   Nous pouvons également connaître l'effet moyen de la prise du -->
 
-<!--     traitement -->
+Comment ces hypothèses génèrent le CACE ?
 
+-   Grâce à l'assignation aléatoire, les proportions de types de conformistes dans les groupes avec ($Z=1$) et sans ($Z=0$) l'incitation devraient être similaires. 
 
--   Si le traitement n'est disponible par d'autres voies que l'étude, il n'y a pas aussi de Toujours preneurs ou Non-conformistes.  On a la *non-conformité unilatérale*.
+<!-- -   Nous pouvons estimer la proportion de Conformistes en comparant $D$ des groupes $Z=1$ et $Z=0$. -->
 
--   Sinon, on a la *non-conformité bilatérale*.
-
- 
 :::
 :::
-
 ## 3. Encouragement design \| *Conception incitative*
+| Type / *Type*  |  $Z=1$   |  $Z=0$   | Effect of $Z$ on $D$ |
+|:------------------------------|:--------:|:--------:| :--------:|
+| Always Taker / *Toujours preneur*  | $D(1)=1$ | $D(0)=1$ | 0 | 
+| **Complier / *Conformiste***  | $D(1)=1$ | $D(0)=0$ | 1 |
+| Never Taker / *Jamais preneur*   | $D(1)=0$ | $D(0)=0$ | 0 |
+
+
 
 ::: {.cols data-latex=""}
 ::: {.col data-latex="{0.48\\textwidth}"}
 
--   Randomization of the encouragement means that we have similar proportions of complier types in the assigned to encouragement ($Z=1$) and not assigned to encouragement ($Z=0$) groups.  
+
+-   The average treatment effect of $Z$ on $D$ is the proportion of Compliers.
+
 
 :::
 
@@ -493,10 +616,45 @@ a column separator -->
 
 ::: {.col data-latex="{0.48\\textwidth}"}
 
--   Dans les deux cas, l'assignation aléatoire de l'encouragement signifie que nous avons des proportions similaires de types de conformistes dans les groupes soumis à l'encouragement ($Z=1$) et non soumis à l'encouragement ($Z=0$).  
+
+-   L'effect moyen du traitement de $Z$ sur $D$ est la proportion de Conformistes.
 
 :::
 :::
+
+
+## 3. Encouragement design \| *Conception incitative*
+
+| Type / *Type*  |  $Z=1$   |  $Z=0$   | Effect of $Z$ on $Y$ (ITT) | Effect of $D$ on $Y$ (ATE)|
+|:------------------------------|:------:|:------:|:-------:|:-------:|
+| Always Taker / *Toujours preneur*  | $D(1)=1$ | $D(0)=1$ | 0 | 0 |
+| **Complier / *Conformiste***  | $D(1)=1$ | $D(0)=0$ | ? | ? |
+| Never Taker / *Jamais preneur*   | $D(1)=0$ | $D(0)=0$ | 0| 0|
+
+
+::: {.cols data-latex=""}
+::: {.col data-latex="{0.48\\textwidth}"}
+
+-   The encouragement can only have an effect on the Compliers (by excludability).
+
+-   We combine our estimate of the ITT for everyone with the estimate of the proportion of Compliers.
+:::
+
+::: {.col data-latex="{0.04\\textwidth}"}
+  <!-- an empty Div (with a white space), serving as
+a column separator -->
+:::
+
+::: {.col data-latex="{0.48\\textwidth}"}
+
+-   L'incitation ne peut avoir d'effet que sur les Conformistes (par le restriction d'exclusion).
+
+-   Nous combinons notre estimation de l'ITT pour tous avec l'estimation de la proportion de Conformistes.
+
+
+:::
+:::
+
 
 ## 3. Encouragement design \| *Conception incitative*
 
@@ -543,6 +701,35 @@ a column separator -->
 :::
 :::
 
+
+## Summary \| *Résumé*
+
+::: {.cols data-latex=""}
+::: {.col data-latex="{0.48\\textwidth}"}
+
+-   Factorial:  2 or more treatments with possible interaction
+
+-   Waitlist: constraint on how many treatments can be delievered at once
+
+-   Encouragement: can't force units to take the treatment
+:::
+
+::: {.col data-latex="{0.04\\textwidth}"}
+  <!-- an empty Div (with a white space), serving as
+a column separator -->
+:::
+
+::: {.col data-latex="{0.48\\textwidth}"}
+
+-   Factorielle:  2 traitements ou plus avec interaction possible
+
+-   Liste d'attente: contrainte sur le nombre de traitements pouvant être délivrés à la fois
+
+-   L'incitation: ne peut pas obliger les unités à recevoir le traitement
+
+
+:::
+:::
 
 
 ## Resources \| *Ressources*
