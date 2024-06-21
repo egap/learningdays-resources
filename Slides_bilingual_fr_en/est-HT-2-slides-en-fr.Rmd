@@ -2,8 +2,8 @@
 title: |
   | Estimation and Hypothesis Testing 2 | 
   | *Les estimateurs et les tests d'hypothèses 2*
-author: "Name"
-date: "Date"
+author: "Christelle Zozoungbo"
+date: "27 June/juin 2024"
 classoption: "aspectratio=169"
 bibliography: ../learningdays-book.bib
 biblio-style: apalike
@@ -125,10 +125,10 @@ $$Y_i = \beta_0 + \beta_1 Z_i + \gamma X_i + e_i$$
 ::: {.cols data-latex=""}
 ::: {.col data-latex="{0.48\\textwidth}"}
 -   The coefficient on the treatment variable ($\beta_1$) is again our
-    estimate of the ATE.
+     ATE.
 
--   The coefficient on the covariate ($\gamma$) is *not* an estimate of
-    the causal effect of that variable.\
+-   The coefficient on the covariate ($\gamma$) is *not* 
+    the causal effect of that variable.
 :::
 
 ::: {.col data-latex="{0.04\\textwidth}"}
@@ -138,10 +138,10 @@ a column separator -->
 
 ::: {.col data-latex="{0.48\\textwidth}"}
 -   Le coefficient sur la variable de traitement ($\beta_1$) est encore
-    notre estimation de l'ATE.
+    notre ATE.
 
--   Le coefficient de la covariable ($\gamma$) n'est *pas* une
-    estimation de l'effet causal de cette variable.
+-   Le coefficient de la covariable ($\gamma$) n'est *pas* 
+    l'effet causal de cette variable.
 :::
 :::
 
@@ -152,12 +152,20 @@ a column separator -->
 knitr::include_graphics("../Images/reg_cov.png")
 ```
 
+## Estimator: Linear regression with covariates \| *Estimateur : La régression linéaire avec des covariables*
+
+```{r}
+library(estimatr)
+# lm_robust(Y ~ treatment + Language + Gender)
+```
+
+
 # Cluster Randomization \| *Randomisation par grappe*
 
 ## Estimator: Regression with cluster-robust standard errors \| *Estimateur : La régression avec des erreurs types robustes au niveau du cluster*
 
 $$Y_{ic} = \beta_0 + \beta_1 Z_{c} + e_{ic}$$
-
+$$Y_{ic} = \beta_0 + \beta_1 Z_{c} + \beta_2 X_{ic} +e_{ic}$$
 
 \bigskip
 
@@ -189,39 +197,44 @@ a column separator -->
 :::
 :::
 
-## Cluster Randomization \| *Randomisation par grappe*
+<!-- ## Cluster Randomization \| *Randomisation par grappe* -->
 
-::: {.cols data-latex=""}
-::: {.col data-latex="{0.48\\textwidth}"}
--   Remember: we have assumed non-interference (part of SUTVA).
+<!-- ::: {.cols data-latex=""} -->
+<!-- ::: {.col data-latex="{0.48\\textwidth}"} -->
+<!-- -   Remember: we have assumed non-interference (part of SUTVA). -->
 
--   If we are concerned about interference within clusters (but can
-    assume non-interference across clusters), we can shift the analysis
-    to the cluster level by using the average or other summary measure
-    at the cluster level as our outcome variable.
-:::
+<!-- -   If we are concerned about interference within clusters (but can -->
+<!--     assume non-interference across clusters), we can shift the analysis -->
+<!--     to the cluster level by using the average or other summary measure -->
+<!--     at the cluster level as our outcome variable. -->
+<!-- ::: -->
 
-::: {.col data-latex="{0.04\\textwidth}"}
-  <!-- an empty Div (with a white space), serving as
-a column separator -->
-:::
+<!-- ::: {.col data-latex="{0.04\\textwidth}"} -->
+<!--   <!-- an empty Div (with a white space), serving as -->
+<!-- a column separator --> -->
+<!-- ::: -->
 
-::: {.col data-latex="{0.48\\textwidth}"}
--   N'oubliez pas : nous avons supposé la non-contamination (qui fait
-    partie de la SUTVA).
+<!-- ::: {.col data-latex="{0.48\\textwidth}"} -->
+<!-- -   N'oubliez pas : nous avons supposé la non-contamination (qui fait -->
+<!--     partie de la SUTVA). -->
 
--   Si nous sommes préoccupés par la contamination au sein des clusters
-    (mais pouvons supposer qu'il n'y a pas de contamination entre les
-    clusters), nous pouvons déplacer l'analyse au niveau du cluster en
-    utilisant la moyenne ou une autre mesure récapitulative au niveau du
-    cluster comme variable de résultat.
-:::
-:::
+<!-- -   Si nous sommes préoccupés par la contamination au sein des clusters -->
+<!--     (mais pouvons supposer qu'il n'y a pas de contamination entre les -->
+<!--     clusters), nous pouvons déplacer l'analyse au niveau du cluster en -->
+<!--     utilisant la moyenne ou une autre mesure récapitulative au niveau du -->
+<!--     cluster comme variable de résultat. -->
+<!-- ::: -->
+<!-- ::: -->
 
 ## Cluster Randomization \| *Randomisation par grappe*
 
 ```{r, echo=FALSE, fig.align='center', out.width=400}
-knitr::include_graphics("../Images/reg_cluster.png")
+# knitr::include_graphics("../Images/reg_cluster.png")
+```
+
+```{r}
+# library(estimatr)
+# lm_robust(Y ~ treatment, clusters=cluster_variable) 
 ```
 
 # Experiments with Multiple Arms \| *Les éxperiences avec plusiers bras*
@@ -317,6 +330,19 @@ a column separator -->
 :::
 :::
 
+
+## Estimators for Multi-arm Designs \| *Les estimateurs pour les éxperiences avec plusiers bras*
+
+```{r}
+library(estimatr)
+
+# difference_in_means(Y ~ treatment, conditions=c("T2", "T1", "Control"), prob_each=c(0.33, 0.33, 0.34))
+
+# lm_robust(Y ~ as.factor(treatment))
+
+```
+
+
 # Factorial Design \| *La concéption factorielle*
 
 ## Estimator 1: Difference-in-Means \| *Estimateur 1 : La différence en moyennes*
@@ -353,58 +379,61 @@ a column separator -->
 :::
 :::
 
-## Estimator 2: Linear Regression \| *Estimateur 2 : La régression linéaire*
+<!-- ## Estimator 2: Linear Regression \| *Estimateur 2 : La régression linéaire* -->
 
-$$Y_i = \gamma_0 + \gamma_1 Z_{1only,i} + \gamma_2 Z_{2only,i} + \gamma_3 Z_{both1\&2,i} + e_i$$
+<!-- $$Y_i = \gamma_0 + \gamma_1 Z_{1only,i} + \gamma_2 Z_{2only,i} + \gamma_3 Z_{both1\&2,i} + e_i$$ -->
 
-::: {.cols data-latex=""}
-::: {.col data-latex="{0.48\\textwidth}"}
--   Regression makes it easier to do hypothesis testing.
+<!-- ::: {.cols data-latex=""} -->
+<!-- ::: {.col data-latex="{0.48\\textwidth}"} -->
+<!-- -   Regression makes it easier to do hypothesis testing. -->
 
--   An indicator variable for each of the three treatment conditions.
+<!-- -   An indicator variable for each of the three treatment conditions. -->
 
--   We can also do covariate adjustment at the same time.
-:::
+<!-- -   We can also do covariate adjustment at the same time. -->
+<!-- ::: -->
 
-::: {.col data-latex="{0.04\\textwidth}"}
-  <!-- an empty Div (with a white space), serving as
-a column separator -->
-:::
+<!-- ::: {.col data-latex="{0.04\\textwidth}"} -->
+<!--   <!-- an empty Div (with a white space), serving as -->
+<!-- a column separator --> -->
+<!-- ::: -->
 
-::: {.col data-latex="{0.48\\textwidth}"}
--   La régression facilite les tests d'hypothèses.
+<!-- ::: {.col data-latex="{0.48\\textwidth}"} -->
+<!-- -   La régression facilite les tests d'hypothèses. -->
 
--   Régression avec une variable indicatrice pour chacun des trois bras
-    de traitement.
+<!-- -   Régression avec une variable indicatrice pour chacun des trois bras -->
+<!--     de traitement. -->
 
--   Nous pouvons également effectuer un ajustement covariable en même
-    temps.
-:::
-:::
+<!-- -   Nous pouvons également effectuer un ajustement covariable en même -->
+<!--     temps. -->
+<!-- ::: -->
+<!-- ::: -->
 
-## Estimator 2: Linear Regression \| *Estimateur 2 : La régression linéaire*
+<!-- ## Estimator 2: Linear Regression \| *Estimateur 2 : La régression linéaire* -->
 
-$$Y_i = \gamma_0 + \gamma_1 Z_{1only,i} + \gamma_2 Z_{2only,i} + \gamma_3 Z_{both1\&2,i} + e_i$$
+<!-- $$Y_i = \gamma_0 + \gamma_1 Z_{1only,i} + \gamma_2 Z_{2only,i} + \gamma_3 Z_{both1\&2,i} + e_i$$ -->
 
--   $\gamma_1$: ATE of $Z_{1}$ conditional on $Z_{2}=0$ \| *l'ATE de*
-    $Z_{1}$ conditionnel à $Z_{2}=0$, ($E[Y(Z_1=1)- Y(Z_1=0) | Z_2=0]$)
+<!-- -   $\gamma_1$: ATE of $Z_{1}$ conditional on $Z_{2}=0$ \| *l'ATE de* -->
+<!--     $Z_{1}$ conditionnel à $Z_{2}=0$, ($E[Y(Z_1=1)- Y(Z_1=0) | Z_2=0]$) -->
 
--   $\gamma_2$: ATE of $Z_{2}$ conditional on $Z_{1}=0$ \| *l'ATE de*
-    $Z_{2}$ conditionnel à $Z_{1}=0$, ($E[Y(Z_2=1)- Y(Z_2=0) | Z_1=0]$)
+<!-- -   $\gamma_2$: ATE of $Z_{2}$ conditional on $Z_{1}=0$ \| *l'ATE de* -->
+<!--     $Z_{2}$ conditionnel à $Z_{1}=0$, ($E[Y(Z_2=1)- Y(Z_2=0) | Z_1=0]$) -->
 
--   $\gamma_3$: ATE of having both $Z_1$ and $Z_2$ compared with having
-    neither \| *l'ATE d'avoir à la fois* $Z_1$ et $Z_2$ par rapport à
-    n'avoir ni l'un ni l'autre
+<!-- -   $\gamma_3$: ATE of having both $Z_1$ and $Z_2$ compared with having -->
+<!--     neither \| *l'ATE d'avoir à la fois* $Z_1$ et $Z_2$ par rapport à -->
+<!--     n'avoir ni l'un ni l'autre -->
 
-## Estimator 2: Linear Regression \| *Estimateur 2 : La régression linéaire*
+<!-- ## Estimator 2: Linear Regression \| *Estimateur 2 : La régression linéaire* -->
 
-```{r, echo=FALSE, fig.align='center', out.width=350}
-knitr::include_graphics("../Images/reg_multi_arm.png")
-```
+<!-- ```{r, echo=FALSE, fig.align='center', out.width=350} -->
+<!-- knitr::include_graphics("../Images/reg_multi_arm.png") -->
+<!-- ``` -->
 
-## Estimator 3: Linear Regression with an Interaction Term \| *Estimateur 3 : La régression linéaire avec un terme d'interaction*
+## Estimator 2: Linear Regression with an Interaction Term \| *Estimateur 2 : La régression linéaire avec un terme d'interaction*
+
+<!-- ## Estimator 3: Linear Regression with an Interaction Term \| *Estimateur 3 : La régression linéaire avec un terme d'interaction* -->
 
 $$Y_i = \beta_0 + \beta_1 Z_{1i} + \beta_2 Z_{2i} + \beta_3 Z_{1i}*Z_{2i} + e_i$$
+$$Y_i = \beta_0 + \beta_1 Z_{1i} + \beta_2 Z_{2i} + \beta_3 Z_{1i}*Z_{2i} + \beta_4 X_i + e_i$$
 
 \bigskip
 
@@ -428,9 +457,21 @@ a column separator -->
 :::
 :::
 
-## Estimator 3: Linear Regression with an Interaction Term \| *Estimateur 3 : La régression linéaire avec un terme d'interaction*
+<!-- ## Estimator 3: Linear Regression with an Interaction Term \| *Estimateur 3 : La régression linéaire avec un terme d'interaction* -->
+## Estimator 2: Linear Regression with an Interaction Term \| *Estimateur 2 : La régression linéaire avec un terme d'interaction*
+
 
 $$Y_i = \beta_0 + \beta_1 Z_{1i} + \beta_2 Z_{2i} + \beta_3 Z_{1i}Z_{2i} + e_i$$
+\begin{table}[]
+\begin{tabular}{|p{1in}|p{1in}|}
+\cline{1-2}
+Neither  &  $Z_2$ only \\
+ & \\ \cline{1-2}
+$Z_1$ only  & Both $Z_1$ and $Z_2$ \\
+& \\ \cline{1-2}
+\end{tabular}
+\end{table}
+
 
 -   $\beta_1$ is the ATE of $Z_{1}$ conditional on $Z_{2}=0$ \| *l'ATE
     de* $Z_{1}$ conditionnel à $Z_{2}=0$,
@@ -443,6 +484,16 @@ $$Y_i = \beta_0 + \beta_1 Z_{1i} + \beta_2 Z_{2i} + \beta_3 Z_{1i}Z_{2i} + e_i$$
 ## Estimator 3: Linear Regression with an Interaction Term \| *Estimateur 3 : La régression linéaire avec un terme d'interaction*
 
 $$Y_i = \beta_0 + \beta_1 Z_{1i} + \beta_2 Z_{2i} + \beta_3 Z_{1i}Z_{2i} + e_i$$
+
+\begin{table}[]
+\begin{tabular}{|p{1in}|p{1in}|}
+\cline{1-2}
+Neither  &  $Z_2$ only \\
+ & \\ \cline{1-2}
+$Z_1$ only  & Both $Z_1$ and $Z_2$ \\
+& \\ \cline{1-2}
+\end{tabular}
+\end{table}
 
 \bigskip
 
@@ -457,8 +508,17 @@ $$Y_i = \beta_0 + \beta_1 Z_{1i} + \beta_2 Z_{2i} + \beta_3 Z_{1i}Z_{2i} + e_i$$
 -   $\beta_3$ is called the interaction effect. $\beta_3$ est appelé
     l'effet d'interaction.
 
-## Estimator 3: Linear Regression with an Interaction Term \| *Estimateur 3 : La régression linéaire avec un terme d'interaction*
+## Estimator 2: Linear Regression with an Interaction Term \| *Estimateur 2 : La régression linéaire avec un terme d'interaction*
+<!-- ## Estimator 3: Linear Regression with an Interaction Term \| *Estimateur 3 : La régression linéaire avec un terme d'interaction* -->
 
 ```{r, echo=FALSE, fig.align='center', out.width=200}
 knitr::include_graphics("../Images/reg_interaction.png")
+```
+
+## Estimator 2: Linear Regression with an Interaction Term \| *Estimateur 2 : La régression linéaire avec un terme d'interaction*
+
+```{r}
+library(estimatr)
+# lm_robust(Y ~ Z1 + Z2 + Z1*Z2)
+# lm_robust(Y ~ Z1*Z2)
 ```
