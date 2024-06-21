@@ -152,6 +152,7 @@ a column separator -->
 knitr::include_graphics("../Images/reg_cov.png")
 ```
 
+
 ## Estimator: Linear regression with covariates \| *Estimateur : La régression linéaire avec des covariables*
 
 ```{r}
@@ -233,8 +234,11 @@ a column separator -->
 ```
 
 ```{r}
-# library(estimatr)
-# lm_robust(Y ~ treatment, clusters=cluster_variable) 
+library(estimatr)
+
+# lm_robust(Y ~ treatment, clusters=cluster_variable)
+
+# lm_robust(Y ~ treatment + covariate, clusters=cluster_variable)
 ```
 
 # Experiments with Multiple Arms \| *Les éxperiences avec plusiers bras*
@@ -336,7 +340,9 @@ a column separator -->
 ```{r}
 library(estimatr)
 
-# difference_in_means(Y ~ treatment, conditions=c("T2", "T1", "Control"), prob_each=c(0.33, 0.33, 0.34))
+# difference_in_means(Y ~ treatment, 
+#         condition1="T2", 
+#         condition2="T1")
 
 # lm_robust(Y ~ as.factor(treatment))
 
@@ -461,7 +467,6 @@ a column separator -->
 ## Estimator 2: Linear Regression with an Interaction Term \| *Estimateur 2 : La régression linéaire avec un terme d'interaction*
 
 
-$$Y_i = \beta_0 + \beta_1 Z_{1i} + \beta_2 Z_{2i} + \beta_3 Z_{1i}Z_{2i} + e_i$$
 \begin{table}[]
 \begin{tabular}{|p{1in}|p{1in}|}
 \cline{1-2}
@@ -471,6 +476,8 @@ $Z_1$ only  & Both $Z_1$ and $Z_2$ \\
 & \\ \cline{1-2}
 \end{tabular}
 \end{table}
+
+$$Y_i = \beta_0 + \beta_1 Z_{1i} + \beta_2 Z_{2i} + \beta_3 Z_{1i}*Z_{2i} + e_i$$
 
 
 -   $\beta_1$ is the ATE of $Z_{1}$ conditional on $Z_{2}=0$ \| *l'ATE
@@ -481,9 +488,7 @@ $Z_1$ only  & Both $Z_1$ and $Z_2$ \\
     de* $Z_{2}$ conditionnel à $Z_{1}=0$,
     ($E[Y(Z_2=1)- Y(Z_2=0) | Z_1=0]$)
 
-## Estimator 3: Linear Regression with an Interaction Term \| *Estimateur 3 : La régression linéaire avec un terme d'interaction*
-
-$$Y_i = \beta_0 + \beta_1 Z_{1i} + \beta_2 Z_{2i} + \beta_3 Z_{1i}Z_{2i} + e_i$$
+## Estimator 2: Linear Regression with an Interaction Term \| *Estimateur 2 : La régression linéaire avec un terme d'interaction*
 
 \begin{table}[]
 \begin{tabular}{|p{1in}|p{1in}|}
@@ -494,6 +499,10 @@ $Z_1$ only  & Both $Z_1$ and $Z_2$ \\
 & \\ \cline{1-2}
 \end{tabular}
 \end{table}
+
+
+
+$$Y_i = \beta_0 + \beta_1 Z_{1i} + \beta_2 Z_{2i} + \beta_3 Z_{1i}*Z_{2i} + e_i$$
 
 \bigskip
 
@@ -520,5 +529,9 @@ knitr::include_graphics("../Images/reg_interaction.png")
 ```{r}
 library(estimatr)
 # lm_robust(Y ~ Z1 + Z2 + Z1*Z2)
+
 # lm_robust(Y ~ Z1*Z2)
+
+# lm_robust(Y ~ Z1*Z2 + covariate)
+
 ```
