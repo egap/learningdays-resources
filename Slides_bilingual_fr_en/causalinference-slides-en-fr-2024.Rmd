@@ -184,10 +184,10 @@ a column separator -->
 
 ::: {.cols data-latex=""}
 ::: {.col data-latex="{0.48\\textwidth}"}
--   We must define what the treatment means and what it means to not
+1.   We must define what the treatment means and what it means to not
     have the treatment.
 
--   The units in your study might or might not be representative of a
+2.   The units in your study might or might not be representative of a
     larger population.
 :::
 
@@ -197,27 +197,33 @@ a column separator -->
 :::
 
 ::: {.col data-latex="{0.48\\textwidth}"}
--   Nous devons définir la condition de traitement et de contrôle pour
+1.   Nous devons définir la condition de traitement et de contrôle pour
     définir un effet causal.
 
--   Les unités de votre étude peuvent ou non être représentatives d'une
+2.   Les unités de votre étude peuvent ou non être représentatives d'une
     population plus large.
 :::
 :::
 
 # Learning the average causal effect from an experiment \| *Comment apprendre l'effet causal moyen d'une expérience aléatoire*
 
-## Potential outcomes \| *Résultats potentiels*
+## COFFEE
+
+
+
+## We use a model of potential outcomes \| *Résultats potentiels*
 
 ::: {.cols data-latex=""}
 ::: {.col data-latex="{0.48\\textwidth}"}
--   For each unit we assume that there are two *post-treatment*
+-   Before defining an average treatment effect, we define a treatment effect for an individual $i$.
+
+-   For each unit we assume that there are two *potential*
     outcomes: $Y_i(1)$ and $Y_i(0)$.
 
--   $Y_i(1)$ is the outcome that *would* obtain *if* the unit received
+-   $Y_i(1)$ is the outcome that *would* obtain *if* the unit were to receive
     the treatment ($D_i=1$).
 
--   $Y_i(0)$ is the outcome that *would* obtain *if* the unit received
+-   $Y_i(0)$ is the outcome that *would* obtain *if* the unit were to receive
     the control ($D_i=0$).
 :::
 
@@ -227,6 +233,8 @@ a column separator -->
 :::
 
 ::: {.col data-latex="{0.48\\textwidth}"}
+-   Avant définir l'effect moyen de traitement, nous définons un effect de traitement pour un individu $i$.
+
 -   Pour chaque unité, nous supposons qu'il y a deux résultats
     *post-traitement* : $Y_i(1)$ et $Y_i(0)$.
 
@@ -432,14 +440,15 @@ a column separator -->
 :::
 
 ## Randomization is powerful \| *Randomiser est puissant*
+\centering 
 
 $$Y_i = D_iY_i(1) + (1-D_i)Y_i(0)$$
 
 ::: {.cols data-latex=""}
 ::: {.col data-latex="{0.48\\textwidth}"}
-2.  For the treated units, we observe $Y_i=Y_i(1)$.  
+2.  For the treated units, the observed outcome $Y_i$ is $Y_i(1)$.  
 
-3.  For the control units, we observe $Y_i=Y_i(0)$.
+3.  For the control units, the observed outcome $Y_i$ is $Y_i(0)$.  
 :::
 
 ::: {.col data-latex="{0.04\\textwidth}"}
@@ -461,7 +470,27 @@ $$E_R[\overline{Y_i}|D_i=0]=\overline{Y_i(0)}$$
 
 ::: {.cols data-latex=""}
 ::: {.col data-latex="{0.48\\textwidth}"}
-4.  Because the units were randomly assigned to treatment, the average of the $Y_i=Y_i(1)$ for the treated units is a good estimate of the average of $Y_i(1)$ for all the units. The same logic applies to the units randomly assigned to control.
+![](../Images/fig06-y1-sample1.png){width="240"}
+:::
+
+::: {.col data-latex="{0.04\\textwidth}"}
+  <!-- an empty Div (with a white space), serving as
+a column separator -->
+:::
+
+::: {.col data-latex="{0.48\\textwidth}"}
+![](../Images/fig-y1dist.png){width="240"}
+:::
+:::
+## Randomization is powerful \| *Randomiser est puissant*
+
+$$E_R[\overline{Y_i}|D_i=1]=\overline{Y_i(1)}$$
+$$E_R[\overline{Y_i}|D_i=0]=\overline{Y_i(0)}$$
+
+
+::: {.cols data-latex=""}
+::: {.col data-latex="{0.48\\textwidth}"}
+4.  Because the units were randomly assigned to treatment, the average of the $Y_i$ for the treated units is a good estimate of the average of $Y_i(1)$ for all the units. The same logic applies to the units randomly assigned to control.
 :::
 
 ::: {.col data-latex="{0.04\\textwidth}"}
@@ -471,7 +500,7 @@ a column separator -->
 
 ::: {.col data-latex="{0.48\\textwidth}"}
 4.  Parce que les unités ont été assignées de manière aléatoire au
-    traitement, la moyenne de $Y_i=Y_i(1)$ pour les unités traitées est une bonne estimation de la moyenne de
+    traitement, la moyenne de $Y_i$ pour les unités traitées est une bonne estimation de la moyenne de
     $Y_i(1)$ pour toutes nos unités.
     La même logique s'applique pour les unités assignées aléatoirement
     au contrôle.
@@ -481,57 +510,17 @@ a column separator -->
 
 ## Randomization is powerful \| *Randomiser est puissant*
 
+$$\widehat{ATE} = (\overline{{Y_i}}|D_i=1) - (\overline{{Y_i}}|D_i=0)$$
 $$ATE = \overline{Y_i(1)}-\overline{Y_i(0)}$$
-$$\widehat{ATE} = \overline{({Y_i}|D_i=1)} - \overline{({Y_i}|D_i=0)}$$
-
-::: {.cols data-latex=""}
-::: {.col data-latex="{0.48\\textwidth}"}
-5.  So we plug in these estimates for $\overline{Y_i(1)}$ and $\overline{Y_i(0)}$ to estimate the ATE.
-:::
-
-::: {.col data-latex="{0.04\\textwidth}"}
-  <!-- an empty Div (with a white space), serving as
-a column separator -->
-:::
-
-::: {.col data-latex="{0.48\\textwidth}"}
-5.  Donc nous utilisons ces estimations de $\overline{Y_i(1)}$ et $\overline{Y_i(0)}$ pour estimer l'ATE.
-:::
-:::
-
-
-## Randomization is powerful \| *Randomiser est puissant*
-
-$$ATE = \overline{\tau_i}= \overline{Y_i(1)-Y_i(0)} = \overline{Y_i(1)}-\overline{Y_i(0)}$$
 $$E_R[\overline{Y_i}|D_i=1]=\overline{Y_i(1)}$$
 $$E_R[\overline{Y_i}|D_i=0]=\overline{Y_i(0)}$$
 
-::: {.cols data-latex=""}
-::: {.col data-latex="{0.48\\textwidth}"}
--   $\overline{Y}$ means the average over a set of observations.
+\centering
 
--   $E_R[]$ means the average over repeated operations.
+![](../Images/fig11-randomassignment1.png){width="240"}
 
--   We may not get exactly $\overline{Y_i(1)}$ from a particular
-    randomization, but we can expect to get $\overline{Y_i(1)}$ over
-    repeated experiments.
-:::
 
-::: {.col data-latex="{0.04\\textwidth}"}
-  <!-- an empty Div (with a white space), serving as
-a column separator -->
-:::
 
-::: {.col data-latex="{0.48\\textwidth}"}
--   $\overline{Y}$ signifie "moyenne sur un ensemble d'observations".
-
--   $E_R[]$ signifie "moyenne sur des opérations répétées".
-
--   Nous ne pourrions pas obtenir pas exactement $\overline{Y_i(1)}$ d'une assignation
-    aléatoire particulière, mais nous pouvons nous attendre à
-    $\overline{Y_i(1)}$ au cours d'expériences répétées.
-:::
-:::
 
 
 # Core assumptions \| *Hypothèses clés*
