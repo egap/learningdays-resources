@@ -286,8 +286,12 @@ perms <- obtain_permutation_matrix(m1)
 y1est <- t(as.matrix(y1, nrow=1))
 y1estdist <- y1est%*%perms/6
 
-tau1 <- t(as.matrix(tau, nrow=1))
-taudist <- tau1%*%perms/6
+y0est <- t(as.matrix(y0, nrow=1))
+y0estdist <- y0est%*%(1-perms)/6
+
+
+tau1 <- y1estdist-y0estdist
+
 
 png(file="fig-y1dist.png", width=960, height=600, pointsize=24)
 
@@ -297,13 +301,7 @@ abline(v=mean(y1), lwd=2)
 dev.off()
 
 png(file="fig-taudist.png", width=960, height=400, pointsize=24)
-
-data <- data.frame(
-  name=c("0", "1/6", "1/3", "1/2", "2/3", "5/6", "1"),
-  value=c(1, 36, 225, 400, 225, 36, 1)
-)
-
-# The most basic barplot you can do:
-barplot(height=data$value, names=data$name, col="purple", main="Distribution of ATE estimates", ylab="Frequency")
+hist(tau1, col="purple", breaks=16, main="Distribution of ATE estimates", xlab="")
+abline(v=mean(tau1), lwd=4)
 
 dev.off()
