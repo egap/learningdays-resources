@@ -145,9 +145,9 @@ a column separator -->
 :::
 
 ::: {.col data-latex="{0.48\\textwidth}"}
-Il y a plusiers effets de traitement (comparaisons) dans une conception factorielle:
+Il y a plusieurs effets de traitement (comparaisons) dans une conception factorielle:
 
-1.   Effet moyen conditionnel (CATE): L'effet du traitement, conditionnel au maintien de l'autre pour une valeur fixe. 
+1.   Effet moyen conditionnel (CATE): L'effet moyen d'un des factors, en maintenant fixe la valeur de l'autre factor.
 
 :::
 :::
@@ -183,7 +183,9 @@ a column separator -->
 :::
 
 ::: {.col data-latex="{0.48\\textwidth}"}
--   
+-   On a 4 CATEs possible dans cette conception
+
+- Un parmi eux on a le CATE de information sous la condition d'avoir reçu transport. Cela compare la cellule avec information + transport à la cellule avec transport only. Nous ignorons la seconde colonne.
 :::
 :::
 
@@ -214,7 +216,7 @@ a column separator -->
 :::
 
 ::: {.col data-latex="{0.48\\textwidth}"}
-2.   Effet d'interaction : l'effet d’un traitement (peut-être) dépend de la condition d'assignation de l'unité à un autre traitment. Cela signifie qu’un traitement peut amplifier ou réduire l'effet de l'autre. 
+2.   Effet d'interaction : l'effet d’un factor peut dépendre de la condition d'assignation de l'unité à un autre factor. Cela signifie qu’un factor peut amplifier ou réduire l'effet de l'autre. 
 :::
 :::
 
@@ -244,8 +246,13 @@ a column separator -->
   <!-- an empty Div (with a white space), serving as
 a column separator -->
 :::
--   
+
 ::: {.col data-latex="{0.48\\textwidth}"}
+
+-   Est ce que avoir de transport change l'effet de information? Nous comparons le CATE de information sous la condition d'avoir reçu transport  (comme avant) au CATE de information sous la condition d'abscence de transport.
+
+- Si les 2 CATE sont different, on dira qu'on a un effect d'interaction.
+
 :::
 :::
 
@@ -618,8 +625,11 @@ a column separator -->
 ::: {.col data-latex="{0.48\\textwidth}"}
 
 
--   CHANGE
+-   $D=1$ pour les toujours preneurs, quelque soit la valeur de Z.
 
+-   $D=0$ pour les jamais preneurs, quelque soit la valeur de Z.
+
+-   $D$ peut être 1 ou 0  pour les conformistes, dependement de la valeur de Z.
 :::
 :::
 
@@ -656,7 +666,7 @@ a column separator -->
 ::: {.col data-latex="{0.48\\textwidth}"}
 
 
--   CHANGE
+-   Avec cette conception, on n'observera jamais l'autre condition de $D$ pour les toujours preneurs et les jamais preneurs, donc on peut pas apprendre l'effet de $D$ sur $Y$.
 
 :::
 :::
@@ -682,7 +692,8 @@ a column separator -->
 
 -   But we can learn the average effect of $D$ on $Y$ for Compliers because they can have $D=1$ or $D=0$.  
 
--   And we can learn the ATE for Compliers (CACE) using randomization of $Z$, which creates similar groups of Compliers with $D=1$ and $D=0$.
+-   And we can learn the ATE for Compliers (CACE) using randomization of $Z$, which creates similar groups of Compliers with $D=1$ and $D=0$. 
+
 
 
 :::
@@ -695,7 +706,9 @@ a column separator -->
 ::: {.col data-latex="{0.48\\textwidth}"}
 
 
--   CHANGE
+-   Mais nous pouvons apprendre l'effet moyen de $D$ sur $Y$ pour les conformistes parceque ils peuvent avoir $D=1$ et $D=0$.
+
+-  Et on peut apprendre le ATE pour les conformistes (CATE) en utilisant la randomization de $Z$, qui nous a crée de groupes similaire de conformistes avec $D=1$ et $D=0$.
 
 :::
 :::
