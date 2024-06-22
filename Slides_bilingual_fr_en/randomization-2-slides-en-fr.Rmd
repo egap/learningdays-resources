@@ -114,48 +114,7 @@ a column separator -->
 \end{table}
 
 
-## 1. Factorial Design \| *Conception factorielle*
 
-
-
-\begin{table}[]
-\begin{tabular}{llp{2in}p{2in}}
-&&&\\
-&    & \multicolumn{2}{c}{\textbf{Transport}}                 \\
-&     & \multicolumn{1}{c}{Yes}    & \multicolumn{1}{c}{No}   \\ \cline{3-4} 
-\textbf{Information}   & \multicolumn{1}{l|}{Yes} & \multicolumn{1}{l|}{Information + Transportation} & \multicolumn{1}{l|}{Information only} \\ \cline{3-4}
-   & \multicolumn{1}{l|}{No}  & \multicolumn{1}{l|}{Transport only} & \multicolumn{1}{l|}{Neither} \\ \cline{3-4}
-\end{tabular}
-\end{table}
-
-::: {.cols data-latex=""}
-::: {.col data-latex="{0.48\\textwidth}"}
-
--   Factor 1: Giving information about the location of the polling station
-        (conditions: yes / no)
-
--   Factor 2 :Offering transportation to the polling station (conditions: yes
-        / no)
-
-:::
-
-::: {.col data-latex="{0.04\\textwidth}"}
-  <!-- an empty Div (with a white space), serving as
-a column separator -->
-:::
-
-::: {.col data-latex="{0.48\\textwidth}"}
-
-
--   Facteur 1: Donner des informations sur l'emplacement du bureau de vote
-        (conditions : oui / non)
-
--   Facteur 2: Offrir le transport vers le bureau de vote (conditions : oui /
-        non)
-
-
-:::
-:::
 ## 1. Factorial Design \| *Conception factorielle*
 
 \begin{table}[]
@@ -175,7 +134,7 @@ a column separator -->
 There are many possible treatment effects (comparisons) in a factorial design:
 
 
-1.   Conditional Average Treatment Effect (CATE): the ATE of one factor fixing, the level of the other factor.
+1.   Conditional Average Treatment Effect (CATE): the ATE of one factor, fixing the level of the other factor.
 
 
 :::
@@ -188,10 +147,46 @@ a column separator -->
 ::: {.col data-latex="{0.48\\textwidth}"}
 Il y a plusiers effets de traitement (comparaisons) dans une conception factorielle:
 
-1.   Effet marginal conditionnel (CATE): L'effet du traitement, conditionnel au maintien de l'autre pour une valeur fixe. 
+1.   Effet moyen conditionnel (CATE): L'effet du traitement, conditionnel au maintien de l'autre pour une valeur fixe. 
 
 :::
 :::
+
+
+## 1. Factorial Design \| *Conception factorielle*
+
+\begin{table}[]
+\begin{tabular}{llp{2in}p{2in}}
+&&&\\
+&    & \multicolumn{2}{c}{\textbf{Transport}}                 \\
+&     & \multicolumn{1}{c}{Yes}    & \multicolumn{1}{c}{No}   \\ \cline{3-4} 
+\textbf{Information}   & \multicolumn{1}{l|}{Yes} & \multicolumn{1}{l|}{Information + Transportation} & \multicolumn{1}{l|}{Information only} \\ \cline{3-4}
+   & \multicolumn{1}{l|}{No}  & \multicolumn{1}{l|}{Transport only} & \multicolumn{1}{l|}{Neither} \\ \cline{3-4}
+\end{tabular}
+\end{table}
+
+\bigskip
+
+::: {.cols data-latex=""}
+::: {.col data-latex="{0.48\\textwidth}"}
+-   There are four possible CATEs in this design.
+
+-   One is the CATE of information conditional on having transport.  It compares the cell with information + transport to the cell with transport only.  We can ignore the second column.
+
+
+
+:::
+
+::: {.col data-latex="{0.04\\textwidth}"}
+  <!-- an empty Div (with a white space), serving as
+a column separator -->
+:::
+
+::: {.col data-latex="{0.48\\textwidth}"}
+-   
+:::
+:::
+
 
 ## 1. Factorial Design \| *Conception factorielle*
 
@@ -220,6 +215,37 @@ a column separator -->
 
 ::: {.col data-latex="{0.48\\textwidth}"}
 2.   Effet d'interaction : l'effet d’un traitement (peut-être) dépend de la condition d'assignation de l'unité à un autre traitment. Cela signifie qu’un traitement peut amplifier ou réduire l'effet de l'autre. 
+:::
+:::
+
+## 1. Factorial Design \| *Conception factorielle*
+
+\begin{table}[]
+\begin{tabular}{llp{2in}p{2in}}
+&&&\\
+&    & \multicolumn{2}{c}{\textbf{Transport}}                 \\
+&     & \multicolumn{1}{c}{Yes}    & \multicolumn{1}{c}{No}   \\ \cline{3-4} 
+\textbf{Information}   & \multicolumn{1}{l|}{Yes} & \multicolumn{1}{l|}{Information + Transportation} & \multicolumn{1}{l|}{Information only} \\ \cline{3-4}
+   & \multicolumn{1}{l|}{No}  & \multicolumn{1}{l|}{Transport only} & \multicolumn{1}{l|}{Neither} \\ \cline{3-4}
+\end{tabular}
+\end{table}
+
+\bigskip
+
+::: {.cols data-latex=""}
+::: {.col data-latex="{0.48\\textwidth}"}
+-   Does having transport change the effect of information?  We compare the CATE of information with transport (from before) to the CATE of information without transport.
+
+-   If the 2 CATEs are different, we say there is an interaction effect.
+
+:::
+
+::: {.col data-latex="{0.04\\textwidth}"}
+  <!-- an empty Div (with a white space), serving as
+a column separator -->
+:::
+-   
+::: {.col data-latex="{0.48\\textwidth}"}
 :::
 :::
 
@@ -389,10 +415,10 @@ a column separator -->
 :::
 
 ::: {.col data-latex="{0.48\\textwidth}"}
--   Situation : Vous ne pouvez pas forcer les gens à prendre (recevoir).
+-   Situation : Vous ne pouvez pas forcer les gens à prendre (recevoir) le traitement.
     Le traitement attribué n'est pas le même que le traitement reçu.
 
--   Nous pouvons assigner l'**incitation** (l'encouragement) à manière aléotoire à suivre
+-   Nous pouvons assigner de manière aléotoire l'**incitation** (l'encouragement) à suivre
     le traitement, en demandant par exemple aux individus de boire un
     café ou en offrant une subvention pour participer à un programme.
     
@@ -406,7 +432,7 @@ a column separator -->
 ::: {.cols data-latex=""}
 ::: {.col data-latex="{0.48\\textwidth}"}
 -   We can learn the average effect of the *encouragement* to take the
-    treatment for our study sample (ITT, the intent-to-treat effect).
+    treatment for our study sample (ITT, the intent-to-treat effect) on the outcome $Y$. 
 
 -   With some additional assumptions, we can also learn the average
     effect of *taking the treatment* for Compliers. This is known as the
@@ -421,7 +447,7 @@ a column separator -->
 
 ::: {.col data-latex="{0.48\\textwidth}"}
 -   Nous pouvons apprendre l'effet moyen de *l'encouragement* à suivre
-    le traitement (ITT, l’effet d’intention de traiter).
+    le traitement (ITT, l’effet d’intention de traiter) sur le résultat $Y$.
 
 -   Avec quelques hypothèses supplémentaires, nous pouvons également
     connaître l'effet moyen de *l'acceptation du traitement* pour les
@@ -435,9 +461,7 @@ a column separator -->
 
 ::: {.cols data-latex=""}
 ::: {.col data-latex="{0.48\\textwidth}"}
--   Who are Compliers? They are units that would take the treatment when
-    assigned to treatment and not take the treatment when assigned to
-    control
+-   Who are Compliers? They are units that would take the treatment if encouraged and not take the treatment if not encouraged.
 
 :::
 
@@ -449,9 +473,8 @@ a column separator -->
 ::: {.col data-latex="{0.48\\textwidth}"}
 
 -   Qui sont les Conformistes ? Il s'agit de sujets qui prendraient le
-    traitement lorsqu'ils sont assignés au traitement et qui ne
-    prendraient pas le traitement lorsqu'ils sont assignés au
-    contrôle.
+    traitement lorsqu'ils sont assignés à l'encouragement et qui ne
+    prendraient pas le traitement lorsqu'ils ne sont pas assignés à l'encouragement.
 :::
 :::
 | Type / *Type*  |  $Z=1$   |  $Z=0$   |
@@ -482,7 +505,7 @@ a column separator -->
 <!--     \emph{pour les sujets qui prendraient le traitement lorsqu'ils sont assignés au traitement et qui ne prendraient pas le traitement lorsqu'ils sont assignés au contrôle (les conformistes)}. -->
 
 -   Pour CACE, nous avons besoin de **l'excluabilité** (restriction d'exclusion) :
-    l'encouragement $Z$ n'affecte le résultat $Y$ qu'en suivant le
+    l'encouragement $Z$ n'affecte le résultat $Y$ qu'a travers le
     traitement $D$.
 :::
 :::
@@ -506,7 +529,7 @@ a column separator -->
 
 ::: {.cols data-latex=""}
 ::: {.col data-latex="{0.48\\textwidth}"}
--   For CACE, we also need the assumption of **monotonicity**. This means no Defiers.  
+-   For CACE using this design, we also need the assumption of **monotonicity**. This means no Defiers.  
 
 :::
 
@@ -521,7 +544,7 @@ a column separator -->
 <!--     traitement -->
 
 
--   Pour CACE, nous avons également besoin d'hypothèse de **la monotonicité**.  Cela signifie qu'il n'y a pas de Non-conformistes.
+-   Pour CACE avec cette conception, nous avons également besoin d'hypothèse de **la monotonicité**.  Cela signifie qu'il n'y a pas de Non-conformistes.
 
 
 :::
@@ -567,48 +590,22 @@ a column separator -->
 <!-- ::: -->
 
 ## 3. Encouragement design \| *Conception incitative*
-
-::: {.cols data-latex=""}
-::: {.col data-latex="{0.48\\textwidth}"}
-
-How do these assumptions get us to the CACE?
-
--   Randomization of the encouragement $Z$ means that the proportions of complier types in the $Z=1$ and $Z=0$ groups are expected to be similar.  
-
-<!-- -   We can estimate the proportion of Compliers by comparing $D$ for the $Z=1$ and $Z=0$ groups. -->
-
-
-:::
-
-::: {.col data-latex="{0.04\\textwidth}"}
-  <!-- an empty Div (with a white space), serving as
-a column separator -->
-:::
-
-::: {.col data-latex="{0.48\\textwidth}"}
-
-Comment ces hypothèses génèrent le CACE ?
-
--   Grâce à l'assignation aléatoire, les proportions de types de conformistes dans les groupes avec ($Z=1$) et sans ($Z=0$) l'incitation devraient être similaires. 
-
-<!-- -   Nous pouvons estimer la proportion de Conformistes en comparant $D$ des groupes $Z=1$ et $Z=0$. -->
-
-:::
-:::
-## 3. Encouragement design \| *Conception incitative*
-| Type / *Type*  |  $Z=1$   |  $Z=0$   | Effect of $Z$ on $D$ |
-|:------------------------------|:--------:|:--------:| :--------:|
-| Always Taker / *Toujours preneur*  | $D(1)=1$ | $D(0)=1$ | 0 | 
-| **Complier / *Conformiste***  | $D(1)=1$ | $D(0)=0$ | 1 |
-| Never Taker / *Jamais preneur*   | $D(1)=0$ | $D(0)=0$ | 0 |
+| Type / *Type*  |  $Z=1$   |  $Z=0$   | 
+|:------------------------------|:--------:|:--------:| 
+| Always Taker / *Toujours preneur*  | $D(1)=1$ | $D(0)=1$ |
+| **Complier / *Conformiste***  | $D(1)=1$ | $D(0)=0$ | 
+| Never Taker / *Jamais preneur*   | $D(1)=0$ | $D(0)=0$ | 
 
 
 
 ::: {.cols data-latex=""}
 ::: {.col data-latex="{0.48\\textwidth}"}
 
+-   $D=1$ for Always Takers, no matter $Z$.
 
--   The average treatment effect of $Z$ on $D$ is the proportion of Compliers.
+-   $D=0$ for Never Takers, no matter $Z$.  
+
+-   $D$ may be 1 or 0 for Compliers, depending on $Z$.
 
 
 :::
@@ -621,7 +618,7 @@ a column separator -->
 ::: {.col data-latex="{0.48\\textwidth}"}
 
 
--   L'effect moyen du traitement de $Z$ sur $D$ est la proportion de Conformistes.
+-   CHANGE
 
 :::
 :::
@@ -629,19 +626,26 @@ a column separator -->
 
 ## 3. Encouragement design \| *Conception incitative*
 
-| Type / *Type*  |  $Z=1$   |  $Z=0$   | Effect of $Z$ on $Y$ (ITT) | Effect of $D$ on $Y$ (ATE)|
-|:------------------------------|:------:|:------:|:-------:|:-------:|
-| Always Taker / *Toujours preneur*  | $D(1)=1$ | $D(0)=1$ | 0 | 0 |
-| **Complier / *Conformiste***  | $D(1)=1$ | $D(0)=0$ | ? | ? |
-| Never Taker / *Jamais preneur*   | $D(1)=0$ | $D(0)=0$ | 0| 0|
+\begin{figure}
+\begin{tikzpicture}
+%nodes
+\node[draw , rectangle, text centered] (d) at (0,0) {$D$ (treatment)};
+\node[draw , rectangle, text centered] (z) at (-2,2) {$Z$ (encouragement)};
+\node[draw , rectangle, text centered] (y) at (4,0) {$Y$ (outcome)};
+\draw[->, line width= 1/2](z) to (d);
+\draw[->, line width= 1/2](d) to (y);
+\end{tikzpicture}
+\end{figure}
+
 
 
 ::: {.cols data-latex=""}
 ::: {.col data-latex="{0.48\\textwidth}"}
 
--   The encouragement can only have an effect on the Compliers (by excludability).
+-   Given this design, we can never see the other $D$ condition for Always-Takers and Never-Takers, so we can't learn the effect of $D$ on $Y$.
 
--   We combine our estimate of the ITT for everyone with the estimate of the proportion of Compliers.
+
+
 :::
 
 ::: {.col data-latex="{0.04\\textwidth}"}
@@ -651,13 +655,52 @@ a column separator -->
 
 ::: {.col data-latex="{0.48\\textwidth}"}
 
--   L'incitation ne peut avoir d'effet que sur les Conformistes (par le restriction d'exclusion).
 
--   Nous combinons notre estimation de l'ITT pour tous avec l'estimation de la proportion de Conformistes.
-
+-   CHANGE
 
 :::
 :::
+
+## 3. Encouragement design \| *Conception incitative*
+
+\begin{figure}
+\begin{tikzpicture}
+%nodes
+\node[draw , rectangle, text centered] (d) at (0,0) {$D$ (treatment)};
+\node[draw , rectangle, text centered] (z) at (-2,2) {$Z$ (encouragement)};
+\node[draw , rectangle, text centered] (y) at (4,0) {$Y$ (outcome)};
+\draw[->, line width= 1/2](z) to (d);
+\draw[->, line width= 1/2](d) to (y);
+\end{tikzpicture}
+\end{figure}
+
+
+
+::: {.cols data-latex=""}
+::: {.col data-latex="{0.48\\textwidth}"}
+
+
+-   But we can learn the average effect of $D$ on $Y$ for Compliers because they can have $D=1$ or $D=0$.  
+
+-   And we can learn the ATE for Compliers (CACE) using randomization of $Z$, which creates similar groups of Compliers with $D=1$ and $D=0$.
+
+
+:::
+
+::: {.col data-latex="{0.04\\textwidth}"}
+  <!-- an empty Div (with a white space), serving as
+a column separator -->
+:::
+
+::: {.col data-latex="{0.48\\textwidth}"}
+
+
+-   CHANGE
+
+:::
+:::
+
+
 
 
 ## 3. Encouragement design \| *Conception incitative*
@@ -701,7 +744,7 @@ a column separator -->
 
 - Attention (2) !  Il faut que évaluer si le restriction d'exclusion et la monotonicité sont raisonnables dans notre étude.
 
--  Si non, nous pouvons encore cibler l'ITT avec les autres hypothèses clés standards.
+-  Si non, nous pouvons encore cibler l'ITT avec les autres hypothèses clés standardes.
 
 :::
 :::
@@ -726,7 +769,7 @@ a column separator -->
 
 -   Quand cibler l'ITT ?  Quand cibleriez-vous le CACE ?
 
--   L'ITT peut être un compromis, mais il peut s'agir de l'estimand qui vous intéresse.  La politique peut modifier directement $Z$, mais pas $D$.  L'ITT (effet de $Z$ sur $Y$) peut donc être plus important.
+-   L'ITT peut être un compromis, mais il peut s'agir du paramètre qui vous intéresse.  La politique peut modifier directement $Z$, mais pas $D$.  L'ITT (effet de $Z$ sur $Y$) peut donc être plus important.
 
 :::
 :::
@@ -766,11 +809,6 @@ a column separator -->
 -   EGAP Methods Guide on Randomization
     (<https://egap.org/resource/10-things-to-know-about-randomization/>)
 
--   EGAP Methods Guide on Missing Data
-    (<https://egap.org/resource/10-things-to-know-about-missing-data/>)
-
 -   Guide des méthodes EGAP sur la randomisation
     (<https://egap.org/fr/resource/10-choses-a-savoir-sur-la-randomisation/>)
 
--   Guide des méthodes EGAP sur les données manquantes
-    (<https://egap.org/resource/10-things-to-know-about-missing-data/>)
