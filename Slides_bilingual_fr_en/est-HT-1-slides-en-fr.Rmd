@@ -2,8 +2,8 @@
 title: |
   | Estimation and Hypothesis Testing 1 | 
   | *Les Estimateurs et tests d'hypothèses 1*
-author: "Name"
-date: "Date"
+author: "Yabo Gwladys Vidogbena"
+date: "26 June/juin 2024"
 classoption: "aspectratio=169"
 bibliography: ../learningdays-book.bib
 biblio-style: apalike
@@ -172,9 +172,9 @@ a column separator -->
 ::: {.col data-latex="{0.48\\textwidth}"}
 -   In general, we prefer estimators that are:
 
-    -   Unbiased: If
-        we run the experiment many times, each estimate might be a
-        little too high or low, but it will be correct on average.
+    -   Unbiased: If we run the experiment many times, each estimate
+        might be a little too high or low, but it will be correct on
+        average.
 
     -   Precise: The estimates are close to the estimand.
 :::
@@ -187,10 +187,9 @@ a column separator -->
 ::: {.col data-latex="{0.48\\textwidth}"}
 -   En général, nous préférons les estimateurs qui sont:
 
-    -   Non biaisé: Cela
-        signifie que si vous deviez exécuter l’expérience plusieurs
-        fois, l'estimation peut parfois être trop élevée ou trop faible,
-        mais elle sera correcte en moyenne.
+    -   Non biaisé: Cela signifie que si vous deviez exécuter
+        l’expérience plusieurs fois, l'estimation peut parfois être trop
+        élevée ou trop faible, mais elle sera correcte en moyenne.
 
     -   Précis : Les estimations sont proches du paramètre.
 :::
@@ -273,7 +272,6 @@ a column separator -->
 
 $$\frac{5+4+2+1}{4} - \frac{1+1+0+2}{4} = 3 - 1 = 2$$
 
-
 ## Estimator 1: Difference-in-means \| *Estimateur 1 : La différence des moyennes*
 
 ```{r, result='hide'}
@@ -289,7 +287,6 @@ $$\frac{5+4+2+1}{4} - \frac{1+1+0+2}{4} = 3 - 1 = 2$$
 ::: {.cols data-latex=""}
 ::: {.col data-latex="{0.68\\textwidth}"}
 ![](images/regression1.png){width="360"}
-
 :::
 
 ::: {.col data-latex="{0.04\\textwidth}"}
@@ -302,9 +299,6 @@ $$Y_i = \beta_0 + \beta_1 Z_i + e_i$$
 $$Y_i = \hat{\beta_0} + \hat{\beta_1} Z_i + e_i$$
 :::
 :::
-
-
-
 
 ## Estimator 2: Linear Regression \| *Estimateur 2 : La régression linéaire*
 
@@ -335,15 +329,12 @@ a column separator -->
 :::
 :::
 
-
 ## Estimator 2: Linear Regression \| *Estimateur 2 : La régression linéaire*
-
 
 ```{r}
 # summary(lm(Y ~ treatment))
 
 ```
-
 
 # Hypothesis Testing \| *Les tests d’hypothèses*
 
@@ -377,19 +368,18 @@ a column separator -->
 :::
 :::
 
-
-
 ## Hypothesis Testing \| *Les tests d'hypothèses*
 
 ::: {.cols data-latex=""}
 ::: {.col data-latex="{0.48\\textwidth}"}
 -   Are we confident that our non-zero estimate reflects a truly
     non-zero estimand (truth)?
-    
+
 -   Start with a claim we might reject (a null hypothesis). We will use
     the null hypothesis that the true ATE is 0.
 
--   But remember that we can get $\widehat{ATE}$ that is not 0, just by chance.
+-   But remember that we can get $\widehat{ATE}$ that is not 0, just by
+    chance.
 :::
 
 ::: {.col data-latex="{0.04\\textwidth}"}
@@ -403,69 +393,85 @@ a column separator -->
 -   Commencer par une affirmation que nous pourrions rejeter (une
     hypothèse nulle). On utilisera l'hypothèse nulle que le vrai ATE est
     0.  
--   Mais rappelez-vous que nous pouvons obtenir un $\widehat{ATE}$ différent de 0, juste par hasard.
+-   Mais rappelez-vous que nous pouvons obtenir un $\widehat{ATE}$
+    différent de 0, juste par hasard.
 :::
 :::
 
 ## Hypothesis Testing \| *Les tests d'hypothèses*
 
 \centering
+
 ![](../Images/HT1-null.png)
 
--   Distribution of possible $\widehat{ATE}$ if the null hypothesis is true
+-   Distribution of possible $\widehat{ATE}$ if the null hypothesis is
+    true
 
--   *Distribution des $\widehat{ATE}$ possibles si l'hypothèse nulle est vraie*
+-   *Distribution des* $\widehat{ATE}$ possibles si l'hypothèse nulle
+    est vraie
 
 ## Hypothesis Testing \| *Les tests d'hypothèses*
 
 \centering
+
 ![](../Images/HT2-null5percent.png)
 
--   Rejection and non-rejection regions for a two-sided alternative hypothesis at $\alpha=0.05%$
+-   Rejection and non-rejection regions for a two-sided alternative
+    hypothesis at $\alpha=0.05%$
 
--   Régions de rejet et de non-rejet pour une hypothèse alternative bilatérale à $\alpha=0,05%$
+-   Régions de rejet et de non-rejet pour une hypothèse alternative
+    bilatérale à $\alpha=0,05%$
 
 ## Hypothesis Testing \| *Les tests d'hypothèses*
 
 \centering
+
 ![](../Images/HT3-twosidedrejectonly.png)
 
--   \textcolor{red}{$\widehat{ATE}$} falls in the rejection region $\rightarrow$ reject the null hypothesis
+-   \textcolor{red}{$\widehat{ATE}$} falls in the rejection region
+    $\rightarrow$ reject the null hypothesis
 
--   \textcolor{red}{$\widehat{ATE}$} se situe dans la région de rejet $\rightarrow$ rejetez l'hypothèse nulle
+-   \textcolor{red}{$\widehat{ATE}$} se situe dans la région de rejet
+    $\rightarrow$ rejetez l'hypothèse nulle
 
 ## Hypothesis Testing \| *Les tests d'hypothèses*
 
 \centering
+
 ![](../Images/HT4-twosided.png)
 
--   \textcolor{blue}{$\widehat{ATE}$} falls outside the rejection region $\rightarrow$ do not reject the null hypothesis
+-   \textcolor{blue}{$\widehat{ATE}$} falls outside the rejection region
+    $\rightarrow$ do not reject the null hypothesis
 
--   \textcolor{blue}{$\widehat{ATE}$} se situe en dehors de la région de rejet $\rightarrow$ ne rejetez pas l'hypothèse nulle
-
+-   \textcolor{blue}{$\widehat{ATE}$} se situe en dehors de la région de
+    rejet $\rightarrow$ ne rejetez pas l'hypothèse nulle
 
 ## Hypothesis Testing \| *Les tests d'hypothèses*
 
 \centering
+
 ![](../Images/HT5-onesided5pc.png)
 
--   Rejection and non-rejection regions for a one-sided alternative hypothesis at $\alpha=0.05%$
+-   Rejection and non-rejection regions for a one-sided alternative
+    hypothesis at $\alpha=0.05%$
 
--   Régions de rejet et de non-rejet pour une hypothèse alternative unilatérale à $\alpha=0,05%$
+-   Régions de rejet et de non-rejet pour une hypothèse alternative
+    unilatérale à $\alpha=0,05%$
 
-
-## $p$-value \| *$p$-valeur*
-
+## $p$-value \| $p$-valeur
 
 \centering
+
 ![](../Images/HT6-pvalue.png)
 
 ::: {.cols data-latex=""}
 ::: {.col data-latex="{0.48\\textwidth}"}
--    $p$-value: The probability of seeing a test statistic as large (in absolute value) as or larger than the test statistic calculated from observed data when the null hypothesis is true.  
+-   $p$-value: The probability of seeing a test statistic as large (in
+    absolute value) as or larger than the test statistic calculated from
+    observed data when the null hypothesis is true.
 
--   We use the $\widehat{ATE}$ as our test statistic, but we don't need to.
-    
+-   We use the $\widehat{ATE}$ as our test statistic, but we don't need
+    to.
 :::
 
 ::: {.col data-latex="{0.04\\textwidth}"}
@@ -474,9 +480,13 @@ a column separator -->
 :::
 
 ::: {.col data-latex="{0.48\\textwidth}"}
--   $p$-valeur : La probabilité de voir une statistique de test aussi grande (en valeur absolue) ou plus grande que la statistique de test calculée à partir des données observées lorsque l'hypothèse nulle est vraie. 
+-   $p$-valeur : La probabilité de voir une statistique de test aussi
+    grande (en valeur absolue) ou plus grande que la statistique de test
+    calculée à partir des données observées lorsque l'hypothèse nulle
+    est vraie.
 
--   Nous utilisons $\widehat{ATE}$ comme statistique de test, mais ce n'est pas nécessaire.
+-   Nous utilisons $\widehat{ATE}$ comme statistique de test, mais ce
+    n'est pas nécessaire.
 :::
 :::
 
@@ -486,7 +496,7 @@ a column separator -->
 ::: {.col data-latex="{0.48\\textwidth}"}
 -   There are many ways to do hypothesis testing. We are going to take
     the simplest and most popular approach that uses regression.
-    
+
 -   Use linear regression to calculate a $p$-value: the probability that
     we could have obtained a particular estimate (or greater in absolute
     value) by chance when the null hypothesis is true.
@@ -506,15 +516,13 @@ a column separator -->
 :::
 :::
 
-
-
 ## Hypothesis Testing with Linear Regression \| *Les tests d'hypothèses avec la régression linéaire*
 
 ::: {.cols data-latex=""}
 ::: {.col data-latex="{0.48\\textwidth}"}
 -   Compare this $p$-value to a standard we have set in advance (an
     $\alpha$ level).
-    
+
 -   If the $p$-value is smaller than or equal to the $\alpha$ level, we
     reject the null hypothesis of no effect.
 
@@ -530,7 +538,7 @@ a column separator -->
 ::: {.col data-latex="{0.48\\textwidth}"}
 -   Comparez cette $p$-valeur à une norme que nous avons fixée à
     l'avance (un niveau $\alpha$).
-    
+
 -   Si la $p$-valeur est plus petite ou égale au niveau $\alpha$, nous
     rejetons l'hypothèse nulle d'aucun effet.
 
@@ -539,10 +547,9 @@ a column separator -->
 :::
 :::
 
-
 ## Hypothesis Testing with Linear Regression \| *Les tests d'hypothèses avec la régression linéaire*
 
-Show example of regression result and talk through it.
+![](images/est1table.jpeg)
 
 # Block Randomization \| *Randomisation par bloc (ou stratifiée)*
 
@@ -576,7 +583,7 @@ a column separator -->
 ::: {.cols data-latex=""}
 ::: {.col data-latex="{0.48\\textwidth}"}
 -   Calculate the $\widehat{ATE_j}$ for each block using difference in
-    means.  $j$ indicates which block.
+    means. $j$ indicates which block.
 
 -   The $\widehat{ATE}$ is the average of the block-level
     $\widehat{ATE_j}$ weighted by block size $N_j / N$.
@@ -674,7 +681,6 @@ a column separator -->
 :::
 
 ## Block Randomization \| *Randomisation par bloc*
-
 
 ```{r, echo=FALSE}
 blocks <- c("J","J","J","K","K","K","L","L","L") 
