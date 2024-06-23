@@ -545,3 +545,56 @@ segments(x0=-1.5*x, y0=0.5, x1=6*x, y1=0.5, lty=2)
 
 dev.off()
 
+
+## multiarm
+png(file="multiarm_design_wide.png", width=800, height=500, pointsize=36)
+par(mar=c(0,0,0,0))
+s=.5
+r=.6
+plot(c(16,-3), c(-0.5,3.5*s), type="n", main="", xlab="", ylab="", axes=FALSE)
+
+draw.circle(0,0,r, col="#009E73")
+draw.circle(0,s,r)
+draw.circle(0,2*s,r, col="#CC79A7")
+
+draw.circle(3,0,r)
+draw.circle(3,s,r, col="#009E73")
+draw.circle(3,2*s,r, col="#CC79A7")
+
+draw.circle(6,0,r, col="#CC79A7")
+draw.circle(6,s,r)
+draw.circle(6,2*s,r, col="#009E73")
+
+draw.circle(9,0,r)
+draw.circle(9,s,r, col="#CC79A7")
+draw.circle(9,2*s,r, col="#009E73")
+
+draw.circle(12,0,r, col="#009E73")
+draw.circle(12,s,r, col="#CC79A7")
+draw.circle(12,2*s,r)
+
+draw.circle(15,0,r, col="#CC79A7")
+draw.circle(15,s,r, col="#009E73")
+draw.circle(15,2*s,r)
+
+text(-2,0, "c")
+text(-2,s, "b")
+text(-2,2*s, "a")
+
+h=3
+
+text(15, h*s,"6")
+text(12, h*s,"5")
+text(9, h*s,"4")
+text(6, h*s,"3")
+text(3, h*s,"2")
+text(0, h*s,"1")
+
+for(i in 0:4){
+  segments(x0=1.5+3*i, y0=-0.5*s, x1=1.5+3*i, y1=2.5*s, lty=2)
+}
+
+
+
+dev.off()
+
