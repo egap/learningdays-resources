@@ -136,26 +136,35 @@ abline(v=2.5, col="red")
 dev.off()
 
 
+## FOR ONE-SIDED
 png(file="HT6-pvalue.png", width=760, height=180, pointsize=12)
 par(mar=c(2.5,1,1,1))
 plot(x, y, type = "n", axes=FALSE, ylab="", xlab="")
 axis(1, at=c(-3,-2,-1,0,1,2,3))
-x2 <- seq(quantile(x,0.025),quantile(x,0.975),0.01)
+# x2 <- seq(quantile(x,0.025),quantile(x,0.975),0.01)
+# y2 <- dnorm(x2, 0, 1)
+# x2 <- c(quantile(x,0.025), x2, quantile(x,0.975))
+# y2 <- c(0,y2,0)
+# polygon(x2,y2, col="yellow", border=NA)
+x2 <- seq(quantile(x,0),quantile(x,0.95),0.01)
 y2 <- dnorm(x2, 0, 1)
-x2 <- c(quantile(x,0.025), x2, quantile(x,0.975))
+x2 <- c(quantile(x,0), x2, quantile(x,0.95))
 y2 <- c(0,y2,0)
-polygon(x2,y2, col="yellow", border=NA)
+polygon(x2,y2, col="orange", border=NA)
+segments(x0=quantile(x,0.95),y0=0,
+         x1=quantile(x,0.95),y1=dnorm(quantile(x,0.95)))
 x2 <- seq(2.5, quantile(x,1),0.01)
 y2 <- dnorm(x2, 0, 1)
 x2 <- c(2.5, x2, quantile(x,1))
 y2 <- c(0,y2,0)
 polygon(x2,y2, col="red", border=NA)
+
 curve(dnorm(x,0,1), add=TRUE)
 abline(v=0, lty=2)
-segments(x0=quantile(x,0.025),y0=0,
-         x1=quantile(x,0.025),y1=dnorm(quantile(x,0.025)))
-segments(x0=quantile(x,0.975),y0=0,
-         x1=quantile(x,0.975),y1=dnorm(quantile(x,0.975)))
+# segments(x0=quantile(x,0.025),y0=0,
+#          x1=quantile(x,0.025),y1=dnorm(quantile(x,0.025)))
+# segments(x0=quantile(x,0.975),y0=0,
+#          x1=quantile(x,0.975),y1=dnorm(quantile(x,0.975)))
 abline(v=2.5, col="red")
 dev.off()
 
