@@ -1,0 +1,66 @@
+---
+title: "Quiz for Day 2 | *Le quiz du jour 2*"
+classoption: "aspectratio=169"
+output:
+  beamer_presentation:
+    keep_tex: true
+    includes:
+      in_header: columns.tex
+    fig_caption: true
+  revealjs::revealjs_presentation:
+    fig_caption: true
+    theme: default
+    highlight: pygments
+    center: false
+    transition: fade
+    smart: false
+    self_contained: false
+    reveal_plugins: ["notes", "search", "chalkboard"]
+    pandoc_args: [ "--toc" ]
+    reveal_options:
+      slideNumber: true
+      previewLinks: true
+      chalkboard:
+        theme: whiteboard
+        toggleNotesButton: false
+header-includes: |
+   \setbeamertemplate{footline}{\begin{beamercolorbox}{section in head/foot}
+   \includegraphics[height=.5cm]{egap-logo.png} \hfill
+   \insertframenumber / \inserttotalframenumber \end{beamercolorbox}}
+   \usepackage{tikz}
+   \usepackage{tikz-cd}
+   \usepackage{textpos}
+   \usepackage{booktabs,multirow,makecell}
+---
+
+## Question 1
+
+:::::: {.cols data-latex=""}
+::: {.col data-latex="{0.48\textwidth}"}
+A researcher partners with the Ministry of Agriculture and they collect data from a random sample of farmers.  The survey asks two main questions.  (1) Have you made use of extension services in the last year?  (2) What was your yield per hectare in the last two years?  The researcher finds that the yield is twice as high for those who used extension services than for those who did not.  He tells the Ministry that extension services increases yields and that they should scale up the extension services to all farmers.  
+
+Does the analysis support the researcher's recommendation?
+:::
+
+::: {.col data-latex="{0.04\textwidth}"}
+\ 
+<!-- an empty Div (with a white space), serving as
+a column separator -->
+:::
+
+::: {.col data-latex="{0.48\textwidth}"}
+\vspace{-0.15in}
+Un chercheur fait un partenariat avec le Ministère de l'Agriculture pour collecter des données auprès d'un échantillon aléatoire d'agriculteurs.  L'enquête pose deux questions principales.  (1) Avez-vous fait appel à des services d'extension agricole au cours des 12 derniers mois ?  (2) Quel a été votre production à l'hectare au cours des 24 dernières mois ?  Le chercheur constate que le production est deux fois plus élevé pour ceux qui ont reçu les services d'extension agricole que pour ceux qui n'y ont pas reçu.  Il explique au ministère que les services augmentent les productions et qu'il devrait étendre ces services à tous les agriculteurs.  
+
+L'analyse soutient-elle la recommandation du chercheur ?
+
+:::
+::::::
+
+
+
+## Question 2
+
+What is the fundamental problem of causal inference?
+
+*Quel est le problème fondamental de l'inférence causale?*
