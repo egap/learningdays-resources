@@ -663,11 +663,10 @@ $$Y_{ij} = \beta_0 + \beta_1 Z_{ij} + \gamma_A BlockA_{ij} + \gamma_B BlockB_{ij
 
 ::: {.cols data-latex=""}
 ::: {.col data-latex="{0.48\\textwidth}"}
--   The probability of treatment assignment is often the same across
-    blocks.
-
--   Then you can use linear regression with block fixed effects, which
-    facilitates hypothesis testing.
+-   You can use linear regression with block fixed effects, which
+    facilitates hypothesis testing, applying weights to each observation.
+    
+-   The weight is the inverse of the proportion of subjects in the same block who were assigned to the same condition.    
 :::
 
 ::: {.col data-latex="{0.04\\textwidth}"}
@@ -676,13 +675,13 @@ a column separator -->
 :::
 
 ::: {.col data-latex="{0.48\\textwidth}"}
--   La probabilité d'assignation du traitement est souvent la même d'un
-    bloc à l'autre.
+-   Nous pouvons ensuite utiliser la régression linéaire avec des effets fixes en bloc, ce qui facilite le test des hypothèses, en appliquant des pondérations à chaque observation.
 
--   Nous pouvons ensuite utiliser la régression linéaire avec des effets
-    fixes en bloc, ce qui facilite le test des hypothèses.
+-   Le poids est l'inverse de la proportion de sujets d'un même bloc qui ont été assignés à la même condition.
 :::
 :::
+
+$$w_{ij} = \frac{d_i}{p_{ij}} + \frac{1-d_i}{1-p_{ij}} \text{,  where } p_{ij}\equiv\frac{m_j}{N_j}$$
 
 ## Block Randomization \| *Randomisation par bloc*
 
@@ -695,6 +694,8 @@ y <- c(4,3,2,3,0,2,4,0,2)
 
 ```{r, echo=TRUE}
 # library(estimatr)
-# lm_robust(Y ~ treatment + as.factor(blockvariable))
+# lm_robust(Y ~ treatment + as.factor(block_variable), 
+#                  weights=weight_variable)
+
 
 ```
