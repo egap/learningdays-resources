@@ -60,6 +60,7 @@ editor_options:
 # library(devtools)
 # library(randomizr)
 # library(rcompanion) ## for pairwisePermutationTest()
+experiment_data <- read.csv("experiment-data-2024.csv")
 ```
 
 ## Estimation and Hypothesis Testing \| *L'estimation et tests d'hypothèses*
@@ -332,7 +333,7 @@ a column separator -->
 ## Estimator 2: Linear Regression \| *Estimateur 2 : La régression linéaire*
 
 ```{r}
-# summary(lm(Y ~ treatment))
+# lm(Y ~ treatment)
 
 ```
 
@@ -466,8 +467,7 @@ a column separator -->
 
 ::: {.cols data-latex=""}
 ::: {.col data-latex="{0.48\\textwidth}"}
--   $p$-value: The probability of seeing a test statistic as large (in
-    absolute value) as or larger than the test statistic calculated from
+-   $p$-value: For a one-sided test, the probability of seeing a test statistic as large as or larger than the test statistic calculated from
     observed data when the null hypothesis is true.
 
 -   We use the $\widehat{ATE}$ as our test statistic, but we don't need
@@ -480,8 +480,8 @@ a column separator -->
 :::
 
 ::: {.col data-latex="{0.48\\textwidth}"}
--   $p$-valeur : La probabilité de voir une statistique de test aussi
-    grande (en valeur absolue) ou plus grande que la statistique de test
+-   $p$-valeur : Pour un test d'hypothèse unilateral, la probabilité de voir une statistique de test aussi
+    grande ou plus grande que la statistique de test
     calculée à partir des données observées lorsque l'hypothèse nulle
     est vraie.
 
@@ -647,9 +647,13 @@ a column separator -->
 
 ## Estimator 1: Blocked Difference-in-Means \| *Estimateur 1 : La différence des moyennes par bloc*
 
+\footnotesize
 ```{r}
-# library(estimatr)
-# difference_in_means(Y ~ treatment, blocks = Gender_Language)
+library(estimatr)
+# difference_in_means(Y ~ t, blocks = block_variable)
+Y <- experiment_data$State.of.the.world
+t <- experiment_data$treatment_received
+difference_in_means(Y ~ t, blocks = experiment_data$Female)
 
 ```
 
@@ -690,6 +694,7 @@ y <- c(4,3,2,3,0,2,4,0,2)
 ```
 
 ```{r, echo=TRUE}
-# summary(lm(Y ~ treatment + as.factor(blockvariable)))
+# library(estimatr)
+# lm_robust(Y ~ treatment + as.factor(blockvariable))
 
 ```
