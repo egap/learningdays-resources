@@ -96,6 +96,7 @@ dev.off()
 
 png(file="fig06-y1-sample1.png", width=960, height=760, pointsize=24)
 
+## sample 1 here:
 sample1 <- sample(c(1:N), m)
 
 plot(x[sample1],y[sample1], lwd=2, cex=8, col="red",
@@ -113,6 +114,7 @@ dev.off()
 
 png(file="fig07-y1-sample2.png", width=960, height=760, pointsize=24)
 
+## sample 2 here
 sample2 <- sample(c(1:N), m)
 
 plot(x[sample2],y[sample2], lwd=2, cex=8, col="red",
@@ -131,6 +133,7 @@ dev.off()
 
 png(file="fig08-y1-sample3.png", width=960, height=760, pointsize=24)
 
+## sample 3 here:
 sample3 <- sample(c(1:N), m)
 
 plot(x[sample3],y[sample3], lwd=2, cex=8, col="red",
