@@ -1,0 +1,823 @@
+---
+title: "Randomization 2: Designing for common constraints & threats | *Randomisation 2 : conception face aux contraintes & menaces*"
+classoption: "aspectratio=169"
+author: "Alyssa René HEINZE"
+date: "28-06-2023"
+bibliography: ../learningdays-book.bib
+biblio-style: apalike
+link-citations: yes
+colorlinks: yes
+fig_caption: yes
+header-includes: |
+   \setbeamertemplate{footline}{\begin{beamercolorbox}{section in head/foot}
+   \includegraphics[height=.5cm]{../Images/egap-logo.png} \hfill
+   \insertframenumber/\inserttotalframenumber \end{beamercolorbox}}
+   \usepackage{tikz}
+   \usepackage{tikz-cd}
+   \usepackage{textpos}
+   \usepackage{booktabs,multirow,makecell}
+output:
+  beamer_presentation:
+    keep_tex: true
+    includes:
+      in_header: columns.tex
+    toc: true
+    pandoc_args: [ "--toc" ]
+    fig_caption: true
+  revealjs::revealjs_presentation:
+    fig_caption: true
+    theme: default
+    highlight: pygments
+    center: false
+    transition: fade
+    smart: false
+    self_contained: false
+    reveal_plugins: ["notes", "search", "chalkboard"]
+    pandoc_args: [ "--toc" ]
+    reveal_options:
+      slideNumber: true
+      previewLinks: true
+      chalkboard:
+        theme: whiteboard
+        toggleNotesButton: false
+editor_options: 
+  markdown: 
+    wrap: 72
+---
+
+```{r setup, include=FALSE}
+# source("rmd_setup.R")
+# Load all the libraries we need
+# library(here)
+# library(tidyverse)
+# library(kableExtra)
+# library(DeclareDesign)
+# library(estimatr)
+# library(styler)
+# library(coin)
+# library(multcomp)
+# library(devtools)
+# library(randomizr)
+# library(rcompanion) ## for pairwisePermutationTest()
+```
+
+
+
+## Key points for this lecture \| *Points clés*
+
+::: {.cols data-latex=""}
+::: {.col data-latex="{0.48\\textwidth}"}
+
+-   Randomization and design: What we've learned, what's next
+
+-   Common constraints, more complex designs
+
+-   Common threats, anticipatory designs
+
+-   Final takeaway: Keep things simple
+
+:::
+
+::: {.col data-latex="{0.04\\textwidth}"}
+  <!-- an empty Div (with a white space), serving as
+a column separator -->
+:::
+
+::: {.col data-latex="{0.48\\textwidth}"}
+
+- Randomisation et conception : ce que nous avons appris, prochaines étapes
+
+- Contraintes courantes, conceptions plus complexes
+
+- Menaces courantes, conceptions anticipatrices
+
+- Dernier point : gardons les choses simples
+
+:::
+:::
+
+# Randomization and design: What we've learned, what's next \| *Randomisation et conception : Ce que nous avons appris, prochaines étapes*
+
+## Randomization and design: What we've learned \| Randomisation et conception : Ce que nous avons appris
+
+::: {.cols data-latex=""}
+::: {.col data-latex="{0.48\\textwidth}"}
+-   What we've covered:
+
+    -   4 types of randomization: Simple, complete, block, and cluster
+    -   And we can combine them: block-cluster, factorial designs
+
+-   Most of the time these designs suffice.
+    
+:::
+
+::: {.col data-latex="{0.04\\textwidth}"}
+  <!-- an empty Div (with a white space), serving as
+a column separator -->
+:::
+
+::: {.col data-latex="{0.48\\textwidth}"}
+
+- Ce que nous avons couvert :
+
+     - 4 types de randomisation : simple, complète, par bloc et par grappe
+     - Et on peut les combiner : par bloc et par grappe, conceptions factorielles
+
+- La plupart du temps, ces conceptions suffisent.
+:::
+:::
+
+## Randomization and design: What's next \| Randomisation et conception : prochaines étapes
+
+::: {.cols data-latex=""}
+::: {.col data-latex="{0.48\\textwidth}"}
+-   _BUT_ we often face:
+    -   Practical constraints in our context
+    -   Common threats to inference
+
+-   *So* we need to take these into account in the _design_ of our experiment.
+    -   Designing to take into account context-specific constraints:
+        -   Waitlist designs, encouragement designs
+    -   Designing to anticipate problems:
+        -   Attrition, spillover
+    
+:::
+
+::: {.col data-latex="{0.04\\textwidth}"}
+  <!-- an empty Div (with a white space), serving as
+a column separator -->
+:::
+
+::: {.col data-latex="{0.48\\textwidth}"}
+- _MAIS_ nous sommes souvent confrontés à :
+     - Contraintes pratiques dans notre contexte
+     - Menaces courantes à l'inférence
+
+- *Donc* nous devons en tenir compte dans la _conception_ de notre expérience.
+     - Concevoir en tenant compte des contraintes spécifiques au contexte :
+         - Conceptions avec liste d'attente, conceptions incitatives
+     - Concevoir pour anticiper les problèmes :
+         - Attrition, contamination
+
+:::
+:::
+
+# Common constraints, more complex designs \| *Contraintes courantes, conceptions plus complexes*
+
+## Common constraints \| *Contraintes courantes*
+
+::: {.cols data-latex=""}
+::: {.col data-latex="{0.48\\textwidth}"}
+1. Constrained in how many units can be treated at one time
+2. You can't force people to take your treatment
+:::
+
+::: {.col data-latex="{0.04\\textwidth}"}
+  <!-- an empty Div (with a white space), serving as
+a column separator -->
+:::
+
+::: {.col data-latex="{0.48\\textwidth}"}
+1. Limite du nombre d'unités pouvant être traitées en même temps
+2. Vous ne pouvez pas forcer les gens à suivre votre traitement
+:::
+:::
+
+
+## More complex designs (1): Waitlist design \| *Conceptions plus complexes (1): liste d'attente*
+
+::: {.cols data-latex=""}
+::: {.col data-latex="{0.48\\textwidth}"}
+- Constraint: Only certain number of units can be treated at a time
+- Solution: _Waitlist_ design
+
+
+:::
+
+::: {.col data-latex="{0.04\\textwidth}"}
+  <!-- an empty Div (with a white space), serving as
+a column separator -->
+:::
+
+::: {.col data-latex="{0.48\\textwidth}"}
+
+- Contrainte: Seul un certain nombre d'unités peuvent être traitées en même temps
+- Solution: conception avec liste d'attente
+    
+:::
+:::
+
+## 1. Delayed access (Phase-in or wait list) \| Accès différé (Accès graduel ou liste d'attente)
+
+\vspace{.03in}
+
+![](../Images/delayed_access.png){width="280"}
+
+::: {.cols data-latex=""}
+::: {.col data-latex="{0.48\\textwidth}"}
+-   When an intervention can be or must be rolled out in stages, you can
+    randomize the order (*timing*) in which units are treated.
+
+-   Your control group are the as-yet untreated units.
+:::
+
+::: {.col data-latex="{0.04\\textwidth}"}
+  <!-- an empty Div (with a white space), serving as
+a column separator -->
+:::
+
+::: {.col data-latex="{0.48\\textwidth}"}
+-   Lorsqu'une intervention peut ou doit être déployée par étapes, vous
+    pouvez randomiser l'ordre (*timing*) de traitement des unités.
+
+-   Votre groupe de contrôle sont les unités pas encore traitées.
+
+:::
+:::
+
+## 1. Delayed access (Phase-in or wait list) \| Accès différé (Accès graduel ou liste d'attente)
+
+::: {.cols data-latex=""}
+::: {.col data-latex="{0.48\\textwidth}"}
+-   Be careful: the probability of assignment to treatment will vary
+    over time because units that are assigned to treatment in earlier
+    stages are not eligible to be assigned to treatment in later stages.
+:::
+
+::: {.col data-latex="{0.04\\textwidth}"}
+  <!-- an empty Div (with a white space), serving as
+a column separator -->
+:::
+
+::: {.col data-latex="{0.48\\textwidth}"}
+-   Attention : la probabilité d'assignation au traitement variera dans
+    le temps car les unités assignées au traitement à des stades
+    antérieurs ne sont plus éligibles pour être assignées à un traitement
+    aux stades ultérieurs.
+:::
+:::
+
+## More complex designs (2): Encouragement design \| *Conceptions complexes (2): conception incitative*
+
+::: {.cols data-latex=""}
+::: {.col data-latex="{0.48\\textwidth}"}
+- Constraint: You can't force people to take (receive) your treatment
+- Solution: __Encouragement__ design
+
+:::
+
+::: {.col data-latex="{0.04\\textwidth}"}
+  <!-- an empty Div (with a white space), serving as
+a column separator -->
+:::
+
+::: {.col data-latex="{0.48\\textwidth}"}
+- Contrainte : Vous ne pouvez pas forcer les gens à prendre (recevoir) votre traitement
+- Solution : conception __incitative__
+
+:::
+:::
+
+## 2. Encouragement (planning for non-compliance) \| *Incitations*
+
+::: {.cols data-latex=""}
+::: {.col data-latex="{0.48\\textwidth}"}
+-   Randomize **encouragement** to take the treatment, such as a request
+    to drink coffee or offering a subsidy to participate in a program.
+
+-   Useful when you cannot force a subject to take the assigned
+    treatment.
+
+-   We can learn the average effect of the encouragement to take the
+    treatment.
+:::
+
+::: {.col data-latex="{0.04\\textwidth}"}
+  <!-- an empty Div (with a white space), serving as
+a column separator -->
+:::
+
+::: {.col data-latex="{0.48\\textwidth}"}
+-   Randomisez l'**incitation** (l'encouragement) à suivre le traitement, en demandant par
+    exemple aux individus de boire un café ou en offrant une subvention
+    pour participer à un programme.
+
+-   Utile lorsque vous ne pouvez pas forcer un sujet à participer.
+
+-   Nous pouvons connaître l'effet moyen de l'encouragement à suivre le
+    traitement.
+:::
+:::
+
+
+## 2. Encouragement (planning for non-compliance) \| *Incitations*
+
+::: {.cols data-latex=""}
+::: {.col data-latex="{0.48\\textwidth}"}
+-   We can also learn the average effect of the taking the treatment
+    \emph{for those subjects that would take the treatment when assigned to treatment and not take the treatment when assigned to control (compliers)}.
+
+-   But we need an additional assumption (exclusion restriction) and
+    estimation is more complicated (instrumental variables).
+:::
+
+::: {.col data-latex="{0.04\\textwidth}"}
+  <!-- an empty Div (with a white space), serving as
+a column separator -->
+:::
+
+::: {.col data-latex="{0.48\\textwidth}"}
+-   Nous pouvons également connaître l'effet moyen de la prise du traitement
+    \emph{pour les sujets qui prendraient le traitement lorsqu'ils sont assignés au traitement et qui ne prendraient pas le traitement lorsqu'ils sont assignés au contrôle (les conformistes)}.
+
+-   Mais nous avons besoin d'une hypothèse supplémentaire (restriction
+    d'exclusion) et l'estimation est plus compliquée avec l'assignation
+    comme instrument.
+:::
+:::
+
+
+## Résumé :  
+
+- Nous pouvons être confrontés à des contraintes qui sont souvent d'ordre pratique et spécifiques au contexte de notre étude
+
+- Ici, nous avons parlé de deux types de contraintes :
+    1. Limitation du nombre d'unités auxquelles nous pouvons administrer le traitement en même temps 
+    2. Avoir un traitement qui ne peut pas être imposé aux gens
+
+- Nous avons également abordé les solutions à ces problèmes, que nous pouvons intégrer dans nos conceptions de recherche
+    1. Randomiser le _timing_ où les unités recevront le traitement (liste d'attente)
+    2. Randomiser _l'encouragement_ à suivre le traitement (conception incitative)
+
+
+## Quiz
+
+Graeme wants to study the impact of drinking coffee (treatment) on LD participants' level of enthusiasm in the first lecture of the day. He however cannot force LD participants to drink coffee. He receives 3 pieces of advice from different LD instructors on how to incorporate this into his design. Which piece of advice is best given the specific constraint he's facing?
+
+A. Nahomi says to randomize the timing at which participants are assigned to drink coffee or not.
+
+B. Lauren says to randomize the *encouragement* to drink coffee.
+
+C. Natalia recommends block randomizing according to nationality, and whether or not an LD participant likes coffee.
+
+
+## Quiz
+
+Graeme souhaite étudier l'impact de la consommation de café (traitement) sur le niveau d'enthousiasme des participants lors du premier cours de la journée.
+Il ne peut cependant pas forcer les participants à boire du café.
+Il reçoit 3 conseils de différents instructeurs sur la façon d'intégrer cela dans sa conception de recherche.
+Quel conseil est le meilleur compte tenu de la contrainte spécifique à laquelle il est confronté ?
+
+A. Nahomi dit de randomiser le moment auquel les participants sont assignés à boire du café ou non.
+
+B. Lauren dit de randomiser *l'encouragement* à boire du café.
+
+C. Natalia recommande la randomisation par bloc en fonction de la nationalité et du fait qu'un participant aime ou non le café.
+
+
+# Common threats, anticipatory designs \| *Menaces courantes, conceptions anticipatrices*
+
+## Common threats to inference \| *Menaces courantes pour l'inférence*
+
+::: {.cols data-latex=""}
+::: {.col data-latex="{0.48\\textwidth}"}
+
+1.  Attrition: People do not respond to follow up surveys or are hard to find
+
+2.  Spillover: The effects of a treatment may spill over from people treated to their neighbors, friends, or family members, making it hard to nail down the effect on any one person
+
+:::
+
+::: {.col data-latex="{0.04\\textwidth}"}
+  <!-- an empty Div (with a white space), serving as
+a column separator -->
+:::
+
+::: {.col data-latex="{0.48\\textwidth}"}
+
+1. Attrition : les personnes ne répondent pas aux enquêtes de suivi ou sont difficiles à trouver
+
+2. Contamination : les effets d'un traitement peuvent se propager des personnes traitées à leurs voisins, amis ou membres de la famille, ce qui rend difficile la détermination de l'effet sur une personne en particulier.
+
+:::
+:::
+
+## Anticipating threats via design (1): Attrition \| *Anticiper les menaces par la conception (1) : Attrition*
+
+::: {.cols data-latex=""}
+::: {.col data-latex="{0.48\\textwidth}"}
+- Challenge: Attrition
+- Attention to this _important_
+- Solution(s):
+    - Pilot your approach to maximize chances of response
+    - Plan (budget) to reach all subjects at endline
+    - Plan (budget) for double-sampling to follow-up
+    - Blind people to treatment status
+    - Deliver treatment to control group post-research
+
+
+:::
+
+::: {.col data-latex="{0.04\\textwidth}"}
+  <!-- an empty Div (with a white space), serving as
+a column separator -->
+:::
+
+::: {.col data-latex="{0.48\\textwidth}"}
+
+- Défi : Attrition
+- Attention, c'est _important_
+- Solution(s) :
+     - Pilotez votre approche pour maximiser les chances de réponse
+     - Planifiez (le budget) pour atteindre tous les sujets à la fin
+     - Planifiez (le budget) pour le double-échantillonnage de suivi
+     - Personnes aveugles à leur statut de traitement
+     - Administrer le traitement au groupe témoin après la recherche
+
+:::
+:::
+
+## 1. Attrition: Why it matters \| *Attrition : pourquoi est-ce important?*
+
+::: {.cols data-latex=""}
+::: {.col data-latex="{0.48\\textwidth}"}
+
+- Missing outcome data is problematic when:
+    - Missingness is systematically associated with certain _types_ of people, or with units' treatment assignment status
+
+
+:::
+
+::: {.col data-latex="{0.04\\textwidth}"}
+  <!-- an empty Div (with a white space), serving as
+a column separator -->
+:::
+
+::: {.col data-latex="{0.48\\textwidth}"}
+
+- Les données manquantes sur les résultats sont problématiques lorsque :
+     - L'absence est systématiquement associée à certains _types_ de personnes, ou au statut de traitement des unités
+    
+:::
+:::
+
+## 1. Attrition: Why it matters \| *Attrition : pourquoi est-ce important?*
+
+::: {.cols data-latex=""}
+::: {.col data-latex="{0.48\\textwidth}"}
+
+- The problem is this:
+    - Without outcome data, can't analyze impact of treatment on outcomes
+    - Can't just ignore the missing data
+    - Treatment and control groups are no longer comparable
+    - This breaks the "analyze as you randomize" principle
+
+
+:::
+
+::: {.col data-latex="{0.04\\textwidth}"}
+  <!-- an empty Div (with a white space), serving as
+a column separator -->
+:::
+
+::: {.col data-latex="{0.48\\textwidth}"}
+
+- Le problème est le suivant :
+     - Sans données sur les résultats, impossible d'analyser l'impact du traitement sur les résultats
+     - On ne peut simplement pas ignorer les données manquantes
+     - Les groupes de traitement et de contrôle ne sont plus comparables
+     - Cela enfreint le principe "analyser selon le niveau de randomisation"
+    
+:::
+:::
+
+
+## 1. Attrition: When it can happen \| *Attrition : Quand ?*
+
+::: {.cols data-latex=""}
+::: {.col data-latex="{0.48\\textwidth}"}
+
+- Kids who anticipate failing test are absent the day of the test
+- Researcher effort: Control units more likely to be missing because researcher engaged less with them
+
+:::
+
+::: {.col data-latex="{0.04\\textwidth}"}
+  <!-- an empty Div (with a white space), serving as
+a column separator -->
+:::
+
+::: {.col data-latex="{0.48\\textwidth}"}
+
+- Les enfants qui anticipent un échec au test sont absents le jour du test.
+- Effort du chercheur: les unités de contrôle sont plus susceptibles d'être manquantes parce que le chercheur s'est moins engagé avec elles
+    
+:::
+:::
+
+## 1. Attrition: When it can happen \| *Attrition : Quand ?*
+
+::: {.cols data-latex=""}
+::: {.col data-latex="{0.48\\textwidth}"}
+
+- Data problems: elections results not reported for a certain region, people move away and they’re more difficult to track, people change phone numbers
+- Responding to surveys is annoying to some people, or they’re busy when you approached them
+
+:::
+
+::: {.col data-latex="{0.04\\textwidth}"}
+  <!-- an empty Div (with a white space), serving as
+a column separator -->
+:::
+
+::: {.col data-latex="{0.48\\textwidth}"}
+
+- Problèmes de données: résultats des élections non communiqués pour une certaine région, les gens déménagent et sont plus difficiles à suivre, les gens changent de numéro de téléphone
+- Répondre à des sondages est ennuyeux pour certaines personnes, ou elles sont occupées lorsque vous les approchez
+    
+:::
+:::
+
+## 1. Attrition: Anticipating it in design \| *Attrition : l'anticiper lors de la conception*
+
+::: {.cols data-latex=""}
+::: {.col data-latex="{0.48\\textwidth}"}
+
+1. Pilot your approach: in pilot, figure out what works best to get responses
+    - Different types of incentives?
+    - Call versus in-person?
+    - Best days or timings?
+
+:::
+
+::: {.col data-latex="{0.04\\textwidth}"}
+  <!-- an empty Div (with a white space), serving as
+a column separator -->
+:::
+
+::: {.col data-latex="{0.48\\textwidth}"}
+
+1. Pilotez votre ètude : dans l'étude pilote, déterminez ce qui fonctionne le mieux pour obtenir des réponses
+     - Différents types d'incitations (récompenses) ?
+     - Collecter des données par téléphone ou en personne ?
+     - Y a-t-il des jours ou des horaires où les gens sont plus disponibles ? 
+    
+:::
+:::
+
+## 1. Attrition: Anticipating it in design \| *Attrition: l'anticiper lors de la conception*
+
+::: {.cols data-latex=""}
+::: {.col data-latex="{0.48\\textwidth}"}
+
+2. Plan to reach all subjects at endline
+    - Budget for strong efforts (time, resources) to get responses
+
+3. Plan for double-sampling
+    - Budget for _intensive_ follow-up with random sample of attriters
+
+:::
+
+::: {.col data-latex="{0.04\\textwidth}"}
+  <!-- an empty Div (with a white space), serving as
+a column separator -->
+:::
+
+::: {.col data-latex="{0.48\\textwidth}"}
+
+2. Prévoyez d'atteindre tous les sujets à la fin
+     - Préparer votre budget pour des efforts importants (temps, ressources) pour obtenir des réponses
+     
+3. Prévoyez un double échantillonnage
+     - Prendre en compte dans votre budget la possibilité d'un suivi _intensif_ avec un échantillon aléatoire de ceux qui n'ont pas répondu à l'enquête finale 
+    
+:::
+:::
+
+## 1. Attrition: Anticipating it in design \| *Attrition : l'anticiper lors de la conception*
+
+::: {.cols data-latex=""}
+::: {.col data-latex="{0.48\\textwidth}"}
+
+4. Blind people to their treatment status
+    - Idea: people won't avoid follow-up if they know they're in control
+
+5. Promise to deliver treatment to control post-research
+    - Idea: people will remain engaged in the study even if in control
+
+:::
+
+::: {.col data-latex="{0.04\\textwidth}"}
+  <!-- an empty Div (with a white space), serving as
+a column separator -->
+:::
+
+::: {.col data-latex="{0.48\\textwidth}"}
+
+4. Les personnes aveugles quant à leur statut de traitement
+     - Idée : les gens n'éviteront pas l'enquête de suivi s'ils ne savent pas qu'ils sont dans le group de contrôle
+
+5. S'engager à fournir le traitement aux personnes qui faisaient partie du groupe de contrôle une fois l'étude terminée
+     - Idée : les gens resteront engagés dans l'étude même s'ils sont dans le group de contrôle
+    
+:::
+:::
+
+## 1. Attrition: Anticipating it in design \| *Attrition : l'anticiper lors de la conception*
+
+::: {.cols data-latex=""}
+::: {.col data-latex="{0.48\\textwidth}"}
+
+
+- NOTE: Keeping good records is crucial!
+    - Treatment assignment status
+    - Outcome variable as NA if missing
+    - (By the way, here we're not talking about covariates)
+
+:::
+
+::: {.col data-latex="{0.04\\textwidth}"}
+  <!-- an empty Div (with a white space), serving as
+a column separator -->
+:::
+
+::: {.col data-latex="{0.48\\textwidth}"}
+
+- REMARQUE : Tenir de bons registres est crucial !
+     - Statut d'assignation au traitement
+     - Variable de résultat comme NA si manquante
+     - (Au fait, ici on ne parle pas de covariables de base)
+    
+:::
+:::
+
+## Anticipating threats via design (2): Spillover \| *Anticiper les menaces lors de la conception (2) : contamination*
+
+::: {.cols data-latex=""}
+::: {.col data-latex="{0.48\\textwidth}"}
+- Challenge: Spillover
+- Attention to this _important_
+- Why? 
+    - Violates core assumption for causal inference
+- Solution:
+    - Keep units far apart
+
+:::
+
+::: {.col data-latex="{0.04\\textwidth}"}
+  <!-- an empty Div (with a white space), serving as
+a column separator -->
+:::
+
+::: {.col data-latex="{0.48\\textwidth}"}
+
+- Défi : Contamination
+- Attention, c'est _important_
+- Pourquoi ?
+     - Il s'agit d'une violation d'une hypothèse fondamentale de l'inférence causale
+- Solution :
+     - Gardez les unités éloignées les unes des autres
+
+:::
+:::
+
+## 2. Spillover: Anticipating it in design \| *Contamination : l'anticiper lors de la conception*
+
+::: {.cols data-latex=""}
+::: {.col data-latex="{0.48\\textwidth}"}
+
+
+- _Minimize_ spillover by sampling units far enough apart geographically
+- Idea: avoid that a treated unit _contaminate_ another unit
+- NOTE: possible to *study* spillover effects as the focus, but difficult (lots of caveats in order)
+    - Often better to try to avoid spillover altogether
+
+:::
+
+::: {.col data-latex="{0.04\\textwidth}"}
+  <!-- an empty Div (with a white space), serving as
+a column separator -->
+:::
+
+::: {.col data-latex="{0.48\\textwidth}"}
+
+- _Minimiser_ la contamination en échantillonnant des unités suffisamment éloignées géographiquement
+- Idée : éviter qu'une unité traitée _contamine_ une autre unité
+- REMARQUE : il est possible d'avoir pour objectif d'*étudier* les effets de contamination, mais difficile
+     - Il est souvent préférable d'essayer d'éviter les effets de la contamination
+
+:::
+:::
+
+## Résumé :  
+
+- Certains problèmes sont assez courants dans les expériences aléatoires. Ces problèmes menacent la validité interne d'une étude.
+
+- Nous avons parlé de deux menaces courantes pour la validité interne d'une expérience aléatoire :
+    1. Lorsque nous manquons de données sur les résultats de certaines unités 
+    2. Lorsque le statut de traitement d'une unité peut avoir un impact sur une autre unité, entraînant des effets de "contamination".
+
+- Nous avons discuté des différentes méthodes à prévoir au stade de la conception d'une étude pour anticiper ces problèmes très courants 
+    1. Faites de votre mieux pour éviter les données manquantes. Pilotez vos approches de collecte de données pour maximiser les chances de réponse. Prévoyez un budget pour des efforts intenses afin d'atteindre les sujets lors de l'enquête finale, etc.
+    2. Éviter toute possibilité de contamination entre les unités en les maintenant éloignées les unes des autres.
+
+
+## Quiz
+
+Yabo wants to study the impact of information about voting rights on voter turnout. She wants to assign treatment at the level of individual citizens. However, the context where she works has small villages where people frequently interact. She is worried about this threatening the internal validity of her study. She receives 3 pieces of advice from different LD instructors on how to anticipate such threats in her design. Which piece of advice is best?
+
+A. Christelle advises that she run her baseline survey in person rather than on the phone, in order to make sure more people respond.
+
+B. Nahomi suggests that she incentivize responses by paying citizens to take part in the study.
+
+C. Horace recommends ensuring that the units in the study are far enough apart to avoid contamination. He recommends randomizing at the level of the village, rather than at the individual level within villages.
+
+
+## Quiz
+
+Yabo souhaite étudier l'impact de l'information sur les droits de vote sur la participation électorale. Elle veut assigner un traitement au niveau du citoyen. Cependant, le contexte dans lequel elle travaille comporte de petits villages où les gens interagissent fréquemment. Elle craint que cela ne menace la validité interne de son étude. Elle reçoit 3 conseils de différents instructeurs sur la façon d'anticiper de telles menaces dans sa conception de recherche. Quel est le meilleur conseil ?
+
+A. Christelle conseille d'effectuer son enquête en personne plutôt qu'au téléphone, afin de s'assurer que davantage de personnes répondent.
+
+B. Nahomi suggère qu'elle encourage les réponses en payant les citoyens pour qu'ils participent à l'étude.
+
+C. Horace recommande de s'assurer que les unités de l'étude sont suffisamment éloignées pour éviter toute contamination. Il recommande la randomisation au niveau du village, plutôt qu'au niveau individuel au sein des villages.
+
+
+# Final takeaway: Keep things simple \| *Dernier point : Gardez les choses simples*
+
+## Complex $\neq$ better! \| *Complexe $\neq$ mieux !*
+
+::: {.cols data-latex=""}
+::: {.col data-latex="{0.48\\textwidth}"}
+
+- Complexity is possible, but simplicity is always preferred.
+- People mistakenly think
+    - Complex = sophisticated &rarr; better
+- In fact, straightforward designs &rarr; better
+
+
+:::
+
+::: {.col data-latex="{0.04\\textwidth}"}
+  <!-- an empty Div (with a white space), serving as
+a column separator -->
+:::
+
+::: {.col data-latex="{0.48\\textwidth}"}
+
+- La complexité est possible, mais la simplicité est toujours souhaitable.
+- Les gens pensent à tort
+     - Complexe = sophistiqué &rarr; mieux
+- En réalité, conception simple &rarr; mieux
+    
+:::
+:::
+
+## Keep things simple \| *Gardons les choses simples*
+
+::: {.cols data-latex=""}
+::: {.col data-latex="{0.48\\textwidth}"}
+
+- You now have more complex designs in your toolkit, but:
+    - If you don't need them, don't use them
+
+- Why? With simplicity:
+    - Less can go wrong
+    - More likely to notice when something does
+    - Easier to understand design properties
+    - Interpretability and communication of findings
+:::
+
+::: {.col data-latex="{0.04\\textwidth}"}
+  <!-- an empty Div (with a white space), serving as
+a column separator -->
+:::
+
+::: {.col data-latex="{0.48\\textwidth}"}
+
+- Vous avez maintenant des conceptions plus complexes dans votre boîte à outils, mais :
+     - Si vous n'en avez pas besoin, ne les utilisez pas
+
+- Pourquoi ? Avec une conception de recherche _simple_ :
+     - Moins de choses peuvent aller de travers
+     - Plus facile de remarquer que quelque chose ne se passe pas comme prévu 
+     - Plus facile à comprendre les propriétés de la conception
+     - Interprétabilité et communication des résultats
+:::
+:::
+
+
+## Resources \| *Ressources*
+
+-   EGAP Methods Guide on Randomization
+    (<https://egap.org/resource/10-things-to-know-about-randomization/>)
+
+-   EGAP Methods Guide on Missing Data
+    (<https://egap.org/resource/10-things-to-know-about-missing-data/>)
+
+-   Guide des méthodes EGAP sur la randomisation
+    (<https://egap.org/fr/resource/10-choses-a-savoir-sur-la-randomisation/>)
+
+-   Guide des méthodes EGAP sur les données manquantes
+    (<https://egap.org/resource/10-things-to-know-about-missing-data/>)
