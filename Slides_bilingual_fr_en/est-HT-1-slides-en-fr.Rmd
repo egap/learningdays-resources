@@ -296,7 +296,7 @@ a column separator -->
 :::
 
 ::: {.col data-latex="{0.28\\textwidth}"}
-$$Y_i = \beta_0 + \beta_1 Z_i + e_i$$
+$$Y_i = \beta_0 + \beta_1 Z_i + \epsilon_i$$
 $$Y_i = \hat{\beta_0} + \hat{\beta_1} Z_i + e_i$$
 :::
 :::
@@ -497,7 +497,7 @@ a column separator -->
 -   There are many ways to do hypothesis testing. We are going to take
     the simplest and most popular approach that uses regression.
 
--   Use linear regression to calculate a $p$-value: the probability that
+-   Use linear regression to calculate a $p$-value (two-sided test): the probability that
     we could have obtained a particular estimate (or greater in absolute
     value) by chance when the null hypothesis is true.
 :::
@@ -510,7 +510,7 @@ a column separator -->
 ::: {.col data-latex="{0.48\\textwidth}"}
 -   Il existe de nombreuses façons de tester des hypothèses. Nous allons
     faire l'apprôche la plus simple et la plus populaire: la régression.
--   Utiliser la régression linéaire pour calculer une $p$-valeur : la
+-   Utiliser la régression linéaire pour calculer une $p$-valeur (test bilateral) : la
     probabilité de voir une estimation (ou une plus grande en valeur
     absolue) par hasard ou l'hypothèse nulle est vrai.
 :::
@@ -615,15 +615,15 @@ a column separator -->
 ::: {.col data-latex="{0.48\\textwidth}"}
 | Unit | Block | $Z_i$ | $Y_i$ | $Y_i(1)$ | $Y_i(0)$ |
 |:----:|:-----:|:-----:|:-----:|:--------:|:--------:|
-|  a   |   J   |   0   |   4   |          |    4     |
-|  b   |   J   |   1   |   3   |    3     |          |
-|  c   |   J   |   0   |   2   |          |    2     |
-|  d   |   K   |   1   |   3   |    3     |          |
-|  e   |   K   |   0   |   0   |          |    0     |
-|  f   |   K   |   0   |   2   |          |    2     |
-|  g   |   L   |   1   |   4   |    4     |          |
-|  h   |   L   |   0   |   0   |          |    0     |
-|  i   |   L   |   0   |   2   |          |    2     |
+|  a   |   Q   |   0   |   4   |          |    4     |
+|  b   |   Q   |   1   |   3   |    3     |          |
+|  c   |   Q   |   0   |   2   |          |    2     |
+|  d   |   R   |   1   |   3   |    3     |          |
+|  e   |   R   |   0   |   0   |          |    0     |
+|  f   |   R   |   0   |   2   |          |    2     |
+|  g   |   S   |   1   |   4   |    4     |          |
+|  h   |   S   |   0   |   0   |          |    0     |
+|  i   |   S   |   0   |   2   |          |    2     |
 :::
 
 ::: {.col data-latex="{0.04\\textwidth}"}
@@ -634,11 +634,11 @@ a column separator -->
 ::: {.col data-latex="{0.48\\textwidth}"}
 ```{=tex}
 \begin{align*}
-\widehat{ATE}_J &= 3-\frac{4+2}{2}= 0\\
-\widehat{ATE}_K &= 3-\frac{0+2}{2}= 2\\
-\widehat{ATE}_L &= 4-\frac{0+2}{2}= 3\\
+\widehat{ATE}_Q &= 3-\frac{4+2}{2}= 0\\
+\widehat{ATE}_R &= 3-\frac{0+2}{2}= 2\\
+\widehat{ATE}_S &= 4-\frac{0+2}{2}= 3\\
 \\
-\widehat{ATE} &=  \frac{N_J}{N}\widehat{ATE}_J + \frac{N_K}{N}\widehat{ATE}_K + \frac{N_L}{N}\widehat{ATE}_L  \\
+\widehat{ATE} &=  \frac{N_Q}{N}\widehat{ATE}_Q + \frac{N_R}{N}\widehat{ATE}_R + \frac{N_S}{N}\widehat{ATE}_S  \\
 &= \frac{3}{9}*0 + \frac{3}{9}*2 + \frac{3}{9}*3 = \frac{5}{3}
 \end{align*}
 ```
@@ -659,12 +659,11 @@ difference_in_means(Y ~ t, blocks = experiment_data$Female)
 
 ## Estimator 2: Linear Regression with Block Fixed Effects \| *Estimateur 2 : La régression linéaire avec effets fixes par bloc*
 
-$$Y_{ij} = \beta_0 + \beta_1 Z_{ij} + \gamma_A BlockA_{ij} + \gamma_B BlockB_{ij} + ... + e_{ij}$$
+$$Y_{ij} = \beta_0 + \beta_1 Z_{ij} + \gamma_A BlockA_{ij} + \gamma_B BlockB_{ij} + ... + \epsilon_{ij}$$
 
 ::: {.cols data-latex=""}
 ::: {.col data-latex="{0.48\\textwidth}"}
--   You can use linear regression with block fixed effects, which
-    facilitates hypothesis testing, applying weights to each observation.
+-   You can use linear regression with block fixed effects, applying weights to each observation.
     
 -   The weight is the inverse of the proportion of subjects in the same block who were assigned to the same condition.    
 :::
@@ -675,7 +674,7 @@ a column separator -->
 :::
 
 ::: {.col data-latex="{0.48\\textwidth}"}
--   Nous pouvons ensuite utiliser la régression linéaire avec des effets fixes en bloc, ce qui facilite le test des hypothèses, en appliquant des pondérations à chaque observation.
+-   Nous pouvons ensuite utiliser la régression linéaire avec des effets fixes en bloc,  en appliquant des pondérations à chaque observation.
 
 -   Le poids est l'inverse de la proportion de sujets d'un même bloc qui ont été assignés à la même condition.
 :::

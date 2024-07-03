@@ -1,30 +1,15 @@
 ---
-title: |
-  | Estimation and Hypothesis Testing 2 | 
-  | *Les estimateurs et les tests d'hypothèses 2*
+title: "| Estimation and Hypothesis Testing 2 | \n| *Les estimateurs et les tests
+  d'hypothèses 2*\n"
 author: "Christelle Zozoungbo"
 date: "27 June/juin 2024"
-classoption: "aspectratio=169"
-bibliography: ../learningdays-book.bib
-biblio-style: apalike
-link-citations: yes
-colorlinks: yes
-fig_caption: yes
-header-includes: |
-   \setbeamertemplate{footline}{\begin{beamercolorbox}{section in head/foot}
-   \includegraphics[height=.5cm]{../Images/egap-logo.png} \hfill
-   \insertframenumber/\inserttotalframenumber \end{beamercolorbox}}
-   \usepackage{tikz}
-   \usepackage{tikz-cd}
-   \usepackage{textpos}
-   \usepackage{booktabs,multirow,makecell}
 output:
   beamer_presentation:
     keep_tex: true
     includes:
       in_header: columns.tex
     toc: true
-    pandoc_args: [ "--toc" ]
+    pandoc_args: "--toc"
     fig_caption: true
   revealjs::revealjs_presentation:
     fig_caption: true
@@ -34,16 +19,30 @@ output:
     transition: fade
     smart: false
     self_contained: false
-    reveal_plugins: ["notes", "search", "chalkboard"]
-    pandoc_args: [ "--toc" ]
+    reveal_plugins:
+    - notes
+    - search
+    - chalkboard
+    pandoc_args: "--toc"
     reveal_options:
       slideNumber: true
       previewLinks: true
       chalkboard:
         theme: whiteboard
         toggleNotesButton: false
-editor_options: 
-  markdown: 
+  ioslides_presentation:
+    highlight: pygments
+bibliography: "../learningdays-book.bib"
+biblio-style: apalike
+link-citations: true
+colorlinks: true
+fig_caption: true
+header-includes: "\\setbeamertemplate{footline}{\\begin{beamercolorbox}{section in
+  head/foot}\n\\includegraphics[height=.5cm]{../Images/egap-logo.png} \\hfill\n\\insertframenumber/\\inserttotalframenumber
+  \\end{beamercolorbox}}\n\\usepackage{tikz}\n\\usepackage{tikz-cd}\n\\usepackage{textpos}\n\\usepackage{booktabs,multirow,makecell}\n"
+classoption: aspectratio=169
+editor_options:
+  markdown:
     wrap: 72
 ---
 
@@ -249,7 +248,7 @@ library(estimatr)
 \begin{tabular}{|p{1.5in}|p{1.5in}|p{1.5in}|}
  \cline{1-3}
 && \\
-$Z_A$ only  &  $Z_B$ only & Neither (control) \\
+\textcolor{red}{$Z_A$ only}  &  \textcolor{green}{$Z_B$ only} & \textcolor{blue}{Neither (control)} \\
 && \\
  \cline{1-3}
 \end{tabular}
@@ -261,7 +260,7 @@ $Z_A$ only  &  $Z_B$ only & Neither (control) \\
 ::: {.col data-latex="{0.48\\textwidth}"}
 -   We can always take the difference-in-means between any two groups.
 
--   But hypothesis testing is simpler with regression.
+<!-- -   But hypothesis testing is simpler with regression. -->
 :::
 
 ::: {.col data-latex="{0.04\\textwidth}"}
@@ -273,7 +272,7 @@ a column separator -->
 -   Nous pouvons toujours tenir compte de la différence de moyens entre
     deux groupes.
 
--   Mais le test d'hypothèse est plus simple avec la régression.
+<!-- -   Mais le test d'hypothèse est plus simple avec la régression. -->
 :::
 :::
 
@@ -334,6 +333,32 @@ a column separator -->
 :::
 :::
 
+## Estimator 2: Linear regression \| *Estimateur 2 : La régression linéaire*
+
+::: {.cols data-latex=""}
+::: {.col data-latex="{0.58\\textwidth}"}
+```{r, echo=FALSE, fig.align='center', out.width=220}
+knitr::include_graphics("../Images/regression2.png")
+```
+
+:::
+
+::: {.col data-latex="{0.04\\textwidth}"}
+  <!-- an empty Div (with a white space), serving as
+a column separator -->
+:::
+
+::: {.col data-latex="{0.38\\textwidth}"}
+
+\textcolor{red}{$Z_A$ only}
+
+\textcolor{green}{$Z_B$ only}
+
+\textcolor{blue}{Neither (control)}
+
+$Y_i = \alpha + \beta_A Z_{Ai} + \beta_B Z_{Bi} + e_i$
+:::
+:::
 
 ## Estimators for Multi-arm Designs \| *Les estimateurs pour les éxperiences avec plusiers bras*
 
@@ -518,15 +543,37 @@ $$Y_i = \beta_0 + \beta_1 Z_{1i} + \beta_2 Z_{2i} + \beta_3 Z_{1i}*Z_{2i} + e_i$
     l'effet d'interaction.
 
 ## Estimator 2: Linear Regression with an Interaction Term \| *Estimateur 2 : La régression linéaire avec un terme d'interaction*
-<!-- ## Estimator 3: Linear Regression with an Interaction Term \| *Estimateur 3 : La régression linéaire avec un terme d'interaction* -->
 
-```{r, echo=FALSE, fig.align='center', out.width=350}
+```{r, echo=FALSE, fig.align='center', out.width=300}
 knitr::include_graphics("../Images/reg_interaction.png")
 ```
-```{r, echo=FALSE, fig.align='center', out.width=300}
+```{r, echo=FALSE, fig.align='center', out.width=250}
 knitr::include_graphics("../Images/p_value.png")
 ```
+$$\hat{Y} = \hat{\alpha} + 0.059 Kit + 0.006 Demo - 0.026 Kit * Demo $$
 
+## Estimator 2: Linear Regression with an Interaction Term \| *Estimateur 2 : La régression linéaire avec un terme d'interaction*
+
+$\hat{Y} = \hat{\alpha} + 0.059 Kit + 0.006 Demo - 0.026 Kit * Demo$
+
+\bigskip
+
+Neither: $\hat{Y} = \hat{\alpha}$
+
+Kit only: $\hat{Y} = \hat{\alpha} + 0.059$
+
+Demo only: $\hat{Y} = \hat{\alpha} + 0.006$
+
+Kit and Demo: $\hat{Y} = \hat{\alpha} + 0.059 + 0.006 - 0.026$
+
+\bigskip
+
+$\widehat{ATE}$ of Kit conditional on No Demo = $\hat{\alpha}$ + 0.059 - $\hat{\alpha}$ = 0.059
+
+$\widehat{ATE}$ of Kit conditional on Demo = $\hat{\alpha}$ + 0.059 + 0.006 - 0.026 - ($\hat{\alpha}$ + 0.006) = 0.059-0.026
+
+Interaction effect = 0.059 - 0.026 - 0.059 = 0.026
+    
 ## Estimator 2: Linear Regression with an Interaction Term \| *Estimateur 2 : La régression linéaire avec un terme d'interaction*
 
 ```{r}
