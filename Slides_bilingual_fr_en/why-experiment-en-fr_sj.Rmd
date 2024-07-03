@@ -1,0 +1,636 @@
+---
+title: "Why experiment? | Pourquoi faire des expériences ?"
+output:
+  beamer_presentation:
+    includes:
+      in_header: columns.tex
+  revealjs::revealjs_presentation:
+    fig_caption: true
+    theme: default
+    highlight: pygments
+    center: false
+    transition: fade
+    smart: false
+    self_contained: false
+    reveal_plugins: ["notes", "search", "chalkboard"]
+    pandoc_args: [ "--toc" ]
+    reveal_options:
+      slideNumber: true
+      previewLinks: true
+      chalkboard:
+        theme: whiteboard
+        toggleNotesButton: false
+header-includes: |
+   \setbeamertemplate{footline}{\begin{beamercolorbox}{section in head/foot}
+   \includegraphics[height=.5cm]{egap-logo.png} \hfill
+   \insertframenumber / \inserttotalframenumber \end{beamercolorbox}}
+   \usepackage{textpos}
+   \usepackage{booktabs,multirow,makecell}
+---
+
+## Key points for this lecture \| Points clés de ce cours
+
+::: {.cols data-latex=""}
+::: {.col data-latex="{0.48\\textwidth}"}
+- What is a policy experiment?
+
+- Who uses experiments?
+
+- What are experiments good for (and not)?
+:::
+
+::: {.col data-latex="{0.04\\textwidth}"}
+  <!-- an empty Div (with a white space), serving as
+a column separator -->
+:::
+
+::: {.col data-latex="{0.48\\textwidth}"}
+
+- Qu'est-ce qu'une expérience de politique?
+
+- Qui utilise les expériences?
+
+- À quoi servent (ou ne servent pas) les expériences?
+
+:::
+:::
+
+
+## Policy experiments \| Expérimentations politiques
+
+:::::: {.cols data-latex=""}
+::: {.col data-latex="{0.48\textwidth}"}
+
+A method for: \medskip
+
+- Putting beliefs about what works to the test 
+- Enabling policy decisions based on data
+
+:::
+  
+::: {.col data-latex="{0.04\textwidth}"}
+\ 
+<!-- an empty Div (with a white space), serving as
+a column separator -->
+:::
+
+  
+::: {.col data-latex="{0.48\textwidth}"}
+
+Une méthode pour: \medskip
+
+- Tester les idées ou croyances sur ce qui fonctionne 
+- Prendre des décisions politiques en se basant sur les données
+
+:::
+::::::
+  
+
+## What is an experiment? \| Qu'est-ce qu'une expérimentation?
+
+:::::: {.cols data-latex=""}
+::: {.col data-latex="{0.48\textwidth}"}
+
+-   You have a treatment
+
+-   *You randomly assign units to treatment and control conditions*
+
+-   You compare the outcomes for the units that were assigned to
+    treatment to outcomes for those that were not
+
+:::
+  
+::: {.col data-latex="{0.04\textwidth}"}
+\ 
+<!-- an empty Div (with a white space), serving as
+a column separator -->
+:::
+
+  
+::: {.col data-latex="{0.48\textwidth}"}
+
+-   Vous avez un traitement
+
+-   *Vous assignez de manière aléatoire des sujets aux conditions de
+    traitement et de contrôle*
+
+-   Vous comparez les résultats des unités qui sont assignées au groupe de
+    traitement et de celles qui sont assignées au groupe de contrôle
+
+:::
+::::::
+
+
+
+
+## What is an experiment? \| Qu'est-ce qu'une expérimentation?
+
+
+:::::: {.cols data-latex=""}
+::: {.col data-latex="{0.48\textwidth}"}
+
+- Question: How do ethnic stereotypes influence the responsiveness of state legislators to their constituents?
+- Why we care: Discrimination is normatively undesirable and leads to unequal opportunities and outcomes for constituents
+
+:::
+  
+::: {.col data-latex="{0.04\textwidth}"}
+\ 
+<!-- an empty Div (with a white space), serving as
+a column separator -->
+:::
+
+  
+::: {.col data-latex="{0.48\textwidth}"}
+
+- Question : Comment les stéréotypes ethniques influencent-ils la réactivité des législateurs à l'égard de leurs électeurs ?
+- Pourquoi cela nous importe-t-il ? La discrimination est normativement indésirable et conduit à des opportunités et des résultats inégaux pour les électeurs
+
+:::
+::::::
+  
+
+
+## What is an experiment? \| Qu'est-ce qu'une expérimentation?
+
+:::::: {.cols data-latex=""}
+::: {.col data-latex="{0.48\textwidth}"}
+
+- Intervention: Varying ethnicity (Colin Smith vs. Jose Ramirez) in email with a question about immigration rules
+- Experimental design: Randomly assign legislators to receive email from Colin or José
+
+:::
+  
+::: {.col data-latex="{0.04\textwidth}"}
+\ 
+<!-- an empty Div (with a white space), serving as
+a column separator -->
+:::
+
+  
+::: {.col data-latex="{0.48\textwidth}"}
+
+- Intervention : Faire varier l'ethnicité (Colin Smith vs. Jose Ramirez) dans un email avec une question sur les règles d'immigration
+- Conception expérimentale : Affectation aléatoire des législateurs à la réception d'un email de Colin ou José
+:::
+::::::
+
+## What is an experiment? \| Qu'est-ce qu'une expérimentation?
+
+:::::: {.cols data-latex=""}
+::: {.col data-latex="{0.48\textwidth}"}
+ 
+- Outcome: Response rate by state legislators
+- Results: On average, state legislators respond more to the name Colin than José
+:::
+  
+::: {.col data-latex="{0.04\textwidth}"}
+\ 
+<!-- an empty Div (with a white space), serving as
+a column separator -->
+:::
+
+  
+::: {.col data-latex="{0.48\textwidth}"}
+
+- Résultat : Taux de réponse des législateurs
+- Résultats : En moyenne, les législateurs d'État répondent plus souvent au nom Colin qu'au nom José
+
+:::
+::::::
+  
+
+
+## Why an experiment? \| Pourquoi une expérimentation?
+
+:::::: {.cols data-latex=""}
+::: {.col data-latex="{0.48\textwidth}"}
+
+Random assignment $\rightarrow$ highly credible evidence that there is discrimination based on ethnicity \bigskip
+
+If politicians believe results $\rightarrow$ decide to introduce policies to avoid discrimination
+
+:::
+  
+::: {.col data-latex="{0.04\textwidth}"}
+\ 
+<!-- an empty Div (with a white space), serving as
+a column separator -->
+:::
+
+  
+::: {.col data-latex="{0.48\textwidth}"}
+
+Affectation aléatoire $\rightarrow$ preuve hautement crédible qu'il existe une discrimination fondée sur l'ethnicité \bigskip
+
+Si les hommes politiques croient aux résultats $\rightarrow$ décident d'introduire des politiques pour éviter la discrimination
+
+:::
+::::::
+  
+
+
+
+## Long history of the method \| Une longue histoire de la méthode
+
+:::::: {.cols data-latex=""}
+::: {.col data-latex="{0.48\textwidth}"}
+
+- Late 1700s: Early double-blind experiments with comparison group (not randomized) 
+- 1920s: First randomized experiments in agriculture, education, and political science
+- 1965: First clinical randomized trial (Streptomycin for TB)
+- 2019: Nobel prize for popularizing randomized experiments in economics
+
+:::
+  
+::: {.col data-latex="{0.04\textwidth}"}
+\ 
+<!-- an empty Div (with a white space), serving as
+a column separator -->
+:::
+
+  
+::: {.col data-latex="{0.48\textwidth}"}
+
+- Fin des années 1700 : Premières expériences en double aveugle avec groupe témoin (non randomisé) 
+- Années 1920 : Premières expériences randomisées dans les domaines de l'agriculture, de l'éducation et des sciences politiques
+- 1965 : Premier essai clinique randomisé (Streptomycine pour la tuberculose)
+- 2019 : Prix Nobel pour avoir popularisé les expériences aléatoires en économie
+
+:::
+::::::
+  
+
+
+## Widespread use |\ Utilisation répandue
+
+:::::: {.cols data-latex=""}
+::: {.col data-latex="{0.48\textwidth}"}
+
+- Clinical trials required by regulators for vaccines, medicines, and treatments 
+- Political campaigns test mobilization and persuasion strategies 
+- Tech companies test website features 
+- Governments test policies in "nudge units"
+
+
+:::
+  
+::: {.col data-latex="{0.04\textwidth}"}
+\ 
+<!-- an empty Div (with a white space), serving as
+a column separator -->
+:::
+
+  
+::: {.col data-latex="{0.48\textwidth}"}
+
+- Essais cliniques exigés par les organismes de réglementation pour les vaccins, les médicaments et les traitements 
+- Les campagnes politiques testent des stratégies de mobilisation et de persuasion 
+- Les entreprises technologiques testent les fonctionnalités de leur site web
+- Les gouvernements testent des politiques dans des "unités d'incitation"
+
+:::
+::::::
+  
+
+
+
+## Use in social science |\  Utilisation en sciences sociales
+
+:::::: {.cols data-latex=""}
+::: {.col data-latex="{0.48\textwidth}"}
+
+Big impacts already \medskip 
+
+- Proved long-held beliefs wrong and some new ideas right
+- Demonstrated practices that work in US don't work in Global South
+- Led to scaling up good policies and the discovery that some other policies do not scale well
+
+:::
+  
+::: {.col data-latex="{0.04\textwidth}"}
+\ 
+<!-- an empty Div (with a white space), serving as
+a column separator -->
+:::
+
+  
+::: {.col data-latex="{0.48\textwidth}"}
+
+Des impacts importants ont déjà été constatés \medskip 
+
+- A prouvé que des croyances de longue date étaient fausses et que de nouvelles idées se sont avérées justes
+- Démonstration que les pratiques qui fonctionnent aux États-Unis ne fonctionnent pas dans les pays du Sud
+- A permis d'étendre les bonnes politiques et de découvrir que d'autres politiques ne s'adaptent pas bien à grande échelle
+
+:::
+::::::
+
+
+
+## Proving beliefs wrong \| Démontrer que les croyances sont fausses
+
+:::::: {.cols data-latex=""}
+::: {.col data-latex="{0.48\textwidth}"}
+
+- Belief: Providing information about incumbent politicians will change votes
+- Intervention: Information about politicians' corruption, job attendance
+- Experimental design: Randomly assign districts to receive information or not
+
+:::
+  
+::: {.col data-latex="{0.04\textwidth}"}
+\ 
+<!-- an empty Div (with a white space), serving as
+a column separator -->
+:::
+
+  
+::: {.col data-latex="{0.48\textwidth}"}
+
+- Croyance : La fourniture d'informations sur les politiciens en place modifiera les votes
+- Intervention : Informations sur la corruption des hommes politiques, présence au travail
+- Conception expérimentale : Affectation aléatoire des districts pour qu'ils reçoivent ou non des informations
+
+:::
+::::::
+
+
+
+## Proving beliefs wrong \| Démontrer que les croyances sont fausses
+
+:::::: {.cols data-latex=""}
+::: {.col data-latex="{0.48\textwidth}"}
+
+- Outcome: Vote share for incumbent (administrative data)
+- Result: No effect
+
+:::
+  
+::: {.col data-latex="{0.04\textwidth}"}
+\ 
+<!-- an empty Div (with a white space), serving as
+a column separator -->
+:::
+
+  
+::: {.col data-latex="{0.48\textwidth}"}
+
+- Résultats : Part des votes en faveur du candidat sortant (données administratives)
+- Résultats : Aucun effet
+
+:::
+::::::
+
+
+## Proving beliefs right \| Prouver que les croyances sont justes
+
+:::::: {.cols data-latex=""}
+::: {.col data-latex="{0.48\textwidth}"}
+
+- Belief: Conditional cash transfers change behavior, improve welfare
+- Partner: New Incentives, NGO in Northern Nigeria
+- Intervention: Cash to families taking children to get recommended vaccinations
+
+:::
+  
+::: {.col data-latex="{0.04\textwidth}"}
+\ 
+<!-- an empty Div (with a white space), serving as
+a column separator -->
+:::
+
+  
+::: {.col data-latex="{0.48\textwidth}"}
+
+- Croyance : Les transferts monétaires conditionnels modifient les comportements et améliorent le bien-être
+- Partenaire : New Incentives, ONG dans le Nord du Nigeria
+- Intervention : Argent donné aux familles qui emmènent leurs enfants se faire vacciner selon les recommandations
+
+:::
+::::::
+
+
+## Proving beliefs right \| Prouver que les croyances sont justes
+
+:::::: {.cols data-latex=""}
+::: {.col data-latex="{0.48\textwidth}"}
+
+- Experimental design: Clinics randomly assigned to receive program or not
+- Outcomes: Vaccination rate
+- Result: Large increases in vaccination rates
+
+:::
+  
+::: {.col data-latex="{0.04\textwidth}"}
+\ 
+<!-- an empty Div (with a white space), serving as
+a column separator -->
+:::
+
+  
+::: {.col data-latex="{0.48\textwidth}"}
+
+- Conception expérimentale: Cliniques assignées aléatoirement à recevoir le programme ou non
+- Résultat: Taux de vaccination
+- Résultat: Augmentations importantes des taux de vaccination
+
+:::
+::::::
+
+  
+
+
+## Proving beliefs right \| Prouver que les croyances sont justes
+
+:::::: {.cols data-latex=""}
+::: {.col data-latex="{0.48\textwidth}"}
+
+A similiar study was done before with the Progresa Study in Mexico which inspired similar programs in many other places like: \bigskip
+
+Argentina, Bangladesh, Brazil, Cambodia, Chile, Colombia, Egypt, Guatemala, Honduras, Indonesia, Jamaica, Mexico, Nicaragua, Panama, Peru, Philippines, Turkey, US
+
+:::
+  
+::: {.col data-latex="{0.04\textwidth}"}
+\ 
+<!-- an empty Div (with a white space), serving as
+a column separator -->
+:::
+
+  
+::: {.col data-latex="{0.48\textwidth}"}
+
+Une étude similaire a été réalisée auparavant avec l’étude Progresa au Mexique, qui a inspiré des programmes similaires dans de nombreux autres endroits comme: \bigskip
+
+Argentine, Bangladesh, Brésil, Cambodge, Chili, Colombie, Égypte, Guatemala, Honduras, Indonésie, Jamaïque, Mexique, Nicaragua, Panama, Pérou, Philippines, Turquie, États-Unis
+
+:::
+::::::
+  
+
+
+
+## Scaling up successes |\ Transposition à plus grande échelle des succès remportés
+
+:::::: {.cols data-latex=""}
+::: {.col data-latex="{0.48\textwidth}"}
+
+- Belief: Education programs that are effective on a small scale might not perform well when scaled up
+- Intervention: Community-based volunteers providing tutoring and curriculum support scaled up from 166 to 35000 villages
+- Experimental design: Villages randomly assigned to receive program or not
+
+:::
+  
+::: {.col data-latex="{0.04\textwidth}"}
+\ 
+<!-- an empty Div (with a white space), serving as
+a column separator -->
+:::
+
+  
+::: {.col data-latex="{0.48\textwidth}"}
+
+- Croyance: Les programmes éducatifs efficaces à petite échelle peuvent ne pas bien fonctionner lorsqu'ils sont étendus à une plus grande échelle
+- Intervention: Des volontaires communautaires fournissant du tutorat et du soutien pédagogique ont été étendus de 166 à 35 000 villages
+- Conception expérimentale: Villages assignés aléatoirement à recevoir le programme ou non
+
+:::
+::::::
+  
+
+
+## Scaling up successes |\ Transposition à plus grande échelle des succès remportés
+
+:::::: {.cols data-latex=""}
+::: {.col data-latex="{0.48\textwidth}"}
+
+
+- Outcomes: Performance in mathematics, English and Hindi
+- Results: Program leads to similarly improved test scores in both the small and large-scale implementation
+
+:::
+  
+::: {.col data-latex="{0.04\textwidth}"}
+\ 
+<!-- an empty Div (with a white space), serving as
+a column separator -->
+:::
+
+  
+::: {.col data-latex="{0.48\textwidth}"}
+
+- Résultats: Performance en mathématiques, anglais et hindi
+- Résultats: Le programme conduit à des améliorations similaires des scores aux tests, tant à petite qu'à grande échelle
+
+:::
+::::::
+  
+
+
+## Limitations to experiments \|  Limites des expériences
+
+:::::: {.cols data-latex=""}
+::: {.col data-latex="{0.48\textwidth}"}
+
+Some questions don't need an experiment\medskip
+
+- Does smoking cause poor health?
+- Do parachutes help when you jump out of a plane? \medskip
+
+
+:::
+  
+::: {.col data-latex="{0.04\textwidth}"}
+\ 
+<!-- an empty Div (with a white space), serving as
+a column separator -->
+:::
+
+  
+::: {.col data-latex="{0.48\textwidth}"}
+
+Certaines questions ne nécessitent pas d'expérience
+
+- Le tabagisme nuit-il à la santé ?
+- Les parachutes aident-ils à sauter d'un avion ? \medskip
+
+:::
+::::::
+
+## Limitations to experiments \|  Limites des expériences
+
+:::::: {.cols data-latex=""}
+::: {.col data-latex="{0.48\textwidth}"}
+
+Some questions shouldn't have an experiment \medskip 
+
+- Does changing the interest rate affect inflation? 
+- What is the poverty rate? \medskip
+
+Important role for descriptive research, qualitative investigation
+
+:::
+  
+::: {.col data-latex="{0.04\textwidth}"}
+\ 
+<!-- an empty Div (with a white space), serving as
+a column separator -->
+:::
+
+  
+::: {.col data-latex="{0.48\textwidth}"}
+Certaines questions ne devraient pas faire l'objet d'une expérience \medskip 
+
+- Un changement de taux d'intérêt affecte-t-il l'inflation ? 
+- Qu'est-ce que le taux de pauvreté ? \medskip
+
+Un rôle important pour la recherche descriptive et l'enquête qualitative.
+
+:::
+::::::
+
+
+
+
+## Why experiments \| Pourquoi des expérimentations?
+
+:::::: {.cols data-latex=""}
+::: {.col data-latex="{0.48\textwidth}"}
+
+Put beliefs about effects of policies to the test \bigskip
+
+What policies work? \smallskip
+
+$\rightarrow$ let's find out
+
+:::
+  
+::: {.col data-latex="{0.04\textwidth}"}
+\ 
+<!-- an empty Div (with a white space), serving as
+a column separator -->
+:::
+
+  
+::: {.col data-latex="{0.48\textwidth}"}
+
+Tester les idées ou croyances sur ce qui fonctionne  \bigskip
+
+Quelles sont les politiques qui fonctionnent ? \smallskip
+
+$\rightarrow$ découvrons-le
+
+:::
+::::::
+  
+
+
+
+
+
+
+
+
+
+
