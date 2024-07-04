@@ -1,0 +1,260 @@
+---
+title: "Causal Inference"
+author: "Nahomi Ichino"
+date: "26 June 2023"
+output:
+  beamer_presentation:
+    keep_tex: yes
+    pandoc_args: --toc
+    slide_level: 2
+    toc: yes
+  revealjs::revealjs_presentation:
+    center: no
+    fig_caption: yes
+    highlight: pygments
+    pandoc_args: --toc
+    reveal_options:
+      chalkboard:
+        theme: whiteboard
+        toggleNotesButton: no
+      previewLinks: yes
+      slideNumber: yes
+    reveal_plugins:
+    - notes
+    - search
+    - chalkboard
+    self_contained: no
+    smart: no
+    theme: default
+    transition: fade
+bibliography: ../learningdays-book.bib
+header-includes: |
+  \setbeamertemplate{footline}{\begin{beamercolorbox}{section in head/foot}
+  \includegraphics[height=.5cm]{../Images/egap-logo.png} \hfill
+  \insertframenumber/\inserttotalframenumber \end{beamercolorbox}}
+  \usepackage{tikz}
+  \usepackage{tikz-cd}
+  \usepackage{textpos}
+  \usepackage{booktabs,multirow,makecell}
+link-citations: yes
+colorlinks: yes
+biblio-style: apalike
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+
+## from https://bookdown.org/yihui/rmarkdown-cookbook/font-color.html
+colorize <- function(x, color) {
+  if (knitr::is_latex_output()) {
+    sprintf("\\textcolor{%s}{%s}", color, x)
+  } else if (knitr::is_html_output()) {
+    sprintf("<span style='color: %s;'>%s</span>", color,
+      x)
+  } else x
+}
+```
+
+# Randomized experiments
+
+## Review: Core elements of a randomized experiment
+
+-   You have a treatment.
+
+-   *You randomly assign treatment to units.*
+
+-   You compare the outcomes for the units that were assigned to treatment to outcomes for those that were not.
+
+## What can you learn from an experiment?
+
+The *average causal effect* of the treatment $T$ on an outcome $Y$ for the units that you have in your study.
+
+-   You have to clearly define what the treatment means and what it means to not have the treatment.
+
+-   The units in your study might or might not be representative of a larger population.
+
+## What do we mean by "$T$ causes $Y$"?
+
+-   We're going to take the counterfactual approach.
+
+-   "$T$ causes $Y$" is a claim about what didn't happen.
+
+    -   "If $T$ had not occurred, then $Y$ would not have occurred."
+
+    -   "With $T$, the probability of $Y$ is higher than would be without $T$."
+
+-   "$T$ causes $Y$" requires a *context*
+
+    -   Matches cause flame but require oxygen.
+
+    -   Small classrooms improve test scores but require experienced teachers and funding.
+
+-   "$T$ causes $Y$" doesn't mean "$W$ does not cause $Y$."
+
+# How can we learn the average causal effect from an experiment?
+
+
+## We have 12 units
+
+![](images/fig01-units.png)
+
+## $Y_i(1)$, the outcome each unit would have if treated
+
+![](images/fig02-Y1.png)
+
+
+## $Y_i(0)$, the outcome each unit would have if not treated
+
+![](images/fig03-Y0.png)
+
+## Each unit has both $Y_i(1)$ and $Y_i(0)$
+
+![](images/fig02-Y1.png){width="220"}![](images/fig03-Y0.png){width="220"}
+
+## So each unit has a treatment effect $\tau_i = Y_i(1) - Y_i(0)$
+
+![](images/fig04-tau.png)
+## Potential outcomes
+
+-   For each unit we assume that there are two *post-treatment* outcomes: $Y_i(1)$ and $Y_i(0)$.
+
+-   $Y_i(1)$ is the outcome that *would* obtain *if* the unit received the treatment ($T_i=1$).
+
+-   $Y_i(0)$ is the outcome that *would* obtain *if* the unit received the control ($T_i=0$).
+
+## The *causal effect* of treatment is $\tau_i = Y_i(1) - Y_i(0)$
+
+<!-- 1.  This doesn't make sense without defining what it means to not have $T$. -->
+
+1.  Each individual unit $i$ has its own causal effect $\tau_i$.
+
+2.  But we can't measure the individual-level causal effect, because we can't observe both $Y_i(1)$ and $Y_i(0)$ at the same time. This is known as the *fundamental problem of causal inference*.
+
+
+## Let's go back to the $Y_i(1)$
+
+![](images/fig05-Y1.png)
+
+## We can take a random sample of these $Y_i(1)$
+
+![](images/fig06-y1-sample1.png)
+
+## We can take another random sample of these $Y_i(1)$
+
+![](images/fig07-y1-sample2.png)
+
+## And another!
+
+![](images/fig08-y1-sample3.png)
+
+## Let's get back to the $Y_i(0)$
+
+![](images/fig09-y0-novals.png)
+
+## And we can take a random sample of these $Y_i(0)$
+
+![](images/fig10-y0-sample1.png)
+
+## A random assignment
+
+![](images/fig06-y1-sample1.png){width="220"}![](images/fig10-y0-sample1.png){width="220"}
+
+
+## Put them together
+![](images/fig11-randomassignment1.png)
+
+
+## A different random assignment
+
+![](images/fig12-randomassignment2.png)
+
+## Randomization is powerful
+
+-   Randomization creates groups that are similar except that one will receive the treatment and the other will not.
+
+-   So when we compare the two groups after one has received treatment, we can attribute the difference to (1) the effect of the treatment and (2) chance.
+
+    <!-- -   We want to design randomized experiments that give us confidence that differences are not just due to chance. -->
+
+-   Without randomization, it's hard to tell whether differences in the outcome are due to (1) treatment or (2) some other factor correlated with it.
+
+## Let's be more precise about randomization
+
+-   It doesn't mean haphazard or having no control!
+
+-   Randomization means that every observation has a known probability of assignment to experimental conditions *between* 0 and 1.
+
+    -   No unit in the experimental sample is assigned to treatment with certainty (probability = 1) or to control with certainty (probability = 0).
+
+
+## Core assumptions
+
+We need to make sure we don't violate two core assumptions behind our theoretical infrastructure as we design our randomized experiments:
+
+-   Excludability.
+
+-   Stable unit treatment value assumption (SUTVA).
+
+## Core assumption 1: SUTVA, part 1
+
+1.  No interference -- A subject's potential outcome reflects only whether that subject receives the treatment himself/herself. It is not affected by how treatments happen to be allocated to other subjects.
+
+    -   A classic violation is the case of vaccines and their spillover effects.
+
+    -   Say I am in the control condition (no vaccine). If whether I get sick ($Y_i(0)$) depends on other people's treatment status (whether they take the vaccine), it's like I have two different $Y_i(0)$!
+
+## Core assumption 1: SUTVA, part 2
+
+2.  No hidden variations of the treatment
+
+    -   Say treatment is taking a vaccine, but there are two kinds of vaccines and they have different ingredients.
+
+    -   An example of a violation is when whether I get sick when I take the vaccine ($Y_i(1)$) depends on which vaccine I take. We would have two different $Y_i(1)$!
+
+## Core assumption 2: Excludability
+
+-   Treatment assignment has no effect on outcomes except through its effect on whether treatment was received.
+
+    -   Important to define receiving treatment precisely.
+
+    -   Treatment and control groups should be treated the same, except for the actual treatment.
+
+# Randomized experiments vs observational studies
+
+## Different types of studies
+
+-   Randomized studies
+
+    -   Randomize treatment, then go measure outcomes.
+
+    -   We can attribute differences in outcomes to the treatment (plus noise).
+
+-   Observational studies
+
+    -   Treatment is not randomly assigned. It is observed, but not manipulated.
+
+    -   Differences might be due to underlying differences (selection bias) or the treatment (plus noise). It's often very hard to tell.
+
+## What is the advantage of randomization?
+
+-   If the intervention is randomized, then who receives or doesn't receive the intervention is not related to the characteristics of the potential recipients.
+
+-   With randomization, those who were randomly selected to not receive the intervention are good stand-ins for the counterfactuals for those who were randomly selected to receive the treatment, and vice versa.
+
+-   This is not assured in observational studies.
+
+## Internal validity
+
+-   Randomized studies have high internal validity -- confidence that we have learned the causal effect of a treatment on an outcome.
+
+-   An advantage over observational studies that have to invoke other strong assumptions to make the same claim.
+
+    <!-- -   Causal estimates from regression analyses aren't guaranteed to weight all units equally. -->
+
+## Generalizability 
+
+-   The finding from a particular study in one particular place and at one particular time may not hold in other settings (i.e., not have external validity).
+
+-   This is a general concern for observational studies as well, not just a concern for randomized studies.
+
+    -   [EGAP's Metaketa Initiative](https://egap.org/our-work/the-metaketa-initiative/) works to accumulate knowledge by pre-planning a meta-analysis of multiple studies that have high internal validity due to randomization.
