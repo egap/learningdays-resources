@@ -1,8 +1,8 @@
 ---
 title: "| Estimation and Hypothesis Testing 2 | \n| *Les estimateurs et les tests
   d'hypothèses 2*\n"
-author: "Christelle Zozoungbo"
-date: "27 June/juin 2024"
+author: "Alyssa Heinze and/et Isabelle Becho-N'Dri"
+date: "21 May/mai 2025"
 output:
   beamer_presentation:
     keep_tex: true
@@ -78,7 +78,7 @@ a column separator -->
 ::: {.col data-latex="{0.48\\textwidth}"}
 -   N'oubliez pas : Analysez comme vous randomisez
 
--   Nous préférons les estimateurs non biaisés et plus précis.
+-   Nous préférons les estimateurs non biaisés et plus précis
 :::
 :::
 
@@ -90,11 +90,10 @@ $$Y_i = \beta_0 + \beta_1 Z_i + \gamma X_i + e_i$$
 
 ::: {.cols data-latex=""}
 ::: {.col data-latex="{0.48\\textwidth}"}
--   Including a **pre-treatment covariate** $X$ that is *predictive of*
-    the outcome variable in our regression model is called *covariate
-    adjustment*.
+-   We can include a **pre-treatment covariate** $X$ that is *predictive of*
+    the outcome variable in our regression model.  
 
--   For example: pre-treatment measure of the outcome.
+-   Think of $X$ as fixed before the randomization. For example: pre-treatment measure of the outcome.
 
 -   Careful: This can bias our estimates, but improve their precision.
 :::
@@ -105,11 +104,11 @@ a column separator -->
 :::
 
 ::: {.col data-latex="{0.48\\textwidth}"}
--   L'inclusion d'une **covariable pré-traitement** $X$ qui est
+-   Nous pouvons inclure une **covariable pré-traitement** $X$ qui est
     *prédictive* de la variable de résultat dans notre modèle de
-    régression est appelée *ajustement des covariables*.
+    régression. 
 
--   Par exemple : un mesure du résultat avant le traitement.
+-   Pensez que $X$ est fixé avant la randomisation. Par exemple : un mesure du résultat avant le traitement.
 
 -   Attention : Cela peut biaiser nos estimations, mais améliorer leur précision.
 :::
@@ -117,16 +116,16 @@ a column separator -->
 
 ## Estimator: Linear regression with covariates \| *Estimateur : La régression linéaire avec des covariables*
 
-$$Y_i = \beta_0 + \beta_1 Z_i + \gamma X_i + e_i$$
+$$Y_i = \hat{\beta_0} + \hat{\beta_1} Z_i + \hat{\gamma} X_i + e_i$$
 
 \bigskip
 
 ::: {.cols data-latex=""}
 ::: {.col data-latex="{0.48\\textwidth}"}
--   The coefficient on the treatment variable ($\beta_1$) is again our
-     ATE.
+-   The estimated coefficient on the treatment variable ($\hat{\beta_1}$) is again our
+     $\widehat{ATE}$.
 
--   The coefficient on the covariate ($\gamma$) is *not* 
+-   The estimated coefficient on the covariate ($\hat{\gamma}$) is *not* 
     the causal effect of that variable.
 :::
 
@@ -136,11 +135,11 @@ a column separator -->
 :::
 
 ::: {.col data-latex="{0.48\\textwidth}"}
--   Le coefficient sur la variable de traitement ($\beta_1$) est encore
-    notre ATE.
+-   Le coefficient estimé sur la variable de traitement ($\hat{\beta_1}$) est encore
+    notre $\widehat{ATE}$.
 
--   Le coefficient de la covariable ($\gamma$) n'est *pas* 
-    l'effet causal de cette variable.
+-   Le coefficient estimé de la covariable ($\hat{\gamma}$) n'est *pas* 
+    l'effet estimé causal de cette variable.
 :::
 :::
 
@@ -176,8 +175,8 @@ library(estimatr)
 
 ## Estimator: Regression with cluster-robust standard errors \| *Estimateur : La régression avec des erreurs types robustes au niveau du cluster*
 
-$$Y_{ic} = \beta_0 + \beta_1 Z_{c} + e_{ic}$$
-$$Y_{ic} = \beta_0 + \beta_1 Z_{c} + \beta_2 X_{ic} +e_{ic}$$
+$$Y_{ic} = \hat{\beta_0} + \hat{\beta_1} Z_{c} + e_{ic}$$
+$$Y_{ic} = \hat{\beta_0} + \hat{\beta_1} Z_{c} + \hat{\beta_2} X_{ic} +e_{ic}$$
 
 \bigskip
 
@@ -187,7 +186,7 @@ $$Y_{ic} = \beta_0 + \beta_1 Z_{c} + \beta_2 X_{ic} +e_{ic}$$
 -   Our analysis has to take into account the fact that treatment is
     assigned at the cluster level with *cluster-robust standard errors*.
 
--   $\beta_1$ is the ATE of the treatment at the individual level.
+-   $\hat{\beta_1}$ is the $\widehat{ATE}$ of the treatment on individual units.
 
 -   We can also do covariate adjustment at the same time.
 :::
@@ -202,7 +201,7 @@ a column separator -->
     attribué au niveau du cluster avec des *erreurs types robustes au
     niveau du cluster*.
 
--   $\beta_1$ est l'ATE du traitement au niveau individuel.
+-   $\hat{\beta_1}$ est $\widehat{ATE}$  du traitement sur les unités individuelles.
 
 -   Nous pouvons également effectuer un ajustement covariable en même
     temps.
@@ -290,7 +289,7 @@ a column separator -->
 
 ## Estimator 2: Linear regression \| *Estimateur 2 : La régression linéaire*
 
-$$Y_i = \alpha + \beta_A Z_{Ai} + \beta_B Z_{Bi} + e_i$$
+$$Y_i = \hat{\alpha} + \hat{\beta_A} Z_{Ai} + \hat{\beta_B} Z_{Bi} + e_i$$
 
 
 \bigskip
@@ -300,6 +299,10 @@ $$Y_i = \alpha + \beta_A Z_{Ai} + \beta_B Z_{Bi} + e_i$$
 ::: {.col data-latex="{0.48\\textwidth}"}
 -   Regression with an indicator variable for each of the two treatment
     arms.
+    
+    -   $Z_{Ai}=1$ if unit $i$ has treatment A, 0 otherwise
+    
+    -   $Z_{Bi}=1$ if unit $i$ has treatment B, 0 otherwise
 
 -   We can also do covariate adjustment at the same time.
 :::
@@ -313,6 +316,10 @@ a column separator -->
 -   Régression avec une variable indicatrice pour chacun des deux bras
     de traitement.
 
+    -   $Z_{Ai}=1$ si unité $i$ a traitement A, sinon 0 
+    
+    -   $Z_{Bi}=1$ si unité $i$ a traitement B, sinon 0 
+
 -   Nous pouvons également effectuer un ajustement covariable en même
     temps.
 :::
@@ -320,7 +327,7 @@ a column separator -->
 
 ## Estimator 2: Linear regression \| *Estimateur 2 : La régression linéaire*
 
-$$Y_i = \alpha + \beta_A Z_{Ai} + \beta_B Z_{Bi} + e_i$$
+$$Y_i = \hat{\alpha} + \hat{\beta_A} Z_{Ai} + \hat{\beta_B} Z_{Bi} + e_i$$
 
 
 \bigskip
@@ -328,9 +335,9 @@ $$Y_i = \alpha + \beta_A Z_{Ai} + \beta_B Z_{Bi} + e_i$$
 
 ::: {.cols data-latex=""}
 ::: {.col data-latex="{0.48\\textwidth}"}
--   $\beta_A$ is the ATE of $Z_A$ (compared with control).
+-   $\hat{\beta_A}$ is the $\widehat{ATE}$ of $Z_A$ (compared with control).
 
--   $\beta_B$ is the ATE of $Z_B$ (compared with control).
+-   $\hat{\beta_B}$ is the $\widehat{ATE}$ of $Z_B$ (compared with control).
 :::
 
 ::: {.col data-latex="{0.04\\textwidth}"}
@@ -339,9 +346,9 @@ a column separator -->
 :::
 
 ::: {.col data-latex="{0.48\\textwidth}"}
--   $\beta_A$ est l'ATE de $Z_A$ (par rapport au contrôle).
+-   $\hat{\beta_A}$ est $\widehat{ATE}$ de $Z_A$ (par rapport au contrôle).
 
--   $\beta_B$ est l'ATE de $Z_B$ (par rapport au contrôle).
+-   $\hat{\beta_B}$ est $\widehat{ATE}$ de $Z_B$ (par rapport au contrôle).
 :::
 :::
 
@@ -368,7 +375,7 @@ a column separator -->
 
 \textcolor{blue}{Neither (control)}
 
-$Y_i = \alpha + \beta_A Z_{Ai} + \beta_B Z_{Bi} + e_i$
+$Y_i = \hat{\alpha} + \hat{\beta_A} Z_{Ai} + \hat{\beta_B} Z_{Bi} + e_i$
 :::
 :::
 
@@ -407,10 +414,11 @@ $Z_1$ only  & Both $Z_1$ and $Z_2$ \\
 -   If we have a 2\*2 factorial design, we have four groups.
 
 -   We can always take the difference-in-means between any two groups.
+
 :::
 
 ::: {.col data-latex="{0.04\\textwidth}"}
-  <!-- an empty Div (with a white space), serving as
+<!-- an empty Div (with a white space), serving as
 a column separator -->
 :::
 
@@ -475,8 +483,8 @@ a column separator -->
 
 <!-- ## Estimator 3: Linear Regression with an Interaction Term \| *Estimateur 3 : La régression linéaire avec un terme d'interaction* -->
 
-$$Y_i = \beta_0 + \beta_1 Z_{1i} + \beta_2 Z_{2i} + \beta_3 Z_{1i}*Z_{2i} + e_i$$
-$$Y_i = \beta_0 + \beta_1 Z_{1i} + \beta_2 Z_{2i} + \beta_3 Z_{1i}*Z_{2i} + \beta_4 X_i + e_i$$
+$$Y_i = \hat{\beta_0} + \hat{\beta_1} Z_{1i} + \hat{\beta_2} Z_{2i} + \hat{\beta_3} Z_{1i}*Z_{2i} + e_i$$
+$$Y_i = \hat{\beta_0} + \hat{\beta_1} Z_{1i} + \hat{\beta_2} Z_{2i} + \hat{\beta_3} Z_{1i}*Z_{2i} + \hat{\beta_4} X_i + e_i$$
 
 \bigskip
 
@@ -514,16 +522,15 @@ $Z_1$ only  & Both $Z_1$ and $Z_2$ \\
 \end{tabular}
 \end{table}
 
-$$Y_i = \beta_0 + \beta_1 Z_{1i} + \beta_2 Z_{2i} + \beta_3 Z_{1i}*Z_{2i} + e_i$$
+$$Y_i = \hat{\beta_0} + \hat{\beta_1} Z_{1i} + \hat{\beta_2} Z_{2i} + \hat{\beta_3} Z_{1i}*Z_{2i} + e_i$$
 
+-   Estimand \| Paramètre: $E[Y(Z_1=1)- Y(Z_1=0) | Z_2=0]$
 
--   $\beta_1$ is the ATE of $Z_{1}$ conditional on $Z_{2}=0$ \| *l'ATE
-    de* $Z_{1}$ conditionnel à $Z_{2}=0$,
-    ($E[Y(Z_1=1)- Y(Z_1=0) | Z_2=0]$)
+    -   $\hat{\beta_1}$ is the $\widehat{ATE}$ of $Z_{1}$ conditional on $Z_{2}=0$ \| $\widehat{ATE}$ de $Z_{1}$ conditionnel à $Z_{2}=0$.  
 
--   $\beta_2$ is the ATE of $Z_{2}$ conditional on $Z_{1}=0$ \| *l'ATE
-    de* $Z_{2}$ conditionnel à $Z_{1}=0$,
-    ($E[Y(Z_2=1)- Y(Z_2=0) | Z_1=0]$)
+-   Estimand \| Paramètre: $E[Y(Z_2=1)- Y(Z_2=0) | Z_1=0]$
+
+    -   $\hat{\beta_2}$ is the $\widehat{ATE}$ of $Z_{2}$ conditional on $Z_{1}=0$ \| $\widehat{ATE}$ de $Z_{2}$ conditionnel à $Z_{1}=0$.  
 
 ## Estimator 2: Linear Regression with an Interaction Term \| *Estimateur 2 : La régression linéaire avec un terme d'interaction*
 
@@ -538,18 +545,18 @@ $Z_1$ only  & Both $Z_1$ and $Z_2$ \\
 \end{table}
 
 
-
-$$Y_i = \beta_0 + \beta_1 Z_{1i} + \beta_2 Z_{2i} + \beta_3 Z_{1i}*Z_{2i} + e_i$$
+$$Y_i = \hat{\beta_0} + \hat{\beta_1} Z_{1i} + \hat{\beta_2} Z_{2i} + \hat{\beta_3} Z_{1i}*Z_{2i} + e_i$$
 
 \bigskip
 
--   $\beta_1 + \beta_3$ = ATE of $Z_{1}$ conditional on $Z_{2}=1$ \|
-    *l'ATE de* $Z_{1}$ conditionnel à $Z_{2}=1$,
-    ($E[Y(Z_1=1)- Y(Z_1=0) | Z_2=1]$)
+-   Estimand \| Paramètre: $E[Y(Z_1=1)- Y(Z_1=0) | Z_2=1]$
 
--   $\beta_2 + \beta_3$ = ATE of $Z_{2}$ conditional on $Z_{1}=1$ \|
-    *l'ATE de* $Z_{2}$ conditionnel à $Z_{1}=1$,
-    ($E[Y(Z_2=1)- Y(Z_2=0) | Z_1=0]$)
+    -   $\hat{\beta_1} + \hat{\beta_3}$ = $\widehat{ATE}$ of $Z_{1}$ conditional on $Z_{2}=1$ \| $\widehat{ATE}$ de $Z_{1}$ conditionnel à $Z_{2}=1$
+    
+
+-   Estimand \| Paramètre: $E[Y(Z_2=1)- Y(Z_2=0) | Z_1=1]$
+
+    -   $\hat{\beta_2} + \hat{\beta_3}$ = $\widehat{ATE}$ of $Z_{2}$ conditional on $Z_{1}=1$ \| $\widehat{ATE}$ de $Z_{2}$ conditionnel à $Z_{1}=1$
 
 -   $\beta_3$ is called the interaction effect. $\beta_3$ est appelé
     l'effet d'interaction.

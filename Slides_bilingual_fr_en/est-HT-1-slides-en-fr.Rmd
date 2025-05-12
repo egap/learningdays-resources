@@ -2,8 +2,8 @@
 title: |
   | Estimation and Hypothesis Testing 1 | 
   | *Les Estimateurs et tests d'hypothèses 1*
-author: "Yabo Gwladys Vidogbena"
-date: "26 June/juin 2024"
+author: "Adikath Abiola and/et Gareth Nellis"
+date: "21 May/mai 2025"
 classoption: "aspectratio=169"
 bibliography: ../learningdays-book.bib
 biblio-style: apalike
@@ -112,7 +112,7 @@ a column separator -->
 
     -   $\widehat{ATE}$
 
--   If we run the experiment again, different units will be assigned to
+-   If we run the experiment again, different units may be assigned to
     treatment, and our estimate will likely be different.
 :::
 
@@ -133,7 +133,7 @@ a column separator -->
 
     -   $\widehat{ATE}$
 
--   Si nous renouvelons l'éxpérience, diffèrentes unités seraient
+-   Si nous renouvelons l'éxpérience, diffèrentes unités peuvent être
     assigné au traitement, et notre estimation sera probablement
     différente.
 :::
@@ -177,7 +177,9 @@ a column separator -->
         might be a little too high or low, but it will be correct on
         average.
 
-    -   Precise: The estimates are close to the estimand.
+    -   Precise: The estimates do not vary much from one run of the experiment to another.
+    
+-   The best: unbiased and precise.    
 :::
 
 ::: {.col data-latex="{0.04\\textwidth}"}
@@ -192,7 +194,9 @@ a column separator -->
         l’expérience plusieurs fois, l'estimation peut parfois être trop
         élevée ou trop faible, mais elle sera correcte en moyenne.
 
-    -   Précis : Les estimations sont proches du paramètre.
+    -   Précis : Les estimations ne varient pas beaucoup d'une expérience à l'autre.
+    
+-   Le meilleur: non biaisé et précis.     
 :::
 :::
 
@@ -221,11 +225,14 @@ a column separator -->
 
 ::: {.cols data-latex=""}
 ::: {.col data-latex="{0.48\\textwidth}"}
--   Our *estimand* is the ATE.
 
--   Random assignment to treatment or control.
+-   We have a simple experiment:
 
--   All units have the same probability of treatment assignment.
+    -   Random assignment to treatment or control.
+
+    -   All units have the same probability of treatment assignment.
+
+    -   Our *estimand* is the ATE.
 
 -   The simplest *estimator* for the ATE is the **difference-in-means**:
     take the average outcome for the treatment group and subtract the
@@ -238,11 +245,14 @@ a column separator -->
 :::
 
 ::: {.col data-latex="{0.48\\textwidth}"}
--   Notre *paramètre* est l'ATE.
 
--   L'assignation aléatoire à traitement ou contrôle.
+-   Nous avons une expérience simple:
 
--   Toutes les unités ont la même probabilité de recevoir le traitement.
+    -   L'assignation aléatoire à traitement ou contrôle.
+
+    -   Toutes les unités ont la même probabilité de recevoir le traitement.
+
+    -   Notre *paramètre* est l'ATE.
 
 -   L'estimateur de l'ATE le plus simple est **la différence des
     moyennes** : soutraitez le moyen des unités assigné au contrôle du
@@ -285,25 +295,7 @@ $$\frac{5+4+2+1}{4} - \frac{1+1+0+2}{4} = 3 - 1 = 2$$
 
 ## Estimator 2: Linear Regression \| *Estimateur 2 : La régression linéaire*
 
-::: {.cols data-latex=""}
-::: {.col data-latex="{0.68\\textwidth}"}
-![](images/regression1.png){width="360"}
-:::
-
-::: {.col data-latex="{0.04\\textwidth}"}
-  <!-- an empty Div (with a white space), serving as
-a column separator -->
-:::
-
-::: {.col data-latex="{0.28\\textwidth}"}
-$$Y_i = \beta_0 + \beta_1 Z_i + \epsilon_i$$
 $$Y_i = \hat{\beta_0} + \hat{\beta_1} Z_i + e_i$$
-:::
-:::
-
-## Estimator 2: Linear Regression \| *Estimateur 2 : La régression linéaire*
-
-$$Y_i = \beta_0 + \beta_1 Z_i + e_i$$
 
 ::: {.cols data-latex=""}
 ::: {.col data-latex="{0.48\\textwidth}"}
@@ -330,6 +322,26 @@ a column separator -->
 :::
 :::
 
+
+## Estimator 2: Linear Regression \| *Estimateur 2 : La régression linéaire*
+
+::: {.cols data-latex=""}
+::: {.col data-latex="{0.68\\textwidth}"}
+![](images/regression1.png){width="360"}
+:::
+
+::: {.col data-latex="{0.04\\textwidth}"}
+  <!-- an empty Div (with a white space), serving as
+a column separator -->
+:::
+
+::: {.col data-latex="{0.28\\textwidth}"}
+$$Y_i = \beta_0 + \beta_1 Z_i + \epsilon_i$$
+$$Y_i = \hat{\beta_0} + \hat{\beta_1} Z_i + e_i$$
+:::
+:::
+
+
 ## Estimator 2: Linear Regression \| *Estimateur 2 : La régression linéaire*
 
 ```{r}
@@ -345,11 +357,11 @@ a column separator -->
 ::: {.col data-latex="{0.48\\textwidth}"}
 -   Let's say that the truth is that a medicine has no effect on height.
     But all the short people were assigned to the medicine and all the
-    tall people to control. If we apply the difference in means, it
-    looks like the medicine made people shorter!
+    tall people to control. 
+    
+-   If we apply the difference in means, it looks like the medicine made people shorter!
 
--   Warning: We can get an estimate that is not zero even when there is
-    no effect!
+
 :::
 
 ::: {.col data-latex="{0.04\\textwidth}"}
@@ -361,11 +373,40 @@ a column separator -->
 -   Supposons qu'un médicament n'ait aucun effet sur la taille. Mais
     toutes les personnes de petite taille ont été assignées le
     médicament et les personnes de grande taille ont été assignées au
-    contrôle. Si on utilise la différence de moyennes, on dirait que les
-    médicaments ont rendu les gens plus petits!
+    contrôle. 
+    
+-   Si on utilise la différence de moyennes, on dirait que les médicaments ont rendu les gens plus petits!
+
+
+:::
+:::
+
+
+## Hypothesis Testing \| *Les tests d’hypothèses*
+
+::: {.cols data-latex=""}
+::: {.col data-latex="{0.48\\textwidth}"}
+
+-   Warning: We can get an estimate that is not zero even when there is
+    no effect!
+    
+-   Are we confident that our non-zero estimate reflects a truly
+    non-zero estimand (truth)?    
+:::
+
+::: {.col data-latex="{0.04\\textwidth}"}
+  <!-- an empty Div (with a white space), serving as
+a column separator -->
+:::
+
+::: {.col data-latex="{0.48\\textwidth}"}
+
 
 -   Avertissement : On peut obtenir une estimation que n'est pas nulle
     même s'il n'y a aucun effet!
+    
+-   Sommes-nous convaincus que notre estimation non nulle reflète un
+    paramètre véritablement non nulle (la vérité) ?    
 :::
 :::
 
@@ -373,11 +414,13 @@ a column separator -->
 
 ::: {.cols data-latex=""}
 ::: {.col data-latex="{0.48\\textwidth}"}
--   Are we confident that our non-zero estimate reflects a truly
-    non-zero estimand (truth)?
 
--   Start with a claim we might reject (a null hypothesis). We will use
-    the null hypothesis that the true ATE is 0.
+-   Hypothesis: a claim about the world that we will evaluate with data.
+
+    -   A good hypothesis is specific and falsifiable.
+
+
+-   Start with a null hypothesis, a claim we might reject when we examine the data. We will use the null hypothesis that the true ATE is 0.
 
 -   But remember that we can get $\widehat{ATE}$ that is not 0, just by
     chance.
@@ -389,11 +432,13 @@ a column separator -->
 :::
 
 ::: {.col data-latex="{0.48\\textwidth}"}
--   Sommes-nous convaincus que notre estimation non nulle reflète un
-    paramètre véritablement non nulle (la vérité) ?
--   Commencer par une affirmation que nous pourrions rejeter (une
-    hypothèse nulle). On utilisera l'hypothèse nulle que le vrai ATE est
-    0.  
+
+-   Hypothèse : une affirmation sur le monde que nous évaluerons à l'aide de données.
+
+    -   Une bonne hypothèse est spécifique et falsifiable.
+
+-   Commencer par une hypothèse nulle, une affirmation que nous pourrions rejeter lorsque nous examinons les données. On utilisera l'hypothèse nulle que le vrai ATE est 0.
+    
 -   Mais rappelez-vous que nous pouvons obtenir un $\widehat{ATE}$
     différent de 0, juste par hasard.
 :::
@@ -467,11 +512,12 @@ a column separator -->
 
 ::: {.cols data-latex=""}
 ::: {.col data-latex="{0.48\\textwidth}"}
--   $p$-value: For a one-sided test, the probability of seeing a test statistic as large as or larger than the test statistic calculated from
+-   $p$-value: For a one-sided test, the probability of seeing a *test statistic* as large as or larger than the test statistic calculated from
     observed data when the null hypothesis is true.
 
 -   We use the $\widehat{ATE}$ as our test statistic, but we don't need
     to.
+    
 :::
 
 ::: {.col data-latex="{0.04\\textwidth}"}
@@ -480,15 +526,18 @@ a column separator -->
 :::
 
 ::: {.col data-latex="{0.48\\textwidth}"}
--   $p$-valeur : Pour un test d'hypothèse unilateral, la probabilité de voir une statistique de test aussi
+-   $p$-valeur : Pour un test d'hypothèse unilateral, la probabilité de voir une *statistique de test* aussi
     grande ou plus grande que la statistique de test
     calculée à partir des données observées lorsque l'hypothèse nulle
     est vraie.
-
+    
 -   Nous utilisons $\widehat{ATE}$ comme statistique de test, mais ce
     n'est pas nécessaire.
+    
 :::
 :::
+
+
 
 ## Hypothesis Testing with Linear Regression \| *Les tests d'hypothèses avec la régression linéaire*
 
@@ -498,7 +547,7 @@ a column separator -->
     the simplest and most popular approach that uses regression.
 
 -   Use linear regression to calculate a $p$-value (two-sided test): the probability that
-    we could have obtained a particular estimate (or greater in absolute
+    we could have obtained a particular test statistic (or greater in absolute
     value) by chance when the null hypothesis is true.
 :::
 
@@ -511,7 +560,7 @@ a column separator -->
 -   Il existe de nombreuses façons de tester des hypothèses. Nous allons
     faire l'apprôche la plus simple et la plus populaire: la régression.
 -   Utiliser la régression linéaire pour calculer une $p$-valeur (test bilateral) : la
-    probabilité de voir une estimation (ou une plus grande en valeur
+    probabilité de voir une statistique de test (ou une plus grande en valeur
     absolue) par hasard ou l'hypothèse nulle est vrai.
 :::
 :::
@@ -603,7 +652,7 @@ a column separator -->
     $\widehat{ATE_j}$ weighted by block size $N_j / N$.
 
 -   You can use this estimator even when the probability of treatment
-    assignment is different across blocks.
+    assignment is different by blocks.
 :::
 
 ::: {.col data-latex="{0.04\\textwidth}"}
