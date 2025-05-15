@@ -1,0 +1,582 @@
+---
+title: "Why experiment? | Pourquoi faire des expériences ?"
+author: "Gareth Nellis and/et Yannick Kouogueng"
+date: "19 May/mai 2025"
+output:
+  beamer_presentation:
+    keep_tex: true
+    includes:
+      in_header: columns.tex
+    toc: true
+    pandoc_args: "--toc"
+    fig_caption: true
+  revealjs::revealjs_presentation:
+    fig_caption: true
+    theme: default
+    highlight: pygments
+    center: false
+    transition: fade
+    smart: false
+    self_contained: false
+    reveal_plugins:
+    - notes
+    - search
+    - chalkboard
+    pandoc_args: "--toc"
+    reveal_options:
+      slideNumber: true
+      previewLinks: true
+      chalkboard:
+        theme: whiteboard
+        toggleNotesButton: false
+  ioslides_presentation:
+    highlight: pygments
+bibliography: "../learningdays-book.bib"
+biblio-style: apalike
+link-citations: true
+colorlinks: true
+fig_caption: true
+header-includes: "\\setbeamertemplate{footline}{\\begin{beamercolorbox}{section in
+  head/foot}\n\\includegraphics[height=.5cm]{../Images/egap-logo.png} \\hfill\n\\insertframenumber/\\inserttotalframenumber
+  \\end{beamercolorbox}}\n\\usepackage{tikz}\n\\usepackage{tikz-cd}\n\\usepackage{textpos}\n\\usepackage{booktabs,multirow,makecell}\n"
+classoption: aspectratio=169
+editor_options:
+  markdown:
+    wrap: 72
+---
+
+## Key points for this lecture \| Points clés de ce cours
+
+::: {.cols data-latex=""}
+::: {.col data-latex="{0.48\\textwidth}"}
+- What are some limitations of observational research?
+- What is a randomized experiment?  
+- Who uses experiments?  
+- What are experiments good for (and not)?  
+
+:::
+
+::: {.col data-latex="{0.04\\textwidth}"}
+  <!-- an empty Div (with a white space), serving as
+a column separator -->
+:::
+
+::: {.col data-latex="{0.48\\textwidth}"}
+
+- Qu'est-ce qu'une expérience aléatoire?  
+- Qui utilise les expériences?  
+- À quoi servent (ou ne servent pas) les expériences?  
+
+:::
+:::
+
+
+## What is the impact of decentralization on corruption?
+
+:::::: {.cols data-latex=""}
+::: {.col data-latex="{0.48\textwidth}"}
+
+- How would we try to answer that question?
+
+
+:::
+  
+::: {.col data-latex="{0.04\textwidth}"}
+
+<!-- an empty Div (with a white space), serving as
+a column separator -->
+:::
+
+  
+::: {.col data-latex="{0.48\textwidth}"}
+
+-   TRANSLATE:
+
+:::
+::::::
+
+
+
+## Observational research: the "normal" approach
+
+:::::: {.cols data-latex=""}
+::: {.col data-latex="{0.48\textwidth}"}
+
+- Download and merge existing datasets
+- Measure naturally occurring behaviors or outcomes, perhaps by running a survey
+- *Observe*, don't "intervene" or "treat" 
+
+
+:::
+  
+::: {.col data-latex="{0.04\textwidth}"}
+
+<!-- an empty Div (with a white space), serving as
+a column separator -->
+:::
+
+  
+::: {.col data-latex="{0.48\textwidth}"}
+
+- TRANSLATE: Download and merge existing datasets
+- Measure naturally occurring behaviors or outcomes, perhaps by running a survey
+- *Observe*, don't "intervene" or "treat" 
+  
+
+:::
+::::::
+
+
+
+## What is the impact of decentralization on corruption?
+
+:::::: {.cols data-latex=""}
+::: {.col data-latex="{0.48\textwidth}"}
+
+- How would we try to answer that question?
+
+
+:::
+  
+::: {.col data-latex="{0.04\textwidth}"}
+
+<!-- an empty Div (with a white space), serving as
+a column separator -->
+:::
+
+  
+::: {.col data-latex="{0.48\textwidth}"}
+
+-   TRANSLATE:
+
+:::
+::::::
+
+
+## An observational study of decentralization
+
+:::::: {.cols data-latex=""}
+::: {.col data-latex="{0.48\textwidth}"}
+
+- Fisman and Gatti (2002): "Decentralization and corruption: evidence across countries" (cited 2,423 times)
+- Finds a strong country-level correlation between fiscal decentralization in government expenditure and lower corruption
+- World Bank heavily promoted decentralization in the 1990s and 2000s
+
+:::
+  
+::: {.col data-latex="{0.04\textwidth}"}
+
+<!-- an empty Div (with a white space), serving as
+a column separator -->
+:::
+
+  
+::: {.col data-latex="{0.48\textwidth}"}
+
+-   TRANSLATE:
+
+:::
+::::::
+
+
+## Should the World Bank believe that decentralization decreases corruption, based on Fisman and Gatti (2002)?
+
+:::::: {.cols data-latex=""}
+::: {.col data-latex="{0.48\textwidth}"}
+
+
+- Countries that decentralize may be less corrupt to begin with
+- They may have stronger civil societies
+- They may adopt other governance reforms at the same time
+- *Confounding*: a hidden factor that makes it look like there's a causal effect when there might not be
+- Observational research can show patterns and associations, but rarely causality
+
+:::
+  
+::: {.col data-latex="{0.04\textwidth}"}
+
+<!-- an empty Div (with a white space), serving as
+a column separator -->
+:::
+
+  
+::: {.col data-latex="{0.48\textwidth}"}
+
+-   TRANSLATE:
+
+:::
+::::::
+
+
+
+## What is a randomized experiment? \| Qu'est-ce qu'une expérience aléatoire?
+
+:::::: {.cols data-latex=""}
+::: {.col data-latex="{0.48\textwidth}"}
+
+-   You have a treatment (intervention)
+
+-   *You randomly assign units to treatment and control conditions*
+
+-   You compare the outcomes for the units that were assigned to
+    treatment to outcomes for those that were not
+
+:::
+  
+::: {.col data-latex="{0.04\textwidth}"}
+\ 
+<!-- an empty Div (with a white space), serving as
+a column separator -->
+:::
+
+  
+::: {.col data-latex="{0.48\textwidth}"}
+
+-   Vous avez un traitement (intervention)
+
+-   *Vous assignez de manière aléatoire des sujets aux conditions de
+    traitement et de contrôle*
+
+-   Vous comparez les résultats des unités qui sont assignées au groupe de
+    traitement et de celles qui sont assignées au groupe de contrôle
+
+:::
+::::::
+
+
+## Policy experiments \| Expérimentations politiques
+
+:::::: {.cols data-latex=""}
+::: {.col data-latex="{0.48\textwidth}"}
+
+A method for: \medskip
+
+- Putting beliefs about what works to the test 
+- Enabling policy decisions based on data
+
+:::
+  
+::: {.col data-latex="{0.04\textwidth}"}
+\ 
+<!-- an empty Div (with a white space), serving as
+a column separator -->
+:::
+
+  
+::: {.col data-latex="{0.48\textwidth}"}
+
+Une méthode pour: \medskip
+
+- Tester les idées ou croyances sur ce qui fonctionne 
+- Prendre des décisions politiques en se basant sur les données
+
+:::
+::::::
+  
+
+## What is an experiment? \| Qu'est-ce qu'une expérimentation?
+
+
+:::::: {.cols data-latex=""}
+::: {.col data-latex="{0.48\textwidth}"}
+- Question: Does informing communities about school oversight committees improve education outcomes?
+- India's Village Education Committees (VECs): Include 3 parents, head teacher, and village leader
+- Study: 65 Indian villages received info on VEC roles and responsibilities, 80 villages did not (*randomly chosen*) 
+- Outcome: Children's scores on basic reading, writing, and math tests
+:::
+  
+::: {.col data-latex="{0.04\textwidth}"}
+\ 
+<!-- an empty Div (with a white space), serving as
+a column separator -->
+:::
+
+  
+::: {.col data-latex="{0.48\textwidth}"}
+
+- TRANSLATE:
+
+:::
+::::::
+  
+
+
+
+
+## Why an experiment? \| Pourquoi une expérimentation?
+
+:::::: {.cols data-latex=""}
+::: {.col data-latex="{0.48\textwidth}"}
+
+Random assignment $\rightarrow$ highly credible evidence that there is discrimination based on ethnicity \bigskip
+
+If politicians believe results $\rightarrow$ decide to introduce policies to avoid discrimination
+
+:::
+  
+::: {.col data-latex="{0.04\textwidth}"}
+\ 
+<!-- an empty Div (with a white space), serving as
+a column separator -->
+:::
+
+  
+::: {.col data-latex="{0.48\textwidth}"}
+
+Affectation aléatoire $\rightarrow$ preuve hautement crédible qu'il existe une discrimination fondée sur l'ethnicité \bigskip
+
+Si les hommes politiques croient aux résultats $\rightarrow$ décident d'introduire des politiques pour éviter la discrimination
+
+:::
+::::::
+  
+
+
+
+## Long history of the method \| Une longue histoire de la méthode
+
+:::::: {.cols data-latex=""}
+::: {.col data-latex="{0.48\textwidth}"}
+
+- Late 1700s: Early double-blind experiments with comparison group (not randomized) 
+- 1920s: First randomized experiments in agriculture, education, and political science
+- 1965: First clinical randomized trial (Streptomycin for TB)
+- 2019: Nobel prize for popularizing randomized experiments in economics
+
+:::
+  
+::: {.col data-latex="{0.04\textwidth}"}
+\ 
+<!-- an empty Div (with a white space), serving as
+a column separator -->
+:::
+
+  
+::: {.col data-latex="{0.48\textwidth}"}
+
+- Fin des années 1700 : Premières expériences en double aveugle avec groupe témoin (non randomisé) 
+- Années 1920 : Premières expériences randomisées dans les domaines de l'agriculture, de l'éducation et des sciences politiques
+- 1965 : Premier essai clinique randomisé (Streptomycine pour la tuberculose)
+- 2019 : Prix Nobel pour avoir popularisé les expériences aléatoires en économie
+
+:::
+::::::
+  
+
+
+## Widespread use |\ Utilisation répandue
+
+:::::: {.cols data-latex=""}
+::: {.col data-latex="{0.48\textwidth}"}
+
+
+- Clinical trials for medicine  
+- Political campaigns  
+- Tech A/B testing  
+- Policy trials in governments 
+
+
+:::
+  
+::: {.col data-latex="{0.04\textwidth}"}
+\ 
+<!-- an empty Div (with a white space), serving as
+a column separator -->
+:::
+
+  
+::: {.col data-latex="{0.48\textwidth}"}
+
+
+- Essais cliniques  
+- Campagnes politiques  
+- Tests A/B en tech  
+- Essais politiques dans les gouvernements
+
+:::
+::::::
+  
+
+
+
+## Use in social science |\  Utilisation en sciences sociales
+
+:::::: {.cols data-latex=""}
+::: {.col data-latex="{0.48\textwidth}"}
+
+- Corrected wrong beliefs  
+- Found that some things don't scale  
+- Encouraged good policies 
+:::
+  
+::: {.col data-latex="{0.04\textwidth}"}
+\ 
+<!-- an empty Div (with a white space), serving as
+a column separator -->
+:::
+
+  
+::: {.col data-latex="{0.48\textwidth}"}
+
+
+- Corrigé des croyances erronées  
+- Montré que certaines politiques ne s'étendent pas bien  
+- Soutenu les bonnes politiques 
+
+:::
+::::::
+
+
+
+## Proving beliefs wrong \| Démontrer que les croyances sont fausses
+
+:::::: {.cols data-latex=""}
+::: {.col data-latex="{0.48\textwidth}"}
+
+- Belief: Info on politicians changes votes  
+- Intervention: Give info on performance  
+- Result: No effect on vote share
+
+:::
+  
+::: {.col data-latex="{0.04\textwidth}"}
+\ 
+<!-- an empty Div (with a white space), serving as
+a column separator -->
+:::
+
+  
+::: {.col data-latex="{0.48\textwidth}"}
+
+- Croyance : L'information change les votes  
+- Intervention : Donner des infos sur les élus  
+- Résultat : Aucun effet  
+:::
+::::::
+
+
+
+
+## Proving beliefs right \| Prouver que les croyances sont justes
+
+:::::: {.cols data-latex=""}
+::: {.col data-latex="{0.48\textwidth}"}
+
+- Belief: Cash incentives change behavior  
+- Intervention: Conditional cash for child vaccinations  
+- Result: Large increase in vaccine uptake  
+
+
+:::
+  
+::: {.col data-latex="{0.04\textwidth}"}
+\ 
+<!-- an empty Div (with a white space), serving as
+a column separator -->
+:::
+
+  
+::: {.col data-latex="{0.48\textwidth}"}
+
+- Croyance : Les incitations modifient les comportements  
+- Intervention : Argent pour vaccins  
+- Résultat : Hausse des vaccinations 
+:::
+::::::
+
+
+
+
+## Scaling up successes |\ Transposition à plus grande échelle des succès remportés
+
+:::::: {.cols data-latex=""}
+::: {.col data-latex="{0.48\textwidth}"}
+
+- Belief: Small-scale success might not scale  
+- Program: Education volunteers scaled to 35,000 villages  
+- Result: Still effective 
+
+:::
+  
+::: {.col data-latex="{0.04\textwidth}"}
+\ 
+<!-- an empty Div (with a white space), serving as
+a column separator -->
+:::
+
+  
+::: {.col data-latex="{0.48\textwidth}"}
+
+- Croyance : Les petits succès ne s'étendent pas toujours  
+- Programme : Volontaires en éducation dans 35 000 villages 
+- Résultat : Toujours efficace 
+
+:::
+::::::
+  
+
+## Limitations to experiments \|  Limites des expériences
+
+:::::: {.cols data-latex=""}
+::: {.col data-latex="{0.48\textwidth}"}
+
+- Some things don't need an experiment  
+  - Smoking $\rightarrow$ bad for health  
+  - Parachutes $\rightarrow$ useful when jumping 
+
+:::
+  
+::: {.col data-latex="{0.04\textwidth}"}
+\ 
+<!-- an empty Div (with a white space), serving as
+a column separator -->
+:::
+
+  
+::: {.col data-latex="{0.48\textwidth}"}
+
+- Pas besoin d'expérience pour tout  
+  - Le tabac nuit à la santé  
+  - Les parachutes aident à sauter  
+  
+:::
+::::::
+
+
+
+
+## Why experiments \| Pourquoi des expérimentations?
+
+:::::: {.cols data-latex=""}
+::: {.col data-latex="{0.48\textwidth}"}
+
+- Let’s put beliefs to the test  
+- What works? $\rightarrow$ Let's find out!
+
+:::
+  
+::: {.col data-latex="{0.04\textwidth}"}
+\ 
+<!-- an empty Div (with a white space), serving as
+a column separator -->
+:::
+
+  
+::: {.col data-latex="{0.48\textwidth}"}
+
+- Mettons les croyances à l’épreuve  
+- Qu’est-ce qui fonctionne ? $\rightarrow$ Découvrons-le !
+
+:::
+::::::
+  
+
+
+
+
+
+
+
+
+
+
