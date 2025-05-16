@@ -1,0 +1,785 @@
+---
+title: "Randomization 2: Some common types of designs | *Randomisation 2: Quelques types courants de conception*"
+classoption: "aspectratio=169"
+author: "Isabelle Becho-N'Dri and/et Nahomi Ichino"
+date: "18 May/mai 2025"
+bibliography: ../learningdays-book.bib
+biblio-style: apalike
+link-citations: yes
+colorlinks: yes
+fig_caption: yes
+header-includes: |
+   \setbeamertemplate{footline}{\begin{beamercolorbox}{section in head/foot}
+   \includegraphics[height=.5cm]{../Images/egap-logo.png} \hfill
+   \insertframenumber/\inserttotalframenumber \end{beamercolorbox}}
+   \usepackage{tikz}
+   \usepackage{tikz-cd}
+   \usepackage{textpos}
+   \usepackage{booktabs,multirow,makecell}
+output:
+  beamer_presentation:
+    keep_tex: true
+    includes:
+      in_header: columns.tex
+    toc: true
+    pandoc_args: [ "--toc" ]
+    fig_caption: true
+  revealjs::revealjs_presentation:
+    fig_caption: true
+    theme: default
+    highlight: pygments
+    center: false
+    transition: fade
+    smart: false
+    self_contained: false
+    reveal_plugins: ["notes", "search", "chalkboard"]
+    pandoc_args: [ "--toc" ]
+    reveal_options:
+      slideNumber: true
+      previewLinks: true
+      chalkboard:
+        theme: whiteboard
+        toggleNotesButton: false
+editor_options: 
+  markdown: 
+    wrap: 72
+---
+
+## Some common designs \| *Quelques types courants de conception*
+
+::: {.cols data-latex=""}
+::: {.col data-latex="{0.48\\textwidth}"}
+1.  Factorial
+
+2.  Waitlist (delayed access)
+
+3.  Encouragement
+:::
+
+::: {.col data-latex="{0.04\\textwidth}"}
+  <!-- an empty Div (with a white space), serving as
+a column separator -->
+:::
+
+::: {.col data-latex="{0.48\\textwidth}"}
+1.  Factorielle
+
+2.  Liste d'attente (Accès graduel)
+
+3.  Incitations
+:::
+:::
+
+## 1. Factorial Design \| *Conception factorielle*
+
+::: {.cols data-latex=""}
+::: {.col data-latex="{0.48\\textwidth}"}
+-   In a factorial design, there are two or more **factors** and each
+    factor has two or more conditions.
+
+-   Each unit is assigned to one of the possible combination of these
+    conditions.
+:::
+
+::: {.col data-latex="{0.04\\textwidth}"}
+  <!-- an empty Div (with a white space), serving as
+a column separator -->
+:::
+
+::: {.col data-latex="{0.48\\textwidth}"}
+-   Dans un plan factoriel, il y a au moins deux **facteurs** et chaque
+    facteur comporte au moins deux conditions.
+
+-   Chaque unité est assignée à l'une des combinaisons possibles de ces
+    conditions.
+:::
+:::
+
+
+## 1. Factorial Design \| *Conception factorielle*
+
+
+\begin{table}[]
+\begin{tabular}{llp{2in}p{2in}}
+&&&\\
+            &                          & \multicolumn{2}{c}{\textbf{Transport}}                 \\
+            &                          & \multicolumn{1}{c}{Yes}                   & \multicolumn{1}{c}{No}                   \\ \cline{3-4} 
+ & \multicolumn{1}{l|}{} & \multicolumn{1}{l|}{}& \multicolumn{1}{l|}{}\\ 
+ & \multicolumn{1}{l|}{Yes} & \multicolumn{1}{l|}{Information + Transportation} & \multicolumn{1}{l|}{Information only} \\ 
+ & \multicolumn{1}{l|}{} & \multicolumn{1}{l|}{}& \multicolumn{1}{l|}{}\\ \cline{3-4} 
+\textbf{Information}    & \multicolumn{1}{l|}{} & \multicolumn{1}{l|}{}& \multicolumn{1}{l|}{}\\
+        & \multicolumn{1}{l|}{No}  & \multicolumn{1}{l|}{Transport only} & \multicolumn{1}{l|}{Neither} \\ 
+            & \multicolumn{1}{l|}{} & \multicolumn{1}{l|}{}& \multicolumn{1}{l|}{}\\ \cline{3-4} 
+\end{tabular}
+\end{table}
+
+
+
+## 1. Factorial Design \| *Conception factorielle*
+
+\begin{table}[]
+\begin{tabular}{llp{2in}p{2in}}
+&&&\\
+&    & \multicolumn{2}{c}{\textbf{Transport}}                 \\
+&     & \multicolumn{1}{c}{Yes}    & \multicolumn{1}{c}{No}   \\ \cline{3-4} 
+\textbf{Information}   & \multicolumn{1}{l|}{Yes} & \multicolumn{1}{l|}{Information + Transportation} & \multicolumn{1}{l|}{Information only} \\ \cline{3-4}
+   & \multicolumn{1}{l|}{No}  & \multicolumn{1}{l|}{Transport only} & \multicolumn{1}{l|}{Neither} \\ \cline{3-4}
+\end{tabular}
+\end{table}
+
+\bigskip
+
+::: {.cols data-latex=""}
+::: {.col data-latex="{0.48\\textwidth}"}
+There are many possible treatment effects (comparisons) in a factorial design:
+
+
+1.   Conditional Average Treatment Effect (CATE): the ATE of one factor, for a given level of the other factor.
+
+
+:::
+
+::: {.col data-latex="{0.04\\textwidth}"}
+  <!-- an empty Div (with a white space), serving as
+a column separator -->
+:::
+
+::: {.col data-latex="{0.48\\textwidth}"}
+Il y a plusieurs effets de traitement (comparaisons) dans une conception factorielle:
+
+1.   Effet moyen conditionnel (CATE): L'effet moyen d'un des factors, en maintenant fixe la valeur de l'autre factor.
+
+:::
+:::
+
+
+## 1. Factorial Design \| *Conception factorielle*
+
+\begin{table}[]
+\begin{tabular}{llp{2in}p{2in}}
+&&&\\
+&    & \multicolumn{2}{c}{\textbf{Transport}}                 \\
+&     & \multicolumn{1}{c}{Yes}    & \multicolumn{1}{c}{No}   \\ \cline{3-4} 
+\textbf{Information}   & \multicolumn{1}{l|}{Yes} & \multicolumn{1}{l|}{Information + Transportation} & \multicolumn{1}{l|}{Information only} \\ \cline{3-4}
+   & \multicolumn{1}{l|}{No}  & \multicolumn{1}{l|}{Transport only} & \multicolumn{1}{l|}{Neither} \\ \cline{3-4}
+\end{tabular}
+\end{table}
+
+\bigskip
+
+::: {.cols data-latex=""}
+::: {.col data-latex="{0.48\\textwidth}"}
+-   There are four possible CATEs in this design.
+
+-   One is the CATE of information conditional on having transport.  It compares the cell with information + transport to the cell with transport only.  We can ignore the second column.
+
+
+
+:::
+
+::: {.col data-latex="{0.04\\textwidth}"}
+  <!-- an empty Div (with a white space), serving as
+a column separator -->
+:::
+
+::: {.col data-latex="{0.48\\textwidth}"}
+-   On a 4 CATEs possible dans cette conception
+
+- Un parmi eux on a le CATE de information sous la condition d'avoir reçu transport. Cela compare la cellule avec information + transport à la cellule avec transport only. Nous ignorons la seconde colonne.
+:::
+:::
+
+
+## 1. Factorial Design \| *Conception factorielle*
+
+\begin{table}[]
+\begin{tabular}{llp{2in}p{2in}}
+&&&\\
+&    & \multicolumn{2}{c}{\textbf{Transport}}                 \\
+&     & \multicolumn{1}{c}{Yes}    & \multicolumn{1}{c}{No}   \\ \cline{3-4} 
+\textbf{Information}   & \multicolumn{1}{l|}{Yes} & \multicolumn{1}{l|}{Information + Transportation} & \multicolumn{1}{l|}{Information only} \\ \cline{3-4}
+   & \multicolumn{1}{l|}{No}  & \multicolumn{1}{l|}{Transport only} & \multicolumn{1}{l|}{Neither} \\ \cline{3-4}
+\end{tabular}
+\end{table}
+
+\bigskip
+
+::: {.cols data-latex=""}
+::: {.col data-latex="{0.48\\textwidth}"}
+2.   Interaction effect: the ATE of one factor may differ by levels of the other factor.  A treatment effect may be larger or smaller depending on the other treatment.
+
+:::
+
+::: {.col data-latex="{0.04\\textwidth}"}
+  <!-- an empty Div (with a white space), serving as
+a column separator -->
+:::
+
+::: {.col data-latex="{0.48\\textwidth}"}
+2.   Effet d'interaction : l'effet d’un factor peut dépendre de la condition d'assignation de l'unité à un autre factor. Cela signifie qu’un factor peut amplifier ou réduire l'effet de l'autre. 
+:::
+:::
+
+## 1. Factorial Design \| *Conception factorielle*
+
+\begin{table}[]
+\begin{tabular}{llp{2in}p{2in}}
+&&&\\
+&    & \multicolumn{2}{c}{\textbf{Transport}}                 \\
+&     & \multicolumn{1}{c}{Yes}    & \multicolumn{1}{c}{No}   \\ \cline{3-4} 
+\textbf{Information}   & \multicolumn{1}{l|}{Yes} & \multicolumn{1}{l|}{Information + Transportation} & \multicolumn{1}{l|}{Information only} \\ \cline{3-4}
+   & \multicolumn{1}{l|}{No}  & \multicolumn{1}{l|}{Transport only} & \multicolumn{1}{l|}{Neither} \\ \cline{3-4}
+\end{tabular}
+\end{table}
+
+\bigskip
+
+::: {.cols data-latex=""}
+::: {.col data-latex="{0.48\\textwidth}"}
+-   Does having transport change the effect of information?  We compare the CATE of information with transport (from before) to the CATE of information without transport.
+
+-   If the 2 CATEs are different, we say there is an interaction effect.
+
+:::
+
+::: {.col data-latex="{0.04\\textwidth}"}
+  <!-- an empty Div (with a white space), serving as
+a column separator -->
+:::
+
+::: {.col data-latex="{0.48\\textwidth}"}
+
+-   Est ce que avoir de transport change l'effet de information? Nous comparons le CATE de information sous la condition d'avoir reçu transport  (comme avant) au CATE de information sous la condition d'abscence de transport.
+
+- Si les 2 CATE sont different, on dira qu'on a un effect d'interaction.
+
+:::
+:::
+
+
+## 1. Factorial Design \| *Conception factorielle*
+\begin{table}[]
+\begin{tabular}{llp{2in}p{2in}}
+&&&\\
+&    & \multicolumn{2}{c}{\textbf{Transport}}                 \\
+&     & \multicolumn{1}{c}{Yes}    & \multicolumn{1}{c}{No}   \\ \cline{3-4} 
+\textbf{Information}   & \multicolumn{1}{l|}{Yes} & \multicolumn{1}{l|}{Information + Transportation} & \multicolumn{1}{l|}{Information only} \\ \cline{3-4}
+   & \multicolumn{1}{l|}{No}  & \multicolumn{1}{l|}{Transport only} & \multicolumn{1}{l|}{Neither} \\ \cline{3-4}
+\end{tabular}
+\end{table}
+
+\bigskip
+
+::: {.cols data-latex=""}
+::: {.col data-latex="{0.48\\textwidth}"}
+3.   Average marginal effect: Main effect of each treatment in a factorial design.  It is the average of the conditional marginal effects for all the conditions of the other treatment, weighted by the proportion of the sample that was assigned to each condition.
+
+
+:::
+
+::: {.col data-latex="{0.04\\textwidth}"}
+  <!-- an empty Div (with a white space), serving as
+a column separator -->
+:::
+
+::: {.col data-latex="{0.48\\textwidth}"}
+
+3.   Effet marginal moyen: Effet principal de chaque traitement dans une conception factorielle. C'est la moyenne des effets marginaux conditionnels pour toutes les conditions de l’autre traitement, pondérée par la proportion de l'échantillon qui a été assignée à chaque condition.
+
+:::
+:::
+
+
+## 1. Factorial Design \| *Conception factorielle*
+
+```{r, echo=TRUE}
+library(randomizr)
+set.seed(12345)
+
+# first randomly assign units to information or not
+information <- complete_ra(N=24, m=12)
+
+# randomly assign to transport, blocking by information
+transport <- block_ra(blocks = information)
+
+table(information, transport)
+
+```
+
+## 2. Waitlist design (delayed access) \| *Liste d'attente (Accès graduel)*
+
+::: {.cols data-latex=""}
+::: {.col data-latex="{0.48\\textwidth}"}
+-   Situation: Only a certain number of units can be treated at a time.  Once treated, a unit stays in treatment.  
+
+-   When an intervention can be or must be rolled out in stages, you can
+    randomize the order (*timing*) in which units are treated.
+    
+:::
+
+::: {.col data-latex="{0.04\\textwidth}"}
+  <!-- an empty Div (with a white space), serving as
+a column separator -->
+:::
+
+::: {.col data-latex="{0.48\\textwidth}"}
+-   Situation: Seul un certain nombre d'unités peuvent être traitées en
+    même temps. Une fois traitée, une unité reste en traitement.  
+
+-   Lorsqu'une intervention peut ou doit être déployée par étapes, vous
+    pouvez procéder à une assignation aléatoire l'ordre (*timing*) de traitement des unités.
+:::
+:::
+
+## 2. Waitlist design (delayed access) \| *Liste d'attente (Accès graduel)*
+
+
+```{r, echo=FALSE, fig.align='center', out.width=300}
+knitr::include_graphics("../Images/delayed_access.png")
+```
+
+::: {.cols data-latex=""}
+::: {.col data-latex="{0.48\\textwidth}"}
+-   Your control group are the as-yet untreated units.
+:::
+
+::: {.col data-latex="{0.04\\textwidth}"}
+  <!-- an empty Div (with a white space), serving as
+a column separator -->
+:::
+
+::: {.col data-latex="{0.48\\textwidth}"}
+-   Votre groupe de contrôle sont les unités pas encore traitées.
+:::
+:::
+
+## 2. Waitlist design (delayed access) \| *Liste d'attente (Accès graduel)*
+
+::: {.cols data-latex=""}
+::: {.col data-latex="{0.48\\textwidth}"}
+-   We need to assume **no anticipation**.
+
+-   This means that the potential outcome is not affected by future treatment status.
+:::
+
+::: {.col data-latex="{0.04\\textwidth}"}
+  <!-- an empty Div (with a white space), serving as
+a column separator -->
+:::
+
+::: {.col data-latex="{0.48\\textwidth}"}
+-   Nous devons l'hypothèse d'**aucune anticipation**.
+
+-   Cela signifie que le résultat potentiel n'est pas affecté par l'état futur du traitement.
+:::
+:::
+
+## 2. Waitlist design (delayed access) \| *Liste d'attente (Accès graduel)*
+
+::: {.cols data-latex=""}
+::: {.col data-latex="{0.48\\textwidth}"}
+-   We analyze the data from all time periods together.
+
+-   Be careful: the probability of assignment to treatment will vary
+    over time because units that are assigned to treatment in earlier
+    stages are not eligible to be assigned to treatment in later stages.
+:::
+
+::: {.col data-latex="{0.04\\textwidth}"}
+  <!-- an empty Div (with a white space), serving as
+a column separator -->
+:::
+
+::: {.col data-latex="{0.48\\textwidth}"}
+-   Nous analysons les données de toutes les périodes ensemble.
+
+-   Attention : la probabilité d'assignation au traitement variera dans
+    le temps car les unités assignées au traitement à des stades
+    antérieurs ne sont plus éligibles pour être assignées à un
+    traitement aux stades ultérieurs.
+:::
+:::
+
+## 3. Encouragement design \| *Conception incitative*
+
+::: {.cols data-latex=""}
+::: {.col data-latex="{0.48\\textwidth}"}
+-   Situation: You can't force people to take (receive) your treatment.
+    Treatment assigned is not the same as treatment received.
+
+-   We can randomize **encouragement** $Z$ to take the treatment, such as a
+    request to drink coffee or offering a subsidy to participate in a
+    program.
+
+-   We measure the encouragement $Z$, taking the treatment $D$, and the outcome $Y$.    
+
+
+:::
+
+::: {.col data-latex="{0.04\\textwidth}"}
+  <!-- an empty Div (with a white space), serving as
+a column separator -->
+:::
+
+::: {.col data-latex="{0.48\\textwidth}"}
+-   Situation : Vous ne pouvez pas forcer les gens à prendre (recevoir) le traitement.
+    Le traitement attribué n'est pas le même que le traitement reçu.
+
+-   Nous pouvons assigner de manière aléotoire l'**incitation** $D$ (l'encouragement) à suivre
+    le traitement, en demandant par exemple aux individus de boire un
+    café ou en offrant une subvention pour participer à un programme.
+
+-   On mésure l'incitation $Z$, le traitement reçu $D$, et le résultat $Y$.    
+
+    
+    
+:::
+:::
+
+## 3. Encouragement design \| *Conception incitative*
+
+::: {.cols data-latex=""}
+::: {.col data-latex="{0.48\\textwidth}"}
+
+-   $D$ is not randomized!
+
+-   So we can't learn the ATE of $D$ on $Y$ for all the units.
+
+-   But we mayb be able to target other estimands.
+:::
+
+::: {.col data-latex="{0.04\\textwidth}"}
+  <!-- an empty Div (with a white space), serving as
+a column separator -->
+:::
+
+::: {.col data-latex="{0.48\\textwidth}"}
+
+-   $D$ n'est pas randomisé!    
+
+-   Alors nous ne pouvons pas apprendre l'ATE de $D$ sur $Y$ pour toutes les unités.
+
+-   Mais nous pouvons peut-être cibler autres paramètres.
+
+:::
+:::
+
+
+
+## 3. Encouragement design \| *Conception incitative*
+
+::: {.cols data-latex=""}
+::: {.col data-latex="{0.48\\textwidth}"}
+
+Estimand 1:
+
+\medskip
+
+-   We can learn the average effect of the *encouragement* $Z$ to take the
+    treatment on the outcome $Y$.  
+-   This is the ATE of $Z$, also known as **ITT**, the intent-to-treat effect. 
+
+:::
+
+::: {.col data-latex="{0.04\\textwidth}"}
+  <!-- an empty Div (with a white space), serving as
+a column separator -->
+:::
+
+::: {.col data-latex="{0.48\\textwidth}"}
+
+Paramètre 1:
+
+\medskip
+
+-   Nous pouvons apprendre l'effet moyen de *l'encouragement* $Z$ à suivre
+    le traitement sur le résultat $Y$.  
+-   C'est ce qu'on appelle l'ATE de $Z$, également appelé **ITT**, l'effet de l'intention de traiter.
+
+:::
+:::
+
+## 3. Encouragement design \| *Conception incitative*
+
+::: {.cols data-latex=""}
+::: {.col data-latex="{0.48\\textwidth}"}
+
+Estimand 2:
+
+\medskip
+
+-   With some additional assumptions, we can also learn the average
+    effect of *taking the treatment* $D$ for Compliers. 
+-   This is known as the
+    Complier Average Causal Effect (CACE) or Local Average Treatment
+    Effect (LATE).
+:::
+
+::: {.col data-latex="{0.04\\textwidth}"}
+  <!-- an empty Div (with a white space), serving as
+a column separator -->
+:::
+
+::: {.col data-latex="{0.48\\textwidth}"}
+
+
+Paramètre 2:
+
+\medskip
+
+-   Avec quelques *hypothèses supplémentaires*, nous pouvons également
+    connaître l'effet moyen de *l'acceptation du traitement* $D$ pour les
+    conformistes. 
+-   C'est ce qu'on appelle l'effet causal moyen du
+    conformiste (CACE) ou l'effet moyen local du traitement (LATE).
+
+:::
+:::
+
+
+## 3. Encouragement design \| *Conception incitative*
+
+::: {.cols data-latex=""}
+::: {.col data-latex="{0.48\\textwidth}"}
+-   Who are Compliers? They are units that would take the treatment if encouraged ($D(1)=1$) and not take the treatment if not encouraged ($D(0)=0$) .
+
+:::
+
+::: {.col data-latex="{0.04\\textwidth}"}
+  <!-- an empty Div (with a white space), serving as
+a column separator -->
+:::
+
+::: {.col data-latex="{0.48\\textwidth}"}
+
+-   Qui sont les Conformistes ? Il s'agit de sujets qui prendraient le
+    traitement lorsqu'ils sont assignés à l'encouragement ($D(1)=1$) et qui ne
+    prendraient pas le traitement lorsqu'ils ne sont pas assignés à l'encouragement ($D(0)=0$).
+:::
+:::
+| Type / *Type*  |  $Z=1$   |  $Z=0$   |
+|:------------------------------|:--------:|:--------:|
+| Always Taker / *Toujours preneur*  | $D(1)=1$ | $D(0)=1$ |
+| **Complier / *Conformiste***  | $D(1)=1$ | $D(0)=0$ |
+| Never Taker / *Jamais preneur*   | $D(1)=0$ | $D(0)=0$ |
+| Defier / *Non-conformiste*  | $D(1)=0$ | $D(0)=1$ |
+
+## 3. Encouragement design \| *Conception incitative*
+
+::: {.cols data-latex=""}
+::: {.col data-latex="{0.48\\textwidth}"}
+-   We can know who is definitely not a complier, but we can't know who is definitely a complier.  Why?
+
+:::
+
+::: {.col data-latex="{0.04\\textwidth}"}
+  <!-- an empty Div (with a white space), serving as
+a column separator -->
+:::
+
+::: {.col data-latex="{0.48\\textwidth}"}
+
+-   Nous pouvons savoir qui n'est certainement pas un Conformiste, mais nous ne pouvons pas savoir qui est certainement un Conformiste.  Pourquoi ?
+
+:::
+:::
+| Type / *Type*  |  $Z=1$   |  $Z=0$   |
+|:------------------------------|:--------:|:--------:|
+| Always Taker / *Toujours preneur*  | $D(1)=1$ | $D(0)=1$ |
+| **Complier / *Conformiste***  | $D(1)=1$ | $D(0)=0$ |
+| Never Taker / *Jamais preneur*   | $D(1)=0$ | $D(0)=0$ |
+| Defier / *Non-conformiste*  | $D(1)=0$ | $D(0)=1$ |
+
+## 3. Encouragement design \| *Conception incitative*
+
+::: {.cols data-latex=""}
+::: {.col data-latex="{0.48\\textwidth}"}
+
+
+
+-   Additional assumption 1: For CACE, we need **excludability** (exclusion restriction): the encouragement
+    $Z$ only affects the outcome $Y$ through taking the treatment $D$.
+:::
+
+::: {.col data-latex="{0.04\\textwidth}"}
+  <!-- an empty Div (with a white space), serving as
+a column separator -->
+:::
+
+::: {.col data-latex="{0.48\\textwidth}"}
+<!-- -   Nous pouvons également connaître l'effet moyen de la prise du -->
+
+<!--     traitement -->
+
+<!--     \emph{pour les sujets qui prendraient le traitement lorsqu'ils sont assignés au traitement et qui ne prendraient pas le traitement lorsqu'ils sont assignés au contrôle (les conformistes)}. -->
+
+-   Hypothèse supplémentaire 1: Pour CACE, nous avons besoin de **l'excluabilité** (restriction d'exclusion) :
+    l'encouragement $Z$ n'affecte le résultat $Y$ qu'a travers le
+    traitement $D$.
+:::
+:::
+
+## 3. Encouragement design \| *Conception incitative*
+
+\begin{figure}
+\begin{tikzpicture}
+%nodes
+\node[draw , rectangle, text centered] (d) at (0,0) {$D$ (treatment)};
+\node[draw , rectangle, text centered] (z) at (-2,2) {$Z$ (encouragement)};
+\node[draw , rectangle, text centered] (y) at (4,0) {$Y$ (outcome)};
+\draw[->, line width= 1/2](z) to (d);
+\draw[->, line width= 1/2](d) to (y);
+\end{tikzpicture}
+\end{figure}
+
+
+
+## 3. Encouragement design \| *Conception incitative*
+
+::: {.cols data-latex=""}
+::: {.col data-latex="{0.48\\textwidth}"}
+-   Additional assumption 2: For CACE using this design, we also need the assumption of **monotonicity**. This means no Defiers.  
+
+:::
+
+::: {.col data-latex="{0.04\\textwidth}"}
+  <!-- an empty Div (with a white space), serving as
+a column separator -->
+:::
+
+::: {.col data-latex="{0.48\\textwidth}"}
+
+-   Hypothèse supplémentaire 2: Pour CACE avec cette conception, nous avons également besoin d'hypothèse de **la monotonicité**.  Cela signifie qu'il n'y a pas de Non-conformistes.
+
+
+:::
+:::
+
+
+| Type / *Type*  |  $Z=1$   |  $Z=0$   |
+|:------------------------------|:--------:|:--------:|
+| Always Taker / *Toujours preneur*  | $D(1)=1$ | $D(0)=1$ |
+| **Complier / *Conformiste***  | $D(1)=1$ | $D(0)=0$ |
+| Never Taker / *Jamais preneur*   | $D(1)=0$ | $D(0)=0$ |
+
+
+
+
+
+
+
+
+
+## 3. Encouragement design \| *Conception incitative*
+
+::: {.cols data-latex=""}
+::: {.col data-latex="{0.48\\textwidth}"}
+
+
+-   Careful (1)!  Do not compare those who take treatment ($D=1$) to those who do not ($D=0$).  Taking treatment is not randomly assigned and the two groups are not comparable.
+:::
+
+::: {.col data-latex="{0.04\\textwidth}"}
+  <!-- an empty Div (with a white space), serving as
+a column separator -->
+:::
+
+::: {.col data-latex="{0.48\\textwidth}"}
+
+- Attention (1) !  Ne comparez pas les sujets qui prendraient le traitement ($D=1$) à ceux qui ne le prendraient pas ($D=0$).  La prise du traitement n'est pas aléatoire et les deux groupes ne sont pas comparables.
+:::
+:::
+
+
+## 3. Encouragement design \| *Conception incitative*
+
+::: {.cols data-latex=""}
+::: {.col data-latex="{0.48\\textwidth}"}
+
+-   Careful (2)!  For the CACE, we have to assess whether excludability and monotonicity hold in our study.  
+
+-   If not, we can still target the ITT with the other standard key assumptions.
+
+:::
+
+::: {.col data-latex="{0.04\\textwidth}"}
+  <!-- an empty Div (with a white space), serving as
+a column separator -->
+:::
+
+::: {.col data-latex="{0.48\\textwidth}"}
+
+- Attention (2) !  Il faut que évaluer si le restriction d'exclusion et la monotonicité sont raisonnables dans notre étude.
+
+-  Si non, nous pouvons encore cibler l'ITT avec les autres hypothèses clés standardes.
+
+:::
+:::
+
+## 3. Encouragement design \| *Conception incitative*
+
+::: {.cols data-latex=""}
+::: {.col data-latex="{0.48\\textwidth}"}
+
+-   When would you target ITT?  When would you target CACE?
+
+-   ITT:  Policy can directly change $Z$, but not $D$.  
+
+-   CACE: We may want to know the effect of $D$ even if it's for just some of the units.
+
+:::
+
+::: {.col data-latex="{0.04\\textwidth}"}
+  <!-- an empty Div (with a white space), serving as
+a column separator -->
+:::
+
+::: {.col data-latex="{0.48\\textwidth}"}
+
+-   Quand cibler l'ITT ?  Quand cibleriez-vous le CACE ?
+
+-   ITT : La politique peut modifier directement $Z$, mais pas $D$.  
+
+-   CACE : Nous pourrions vouloir connaître l'effet de $D$ même si ce n'est que pour certaines unités.
+
+:::
+:::
+
+## Summary \| *Résumé*
+
+::: {.cols data-latex=""}
+::: {.col data-latex="{0.48\\textwidth}"}
+
+-   Factorial:  2 or more treatments with possible interaction
+
+-   Waitlist: when we have a constraint on how many treatments can be delievered at once
+
+-   Encouragement: when we can't force units to take the treatment
+:::
+
+::: {.col data-latex="{0.04\\textwidth}"}
+  <!-- an empty Div (with a white space), serving as
+a column separator -->
+:::
+
+::: {.col data-latex="{0.48\\textwidth}"}
+
+-   Factorielle:  2 traitements ou plus avec interaction possible
+
+-   Liste d'attente: quand on a une contrainte sur le nombre de traitements pouvant être délivrés à la fois
+
+-   L'incitation: quand on ne peut pas obliger les unités à recevoir le traitement
+
+
+:::
+:::
+
+
+## Resources \| *Ressources*
+
+-   EGAP Methods Guide on Randomization
+    (<https://egap.org/resource/10-things-to-know-about-randomization/>)
+
+-   Guide des méthodes EGAP sur la randomisation
+    (<https://egap.org/fr/resource/10-choses-a-savoir-sur-la-randomisation/>)
+
