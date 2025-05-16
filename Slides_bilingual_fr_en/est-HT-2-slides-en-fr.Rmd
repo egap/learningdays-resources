@@ -1,7 +1,7 @@
 ---
 title: "| Estimation and Hypothesis Testing 2 | \n| *Les estimateurs et les tests
   d'hypothèses 2*\n"
-author: "Alyssa Heinze and/et Isabelle Becho-N'Dri"
+author: "Nahomi Ichino and/et Yannick Kouogueng"
 date: "21 May/mai 2025"
 output:
   beamer_presentation:
@@ -251,7 +251,7 @@ library(estimatr)
 # lm_robust(Y ~ treatment + covariate, clusters=cluster_variable)
 ```
 
-# Experiments with Multiple Arms \| *Les éxperiences avec plusiers bras*
+# Experiments with Multiple Arms \| *Les éxperiences avec plusieurs bras*
 
 ## Estimator 1: Difference-in-Means \| *Estimateur 1 : La différence en moyennes*
 
@@ -290,6 +290,7 @@ a column separator -->
 ## Estimator 2: Linear regression \| *Estimateur 2 : La régression linéaire*
 
 $$Y_i = \hat{\alpha} + \hat{\beta_A} Z_{Ai} + \hat{\beta_B} Z_{Bi} + e_i$$
+$$Y_i = \hat{\alpha} + \hat{\beta_A} Z_{Ai} + \hat{\beta_B} Z_{Bi} + \hat{\gamma} X_i + e_i$$
 
 
 \bigskip
@@ -300,9 +301,9 @@ $$Y_i = \hat{\alpha} + \hat{\beta_A} Z_{Ai} + \hat{\beta_B} Z_{Bi} + e_i$$
 -   Regression with an indicator variable for each of the two treatment
     arms.
     
-    -   $Z_{Ai}=1$ if unit $i$ has treatment A, 0 otherwise
+    -   $Z_{Ai}=1$ if unit $i$ has treatment $Z_A$, 0 otherwise
     
-    -   $Z_{Bi}=1$ if unit $i$ has treatment B, 0 otherwise
+    -   $Z_{Bi}=1$ if unit $i$ has treatment $Z_B$, 0 otherwise
 
 -   We can also do covariate adjustment at the same time.
 :::
@@ -338,6 +339,8 @@ $$Y_i = \hat{\alpha} + \hat{\beta_A} Z_{Ai} + \hat{\beta_B} Z_{Bi} + e_i$$
 -   $\hat{\beta_A}$ is the $\widehat{ATE}$ of $Z_A$ (compared with control).
 
 -   $\hat{\beta_B}$ is the $\widehat{ATE}$ of $Z_B$ (compared with control).
+
+-   How do we estimate the effect of $Z_B$ compared to $Z_A$?
 :::
 
 ::: {.col data-latex="{0.04\\textwidth}"}
@@ -349,6 +352,8 @@ a column separator -->
 -   $\hat{\beta_A}$ est $\widehat{ATE}$ de $Z_A$ (par rapport au contrôle).
 
 -   $\hat{\beta_B}$ est $\widehat{ATE}$ de $Z_B$ (par rapport au contrôle).
+
+-   Comment estimer l'effet de $Z_B$ par rapport à $Z_A$ ?
 :::
 :::
 
@@ -376,6 +381,8 @@ a column separator -->
 \textcolor{blue}{Neither (control)}
 
 $Y_i = \hat{\alpha} + \hat{\beta_A} Z_{Ai} + \hat{\beta_B} Z_{Bi} + e_i$
+
+
 :::
 :::
 
@@ -384,33 +391,42 @@ $Y_i = \hat{\alpha} + \hat{\beta_A} Z_{Ai} + \hat{\beta_B} Z_{Bi} + e_i$
 ```{r}
 library(estimatr)
 
-# difference_in_means(Y ~ treatment, 
-#         condition1="T2", 
-#         condition2="T1")
+# M <- difference_in_means(Y ~ treatment, 
+#         condition1="T1", 
+#         condition2="T2")
+
+library(car)
+# linearHypothesis(M, "T1=T2")
+
 
 # lm_robust(Y ~ as.factor(treatment))
 
 ```
 
 
-# Factorial Design \| *La concéption factorielle*
+# Factorial Design \| *La conception factorielle*
 
 ## Estimator 1: Difference-in-Means \| *Estimateur 1 : La différence en moyennes*
 
+
 \begin{table}[]
-\begin{tabular}{|p{1in}|p{1in}|}
-\cline{1-2}
-Neither  &  $Z_2$ only \\
- & \\ \cline{1-2}
-$Z_1$ only  & Both $Z_1$ and $Z_2$ \\
-& \\ \cline{1-2}
+\begin{tabular}{llp{1in}p{1in}}
+&  & \multicolumn{2}{c}{\textbf{$Z_2$}}  \\
+&  & \multicolumn{1}{c}{1} & \multicolumn{1}{c}{0}\\ \cline{3-4} 
+\multicolumn{1}{c}{\multirow{2}{*}{\textbf{$Z_1$}}} & \multicolumn{1}{l|}{1} & \multicolumn{1}{p{1in}|}{Both $Z_1$ and $Z_2$} & \multicolumn{1}{p{1in}|}{$Z_2$ only} \\
+&\multicolumn{1}{l|}{}&\multicolumn{1}{p{1in}|}{}&\multicolumn{1}{p{1in}|}{} \\
+\cline{3-4} 
+\multicolumn{1}{c}{} & \multicolumn{1}{l|}{0} & \multicolumn{1}{l|}{$Z_1$ only}           & \multicolumn{1}{l|}{Neither}    \\
+&\multicolumn{1}{l|}{}&\multicolumn{1}{p{1in}|}{}&\multicolumn{1}{p{1in}|}{} \\
+\cline{3-4} 
 \end{tabular}
 \end{table}
-
 \bigskip
 
 ::: {.cols data-latex=""}
 ::: {.col data-latex="{0.48\\textwidth}"}
+-   We use factorial design, when we are interested in interaction effects.
+
 -   If we have a 2\*2 factorial design, we have four groups.
 
 -   We can always take the difference-in-means between any two groups.
@@ -423,7 +439,10 @@ a column separator -->
 :::
 
 ::: {.col data-latex="{0.48\\textwidth}"}
--   Si nous avons une concéption factorielle 2\*2, nous avons 4 groupes.
+
+-   Nous utilisons un plan factoriel quand nous nous intéressons aux effets d'interaction.
+
+-   Si nous avons une conception factorielle 2\*2, nous avons 4 groupes.
 
 -   Nous pouvons toujours tenir compte de la différence de moyens entre
     deux groupes.
@@ -445,7 +464,7 @@ a column separator -->
 
 <!-- ::: {.col data-latex="{0.04\\textwidth}"} -->
 <!--   <!-- an empty Div (with a white space), serving as -->
-<!-- a column separator --> -->
+<!-- a column separator --> 
 <!-- ::: -->
 
 <!-- ::: {.col data-latex="{0.48\\textwidth}"} -->
@@ -484,7 +503,7 @@ a column separator -->
 <!-- ## Estimator 3: Linear Regression with an Interaction Term \| *Estimateur 3 : La régression linéaire avec un terme d'interaction* -->
 
 $$Y_i = \hat{\beta_0} + \hat{\beta_1} Z_{1i} + \hat{\beta_2} Z_{2i} + \hat{\beta_3} Z_{1i}*Z_{2i} + e_i$$
-$$Y_i = \hat{\beta_0} + \hat{\beta_1} Z_{1i} + \hat{\beta_2} Z_{2i} + \hat{\beta_3} Z_{1i}*Z_{2i} + \hat{\beta_4} X_i + e_i$$
+$$Y_i = \hat{\beta_0} + \hat{\beta_1} Z_{1i} + \hat{\beta_2} Z_{2i} + \hat{\beta_3} Z_{1i}*Z_{2i} + \hat{\gamma} X_i + e_i$$
 
 \bigskip
 
@@ -512,38 +531,47 @@ a column separator -->
 ## Estimator 2: Linear Regression with an Interaction Term \| *Estimateur 2 : La régression linéaire avec un terme d'interaction*
 
 
+
 \begin{table}[]
-\begin{tabular}{|p{1in}|p{1in}|}
-\cline{1-2}
-Neither  &  $Z_2$ only \\
- & \\ \cline{1-2}
-$Z_1$ only  & Both $Z_1$ and $Z_2$ \\
-& \\ \cline{1-2}
+\begin{tabular}{llp{1in}p{1in}}
+&  & \multicolumn{2}{c}{\textbf{$Z_2$}}  \\
+&  & \multicolumn{1}{c}{1} & \multicolumn{1}{c}{0}\\ \cline{3-4} 
+\multicolumn{1}{c}{\multirow{2}{*}{\textbf{$Z_1$}}} & \multicolumn{1}{l|}{1} & \multicolumn{1}{p{1in}|}{Both $Z_1$ and $Z_2$} & \multicolumn{1}{p{1in}|}{$Z_2$ only} \\
+&\multicolumn{1}{l|}{}&\multicolumn{1}{p{1in}|}{}&\multicolumn{1}{p{1in}|}{} \\
+\cline{3-4} 
+\multicolumn{1}{c}{} & \multicolumn{1}{l|}{0} & \multicolumn{1}{l|}{$Z_1$ only}           & \multicolumn{1}{l|}{Neither}    \\
+&\multicolumn{1}{l|}{}&\multicolumn{1}{p{1in}|}{}&\multicolumn{1}{p{1in}|}{} \\
+\cline{3-4} 
 \end{tabular}
 \end{table}
+\bigskip
 
 $$Y_i = \hat{\beta_0} + \hat{\beta_1} Z_{1i} + \hat{\beta_2} Z_{2i} + \hat{\beta_3} Z_{1i}*Z_{2i} + e_i$$
 
--   Estimand \| Paramètre: $E[Y(Z_1=1)- Y(Z_1=0) | Z_2=0]$
+-   Estimand \| Paramètre: $E[Y(Z_1=1)-Y(Z_1=0) | Z_2=0]$
 
     -   $\hat{\beta_1}$ is the $\widehat{ATE}$ of $Z_{1}$ conditional on $Z_{2}=0$ \| $\widehat{ATE}$ de $Z_{1}$ conditionnel à $Z_{2}=0$.  
 
--   Estimand \| Paramètre: $E[Y(Z_2=1)- Y(Z_2=0) | Z_1=0]$
+<!-- -   Estimand \| Paramètre: $E[Y(Z_2=1)- Y(Z_2=0) | Z_1=0]$ -->
 
-    -   $\hat{\beta_2}$ is the $\widehat{ATE}$ of $Z_{2}$ conditional on $Z_{1}=0$ \| $\widehat{ATE}$ de $Z_{2}$ conditionnel à $Z_{1}=0$.  
+<!--     -   $\hat{\beta_2}$ is the $\widehat{ATE}$ of $Z_{2}$ conditional on $Z_{1}=0$ \| $\widehat{ATE}$ de $Z_{2}$ conditionnel à $Z_{1}=0$.   -->
 
 ## Estimator 2: Linear Regression with an Interaction Term \| *Estimateur 2 : La régression linéaire avec un terme d'interaction*
 
+
 \begin{table}[]
-\begin{tabular}{|p{1in}|p{1in}|}
-\cline{1-2}
-Neither  &  $Z_2$ only \\
- & \\ \cline{1-2}
-$Z_1$ only  & Both $Z_1$ and $Z_2$ \\
-& \\ \cline{1-2}
+\begin{tabular}{llp{1in}p{1in}}
+&  & \multicolumn{2}{c}{\textbf{$Z_2$}}  \\
+&  & \multicolumn{1}{c}{1} & \multicolumn{1}{c}{0}\\ \cline{3-4} 
+\multicolumn{1}{c}{\multirow{2}{*}{\textbf{$Z_1$}}} & \multicolumn{1}{l|}{1} & \multicolumn{1}{p{1in}|}{Both $Z_1$ and $Z_2$} & \multicolumn{1}{p{1in}|}{$Z_2$ only} \\
+&\multicolumn{1}{l|}{}&\multicolumn{1}{p{1in}|}{}&\multicolumn{1}{p{1in}|}{} \\
+\cline{3-4} 
+\multicolumn{1}{c}{} & \multicolumn{1}{l|}{0} & \multicolumn{1}{l|}{$Z_1$ only}           & \multicolumn{1}{l|}{Neither}    \\
+&\multicolumn{1}{l|}{}&\multicolumn{1}{p{1in}|}{}&\multicolumn{1}{p{1in}|}{} \\
+\cline{3-4} 
 \end{tabular}
 \end{table}
-
+\bigskip
 
 $$Y_i = \hat{\beta_0} + \hat{\beta_1} Z_{1i} + \hat{\beta_2} Z_{2i} + \hat{\beta_3} Z_{1i}*Z_{2i} + e_i$$
 
@@ -554,9 +582,9 @@ $$Y_i = \hat{\beta_0} + \hat{\beta_1} Z_{1i} + \hat{\beta_2} Z_{2i} + \hat{\beta
     -   $\hat{\beta_1} + \hat{\beta_3}$ = $\widehat{ATE}$ of $Z_{1}$ conditional on $Z_{2}=1$ \| $\widehat{ATE}$ de $Z_{1}$ conditionnel à $Z_{2}=1$
     
 
--   Estimand \| Paramètre: $E[Y(Z_2=1)- Y(Z_2=0) | Z_1=1]$
+<!-- -   Estimand \| Paramètre: $E[Y(Z_2=1)- Y(Z_2=0) | Z_1=1]$ -->
 
-    -   $\hat{\beta_2} + \hat{\beta_3}$ = $\widehat{ATE}$ of $Z_{2}$ conditional on $Z_{1}=1$ \| $\widehat{ATE}$ de $Z_{2}$ conditionnel à $Z_{1}=1$
+<!--     -   $\hat{\beta_2} + \hat{\beta_3}$ = $\widehat{ATE}$ of $Z_{2}$ conditional on $Z_{1}=1$ \| $\widehat{ATE}$ de $Z_{2}$ conditionnel à $Z_{1}=1$ -->
 
 -   $\beta_3$ is called the interaction effect. $\beta_3$ est appelé
     l'effet d'interaction.
@@ -603,7 +631,7 @@ $\widehat{ATE}$ of Kit conditional on No Demo = $\hat{\alpha}$ + 0.059 - $\hat{\
 
 $\widehat{ATE}$ of Kit conditional on Demo = $\hat{\alpha}$ + 0.059 + 0.006 - 0.026 - ($\hat{\alpha}$ + 0.006) = 0.059-0.026
 
-Interaction effect = 0.059 - 0.026 - 0.059 = 0.026
+Interaction effect = 0.059 - 0.026 - 0.059 = - 0.026
     
 ## Estimator 2: Linear Regression with an Interaction Term \| *Estimateur 2 : La régression linéaire avec un terme d'interaction*
 
