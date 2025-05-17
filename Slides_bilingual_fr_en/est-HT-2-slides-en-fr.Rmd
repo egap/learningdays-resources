@@ -591,13 +591,11 @@ $$Y_i = \hat{\beta_0} + \hat{\beta_1} Z_{1i} + \hat{\beta_2} Z_{2i} + \hat{\beta
 
 ## Estimator 2: Linear Regression with an Interaction Term \| *Estimateur 2 : La régression linéaire avec un terme d'interaction*
 
-```{r, echo=FALSE, fig.align='center', out.width=300}
-knitr::include_graphics("../Images/reg_interaction.png")
+```{r, echo=FALSE, fig.align='center', out.width=120}
+knitr::include_graphics("../Images/interaction-table-screenshot.png")
 ```
-```{r, echo=FALSE, fig.align='center', out.width=250}
-knitr::include_graphics("../Images/p_value.png")
-```
-$$\hat{Y} = \hat{\alpha} + 0.059 Kit + 0.006 Demo - 0.026 Kit * Demo $$
+
+$$\hat{Y} = 0.151 - 0.249 Therapy - 0.079 Cash - 0.308 Therapy*Cash $$
 
 <!-- @article{duflo_nudging_2011, -->
 <!--   title = {Nudging {{Farmers}} to {{Use Fertilizer}}: {{Theory}} and {{Experimental Evidence}} from {{Kenya}}}, -->
@@ -613,25 +611,24 @@ $$\hat{Y} = \hat{\alpha} + 0.059 Kit + 0.006 Demo - 0.026 Kit * Demo $$
 
 ## Estimator 2: Linear Regression with an Interaction Term \| *Estimateur 2 : La régression linéaire avec un terme d'interaction*
 
-$\hat{Y} = \hat{\alpha} + 0.059 Kit + 0.006 Demo - 0.026 Kit * Demo$
+$\hat{Y} = 0.151 - 0.249 Therapy - 0.079 Cash - 0.308 Therapy*Cash$
+
+\bigskip
+Neither: $\hat{Y} = 0.151$
+
+Therapy only: $\hat{Y} = 0.151 - 0.249$
+
+Cash only: $\hat{Y} = 0.151 - 0.079$
+
+Therapy and Cash: $\hat{Y} = 0.151 - 0.249 - 0.079 - 0.308$
 
 \bigskip
 
-Neither: $\hat{Y} = \hat{\alpha}$
+$\widehat{ATE}$ of Cash conditional on No Therapy = $0.151-0.079-0.151 = -0.079$
 
-Kit only: $\hat{Y} = \hat{\alpha} + 0.059$
+$\widehat{ATE}$ of Cash conditional on Therapy = $0.151 - 0.249 - 0.079 - 0.308 - (0.151 - 0.249) = -0.079-0.308 = - 0.387$
 
-Demo only: $\hat{Y} = \hat{\alpha} + 0.006$
-
-Kit and Demo: $\hat{Y} = \hat{\alpha} + 0.059 + 0.006 - 0.026$
-
-\bigskip
-
-$\widehat{ATE}$ of Kit conditional on No Demo = $\hat{\alpha}$ + 0.059 - $\hat{\alpha}$ = 0.059
-
-$\widehat{ATE}$ of Kit conditional on Demo = $\hat{\alpha}$ + 0.059 + 0.006 - 0.026 - ($\hat{\alpha}$ + 0.006) = 0.059-0.026
-
-Interaction effect = 0.059 - 0.026 - 0.059 = - 0.026
+Interaction effect = $-0.079-0.308-(-0.079) = -0.308$
     
 ## Estimator 2: Linear Regression with an Interaction Term \| *Estimateur 2 : La régression linéaire avec un terme d'interaction*
 
