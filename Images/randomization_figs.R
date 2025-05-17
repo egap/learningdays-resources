@@ -2,6 +2,7 @@
 ##
 ## Nahomi Ichino, April 2023, for EGAP Learning Days
 ## for lecture slides on randomization
+## update: Nahomi Ichino, May 2025
 
 library(plotrix)
 
@@ -129,7 +130,7 @@ par(mar=c(0,0,0,0))
 x=1
 r=.15
 l=1
-plot( c(6.5,0), c(-1,4.5), type="n", main="", xlab="", ylab="", axes=FALSE)
+plot( c(6.5,-1), c(-1,4.5), type="n", main="", xlab="", ylab="", axes=FALSE)
 # plot(c(-1,4), c(20,-2), type="n", main="", xlab="", ylab="", axes=FALSE)
 
 # draw.circle(0,0,r)
@@ -174,10 +175,10 @@ text(4*l,4*x,"4")
 text(5*l,4*x,"5")
 text(6*l,4*x,"6")
 
-text(0, 3*x, "a")
-text(0, 2*x, "b")
-text(0, 1*x, "c")
-text(0, 0, "d")
+text(-0.5, 3*x, "unit a")
+text(-0.5, 2*x, "unit b")
+text(-0.5, 1*x, "unit c")
+text(-0.5, 0, "unit d")
 
 segments(x0=1.5*l, y0=-0.5*x, x1=1.5*l, y1=4.5*x, lty=2)
 segments(x0=2.5*l, y0=-0.5*x, x1=2.5*l, y1=4.5*x, lty=2)
@@ -232,7 +233,7 @@ png(file="simple_randomization_wide.png", width=800, height=500, pointsize=36)
 par(mar=c(0,0,0,0))
 s=.5
 r=.6
-plot(c(24,-3), c(-0.5,3.5*s), type="n", main="", xlab="", ylab="", axes=FALSE)
+plot(c(24,-5), c(-0.5,3.5*s), type="n", main="", xlab="", ylab="", axes=FALSE)
 
 draw.circle(0,0,r, col="#009E73")
 draw.circle(0,s,r, col="#009E73")
@@ -266,9 +267,9 @@ draw.circle(21,0,r)
 draw.circle(21,s,r)
 draw.circle(21,2*s,r)
 
-# text(-2,0, "c")
-# text(-2,s, "b")
-# text(-2,2*s, "a")
+text(-3.5,0, "unit c")
+text(-3.5,s, "unit b")
+text(-3.5,2*s, "unit a")
 
 h=3
 
