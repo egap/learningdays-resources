@@ -2,7 +2,7 @@
 title: "| Estimation and Hypothesis Testing 2 | \n| *Les estimateurs et les tests
   d'hypothèses 2*\n"
 author: "Nahomi Ichino and/et Yannick Kouogueng"
-date: "21 May/mai 2025"
+date: "22 May/mai 2025"
 output:
   beamer_presentation:
     keep_tex: true
@@ -39,7 +39,7 @@ colorlinks: true
 fig_caption: true
 header-includes: "\\setbeamertemplate{footline}{\\begin{beamercolorbox}{section in
   head/foot}\n\\includegraphics[height=.5cm]{../Images/egap-logo.png} \\hfill\n\\insertframenumber/\\inserttotalframenumber
-  \\end{beamercolorbox}}\n\\usepackage{tikz}\n\\usepackage{tikz-cd}\n\\usepackage{textpos}\n\\usepackage{booktabs,multirow,makecell}\n"
+  \\end{beamercolorbox}}\n\\usepackage{tikz}\n\\usepackage{tikz-cd}\n\\usepackage{textpos}\n\\usepackage{booktabs,multirow,makecell,xcolor,colortbl}\n"
 classoption: aspectratio=169
 editor_options:
   markdown:
@@ -68,6 +68,8 @@ editor_options:
 -   Remember: Analyze as you randomize
 
 -   We prefer estimators that are unbiased and have greater precision
+
+-   Hypothesis testing can be simple with linear regression
 :::
 
 ::: {.col data-latex="{0.04\\textwidth}"}
@@ -79,6 +81,8 @@ a column separator -->
 -   N'oubliez pas : Analysez comme vous randomisez
 
 -   Nous préférons les estimateurs non biaisés et plus précis
+
+-   Test d'hypothèse peut être simple avec la régression linéaire
 :::
 :::
 
@@ -176,7 +180,7 @@ library(estimatr)
 ## Estimator: Regression with cluster-robust standard errors \| *Estimateur : La régression avec des erreurs types robustes au niveau du cluster*
 
 $$Y_{ic} = \hat{\beta_0} + \hat{\beta_1} Z_{c} + e_{ic}$$
-$$Y_{ic} = \hat{\beta_0} + \hat{\beta_1} Z_{c} + \hat{\beta_2} X_{ic} +e_{ic}$$
+$$Y_{ic} = \hat{\beta_0} + \hat{\beta_1} Z_{c} + \hat{\gamma} X_{ic} +e_{ic}$$
 
 \bigskip
 
@@ -222,7 +226,7 @@ a column separator -->
 
 <!-- ::: {.col data-latex="{0.04\\textwidth}"} -->
 <!--   <!-- an empty Div (with a white space), serving as -->
-<!-- a column separator --> -->
+<!-- a column separator --> 
 <!-- ::: -->
 
 <!-- ::: {.col data-latex="{0.48\\textwidth}"} -->
@@ -317,9 +321,9 @@ a column separator -->
 -   Régression avec une variable indicatrice pour chacun des deux bras
     de traitement.
 
-    -   $Z_{Ai}=1$ si unité $i$ a traitement A, sinon 0 
+    -   $Z_{Ai}=1$ si unité $i$ a traitement $Z_A$, sinon 0 
     
-    -   $Z_{Bi}=1$ si unité $i$ a traitement B, sinon 0 
+    -   $Z_{Bi}=1$ si unité $i$ a traitement $Z_B$, sinon 0 
 
 -   Nous pouvons également effectuer un ajustement covariable en même
     temps.
@@ -389,17 +393,15 @@ $Y_i = \hat{\alpha} + \hat{\beta_A} Z_{Ai} + \hat{\beta_B} Z_{Bi} + e_i$
 ## Estimators for Multi-arm Designs \| *Les estimateurs pour les éxperiences avec plusiers bras*
 
 ```{r}
-library(estimatr)
-
-# M <- difference_in_means(Y ~ treatment, 
+# library(estimatr)
+# difference_in_means(Y ~ treatment, 
 #         condition1="T1", 
 #         condition2="T2")
-
-library(car)
-# linearHypothesis(M, "T1=T2")
-
-
-# lm_robust(Y ~ as.factor(treatment))
+# 
+# 
+# library(car)
+# M <- lm_robust(Y ~ as.factor(treatment))
+# linearHypothesis(M, "T1=T2") 
 
 ```
 
@@ -410,14 +412,14 @@ library(car)
 
 
 \begin{table}[]
-\begin{tabular}{llp{1in}p{1in}}
+\begin{tabular}{llp{1.2in}p{1.2in}}
 &  & \multicolumn{2}{c}{\textbf{$Z_2$}}  \\
 &  & \multicolumn{1}{c}{1} & \multicolumn{1}{c}{0}\\ \cline{3-4} 
-\multicolumn{1}{c}{\multirow{2}{*}{\textbf{$Z_1$}}} & \multicolumn{1}{l|}{1} & \multicolumn{1}{p{1in}|}{Both $Z_1$ and $Z_2$} & \multicolumn{1}{p{1in}|}{$Z_2$ only} \\
-&\multicolumn{1}{l|}{}&\multicolumn{1}{p{1in}|}{}&\multicolumn{1}{p{1in}|}{} \\
+\multicolumn{1}{c}{\multirow{2}{*}{\textbf{$Z_1$}}} & \multicolumn{1}{l|}{1} & \multicolumn{1}{p{1.2in}|}{Both $Z_1$ and $Z_2$} & \multicolumn{1}{p{1.2in}|}{$Z_1$ only} \\
+&\multicolumn{1}{l|}{}&\multicolumn{1}{p{1.2in}|}{}&\multicolumn{1}{p{1.2in}|}{} \\
 \cline{3-4} 
-\multicolumn{1}{c}{} & \multicolumn{1}{l|}{0} & \multicolumn{1}{l|}{$Z_1$ only}           & \multicolumn{1}{l|}{Neither}    \\
-&\multicolumn{1}{l|}{}&\multicolumn{1}{p{1in}|}{}&\multicolumn{1}{p{1in}|}{} \\
+\multicolumn{1}{c}{} & \multicolumn{1}{l|}{0} & \multicolumn{1}{l|}{$Z_2$ only}           & \multicolumn{1}{l|}{Neither}    \\
+&\multicolumn{1}{l|}{}&\multicolumn{1}{p{1.2in}|}{}&\multicolumn{1}{p{1.2in}|}{} \\
 \cline{3-4} 
 \end{tabular}
 \end{table}
@@ -533,14 +535,14 @@ a column separator -->
 
 
 \begin{table}[]
-\begin{tabular}{llp{1in}p{1in}}
+\begin{tabular}{llp{1.2in}p{1.2in}}
 &  & \multicolumn{2}{c}{\textbf{$Z_2$}}  \\
 &  & \multicolumn{1}{c}{1} & \multicolumn{1}{c}{0}\\ \cline{3-4} 
-\multicolumn{1}{c}{\multirow{2}{*}{\textbf{$Z_1$}}} & \multicolumn{1}{l|}{1} & \multicolumn{1}{p{1in}|}{Both $Z_1$ and $Z_2$} & \multicolumn{1}{p{1in}|}{$Z_2$ only} \\
-&\multicolumn{1}{l|}{}&\multicolumn{1}{p{1in}|}{}&\multicolumn{1}{p{1in}|}{} \\
+\multicolumn{1}{c}{\multirow{2}{*}{\textbf{$Z_1$}}} & \multicolumn{1}{l|}{1} & \multicolumn{1}{p{1.2in}|}{Both $Z_1$ and $Z_2$} & \multicolumn{1}{p{1.2in}|}{\cellcolor[HTML]{C0C0C0}\color{red} $Z_1$ only} \\
+&\multicolumn{1}{l|}{}&\multicolumn{1}{p{1.2in}|}{}&\multicolumn{1}{p{1.2in}|}{\cellcolor[HTML]{C0C0C0}} \\
 \cline{3-4} 
-\multicolumn{1}{c}{} & \multicolumn{1}{l|}{0} & \multicolumn{1}{l|}{$Z_1$ only}           & \multicolumn{1}{l|}{Neither}    \\
-&\multicolumn{1}{l|}{}&\multicolumn{1}{p{1in}|}{}&\multicolumn{1}{p{1in}|}{} \\
+\multicolumn{1}{c}{} & \multicolumn{1}{l|}{0} & \multicolumn{1}{l|}{$Z_2$ only}           & \multicolumn{1}{l|}{\cellcolor[HTML]{C0C0C0}\color{blue}Neither}    \\
+&\multicolumn{1}{l|}{}&\multicolumn{1}{p{1.2in}|}{}&\multicolumn{1}{p{1.2in}|}{\cellcolor[HTML]{C0C0C0}} \\
 \cline{3-4} 
 \end{tabular}
 \end{table}
@@ -548,7 +550,7 @@ a column separator -->
 
 $$Y_i = \hat{\beta_0} + \hat{\beta_1} Z_{1i} + \hat{\beta_2} Z_{2i} + \hat{\beta_3} Z_{1i}*Z_{2i} + e_i$$
 
--   Estimand \| Paramètre: $E[Y(Z_1=1)-Y(Z_1=0) | Z_2=0]$
+-   Estimand \| Paramètre: ${\color{red}E[Y(Z_1=1)| Z_2=0]} - {\color{blue}E[Y(Z_1=0) | Z_2=0]}$
 
     -   $\hat{\beta_1}$ is the $\widehat{ATE}$ of $Z_{1}$ conditional on $Z_{2}=0$ \| $\widehat{ATE}$ de $Z_{1}$ conditionnel à $Z_{2}=0$.  
 
@@ -560,14 +562,14 @@ $$Y_i = \hat{\beta_0} + \hat{\beta_1} Z_{1i} + \hat{\beta_2} Z_{2i} + \hat{\beta
 
 
 \begin{table}[]
-\begin{tabular}{llp{1in}p{1in}}
+\begin{tabular}{llp{1.2in}p{1.2in}}
 &  & \multicolumn{2}{c}{\textbf{$Z_2$}}  \\
 &  & \multicolumn{1}{c}{1} & \multicolumn{1}{c}{0}\\ \cline{3-4} 
-\multicolumn{1}{c}{\multirow{2}{*}{\textbf{$Z_1$}}} & \multicolumn{1}{l|}{1} & \multicolumn{1}{p{1in}|}{Both $Z_1$ and $Z_2$} & \multicolumn{1}{p{1in}|}{$Z_2$ only} \\
-&\multicolumn{1}{l|}{}&\multicolumn{1}{p{1in}|}{}&\multicolumn{1}{p{1in}|}{} \\
+\multicolumn{1}{c}{\multirow{2}{*}{\textbf{$Z_1$}}} & \multicolumn{1}{l|}{1} & \multicolumn{1}{p{1.2in}|}{Both $Z_1$ and $Z_2$} & \multicolumn{1}{p{1.2in}|}{$Z_1$ only} \\
+&\multicolumn{1}{l|}{}&\multicolumn{1}{p{1.2in}|}{}&\multicolumn{1}{p{1.2in}|}{} \\
 \cline{3-4} 
-\multicolumn{1}{c}{} & \multicolumn{1}{l|}{0} & \multicolumn{1}{l|}{$Z_1$ only}           & \multicolumn{1}{l|}{Neither}    \\
-&\multicolumn{1}{l|}{}&\multicolumn{1}{p{1in}|}{}&\multicolumn{1}{p{1in}|}{} \\
+\multicolumn{1}{c}{} & \multicolumn{1}{l|}{0} & \multicolumn{1}{l|}{$Z_2$ only}           & \multicolumn{1}{l|}{Neither}    \\
+&\multicolumn{1}{l|}{}&\multicolumn{1}{p{1.2in}|}{}&\multicolumn{1}{p{1.2in}|}{} \\
 \cline{3-4} 
 \end{tabular}
 \end{table}
@@ -595,7 +597,7 @@ $$Y_i = \hat{\beta_0} + \hat{\beta_1} Z_{1i} + \hat{\beta_2} Z_{2i} + \hat{\beta
 knitr::include_graphics("../Images/interaction-table-screenshot.png")
 ```
 
-$$\hat{Y} = 0.151 - 0.249 Therapy - 0.079 Cash - 0.308 Therapy*Cash $$
+$$\hat{Y} = \hat{\alpha} - 0.249 Therapy - 0.079 Cash - 0.308 Therapy*Cash $$
 
 <!-- @article{duflo_nudging_2011, -->
 <!--   title = {Nudging {{Farmers}} to {{Use Fertilizer}}: {{Theory}} and {{Experimental Evidence}} from {{Kenya}}}, -->
@@ -611,22 +613,22 @@ $$\hat{Y} = 0.151 - 0.249 Therapy - 0.079 Cash - 0.308 Therapy*Cash $$
 
 ## Estimator 2: Linear Regression with an Interaction Term \| *Estimateur 2 : La régression linéaire avec un terme d'interaction*
 
-$\hat{Y} = 0.151 - 0.249 Therapy - 0.079 Cash - 0.308 Therapy*Cash$
+$\hat{Y} = \hat{\alpha} - 0.249 Therapy - 0.079 Cash - 0.308 Therapy*Cash$
 
 \bigskip
-Neither: $\hat{Y} = 0.151$
+Neither: $\hat{Y} = \hat{\alpha}$
 
-Therapy only: $\hat{Y} = 0.151 - 0.249$
+Cash only: $\hat{Y} = \hat{\alpha} - 0.079$
 
-Cash only: $\hat{Y} = 0.151 - 0.079$
+Therapy only: $\hat{Y} = \hat{\alpha} - 0.249$
 
-Therapy and Cash: $\hat{Y} = 0.151 - 0.249 - 0.079 - 0.308$
+Therapy and Cash: $\hat{Y} = \hat{\alpha} - 0.249 - 0.079 - 0.308$
 
 \bigskip
 
-$\widehat{ATE}$ of Cash conditional on No Therapy = $0.151-0.079-0.151 = -0.079$
+$\widehat{ATE}$ of Cash conditional on No Therapy = $\hat{\alpha}-0.079-\hat{\alpha} = -0.079$
 
-$\widehat{ATE}$ of Cash conditional on Therapy = $0.151 - 0.249 - 0.079 - 0.308 - (0.151 - 0.249) = -0.079-0.308 = - 0.387$
+$\widehat{ATE}$ of Cash conditional on Therapy = $\hat{\alpha} - 0.249 - 0.079 - 0.308 - (\hat{\alpha} - 0.249) = -0.079-0.308 = - 0.387$
 
 Interaction effect = $-0.079-0.308-(-0.079) = -0.308$
     
