@@ -49,7 +49,8 @@ editor_options:
 
 ::: {.cols data-latex=""}
 ::: {.col data-latex="{0.48\\textwidth}"}
-- What are some limitations of observational research?
+
+- What are the limitations of observational research?
 - What is a randomized experiment?  
 - Who uses experiments?  
 - What are experiments good for (and not)?  
@@ -57,7 +58,7 @@ editor_options:
 :::
 
 ::: {.col data-latex="{0.04\\textwidth}"}
-  <!-- an empty Div (with a white space), serving as
+ <!-- an empty Div (with a white space), serving as
 a column separator -->
 :::
 
@@ -78,7 +79,6 @@ a column separator -->
 ::: {.col data-latex="{0.48\textwidth}"}
 
 - How would we try to answer that question?
-
 
 :::
   
@@ -105,7 +105,7 @@ a column separator -->
 
 - Download and merge existing datasets
 - Measure naturally occurring behaviors or outcomes, perhaps by running a survey
-- *Observe*, don't "intervene" or "treat" 
+- Observe, don't intervene or treat 
 
 
 :::
@@ -121,7 +121,7 @@ a column separator -->
 
 - Télécharger et fusionner les jeux de données existants
 - Mesurer les comportements ou d'autres résultats, par exemple en menant un sondage
-- On observe, on n’« intervient » pas, on ne « traite » pas
+- On observe, on n’intervient pas, on ne traite pas
 
   
 
@@ -137,6 +137,7 @@ a column separator -->
 ::: {.col data-latex="{0.48\textwidth}"}
 
 - Fisman and Gatti (2002): "Decentralization and corruption: evidence across countries" (cited 2,423 times)
+- Data from transparency international and IMF on 80 countries; OLS regression (with controls) 
 - Finds a strong country-level correlation between fiscal decentralization in government expenditure and lower corruption
 - World Bank heavily promoted decentralization in the 1990s and 2000s
 
@@ -151,14 +152,18 @@ a column separator -->
   
 ::: {.col data-latex="{0.48\textwidth}"}
 
--   Une étude observationnelle de la décentralisation
-    - cité 2 423 fois
-    - L’étude montre un lien fort entre la décentralisation des dépenses publiques et une réduction de la corruption dans un pays
-    - La Banque mondiale a fortement encouragé la décentralisation dans les années 1990 et 2000.
+- Fisman et Gatti (2002) : "Decentralization and corruption: evidence across countries" (cité 2 423 fois)
+- Données de Transparency International et du FMI sur 80 pays ; régressions OLS (avec variables de contrôle)
+- Met en évidence une forte corrélation au niveau des pays entre la décentralisation fiscale des dépenses publiques et une moindre corruption
+- La Banque mondiale a fortement promu la décentralisation dans les années 1990 et 2000
 
 
 :::
 ::::::
+
+
+## Should the World Bank believe that decentralization decreases corruption, based on Fisman and Gatti (2002)? \| 	La Banque mondiale devrait-elle croire que la décentralisation réduit la corruption ?
+
 
 
 ## Should the World Bank believe that decentralization decreases corruption, based on Fisman and Gatti (2002)? \| 	La Banque mondiale devrait-elle croire que la décentralisation réduit la corruption ?
@@ -168,11 +173,9 @@ a column separator -->
 
 
 - Countries that decentralize may  
-    - be less corrupt to begin with
-    - have stronger civil societies
-    - adopt other governance reforms at the same time
-- *Confounding*: a hidden factor that makes it look like there's a causal effect when there might not be
-- Observational research can show patterns and associations, but rarely causality
+    - Be less corrupt to begin with
+    - Have stronger civil societies
+    - Adopt other governance reforms at the same time
 
 :::
   
@@ -189,12 +192,39 @@ a column separator -->
     - être moins corrompus au départ
     - avoir des sociétés civiles plus actives
     - adopter d’autres réformes de gouvernance en même temps
-- Facteurs de confusion : des facteurs cachés qui donnent l’impression qu’il y a un effet causal alors qu’il n’y en a peut-être pas.
-- Les études observationnelles peuvent montrer des tendances et des associations, mais rarement une relation causale.
+
 
 
 :::
 ::::::
+
+
+## Confounding \| Facteurs de confusion
+
+
+:::::: {.cols data-latex=""}
+::: {.col data-latex="{0.48\textwidth}"}
+
+- *Confounding*: a hidden factor that makes it look like there's a causal effect when there might not be
+- Observational research can show patterns and associations, but rarely causality
+
+:::
+  
+::: {.col data-latex="{0.04\textwidth}"}
+\ 
+<!-- an empty Div (with a white space), serving as
+a column separator -->
+:::
+
+  
+::: {.col data-latex="{0.48\textwidth}"}
+
+- *Facteurs de confusion* : des facteurs cachés qui donnent l’impression qu’il y a un effet causal alors qu’il n’y en a peut-être pas
+- Les études observationnelles peuvent montrer des tendances et des associations, mais rarement une relation causale
+
+:::
+::::::
+
 
 
 
@@ -233,42 +263,21 @@ a column separator -->
 ::::::
 
 
-## Policy experiments \| Expérimentations politiques
+##
 
-:::::: {.cols data-latex=""}
-::: {.col data-latex="{0.48\textwidth}"}
+```{r, echo=FALSE, fig.align='center', out.width=360}
+knitr::include_graphics("images/rct-diagram.png")
+```
 
-A method for: \medskip
 
-- Putting beliefs about what works to the test 
-- Enabling policy decisions based on data
 
-:::
-  
-::: {.col data-latex="{0.04\textwidth}"}
-\ 
-<!-- an empty Div (with a white space), serving as
-a column separator -->
-:::
 
-  
-::: {.col data-latex="{0.48\textwidth}"}
-
-Une méthode pour: \medskip
-
-- Tester les idées ou croyances sur ce qui fonctionne 
-- Prendre des décisions politiques en se basant sur les données
-
-:::
-::::::
-  
-
-## What is an experiment? \| Qu'est-ce qu'une expérimentation?
+## Example
 
 
 :::::: {.cols data-latex=""}
 ::: {.col data-latex="{0.48\textwidth}"}
-- Question: Does informing communities about school oversight committees improve education outcomes?
+- Question: Does informing citizens about school oversight committees improve education outcomes?
 - India's Village Education Committees (VECs): Include 3 parents, head teacher, and village leader
 - Study: 65 Indian villages received info on VEC roles and responsibilities, 80 villages did not (*randomly chosen*) 
 - Outcome: Children's scores on basic reading, writing, and math tests
@@ -283,7 +292,7 @@ a column separator -->
   
 ::: {.col data-latex="{0.48\textwidth}"}
 
-- Question de recherche : Informer les communautés sur les comités de surveillance scolaire améliore-t-il les résultats scolaires ?
+- Question de recherche : Informer les citoyens sur les comités de surveillance scolaire améliore-t-il les résultats scolaires ?
 -	Comités d’éducation villageois (CEV) en Inde : composés de 3 parents, du directeur d’école et du chef du village.
 -	Étude : 65 villages indiens ont reçu des informations sur les rôles et responsabilités des CEV, tandis que 80 villages ne les ont pas reçues (choisis de manière aléatoire).
 -	Variable dépendante : les scores des enfants aux tests de lecture, écriture et mathématiques
@@ -291,19 +300,22 @@ a column separator -->
 
 :::
 ::::::
-  
+
+## 
+
+```{r, echo=FALSE, fig.align='center', out.width=360}
+knitr::include_graphics("images/gramsabha.pdf")
+```
 
 
+## Results \| Résultats
 
-
-## Why an experiment? \| Pourquoi une expérimentation?
 
 :::::: {.cols data-latex=""}
 ::: {.col data-latex="{0.48\textwidth}"}
 
-Random assignment $\rightarrow$ highly credible evidence that there is discrimination based on ethnicity \bigskip
-
-If politicians believe results $\rightarrow$ decide to introduce policies to avoid discrimination
+- No changes in children's test scores
+- Was the study worth doing?
 
 :::
   
@@ -316,9 +328,38 @@ a column separator -->
   
 ::: {.col data-latex="{0.48\textwidth}"}
 
-Affectation aléatoire $\rightarrow$ preuve hautement crédible qu'il existe une discrimination fondée sur l'ethnicité \bigskip
+- Aucun changement dans les résultats des enfants aux tests
+- L’étude valait-elle la peine d’être menée ?
 
-Si les hommes politiques croient aux résultats $\rightarrow$ décident d'introduire des politiques pour éviter la discrimination
+:::
+::::::
+
+
+
+
+
+
+## Why an experiment? \| Pourquoi une expérimentation?
+
+:::::: {.cols data-latex=""}
+::: {.col data-latex="{0.48\textwidth}"}
+
+- Random assignment $\rightarrow$ highly credible evidence that there is no effect
+- If politicians/bureaucrats believe results, they won't spend money on a useless intervention
+
+:::
+  
+::: {.col data-latex="{0.04\textwidth}"}
+\ 
+<!-- an empty Div (with a white space), serving as
+a column separator -->
+:::
+
+  
+::: {.col data-latex="{0.48\textwidth}"}
+
+- Affectation aléatoire $\rightarrow$ preuve hautement crédible qu’il n’y a aucun effet
+- Si les politiciens ou les fonctionnaires croient aux résultats, ils ne dépenseront pas d’argent pour une intervention inutile
 
 :::
 ::::::
@@ -333,7 +374,7 @@ Si les hommes politiques croient aux résultats $\rightarrow$ décident d'introd
 
 - Late 1700s: Early double-blind experiments with comparison group (not randomized) 
 - 1920s: First randomized experiments in agriculture, education, and political science
-- 1965: First clinical randomized trial (Streptomycin for TB)
+- 1948: First clinical randomized trial (Streptomycin for TB)
 - 2019: Nobel prize for popularizing randomized experiments in economics
 
 :::
@@ -349,11 +390,19 @@ a column separator -->
 
 - Fin des années 1700 : Premières expériences en double aveugle avec groupe témoin (non randomisé) 
 - Années 1920 : Premières expériences randomisées dans les domaines de l'agriculture, de l'éducation et des sciences politiques
-- 1965 : Premier essai clinique randomisé (Streptomycine pour la tuberculose)
+- 1948 : Premier essai clinique randomisé (Streptomycine pour la tuberculose)
 - 2019 : Prix Nobel pour avoir popularisé les expériences aléatoires en économie
 
 :::
 ::::::
+
+
+## 
+
+```{r, echo=FALSE, fig.align='center', out.width=360}
+knitr::include_graphics("images/experiments-history.pdf")
+```
+
   
 
 
@@ -426,9 +475,10 @@ a column separator -->
 :::::: {.cols data-latex=""}
 ::: {.col data-latex="{0.48\textwidth}"}
 
-- Belief: Info on politicians changes votes  
-- Intervention: Give info on performance  
-- Result: No effect on vote share
+- Belief: Microfinance boosts poverty reduction
+- Multiple studies have randomized microcredit at the group or neighborhood level
+- Result: No impact on household income, consumption, or women's empowerment
+
 
 :::
   
@@ -441,9 +491,13 @@ a column separator -->
   
 ::: {.col data-latex="{0.48\textwidth}"}
 
-- Croyance : L'information change les votes  
-- Intervention : Donner des infos sur les élus  
-- Résultat : Aucun effet  
+
+- Croyance : La microfinance réduit la pauvreté
+- Plusieurs études ont randomisé l’accès au microcrédit au niveau du groupe ou du quartier
+- Résultat : Aucun impact sur le revenu des ménages, la consommation ou l’autonomisation des femmes
+
+
+
 :::
 ::::::
 
@@ -455,9 +509,9 @@ a column separator -->
 :::::: {.cols data-latex=""}
 ::: {.col data-latex="{0.48\textwidth}"}
 
-- Belief: Cash incentives change behavior  
-- Intervention: Conditional cash for child vaccinations  
-- Result: Large increase in vaccine uptake  
+- Belief: Conditional cash transfers improve school attendance
+- Study: PROGRESA in Mexico randomized whether families were paid to keep children in school
+- Result: Large increases in enrollment, especially for girls and secondary students
 
 
 :::
@@ -471,23 +525,31 @@ a column separator -->
   
 ::: {.col data-latex="{0.48\textwidth}"}
 
-- Croyance : Les incitations modifient les comportements  
-- Intervention : Argent pour vaccins  
-- Résultat : Hausse des vaccinations 
+- Croyance : Les transferts monétaires conditionnels augmentent la fréquentation scolaire
+- Étude : Le programme PROGRESA au Mexique a randomisé le versement d’allocations aux familles pour maintenir leurs enfants à l’école
+- Résultat : Forte hausse des inscriptions, en particulier pour les filles et les élèves du secondaire
+
+
 :::
 ::::::
 
 
 
 
-## Scaling up successes |\ Transposition à plus grande échelle des succès remportés
+## Scaling up challenges |\ Transposition à plus grande échelle des succès remportés
+
+
+
+```{r, echo=FALSE, fig.align='center', out.width=160}
+knitr::include_graphics("images/mobarak.jpg")
+```
 
 :::::: {.cols data-latex=""}
 ::: {.col data-latex="{0.48\textwidth}"}
 
-- Belief: Small-scale success might not scale  
-- Program: Education volunteers scaled to 35,000 villages  
-- Result: Still effective 
+- Belief: Paying bus tickets for rural laborers would help them earn money in city in lean season  
+- Program: Scale up from one 1,292 landless households to 150,000 households
+- Result: No longer effective at scale 
 
 :::
   
@@ -500,9 +562,9 @@ a column separator -->
   
 ::: {.col data-latex="{0.48\textwidth}"}
 
-- Croyance : Les petits succès ne s'étendent pas toujours  
-- Programme : Volontaires en éducation dans 35 000 villages 
-- Résultat : Toujours efficace 
+- Croyance : Payer les billets de bus pour les travailleurs ruraux les aiderait à gagner de l’argent en ville pendant la saison creuse
+- Programme : Passage à l’échelle de 1 292 ménages sans terre à 150 000 ménages
+- Résultat : Plus d’effet à grande échelle 
 
 :::
 ::::::
@@ -513,9 +575,9 @@ a column separator -->
 :::::: {.cols data-latex=""}
 ::: {.col data-latex="{0.48\textwidth}"}
 
-- Some things don't need an experiment  
-  - Smoking $\rightarrow$ bad for health  
-  - Parachutes $\rightarrow$ useful when jumping 
+- Some things don't need an experiment (smoking and parachutes) 
+- Some experiments aren't ethical
+- Some interventions can't be randomized
 
 :::
   
@@ -528,9 +590,9 @@ a column separator -->
   
 ::: {.col data-latex="{0.48\textwidth}"}
 
-- Pas besoin d'expérience pour tout  
-  - Le tabac nuit à la santé  
-  - Les parachutes aident à sauter  
+- Certaines choses ne nécessitent pas d’expérience (le tabac et les parachutes)
+- Certaines expériences ne sont pas éthiques
+- Certaines interventions ne peuvent pas être randomisées
   
 :::
 ::::::
