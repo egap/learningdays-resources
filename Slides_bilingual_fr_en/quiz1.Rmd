@@ -1,0 +1,71 @@
+---
+title: "Quiz for Day 2 | *Le quiz du jour 2*"
+classoption: "aspectratio=169"
+output:
+  beamer_presentation:
+    keep_tex: true
+    includes:
+      in_header: columns.tex
+    fig_caption: true
+  revealjs::revealjs_presentation:
+    fig_caption: true
+    theme: default
+    highlight: pygments
+    center: false
+    transition: fade
+    smart: false
+    self_contained: false
+    reveal_plugins: ["notes", "search", "chalkboard"]
+    pandoc_args: [ "--toc" ]
+    reveal_options:
+      slideNumber: true
+      previewLinks: true
+      chalkboard:
+        theme: whiteboard
+        toggleNotesButton: false
+header-includes: |
+   \setbeamertemplate{footline}{\begin{beamercolorbox}{section in head/foot}
+   \includegraphics[height=.5cm]{egap-logo.png} \hfill
+   \insertframenumber / \inserttotalframenumber \end{beamercolorbox}}
+   \usepackage{tikz}
+   \usepackage{tikz-cd}
+   \usepackage{textpos}
+   \usepackage{booktabs,multirow,makecell}
+---
+## Question 1
+
+What is the fundamental problem of causal inference?
+
+*Quel est le problème fondamental de l'inférence causale ?*
+
+## Question 2
+
+What does it mean to randomly assign treatment?
+
+*Que signifie assigner un traitement de manière aléatoire ?*
+
+## Question 3
+
+:::::: {.cols data-latex=""}
+::: {.col data-latex="{0.48\textwidth}"}
+The Learning Days team wants to understand the relationship between country wealth and carbon emissions. They collect existing secondary data on per capita GDP and carbon emissions for all countries from 1950 until today. They run linear regressions with region fixed effects to understand the "effect" of country wealth on carbon emissions. 
+
+Is this an experimental study or an observational study?
+
+:::
+
+::: {.col data-latex="{0.04\textwidth}"}
+\ 
+<!-- an empty Div (with a white space), serving as
+a column separator -->
+:::
+
+::: {.col data-latex="{0.48\textwidth}"}
+\vspace{-0.15in}
+L'équipe des Learning Days souhaite comprendre la relation entre la richesse des pays et les émissions de carbone. Ils collectent des données secondaires existantes sur le PIB par habitant et les émissions de carbone pour tous les pays, de 1950 à aujourd'hui. Ils effectuent des régressions linéaires avec effets fixes par région pour estimer « l'effet » de la richesse d’un pays sur les émissions de carbone.
+
+S'agit-il d'une étude randomisée ou d'une étude observationnelle ?
+
+:::
+::::::
+
