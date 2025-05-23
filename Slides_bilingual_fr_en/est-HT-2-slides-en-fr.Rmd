@@ -67,7 +67,11 @@ editor_options:
 ::: {.col data-latex="{0.48\\textwidth}"}
 -   Remember: Analyze as you randomize
 
+\medskip
+
 -   We prefer estimators that are unbiased and have greater precision
+
+\medskip
 
 -   Hypothesis testing can be simple with linear regression
 :::
@@ -80,7 +84,11 @@ a column separator -->
 ::: {.col data-latex="{0.48\\textwidth}"}
 -   N'oubliez pas : Analysez comme vous randomisez
 
+\medskip
+
 -   Nous préférons les estimateurs non biaisés et plus précis
+
+\medskip
 
 -   Test d'hypothèse peut être simple avec la régression linéaire
 :::
@@ -255,7 +263,7 @@ library(estimatr)
 # lm_robust(Y ~ treatment + covariate, clusters=cluster_variable)
 ```
 
-# Experiments with Multiple Arms \| *Les éxperiences avec plusieurs bras*
+# Multiple Arm Experiments \| *Les éxperiences avec plusieurs bras*
 
 ## Estimator 1: Difference-in-Means \| *Estimateur 1 : La différence en moyennes*
 
@@ -263,7 +271,7 @@ library(estimatr)
 \begin{tabular}{|p{1.5in}|p{1.5in}|p{1.5in}|}
  \cline{1-3}
 && \\
-\textcolor{red}{$Z_A$ only}  &  \textcolor{green}{$Z_B$ only} & \textcolor{blue}{Neither (control)} \\
+\textcolor{red}{$Z_A$ only}  &  \textcolor{teal}{$Z_B$ only} & \textcolor{blue}{Neither (control)} \\
 && \\
  \cline{1-3}
 \end{tabular}
@@ -380,7 +388,7 @@ a column separator -->
 
 \textcolor{red}{$Z_A$ only}
 
-\textcolor{green}{$Z_B$ only}
+\textcolor{teal}{$Z_B$ only}
 
 \textcolor{blue}{Neither (control)}
 
@@ -431,7 +439,7 @@ $Y_i = \hat{\alpha} + \hat{\beta_A} Z_{Ai} + \hat{\beta_B} Z_{Bi} + e_i$
 
 -   If we have a 2\*2 factorial design, we have four groups.
 
--   We can always take the difference-in-means between any two groups.
+-   We can always take the difference-in- means between any two groups.
 
 :::
 
@@ -441,13 +449,11 @@ a column separator -->
 :::
 
 ::: {.col data-latex="{0.48\\textwidth}"}
-
 -   Nous utilisons un plan factoriel quand nous nous intéressons aux effets d'interaction.
 
 -   Si nous avons une conception factorielle 2\*2, nous avons 4 groupes.
 
--   Nous pouvons toujours tenir compte de la différence de moyens entre
-    deux groupes.
+-   Nous pouvons toujours tenir compte de la différence de moyens entre deux groupes.
 :::
 :::
 
@@ -532,20 +538,20 @@ a column separator -->
 <!-- ## Estimator 3: Linear Regression with an Interaction Term \| *Estimateur 3 : La régression linéaire avec un terme d'interaction* -->
 ## Estimator 2: Linear Regression with an Interaction Term \| *Estimateur 2 : La régression linéaire avec un terme d'interaction*
 
-
-
 \begin{table}[]
-\begin{tabular}{llp{1.2in}p{1.2in}}
-&  & \multicolumn{2}{c}{\textbf{$Z_2$}}  \\
-&  & \multicolumn{1}{c}{1} & \multicolumn{1}{c}{0}\\ \cline{3-4} 
-\multicolumn{1}{c}{\multirow{2}{*}{\textbf{$Z_1$}}} & \multicolumn{1}{l|}{1} & \multicolumn{1}{p{1.2in}|}{Both $Z_1$ and $Z_2$} & \multicolumn{1}{p{1.2in}|}{\cellcolor{red!30}\color{red} $Z_1$ only} \\
-&\multicolumn{1}{l|}{}&\multicolumn{1}{p{1.2in}|}{}&\multicolumn{1}{p{1.2in}|}{\cellcolor{red!30}} \\
-\cline{3-4} 
-\multicolumn{1}{c}{} & \multicolumn{1}{l|}{0} & \multicolumn{1}{l|}{$Z_2$ only}           & \multicolumn{1}{l|}{\cellcolor{blue!30}\color{blue}Neither}    \\
-&\multicolumn{1}{l|}{}&\multicolumn{1}{p{1.2in}|}{}&\multicolumn{1}{p{1.2in}|}{\cellcolor{blue!30}} \\
-\cline{3-4} 
+\begin{tabular}{lp{1.2in}p{1.2in}}
+& \multicolumn{1}{c}{$Z_2=1$} & \multicolumn{1}{c}{$Z_2=0$}\\ 
+\cline{2-3} 
+\multicolumn{1}{l|}{$Z_1=1$} & \multicolumn{1}{p{1.2in}|}{Both $Z_1$ and $Z_2$} & \multicolumn{1}{p{1.2in}|}{\cellcolor{red!20}\textcolor{red}{$Z_1$ only}} \\
+\multicolumn{1}{l|}{}&\multicolumn{1}{p{1.2in}|}{}&\multicolumn{1}{p{1.2in}|}{\cellcolor{red!20}} \\
+\cline{2-3} 
+\multicolumn{1}{l|}{$Z_1=0$} & \multicolumn{1}{l|}{$Z_2$ only}  & \multicolumn{1}{l|}{\cellcolor{blue!20}\textcolor{blue}{Neither}} \\
+\multicolumn{1}{l|}{}&\multicolumn{1}{p{1.2in}|}{}&\multicolumn{1}{p{1.2in}|}{\cellcolor{blue!20}} \\
+\cline{2-3} 
 \end{tabular}
 \end{table}
+
+
 \bigskip
 
 $$Y_i = \hat{\beta_0} + \hat{\beta_1} Z_{1i} + \hat{\beta_2} Z_{2i} + \hat{\beta_3} Z_{1i}*Z_{2i} + e_i$$
@@ -562,24 +568,25 @@ $$Y_i = \hat{\beta_0} + \hat{\beta_1} Z_{1i} + \hat{\beta_2} Z_{2i} + \hat{\beta
 
 
 \begin{table}[]
-\begin{tabular}{llp{1.2in}p{1.2in}}
-&  & \multicolumn{2}{c}{\textbf{$Z_2$}}  \\
-&  & \multicolumn{1}{c}{1} & \multicolumn{1}{c}{0}\\ \cline{3-4} 
-\multicolumn{1}{c}{\multirow{2}{*}{\textbf{$Z_1$}}} & \multicolumn{1}{l|}{1} & \multicolumn{1}{p{1.2in}|}{Both $Z_1$ and $Z_2$} & \multicolumn{1}{p{1.2in}|}{$Z_1$ only} \\
-&\multicolumn{1}{l|}{}&\multicolumn{1}{p{1.2in}|}{}&\multicolumn{1}{p{1.2in}|}{} \\
-\cline{3-4} 
-\multicolumn{1}{c}{} & \multicolumn{1}{l|}{0} & \multicolumn{1}{l|}{$Z_2$ only}           & \multicolumn{1}{l|}{Neither}    \\
-&\multicolumn{1}{l|}{}&\multicolumn{1}{p{1.2in}|}{}&\multicolumn{1}{p{1.2in}|}{} \\
-\cline{3-4} 
+\begin{tabular}{lp{1.2in}p{1.2in}}
+& \multicolumn{1}{c}{$Z_2=1$} & \multicolumn{1}{c}{$Z_2=0$}\\ 
+\cline{2-3} 
+\multicolumn{1}{l|}{$Z_1=1$} & \multicolumn{1}{p{1.2in}|}{\cellcolor{green!40!black!50}Both $Z_1$ and $Z_2$} & \multicolumn{1}{p{1.2in}|}{$Z_1$ only} \\
+\multicolumn{1}{l|}{}&\multicolumn{1}{p{1.2in}|}{\cellcolor{green!40!black!50}}&\multicolumn{1}{p{1.2in}|}{} \\
+\cline{2-3} 
+\multicolumn{1}{l|}{$Z_1=0$} & \multicolumn{1}{l|}{\cellcolor{orange!40}$Z_2$ only}  & \multicolumn{1}{l|}{Neither} \\
+\multicolumn{1}{l|}{}&\multicolumn{1}{p{1.2in}|}{\cellcolor{orange!40}}&\multicolumn{1}{p{1.2in}|}{} \\
+\cline{2-3} 
 \end{tabular}
 \end{table}
+
 \bigskip
 
 $$Y_i = \hat{\beta_0} + \hat{\beta_1} Z_{1i} + \hat{\beta_2} Z_{2i} + \hat{\beta_3} Z_{1i}*Z_{2i} + e_i$$
 
 \bigskip
 
--   Estimand \| Paramètre: $E[Y(Z_1=1)- Y(Z_1=0) | Z_2=1]$
+-   Estimand \| Paramètre: ${\color{ForestGreen}{E[Y(Z_1=1) | Z_2=1]}} - {\color{orange}{E[Y(Z_1=0) | Z_2=1]}}$
 
     -   $\hat{\beta_1} + \hat{\beta_3}$ = $\widehat{ATE}$ of $Z_{1}$ conditional on $Z_{2}=1$ \| $\widehat{ATE}$ de $Z_{1}$ conditionnel à $Z_{2}=1$
     
