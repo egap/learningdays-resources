@@ -1,8 +1,8 @@
 ---
 title: "| Estimation and Hypothesis Testing 2 | \n| *Les estimateurs et les tests
   d'hypothèses 2*\n"
-author: "Nahomi Ichino and/et Yannick Kouogueng"
-date: "22 May/mai 2025"
+author: "NAME/NOM"
+date: "DATE"
 output:
   beamer_presentation:
     keep_tex: true
@@ -93,175 +93,6 @@ a column separator -->
 -   Test d'hypothèse peut être simple avec la régression linéaire
 :::
 :::
-
-# Covariate Adjustment \| *Ajustement des covariables*
-
-## Estimator: Linear regression with covariates \| \newline Estimateur : La régression linéaire avec des covariables
-
-$$Y_i = \beta_0 + \beta_1 Z_i + \gamma X_i + e_i$$
-
-::: {.cols data-latex=""}
-::: {.col data-latex="{0.48\\textwidth}"}
--   We can include a **pre-treatment covariate** $X$ that is *predictive of*
-    the outcome variable in our regression model.  
-
--   Think of $X$ as fixed before the randomization. For example: pre-treatment measure of the outcome.
-
--   Careful: This can bias our estimates, but improve their precision.
-:::
-
-::: {.col data-latex="{0.04\\textwidth}"}
-  <!-- an empty Div (with a white space), serving as
-a column separator -->
-:::
-
-::: {.col data-latex="{0.48\\textwidth}"}
--   Nous pouvons inclure une **covariable pré-traitement** $X$ qui est
-    *prédictive* de la variable de résultat dans notre modèle de
-    régression. 
-
--   Pensez que $X$ est fixé avant la randomisation. Par exemple : un mesure du résultat avant le traitement.
-
--   Attention : Cela peut biaiser nos estimations, mais améliorer leur précision.
-:::
-:::
-
-## Estimator: Linear regression with covariates \| *Estimateur : La régression linéaire avec des covariables*
-
-$$Y_i = \hat{\beta_0} + \hat{\beta_1} Z_i + \hat{\gamma} X_i + e_i$$
-
-\bigskip
-
-::: {.cols data-latex=""}
-::: {.col data-latex="{0.48\\textwidth}"}
--   The estimated coefficient on the treatment variable ($\hat{\beta_1}$) is again our
-     $\widehat{ATE}$.
-
--   The estimated coefficient on the covariate ($\hat{\gamma}$) is *not* 
-    the causal effect of that variable.
-:::
-
-::: {.col data-latex="{0.04\\textwidth}"}
-  <!-- an empty Div (with a white space), serving as
-a column separator -->
-:::
-
-::: {.col data-latex="{0.48\\textwidth}"}
--   Le coefficient estimé sur la variable de traitement ($\hat{\beta_1}$) est encore
-    notre $\widehat{ATE}$.
-
--   Le coefficient estimé de la covariable ($\hat{\gamma}$) n'est *pas* 
-    l'effet estimé causal de cette variable.
-:::
-:::
-
-## Estimator: Linear regression with covariates \| *Estimateur : La régression linéaire avec des covariables*
-
-
-```{r, echo=FALSE, fig.align='center', out.width=180}
-knitr::include_graphics("../Images/reg_cov.png")
-```
-
-<!-- @article{green_radio_2023, -->
-<!--   title = {A {{Radio Drama}}'s {{Effects}} on {{Attitudes Toward Early}} and {{Forced Marriage}}: {{Results From}} a {{Field Experiment}} in {{Rural Tanzania}}}, -->
-<!--   shorttitle = {A {{Radio Drama}}'s {{Effects}} on {{Attitudes Toward Early}} and {{Forced Marriage}}}, -->
-<!--   author = {Green, Donald P. and Groves, Dylan W. and Manda, Constantine and Montano, Beatrice and Rahmani, Bardia}, -->
-<!--   year = {2023}, -->
-<!--   month = jul, -->
-<!--   journal = {Comparative Political Studies}, -->
-<!--   volume = {56}, -->
-<!--   number = {8}, -->
-<!--   pages = {1115--1155}, -->
-<!--   issn = {0010-4140}, -->
-<!--   doi = {10.1177/00104140221139385} -->
-<!-- } -->
-## Estimator: Linear regression with covariates \| *Estimateur : La régression linéaire avec des covariables*
-
-```{r}
-library(estimatr)
-# lm_robust(Y ~ treatment + Language + Gender)
-```
-
-
-# Cluster Randomization \| *Randomisation par grappe*
-
-## Estimator: Regression with cluster-robust standard errors \| *Estimateur : La régression avec des erreurs types robustes au niveau du cluster*
-
-$$Y_{ic} = \hat{\beta_0} + \hat{\beta_1} Z_{c} + e_{ic}$$
-$$Y_{ic} = \hat{\beta_0} + \hat{\beta_1} Z_{c} + \hat{\gamma} X_{ic} +e_{ic}$$
-
-\bigskip
-
-
-::: {.cols data-latex=""}
-::: {.col data-latex="{0.48\\textwidth}"}
--   Our analysis has to take into account the fact that treatment is
-    assigned at the cluster level with *cluster-robust standard errors*.
-
--   $\hat{\beta_1}$ is the $\widehat{ATE}$ of the treatment on individual units.
-
--   We can also do covariate adjustment at the same time.
-:::
-
-::: {.col data-latex="{0.04\\textwidth}"}
-  <!-- an empty Div (with a white space), serving as
-a column separator -->
-:::
-
-::: {.col data-latex="{0.48\\textwidth}"}
--   Notre analyse doit prendre en compte le fait que le traitement est
-    attribué au niveau du cluster avec des *erreurs types robustes au
-    niveau du cluster*.
-
--   $\hat{\beta_1}$ est $\widehat{ATE}$  du traitement sur les unités individuelles.
-
--   Nous pouvons également effectuer un ajustement covariable en même
-    temps.
-:::
-:::
-
-<!-- ## Cluster Randomization \| *Randomisation par grappe* -->
-
-<!-- ::: {.cols data-latex=""} -->
-<!-- ::: {.col data-latex="{0.48\\textwidth}"} -->
-<!-- -   Remember: we have assumed non-interference (part of SUTVA). -->
-
-<!-- -   If we are concerned about interference within clusters (but can -->
-<!--     assume non-interference across clusters), we can shift the analysis -->
-<!--     to the cluster level by using the average or other summary measure -->
-<!--     at the cluster level as our outcome variable. -->
-<!-- ::: -->
-
-<!-- ::: {.col data-latex="{0.04\\textwidth}"} -->
-<!--   <!-- an empty Div (with a white space), serving as -->
-<!-- a column separator --> 
-<!-- ::: -->
-
-<!-- ::: {.col data-latex="{0.48\\textwidth}"} -->
-<!-- -   N'oubliez pas : nous avons supposé la non-contamination (qui fait -->
-<!--     partie de la SUTVA). -->
-
-<!-- -   Si nous sommes préoccupés par la contamination au sein des clusters -->
-<!--     (mais pouvons supposer qu'il n'y a pas de contamination entre les -->
-<!--     clusters), nous pouvons déplacer l'analyse au niveau du cluster en -->
-<!--     utilisant la moyenne ou une autre mesure récapitulative au niveau du -->
-<!--     cluster comme variable de résultat. -->
-<!-- ::: -->
-<!-- ::: -->
-
-## Cluster Randomization \| *Randomisation par grappe*
-
-```{r, echo=FALSE, fig.align='center', out.width=400}
-# knitr::include_graphics("../Images/reg_cluster.png")
-```
-
-```{r}
-library(estimatr)
-
-# lm_robust(Y ~ treatment, clusters=cluster_variable)
-
-# lm_robust(Y ~ treatment + covariate, clusters=cluster_variable)
-```
 
 # Multiple Arm Experiments \| *Les éxperiences avec plusieurs bras*
 
@@ -411,6 +242,250 @@ $Y_i = \hat{\alpha} + \hat{\beta_A} Z_{Ai} + \hat{\beta_B} Z_{Bi} + e_i$
 # M <- lm_robust(Y ~ as.factor(treatment))
 # linearHypothesis(M, "T1=T2") 
 
+```
+
+
+
+# Block Randomization \| *Randomisation par bloc (ou stratifiée)*
+
+## Block Randomization \| *Randomisation par bloc*
+
+::: {.cols data-latex=""}
+::: {.col data-latex="{0.48\\textwidth}"}
+-   Block randomization is like doing a separate experiment in each
+    block.
+
+-   We present 2 estimators for block randomization. Others are also
+    available.
+:::
+
+::: {.col data-latex="{0.04\\textwidth}"}
+  <!-- an empty Div (with a white space), serving as
+a column separator -->
+:::
+
+::: {.col data-latex="{0.48\\textwidth}"}
+-   Randomisation par bloc est comme faire une expérience distincte dans
+    chaque bloc.
+
+-   Nous presentons 2 estimateurs pour randomisation par bloc. D'autres
+    sont également disponsibles.
+:::
+:::
+
+## Estimator 1: Blocked Difference-in-Means \| *Estimateur 1 : La différence des moyennes par bloc*
+
+::: {.cols data-latex=""}
+::: {.col data-latex="{0.48\\textwidth}"}
+-   Calculate the $\widehat{ATE_j}$ for each block using difference in
+    means. $j$ indicates which block.
+
+-   The $\widehat{ATE}$ is the average of the block-level
+    $\widehat{ATE_j}$ weighted by block size $N_j / N$.
+
+-   You can use this estimator even when the probability of treatment
+    assignment is different by blocks.
+:::
+
+::: {.col data-latex="{0.04\\textwidth}"}
+  <!-- an empty Div (with a white space), serving as
+a column separator -->
+:::
+
+::: {.col data-latex="{0.48\\textwidth}"}
+-   Calculez $\widehat{ATE_j}$ pour chaque bloc en utilisant la
+    différence des moyennes.
+
+-   $\widehat{ATE}$ est la moyenne pondérée de $\widehat{ATE_j}$
+    pondérée par la taille du bloc $N_j / N$.
+
+-   Nous pouvons utiliser cette estimateur sinon la probabilité
+    d'assignation du traitement diffère selon les blocs.
+:::
+:::
+
+## Estimator 1 : Blocked Difference-in-Means \| *Estimateur 1 : La différence des moyennes par bloc*
+
+::: {.cols data-latex=""}
+::: {.col data-latex="{0.48\\textwidth}"}
+| Unit | Block | $Z_i$ | $Y_i$ | 
+|:----:|:-----:|:-----:|:-----:|
+|  a   |   Q   |   0   |   4   |
+|  b   |   Q   |   1   |   3   |
+|  c   |   Q   |   0   |   2   |
+|  d   |   R   |   1   |   3   |
+|  e   |   R   |   0   |   0   |
+|  f   |   R   |   0   |   2   |
+|  g   |   S   |   1   |   4   |
+|  h   |   S   |   0   |   0   |
+|  i   |   S   |   0   |   2   |
+|  j   |   S   |   1   |   4   |
+
+<!-- | Unit | Block | $Z_i$ | $Y_i$ | $Y_i(1)$ | $Y_i(0)$ | -->
+<!-- |:----:|:-----:|:-----:|:-----:|:--------:|:--------:| -->
+<!-- |  a   |   Q   |   0   |   4   |          |    4     | -->
+<!-- |  b   |   Q   |   1   |   3   |    3     |          | -->
+<!-- |  c   |   Q   |   0   |   2   |          |    2     | -->
+<!-- |  d   |   R   |   1   |   3   |    3     |          | -->
+<!-- |  e   |   R   |   0   |   0   |          |    0     | -->
+<!-- |  f   |   R   |   0   |   2   |          |    2     | -->
+<!-- |  g   |   S   |   1   |   4   |    4     |          | -->
+<!-- |  h   |   S   |   0   |   0   |          |    0     | -->
+<!-- |  i   |   S   |   0   |   2   |          |    2     | -->
+:::
+
+::: {.col data-latex="{0.04\\textwidth}"}
+  <!-- an empty Div (with a white space), serving as
+a column separator -->
+:::
+
+::: {.col data-latex="{0.48\\textwidth}"}
+```{=tex}
+\begin{align*}
+\widehat{ATE}_Q &= \frac{3}{1}-\frac{4+2}{2}= 0\\
+\widehat{ATE}_R &= \frac{3}{1}-\frac{0+2}{2}= 2\\
+\widehat{ATE}_S &= \frac{4+4}{2}-\frac{0+2}{2}= 3\\
+\\
+\widehat{ATE} &=  \frac{N_Q}{N}\widehat{ATE}_Q + \frac{N_R}{N}\widehat{ATE}_R + \frac{N_S}{N}\widehat{ATE}_S  \\
+&= \frac{3}{10}*0 + \frac{3}{10}*2 + \frac{4}{10}*3 \\
+&= \frac{0+6+12}{10} = \frac{9}{5}
+\end{align*}
+```
+:::
+:::
+
+## Estimator 1: Blocked Difference-in-Means \| *Estimateur 1 : La différence des moyennes par bloc*
+
+\footnotesize
+```{r}
+# library(estimatr)
+# difference_in_means(Y ~ t, blocks = block_variable)
+
+```
+<!-- Y <- experiment_data$State.of.the.world -->
+<!-- t <- experiment_data$treatment_received -->
+<!-- difference_in_means(Y ~ t, blocks = experiment_data$Female) -->
+
+## Estimator 2: Linear Regression with Block Fixed Effects \| *Estimateur 2 : La régression linéaire avec effets fixes par bloc*
+
+$$Y_{ij} = \beta_0 + \beta_1 Z_{ij} + \gamma_A BlockA_{ij} + \gamma_B BlockB_{ij} + ... + \epsilon_{ij}$$
+
+::: {.cols data-latex=""}
+::: {.col data-latex="{0.48\\textwidth}"}
+-   You can use linear regression with block fixed effects, applying weights to each observation.
+    
+-   The weight is the inverse of the proportion of subjects in the same block who were assigned to the same condition.    
+:::
+
+::: {.col data-latex="{0.04\\textwidth}"}
+  <!-- an empty Div (with a white space), serving as
+a column separator -->
+:::
+
+::: {.col data-latex="{0.48\\textwidth}"}
+-   Nous pouvons ensuite utiliser la régression linéaire avec des effets fixes en bloc,  en appliquant des pondérations à chaque observation.
+
+-   Le poids est l'inverse de la proportion de sujets d'un même bloc qui ont été assignés à la même condition.
+:::
+:::
+
+$$w_{ij} = \frac{d_i}{p_{ij}} + \frac{1-d_i}{1-p_{ij}} \text{,  where } p_{ij}\equiv\frac{m_j}{N_j}$$
+
+## Block Randomization \| *Randomisation par bloc*
+
+```{r, echo=FALSE}
+blocks <- c("J","J","J","K","K","K","L","L","L") 
+z <- c(0,1,0,1,0,0,1,0,0) 
+y <- c(4,3,2,3,0,2,4,0,2)
+# round(summary(lm(y~z+as.factor(blocks)))$coef,3)
+```
+
+```{r, echo=TRUE}
+# library(estimatr)
+# lm_robust(Y ~ treatment + as.factor(block_variable), 
+#                  weights=weight_variable)
+
+
+```
+
+# Cluster Randomization \| *Randomisation par grappe*
+
+## Estimator: Regression with cluster-robust standard errors \| *Estimateur : La régression avec des erreurs types robustes au niveau du cluster*
+
+$$Y_{ic} = \hat{\beta_0} + \hat{\beta_1} Z_{c} + e_{ic}$$
+$$Y_{ic} = \hat{\beta_0} + \hat{\beta_1} Z_{c} + \hat{\gamma} X_{ic} +e_{ic}$$
+
+\bigskip
+
+
+::: {.cols data-latex=""}
+::: {.col data-latex="{0.48\\textwidth}"}
+-   Our analysis has to take into account the fact that treatment is
+    assigned at the cluster level with *cluster-robust standard errors*.
+
+-   $\hat{\beta_1}$ is the $\widehat{ATE}$ of the treatment on individual units.
+
+-   We can also do covariate adjustment at the same time.
+:::
+
+::: {.col data-latex="{0.04\\textwidth}"}
+  <!-- an empty Div (with a white space), serving as
+a column separator -->
+:::
+
+::: {.col data-latex="{0.48\\textwidth}"}
+-   Notre analyse doit prendre en compte le fait que le traitement est
+    attribué au niveau du cluster avec des *erreurs types robustes au
+    niveau du cluster*.
+
+-   $\hat{\beta_1}$ est $\widehat{ATE}$  du traitement sur les unités individuelles.
+
+-   Nous pouvons également effectuer un ajustement covariable en même
+    temps.
+:::
+:::
+
+<!-- ## Cluster Randomization \| *Randomisation par grappe* -->
+
+<!-- ::: {.cols data-latex=""} -->
+<!-- ::: {.col data-latex="{0.48\\textwidth}"} -->
+<!-- -   Remember: we have assumed non-interference (part of SUTVA). -->
+
+<!-- -   If we are concerned about interference within clusters (but can -->
+<!--     assume non-interference across clusters), we can shift the analysis -->
+<!--     to the cluster level by using the average or other summary measure -->
+<!--     at the cluster level as our outcome variable. -->
+<!-- ::: -->
+
+<!-- ::: {.col data-latex="{0.04\\textwidth}"} -->
+<!--   <!-- an empty Div (with a white space), serving as -->
+<!-- a column separator --> 
+<!-- ::: -->
+
+<!-- ::: {.col data-latex="{0.48\\textwidth}"} -->
+<!-- -   N'oubliez pas : nous avons supposé la non-contamination (qui fait -->
+<!--     partie de la SUTVA). -->
+
+<!-- -   Si nous sommes préoccupés par la contamination au sein des clusters -->
+<!--     (mais pouvons supposer qu'il n'y a pas de contamination entre les -->
+<!--     clusters), nous pouvons déplacer l'analyse au niveau du cluster en -->
+<!--     utilisant la moyenne ou une autre mesure récapitulative au niveau du -->
+<!--     cluster comme variable de résultat. -->
+<!-- ::: -->
+<!-- ::: -->
+
+## Cluster Randomization \| *Randomisation par grappe*
+
+```{r, echo=FALSE, fig.align='center', out.width=400}
+# knitr::include_graphics("../Images/reg_cluster.png")
+```
+
+```{r}
+library(estimatr)
+
+# lm_robust(Y ~ treatment, clusters=cluster_variable)
+
+# lm_robust(Y ~ treatment + covariate, clusters=cluster_variable)
 ```
 
 

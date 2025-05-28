@@ -2,8 +2,8 @@
 title: |
   | Estimation and Hypothesis Testing 1 | 
   | *Les Estimateurs et tests d'hypothèses 1*
-author: "Adikath Abiola and/et Gareth Nellis"
-date: "21 May/mai 2025"
+author: "NAME/NOM"
+date: "DATE"
 classoption: "aspectratio=169"
 bibliography: ../learningdays-book.bib
 biblio-style: apalike
@@ -178,6 +178,8 @@ a column separator -->
         average.
 
     -   Precise: The estimates do not vary much from one run of the experiment to another.
+
+\bigskip
     
 -   The best: unbiased and precise.    
 :::
@@ -196,6 +198,8 @@ a column separator -->
 
     -   Précis : Les estimations ne varient pas beaucoup d'une expérience à l'autre.
     
+\bigskip
+
 -   Le meilleur: non biaisé et précis.     
 :::
 :::
@@ -205,6 +209,9 @@ a column separator -->
 ::: {.cols data-latex=""}
 ::: {.col data-latex="{0.48\\textwidth}"}
 -   This means follow the design of the experiment.
+
+\bigskip
+    
 
 -   Compare groups that are created by random assignment.
 :::
@@ -216,6 +223,9 @@ a column separator -->
 
 ::: {.col data-latex="{0.48\\textwidth}"}
 -   Cela signifie suivre la concéption de l'éxpérience.
+
+\bigskip
+    
 
 -   Comparez les groupes qui sont crées par l'assignation aléatoire.
 :::
@@ -234,6 +244,8 @@ a column separator -->
 
     -   Our *estimand* is the ATE.
 
+\bigskip
+    
 -   The simplest *estimator* for the ATE is the **difference-in-means**:
     take the average outcome for the treatment group and subtract the
     average outcome for the control group.
@@ -254,6 +266,8 @@ a column separator -->
 
     -   Notre *paramètre* est l'ATE.
 
+\bigskip
+    
 -   L'estimateur de l'ATE le plus simple est **la différence des
     moyennes** : soutraitez le moyen des unités assigné au contrôle du
     moyen des unités assigné au traitement.
@@ -358,6 +372,8 @@ $$Y_i = \hat{\beta_0} + \hat{\beta_1} Z_i + e_i$$
 -   Let's say that the truth is that a medicine has no effect on height.
     But all the short people were randomly assigned to the medicine and all the
     tall people to control. 
+
+\bigskip
     
 -   If we apply the difference in means, it looks like the medicine made people shorter!
 
@@ -374,6 +390,8 @@ a column separator -->
     toutes les personnes de petite taille ont été assignées en manière aléatoire de recevoir le
     médicament et les personnes de grande taille ont été assignées au
     contrôle. 
+
+\bigskip
     
 -   Si on utilise la différence de moyennes, on dirait que les médicaments ont rendu les gens plus petits!
 
@@ -389,7 +407,9 @@ a column separator -->
 
 -   Warning: We can get an estimate that is not zero even when there is
     no effect!
-    
+
+\bigskip
+
 -   Are we confident that our non-zero estimate reflects a truly
     non-zero estimand (truth)?    
 :::
@@ -404,7 +424,9 @@ a column separator -->
 
 -   Avertissement : On peut obtenir une estimation que n'est pas nulle
     même s'il n'y a aucun effet!
-    
+
+\bigskip
+
 -   Sommes-nous convaincus que notre estimation non nulle reflète un
     paramètre véritablement non nulle (la vérité) ?    
 :::
@@ -462,11 +484,41 @@ a column separator -->
 
 ![](../Images/HT2-null5percent.png)
 
--   Rejection and non-rejection regions for a two-sided alternative
+-   Rejection (white) and non-rejection (yellow) regions for a two-sided alternative
     hypothesis at $\alpha=0.05%$
 
--   Régions de rejet et de non-rejet pour une hypothèse alternative
+\bigskip
+
+-   Régions de rejet (blanche) et de non-rejet (jaune) pour une hypothèse alternative
     bilatérale à $\alpha=0,05%$
+
+## Hypothesis Testing \| *Les tests d'hypothèses*
+
+
+
+::: {.cols data-latex=""}
+::: {.col data-latex="{0.48\\textwidth}"}
+
+-   $\alpha$ is a value that you choose/set BEFORE hypothesis testing.  It is  often 0.05 or 5\% in the social sciences.  
+
+\bigskip
+
+-   $\alpha$ of the area under the curve is in the rejection region.
+
+:::
+
+::: {.col data-latex="{0.04\\textwidth}"}
+  <!-- an empty Div (with a white space), serving as
+a column separator -->
+:::
+
+::: {.col data-latex="{0.48\\textwidth}"}
+
+-   $\alpha$ est une valeur que vous choissisez / fixez AVANT le test d'hypothèse.  Il s'agit souvent de 0,05 ou de 5 % dans les sciences sociales.
+
+-   La proportion $\alpha$ de l'aire sous la courbe se trouve dans la région de rejet.
+:::
+:::
 
 ## Hypothesis Testing \| *Les tests d'hypothèses*
 
@@ -546,6 +598,8 @@ a column separator -->
 -   There are many ways to do hypothesis testing. We are going to take
     the simplest and most popular approach that uses regression.
 
+\bigskip
+
 -   Use linear regression to calculate a $p$-value (two-sided test).
 <!-- : the probability that -->
 <!--     we could have obtained a particular test statistic (or greater in absolute -->
@@ -560,6 +614,9 @@ a column separator -->
 ::: {.col data-latex="{0.48\\textwidth}"}
 -   Il existe de nombreuses façons de tester des hypothèses. Nous allons
     faire l'apprôche la plus simple et la plus populaire: la régression.
+
+\bigskip
+
 -   Utiliser la régression linéaire pour calculer une $p$-valeur (test bilateral).
 <!-- : la -->
 <!--     probabilité de voir une statistique de test (ou une plus grande en valeur -->
@@ -571,14 +628,12 @@ a column separator -->
 
 ::: {.cols data-latex=""}
 ::: {.col data-latex="{0.48\\textwidth}"}
--   Compare this $p$-value to a standard we have set in advance (an
-    $\alpha$ level).
+-   Compare this $p$-value to $\alpha$, a standard we have set in advance.
 
--   If the $p$-value is smaller than or equal to the $\alpha$ level, we
-    reject the null hypothesis of no effect.
+\bigskip
 
--   If the $p$-value is greater than the $\alpha$ level, we fail to
-    reject the null hypothesis of no effect.
+-   $\alpha$ is the probability of making the mistake of rejecting the null hypothesis when we should not.
+
 :::
 
 ::: {.col data-latex="{0.04\\textwidth}"}
@@ -587,16 +642,54 @@ a column separator -->
 :::
 
 ::: {.col data-latex="{0.48\\textwidth}"}
--   Comparez cette $p$-valeur à une norme que nous avons fixée à
-    l'avance (un niveau $\alpha$).
+-   Comparez cette $p$-valeur à $\alpha$, une norme que nous avons fixée à
+    l'avance.
 
+\bigskip
+    
+-   $\alpha$ est la probabilité de faire l'erreur de rejeter l'hypothèse nulle alors que nous ne devrions pas le faire.    
+
+:::
+:::
+
+## Hypothesis Testing with Linear Regression \| *Les tests d'hypothèses avec la régression linéaire*
+
+::: {.cols data-latex=""}
+::: {.col data-latex="{0.48\\textwidth}"}
+-   If the $p$-value is smaller than or equal to the $\alpha$ level, we
+    reject the null hypothesis of no effect.
+
+\bigskip
+
+-   If the $p$-value is greater than the $\alpha$ level, we fail to
+    reject the null hypothesis of no effect.
+
+\bigskip
+    
+-   Remember: We do not accept the null.
+:::
+
+::: {.col data-latex="{0.04\\textwidth}"}
+  <!-- an empty Div (with a white space), serving as
+a column separator -->
+:::
+
+::: {.col data-latex="{0.48\\textwidth}"}
 -   Si la $p$-valeur est plus petite ou égale au niveau $\alpha$, nous
     rejetons l'hypothèse nulle d'aucun effet.
 
+\bigskip
+
 -   Si la $p$-valeur est plus grande que le niveau $\alpha$, nous ne
     parvenons pas à rejeter l'hypothèse nulle d'aucun effet.
+
+\bigskip
+
+-   Rappel: Nous n'acceptons pas l'hypothèse nulle.
 :::
 :::
+
+
 
 ## Hypothesis Testing with Linear Regression \| *Les tests d'hypothèses avec la régression linéaire*
 
@@ -616,17 +709,20 @@ a column separator -->
 <!--   doi = {10.1177/00104140221139385} -->
 <!-- } -->
 
-# Block Randomization \| *Randomisation par bloc (ou stratifiée)*
+# Covariate Adjustment \| *Ajustement des covariables*
 
-## Block Randomization \| *Randomisation par bloc*
+## Estimator: Linear regression with covariates \| \newline Estimateur : La régression linéaire avec des covariables
+
+$$Y_i = \beta_0 + \beta_1 Z_i + \gamma X_i + e_i$$
 
 ::: {.cols data-latex=""}
 ::: {.col data-latex="{0.48\\textwidth}"}
--   Block randomization is like doing a separate experiment in each
-    block.
+-   We can include a **pre-treatment covariate** $X$ that is *predictive of*
+    the outcome variable in our regression model.  
 
--   We present 2 estimators for block randomization. Others are also
-    available.
+-   Think of $X$ as fixed before the randomization. For example: pre-treatment measure of the outcome.
+
+-   Careful: This can bias our estimates, but improve their precision.
 :::
 
 ::: {.col data-latex="{0.04\\textwidth}"}
@@ -635,26 +731,29 @@ a column separator -->
 :::
 
 ::: {.col data-latex="{0.48\\textwidth}"}
--   Randomisation par bloc est comme faire une expérience distincte dans
-    chaque bloc.
+-   Nous pouvons inclure une **covariable pré-traitement** $X$ qui est
+    *prédictive* de la variable de résultat dans notre modèle de
+    régression. 
 
--   Nous presentons 2 estimateurs pour randomisation par bloc. D'autres
-    sont également disponsibles.
+-   Pensez que $X$ est fixé avant la randomisation. Par exemple : un mesure du résultat avant le traitement.
+
+-   Attention : Cela peut biaiser nos estimations, mais améliorer leur précision.
 :::
 :::
 
-## Estimator 1: Blocked Difference-in-Means \| *Estimateur 1 : La différence des moyennes par bloc*
+## Estimator: Linear regression with covariates \| *Estimateur : La régression linéaire avec des covariables*
+
+$$Y_i = \hat{\beta_0} + \hat{\beta_1} Z_i + \hat{\gamma} X_i + e_i$$
+
+\bigskip
 
 ::: {.cols data-latex=""}
 ::: {.col data-latex="{0.48\\textwidth}"}
--   Calculate the $\widehat{ATE_j}$ for each block using difference in
-    means. $j$ indicates which block.
+-   The estimated coefficient on the treatment variable ($\hat{\beta_1}$) is again our
+     $\widehat{ATE}$.
 
--   The $\widehat{ATE}$ is the average of the block-level
-    $\widehat{ATE_j}$ weighted by block size $N_j / N$.
-
--   You can use this estimator even when the probability of treatment
-    assignment is different by blocks.
+-   The estimated coefficient on the covariate ($\hat{\gamma}$) is *not* 
+    the causal effect of that variable.
 :::
 
 ::: {.col data-latex="{0.04\\textwidth}"}
@@ -663,115 +762,37 @@ a column separator -->
 :::
 
 ::: {.col data-latex="{0.48\\textwidth}"}
--   Calculez $\widehat{ATE_j}$ pour chaque bloc en utilisant la
-    différence des moyennes.
+-   Le coefficient estimé sur la variable de traitement ($\hat{\beta_1}$) est encore
+    notre $\widehat{ATE}$.
 
--   $\widehat{ATE}$ est la moyenne pondérée de $\widehat{ATE_j}$
-    pondérée par la taille du bloc $N_j / N$.
-
--   Nous pouvons utiliser cette estimateur sinon la probabilité
-    d'assignation du traitement diffère selon les blocs.
+-   Le coefficient estimé de la covariable ($\hat{\gamma}$) n'est *pas* 
+    l'effet estimé causal de cette variable.
 :::
 :::
 
-## Estimator 1 : Blocked Difference-in-Means \| *Estimateur 1 : La différence des moyennes par bloc*
+## Estimator: Linear regression with covariates \| *Estimateur : La régression linéaire avec des covariables*
 
-::: {.cols data-latex=""}
-::: {.col data-latex="{0.48\\textwidth}"}
-| Unit | Block | $Z_i$ | $Y_i$ | 
-|:----:|:-----:|:-----:|:-----:|
-|  a   |   Q   |   0   |   4   |
-|  b   |   Q   |   1   |   3   |
-|  c   |   Q   |   0   |   2   |
-|  d   |   R   |   1   |   3   |
-|  e   |   R   |   0   |   0   |
-|  f   |   R   |   0   |   2   |
-|  g   |   S   |   1   |   4   |
-|  h   |   S   |   0   |   0   |
-|  i   |   S   |   0   |   2   |
 
-<!-- | Unit | Block | $Z_i$ | $Y_i$ | $Y_i(1)$ | $Y_i(0)$ | -->
-<!-- |:----:|:-----:|:-----:|:-----:|:--------:|:--------:| -->
-<!-- |  a   |   Q   |   0   |   4   |          |    4     | -->
-<!-- |  b   |   Q   |   1   |   3   |    3     |          | -->
-<!-- |  c   |   Q   |   0   |   2   |          |    2     | -->
-<!-- |  d   |   R   |   1   |   3   |    3     |          | -->
-<!-- |  e   |   R   |   0   |   0   |          |    0     | -->
-<!-- |  f   |   R   |   0   |   2   |          |    2     | -->
-<!-- |  g   |   S   |   1   |   4   |    4     |          | -->
-<!-- |  h   |   S   |   0   |   0   |          |    0     | -->
-<!-- |  i   |   S   |   0   |   2   |          |    2     | -->
-:::
-
-::: {.col data-latex="{0.04\\textwidth}"}
-  <!-- an empty Div (with a white space), serving as
-a column separator -->
-:::
-
-::: {.col data-latex="{0.48\\textwidth}"}
-```{=tex}
-\begin{align*}
-\widehat{ATE}_Q &= 3-\frac{4+2}{2}= 0\\
-\widehat{ATE}_R &= 3-\frac{0+2}{2}= 2\\
-\widehat{ATE}_S &= 4-\frac{0+2}{2}= 3\\
-\\
-\widehat{ATE} &=  \frac{N_Q}{N}\widehat{ATE}_Q + \frac{N_R}{N}\widehat{ATE}_R + \frac{N_S}{N}\widehat{ATE}_S  \\
-&= \frac{3}{9}*0 + \frac{3}{9}*2 + \frac{3}{9}*3 = \frac{5}{3}
-\end{align*}
+```{r, echo=FALSE, fig.align='center', out.width=180}
+knitr::include_graphics("../Images/reg_cov.png")
 ```
-:::
-:::
 
-## Estimator 1: Blocked Difference-in-Means \| *Estimateur 1 : La différence des moyennes par bloc*
+<!-- @article{green_radio_2023, -->
+<!--   title = {A {{Radio Drama}}'s {{Effects}} on {{Attitudes Toward Early}} and {{Forced Marriage}}: {{Results From}} a {{Field Experiment}} in {{Rural Tanzania}}}, -->
+<!--   shorttitle = {A {{Radio Drama}}'s {{Effects}} on {{Attitudes Toward Early}} and {{Forced Marriage}}}, -->
+<!--   author = {Green, Donald P. and Groves, Dylan W. and Manda, Constantine and Montano, Beatrice and Rahmani, Bardia}, -->
+<!--   year = {2023}, -->
+<!--   month = jul, -->
+<!--   journal = {Comparative Political Studies}, -->
+<!--   volume = {56}, -->
+<!--   number = {8}, -->
+<!--   pages = {1115--1155}, -->
+<!--   issn = {0010-4140}, -->
+<!--   doi = {10.1177/00104140221139385} -->
+<!-- } -->
+## Estimator: Linear regression with covariates \| *Estimateur : La régression linéaire avec des covariables*
 
-\footnotesize
 ```{r}
-# library(estimatr)
-# difference_in_means(Y ~ t, blocks = block_variable)
-
-```
-<!-- Y <- experiment_data$State.of.the.world -->
-<!-- t <- experiment_data$treatment_received -->
-<!-- difference_in_means(Y ~ t, blocks = experiment_data$Female) -->
-
-## Estimator 2: Linear Regression with Block Fixed Effects \| *Estimateur 2 : La régression linéaire avec effets fixes par bloc*
-
-$$Y_{ij} = \beta_0 + \beta_1 Z_{ij} + \gamma_A BlockA_{ij} + \gamma_B BlockB_{ij} + ... + \epsilon_{ij}$$
-
-::: {.cols data-latex=""}
-::: {.col data-latex="{0.48\\textwidth}"}
--   You can use linear regression with block fixed effects, applying weights to each observation.
-    
--   The weight is the inverse of the proportion of subjects in the same block who were assigned to the same condition.    
-:::
-
-::: {.col data-latex="{0.04\\textwidth}"}
-  <!-- an empty Div (with a white space), serving as
-a column separator -->
-:::
-
-::: {.col data-latex="{0.48\\textwidth}"}
--   Nous pouvons ensuite utiliser la régression linéaire avec des effets fixes en bloc,  en appliquant des pondérations à chaque observation.
-
--   Le poids est l'inverse de la proportion de sujets d'un même bloc qui ont été assignés à la même condition.
-:::
-:::
-
-$$w_{ij} = \frac{d_i}{p_{ij}} + \frac{1-d_i}{1-p_{ij}} \text{,  where } p_{ij}\equiv\frac{m_j}{N_j}$$
-
-## Block Randomization \| *Randomisation par bloc*
-
-```{r, echo=FALSE}
-blocks <- c("J","J","J","K","K","K","L","L","L") 
-z <- c(0,1,0,1,0,0,1,0,0) 
-y <- c(4,3,2,3,0,2,4,0,2)
-# round(summary(lm(y~z+as.factor(blocks)))$coef,3)
-```
-
-```{r, echo=TRUE}
-# library(estimatr)
-# lm_robust(Y ~ treatment + as.factor(block_variable), 
-#                  weights=weight_variable)
-
-
+library(estimatr)
+# lm_robust(Y ~ treatment + Language + Gender)
 ```
