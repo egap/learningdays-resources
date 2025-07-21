@@ -1,7 +1,7 @@
 ---
 title: "Causal Inference | *Inférence causale*"
-author: "Nahomi Ichino"
-date: "26 June 2023"
+author: "Vin Arceneaux and/et Nahomi Ichino"
+date: "19 May/mai 2025"
 bibliography: ../learningdays-book.bib
 biblio-style: apalike
 link-citations: yes
@@ -15,7 +15,7 @@ header-includes: |
    \usepackage{tikz}
    \usepackage{tikz-cd}
    \usepackage{textpos}
-   \usepackage{booktabs,multirow,makecell}
+   \usepackage{booktabs,multirow,makecell,amsmath}
 output:
   beamer_presentation:
     keep_tex: true
@@ -61,18 +61,51 @@ editor_options:
 # library(rcompanion) ## for pairwisePermutationTest()
 ```
 
-## Key points for this lecture \| *Points clés du cours*
+<!-- ## Key points for this lecture \| *Points clés du cours* -->
+
+<!-- ::: {.cols data-latex=""} -->
+
+<!-- ::: {.col data-latex="{0.48\\textwidth}"} -->
+
+<!-- -   Potential outcomes -->
+
+<!-- -   A causal effect is a difference between potential outcomes -->
+
+<!-- -   Core assumptions for causal inference -->
+
+<!-- -   The difference between randomized and observational studies -->
+
+<!-- ::: -->
+
+<!-- ::: {.col data-latex="{0.04\\textwidth}"} -->
+
+<!--   <!-- an empty Div (with a white space), serving as -->
+
+<!-- a column separator -->
+
+<!-- ::: -->
+
+<!-- ::: {.col data-latex="{0.48\\textwidth}"} -->
+
+<!-- -   Les résultats potentiels -->
+
+<!-- -   L'effet causal est une différence entre des résultats potentiels -->
+
+<!-- -   Les hypothèses clés pour l'inférence causale -->
+
+<!-- -   Les différences entre les études aléatoires et les études observationelles -->
+
+<!-- ::: -->
+
+<!-- ::: -->
+
+# Causal effects \| *Un effet causal*
+
+## What can we learn from a randomized experiment? \| *Qu'apprendre d'une expérience aléatoire?*
 
 ::: {.cols data-latex=""}
 ::: {.col data-latex="{0.48\\textwidth}"}
-
--   Potential outcomes
-
--   A causal effect is a difference between potential outcomes
-
--   Core assumptions for causal inference
-
--   The difference between randomized and observational studies
+We can estimate the **average causal effect** of the treatment $D$ on an outcome $Y$ for some set of units.
 :::
 
 ::: {.col data-latex="{0.04\\textwidth}"}
@@ -81,29 +114,26 @@ a column separator -->
 :::
 
 ::: {.col data-latex="{0.48\\textwidth}"}
--   Les résultats potentiels
-
--   L'effet causal est une différence entre des résultats potentiels
-
--   Les hypothèses clés pour l'inférence causale
-
--   Les différences entre les études aléatoires et les études observationelles
-   
+Nous pouvons estimer **l'effet causal moyen** du traitement $D$ sur un résultat $Y$ d'un ensemble d'unités
 :::
 :::
 
-# Randomized experiments \| *Les expériences aléatoires*
-
-## Review: Core elements of a randomized experiment \| *Les expériences aléatoires*
+## What do we mean by "$D$ causes $Y$"? \| *Comment interpréter "D cause Y"?*
 
 ::: {.cols data-latex=""}
 ::: {.col data-latex="{0.48\\textwidth}"}
--   You have a treatment.
+-   We take a counterfactual approach.
 
--   *You randomly assign treatment to units.*
+\medskip
 
--   You compare the outcomes for the units that were assigned to
-    treatment to outcomes for those that were not.
+-   "$D$ causes $Y$" is a claim about what didn't happen.
+
+    -   "If $D$ had not occurred, then $Y$ would not have occurred."
+
+    -   "With $D$, the probability of $Y$ is higher than would be
+        without $D$."
+
+
 :::
 
 ::: {.col data-latex="{0.04\\textwidth}"}
@@ -112,88 +142,33 @@ a column separator -->
 :::
 
 ::: {.col data-latex="{0.48\\textwidth}"}
--   Vous avez un traitement.
+-   Nous prenons une approche contrefactuelle.
 
--   *Vous assignez de manière aléatoire des sujets aux conditions de
-    traitement et de contrôle.*
+\medskip
 
--   Vous comparez les résultats des unités qui sont assignées au groupe de
-    traitement et de celles qui sont assignées au groupe de contrôle.
+-   "$D$ cause $Y$" est une affirmation sur ce qui n'a pas eu lieu.
+
+    -   "Si $D$ n'avait pas eu lieu, il n'y aurait pas de $Y$."
+
+    -   "Avec $D$, la probabilité de $Y$ est plus élevée qu'elle ne le
+        serait sans $D$."
+
+
 :::
 :::
 
-## What can you learn from an experiment? \| *Qu'apprendre d'une expérience?*
+## What do we mean by "$D$ causes $Y$"? \| *Comment interpréter "D cause Y"?*
 
 ::: {.cols data-latex=""}
 ::: {.col data-latex="{0.48\\textwidth}"}
-The *average causal effect* of the treatment $T$ on an outcome $Y$ for
-the units that you have in your study.
-
--   You have to define what the treatment means and what it means to not
-    have the treatment.
-
--   The units in your study might or might not be representative of a
-    larger population.
-:::
-
-::: {.col data-latex="{0.04\\textwidth}"}
-  <!-- an empty Div (with a white space), serving as
-a column separator -->
-:::
-
-::: {.col data-latex="{0.48\\textwidth}"}
-*L'effet causal moyen* du traitement $T$ sur un résultat $Y$ pour
-pour les unités de votre étude.
-
--   Vous devez définir la condition de traitement et de contrôle pour définir un effet
-    causal.
-
--   Les unités de votre étude peuvent ou non être représentatives d'une
-    population plus large.
-:::
-:::
-
-## What do we mean by "$T$ causes $Y$"? \| *Comment interpréter "T cause Y"?*
-
-::: {.cols data-latex=""}
-::: {.col data-latex="{0.48\\textwidth}"}
--   We're going to take the counterfactual approach.
-
--   "$T$ causes $Y$" is a claim about what didn't happen.
-
-    -   "If $T$ had not occurred, then $Y$ would not have occurred."
-
-    -   "With $T$, the probability of $Y$ is higher than would be
-        without $T$."
-:::
-
-::: {.col data-latex="{0.04\\textwidth}"}
-  <!-- an empty Div (with a white space), serving as
-a column separator -->
-:::
-
-::: {.col data-latex="{0.48\\textwidth}"}
--   Nous utiliserons l'approche contrefactuelle.
-
--   "$T$ cause $Y$" est une affirmation sur ce qui n'a pas eu lieu.
-
-    -   "Si $T$ n'avait pas été donné, il n'y aurait pas de $Y$."
-
-    -   "Avec $T$, la probabilité de $Y$ est plus élevée qu'elle ne le
-        serait sans $T$."
-:::
-:::
-
-## What do we mean by "$T$ causes $Y$"? \| *Comment interpréter "T cause Y"?*
-
-::: {.cols data-latex=""}
-::: {.col data-latex="{0.48\\textwidth}"}
--   "$T$ causes $Y$" requires a *context*.
+-   "$D$ causes $Y$" requires a *context*.
 
     -   Small classrooms improve test scores but require experienced
         teachers and funding.
 
--   "$T$ causes $Y$" doesn't mean "$W$ does not cause $Y$."
+\bigskip
+
+-   "$D$ causes $Y$" does not mean "$W$ does not cause $Y$."
 :::
 
 ::: {.col data-latex="{0.04\\textwidth}"}
@@ -202,17 +177,167 @@ a column separator -->
 :::
 
 ::: {.col data-latex="{0.48\\textwidth}"}
--   "$T$ cause $Y$" nécessite un *contexte*.
+-   "$D$ cause $Y$" nécessite un *contexte*.
 
-    -   Les petites salles de classe améliorent les résultats des examens mais
-        nécessitent des enseignants expérimentés et un financement
-        adapté.
+    -   Les petites salles de classe améliorent les résultats des
+        examens mais nécessitent des enseignants expérimentés et un
+        financement adapté.
 
--   "$T$ cause $Y$" n'implique pas nécessairement que $W$ ne cause pas Y.
+\bigskip
+
+-   "$D$ cause $Y$" n'implique pas nécessairement que $W$ ne cause pas
+    $Y$.
 :::
 :::
 
-# Learning the average causal effect from an experiment \| *Comment apprendre l'effet causal moyen d'une expérience aléatoire*
+
+
+## Treatments \| *Traitements*
+
+::: {.cols data-latex=""}
+::: {.col data-latex="{0.48\\textwidth}"}
+-   We must define what having $D$ and not having $D$ mean to define a causal effect.
+
+\bigskip
+
+-   You have to define what you mean by control:
+
+    -   Absence of any intervention.
+
+    -   Placebo.
+
+<!-- -   Treatment can be assigned at different levels: individuals, groups, -->
+<!--     institutions, communities, time periods, etc. -->
+:::
+
+::: {.col data-latex="{0.04\\textwidth}"}
+  <!-- an empty Div (with a white space), serving as
+a column separator -->
+:::
+
+::: {.col data-latex="{0.48\\textwidth}"}
+
+-   Nous devons définir ce que signifie le fait d'avoir $D$ et de ne pas avoir $D$ pour définir un effet causal.
+
+\bigskip
+
+-   Vous devez définir votre condition de contrôle :
+
+    -   Absence d'intervention.
+
+    -   Placebo.
+
+<!-- -   Le traitement peut être assigné à différents niveaux : individus, -->
+<!--     groupes, institutions, communautés, période temporelle, etc. -->
+:::
+:::
+
+# Learning about the average causal effect from an experiment \| *Comment apprendre l'effet causal moyen d'une expérience aléatoire*
+
+## Research question \| *La question de recherche*
+\centering
+![](../Images/A_small_cup_of_coffee.jpeg){width="170"}
+
+
+::: {.cols data-latex=""}
+::: {.col data-latex="{0.48\\textwidth}"}
+-   What is the effect of drinking coffee at breakfast on energy levels right now for everyone at Learning Days?
+:::
+
+::: {.col data-latex="{0.04\\textwidth}"}
+  <!-- an empty Div (with a white space), serving as
+a column separator -->
+:::
+
+::: {.col data-latex="{0.48\\textwidth}"}
+-   Quel est l'effet de la consommation du café au petit-déjeuner sur les niveaux d'énergie actuels des participants et instructeurs de Learning Days?
+
+:::
+:::
+
+\footnotesize
+Par Julius Schorzman — Travail personnel, CC BY-SA 2.0, \url{https://commons.wikimedia.org/w/index.php?curid=107645}
+
+
+
+## The ATE is the average of *individual* treatment effects \| L'ATE est la moyenne des effets de traitement *individuels*
+
+::: {.cols data-latex=""}
+::: {.col data-latex="{0.48\\textwidth}"}
+
+-   Before defining an average treatment effect, we define a treatment effect for an individual $i$.
+
+<!-- -   For a unit $i$, we assume that there are two *potential* -->
+<!--     outcomes: $Y_i(1)$ and $Y_i(0)$. -->
+
+<!-- -   $Y_i(1)$ is the outcome that we *would* obtain *if* the unit were to receive -->
+<!--     the treatment ($D_i=1$). -->
+
+<!-- -   $Y_i(0)$ is the outcome that we *would* obtain *if* the unit were to receive -->
+<!--     the control ($D_i=0$). -->
+:::
+
+::: {.col data-latex="{0.04\\textwidth}"}
+  <!-- an empty Div (with a white space), serving as
+a column separator -->
+:::
+
+::: {.col data-latex="{0.48\\textwidth}"}
+-   Avant de définir l'effet *moyen de traitement*, il faut définir l'effet de traitement *pour un individu $i$*.
+
+<!-- -   Pour une unité $i$, nous supposons qu'il y a deux résultats -->
+<!--     *potentiels* : $Y_i(1)$ et $Y_i(0)$. -->
+
+<!-- -   $Y_i(1)$ est le résultat qu'on *obtiendrait si* l'unité recevait le -->
+<!--     traitement ($D_i=1$). -->
+
+<!-- -   $Y_i(0)$ est le résultat qu'on *obtiendrait si* l'unité recevait le -->
+<!--     contrôle ($D_i=0$). -->
+:::
+:::
+
+## We use a model of potential outcomes \| *Nous utilisons un modèle de résultats potentiels*
+
+::: {.cols data-latex=""}
+::: {.col data-latex="{0.48\\textwidth}"}
+For a unit $i$, we assume that there are two *potential*
+    outcomes: $Y_i(1)$ and $Y_i(0)$.
+
+\medskip
+
+-   $Y_i(1)$ is the outcome that we *would* obtain *if* the unit were to receive
+    the treatment ($D_i=1$).
+
+-   $Y_i(0)$ is the outcome that we *would* obtain *if* the unit were to receive
+    the control ($D_i=0$).
+    
+
+:::
+
+::: {.col data-latex="{0.04\\textwidth}"}
+  <!-- an empty Div (with a white space), serving as
+a column separator -->
+:::
+
+::: {.col data-latex="{0.48\\textwidth}"}
+
+
+Pour une unité $i$, nous supposons qu'il y a deux résultats
+    *potentiels* : $Y_i(1)$ et $Y_i(0)$.
+
+\medskip
+
+-   $Y_i(1)$ est le résultat qu'on *obtiendrait si* l'unité recevait le
+    traitement ($D_i=1$).
+
+-   $Y_i(0)$ est le résultat qu'on *obtiendrait si* l'unité recevait le
+    contrôle ($D_i=0$).
+    
+
+    
+:::
+:::
+
 
 ## We have 12 units \| *Nous avons 12 unités*
 
@@ -220,72 +345,46 @@ a column separator -->
 
 ![](../Images/fig01-units.png){width="320"}
 
-## $Y_i(1)$, the outcome each unit would have if treated \| *$Y_i(1)$, le résultat qu'on obtiendrait si l'unité recevait le traitement*
+<!-- ## $Y_i(1)$, the outcome each unit would have if treated \| *$Y_i(1)$, le résultat qu'on obtiendrait si l'unité recevait le traitement* -->
+
+<!-- \centering -->
+
+<!-- ![](../Images/fig02-Y1.png){width="320"} -->
+
+<!-- ## $Y_i(0)$, the outcome each unit would have if not treated \| *$Y_i(0)$, le résultat qu'on obtiendrait si l'unité recevait le contrôle* -->
+
+<!-- \centering -->
+
+<!-- ![](../Images/fig03-Y0.png){width="320"} -->
+
+## Each unit has both $Y_i(1)$ and $Y_i(0)$ \| *Chaque unité a à la fois* $Y_i(1)$ et $Y_i(0)$
 
 \centering
 
-![](../Images/fig02-Y1.png){width="320"}
+![](../Images/fig02-Y1.png){width="270"}![](../Images/fig03-Y0.png){width="270"}
 
-## $Y_i(0)$, the outcome each unit would have if not treated \| *$Y_i(0)$, le résultat qu'on obtiendrait si l'unité recevait le contrôle*
-
-\centering
-
-![](../Images/fig03-Y0.png){width="320"}
-
-## Each unit has both $Y_i(1)$ and $Y_i(0)$ \| *Chaque unité a à la fois $Y_i(1)$ et $Y_i(0)$*
+## The treatment effect for $i$ is defined as $\tau_i \equiv Y_i(1) - Y_i(0)$ \| *L'effet de traitement pour individu $i$ est défini comme* $\tau_i \equiv Y_i(1) - Y_i(0)$
 
 \centering
 
-![](../Images/fig02-Y1.png){width="220"}![](../Images/fig03-Y0.png){width="220"}
+![](../Images/fig04-tau-noATE.png){width="320"}
 
-## So each unit has a treatment effect $\tau_i = Y_i(1) - Y_i(0)$ \| *Alors, pour chaque unité, il y a un effet de traitement* $\tau_i = Y_i(1) - Y_i(0)$
+## Average Treatment Effect / *L'effet moyen du traitement* (ATE)  $\overline{\tau_i}= \overline{Y_i(1)-Y_i(0)}$
 
 \centering
-
 ![](../Images/fig04-tau.png){width="320"}
-
-## Potential outcomes \| *Résultats potentiels*
-
-::: {.cols data-latex=""}
-::: {.col data-latex="{0.48\\textwidth}"}
--   For each unit we assume that there are two *post-treatment*
-    outcomes: $Y_i(1)$ and $Y_i(0)$.
-
--   $Y_i(1)$ is the outcome that *would* obtain *if* the unit received
-    the treatment ($T_i=1$).
-
--   $Y_i(0)$ is the outcome that *would* obtain *if* the unit received
-    the control ($T_i=0$).
-:::
-
-::: {.col data-latex="{0.04\\textwidth}"}
-  <!-- an empty Div (with a white space), serving as
-a column separator -->
-:::
-
-::: {.col data-latex="{0.48\\textwidth}"}
--   Pour chaque unité, nous supposons qu'il y a deux résultats
-    *post-traitement* : $Y_i(1)$ et $Y_i(0)$.
-
--   $Y_i(1)$ est le résultat qu'on *obtiendrait si* l'unité recevait le
-    traitement ($T_i=1$).
-
--   $Y_i(0)$ est le résultat qu'on *obtiendrait si* l'unité recevait le
-    contrôle ($T_i=0$).
-:::
-:::
 
 ## Fundamental problem of causal inference \| *Le problème fondamental de l'inférence causale*
 
 ::: {.cols data-latex=""}
 ::: {.col data-latex="{0.48\\textwidth}"}
--   We can't measure the individual-level causal effect, because we
+-   **We can't measure the individual-level causal effect**, because we
     can't observe both $Y_i(1)$ and $Y_i(0)$ at the same time.
 
--   But not all is lost.
+\bigskip
 
--   We can estimate the **average treatment effect** with a randomized
-    experiment.
+-   But we can still estimate the **average treatment effect** with a
+    randomized experiment.
 :::
 
 ::: {.col data-latex="{0.04\\textwidth}"}
@@ -294,23 +393,22 @@ a column separator -->
 :::
 
 ::: {.col data-latex="{0.48\\textwidth}"}
--   Nous ne pouvons pas mesurer l'effet causal au niveau individuel, car
-    nous ne pouvons pas observer à la fois $Y_i(1)$ et $Y_i(0)$ pour un même individu.
+-   **Nous ne pouvons pas mesurer l'effet causal au niveau individuel**,
+    car nous ne pouvons pas observer à la fois $Y_i(1)$ et $Y_i(0)$ pour
+    un même individu.
 
--   Mais tout n'est pas perdu.
+\bigskip
 
--   Nous pouvons estimer **l'effet moyen du traitement** avec une
-    expérience aléatoire.
+-   Mais nous pouvons estimer **l'effet moyen du traitement**
+    avec une expérience aléatoire.
 :::
 :::
-
-<!-- $$ATE = \overline{\tau_i}= \overline{Y_i(1)-Y_i(0)} = \overline{Y_i(1)}-\overline{Y_i(0)}$$ -->
 
 ## Let's go back to the $Y_i(1)$ \| *Revenons à* $Y_i(1)$
 
 \centering
 
-![](../Images/fig05-Y1.png){width="320"}
+![](../Images/fig02-Y1.png){width="320"}
 
 ## We can take a random sample of these $Y_i(1)$ \| *Sélectionnons un échantillon aléatoire de* $Y_i(1)$
 
@@ -330,47 +428,98 @@ a column separator -->
 
 ![](../Images/fig08-y1-sample3.png){width="320"}
 
-## Let's get back to the $Y_i(0)$ \| *Revenons à* $Y_i(0)$
+## Average of sample averages \| *La moyenne des moyennes de l'échantillon*
 
 \centering
 
-![](../Images/fig09-y0-novals.png){width="320"}
+![](../Images/fig-y1dist.png){width="280"}
 
-## And we can take a random sample of these $Y_i(0)$ \| *Sélectionnons un autre échantillon aléatoire de* $Y_i(0)$
 
-\centering
 
-![](../Images/fig10-y0-sample1.png){width="320"}
+
+
+::: {.cols data-latex=""}
+::: {.col data-latex="{0.48\\textwidth}"}
+-   A particular sample average will not be the true population average.
+
+-   But the average of all the sample averages will be the true
+    population average!
+:::
+
+::: {.col data-latex="{0.04\\textwidth}"}
+  <!-- an empty Div (with a white space), serving as
+a column separator -->
+:::
+
+::: {.col data-latex="{0.48\\textwidth}"}
+-   Un échantillon particulier ne nous donnera probablement pas la vraie
+    valeur.
+
+-   Mais la moyenne de toutes les moyennes possibles est la vraie
+    valeur!
+:::
+:::
+
+
+## Connecting observed outcomes to potential outcomes \| *Relier les résultats observés aux résultats potentiels*
+
+\centering 
+
+$$Y_i = D_iY_i(1) + (1-D_i)Y_i(0)$$
+\bigskip
+
+::: {.cols data-latex=""}
+::: {.col data-latex="{0.48\\textwidth}"}
+1.  For the treated units, the observed outcome $Y_i$ is $Y_i(1)$.  
+
+2.  For the control units, the observed outcome $Y_i$ is $Y_i(0)$.  
+:::
+
+::: {.col data-latex="{0.04\\textwidth}"}
+  <!-- an empty Div (with a white space), serving as
+a column separator -->
+:::
+
+::: {.col data-latex="{0.48\\textwidth}"}
+1.  Pour les unités traitées, nous observons $Y_i=Y_i(1)$. 
+
+2.  Pour les unités de contrôle, nous observons $Y_i=Y_i(0)$. 
+:::
+:::
+
+
 
 ## A random assignment \| *Une assignation aléatoire*
 
 \centering
 
-![](../Images/fig06-y1-sample1.png){width="220"}![](../Images/fig10-y0-sample1.png){width="220"}
+![](../Images/fig11-assignedcondition.png){width="320"}
 
-## Put them together \| *Assemblons-les*
+
+## We learn the outcomes and produce an estimate \| *Nous apprenons les résultats et produisons une estimation*
 
 \centering
 
 ![](../Images/fig11-randomassignment1.png){width="320"}
 
-## A different random assignment \| *Une autre assignation aléatoire*
+## A different random assignment would have produced another estimate (maybe different) \| *Une assignation aléatoire différente aurait produit une autre estimation (peut-être differente)*
 
 \centering
 
 ![](../Images/fig12-randomassignment2.png){width="320"}
 
 ## Randomization is powerful \| *Randomiser est puissant*
+\centering
 
-Average treatment effect / l'effet moyen du traitement (ATE):
-
-$$ATE = \overline{\tau_i}= \overline{Y_i(1)-Y_i(0)} = \overline{Y_i(1)}-\overline{Y_i(0)}$$
+![](../Images/fig-taudist.png){width="380"}
 
 ::: {.cols data-latex=""}
 ::: {.col data-latex="{0.48\\textwidth}"}
-We use two facts:
+-   A particular random assignment will probably not give us the true average
+    treatment effect.
 
-1.  The average of a difference equals the difference of averages.
+-   But the average of the estimates produced by all possible
+    randomizations will be the true average treatment effect!
 :::
 
 ::: {.col data-latex="{0.04\\textwidth}"}
@@ -379,25 +528,55 @@ a column separator -->
 :::
 
 ::: {.col data-latex="{0.48\\textwidth}"}
-Nous appuyons sur deux faits:
+-   Une assignation aléatoire particulière ne nous donnera probablement
+    pas la vraie valeur de l'effet causal moyen de traitement.
 
-1.  La moyenne des différences est égale à la différence des moyennes.
+-   Mais la moyenne de toutes les estimations possibles est la vraie
+    valeur.
+:::
+:::
+
+
+## Randomization is powerful \| *Randomiser est puissant*
+
+Average treatment effect / l'effet moyen du traitement (ATE):
+\begin{align*}
+ATE = \overline{\tau_i} &= \overline{Y_i(1)-Y_i(0)} \\
+&= \overline{Y_i(1)}-\overline{Y_i(0)}
+\end{align*}
+
+::: {.cols data-latex=""}
+::: {.col data-latex="{0.48\\textwidth}"}
+<!-- We use this fact: -->
+
+The average of a difference equals the difference of averages.
+:::
+
+::: {.col data-latex="{0.04\\textwidth}"}
+  <!-- an empty Div (with a white space), serving as
+a column separator -->
+:::
+
+::: {.col data-latex="{0.48\\textwidth}"}
+<!-- Nous appuyons sur deux faits: -->
+
+La moyenne des différences est égale à la différence des moyennes.
 :::
 :::
 
 ## Randomization is powerful \| *Randomiser est puissant*
 
-$$Y_i = T_iY_i(1) + (1-T_i)Y_i(0)$$
-$$E_R[\overline{Y_i}|T_i=1]=\overline{Y_i(1)}$$
-$$E_R[\overline{Y_i}|T_i=0]=\overline{Y_i(0)}$$
+$$E_R[\overline{Y_i}|D_i=1]=\overline{Y_i(1)}$$
+$$E_R[\overline{Y_i}|D_i=0]=\overline{Y_i(0)}$$
+
 
 ::: {.cols data-latex=""}
 ::: {.col data-latex="{0.48\\textwidth}"}
-2.  Because the units were randomly assigned to treatment, $Y_i=Y_i(1)$
-    for the treated units represent the $Y_i(1)$ for all the units.
-    (What we observe is $Y_i$.)
+Because the units were randomly assigned to treatment, the average of the $Y_i$ for the treated units is a good estimate of the average of $Y_i(1)$ for all the units. 
 
-    The same logic applies to the units assigned to control.
+\medskip
+
+The same logic applies to the units randomly assigned to control.
 :::
 
 ::: {.col data-latex="{0.04\\textwidth}"}
@@ -406,30 +585,36 @@ a column separator -->
 :::
 
 ::: {.col data-latex="{0.48\\textwidth}"}
-2.  Parce que les unités ont été assignées de manière aléatoire au
-    traitement, $Y_i=Y_i(1)$ pour les unités traitées représentent les
-    $Y_i(1)$ pour toutes nos unités. (Ce que nous observons est $Y_i$.)
+Parce que les unités ont été assignées de manière aléatoire au traitement, la moyenne de $Y_i$ pour les unités traitées est une bonne estimation de la moyenne de $Y_i(1)$ pour toutes nos unités.
+    
+\medskip
 
-    La même logique s'applique pour les unités assignées aléatoirement
+La même logique s'applique pour les unités assignées aléatoirement
     au contrôle.
 :::
 :::
 
+<!-- ## Randomization is powerful \| *Randomiser est puissant* -->
+
+<!-- \centering -->
+
+<!-- ATE estimate: $\overline{Y}_{treated} - \overline{Y}_{control}$ -->
+
+
+<!-- \centering -->
+
+<!-- ![](../Images/fig11-randomassignment1.png){width="240"} -->
+
+
 ## Randomization is powerful \| *Randomiser est puissant*
 
-$$ATE = \overline{\tau_i}= \overline{Y_i(1)-Y_i(0)} = \overline{Y_i(1)}-\overline{Y_i(0)}$$
-$$E_R[\overline{Y_i}|T_i=1]=\overline{Y_i(1)}$$
-$$E_R[\overline{Y_i}|T_i=0]=\overline{Y_i(0)}$$
+$$E_R[\overline{Y_i}|D_i=1]=\overline{Y_i(1)}$$
+<!-- $$E_R[\overline{Y_i}|D_i=0]=\overline{Y_i(0)}$$ -->
+
 
 ::: {.cols data-latex=""}
 ::: {.col data-latex="{0.48\\textwidth}"}
--   $\overline{Y}$ means the average over a set of observations.
-
--   $E_R[]$ means the average over repeated operations.
-
--   We may not get exactly $\overline{Y_i(1)}$ from a particular
-    randomization, but we can expect to get $\overline{Y_i(1)}$ over
-    repeated experiments.
+![](../Images/fig06-y1-sample1.png){width="240"}
 :::
 
 ::: {.col data-latex="{0.04\\textwidth}"}
@@ -438,42 +623,16 @@ a column separator -->
 :::
 
 ::: {.col data-latex="{0.48\\textwidth}"}
--   $\overline{Y}$ signifie "moyenne sur un ensemble d'observations".
-
--   $E_R[]$ signifie "moyenne sur des opérations répétées".
-
--   Nous n'obtenons pas exactement $\overline{Y_i(1)}$ d'une assignation
-    aléatoire particulière, mais nous pouvons nous attendre à
-    $\overline{Y_i(1)}$ au cours d'expériences répétées.
+![](../Images/fig-y1dist.png){width="240"}
 :::
 :::
+
 
 ## Randomization is powerful \| *Randomiser est puissant*
+$$ATE = \overline{Y_i(1)}-\overline{Y_i(0)}$$
+$$E_R[\overline{Y_i}|D_i=1]=\overline{Y_i(1)}$$
+$$E_R[\overline{Y_i}|D_i=0]=\overline{Y_i(0)}$$
 
-::: {.cols data-latex=""}
-::: {.col data-latex="{0.48\\textwidth}"}
--   Randomization creates two groups that are similar except that one will
-    receive the treatment and the other will not. Differences before
-    receiving treatment are only due to chance.
-
--   Differences after treatment can be attributed to the treatment
-    instead of other factors.
-:::
-
-::: {.col data-latex="{0.04\\textwidth}"}
-  <!-- an empty Div (with a white space), serving as
-a column separator -->
-:::
-
-::: {.col data-latex="{0.48\\textwidth}"}
--   L'assignation aléatoire crée deux groupes d'unités qui sont similaires
-    excepté qu'un recevra le traitement et l'autre non. Les différences entre les groupes avant
-    de recevoir le traitement ne sont dues qu'au hasard.
-
--  Les différences entre les groupes après le traitement peuvent étre attribuées au traitement
-    plutôt qu'à d'autres facteurs.
-:::
-:::
 
 # Core assumptions \| *Hypothèses clés*
 
@@ -481,11 +640,13 @@ a column separator -->
 
 ::: {.cols data-latex=""}
 ::: {.col data-latex="{0.48\\textwidth}"}
-We need two core assumptions for randomized experiments:
+1. Random assignment of treatment.
 
-1.  Random assignment of treatment.
+\bigskip
 
 2.  SUTVA (Stable unit treatment value assumption).
+
+\bigskip
 
 3.  Excludability.
 :::
@@ -496,30 +657,37 @@ a column separator -->
 :::
 
 ::: {.col data-latex="{0.48\\textwidth}"}
-Nous avons besoin de deux hypothèses clés pour les experiences
-aléatoires:
-
 1.  L'assignation aléatoire du traitement.
+
+\bigskip
 
 2.  L'hypothèse SUTVA (Hypothèse stable de la valeur de traitement d'une
     unité).
+
+\bigskip
 
 3.  La restriction d'exclusion.
 :::
 :::
 
-## Core assumption 1: Random assignment of treatment \| *Hypothèse clé 1: L'assignation aléatoire du traitement*
+## Core assumption 1: Random assignment of treatment \| *Hypothèse clé 1 : L'assignation aléatoire du traitement*
 
 ::: {.cols data-latex=""}
 ::: {.col data-latex="{0.48\\textwidth}"}
--   Each observation has a *known* probability of assignment to
-    experimental conditions *between* 0 and 1.
+-   Random assignment means that each observation has a *known*
+    probability of assignment to experimental conditions *between* 0 and 1.
 
-    -   No unit in the experimental sample is assigned to treatment with
-        certainty (probability = 1) or to control with certainty
-        (probability = 0).
+\bigskip
 
+-   No unit in the experimental sample is assigned to treatment with
+    certainty (probability = 1) or to control with certainty
+    (probability = 0).
+
+\bigskip
+    
 -   It doesn't mean haphazard or uncontrolled!
+
+    
 :::
 
 ::: {.col data-latex="{0.04\\textwidth}"}
@@ -528,13 +696,36 @@ a column separator -->
 :::
 
 ::: {.col data-latex="{0.48\\textwidth}"}
--   Chaque observation a une probabilité *connue* d'assignation au
-    traitement comprise entre 0 et 1.
+-   L'assignation aléatoire signifie que chaque observation a une
+    probabilité *connue* d'assignation au traitement comprise entre 0 et 1.
 
-    -   Aucune unité de l'échantillon expérimental n'est assignée au
-        traitement ou au contrôle avec certitude.
+\bigskip
+
+-   Aucune unité de l'échantillon expérimental n'est assignée au
+    traitement (probabilité = 1)  ou au contrôle avec certitude (probabilité = 0).
+    
+\bigskip
 
 -   Cela ne signifie ni désordonné ni incontrôlé!
+
+
+:::
+:::
+
+## Core assumption 1: Random assignment of treatment \| *Hypothèse clé 1 : L'assignation aléatoire du traitement*
+
+::: {.cols data-latex=""}
+::: {.col data-latex="{0.48\\textwidth}"}
+-   Careful: Treatment assignment may be randomized, but treatment condition received may not be the same and hence not randomized.   
+:::
+
+::: {.col data-latex="{0.04\\textwidth}"}
+  <!-- an empty Div (with a white space), serving as
+a column separator -->
+:::
+
+::: {.col data-latex="{0.48\\textwidth}"}
+-   Attention ! L'assignation du traitement peut être randomisée, mais la condition du traitement reçu peut ne pas être la même que la condition assignée (donc ne pas être randomisée).
 :::
 :::
 
@@ -546,7 +737,10 @@ a column separator -->
 whether that subject receives the treatment himself/herself. It is not
 affected by how treatments happen to be allocated to other subjects.
 
-- A classic violation is the case of vaccines and their spillover effects.
+\medskip
+
+-   A classic violation is the case of vaccines and their spillover
+    effects.
 :::
 
 ::: {.col data-latex="{0.04\\textwidth}"}
@@ -555,25 +749,29 @@ a column separator -->
 :::
 
 ::: {.col data-latex="{0.48\\textwidth}"}
-2.1 La non-interférence -- Le résultat potentiel d'un sujet reflète
+2.1 L'absence de contamination -- Le résultat potentiel d'un sujet reflète
 uniquement la réception du traitement par ce sujet. Il n'est pas affecté
-par le statut du traitement des autres sujets.
+par le statut de traitement des autres sujets.
+
+\medskip
 
 -   Une violation classique est le cas des vaccins et de leurs effets de
     contamination.
 :::
 :::
 
-## Core assumption 2: SUTVA, part 2 \| *Hypothèse clé 2: SUTVA, partie 2*
+## Core assumption 2: SUTVA, part 2 \| *Hypothèse clé 2 : SUTVA, partie 2*
 
 ::: {.cols data-latex=""}
 ::: {.col data-latex="{0.48\\textwidth}"}
 2.2 No hidden variations of the treatment
-       
--   Say treatment is taking a vaccine, but there are two kinds of vaccines and they have different ingredients.
+
+\medskip
+
+-   Say treatment is taking a vaccine, but there are two kinds of
+    vaccines and they have different ingredients.
 
 <!-- -   An example of a violation is when whether I get sick when I take the vaccine ($Y_i(1)$) depends on which vaccine I take. We would have two different $Y_i(1)$! -->
-
 :::
 
 ::: {.col data-latex="{0.04\\textwidth}"}
@@ -583,6 +781,8 @@ a column separator -->
 
 ::: {.col data-latex="{0.48\\textwidth}"}
 2.2 Pas de variations cachées du traitement
+
+\medskip
 
 -   Disons que le traitement consiste à prendre un vaccin, mais il
     existe deux types de vaccins et ils ont des compositions
@@ -594,11 +794,13 @@ a column separator -->
 
 ::: {.cols data-latex=""}
 ::: {.col data-latex="{0.48\\textwidth}"}
-3.   Treatment assignment has no effect on outcomes except through its
+3.  Treatment assignment has no effect on outcomes except through its
     effect on whether treatment was received.
 
--   Treatment and control groups should be treated the same, except
-        for the actual treatment.
+\medskip
+
+-   Treatment and control groups should be treated the same, except for
+    the actual treatment.
 :::
 
 ::: {.col data-latex="{0.04\\textwidth}"}
@@ -607,22 +809,25 @@ a column separator -->
 :::
 
 ::: {.col data-latex="{0.48\\textwidth}"}
-3.   L'assignation au traitement n'a aucun effet sur les résultats, sauf
+3.  L'assignation au traitement n'a aucun effet sur les résultats, sauf
     à travers l'effet de recevoir ou non le traitement.
 
--   Important de maintenir la symétrie entre les groupes de
-        traitement et de contrôle, excepté le statut du traitement.
+\medskip
+
+-   Important de maintenir la symétrie entre les groupes de traitement
+    et de contrôle, excepté le statut du traitement.
 :::
 :::
 
-# Randomized experiments vs observational studies \| *Études aléatoires vs. études  observationnelles*
+## These assumptions are our responsibility \| Ces hypothèses sont notre réponsibilité
 
-## Different types of studies \| *Les différents types d'études*
 ::: {.cols data-latex=""}
 ::: {.col data-latex="{0.48\\textwidth}"}
--   Randomized studies
+-   If the assumptions are not valid, the conclusions may not be trustworthy.  
 
--   Observational studies
+\bigskip
+
+-   We should design and execute our research in ways that ensure these assumptions are valid.  Check for problems when you can.
 
 :::
 
@@ -632,49 +837,29 @@ a column separator -->
 :::
 
 ::: {.col data-latex="{0.48\\textwidth}"}
-- Études aléatoires
+- Si les hypothèses ne tiennent pas, les conclusions risquent de ne pas être fiables.
 
-- Études observationnelles
+\bigskip
 
-
+- Nous devons concevoir et faire nos recherches de manière à assurer la validité de ces hypothèses.  Vérifiez les problèmes lorsque vous le pouvez.
 :::
 :::
 
+# Randomized experiments vs observational studies \| *Études randomisées vs. études observationnelles*
 
 
-## Randomized studies \| *Études aléatoires*
-
-::: {.cols data-latex=""}
-::: {.col data-latex="{0.48\\textwidth}"}
--   Randomize treatment, then go measure outcomes.
-
--   We can attribute differences in outcomes to the treatment (plus
-        chance).
-:::
-
-::: {.col data-latex="{0.04\\textwidth}"}
-  <!-- an empty Div (with a white space), serving as
-a column separator -->
-:::
-
-::: {.col data-latex="{0.48\\textwidth}"}
-- Le traitement est assigné de manière aléatoire, ensuite on mesure les résultats.
-
-- Nous pouvons attribuer les différences de résultats au traitement (en plus
-        du hasard).
-:::
-:::
 
 ## Observational studies \| *Études observationnelles*
 
 ::: {.cols data-latex=""}
 ::: {.col data-latex="{0.48\\textwidth}"}
 -   Treatment is not randomly assigned. It is observed, but not
-        manipulated.
+    manipulated by researchers.
 
--   Differences might be due to underlying differences (selection
-        bias) or the treatment (plus noise). It's often very hard to
-        tell.
+\medskip
+
+-   Differences in outcomes might be due to underlying differences (selection bias)
+    or the treatment, plus noise. It's often very hard to tell.
 :::
 
 ::: {.col data-latex="{0.04\\textwidth}"}
@@ -683,11 +868,55 @@ a column separator -->
 :::
 
 ::: {.col data-latex="{0.48\\textwidth}"}
-- Le traitement n'est pas assigné de manière aléatoire. Il est observé, mais pas manipulé.
-   
-- Les différences peuvent être dues à des différences sous-jacentes (biais de sélection)
-    ou au traitement (plus le bruit).  C'est souvent très difficile à dire.
-  
+-   Le traitement n'est pas assigné de manière aléatoire. Il est
+    observé, mais pas manipulé pas les chercheurs.
+
+\medskip
+
+-   Les différences de résultats peuvent être dues à des différences sous-jacentes
+    (biais de sélection) ou au traitement, plus le bruit. C'est souvent
+    très difficile à dire.
+:::
+:::
+
+## Randomized studies \| *Études randomisées*
+
+::: {.cols data-latex=""}
+::: {.col data-latex="{0.48\\textwidth}"}
+-   Randomize treatment, then measure outcomes.
+
+\medskip
+
+-   Randomization creates two groups that we expect to be similar.  Differences before receiving treatment are only due to chance.
+
+\medskip
+
+-   **We** create the difference with the treatment.  Therefore, we can attribute differences in outcomes to the treatment (plus
+    chance) instead of other factors.
+
+<!-- -   This can breakdown when outcomes are not measured for some units -->
+<!--     (attrition). -->
+:::
+
+::: {.col data-latex="{0.04\\textwidth}"}
+  <!-- an empty Div (with a white space), serving as
+a column separator -->
+:::
+
+::: {.col data-latex="{0.48\\textwidth}"}
+
+- Randomiser le traitement, puis mesurer les résultats.
+
+\medskip
+
+- La randomisation crée deux groupes qui devraient être similaires.  Les différences avant le traitement ne sont dues qu'au hasard.
+
+\medskip
+
+- **Nous** créons ensuite la différence avec le traitement.  Nous pouvons donc attribuer les différences de résultats au traitement (plus
+ le hasard) plutôt qu'à d'autres facteurs.
+ 
+<!-- -   Cela peut échouer lorsque les résultats ne sont pas mesurés pour certaines unités (attrition). -->
 :::
 :::
 
@@ -696,13 +925,11 @@ a column separator -->
 
 ::: {.cols data-latex=""}
 ::: {.col data-latex="{0.48\\textwidth}"}
--   Randomized studies have high internal validity -- confidence that we
-    have learned the causal effect of a treatment on an outcome.
+-   Randomization generally gives us internal validity -- confidence in our estimate of the causal effect of $D$ on $Y$ for our study.
 
--   Observational studies have to invoke additional
-    strong assumptions to make the same claim of a causal effect.
+\medskip
 
-
+-   Observational studies generally need other strong assumptions to try to deal with selection bias.
 :::
 
 ::: {.col data-latex="{0.04\\textwidth}"}
@@ -711,24 +938,31 @@ a column separator -->
 :::
 
 ::: {.col data-latex="{0.48\\textwidth}"}
-- La randomisation apporte une validité interne élevée à une étude
-    -- nous avons appris l'effet causal du traitement sur le résultat avec un certain niveau de confiance.
+-   La randomisation nous donne généralement une validité interne : une confiance dans notre estimation de l’effet causal de $D$ sur $Y$ pour notre étude.
 
-- Les études observationelles doivent invoquer d'autres hypothèses fortes pour faire la même affirmation à propos d'un effet causal.
+\medskip
 
+-   Les études observationelles ont besoin d'autres hypothèses
+    fortes pour résoudre le biais de sélection.
 :::
 :::
 
-## Generalizability (external validity) \| *Généralisabilité (la validité externe)*
-
+## External Validity (Generalizability) \| *La validité externe (Généralisabilité) *
+ 
 ::: {.cols data-latex=""}
 ::: {.col data-latex="{0.48\\textwidth}"}
--   The finding from a particular study in one particular place and at
-    one particular time may not hold in other settings (i.e., not have
+-   The units in your study might or might not be representative of a
+    larger population.
+
+\medskip
+
+-   The conclusions from one study may not apply to other settings (i.e., not have
     external validity).
 
--   This is a general concern for observational studies as well, not
-    just a concern for randomized studies.
+\medskip
+
+-   This is a general concern for both observational and randomized studies.
+
 :::
 
 ::: {.col data-latex="{0.04\\textwidth}"}
@@ -737,12 +971,16 @@ a column separator -->
 :::
 
 ::: {.col data-latex="{0.48\\textwidth}"}
- 
-- Le résultat d'une étude spécifique à un endroit et moment particuliers peut ne pas être valable dans d'autres contextes (i.e. la validité externe).
+-   Les unités de votre étude peuvent ou non être représentatives d'une
+    population plus large.
+    
+\medskip    
 
-- C'est une préoccupation générale, pas seulement une préoccupation pour les études aléatoires.
+-   Les conclusions d'une étude peuvent ne pas s'appliquer à d'autres contextes (i.e. manque de la validité externe).
 
+\medskip
 
+-   C'est une préoccupation générale, tant pour les études observationnelles que pour les études randomisées.
 :::
 :::
 
@@ -756,8 +994,12 @@ a column separator -->
     works to accumulate knowledge by pre-planning a meta-analysis of
     multiple studies that have high internal validity due to
     randomization.
-    
+
 -   Guide des méthodes EGAP sur la randomisation
     (<https://egap.org/fr/resource/10-choses-a-savoir-sur-la-randomisation/>)
 
-- [L'initiative Metaketa d'EGAP](https://egap.org/our-work/the-metaketa-initiative/) vise à accumuler des connaissances en pré-planifiant une méta-analyse de plusieurs études qui ont une validité interne élevée en raison de la randomisation.
+-   [L'initiative Metaketa
+    d'EGAP](https://egap.org/our-work/the-metaketa-initiative/) vise à
+    accumuler des connaissances en pré-planifiant une méta-analyse de
+    plusieurs études qui ont une validité interne élevée en raison de la
+    randomisation.

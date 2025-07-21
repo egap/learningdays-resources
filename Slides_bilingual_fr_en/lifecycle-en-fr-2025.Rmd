@@ -1,0 +1,811 @@
+---
+title: "Lifecycle of an experiment | *Cycle de vie d'une expérience*"
+author: "Adikath Abiola and/et Gareth Nellis"
+date: "23 May/mai 2025"
+classoption: "aspectratio=169"
+colorlinks: yes
+fig_caption: yes
+header-includes: |
+   \setbeamertemplate{footline}{\begin{beamercolorbox}{section in head/foot}
+   \includegraphics[height=.5cm]{egap-logo.png} \hfill
+   \insertframenumber/\inserttotalframenumber \end{beamercolorbox}}
+   \usepackage{tikz}
+   \usepackage{tikz-cd}
+   \usepackage{textpos}
+   \usepackage{booktabs,multirow,makecell}
+output:
+  beamer_presentation:
+    keep_tex: true
+    includes:
+      in_header: columns.tex
+    fig_caption: true
+  revealjs::revealjs_presentation:
+    fig_caption: true
+    theme: default
+    highlight: pygments
+    center: false
+    transition: fade
+    smart: false
+    self_contained: false
+    reveal_plugins: ["notes", "search", "chalkboard"]
+    pandoc_args: [ "--toc" ]
+    reveal_options:
+      slideNumber: true
+      previewLinks: true
+      chalkboard:
+        theme: whiteboard
+        toggleNotesButton: false
+editor_options: 
+  markdown: 
+    wrap: 72
+---
+
+## Key points for this lecture \| *Points clés du cours*
+
+::: {.cols data-latex=""}
+::: {.col data-latex="{0.48\\textwidth}"}
+
+- Start with descriptive research
+- Assess your design in many ways
+- Build the right team - people and culture
+- Don't be afraid to stop
+
+:::
+
+::: {.col data-latex="{0.04\\textwidth}"}
+  <!-- an empty Div (with a white space), serving as
+a column separator -->
+:::
+
+::: {.col data-latex="{0.48\\textwidth}"}
+
+- Commencez avec la recherche descriptive
+- Étudiez votre conception dans multiples manières
+- Construisez la bonne équipe - les personnes et la culture
+- N'hésitez pas de laisser tomber un projet
+
+:::
+:::
+
+
+## 14 Key Steps \| *14 étapes clés du cours*
+
+::: {.cols data-latex=""}
+::: {.col data-latex="{0.48\\textwidth}"}
+
+Launch the experiment
+
+1. Learn about the world
+
+2. Find an idea
+
+3. Build a set of partners
+
+4. Define your design
+
+5. Find funding
+
+6. Assess your design
+
+7. Test and workshop your design
+
+8. Pilot and pivot
+
+Run the experiment
+
+9-11. Implement, Monitor, Pivot
+
+Analyze and report
+
+12-14. Analyze, Communicate, Archive 
+
+
+
+:::
+
+::: {.col data-latex="{0.04\\textwidth}"}
+  <!-- an empty Div (with a white space), serving as
+a column separator -->
+:::
+
+::: {.col data-latex="{0.48\\textwidth}"}
+
+Lancer l'expérience
+
+1. Découvrir le monde 
+
+2. Trouver l'idée
+
+3. Etablir un partenariat
+
+4. Définir votre design
+
+5. Obtenir le financement
+
+6. Évaluer votre design
+
+7. Tester votre design et obtenir des commentaires
+
+8. Piloter et pivoter
+
+
+Mettre en oeuvre l'expérience
+
+9-11. Mettre en oeuvre, Contrôler, Pivoter
+
+Analyser et rédiger
+
+12-14. Analyser, Communiquer, Archiver 
+
+
+:::
+:::
+
+
+## Where to start \| *Par où commencer ?*
+
+::: {.cols data-latex=""}
+::: {.col data-latex="{0.48\\textwidth}"}
+
+Who finds the idea:
+
+- A researcher
+- A programming organization
+- A donor 
+
+\bigskip
+
+Where the idea comes from:
+ 
+- Reading the descriptive literature
+- Reading experiments (create gap map, replication)
+- Interviews/observation with program participants or staff
+- Identify evidence gaps in practice 
+
+:::
+
+::: {.col data-latex="{0.04\\textwidth}"}
+  <!-- an empty Div (with a white space), serving as
+a column separator -->
+:::
+
+::: {.col data-latex="{0.48\\textwidth}"}
+
+Qui trouve l'idée: 
+
+- Un chercheur
+- Une organisation qui réalise des programmes
+- Un bailleur de fonds
+
+\bigskip
+
+D'où vient l'idée:
+
+- La lecture de la littérature descriptive
+- Lecture de la littérature expérimentale (création d'une carte des lacunes, réplication)
+- Entretiens/observation avec le personnel ou participants du programme
+- Identification des lacunes de preuves dans la pratique
+   
+:::
+:::
+
+
+## Do I always need a partner? \| *Ai-je toujours besoin d'un partenaire ?*
+
+::: {.cols data-latex=""}
+::: {.col data-latex="{0.48\\textwidth}"}
+
+Sometimes it's better to do the intervention and evaluation yourself if...
+
+\bigskip 
+
+- The intervention is relatively small
+- You need a lot of control (over variations, content)
+- You are less interested in testing an existing program
+
+:::
+
+::: {.col data-latex="{0.04\\textwidth}"}
+  <!-- an empty Div (with a white space), serving as
+a column separator -->
+:::
+
+::: {.col data-latex="{0.48\\textwidth}"}
+
+Il est parfois mieux de réaliser l'intervention et l'évaluation vous-même si...
+
+\bigskip 
+
+- l'intervention est relativement modeste
+- vous avez besoin de beaucoup de contrôle (sur les variations, le contenu)
+- Vous n'essayez pas de tester un program réel existant
+
+:::
+:::
+
+
+
+## Finding a partner \| *Trouver un partenaire*
+
+::: {.cols data-latex=""}
+::: {.col data-latex="{0.48\\textwidth}"}
+
+Impact evaluation experiments almost always involve two partners:
+
+\bigskip
+
+1. A researcher
+
+- Has technical skills in designing and analyzing experiments
+- Can be independent from the program $\rightarrow$ less bias
+- Responsible for randomization, measurement, analysis, and interpretation
+
+
+:::
+
+::: {.col data-latex="{0.04\\textwidth}"}
+  <!-- an empty Div (with a white space), serving as
+a column separator -->
+:::
+
+::: {.col data-latex="{0.48\\textwidth}"}
+
+Les experiences politiques impliquent presquent toujours deux partenaires differents :
+
+\bigskip
+
+1. Un chercheur
+
+- Qui possede les capacités techniques réquis
+- Qui peut etre independent du programme $\rightarrow$ mois de biais de jugement
+- Qui est responsable pour la randomisation, mesurer les resultats, analyser les données, et intepreter les implications
+
+
+:::
+:::
+
+
+
+## Finding a partner \| *Trouver un partenaire*
+
+::: {.cols data-latex=""}
+::: {.col data-latex="{0.48\\textwidth}"}
+
+Impact evaluation experiments almost always involve two partners:
+
+\bigskip
+
+2. A programming team
+
+- Has skills in designing and implementing programs
+- Wants evidence on whether one of their programs has the intended effects
+- Responsible for implementing the program and following requirements of the research design (randomization, timeline, etc)
+
+:::
+
+::: {.col data-latex="{0.04\\textwidth}"}
+  <!-- an empty Div (with a white space), serving as
+a column separator -->
+:::
+
+::: {.col data-latex="{0.48\\textwidth}"}
+
+Les experiences politiques impliquent presquent toujours deux partenaires differents :
+
+\bigskip
+
+2. Une équipe de programmation
+
+- Qui possède les capacités en conceptualisation et mise-en-oeuvre des programmes
+- Qui souhaite comprendre si un programme a les effets attendus
+- Qui est responsable pour le mise-en-oeuvre du programme et de respecter la conceptualisation de la recherche (randomisation, timing, etc)
+
+:::
+:::
+
+
+<!-- ## Finding a partner \| *Trouver un partenaire* -->
+
+<!-- ::: {.cols data-latex=""} -->
+<!-- ::: {.col data-latex="{0.48\\textwidth}"} -->
+
+<!-- A good research partner: -->
+
+<!-- - Is upfront about the process (costs and benefits) -->
+<!-- - Has the necessary technical skills -->
+<!-- - Listens to the priorities and questions of the partner -->
+<!-- - Communicates to the technical level of the partner -->
+
+
+<!-- ::: -->
+
+<!-- ::: {.col data-latex="{0.04\\textwidth}"} -->
+<!--   <!-- an empty Div (with a white space), serving as -->
+<!-- a column separator --> -->
+<!-- ::: -->
+
+<!-- ::: {.col data-latex="{0.48\\textwidth}"} -->
+
+<!-- Un bon partenaire de recherche :  -->
+
+<!-- - Est honnête sur le processus (coûts et limites) -->
+<!-- - Possède les competences techniques requises -->
+<!-- - Est sensible aux priorités et questions du partenaire -->
+<!-- - Communique au niveau technique du partenaire -->
+
+
+<!-- ::: -->
+<!-- ::: -->
+
+
+
+<!-- ## Finding a partner \| *Trouver un partenaire* -->
+
+<!-- ::: {.cols data-latex=""} -->
+<!-- ::: {.col data-latex="{0.48\\textwidth}"} -->
+
+
+<!-- A good programming partner: -->
+
+<!-- - Wants to know the answer to your research question -->
+<!-- - Can work at the scale needed for statistical power -->
+<!-- - Has buy-in from relevant internal and external decision-makers -->
+<!-- - Has funds for the program (and ideally for the evaluation) or can help raise them -->
+
+<!-- ::: -->
+
+<!-- ::: {.col data-latex="{0.04\\textwidth}"} -->
+<!--   <!-- an empty Div (with a white space), serving as -->
+<!-- a column separator --> -->
+<!-- ::: -->
+
+<!-- ::: {.col data-latex="{0.48\\textwidth}"} -->
+
+
+<!-- Un bon partenaire de programmation : -->
+
+<!-- - Souhaite savoir le réponse a votre question de recherche -->
+<!-- - Peut travailler à l'échelle nécessaire pour le pouvoir statistique -->
+<!-- - A l'appui des décideurs internes et externes concernés -->
+<!-- - Dispose idéalement de fonds pour la mise en œuvre (et même pour l'évaluation) ou peut aider à les obtenir -->
+
+<!-- ::: -->
+<!-- ::: -->
+
+
+
+## Write a preanalysis plan (PAP) \| *Ecrivez un plan de pre-analyse (PAP)*
+
+::: {.cols data-latex=""}
+::: {.col data-latex="{0.48\\textwidth}"}
+
+
+A preanalysis plan (PAP) is a complete, detailed description of your design:  
+
+\bigskip 
+
+- Describe randomization and measurement
+- Describe your hypothesis and how your strategy for analysis
+- Power analysis 
+
+\bigskip 
+
+You can find many examples on OSF Registries: https://osf.io/registries/
+
+:::
+
+::: {.col data-latex="{0.04\\textwidth}"}
+  <!-- an empty Div (with a white space), serving as
+a column separator -->
+:::
+
+::: {.col data-latex="{0.48\\textwidth}"}
+
+
+Un plan de préanalyse est une description complète et détaillée de votre projet :  
+
+\bigskip 
+
+- Décrivez les plans pour randomiser et mesurer.
+- Décrivez les hypothèses et les plans pour analyser.
+- Analysez de puissance statistique.
+   
+\bigskip 
+
+Vous trouverez de nombreux exemples sur les registres de l'OSF : https://osf.io/registries/
+   
+:::
+:::
+
+
+
+## Why write a PAP? \| *A quoi sert un PAP?*
+
+::: {.cols data-latex=""}
+::: {.col data-latex="{0.48\\textwidth}"}
+
+
+- This step helps you fully define your plan $\rightarrow$ make fewer mistakes
+- It helps you avoid a biased analysis $\rightarrow$ less "p-hacking" (selection of analysis to find desired results)
+
+
+:::
+
+::: {.col data-latex="{0.04\\textwidth}"}
+  <!-- an empty Div (with a white space), serving as
+a column separator -->
+:::
+
+::: {.col data-latex="{0.48\\textwidth}"}
+
+- Cette étape vous aide à définir complètement votre plan $\rightarrow$ moins d'erreurs
+- Elle permet d'éviter une analyse biaisée $\rightarrow$ moins de "p-hacking" (sélection de l'analyse pour obtenir les résultats souhaités)
+
+   
+:::
+:::
+
+
+
+
+## Assess your design \| *Évaluer votre design*
+
+::: {.cols data-latex=""}
+::: {.col data-latex="{0.48\\textwidth}"}
+
+- It it powered?
+- Do you analyze as your randomize?
+- Are risks to participants, communities, research staff sufficiently small? 
+- Is it cost effective?
+
+:::
+
+::: {.col data-latex="{0.04\\textwidth}"}
+  <!-- an empty Div (with a white space), serving as
+a column separator -->
+:::
+
+::: {.col data-latex="{0.48\\textwidth}"}
+
+- Le design a-t-il une (bonne) puissance statistique ?
+- Analysez-vous comme vous randomisez?
+- Est-ce que les risques pour les participants, les communautés et le personnel de recherche sont suffisament petites?
+- Est-ce efficace en termes de coûts ?
+   
+:::
+:::
+
+
+
+
+
+## Feedback \| *Retours d'information*
+
+::: {.cols data-latex=""}
+::: {.col data-latex="{0.48\\textwidth}"}
+
+- Researchers: how can you improve the design technically? (power, sensitivity of measures, connection between treatments and theory, etc.)
+- Policymakers: is the design informative? Does the intervention solve a problem? 
+- Programmers: is the program feasible? What are the risks?
+- Participants: would you participate? 
+- All: any ethical problems? 
+
+:::
+
+::: {.col data-latex="{0.04\\textwidth}"}
+<!-- an empty Div (with a white space), serving as
+a column separator -->
+:::
+
+::: {.col data-latex="{0.48\\textwidth}"}
+
+- Chercheurs : comment améliorer la conception d'un point de vue technique (puissance, sensibilité des mesures, lien entre les traitements et la théorie, etc.)
+- Décideurs politiques : la conception est-elle informative ? L'intervention résout-elle un problème ? 
+- Programmeurs : le programme est-il réalisable ? Quels sont ses risques ?
+- Participants : voulez-vous participer ? 
+- Tous : y a-t-il des problèmes éthiques ? 
+
+:::
+:::
+
+
+
+## Funding \| *Financement*
+
+::: {.cols data-latex=""}
+::: {.col data-latex="{0.48\\textwidth}"}
+
+Main budget elements
+
+\bigskip 
+
+- The program
+- The measurement
+- Your time
+
+
+
+:::
+
+
+::: {.col data-latex="{0.04\\textwidth}"}
+  <!-- an empty Div (with a white space), serving as
+a column separator -->
+:::
+
+::: {.col data-latex="{0.48\\textwidth}"}
+
+Les éléments du budget 
+
+\bigskip 
+
+- Le programme
+- Le mesurage
+- Votre temps
+
+
+
+:::
+:::
+
+
+
+
+## Funding \| *Financement*
+
+::: {.cols data-latex=""}
+::: {.col data-latex="{0.48\\textwidth}"}
+
+
+Early funders
+
+- The organization running the program
+- Friends and colleagues
+
+\bigskip 
+
+Bigger (and slower) funders
+
+<!-- - SSRC, CEGA, JPAL, IPA, EGAP, PEDL, IPRAF small grants -->
+<!-- - National research agencies  -->
+<!-- - National development agencies  -->
+<!-- - Bilateral/multilateral donors (World Bank, USAID, French AFD) -->
+<!-- - Foundations (Hewlett, Carnegie, Rockefeller, Gates, Ford, Mellon, Macarthur, Open Society, Sloan, large companies like MasterCard) -->
+<!-- - Afridemics.com scholarship database -->
+
+:::
+
+
+::: {.col data-latex="{0.04\\textwidth}"}
+  <!-- an empty Div (with a white space), serving as
+a column separator -->
+:::
+
+::: {.col data-latex="{0.48\\textwidth}"}
+
+Les premiers bailleurs de fonds 
+
+- L'organisation qui gère le programme
+- Les amis et les collègues
+
+
+\bigskip 
+
+Plus grands (et lents) bailleurs de fonds
+
+<!-- - SSRC, CEGA, JPAL, IPA, EGAP, PEDL, IPRAF small grants -->
+<!-- - Les agences de récherche nationals -->
+<!-- - Les agences de developpement nationals -->
+<!-- - Les bailleurs de fonds bi- ou multilateral (Banque mondiale, USAID, AFD) -->
+<!-- - Les fondations (Hewlett, Carnegie, Rockefeller, Gates, Ford, Mellon, Macarthur, Open Society, Sloan, grandes entreprises comme MasterCard) -->
+<!-- - Afridemics.com scholarship database -->
+
+   
+:::
+:::
+
+
+
+
+<!-- ## Funding \| *Financement* -->
+
+<!-- ::: {.cols data-latex=""} -->
+<!-- ::: {.col data-latex="{0.48\\textwidth}"} -->
+
+<!-- Bigger (and slower) funders -->
+
+<!-- \bigskip  -->
+
+<!-- - SSRC, CEGA -->
+<!-- - JPAL, IPA, EGAP, PEDL, IPRAF small grants -->
+<!-- - National research agencies  -->
+<!-- - National development agencies  -->
+<!-- - Bilateral/multilateral donors (World Bank, USAID, French AFD) -->
+<!-- - Foundations (Hewlett, Carnegie, Rockefeller, Gates, Ford, Mellon, Macarthur, Open Society, Sloan, large companies like MasterCard) -->
+<!-- - Afridemics.com scholarship database -->
+
+<!-- ::: -->
+
+
+<!-- ::: {.col data-latex="{0.04\\textwidth}"} -->
+<!--   <!-- an empty Div (with a white space), serving as -->
+<!-- a column separator --> 
+<!-- ::: -->
+
+<!-- ::: {.col data-latex="{0.48\\textwidth}"} -->
+
+
+<!-- Plus grands (et lents) bailleurs de fonds -->
+
+<!-- \bigskip  -->
+
+<!-- - SSRC, CEGA -->
+<!-- - JPAL, IPA, EGAP, PEDL, IPRAF small grants -->
+<!-- - Les agences de récherche nationals -->
+<!-- - Les agences de developpement nationals -->
+<!-- - Les bailleurs de fonds bi- ou multilateral (World Bank, USAID, AFD) -->
+<!-- - Les fondations (Hewlett, Carnegie, Rockefeller, Gates, Ford, Mellon, Macarthur, Open Society, Sloan, grandes entreprises comme MasterCard) -->
+<!-- - Afridemics.com scholarship database -->
+
+
+
+<!-- ::: -->
+<!-- ::: -->
+
+
+
+
+## Scoping and piloting \| *Cadrage et pilotage*
+
+::: {.cols data-latex=""}
+::: {.col data-latex="{0.48\\textwidth}"}
+
+- Is the intervention feasible?
+- Is your measurement strategy feasible?
+- What information/data do you need to carry out your experiment?
+- Are all partners capable of playing their roles well?
+- Cannot learn much about the effect size! 
+
+
+:::
+
+::: {.col data-latex="{0.04\\textwidth}"}
+  <!-- an empty Div (with a white space), serving as
+a column separator -->
+:::
+
+::: {.col data-latex="{0.48\\textwidth}"}
+
+- L'intervention est-elle réalisable?
+- Votre stratégie de mesure est-elle réalisable?
+- De quelles informations/données avez-vous besoin pour mener votre expérimentation?
+- Est-ce que tous les partenaires sont bien capable de jouer leur rôles comme prévu?
+- On ne peut pas apprendre grand-chose sur la taille de l'effet!
+
+:::
+:::
+
+
+
+
+## Five uses of AI/ChatGPT \| *Cinq usages de l’IA/ChatGPT* 
+
+::: {.cols data-latex=""}
+::: {.col data-latex="{0.48\\textwidth}"}
+
+- Ideas generation and identifying research gaps
+- Survey instrument design (simplifying questions, spotting mistakes)
+- Coding (cleaning, randomization, estimation, power analysis)
+- Translation (surveys, protocols, training materials)
+- Feedback on writing of final report
+
+\bigskip
+*Always check work; beware of plagiarism*
+
+
+:::
+
+::: {.col data-latex="{0.04\\textwidth}"}
+  <!-- an empty Div (with a white space), serving as
+a column separator -->
+:::
+
+::: {.col data-latex="{0.48\\textwidth}"}
+
+- Génération d’idées et identification des lacunes dans la recherche
+- Conception des questionnaires (simplification des questions, détection des erreurs)
+- Codage (nettoyage des données, randomisation, estimation, analyse de puissance)
+- Traduction (questionnaires, protocoles, supports de formation)
+- Retour sur l’écriture du rapport final
+
+\bigskip
+*Toujours vérifier son travail ; attention au plagiat*
+
+
+:::
+:::
+
+
+
+
+
+
+
+
+## 14 Key Steps \| *14 étapes clés du cours*
+
+::: {.cols data-latex=""}
+::: {.col data-latex="{0.48\\textwidth}"}
+
+Launch the experiment
+
+1. Learn about the world
+
+2. Find an idea
+
+3. Build a set of partners
+
+4. Define your design
+
+5. Find funding
+
+6. Assess your design
+
+7. Test and workshop your design
+
+8. Pilot and pivot
+
+Run the experiment
+
+9-11. Implement, Monitor, Pivot
+
+Analyze and report
+
+12-14. Analyze, Communicate, Archive 
+
+
+
+:::
+
+::: {.col data-latex="{0.04\\textwidth}"}
+  <!-- an empty Div (with a white space), serving as
+a column separator -->
+:::
+
+::: {.col data-latex="{0.48\\textwidth}"}
+
+Lancer l'expérience
+
+1. Découvrir le monde 
+
+2. Trouver l'idée
+
+3. Etablir un partenariat
+
+4. Définir votre design
+
+5. Obtenir le financement
+
+6. Évaluer votre design
+
+7. Tester votre design et obtenir des commentaires
+
+8. Piloter et pivoter
+
+
+Mettre en oeuvre l'expérience
+
+9-11. Mettre en oeuvre, Contrôler, Pivoter
+
+Analyser et rédiger
+
+12-14. Analyser, Communiquer, Archiver 
+
+
+:::
+:::
+
+
+
+
+
