@@ -802,7 +802,7 @@ est3 <- declare_estimator(Y ~ Z,
 )
 
 est4 <- declare_estimator(Y ~ Z + cl_sizeF,
-  inquiry = "ATE_indiv", clusters = clus_id,
+  inquiry = "ATE_indiv", olusters = clus_id,
   .method = lm_robust, label = "Y~Z+clus_size_fixed_effects, CR2 SE"
 )
 
@@ -1696,3 +1696,19 @@ coef(itt_y)[["Z"]] / coef(itt_d)[["Z"]]
 
 
 
+```{r}
+## Frequentist models using the James E. Pustejovsky and Elizabeth Tipton
+## Difference in means with fixed effects for block and CR2 cluster correction
+res1 <- lm_robust(Y~Z,fixed_effects = ~block,clusters=clus_id,se_type = "CR2",data=dat1)
+summary(res1)
+
+## Modelo multinivel: assumption is that Y~N(), that intercepts also are normally distributed
+## Here we are saying that clusters are nested within blocks (I think!)
+## This is basically a Bayesian model
+## https://stats.stackexchange.com/questions/228800/crossed-vs-nested-random-effects-how-do-they-differ-and-how-are-they-specified
+library(lme4)
+library(lmerTest)
+res2 <- lmer(Y~Z+(1|clus_id/block),data=dat1)
+summary(res2)
+
+```
