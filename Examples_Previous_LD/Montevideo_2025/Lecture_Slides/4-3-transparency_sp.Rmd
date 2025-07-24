@@ -1,0 +1,93 @@
+---
+title: "Transparencia: Una Introducción"
+author: "Jake Bowers \\ EGAP Learning days, Montevideo"
+date: "`r format(Sys.time(), '%d-%m-%Y')`"
+output:
+  beamer_presentation:
+    keep_tex: yes
+    slide_level: 2
+    toc: yes
+  revealjs::revealjs_presentation:
+    center: no
+    fig_caption: yes
+    highlight: pygments
+    pandoc_args: --toc
+    reveal_options:
+      chalkboard:
+        theme: whiteboard
+        toggleNotesButton: no
+      previewLinks: yes
+      slideNumber: yes
+    reveal_plugins:
+    - notes
+    - search
+    - chalkboard
+    self_contained: no
+    smart: no
+    theme: default
+    transition: fade
+bibliography: learningdays-book.bib
+header-includes: |
+   \setbeamertemplate{footline}{\begin{beamercolorbox}{section in head/foot}
+   \includegraphics[height=.5cm]{images/egap-logo.png} \hfill
+   \insertframenumber/\inserttotalframenumber \end{beamercolorbox}}
+   \usepackage{makecell}
+   \usepackage{tikz}
+   \usepackage{tikz-cd}
+   \usetikzlibrary{arrows,automata,positioning,trees,babel}
+   \usepackage{textpos}
+   \usepackage{booktabs,multirow}
+   \usepackage[utf8]{inputenc}
+   \usepackage[T1]{fontenc}
+link-citations: yes
+colorlinks: yes
+biblio-style: apalike
+---
+
+
+```{r setup, include=FALSE, echo=FALSE}
+library(here)
+source(here("rmd_setup.R"))
+# source("rmd_setup.R")
+library(DesignLibrary)
+library(styler)
+```
+
+## ¿Qué queremos decir con "transparencia" en la investigación?
+
+Parte del proceso de investigación incluye: compartir datos, compartir diseños,
+compartir planes de análisis, compartir desviaciones de los planes.
+
+¿Compartir con quién?
+
+- El público
+- Otros investigadores
+- Formuladores de políticas y otros tomadores de decisiones (en gobierno, en
+organizaciónes, en sociedad)
+- Actores políticos
+- **Tu yo futuro** [@bowers2016future]
+
+
+## ¿Por qué la transparencia?
+
+ - Facilita que las personas interpreten tus resultados.
+   - Te facilita justificar tus decisiones sobre: diseño, análisis, interpretación.
+   - Ayuda centrar debate en el fondo y no en los métodos.
+ - Hace al investigador responsable ante una comunidad (o comunidades).
+ - Hace que el **tu yo futuro** esté más contento con **tu yo actual** [@bowers2016future]
+
+
+## ¿Cómo lograr la transparencia?
+
+- Comparte diseños y planes de análisis en el [Registro EGAP](https://osf.io/registries/egap/discover) o [OSF](http://osf.io) o [AEA](https://www.socialscienceregistry.org/).
+ - Sigue las mejores prácticas para usar el código para cambiar el mundo:
+   - @bowers2016future y [10 cosas que debes saber sobre el flujo de trabajo del proyecto](https://egap.org/resource/10-things-to-know-about-project-workflow/)^[ver también [algunas de las guías opinadas sobre el uso de LaTeX](https://egap.org/resource/10-things-writing-in-latex/)].
+     - por ejemplo, comparte tu código en Github (mira [el repositorio para @rabb2022pnas](https://github.com/thepolicylab/COVID-VaccinesSocialNorms) o el [repositorio para @rabb2022nature](https://github.com/thepolicylab/COVID-SMSExperiment)).
+   - Consulta el [Proceso de Proyecto OES](https://oes.gsa.gov/projectprocess/) para ver cómo un **equipo** logra transparencia.
+   - Consulta el [Pagina de OSF del Lab@DC](https://osf.io/wb8ue/) para ejemplos de registraciones.
+
+---
+
+## Referencias
+
+
