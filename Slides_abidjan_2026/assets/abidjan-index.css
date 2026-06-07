@@ -1,0 +1,295 @@
+/* Index page for Abidjan Learning Days slide hub */
+
+:root {
+  --egap-blue: #1a5f96;
+  --egap-blue-light: #dceefb;
+  --text: #1a1a1a;
+  --muted: #555;
+  --card-border: #c8d8e8;
+  --page-bg: #ffffff;
+}
+
+html,
+body,
+#quarto-content,
+main.content,
+.quarto-container {
+  background: var(--page-bg) !important;
+}
+
+body {
+  background: var(--page-bg);
+  color: var(--text);
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  line-height: 1.45;
+}
+
+main.content {
+  max-width: 72rem;
+  margin: 2rem auto 3rem;
+  padding: 0 1.25rem;
+}
+
+.index-page main.content {
+  max-width: min(96rem, 98vw);
+  padding: 0 1.5rem;
+}
+
+.hero {
+  text-align: center;
+  margin-bottom: 1.25rem;
+  padding: 1rem 0 0.25rem;
+}
+
+.hero .logo {
+  display: block;
+  margin: 0 auto 0.5rem;
+}
+
+h1.title {
+  display: none;
+}
+
+main h1 {
+  font-size: 1.55rem;
+  font-weight: 700;
+  color: var(--egap-blue);
+  margin-top: 0;
+  margin-bottom: 0.5rem;
+  text-align: center;
+}
+
+main > p {
+  text-align: center;
+  color: var(--muted);
+  font-size: 0.98rem;
+  margin-bottom: 1.5rem;
+}
+
+.deck-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.65rem;
+  margin-top: 0.25rem;
+}
+
+.deck-grid > p {
+  margin: 0;
+  display: contents;
+}
+
+.deck-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  min-height: 7.25rem;
+  padding: 0.65rem 0.7rem 0.75rem;
+  background: #fff;
+  border: 1px solid var(--card-border);
+  border-top: 3px solid var(--egap-blue);
+  border-radius: 6px;
+  text-decoration: none;
+  color: inherit;
+  box-shadow: 0 1px 4px rgba(26, 95, 150, 0.06);
+  transition: box-shadow 0.15s ease, border-color 0.15s ease, transform 0.12s ease;
+}
+
+a.deck-card:hover {
+  border-top-color: #0d4a78;
+  box-shadow: 0 3px 10px rgba(26, 95, 150, 0.12);
+  transform: translateY(-1px);
+  text-decoration: none;
+  color: inherit;
+}
+
+.deck-card--placeholder {
+  border-top-color: #b8c9d8;
+  border-style: dashed;
+  background: #fafcfd;
+  box-shadow: none;
+  cursor: default;
+}
+
+.deck-num {
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--egap-blue);
+  line-height: 1;
+}
+
+.deck-card--placeholder .deck-num {
+  color: #8aa8be;
+}
+
+.deck-body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  min-width: 0;
+  flex: 1;
+}
+
+.deck-title {
+  font-size: 0.92rem;
+  font-weight: 600;
+  color: var(--text);
+  line-height: 1.25;
+}
+
+.deck-blurb {
+  font-size: 0.78rem;
+  color: var(--muted);
+  line-height: 1.35;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.deck-card--placeholder .deck-title,
+.deck-card--placeholder .deck-blurb {
+  color: #7a8f9f;
+}
+
+@media (max-width: 960px) {
+  .deck-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 520px) {
+  main.content {
+    padding: 0 0.85rem;
+  }
+
+  .deck-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .deck-card {
+    min-height: 0;
+  }
+}
+
+footer,
+.quarto-title-meta,
+.page-footer {
+  display: none !important;
+}
+
+/* Tabbed index sections */
+.panel-tabset .nav-tabs {
+  justify-content: center;
+  border-bottom: 2px solid var(--card-border);
+  margin-bottom: 1.25rem;
+  gap: 0.15rem;
+}
+
+.panel-tabset .nav-link {
+  color: var(--muted);
+  font-weight: 600;
+  font-size: 0.92rem;
+  border: none;
+  border-bottom: 3px solid transparent;
+  padding: 0.45rem 0.85rem;
+}
+
+.panel-tabset .nav-link.active {
+  color: var(--egap-blue);
+  background: transparent;
+  border-bottom-color: var(--egap-blue);
+}
+
+.panel-tabset .tab-content {
+  padding-top: 0.15rem;
+}
+
+/* Bilingual columns on index (match slide deck colours) */
+:root {
+  --lang-en-bg: #dceefb;
+  --lang-en-border: #5b9bd5;
+  --lang-fr-bg: #fde2e8;
+  --lang-fr-border: #d4738f;
+}
+
+.index-page .column.lang-en,
+.panel-tabset .column.lang-en {
+  background: var(--lang-en-bg);
+  border-left: 4px solid var(--lang-en-border);
+  padding: 0.75rem 0.85rem;
+  border-radius: 4px;
+}
+
+.index-page .column.lang-fr,
+.panel-tabset .column.lang-fr {
+  background: var(--lang-fr-bg);
+  border-left: 4px solid var(--lang-fr-border);
+  padding: 0.75rem 0.85rem;
+  border-radius: 4px;
+}
+
+.schedule-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.88rem;
+  margin-top: 0.35rem;
+}
+
+.schedule-panel {
+  width: 100%;
+  max-width: none;
+  margin: 0.25rem 0 0.5rem;
+}
+
+.index-page .schedule-panel .html-fill-item,
+.index-page .schedule-panel .datatables,
+.index-page .schedule-panel .dataTables_wrapper {
+  width: 100% !important;
+  max-width: none !important;
+}
+
+.index-page .schedule-panel table.dataTable,
+.index-page .schedule-panel .schedule-table {
+  width: 100% !important;
+  table-layout: fixed;
+}
+
+.schedule-table th,
+.schedule-table td,
+.index-page .schedule-panel table.dataTable th,
+.index-page .schedule-panel table.dataTable td {
+  border: 1px solid var(--card-border);
+  padding: 0.6rem 0.9rem;
+  vertical-align: top;
+  text-align: left;
+  white-space: normal;
+  word-break: break-word;
+  line-height: 1.4;
+}
+
+.schedule-table th {
+  background: var(--egap-blue-light);
+  color: var(--egap-blue);
+  font-weight: 700;
+}
+
+.index-page .schedule-panel table.dataTable th {
+  background: var(--egap-blue-light);
+  color: var(--egap-blue);
+  font-weight: 700;
+}
+
+.schedule-table tbody tr:nth-child(even),
+.index-page .schedule-panel table.dataTable tbody tr:nth-child(even) {
+  background: #fafcfd;
+}
+
+.instructors-photo {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  margin: 0.25rem auto 0;
+  border-radius: 6px;
+}

@@ -1,0 +1,1380 @@
+---
+title: "Causal Inference | *Inférence causale*"
+author: "Alyssa, Macartan, Vin, Yannick"
+date: today
+bibliography: learningdays-book.bib
+format: 
+  revealjs:
+    embed-resources: true
+execute:
+  freeze: false
+
+---
+
+```{r}
+library(tidyverse)
+library(knitr)
+library(patchwork)
+
+opts_chunk$set(
+  fig.align = "center",
+  out.width = "90%",
+  fig.width = 9,
+  fig.height = 6.5
+)
+
+COL_EN <- "#3a7bbf"
+COL_FR <- "#c45c7a"
+
+add_bilingual_note <- function(
+  p,
+  x,
+  y,
+  en,
+  fr,
+  size_en = 8.5,
+  size_fr = 8
+) {
+  if (!is.null(en)) {
+    p <- p +
+      annotate(
+        "text",
+        x = x,
+        y = y + 0.14,
+        label = en,
+        color = COL_EN,
+        size = size_en,
+        lineheight = 0.9
+      )
+  }
+  if (!is.null(fr)) {
+    p <- p +
+      annotate(
+        "text",
+        x = x,
+        y = y - 0.14,
+        label = fr,
+        color = COL_FR,
+        size = size_fr,
+        lineheight = 0.9,
+        fontface = "italic"
+      )
+  }
+  p
+}
+
+plot_grid <- function(
+  Y,
+  X = rep(1, length(Y)),
+  labels = NULL,
+  title_en = NULL,
+  title_fr = NULL,
+  legend_en = NULL,
+  legend_fr = NULL,
+  color = "red"
+) {
+  stopifnot(length(Y) == 12)
+  stopifnot(length(X) == 12)
+
+  if (is.null(labels)) {
+    labels <- if (is.numeric(Y)) as.character(Y) else as.character(Y)
+  }
+  stopifnot(length(labels) == 12)
+
+  df <- tibble(
+    x = rep(1:4, each = 3),
+    y = rep(3:1, times = 4),
+    label = labels,
+    show = X == 1
+  )
+
+  df_show <- df |> filter(show)
+  show_text <- any(!is.na(df_show$label) & df_show$label != "", na.rm = TRUE)
+
+  p <- ggplot(df, aes(x, y)) +
+    geom_point(
+      data = df_show,
+      shape = 21,
+      fill = "white",
+      color = color,
+      size = 22,
+      stroke = 0.8
+    )
+
+  if (show_text) {
+    p <- p +
+      geom_text(
+        data = df_show,
+        aes(label = label),
+        color = color,
+        size = 10,
+        fontface = "bold"
+      )
+  }
+
+  y_bottom <- -0.6
+  if (!is.null(title_en) || !is.null(title_fr)) {
+    p <- add_bilingual_note(p, 2.5, -0.35, title_en, title_fr)
+    y_bottom <- -0.85
+  }
+  if (!is.null(legend_en) || !is.null(legend_fr)) {
+    p <- add_bilingual_note(
+      p, 2.5, y_bottom + 0.05, legend_en, legend_fr, 6.5, 6
+    )
+    y_bottom <- y_bottom - 0.35
+  }
+
+  p +
+    coord_equal(
+      xlim = c(0.7, 4.3),
+      ylim = c(y_bottom, 3.4),
+      clip = "off"
+    ) +
+    theme_void() +
+    theme(
+      plot.background = element_rect(fill = "grey98", color = NA),
+      plot.margin = margin(4, 4, 18, 4)
+    )
+}
+
+Y1 <- c(8, 4, 3,
+       5, 8, 7,
+       3, 6, 6,
+       5, 3, 5)
+
+Y0 <- c(6, 5, 2,
+       4, 8, 7,
+       2, 5, 6,
+       3, 4, 5)
+
+X_sample1 <- c(1, 1, 1, 0, 0, 1, 0, 0, 0, 1, 0, 1)
+X_sample2 <- c(1, 1, 0, 0, 0, 1, 0, 1, 1, 0, 1, 0)
+X_sample3 <- c(1, 1, 0, 1, 1, 0, 0, 0, 1, 1, 0, 0)
+
+set.seed(123)
+Z_assign <- rep(0L, 12L)
+Z_assign[sample(12L, 6L)] <- 1L
+
+PO_TREAT <- "#F8766D"
+PO_CONTROL <- "#619CFF"
+PO_LEGEND_EN <- "Blue = control · Red = treatment"
+PO_LEGEND_FR <- "Bleu = contrôle · Rouge = traitement"
+
+plot_assignment <- function(
+  labels,
+  Z,
+  title_en = NULL,
+  title_fr = NULL,
+  subtitle_en = NULL,
+  subtitle_fr = NULL,
+  legend_en = PO_LEGEND_EN,
+  legend_fr = PO_LEGEND_FR
+) {
+  stopifnot(length(labels) == 12, length(Z) == 12)
+
+  df <- tibble(
+    x = rep(1:4, each = 3),
+    y = rep(3:1, times = 4),
+    label = as.character(labels),
+    treated = Z == 1
+  )
+
+  p <- ggplot(df, aes(x, y)) +
+    geom_point(
+      aes(color = treated),
+      shape = 21,
+      fill = "white",
+      size = 22,
+      stroke = 0.8
+    ) +
+    geom_text(
+      aes(label = label, color = treated),
+      size = 10,
+      fontface = "bold"
+    ) +
+    scale_color_manual(
+      values = c(`TRUE` = PO_TREAT, `FALSE` = PO_CONTROL),
+      guide = "none"
+    ) +
+    theme_void() +
+    theme(
+      plot.background = element_rect(fill = "grey98", color = NA),
+      plot.margin = margin(4, 4, 18, 4)
+    )
+
+  y_bottom <- -0.6
+  if (!is.null(title_en) || !is.null(title_fr)) {
+    p <- add_bilingual_note(p, 2.5, -0.35, title_en, title_fr)
+    y_bottom <- -0.85
+  }
+  if (!is.null(subtitle_en) || !is.null(subtitle_fr)) {
+    p <- add_bilingual_note(
+      p, 2.5, y_bottom + 0.05, subtitle_en, subtitle_fr, 7, 6.5
+    )
+    y_bottom <- y_bottom - 0.3
+  }
+  if (!is.null(legend_en) || !is.null(legend_fr)) {
+    p <- add_bilingual_note(
+      p, 2.5, y_bottom + 0.05, legend_en, legend_fr, 6.5, 6
+    )
+    y_bottom <- y_bottom - 0.35
+  }
+
+  p +
+    coord_equal(xlim = c(0.7, 4.3), ylim = c(y_bottom, 3.4), clip = "off")
+}
+
+po_panel <- function(
+  p,
+  N,
+  title_en,
+  title_fr,
+  x_en = "Unit",
+  x_fr = "Unité",
+  y_en = "Outcome",
+  y_fr = "Résultat"
+) {
+  p +
+    coord_cartesian(xlim = c(-1.5, N + 0.5), ylim = c(-3, 4.5), clip = "off") +
+    labs(title = title_en, subtitle = title_fr, x = x_en, y = y_en) +
+    theme_bw() +
+    theme(
+      plot.title = element_text(
+        color = COL_EN, size = 11, face = "bold", margin = margin(b = 2)
+      ),
+      plot.subtitle = element_text(
+        color = COL_FR, size = 10, face = "italic", margin = margin(b = 6)
+      ),
+      axis.title.x = element_text(color = COL_EN, size = 10, margin = margin(t = 8)),
+      axis.title.y = element_text(color = COL_EN, size = 10),
+      axis.text = element_text(size = 9),
+      legend.position = "none",
+      plot.margin = margin(8, 8, 16, 8, "pt")
+    ) +
+    annotate(
+      "text", x = N / 2, y = -3.55, label = x_fr,
+      color = COL_FR, size = 3.2, fontface = "italic"
+    ) +
+    annotate(
+      "text", x = -1.05, y = 0.5, label = y_fr,
+      color = COL_FR, size = 3.2, fontface = "italic", angle = 90
+    )
+}
+
+po.graph <- function(N, Y0, Y1, u, Z, excludep4 = FALSE) {
+  data <- data.frame(u = u, Y0 = Y0, Y1 = Y1, Z = Z)
+
+  p1 <- ggplot(data, aes(x = u, y = Y0)) +
+    geom_point(col = PO_CONTROL, alpha = 0.5) +
+    geom_point(aes(y = Y1), col = PO_TREAT, alpha = 0.5)
+  p1 <- po_panel(
+    p1, N,
+    "Y(1) and Y(0) for all units",
+    "Y(1) et Y(0) pour toutes les unités",
+    y_en = "Y(0) & Y(1)", y_fr = "Y(0) et Y(1)"
+  )
+
+  p2 <- ggplot(data, aes(x = u, y = Y1 - Y0)) +
+    geom_point(aes(y = Y1 - Y0), alpha = 0.7) +
+    geom_segment(aes(x = u, xend = u, y = 0, yend = Y1 - Y0), alpha = 0.5) +
+    geom_hline(aes(yintercept = mean(Y1 - Y0)), color = "orange")
+  p2 <- po_panel(
+    p2, N,
+    "Y(1) - Y(0) for all units",
+    "Y(1) - Y(0) pour toutes les unités",
+    y_en = "Treatment effect", y_fr = "Effet de traitement"
+  )
+
+  mean_y0_z0 <- mean(data$Y0[data$Z == 0])
+  mean_y1_z1 <- mean(data$Y1[data$Z == 1])
+  gap_inset <- 0.08
+  gap_arrow <- arrow(ends = "both", length = unit(0.12, "cm"))
+  gap_segment <- function(y0, y1) {
+    list(
+      ylo = min(y0, y1) + gap_inset,
+      yhi = max(y0, y1) - gap_inset
+    )
+  }
+  gap_p3 <- gap_segment(mean_y0_z0, mean_y1_z1)
+
+  p3 <- data |>
+    mutate(Y = ifelse(Z == 0, Y0, Y1)) |>
+    ggplot(aes(x = u, y = Y)) +
+    geom_point(col = ifelse(Z, PO_TREAT, PO_CONTROL), alpha = 0.5) +
+    geom_hline(yintercept = mean_y0_z0, col = PO_CONTROL) +
+    geom_hline(yintercept = mean_y1_z1, col = PO_TREAT) +
+    geom_segment(
+      x = N / 2, xend = N / 2, y = gap_p3$ylo, yend = gap_p3$yhi,
+      inherit.aes = FALSE, color = "orange", linewidth = 0.9, arrow = gap_arrow
+    )
+  p3 <- po_panel(
+    p3, N,
+    "Y(1 | Z=1) and Y(0 | Z=0): two samples",
+    "Y(1 | Z=1) et Y(0 | Z=0) : deux échantillons",
+    y_en = "Observed outcome", y_fr = "Résultat observé"
+  )
+
+  mean_y0_left  <- mean(data$Y0[data$Z == 0 & data$u <= N / 2])
+  mean_y1_left  <- mean(data$Y1[data$Z == 1 & data$u <= N / 2])
+  mean_y0_right <- mean(data$Y0[data$Z == 0 & data$u > N / 2])
+  mean_y1_right <- mean(data$Y1[data$Z == 1 & data$u > N / 2])
+  gap_p4_left  <- gap_segment(mean_y0_left, mean_y1_left)
+  gap_p4_right <- gap_segment(mean_y0_right, mean_y1_right)
+
+  p4 <- ggplot(data, aes(x = u, y = Y0)) +
+    geom_point(col = PO_CONTROL, alpha = 0.7) +
+    geom_point(aes(y = Y1), col = PO_TREAT, alpha = 0.5) +
+    geom_segment(
+      data = data[Z == 0 & u <= N / 2, ],
+      aes(x = 1, xend = N / 2, y = mean_y0_left, yend = mean_y0_left),
+      lwd = 1.3, col = PO_CONTROL, inherit.aes = FALSE
+    ) +
+    geom_segment(
+      data = data[Z == 1 & u <= N / 2, ],
+      aes(x = 1, xend = N / 2, y = mean_y1_left, yend = mean_y1_left),
+      lwd = 1.3, col = PO_TREAT, inherit.aes = FALSE
+    ) +
+    geom_segment(
+      data = data[Z == 0 & u > N / 2, ],
+      aes(x = N / 2, xend = N, y = mean_y0_right, yend = mean_y0_right),
+      lwd = 1.3, col = PO_CONTROL, inherit.aes = FALSE
+    ) +
+    geom_segment(
+      data = data[Z == 1 & u > N / 2, ],
+      aes(x = N / 2, xend = N, y = mean_y1_right, yend = mean_y1_right),
+      lwd = 1.3, col = PO_TREAT, inherit.aes = FALSE
+    ) +
+    geom_segment(
+      x = (1 + N / 2) / 2, xend = (1 + N / 2) / 2,
+      y = gap_p4_left$ylo, yend = gap_p4_left$yhi,
+      inherit.aes = FALSE, color = "orange", linewidth = 0.9, arrow = gap_arrow
+    ) +
+    geom_segment(
+      x = (N / 2 + N) / 2, xend = (N / 2 + N) / 2,
+      y = gap_p4_right$ylo, yend = gap_p4_right$yhi,
+      inherit.aes = FALSE, color = "orange", linewidth = 0.9, arrow = gap_arrow
+    )
+  p4 <- po_panel(
+    p4, N, "Subgroup ATEs", "ATE par sous-groupe",
+    y_en = "Y(0) & Y(1)", y_fr = "Y(0) et Y(1)"
+  )
+
+  if (!excludep4) {
+    combined <- (p1 | p2) / (p3 | p4)
+  } else {
+    combined <- wrap_plots(p1, p2, p3, design = "12\n33")
+  }
+
+  caption_plot <- add_bilingual_note(
+    ggplot(), 0.5, 0.55, PO_LEGEND_EN, PO_LEGEND_FR, 4.2, 4
+  ) +
+    coord_cartesian(xlim = c(0, 1), ylim = c(0, 1), clip = "off") +
+    theme_void()
+
+  combined / caption_plot + plot_layout(heights = c(10, 0.7))
+}
+
+y1_hist <- c(7, 5, 3, 3, 5, 8, 6, 5, 3, 7, 6, 5)
+tau_hist <- c(1, 1, 1, 0, 0, 0, 1, 1, 1, 0, 0, 0)
+y0_hist <- y1_hist - tau_hist
+
+set.seed(123)
+n_hist_sim <- 3000
+y1_sample_means <- replicate(n_hist_sim, mean(y1_hist[sample(12, 6)]))
+ate_estimates <- replicate(n_hist_sim, {
+  z <- rep(0L, 12L)
+  z[sample(12, 6)] <- 1L
+  mean(y1_hist[z == 1]) - mean(y0_hist[z == 0])
+})
+
+plot_sample_hist <- function(
+  values,
+  true_value,
+  fill_col,
+  title_en,
+  title_fr,
+  x_en,
+  x_fr
+) {
+  p <- ggplot(tibble(x = values), aes(x)) +
+    geom_histogram(bins = 16, fill = fill_col, color = "white", alpha = 0.9) +
+    geom_vline(xintercept = true_value, linewidth = 1) +
+    labs(title = title_en, subtitle = title_fr, x = x_en, y = "Count") +
+    theme_bw() +
+    theme(
+      plot.title = element_text(color = COL_EN, face = "bold", size = 13),
+      plot.subtitle = element_text(color = COL_FR, face = "italic", size = 11),
+      axis.title.x = element_text(color = COL_EN, size = 10, margin = margin(t = 8)),
+      axis.title.y = element_text(color = COL_EN, size = 10),
+      plot.margin = margin(8, 8, 18, 8)
+    )
+
+  built <- ggplot_build(p)
+  ymax <- max(built$data[[1]]$count, na.rm = TRUE)
+  x_mid <- mean(range(values))
+
+  p +
+    expand_limits(y = ymax * 1.12) +
+    coord_cartesian(clip = "off") +
+    annotate(
+      "text", x = x_mid, y = -0.14 * ymax, label = x_fr,
+      color = COL_FR, size = 3.2, fontface = "italic"
+    ) +
+    annotate(
+      "text", x = -Inf, y = Inf, label = "Fréquence",
+      color = COL_FR, size = 3.2, fontface = "italic",
+      vjust = 1.8, hjust = -0.15
+    )
+}
+```
+
+# Causal effects | *Un effet causal*
+
+
+## What do we mean by "$X$ causes $Y$"? | *Comment interpréter "X cause Y"?*
+
+::: {.columns}
+::: {.column .lang-en width="50%"}
+
+-   We take a counterfactual approach.
+
+
+-   "$X$ causes $Y$" is a claim about what didn't happen.
+
+    -   "If $X$ had not occurred, then $Y$ would not have occurred."
+
+    -   "With $X$, the probability of $Y$ is higher than would be
+        without $X$."
+    -   "$X$ causes $Y$" does not mean some other thing, $W$, does not cause $Y$.
+
+:::
+::: {.column .lang-fr width="50%"}
+
+-   Nous prenons une approche contrefactuelle.
+
+
+
+-   "$X$ cause $Y$" est une affirmation sur ce qui n'a pas eu lieu.
+
+    -   "Si $X$ n'avait pas eu lieu, il n'y aurait pas de $Y$."
+
+    -   "Avec $X$, la probabilité de $Y$ est plus élevée qu'elle ne le
+        serait sans $X$."
+
+    -   "$X$ cause $Y$" n'implique pas nécessairement que $W$ ne cause pas
+        $Y$.
+
+
+
+:::
+:::
+
+
+
+## Treatments | *Traitements*
+
+::: {.columns}
+::: {.column .lang-en width="50%"}
+
+-   We must define what having $X$ and not having $X$ mean to define a causal effect.
+
+
+-   You have to define what you mean by control:
+
+    -   Absence of any intervention.
+
+    -   Placebo.
+
+:::
+::: {.column .lang-fr width="50%"}
+
+-   Nous devons définir ce que signifie le fait d'avoir $X$ et de ne pas avoir $X$ pour définir un effet causal.
+
+
+
+-   Vous devez définir votre condition de contrôle :
+
+    -   Absence d'intervention.
+
+    -   Placebo.
+
+:::
+:::
+
+# Learning about the average causal effect from an experiment | *Comment apprendre l'effet causal moyen d'une expérience aléatoire*
+
+## Research question | *La question de recherche*
+![](Images/A_small_cup_of_coffee.jpeg){width="170px" fig-align="center"}
+
+
+::: {.columns}
+::: {.column .lang-en width="50%"}
+
+-   What is the effect of drinking coffee at breakfast on energy levels right now for everyone at Learning Days?
+
+:::
+::: {.column .lang-fr width="50%"}
+
+-   Quel est l'effet de la consommation du café au petit-déjeuner sur les niveaux d'énergie actuels des participants et instructeurs de Learning Days?
+
+:::
+:::
+
+::: {.footnote}
+
+Par Julius Schorzman — Travail personnel, CC BY-SA 2.0, <https://commons.wikimedia.org/w/index.php?curid=107645>
+
+:::
+
+## The ATE is the average of *individual* treatment effects | L'ATE est la moyenne des effets de traitement *individuels*
+
+::: {.columns}
+::: {.column .lang-en width="50%"}
+
+-   Before defining an average treatment effect, we define a treatment effect for an individual $i$.
+
+:::
+::: {.column .lang-fr width="50%"}
+
+-   Avant de définir l'effet *moyen de traitement*, il faut définir l'effet de traitement *pour un individu $i$*.
+
+:::
+:::
+
+## We use a model of potential outcomes | *Nous utilisons un modèle de résultats potentiels*
+
+::: {.columns}
+::: {.column .lang-en width="50%"}
+
+For a unit $i$, we assume that there are two *potential*
+    outcomes: $Y_i(1)$ and $Y_i(0)$.
+
+
+
+-   $Y_i(1)$ is the outcome that we *would* obtain *if* the unit were to receive
+    the treatment ($X_i=1$).
+
+-   $Y_i(0)$ is the outcome that we *would* obtain *if* the unit were to receive
+    the control ($X_i=0$).
+
+:::
+::: {.column .lang-fr width="50%"}
+
+Pour une unité $i$, nous supposons qu'il y a deux résultats
+    *potentiels* : $Y_i(1)$ et $Y_i(0)$.
+
+
+
+-   $Y_i(1)$ est le résultat qu'on *obtiendrait si* l'unité recevait le
+    traitement ($X_i=1$).
+
+-   $Y_i(0)$ est le résultat qu'on *obtiendrait si* l'unité recevait le
+    contrôle ($X_i=0$).
+
+:::
+:::
+
+
+## We have 12 units | *Nous avons 12 unités*
+
+```{r, echo = FALSE}
+plot_grid(
+  Y = rep(0, 12),
+  labels = rep("", 12),
+  title_en = "12 units",
+  title_fr = "12 unités",
+  color = "black"
+)
+```
+
+
+## Each unit has both $Y_i(1)$ and $Y_i(0)$ | *Chaque unité a à la fois* $Y_i(1)$ et $Y_i(0)$
+
+```{r}
+plot_grid(
+  Y1,
+  title_en = sprintf("True average of Y(1) = %.2f", mean(Y1)),
+  title_fr = sprintf("Moyenne vraie de Y(1) = %.2f", mean(Y1)),
+  color = "red"
+)
+```
+
+## Each unit has both $Y_i(1)$ and $Y_i(0)$ | *Chaque unité a à la fois* $Y_i(1)$ et $Y_i(0)$
+
+```{r}
+plot_grid(
+  Y0,
+  title_en = sprintf("True average of Y(0) = %.2f", mean(Y0)),
+  title_fr = sprintf("Moyenne vraie de Y(0) = %.2f", mean(Y0)),
+  color = "blue"
+)
+```
+
+## The treatment effect for $i$ is defined as $\tau_i \equiv Y_i(1) - Y_i(0)$ | *L'effet de traitement pour individu $i$ est défini comme* $\tau_i \equiv Y_i(1) - Y_i(0)$
+
+
+```{r}
+plot_grid(
+  Y1 - Y0,
+  title_en = "Treatment effects: Y(1) - Y(0) for each unit",
+  title_fr = "Effets de traitement : Y(1) - Y(0) pour chaque unité",
+  color = "black"
+)
+```
+
+
+## Average Treatment Effect $\overline{\tau_i}= \overline{Y_i(1)-Y_i(0)}$ / *L'effet moyen du traitement* (ATE)  $\overline{\tau_i}= \overline{Y_i(1)-Y_i(0)}$
+
+
+```{r}
+plot_grid(
+  Y1 - Y0,
+  title_en = sprintf(
+    "True average effect: Y(1) - Y(0) = %.2f",
+    mean(Y1 - Y0)
+  ),
+  title_fr = sprintf(
+    "Effet moyen vrai : Y(1) - Y(0) = %.2f",
+    mean(Y1 - Y0)
+  ),
+  color = "black"
+)
+```
+
+## Fundamental problem of causal inference | *Le problème fondamental de l'inférence causale*
+
+::: {.columns}
+::: {.column .lang-en width="50%"}
+
+-   **We can't measure the individual-level causal effect**, because we
+    can't observe both $Y_i(1)$ and $Y_i(0)$ at the same time.
+
+
+
+
+
+-   But we can still estimate the **average treatment effect** with a
+    randomized experiment.
+
+:::
+::: {.column .lang-fr width="50%"}
+
+-   **Nous ne pouvons pas mesurer l'effet causal au niveau individuel**,
+    car nous ne pouvons pas observer à la fois $Y_i(1)$ et $Y_i(0)$ pour
+    un même individu.
+
+
+
+
+
+-   Mais nous pouvons estimer **l'effet moyen du traitement**
+    avec une expérience aléatoire.
+
+:::
+:::
+
+<!-- ## Let's go back to the $Y_i(1)$ | *Revenons à* $Y_i(1)$ -->
+
+
+<!-- ```{r} -->
+<!-- plot_grid( -->
+<!--   Y1, -->
+<!--   title = sprintf("true average of Y(1) = %.2f", mean(Y1)), -->
+<!--   color = "red" -->
+<!-- ) -->
+<!-- ``` -->
+
+
+## Connecting observed outcomes to potential outcomes | *Relier les résultats observés aux résultats potentiels*
+
+::: {.columns}
+::: {.column .lang-en width="50%"}
+
+What we **actually see** is a combination of potential outcomes, coming from different samples: the sample of those assigned to treatment and the sample of those assigned to control.
+
+:::
+::: {.column .lang-fr width="50%"}
+
+Ce que nous **observons réellement**, c'est une combinaison de résultats potentiels, provenant de différents échantillons : l'échantillon des unités assignées au traitement et l'échantillon des unités assignées au contrôle.
+
+:::
+:::
+
+
+
+## A random assignment | *Une assignation aléatoire*
+
+```{r, echo = FALSE}
+plot_assignment(
+  labels = if_else(Z_assign == 1, "X=1", "X=0"),
+  Z = Z_assign
+)
+```
+
+## We learn the outcomes and produce an estimate | *Nous apprenons les résultats et produisons une estimation*
+
+```{r, echo = FALSE}
+est_diff <- sprintf(
+  "%.2f - %.2f = %.2f",
+  mean(Y1[Z_assign == 1]),
+  mean(Y0[Z_assign == 0]),
+  mean(Y1[Z_assign == 1]) - mean(Y0[Z_assign == 0])
+)
+plot_assignment(
+  labels = if_else(Z_assign == 1, as.character(Y1), as.character(Y0)),
+  Z = Z_assign,
+#  subtitle_en = "Sample mean difference",
+#  subtitle_fr = "Différence des moyennes d'échantillon"
+  title_en = est_diff,
+  title_fr = est_diff,
+)
+```
+
+::: {.columns}
+::: {.column .lang-en width="50%"}
+
+We estimate an effect by taking two samples of potential outcomes
+
+:::
+::: {.column .lang-fr width="50%"}
+
+Nous estimons un effet en prenant deux échantillons de résultats potentiels
+
+:::
+:::
+
+
+
+
+
+
+## Potential outcomes: why randomization works | *Résultats potentiels : pourquoi la randomisation fonctionne* {.po-graph-slide}
+
+
+```{r, include  = FALSE}
+set.seed(1)
+```
+
+```{r, eval=TRUE, echo = FALSE, fig.width = 15, fig.height = 10, out.width = "88%", fig.class = "po-graph-figure", warning = FALSE}
+N_po <- 50
+u_po <- seq(1:N_po)
+Y1_po <- 1 - (u_po - N_po / 2) / 25 + rnorm(N_po) / 5
+Y0_po <- 0 + rnorm(N_po) / 5
+Z_po <- 1:N_po %in% sample(N_po, N_po / 2)
+
+po.graph(N_po, Y0_po, Y1_po, u_po, Z_po, excludep4 = TRUE)
+```
+
+
+## Potential outcomes: A bad selection procedure | *Résultats potentiels : une mauvaise procedure* {.po-graph-slide}
+
+
+```{r,eval=TRUE, echo = FALSE, fig.width = 15, fig.height = 10, out.width = "88%", fig.class = "po-graph-figure", warning = FALSE}
+set.seed(1)
+N_po <- 50
+u_po <- seq(1:N_po)
+Y1_po <- 1 - (u_po - N_po / 2) / 25 + rnorm(N_po) / 5
+Y0_po <- 0 + rnorm(N_po) / 5
+Z_po <- 1 * (u_po > 25)
+
+po.graph(N_po, Y0_po, Y1_po, u_po, Z_po, excludep4 = TRUE)
+```
+
+# Randomization works in expectation | *La randomisation fonctionne en moyenne*
+
+
+## Important!: A different random assignment would have produced another estimate (maybe different) | *Notez! Une assignation aléatoire différente aurait produit une autre estimation (peut-être differente)*
+
+::: {.columns}
+::: {.column width="48%"}
+
+```{r}
+#| echo: false
+#| fig-align: center
+#| fig-width: 6
+#| fig-height: 5.25
+#| out-width: 100%
+plot_assignment(
+  labels = if_else(Z_assign == 1, as.character(Y1), as.character(Y0)),
+  Z = Z_assign,
+  title_en = est_diff,
+  title_fr = est_diff,
+  subtitle_en = "Sample mean difference",
+  subtitle_fr = "Différence des moyennes d'échantillon"
+)
+```
+
+:::
+::: {.column width="48%"}
+
+```{r}
+#| echo: false
+#| fig-align: center
+#| fig-width: 6
+#| fig-height: 5.25
+#| out-width: 100%
+plot_assignment(
+  labels = if_else(Z_assign == 1, as.character(Y1), as.character(Y0)),
+  Z = sample(Z_assign),
+  title_en = est_diff,
+  title_fr = est_diff,
+  subtitle_en = "Sample mean difference",
+  subtitle_fr = "Différence des moyennes d'échantillon"
+)
+```
+
+:::
+:::
+
+## Randomization works in expectation | *La randomisation fonctionne en moyenne*
+
+```{r, echo = FALSE, fig.width = 8, fig.height = 4.5}
+plot_sample_hist(
+  values = ate_estimates,
+  true_value = mean(tau_hist),
+  fill_col = "#984EA3",
+  title_en = "Distribution of ATE estimates",
+  title_fr = "Distribution des estimations de l'ATE",
+  x_en = "Estimated ATE",
+  x_fr = "ATE estimé"
+)
+```
+
+::: {.columns}
+::: {.column .lang-en width="50%"}
+
+-   A particular random assignment will probably not give us the true average
+    treatment effect.
+
+-   But the average of the estimates produced by all possible
+    randomizations will be the true average treatment effect!
+
+:::
+::: {.column .lang-fr width="50%"}
+
+-   Une assignation aléatoire particulière ne nous donnera probablement
+    pas la vraie valeur de l'effet causal moyen de traitement.
+
+-   Mais la moyenne de toutes les estimations possibles est la vraie
+    valeur.
+
+:::
+:::
+
+# Why? | *Pourquoi?*
+
+## Randomization works in expectation | *La randomisation fonctionne en moyenne*
+
+$$\mathbb E_R[\overline{Y_i}|X_i=1]=\overline{Y_i(1)}$$
+$$\mathbb E_R[\overline{Y_i}|X_i=0]=\overline{Y_i(0)}$$
+
+
+::: {.columns}
+::: {.column .lang-en width="50%"}
+
+Because the units were randomly assigned to treatment, the average of the $Y_i$ for the treated units is a good estimate of the average of $Y_i(1)$ for all the units. 
+
+
+
+The same logic applies to the units randomly assigned to control.
+
+:::
+::: {.column .lang-fr width="50%"}
+
+Parce que les unités ont été assignées de manière aléatoire au traitement, la moyenne de $Y_i$ pour les unités traitées est une bonne estimation de la moyenne de $Y_i(1)$ pour toutes nos unités.
+    
+
+
+La même logique s'applique pour les unités assignées aléatoirement
+    au contrôle.
+
+:::
+:::
+
+
+## Remember! We can take a random sample of these $Y_i(1)$ | *Rappel ! Sélectionnons un échantillon aléatoire de* $Y_i(1)$
+
+```{r, echo = FALSE}
+plot_grid(
+  Y1,
+  X = X_sample1,
+  title_en = sprintf(
+    "Average Y(1) of sample #1 = %.2f",
+    mean(Y1[X_sample1 == 1])
+  ),
+  title_fr = sprintf(
+    "Moyenne de Y(1) de l'échantillon n°1 = %.2f",
+    mean(Y1[X_sample1 == 1])
+  ),
+  color = "red"
+)
+```
+
+## We can take another random sample of these $Y_i(1)$ | *Sélectionnons un autre échantillon aléatoire de* $Y_i(1)$
+
+```{r, echo = FALSE}
+plot_grid(
+  Y1,
+  X = X_sample2,
+  title_en = sprintf(
+    "Average Y(1) of sample #2 = %.2f",
+    mean(Y1[X_sample2 == 1])
+  ),
+  title_fr = sprintf(
+    "Moyenne de Y(1) de l'échantillon n°2 = %.2f",
+    mean(Y1[X_sample2 == 1])
+  ),
+  color = "red"
+)
+```
+
+## And another! | *Et un autre!*
+
+```{r, echo = FALSE}
+plot_grid(
+  Y1,
+  X = X_sample3,
+  title_en = sprintf(
+    "Average Y(1) of sample #3 = %.2f",
+    mean(Y1[X_sample3 == 1])
+  ),
+  title_fr = sprintf(
+    "Moyenne de Y(1) de l'échantillon n°3 = %.2f",
+    mean(Y1[X_sample3 == 1])
+  ),
+  color = "red"
+)
+```
+
+## Average of sample averages | *La moyenne des moyennes de l'échantillon*
+
+```{r, echo = FALSE, fig.width = 8, fig.height = 4.5}
+plot_sample_hist(
+  values = y1_sample_means,
+  true_value = mean(y1_hist),
+  fill_col = PO_TREAT,
+  title_en = "Distribution of sample averages of Y(1)",
+  title_fr = "Distribution des moyennes d'échantillon de Y(1)",
+  x_en = "Sample average of Y(1)",
+  x_fr = "Moyenne d'échantillon de Y(1)"
+)
+```
+
+
+::: {.columns}
+::: {.column .lang-en width="50%"}
+
+-   A particular sample average will not be the true population average.
+
+-   But the average of all the sample averages will be the true
+    population average!
+
+:::
+::: {.column .lang-fr width="50%"}
+
+-   Un échantillon particulier ne nous donnera probablement pas la vraie
+    valeur.
+
+-   Mais la moyenne de toutes les moyennes possibles est la vraie
+    valeur!
+
+:::
+:::
+
+
+## Randomization works in expectation | *La randomisation fonctionne en moyenne*
+
+$$
+\begin{aligned}
+ATE = \overline{\tau_i} &= \overline{Y_i(1)-Y_i(0)} \\
+&= \overline{Y_i(1)}-\overline{Y_i(0)}
+\end{aligned}
+$$
+
+::: {.columns}
+::: {.column .lang-en width="50%"}
+
+And we can estimate these components!
+
+:::
+::: {.column .lang-fr width="50%"}
+
+Et nous pouvons estimer ces composantes !
+
+:::
+:::
+
+$$\text{✓  }\mathbb E_R[\overline{Y_i}|X_i=1]=\overline{Y_i(1)}$$
+
+$$\text{✓  }\mathbb E_R[\overline{Y_i}|X_i=0]=\overline{Y_i(0)}$$
+
+
+
+# Quiz
+
+## Quiz | *Quiz* {.compact-table}
+
+| Unit | Y(0) | Y(1) | $\tau_i$ |
+|------|:----:|:----:|:--------:|
+| 1 | 4 | 3 | |
+| 2 | 2 | 3 | |
+| 3 | 1 | 3 | |
+| 4 | 1 | 3 | |
+| 5 | 2 | 3 | |
+
+::: {.columns}
+::: {.column .lang-en width="50%"}
+
+**Questions for us:** What are the unit level treatment effects? What is the average treatment effect?
+
+:::
+::: {.column .lang-fr width="50%"}
+
+**Questions pour nous :** Quels sont les effets de traitement au niveau de l'unité ? Quel est l'effet moyen du traitement ?
+
+:::
+:::
+
+## Quiz | *Quiz* {.compact-table}
+
+| Z | Y(0) | Y(1) |
+|:--|:----:|:----:|
+| ✓ | | 2 |
+| X | 3 | |
+| X | 1 | |
+| ✓ | | 3 |
+| X | 2 | |
+
+::: {.columns}
+::: {.column .lang-en width="50%"}
+
+**Fill in the blanks, assuming...**
+
+- a constant treatment effect of $+1$
+- a constant treatment effect of $-1$
+- an *average* treatment effect of $0$
+
+What is the actual treatment effect?
+
+:::
+::: {.column .lang-fr width="50%"}
+
+**Complétez les cases vides, en supposant... **
+
+- un effet de traitement constant de $+1$
+- un effet de traitement constant de $-1$
+- un effet de traitement *moyen* de $0$
+
+Quel est l'effet de traitement réel ?
+
+:::
+:::
+
+
+# Core assumptions | *Hypothèses clés*
+
+## Core assumptions | *Hypothèses clés*
+
+::: {.columns}
+::: {.column .lang-en width="50%"}
+
+1. Random assignment of treatment.
+
+
+
+
+
+2.  SUTVA (Stable unit treatment value assumption).
+
+
+
+
+
+3.  Excludability.
+
+:::
+::: {.column .lang-fr width="50%"}
+
+1.  L'assignation aléatoire du traitement.
+
+
+
+
+
+2.  L'hypothèse SUTVA (Hypothèse stable de la valeur de traitement d'une
+    unité).
+
+
+
+
+
+3.  La restriction d'exclusion.
+
+:::
+:::
+
+## Core assumption 1: Random assignment of treatment | *Hypothèse clé 1 : L'assignation aléatoire du traitement*
+
+::: {.columns}
+::: {.column .lang-en width="50%"}
+
+-   Random assignment means that each observation has a *known*
+    probability of assignment to experimental conditions *between* 0 and 1.
+
+
+
+
+
+-   No unit in the experimental sample is assigned to treatment with
+    certainty (probability = 1) or to control with certainty
+    (probability = 0).
+
+
+
+
+    
+-   It doesn't mean haphazard or uncontrolled!
+
+:::
+::: {.column .lang-fr width="50%"}
+
+-   L'assignation aléatoire signifie que chaque observation a une
+    probabilité *connue* d'assignation au traitement comprise entre 0 et 1.
+
+
+
+
+
+-   Aucune unité de l'échantillon expérimental n'est assignée au
+    traitement (probabilité = 1)  ou au contrôle avec certitude (probabilité = 0).
+    
+
+
+
+
+-   Cela ne signifie ni désordonné ni incontrôlé!
+
+:::
+:::
+
+## Core assumption 1: Random assignment of treatment | *Hypothèse clé 1 : L'assignation aléatoire du traitement*
+
+::: {.columns}
+::: {.column .lang-en width="50%"}
+
+-   Careful: Treatment assignment may be randomized, but treatment condition received may not be the same and hence not randomized.
+
+:::
+::: {.column .lang-fr width="50%"}
+
+-   Attention ! L'assignation du traitement peut être randomisée, mais la condition du traitement reçu peut ne pas être la même que la condition assignée (donc ne pas être randomisée).
+
+:::
+:::
+
+## Core assumption 2: SUTVA, part 1 | *Hypothèse clé 2: SUTVA, partie 1*
+
+::: {.columns}
+::: {.column .lang-en width="50%"}
+
+2.1 No interference -- A subject's potential outcome reflects only
+whether that subject receives the treatment himself/herself. It is not
+affected by how treatments happen to be allocated to other subjects.
+
+
+
+-   A classic violation is the case of vaccines and their spillover
+    effects.
+
+:::
+::: {.column .lang-fr width="50%"}
+
+2.1 L'absence de contamination -- Le résultat potentiel d'un sujet reflète
+uniquement la réception du traitement par ce sujet. Il n'est pas affecté
+par le statut de traitement des autres sujets.
+
+
+
+-   Une violation classique est le cas des vaccins et de leurs effets de
+    contamination.
+
+:::
+:::
+
+## Core assumption 2: SUTVA, part 2 | *Hypothèse clé 2 : SUTVA, partie 2*
+
+::: {.columns}
+::: {.column .lang-en width="50%"}
+
+2.2 No hidden variations of the treatment
+
+
+
+-   Say treatment is taking a vaccine, but there are two kinds of
+    vaccines and they have different ingredients.
+
+:::
+::: {.column .lang-fr width="50%"}
+
+2.2 Pas de variations cachées du traitement
+
+
+
+-   Disons que le traitement consiste à prendre un vaccin, mais il
+    existe deux types de vaccins et ils ont des compositions
+    différentes.
+
+:::
+:::
+
+## Core assumption 3: Excludability | *Hypothèse clé 3: La restriction d'exclusion*
+
+::: {.columns}
+::: {.column .lang-en width="50%"}
+
+3.  Treatment assignment has no effect on outcomes except through its
+    effect on whether treatment was received.
+
+
+
+-   Treatment and control groups should be treated the same, except for
+    the actual treatment.
+
+:::
+::: {.column .lang-fr width="50%"}
+
+3.  L'assignation au traitement n'a aucun effet sur les résultats, sauf
+    à travers l'effet de recevoir ou non le traitement.
+
+
+
+-   Important de maintenir la symétrie entre les groupes de traitement
+    et de contrôle, excepté le statut du traitement.
+
+:::
+:::
+
+## These assumptions are our responsibility | Ces hypothèses sont notre réponsibilité
+
+::: {.columns}
+::: {.column .lang-en width="50%"}
+
+-   If the assumptions are not valid, the conclusions may not be trustworthy.  
+
+
+
+
+
+-   We should design and execute our research in ways that ensure these assumptions are valid.  Check for problems when you can.
+
+:::
+::: {.column .lang-fr width="50%"}
+
+- Si les hypothèses ne tiennent pas, les conclusions risquent de ne pas être fiables.
+
+
+
+
+
+- Nous devons concevoir et faire nos recherches de manière à assurer la validité de ces hypothèses.  Vérifiez les problèmes lorsque vous le pouvez.
+
+:::
+:::
+
+# Randomized experiments vs observational studies | *Études randomisées vs. études observationnelles*
+
+
+
+
+## Randomized studies | *Études randomisées*
+
+::: {.columns}
+::: {.column .lang-en width="50%"}
+
+-   Randomize treatment, then measure outcomes.
+
+
+
+-   Randomization creates two groups that we expect to be similar.  Differences before receiving treatment are only due to chance.
+
+
+
+-   **We** create the difference with the treatment.  Therefore, we can attribute differences in outcomes to the treatment (plus
+    chance) instead of other factors.
+
+:::
+::: {.column .lang-fr width="50%"}
+
+- Randomiser le traitement, puis mesurer les résultats.
+
+
+
+- La randomisation crée deux groupes qui devraient être similaires.  Les différences avant le traitement ne sont dues qu'au hasard.
+
+
+
+- **Nous** créons ensuite la différence avec le traitement.  Nous pouvons donc attribuer les différences de résultats au traitement (plus
+ le hasard) plutôt qu'à d'autres facteurs.
+ 
+:::
+:::
+
+
+## Internal validity | *La validité interne*
+
+::: {.columns}
+::: {.column .lang-en width="50%"}
+
+-   Randomization generally gives us internal validity -- confidence in our estimate of the causal effect of $X$ on $Y$ for our study.
+
+
+
+-   Observational studies generally need other strong assumptions to try to deal with selection bias.
+
+:::
+::: {.column .lang-fr width="50%"}
+
+-   La randomisation nous donne généralement une validité interne : une confiance dans notre estimation de l’effet causal de $X$ sur $Y$ pour notre étude.
+
+
+
+-   Les études observationelles ont besoin d'autres hypothèses
+    fortes pour résoudre le biais de sélection.
+
+:::
+:::
+
+## External Validity (Generalizability) | *La validité externe (Généralisabilité) *
+ 
+::: {.columns}
+::: {.column .lang-en width="50%"}
+
+-   The units in your study might or might not be representative of a
+    larger population.
+
+
+
+-   The conclusions from one study may not apply to other settings (i.e., not have
+    external validity).
+
+
+
+-   This is a general concern for both observational and randomized studies.
+
+:::
+::: {.column .lang-fr width="50%"}
+
+-   Les unités de votre étude peuvent ou non être représentatives d'une
+    population plus large.
+    
+    
+
+-   Les conclusions d'une étude peuvent ne pas s'appliquer à d'autres contextes (i.e. manque de la validité externe).
+
+
+
+-   C'est une préoccupation générale, tant pour les études observationnelles que pour les études randomisées.
+
+:::
+:::
+

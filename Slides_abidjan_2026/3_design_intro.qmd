@@ -1,0 +1,682 @@
+---
+title: "Design declaration, diagnosis, and redesign | *Déclaration, diagnostic et redesign*"
+subtitle: "MIDA — introduction | *MIDA — introduction*"
+author: "Macartan Humphreys"
+date: today
+format:
+  revealjs:
+    embed-resources: true
+---
+
+```{r, include=FALSE}
+library(DeclareDesign)
+library(knitr)
+library(tidyverse)
+library(kableExtra)
+
+knitr::opts_chunk$set(
+  echo = TRUE,
+  warning = FALSE,
+  error = TRUE,
+  message = FALSE,
+  eval = TRUE
+)
+
+set.seed(343)
+theme_set(theme_light())
+
+bs_style <- c("striped", "hover", "condensed", "responsive")
+options(kable_styling_bootstrap_options = bs_style)
+```
+
+
+## Learning goals | *Objectifs d'apprentissage*
+
+::: {.columns}
+::: {.column .lang-en width="50%"}
+
+1. Understand what the essential elements of a design are
+2. Understand that if you state these elements clearly, you can assess the quality of a design
+3. Learn how design adjustments can be optimized
+4. Gain exposure to the kind of code that lets you do this in practice
+
+:::
+::: {.column .lang-fr width="50%"}
+
+1. Comprendre quels sont les éléments essentiels d'un design
+2. Comprendre que si vous énoncez clairement ces éléments, vous pouvez évaluer la qualité d'un design
+3. Apprendre comment les ajustements de design peuvent être optimisés
+4. Découvrir le type de code qui permet de faire cela en pratique
+
+:::
+:::
+
+# MIDA framework | *Cadre MIDA*
+
+## Four elements | *Quatre éléments*
+
+::: {.columns}
+::: {.column .lang-en width="50%"}
+
+- **Model**: what causes what, and how
+- **Inquiry**: a question stated in terms of the model
+- **Data strategy**: sampling, assignment, measurement
+- **Answer strategy**: how we summarize the data
+
+:::
+::: {.column .lang-fr width="50%"}
+
+- **Model** (*modèle*) : ce qui cause quoi, et comment
+- **Inquiry** (*question*) : une question formulée à partir du modèle
+- **Data strategy** (*stratégie de données*) : échantillonnage, assignation, mesure
+- **Answer strategy** (*stratégie de réponse*) : comment on résume les données
+
+:::
+:::
+
+## MIDA diagram | *Schéma MIDA*
+
+![](images/mida.png){width="72%" fig-align="center"}
+
+## Declaration | *Déclaration*
+
+::: {.columns}
+::: {.column .lang-en width="50%"}
+
+**Declaration** tells the computer (and readers) what **M**, **I**, **D**, and **A** are.
+
+:::
+::: {.column .lang-fr width="50%"}
+
+La **déclaration** indique à l'ordinateur (et aux lecteurs) ce que sont **M**, **I**, **D** et **A**.
+
+:::
+:::
+
+## Diagnosis | *Diagnostic*
+
+::: {.columns}
+::: {.column .lang-en width="50%"}
+
+**Diagnosis** asks how the design will perform under imagined conditions.
+
+We estimate **diagnosands**: power, bias, RMSE, error rates, ethical harm, amount learned, …
+
+:::
+::: {.column .lang-fr width="50%"}
+
+Le **diagnostic** évalue la performance de le design dans des conditions imaginées.
+
+On estime des **diagnosandes** : puissance, biais, RMSE, taux d'erreur, risques éthiques, quantité apprise, …
+
+:::
+:::
+
+## Redesign | *Redesign*
+
+::: {.columns}
+::: {.column .lang-en width="50%"}
+
+**Redesign** adjusts data- and answer-strategy features to see how diagnosands change:
+
+- sample size
+- randomization procedure
+- estimation strategy
+- implementation trade-offs (e.g. compliance vs. sample size)
+
+:::
+::: {.column .lang-fr width="50%"}
+
+Le **redesign** modifie les stratégies de données et de réponse pour voir comment les diagnosandes évoluent :
+
+- taille d'échantillon
+- procédure d'assignation aléatoire
+- stratégie d'estimation
+- arbitrages de mise en œuvre (p.ex. conformité vs. taille d'échantillon)
+
+:::
+:::
+
+# Declaration | *Déclaration*
+
+## Simplest design | *design la plus simple*
+
+::: {.columns}
+::: {.column .lang-en width="50%"}
+
+What is the simplest **diagnosable** design?
+
+:::
+::: {.column .lang-fr width="50%"}
+
+Quelle est le design **diagnostiquable** la plus simple ?
+
+:::
+:::
+
+```{r}
+simplest_design <-
+  declare_model(N = 100, Y0 = rnorm(N), Y1 = .2 + rnorm(N)) +
+  declare_inquiry(Q = mean(Y1- Y0)) +
+  declare_assignment(X = simple_ra(N)) +
+  declare_measurement(Y = X*Y1 + (1-X)*Y0) +
+  declare_estimator(Y ~ X)
+```
+
+## What it does | *Ce que ça fait*
+
+::: {.columns}
+::: {.column .lang-en width="50%"}
+
+- M: Draw 100 units with potential outcomes
+- I: Define an inquiry: the **sample average effect**
+- D: Assign a treatment and measure an outcome
+- A: Estimate the mean with a regression intercept
+
+:::
+::: {.column .lang-fr width="50%"}
+
+- M : Tirer 100 unités avec des résultats potentiels
+- I : Définir une estimande : l'**effet moyen dans l'échantillon**
+- D : Assigner un traitement et mesurer un résultat
+- A : Estimer la moyenne avec l'intercept d'une régression
+
+:::
+:::
+
+
+## The pipe (1) | *Le pipe (1)*
+
+::: {.columns}
+::: {.column .lang-en width="50%"}
+
+Each step is a function that presupposes what earlier steps created.
+
+- Step **order** matters
+- Most steps take the `main` data frame in and pass it out
+
+:::
+::: {.column .lang-fr width="50%"}
+
+Chaque étape est une fonction qui présuppose ce que les étapes précédentes ont créé.
+
+- L'**ordre** des étapes compte
+- La plupart des étapes reçoivent et renvoient le data frame `main`
+
+:::
+:::
+
+## The pipe (2) | *Le pipe (2)*
+
+::: {.columns}
+::: {.column .lang-en width="50%"}
+
+- `declare_estimator` → `estimator_df`
+- `declare_inquiry` → `estimand_df`
+- You can run steps **one at a time**
+
+:::
+::: {.column .lang-fr width="50%"}
+
+- `declare_estimator` → `estimator_df`
+- `declare_inquiry` → `estimand_df`
+- Vous pouvez exécuter les étapes **une par une**
+
+:::
+:::
+
+
+## Run once | *Une exécution*
+
+::: {.columns}
+::: {.column .lang-en width="50%"}
+
+Run the whole design once — type its name or call `run_design()`.
+This produces data, **estimands**, **estimates**, and ancillary statistics.
+
+:::
+::: {.column .lang-fr width="50%"}
+
+Exécutez toute le design une fois — tapez son nom ou appelez `run_design()`.
+Une exécution produit les données, les **estimandes**, les **estimations** et des statistiques auxiliaires.
+
+:::
+:::
+
+```{r, eval = FALSE}
+simplest_design |> run_design()
+```
+
+```{r, echo = FALSE}
+one_run <- simplest_design |> run_design()
+one_run |> kable(digits = 2) |> kable_styling(font_size = 16)
+```
+
+## Simulation | *Simulation*
+
+::: {.columns}
+::: {.column .lang-en width="50%"}
+
+Repeat the design many times with `simulate_design()`.
+
+:::
+::: {.column .lang-fr width="50%"}
+
+Répétez le design **plusieurs fois** avec `simulate_design()`.
+
+:::
+:::
+
+```{r, warning = FALSE}
+some_runs <- simplest_design |> simulate_design(sims = 100)
+```
+```{r, warning = FALSE, eval = FALSE}
+some_runs
+```
+
+```{r, warning = FALSE, echo = FALSE}
+some_runs |> kable(digits = 2) |> kable_styling(font_size = 14)
+```
+
+## Distribution of estimates | *Distribution des estimations*
+
+```{r, echo = FALSE}
+some_runs |>
+  ggplot(aes(estimate)) +
+  geom_histogram()
+```
+
+## Distribution of errors | *Distribution des erreurs*
+
+```{r, echo = FALSE}
+some_runs |>
+  ggplot(aes(estimate - estimand)) +
+  geom_histogram()
+```
+
+## Distribution of p values | *Distribution des p-values*
+
+```{r, echo = FALSE}
+some_runs  |>
+  ggplot(aes(p.value)) +
+  geom_histogram()
+```
+
+# Diagnosis | *Diagnostic*
+
+## Bias by hand | *Biais à la main*
+
+::: {.columns}
+::: {.column .lang-en width="50%"}
+
+After many simulations, ask about **bias**: the average gap between estimand and estimate.
+
+:::
+::: {.column .lang-fr width="50%"}
+
+Après de nombreuses simulations, mesurez le **biais** : l'écart moyen entre estimande et estimation.
+
+:::
+:::
+
+```{r, eval = FALSE}
+some_runs |>
+  mutate(error = estimate - estimand) |>
+  summarize(
+    mean_estimate = mean(estimate),
+    mean_estimand = mean(estimand),
+    bias = mean(error)
+  )
+```
+
+```{r, echo = FALSE}
+some_runs |>
+  mutate(error = estimate - estimand) |>
+  summarize(
+    mean_estimate = mean(estimate),
+    mean_estimand = mean(estimand),
+    bias = mean(error)
+  ) |>
+  kable(digits = 2) |>
+  kable_styling(font_size = 18)
+```
+
+## diagnose_design() | *diagnose_design()*
+
+::: {.columns}
+::: {.column .lang-en width="50%"}
+
+`diagnose_design()` computes common diagnosands in one step.
+
+:::
+::: {.column .lang-fr width="50%"}
+
+`diagnose_design()` calcule les diagnosandes usuels en une seule étape.
+
+:::
+:::
+
+```{r, eval = FALSE}
+diagnosis <- simplest_design |> diagnose_design()
+```
+
+```{r, echo = FALSE}
+diagnosis <- simplest_design |> diagnose_design(sims = 1000)
+diagnosis |>
+  reshape_diagnosis() |>
+  select(-Inquiry, -Estimator, -Outcome, -Term) |>
+  kable() |>
+  kable_styling(font_size = 16)
+```
+
+
+
+## Tidy format | *Format tidy*
+
+::: {.columns}
+::: {.column .lang-en width="50%"}
+
+Use `tidy()` for a data frame ready to plot.
+
+:::
+::: {.column .lang-fr width="50%"}
+
+Utilisez `tidy()` pour un data frame prêt à graphiquer.
+
+:::
+:::
+
+```{r, eval = FALSE}
+diagnosis |> tidy()
+```
+
+```{r, echo = FALSE}
+diagnosis |>
+  tidy() |>
+  kable(digits = 2) |>
+  kable_styling(font_size = 14)
+```
+
+## Diagnosis plot | *Graphique de diagnostic*
+
+```{r, fig.width = 6, fig.height = 2.2, echo = FALSE}
+diagnosis |>
+  tidy() |>
+  ggplot(aes(estimate, diagnosand)) +
+  geom_point() +
+  geom_errorbarh(aes(xmax = conf.high, xmin = conf.low, height = .2))
+```
+
+
+# Redesign | *Redesign*
+
+## What is redesign? | *Qu'est-ce que la redesign ?*
+
+::: {.columns}
+::: {.column .lang-en width="50%"}
+
+Three ways to modify a design:
+
+1. Write new code
+2. `replace_step`, `insert_step`, `delete_step`
+3. Change a **parameter** with `redesign` ← we focus on this
+
+:::
+::: {.column .lang-fr width="50%"}
+
+Trois façons de modifier un design :
+
+1. Réécrire le code
+2. `replace_step`, `insert_step`, `delete_step`
+3. Changer un **paramètre** avec `redesign` ← notre focus
+
+:::
+:::
+
+## Design parameters | *Paramètres de design*
+
+::: {.columns}
+::: {.column .lang-en width="50%"}
+
+A **parameter** is a quantity in your environment that the design references explicitly — e.g. `N` instead of a fixed number.
+
+:::
+::: {.column .lang-fr width="50%"}
+
+Un **paramètre** est une quantité de votre environnement que le design cite explicitement — p.ex. `N` au lieu d'un nombre fixe.
+
+:::
+:::
+
+```{r}
+N <- 100
+
+simplest_design <-
+  declare_model(N = N, Y0 = rnorm(N), Y1 = 1 + rnorm(N)) +
+  declare_inquiry(Q = mean(Y1- Y0)) +
+  declare_assignment(X = simple_ra(N)) +
+  declare_measurement(Y = X*Y1 + (1-X)*Y0) +
+  declare_estimator(Y ~ X)
+```
+
+## Simple redesign | *Redesign simple*
+
+::: {.columns}
+::: {.column .lang-en width="50%"}
+
+`redesign()` returns a modified design — here with `N = 200`.
+
+:::
+::: {.column .lang-fr width="50%"}
+
+`redesign()` renvoie un design modifié — ici avec `N = 200`.
+
+:::
+:::
+
+```{r}
+design_200 <- simplest_design |> redesign(N = 200)
+design_200 |> draw_data() |> nrow()
+```
+
+## A list of designs | *Une liste de designs*
+
+::: {.columns}
+::: {.column .lang-en width="50%"}
+
+Pass a **vector** of parameter values to get several designs at once.
+
+:::
+::: {.column .lang-fr width="50%"}
+
+Passez un **vecteur** de valeurs de paramètres pour obtenir plusieurs designs d'un coup.
+
+:::
+:::
+
+```{r}
+design_Ns <- simplest_design |> redesign(N = c(200, 400, 800))
+design_Ns |> lapply(draw_data) |> lapply(nrow)
+```
+
+## Multiple parameters | *Paramètres multiples*
+
+::: {.columns}
+::: {.column .lang-en width="50%"}
+
+With two parameters, `redesign()` builds a grid of designs — easy to diagnose and compare.
+
+:::
+::: {.column .lang-fr width="50%"}
+
+Avec deux paramètres, `redesign()` construit une grille de designs — facile à diagnostiquer et comparer.
+
+:::
+:::
+
+```{r}
+N <- 100
+b <- .2
+
+simplest_design <-
+  declare_model(N = N, Y0 = rnorm(N), Y1 = b + rnorm(N)) +
+  declare_inquiry(Q = mean(Y1- Y0)) +
+  declare_assignment(X = simple_ra(N)) +
+  declare_measurement(Y = X*Y1 + (1-X)*Y0) +
+  declare_estimator(Y ~ X)
+```
+
+
+```{r, eval = FALSE}
+designs <- redesign(simplest_design, N = c(100, 200, 500), b = c(0, .2, .5))
+designs |> diagnose_design() |> tidy()
+```
+
+## Compare diagnoses | *Comparer les diagnostics*
+
+```{r, echo = FALSE}
+designs <- redesign(simplest_design, N = c(100, 200, 500), b = c(0, .2, .5))
+redesign_tidy <- designs |> diagnose_design(sims = 250) |> tidy()
+
+redesign_tidy |>
+  select(N, b, diagnosand, estimate, std.error, conf.low, conf.high) |>
+  filter(diagnosand %in% c("power", "rmse")) |>
+  kable(digits = 2) |>
+  kable_styling(font_size = 14)
+```
+
+## Plot after redesign | *Graphique après redesign*
+
+::: {.columns}
+::: {.column .lang-en width="50%"}
+
+After `tidy()`, ggplot makes comparison across redesigns straightforward.
+
+:::
+::: {.column .lang-fr width="50%"}
+
+Après `tidy()`, ggplot permet de comparer facilement les redesigns.
+
+:::
+:::
+
+```{r, echo = FALSE, fig.height = 2.2, fig.width = 6}
+redesign_tidy |>
+  filter(diagnosand %in% c("power", "rmse")) |>
+  ggplot(aes(N, estimate, color = factor(b))) +
+  geom_line() +
+  facet_wrap(~diagnosand)
+```
+
+::: {.columns}
+::: {.column .lang-en width="50%"}
+
+Power depends on N and effect size; RMSE depends on N only.
+
+:::
+::: {.column .lang-fr width="50%"}
+
+La puissance dépend de N et de la taille d'effet ; le RMSE ne dépend que de N.
+
+:::
+:::
+
+# Resources | *Ressources*
+
+## declare_* commands | *Commandes declare_*
+
+::: {.columns}
+::: {.column .lang-en width="50%"}
+
+Key steps for **building** a design:
+
+- `declare_model()`
+- `declare_inquiry()`
+- `declare_sampling()`
+- `declare_assignment()`
+- `declare_measurement()`
+- `declare_estimator()`
+- … and more `declare_*` functions
+
+:::
+::: {.column .lang-fr width="50%"}
+
+Étapes clés pour **construire** un design :
+
+- `declare_model()`
+- `declare_inquiry()`
+- `declare_sampling()`
+- `declare_assignment()`
+- `declare_measurement()`
+- `declare_estimator()`
+- … et d'autres fonctions `declare_*`
+
+:::
+:::
+
+## Using a design | *Utiliser un design*
+
+::: {.columns}
+::: {.column .lang-en width="50%"}
+
+Key commands for **running** and **learning** from a design:
+
+- `draw_data(design)`, `draw_estimands(design)`, `draw_estimates(design)`
+- `get_estimates(design, data)`
+- `run_design(design)`, `simulate_design(design)`
+- `diagnose_design(design)`
+- `redesign(design, N = 200)`
+- `compare_designs()`, `compare_diagnoses()`
+
+:::
+::: {.column .lang-fr width="50%"}
+
+Commandes clés pour **exécuter** un design et **en tirer des conclusions** :
+
+- `draw_data(design)`, `draw_estimands(design)`, `draw_estimates(design)`
+- `get_estimates(design, data)`
+- `run_design(design)`, `simulate_design(design)`
+- `diagnose_design(design)`
+- `redesign(design, N = 200)`
+- `compare_designs()`, `compare_diagnoses()`
+
+:::
+:::
+
+## Cheat sheet | *Aide-mémoire*
+
+::: {.columns}
+::: {.column .lang-en width="50%"}
+
+[RStudio cheat sheet (PDF)](https://raw.githubusercontent.com/rstudio/cheatsheets/master/declaredesign.pdf)
+
+:::
+::: {.column .lang-fr width="50%"}
+
+[Aide-mémoire RStudio (PDF)](https://raw.githubusercontent.com/rstudio/cheatsheets/master/declaredesign.pdf)
+
+:::
+:::
+
+![](images/cheat_sheet.png){width="68%" fig-align="center"}
+
+## Other resources | *Autres ressources*
+
+::: {.columns}
+::: {.column .lang-en width="50%"}
+
+- Full slide deck: [macartan.github.io/dd_bootcamp](https://macartan.github.io/dd_bootcamp/)
+- Website: [declaredesign.org](https://declaredesign.org/)
+- Book: [book.declaredesign.org](https://book.declaredesign.org)
+- Console help: `?DeclareDesign`
+
+:::
+::: {.column .lang-fr width="50%"}
+
+- Diapositives complètes : [macartan.github.io/dd_bootcamp](https://macartan.github.io/dd_bootcamp/)
+- Site web : [declaredesign.org](https://declaredesign.org/)
+- Livre : [book.declaredesign.org](https://book.declaredesign.org)
+- Aide console : `?DeclareDesign`
+
+:::
+:::

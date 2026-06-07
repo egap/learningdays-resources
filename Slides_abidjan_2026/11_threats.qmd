@@ -1,0 +1,324 @@
+---
+title: "Threats to internal validity | *Menaces à la validité interne*"
+author: "Yannick + Adikath + Vin; Macartan + Vincent"
+date: today
+bibliography: learningdays-book.bib
+format:
+  revealjs:
+    embed-resources: true
+---
+
+## Key points | *Points clés*
+
+::: {.columns}
+::: {.column .lang-en width="50%"}
+
+- Attrition (missing outcome data)
+- Non-compliance
+- Spillovers
+- Demand effects
+- Differential treatment of treatment arms
+
+:::
+::: {.column .lang-fr width="50%"}
+
+- Attrition (données de résultat manquantes)
+- Non-conformité
+- Effets de spillover
+- Effets de demande
+- Traitement différentiel des bras de traitement
+
+:::
+:::
+
+# Core assumptions | *Hypothèses de base*
+
+## Review | *Rappel*
+
+::: {.columns}
+::: {.column .lang-en width="50%"}
+
+1. **Excludability**
+2. **Non-interference**
+3. **Random assignment** of subjects to treatment
+
+:::
+::: {.column .lang-fr width="50%"}
+
+1. **Excludabilité**
+2. **Non-interférence**
+3. **Assignation aléatoire** des sujets au traitement
+
+:::
+:::
+
+# Attrition | *Attrition*
+
+## Missing outcome data | *Données de résultat manquantes*
+
+::: {.columns}
+::: {.column .lang-en width="50%"}
+
+Some units may have **missing outcome data** when:
+
+- respondents cannot be found or refuse the endline survey
+- records are lost
+
+This is a problem when **treatment affects missingness** — e.g. control units less willing to respond, or treated units migrate and cannot be reached.
+
+If we drop missing cases, we no longer compare similar treatment and control groups.
+
+:::
+::: {.column .lang-fr width="50%"}
+
+Certaines unités peuvent avoir des **résultats manquants** lorsque :
+
+- les répondants sont introuvables ou refusent l'enquête de fin
+- des dossiers sont perdus
+
+C'est problématique quand le **traitement affecte le taux de non-réponse** — p.ex. moins de réponses en contrôle, ou migration des traités.
+
+Si l'on supprime les cas manquants, on ne compare plus des groupes traitement et contrôle comparables.
+
+:::
+:::
+
+## What can we do? (1) | *Que faire ? (1)*
+
+::: {.columns}
+::: {.column .lang-en width="50%"}
+
+- Check whether attrition rates are similar in treatment and control.
+- Check whether covariate profiles are similar.
+- Do **not** drop observations with missing outcomes from analysis.
+- When outcomes are missing, sometimes **bound** treatment effects.
+
+:::
+::: {.column .lang-fr width="50%"}
+
+- Vérifier si les taux d'attrition sont similaires entre traitement et contrôle.
+- Vérifier si les profils de covariables sont similaires.
+- Ne **pas** exclure les observations avec résultats manquants de l'analyse.
+- Quand les résultats manquent, parfois **encadrer** les effets du traitement.
+
+:::
+:::
+
+## What can we do? (2) | *Que faire ? (2)*
+
+::: {.columns}
+::: {.column .lang-en width="50%"}
+
+Best approach: **anticipate and prevent** attrition.
+
+- Blind subjects to treatment status.
+- Promise control units the treatment after the study.
+- Plan ex ante to reach all subjects at endline.
+- Budget for intensive follow-up with a random sample of attriters.
+
+:::
+::: {.column .lang-fr width="50%"}
+
+Meilleure approche : **anticiper et prévenir** l'attrition.
+
+- Garder les sujets dans l'ignorance de leur statut de traitement.
+- Promettre le traitement au groupe contrôle après l'étude.
+- Prévoir d'atteindre tous les sujets en fin d'étude.
+- Budgéter un suivi intensif d'un échantillon aléatoire d'attritionnaires.
+
+:::
+:::
+
+## Missing covariates | *Covariables manquantes*
+
+::: {.columns}
+::: {.column .lang-en width="50%"}
+
+Missing **background covariates** (values unchanged by treatment) is less problematic.
+
+- We can still estimate causal effects without them.
+- We can impute as planned.
+- We can condition on missingness directly.
+
+:::
+::: {.column .lang-fr width="50%"}
+
+Des **covariables de base** manquantes (non modifiées par le traitement) posent moins de problèmes.
+
+- On peut encore estimer les effets causaux sans elles.
+- On peut imputer comme prévu.
+- On peut conditionner directement sur la non-réponse.
+
+:::
+:::
+
+# Non-compliance | *Non-conformité*
+
+## Non-compliance | *Non-conformité*
+
+::: {.columns}
+::: {.column .lang-en width="50%"}
+
+Sometimes units assigned to treatment **do not take it** (non-compliance).
+
+- **One-sided** non-compliance: all control stay untreated; only some treated actually receive treatment.
+
+The effect of **assignment** ≠ effect of **receiving** treatment.
+
+The effect of receiving treatment is the **LATE** / **CACE** — local to compliers (those who take treatment when assigned).
+
+:::
+::: {.column .lang-fr width="50%"}
+
+Parfois, des unités assignées au traitement **ne le reçoivent pas** (non-conformité).
+
+- Non-conformité **unilatérale** : tout le contrôle reste non traité ; seuls certains traités reçoivent le traitement.
+
+L'effet de l'**assignation** ≠ effet de la **réception** du traitement.
+
+L'effet de réception est le **LATE** / **CACE** — local aux conformes (ceux qui prennent le traitement quand assignés).
+
+:::
+:::
+
+## LATE / CACE | *LATE / CACE*
+
+::: {.columns}
+::: {.column .lang-en width="50%"}
+
+To estimate LATE/CACE from a randomized experiment, two assumptions:
+
+1. **Exclusion restriction:** assignment affects outcomes only through treatment receipt.
+2. **Monotonicity:** no **defiers** — units who take treatment if assigned to control but not if assigned to treatment.
+
+:::
+::: {.column .lang-fr width="50%"}
+
+Pour estimer le LATE/CACE à partir d'une expérience randomisée, deux hypothèses :
+
+1. **Restriction d'exclusion :** l'assignation n'affecte les résultats que via la réception du traitement.
+2. **Monotonicité :** pas de **défiants** — unités qui prennent le traitement si assignées au contrôle mais pas si assignées au traitement.
+
+:::
+:::
+
+# Spillovers | *Spillovers*
+
+## Interference | *Interférence*
+
+::: {.columns}
+::: {.column .lang-en width="50%"}
+
+Sometimes treatment assigned to one unit affects **another unit's outcome**.
+
+If one unit's treatment status affects another's outcome, we violate **non-interference**.
+
+You might sample units far apart to limit "transmission" of treatment effects.
+
+:::
+::: {.column .lang-fr width="50%"}
+
+Parfois, le traitement assigné à une unité affecte le **résultat d'une autre**.
+
+Si le statut de traitement d'une unité affecte le résultat d'une autre, l'**non-interférence** est violée.
+
+On peut échantillonner des unités éloignées pour limiter la « transmission » des effets.
+
+:::
+:::
+
+## Studying spillovers | *Étudier les spillovers*
+
+::: {.columns}
+::: {.column .lang-en width="50%"}
+
+Not a problem if the study is **designed** to investigate spillovers.
+
+To investigate spillovers:
+
+- Collect outcomes for units never eligible for treatment but near eligible units.
+- Use a **two-stage** randomization design.
+- Assign clusters (e.g. districts) different treatment **intensities**.
+
+:::
+::: {.column .lang-fr width="50%"}
+
+Pas un problème si l'étude est **conçue** pour étudier les spillovers.
+
+Pour les investiguer :
+
+- Mesurer des unités jamais éligibles au traitement mais proches d'unités éligibles.
+- Utiliser une randomisation en **deux étapes**.
+- Assigner à des grappes (p.ex. districts) différentes **intensités** de traitement.
+
+:::
+:::
+
+# Demand effects | *Effets de demande*
+
+## Demand effects | *Effets de demande*
+
+::: {.columns}
+::: {.column .lang-en width="50%"}
+
+**Demand effects:** knowing you are observed can change behavior.
+
+- Systematic measurement error in both groups.
+- Extra attention to the treatment group can undo equivalence from randomization.
+
+:::
+::: {.column .lang-fr width="50%"}
+
+**Effets de demande :** savoir qu'on est observé peut modifier le comportement.
+
+- Erreur de mesure systématique dans les deux groupes.
+- Une attention accrue au groupe traité peut annuler l'équivalence créée par la randomisation.
+
+:::
+:::
+
+## Good practices | *Bonnes pratiques*
+
+::: {.columns}
+::: {.column .lang-en width="50%"}
+
+- Collect data as **unobtrusively** as possible.
+- As far as possible, only the subject knows their treatment status.
+- **Blind** enumerators/researchers to treatment status.
+- Do not take extra measurements of the treatment group.
+
+:::
+::: {.column .lang-fr width="50%"}
+
+- Collecter les données de la façon la plus **discrète** possible.
+- Dans la mesure du possible, seul le sujet connaît son statut.
+- **Masquer** le statut de traitement aux enquêteurs/chercheurs.
+- Ne pas mesurer davantage le groupe traité.
+
+:::
+:::
+
+# Non-excludability | *Non-excludabilité*
+
+## Differential handling | *Traitement différentiel*
+
+::: {.columns}
+::: {.column .lang-en width="50%"}
+
+Handling treatment and control **differently** means outcome differences may reflect treatment **and/or** differential handling.
+
+Examples: different survey instruments, extra data rounds for treatment to study mechanisms.
+
+Design study and instruments so all arms are treated the same **except for the treatment itself**.
+
+:::
+::: {.column .lang-fr width="50%"}
+
+Traiter différemment les groupes traitement et contrôle signifie que les écarts de résultats peuvent refléter le traitement **et/ou** un traitement différentiel.
+
+Exemples : instruments d'enquête différents, vagues de données supplémentaires pour le traitement.
+
+Concevoir l'étude et les instruments pour que tous les bras soient traités pareil **sauf le traitement lui-même**.
+
+:::
+:::

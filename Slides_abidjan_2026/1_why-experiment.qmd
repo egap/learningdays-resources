@@ -1,0 +1,465 @@
+---
+title: "Why experiment? | *Pourquoi faire des expériences ?*"
+author: "Brice + Vin"
+date: today
+bibliography: learningdays-book.bib
+format:
+  revealjs:
+    embed-resources: true
+---
+
+## Key points for this lecture | *Points clés de ce cours*
+
+::: {.columns}
+::: {.column .lang-en width="50%"}
+
+- What are the limitations of observational research?
+- What is a randomized experiment?
+- Who uses experiments?
+- What are experiments good for (and not)?
+
+:::
+::: {.column .lang-fr width="50%"}
+
+- Quelles sont les limitations des études observationnelles ?
+- Qu'est-ce qu'une expérience aléatoire ?
+- Qui utilise les expériences ?
+- À quoi servent (ou ne servent pas) les expériences ?
+
+:::
+:::
+
+
+## The big picture | *La vue d'ensemble*
+
+$$X \overset{?}{\rightarrow} Y$$
+
+## What is X called? What is Y called? | *Comment appelle-t-on X ? Comment appelle-t-on Y ?*
+
+$$X \overset{?}{\rightarrow} Y$$
+
+::: {.columns}
+::: {.column .lang-en width="50%"}
+
+- What is X called?
+- What is Y called?
+
+:::
+::: {.column .lang-fr width="50%"}
+
+- Comment appelle-t-on X ?
+- Comment appelle-t-on Y ?
+
+:::
+:::
+
+## What is X called? What is Y called? | *Comment appelle-t-on X ? Comment appelle-t-on Y ?*
+
+$$X \overset{?}{\rightarrow} Y$$
+
+::: {.columns}
+::: {.column .lang-en width="50%"}
+
+- **X**: independent variable, treatment
+- **Y**: dependent variable, outcome variable
+
+:::
+::: {.column .lang-fr width="50%"}
+
+- **X** : variable indépendante, traitement
+- **Y** : variable dépendante, variable de résultat
+
+:::
+:::
+
+## What is the impact of decentralization on corruption? | *Quel est l'impact de la décentralisation sur la corruption ?*
+
+::: {.columns}
+::: {.column .lang-en width="50%"}
+
+- How would we try to answer that question?
+
+:::
+::: {.column .lang-fr width="50%"}
+
+- Comment y répondre ?
+
+:::
+:::
+
+## Observational research: the usual approach | *Études observationnelles : l'approche typique*
+
+::: {.columns}
+::: {.column .lang-en width="50%"}
+
+- Download and merge existing datasets
+- Measure naturally occurring behaviors or outcomes, perhaps by running a survey
+- Observe, don't intervene or treat
+
+:::
+::: {.column .lang-fr width="50%"}
+
+- Télécharger et fusionner les bases de données existants
+- Mesurer les comportements ou d'autres résultats, par exemple en menant un sondage
+- On observe, on n'intervient pas, on ne traite pas
+
+:::
+:::
+
+## An observational study of decentralization | *Une étude observationnelle de la décentralisation*
+
+::: {.columns}
+::: {.column .lang-en width="50%"}
+
+- Fisman and Gatti (2002): "Decentralization and corruption: evidence across countries" (cited 2,423 times)
+- Data from transparency international and IMF on 80 countries; OLS regression (with controls)
+- Finds a strong country-level correlation between fiscal decentralization in government expenditure and lower corruption
+- World Bank heavily promoted decentralization in the 1990s and 2000s
+
+:::
+::: {.column .lang-fr width="50%"}
+
+- Fisman et Gatti (2002) : "Decentralization and corruption: evidence across countries" (cité 2 423 fois)
+- Données de Transparency International et du FMI sur 80 pays ; régressions OLS (avec variables de contrôle)
+- Met en évidence une forte corrélation au niveau des pays entre la décentralisation fiscale des dépenses publiques et une moindre corruption
+- La Banque mondiale a fortement promu la décentralisation dans les années 1990 et 2000
+
+:::
+:::
+
+## Should the World Bank believe that decentralization decreases corruption, based on Fisman and Gatti (2002)? | *La Banque mondiale devrait-elle croire que la décentralisation réduit la corruption ?*
+
+::: {.columns}
+::: {.column .lang-en width="50%"}
+
+- Countries that decentralize may
+    - Be less corrupt to begin with
+    - Have stronger civil societies
+    - Adopt other governance reforms at the same time
+
+:::
+::: {.column .lang-fr width="50%"}
+
+- Les pays qui se décentralisent peuvent
+    - être moins corrompus au départ
+    - avoir des sociétés civiles plus actives
+    - adopter d'autres réformes de gouvernance en même temps
+
+:::
+:::
+
+## Confounding | *Facteurs de confusion*
+
+::: {.columns}
+::: {.column .lang-en width="50%"}
+
+- *Confounding*: a hidden factor that makes it look like there's a causal effect when there might not be
+- Observational research can show patterns and associations, but rarely causality
+
+:::
+::: {.column .lang-fr width="50%"}
+
+- *Facteurs de confusion* : des facteurs cachés qui donnent l'impression qu'il y a un effet causal alors qu'il n'y en a peut-être pas
+- Les études observationnelles peuvent montrer des tendances et des associations, mais rarement une relation causale
+
+:::
+:::
+
+## What is a randomized experiment? | *Qu'est-ce qu'une expérience aléatoire ?*
+
+::: {.columns}
+::: {.column .lang-en width="50%"}
+
+- You have a treatment (intervention)
+- *You randomly assign units to treatment and control conditions*
+- You compare the outcomes for the units that were assigned to treatment to outcomes for those that were not
+
+:::
+::: {.column .lang-fr width="50%"}
+
+- Vous avez un traitement (intervention)
+- *Vous assignez de manière aléatoire des sujets aux conditions de traitement et de contrôle*
+- Vous comparez les résultats des unités assignées au traitement à ceux des unités assignées au contrôle
+
+:::
+:::
+
+## Randomized experiment diagram | *Schéma d'une expérience aléatoire*
+
+
+```{r}
+#| include: false
+library(ggplot2)
+
+plot_decentralization_rct <- function() {
+  en_col <- "#3a7bbf"
+  fr_col <- "#c45c7a"
+
+  add_bilingual_pill <- function(p, x, y, en, fr, w = 1.55, h = 0.58) {
+    p +
+      annotate(
+        "rect",
+        xmin = x - w / 2,
+        xmax = x + w / 2,
+        ymin = y - h / 2,
+        ymax = y + h / 2,
+        fill = "white",
+        color = "grey35",
+        linewidth = 0.3
+      ) +
+      annotate(
+        "text",
+        x = x,
+        y = y + 0.12,
+        label = en,
+        color = en_col,
+        size = 2.45,
+        lineheight = 0.85
+      ) +
+      annotate(
+        "text",
+        x = x,
+        y = y - 0.15,
+        label = fr,
+        color = fr_col,
+        size = 2.35,
+        lineheight = 0.85,
+        fontface = "italic"
+      )
+  }
+
+  units_pts <- data.frame(
+    x = c(0.55, 0.85, 0.70, 0.95, 0.60, 0.80, 0.72, 0.88, 0.65, 0.92),
+    y = c(1.85, 1.95, 1.55, 1.70, 1.35, 1.45, 1.10, 1.25, 1.00, 1.15)
+  )
+
+  p <- ggplot() +
+    geom_point(
+      data = units_pts,
+      aes(x = x, y = y),
+      size = 2.8,
+      color = "black"
+    ) +
+    annotate("text", x = 0.75, y = 0.48, label = "Villages", size = 3)
+
+  p <- add_bilingual_pill(p, 3.35, 2.35, "Treatment group", "Groupe de traitement", w = 1.45, h = 0.58)
+  p <- add_bilingual_pill(p, 3.35, 0.65, "Control group", "Groupe témoin", w = 1.35, h = 0.58)
+  p <- add_bilingual_pill(
+    p, 6.55, 2.35,
+    "Corruption in villages\nwith decentralization",
+    "Corruption dans les villages\navec décentralisation",
+    w = 2.05, h = 0.82
+  )
+  p <- add_bilingual_pill(
+    p, 6.55, 0.65,
+    "Corruption in villages\nwithout decentralization",
+    "Corruption dans les villages\nsans décentralisation",
+    w = 2.15, h = 0.82
+  )
+
+  p +
+    geom_segment(
+      aes(x = 1.15, xend = 2.55, y = 1.50, yend = 2.35),
+      arrow = arrow(length = unit(0.12, "cm"), type = "closed"),
+      linewidth = 0.35
+    ) +
+    geom_segment(
+      aes(x = 1.15, xend = 2.55, y = 1.50, yend = 0.65),
+      arrow = arrow(length = unit(0.12, "cm"), type = "closed"),
+      linewidth = 0.35
+    ) +
+    geom_segment(
+      aes(x = 4.35, xend = 5.30, y = 2.35, yend = 2.35),
+      arrow = arrow(length = unit(0.12, "cm"), type = "closed"),
+      linewidth = 0.35
+    ) +
+    geom_segment(
+      aes(x = 4.35, xend = 5.30, y = 0.65, yend = 0.65),
+      arrow = arrow(length = unit(0.12, "cm"), type = "closed"),
+      linewidth = 0.35
+    ) +
+    geom_segment(
+      aes(x = 8.85, xend = 8.85, y = 0.45, yend = 2.55),
+      color = "grey65",
+      linewidth = 0.25
+    ) +
+    annotate(
+      "rect",
+      xmin = 9.05,
+      xmax = 11.55,
+      ymin = 1.50 - 0.42,
+      ymax = 1.50 + 0.42,
+      fill = "white",
+      color = "grey35",
+      linewidth = 0.3
+    ) +
+    annotate(
+      "text",
+      x = 10.30,
+      y = 1.62,
+      label = "Difference shows effect of decentralization",
+      color = en_col,
+      size = 2.35,
+      lineheight = 0.85
+    ) +
+    annotate(
+      "text",
+      x = 10.30,
+      y = 1.36,
+      label = "La différence montre l'effet de la décentralisation",
+      color = fr_col,
+      size = 2.25,
+      lineheight = 0.85,
+      fontface = "italic"
+    ) +
+    coord_cartesian(xlim = c(0, 12), ylim = c(0.2, 2.8), clip = "off") +
+    theme_void() +
+    theme(
+      plot.margin = margin(2, 8, 2, 2),
+      plot.background = element_rect(fill = "white", color = NA)
+    )
+}
+```
+
+```{r}
+#| echo: false
+#| fig-align: center
+#| fig-width: 12
+#| fig-height: 3.4
+#| out-width: 98%
+plot_decentralization_rct()
+```
+
+
+## Why an experiment? | *Pourquoi une expérimentation ?*
+
+::: {.columns}
+::: {.column .lang-en width="50%"}
+
+- Random assignment $\rightarrow$ highly credible evidence that there is no effect
+- If politicians/bureaucrats believe results, they won't spend money on a useless intervention
+
+:::
+::: {.column .lang-fr width="50%"}
+
+- Affectation aléatoire $\rightarrow$ preuve hautement crédible qu'il n'y a aucun effet
+- Si les politiciens ou les fonctionnaires croient aux résultats, ils ne dépenseront pas d'argent pour une intervention inutile
+
+:::
+:::
+
+
+
+## Widespread use | *Utilisation répandue*
+
+::: {.columns}
+::: {.column .lang-en width="50%"}
+
+- Clinical trials for medicine
+- Political campaigns
+- Tech A/B testing
+- Policy trials in governments
+
+:::
+::: {.column .lang-fr width="50%"}
+
+- Essais cliniques
+- Campagnes politiques
+- Tests A/B en tech
+- Essais politiques dans les gouvernements
+
+:::
+:::
+
+## Use in social science | *Utilisation en sciences sociales*
+
+::: {.columns}
+::: {.column .lang-en width="50%"}
+
+- Corrected wrong beliefs
+- Found that some things don't scale
+- Encouraged good policies
+
+:::
+::: {.column .lang-fr width="50%"}
+
+- Corrigé des croyances erronées
+- Montré que certaines politiques ne s'étendent pas bien
+- Soutenu les bonnes politiques
+
+:::
+:::
+
+## Proving beliefs wrong | *Démontrer que les croyances sont fausses*
+
+::: {.columns}
+::: {.column .lang-en width="50%"}
+
+- Belief: Microfinance boosts poverty reduction
+- Multiple studies have randomized microcredit at the group or neighborhood level
+- Result: No impact on household income, consumption, or women's empowerment
+
+:::
+::: {.column .lang-fr width="50%"}
+
+- Croyance : La microfinance réduit la pauvreté
+- Plusieurs études ont randomisé l'accès au microcrédit au niveau du groupe ou du quartier
+- Résultat : Aucun impact sur le revenu des ménages, la consommation ou l'autonomisation des femmes
+
+:::
+:::
+
+## Proving beliefs right | *Prouver que les croyances sont justes*
+
+::: {.columns}
+::: {.column .lang-en width="50%"}
+
+- Belief: Conditional cash transfers improve school attendance
+- Study: PROGRESA in Mexico randomized whether families were paid to keep children in school
+- Result: Large increases in enrollment, especially for girls and secondary students
+
+:::
+::: {.column .lang-fr width="50%"}
+
+- Croyance : Les transferts monétaires conditionnels augmentent la fréquentation scolaire
+- Étude : Le programme PROGRESA au Mexique a randomisé le versement d'allocations aux familles pour maintenir leurs enfants à l'école
+- Résultat : Forte hausse des inscriptions, en particulier pour les filles et les élèves du secondaire
+
+:::
+:::
+
+## Limitations to experiments | *Limites des expériences*
+
+::: {.columns}
+::: {.column .lang-en width="50%"}
+
+- Some things don't need an experiment (smoking and parachutes)
+- Some experiments aren't ethical
+- Some interventions can't be randomized
+
+:::
+::: {.column .lang-fr width="50%"}
+
+- Certaines choses ne nécessitent pas d'expérience (le tabac et les parachutes)
+- Certaines expériences ne sont pas éthiques
+- Certaines interventions ne peuvent pas être randomisées
+
+:::
+:::
+
+## Why experiments | *Pourquoi des expérimentations ?*
+
+::: {.columns}
+::: {.column .lang-en width="50%"}
+
+- Let's put beliefs to the test
+- What works? $\rightarrow$ Let's find out!
+
+:::
+::: {.column .lang-fr width="50%"}
+
+- Mettons les croyances à l'épreuve
+- Qu'est-ce qui fonctionne ? $\rightarrow$ Découvrons-le !
+
+:::
+:::

@@ -1,0 +1,45 @@
+# Abidjan 2026 — shared reveal.js defaults for all decks in this folder.
+# Each .qmd sets `format: revealjs` (see ROUTING.md).
+
+project:
+  type: default
+  render:
+    - "*.qmd"
+  pre-render:
+    - scripts/ensure_local_images.py
+  resources:
+    - "Images/**"
+    - "index.csv"
+    - "schedule.csv"
+    - "photos/**"
+    - "R_exercises/**"
+    - "assets/egap-logo.png"
+    - "assets/abidjan-bilingual.css"
+    - "assets/abidjan-bilingual.js"
+    - "assets/reveal-images.js"
+    - "assets/after-body.html"
+
+format:
+  revealjs:
+    theme: white
+    slide-number: true
+    center: false
+    transition: fade
+    width: 1280
+    height: 720
+    margin: 0.08
+    auto-stretch: false
+    slide-level: 2
+    toc: false
+    preview-links: auto
+    # chalkboard is incompatible with embed-resources (self-contained HTML)
+    plugins: [notes, search]
+    filters:
+      - assets/abidjan-bilingual.lua
+      - assets/force-image-src.lua
+    include-in-header: assets/header.html
+    include-after-body: assets/after-body.html
+
+editor:
+  markdown:
+    wrap: 72

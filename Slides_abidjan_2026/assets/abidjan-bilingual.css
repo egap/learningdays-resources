@@ -1,0 +1,501 @@
+/* Bilingual EN/FR styling for Abidjan reveal.js decks */
+
+:root {
+  --lang-en-bg: #dceefb;
+  --lang-en-border: #5b9bd5;
+  --lang-fr-bg: #fde2e8;
+  --lang-fr-border: #d4738f;
+}
+
+/* --- Force side-by-side columns (49% + padding was wrapping to rows) --- */
+.reveal .slides section .columns {
+  display: flex !important;
+  flex-flow: row nowrap !important;
+  align-items: stretch !important;
+  gap: 0.5em !important;
+  width: 100% !important;
+}
+
+.reveal .slides section .columns > .column {
+  flex: 1 1 0 !important;
+  width: 50% !important;
+  max-width: 50% !important;
+  min-width: 0 !important;
+  box-sizing: border-box !important;
+}
+
+/* --- Placeholder headings (English for reveal menu/id; real title is bilingual row below) --- */
+/* Quarto puts hidden-title on <section>, not on <h1>/<h2> — target section > heading */
+.reveal .slides section.hidden-title > h1,
+.reveal .slides section.hidden-title > h2,
+.reveal section > h1.hidden-title,
+.reveal section > h2.hidden-title {
+  display: block !important;
+  visibility: visible !important;
+  height: auto !important;
+  margin: 0 0 0.15em 0 !important;
+  padding: 0 !important;
+  font-size: 0.72rem !important;
+  line-height: 1.2 !important;
+  font-weight: 400 !important;
+  color: #888 !important;
+  text-shadow: none !important;
+  box-shadow: none !important;
+  border: 0 !important;
+  letter-spacing: 0.01em;
+  opacity: 0.85;
+}
+
+.reveal .slides section.hidden-title > h1 + .columns.bilingual-titles,
+.reveal .slides section.hidden-title > h2 + .columns.bilingual-titles {
+  margin-top: 0;
+}
+
+/* White slide canvas (theme: white; keeps EN/FR title tints readable) */
+.reveal .slides,
+.reveal .slides section,
+.reveal .slide-background {
+  background-color: #ffffff !important;
+}
+
+.reveal .slides section {
+  color: #1a1a1a;
+}
+
+/* --- Bilingual title row (plain text — not headings, so reveal.js won't nest slides) --- */
+.reveal .columns.bilingual-titles {
+  margin-bottom: 0.55em;
+}
+
+.reveal .columns.bilingual-titles > .column {
+  background: transparent !important;
+  border: none !important;
+  padding: 0 !important;
+}
+
+.reveal .columns.bilingual-titles .column::before {
+  display: none !important;
+}
+
+.reveal .bilingual-title-text {
+  margin: 0;
+  padding: 0.45em 0.55em;
+  border-radius: 5px;
+  border-left: 4px solid;
+  font-weight: 600;
+  line-height: 1.25;
+  text-align: left;
+  width: 100%;
+  box-sizing: border-box;
+  box-shadow: none !important;
+  text-shadow: none !important;
+}
+
+.reveal .columns.bilingual-titles.slide-title .bilingual-title-text {
+  font-size: 0.95em;
+}
+
+.reveal .columns.bilingual-titles.section-title .bilingual-title-text {
+  font-size: 1.2em;
+}
+
+.reveal .bilingual-title-text.lang-en {
+  background: var(--lang-en-bg);
+  border-left-color: var(--lang-en-border);
+}
+
+.reveal .bilingual-title-text.lang-fr {
+  background: var(--lang-fr-bg);
+  border-left-color: var(--lang-fr-border);
+}
+
+/* Deck title slide: EN line, then FR line (respects lang-mode toggle) */
+.reveal #title-slide.deck-title-slide .deck-title-bilingual {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.4em;
+  width: 100%;
+  margin: 0 auto 0.35em;
+}
+
+.reveal #title-slide.deck-title-slide .deck-title-line {
+  display: block;
+  width: auto;
+  max-width: 92%;
+  text-align: center;
+  font-weight: 600;
+  line-height: 1.25;
+  box-sizing: border-box;
+}
+
+.reveal #title-slide.deck-title-slide .deck-title-line.lang-en {
+  font-size: 1.55em;
+}
+
+.reveal #title-slide.deck-title-slide .deck-title-line.lang-fr {
+  font-size: 1.35em;
+}
+
+body.lang-mode-en #title-slide.deck-title-slide .deck-title-line.lang-en,
+body.lang-mode-fr #title-slide.deck-title-slide .deck-title-line.lang-fr {
+  max-width: 94%;
+}
+
+/* Section divider slides: drop default title-slide chrome (was double-box with our titles) */
+.reveal .slides section.title-slide.level1.hidden-title {
+  text-align: left;
+  box-shadow: none !important;
+}
+
+.reveal .slides section.title-slide.level1.hidden-title::before,
+.reveal .slides section.title-slide.level1.hidden-title::after {
+  display: none !important;
+}
+
+/* --- Body columns --- */
+.reveal .column.lang-en,
+.reveal .column.lang-fr {
+  padding: 0.55em 0.75em;
+  border-radius: 6px;
+  border-left: 4px solid;
+  font-size: 0.82em;
+  line-height: 1.35;
+  text-align: left;
+}
+
+.reveal .column.lang-en {
+  background: var(--lang-en-bg);
+  border-left-color: var(--lang-en-border);
+}
+
+.reveal .column.lang-fr {
+  background: var(--lang-fr-bg);
+  border-left-color: var(--lang-fr-border);
+}
+
+/* Tables inside bilingual columns (often wide) */
+.reveal .column table {
+  font-size: 0.52em;
+  line-height: 1.25;
+  width: 100%;
+}
+
+/* Compact full-width slide tables (potential outcomes exercises) */
+.reveal section.compact-table > table,
+.reveal section.compact-table .po-table-wrap table {
+  font-size: 0.56em;
+  line-height: 1.05;
+  width: auto;
+  max-width: 48%;
+  margin: 0.1em auto 0.25em;
+  border-collapse: collapse;
+}
+
+.reveal section.compact-table > table th,
+.reveal section.compact-table > table td,
+.reveal section.compact-table .po-table-wrap table th,
+.reveal section.compact-table .po-table-wrap table td {
+  padding: 0.1em 0.4em;
+}
+
+.reveal section.compact-table .columns.bilingual-titles {
+  margin-bottom: 0.35em;
+}
+
+.reveal section.compact-table .columns:not(.bilingual-titles) {
+  margin-top: 0.2em;
+}
+
+.reveal section.compact-table .columns:not(.bilingual-titles) > .column {
+  padding-top: 0.4em;
+  padding-bottom: 0.4em;
+  font-size: 0.76em;
+  line-height: 1.25;
+}
+
+.reveal section.compact-table .columns:not(.bilingual-titles) ul {
+  margin: 0.15em 0;
+  padding-left: 1em;
+}
+
+.reveal section.compact-table .columns:not(.bilingual-titles) li {
+  margin-bottom: 0.1em;
+}
+
+.reveal .center {
+  text-align: center;
+}
+
+.reveal .footnote {
+  font-size: 0.45em;
+  opacity: 0.85;
+  margin-top: 0.5em;
+}
+
+/* EGAP logo: top-left (not .slide-logo — that is Quarto bottom-right) */
+.egap-logo-bar {
+  position: fixed;
+  top: 10px;
+  left: 52px;
+  z-index: 25;
+  width: 120px;
+  height: 32px;
+  background: url("egap-logo.png") no-repeat left center / contain;
+  pointer-events: none;
+}
+
+/* Hide Quarto’s default bottom-right logo if injected */
+.reveal .slide-logo,
+.quarto-auto-generated-content .slide-logo {
+  display: none !important;
+}
+
+/* Bilingual TOC slide */
+.reveal .columns.bilingual-toc {
+  margin-top: 0.5em;
+  font-size: 0.78em;
+  line-height: 1.35;
+}
+
+.reveal .columns.bilingual-toc .column {
+  padding: 0.5em 0.65em;
+}
+
+.reveal .columns.bilingual-toc ul {
+  margin: 0;
+  padding-left: 1.1em;
+}
+
+.reveal .columns.bilingual-toc a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.reveal .columns.bilingual-toc a:hover {
+  text-decoration: underline;
+}
+
+/* reveal.js menu panel: leave room under logo */
+.reveal .slide-menu-wrapper {
+  z-index: 30;
+}
+
+.reveal section img {
+  border: none;
+  box-shadow: none;
+}
+
+/* Slide figures: centered, respect knitr/out.width (do not force 100%) */
+.reveal section .cell-output-display,
+.reveal section .cell-output-display .quarto-figure,
+.reveal section figure.quarto-float {
+  display: flex !important;
+  justify-content: center !important;
+  width: 100% !important;
+  margin: 0.25em auto !important;
+}
+
+.reveal section .cell-output-display img,
+.reveal section figure img,
+.reveal section .quarto-figure img {
+  display: block !important;
+  width: auto !important;
+  max-width: 72% !important;
+  height: auto !important;
+  max-height: 52vh !important;
+  margin: 0.25em auto !important;
+  object-fit: contain;
+}
+
+/* Card experiment photo slide */
+.reveal section.cards-photo-slide img,
+.reveal section#your-materials-2 img {
+  display: block !important;
+  width: 90% !important;
+  max-width: 90% !important;
+  height: auto !important;
+  max-height: 78vh !important;
+  margin: 0.1em auto !important;
+  object-fit: contain;
+}
+
+/* po.graph slides: block layout (not flex shrink-wrap); figures at 80% */
+.reveal .slides section.po-graph-slide .cell-output-display,
+.reveal .slides section#potential-outcomes-why-randomization-works .cell-output-display,
+.reveal .slides section#potential-outcomes-heterogeneous-effects .cell-output-display,
+.reveal .slides section#potential-outcomes-a-bad-randomization .cell-output-display {
+  display: block !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  margin: 0 auto !important;
+  padding: 0 !important;
+  text-align: center !important;
+}
+
+.reveal .slides section.po-graph-slide .cell-output-display p,
+.reveal .slides section#potential-outcomes-why-randomization-works .cell-output-display p,
+.reveal .slides section#potential-outcomes-heterogeneous-effects .cell-output-display p,
+.reveal .slides section#potential-outcomes-a-bad-randomization .cell-output-display p {
+  display: block !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  text-align: center !important;
+}
+
+/* po.graph multi-panel slides: fill slide width (class was dropped by filter — now restored in lua) */
+.reveal .slides section.po-graph-slide .columns.bilingual-titles,
+.reveal .slides section#potential-outcomes-why-randomization-works .columns.bilingual-titles,
+.reveal .slides section#potential-outcomes-heterogeneous-effects .columns.bilingual-titles,
+.reveal .slides section#potential-outcomes-a-bad-randomization .columns.bilingual-titles {
+  margin-bottom: 0.15em;
+}
+
+.reveal .slides section.po-graph-slide .columns.bilingual-titles .bilingual-title-text,
+.reveal .slides section#potential-outcomes-why-randomization-works .columns.bilingual-titles .bilingual-title-text,
+.reveal .slides section#potential-outcomes-heterogeneous-effects .columns.bilingual-titles .bilingual-title-text,
+.reveal .slides section#potential-outcomes-a-bad-randomization .columns.bilingual-titles .bilingual-title-text {
+  font-size: 0.72em;
+  padding: 0.28em 0.45em;
+}
+
+.reveal .slides section.po-graph-slide .cell-output-display img,
+.reveal .slides section#potential-outcomes-why-randomization-works .cell-output-display img,
+.reveal .slides section#potential-outcomes-heterogeneous-effects .cell-output-display img,
+.reveal .slides section#potential-outcomes-a-bad-randomization .cell-output-display img,
+.reveal .po-graph-figure,
+.reveal .po-graph-figure img {
+  display: block !important;
+  width: auto !important;
+  max-width: 80% !important;
+  height: auto !important;
+  max-height: 68vh !important;
+  margin: 0 auto !important;
+  object-fit: contain;
+}
+
+.reveal section .slide-figure-wrap img.slide-figure,
+.reveal section > img.slide-figure {
+  display: block !important;
+  width: auto !important;
+  max-width: 72% !important;
+  height: auto !important;
+  max-height: 52vh !important;
+  margin: 0.25em auto !important;
+  object-fit: contain;
+}
+
+/* Figures: plain img src (force-image-src.lua), centered on slide */
+.reveal .slide-figure-wrap {
+  display: block;
+  width: 100%;
+  margin: 0.35em auto 0.5em;
+  text-align: center;
+}
+
+.reveal img.slide-figure {
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
+/* Side-by-side column figures: use full column width (omit width= in source) */
+.reveal .slides section .column img.slide-figure {
+  width: 100% !important;
+  max-width: 100% !important;
+  max-height: 44vh !important;
+  height: auto !important;
+  object-fit: contain;
+}
+
+/* Dense slides (e.g. research question): allow scroll if needed */
+.reveal .slides section.slide {
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+}
+
+/* --- Language focus modes (keyboard / toolbar) --- */
+body.lang-mode-en .lang-fr,
+body.lang-mode-en .column.lang-fr {
+  display: none !important;
+}
+
+body.lang-mode-fr .lang-en,
+body.lang-mode-fr .column.lang-en {
+  display: none !important;
+}
+
+/* Single-language view: use most of the slide width (hidden column still in DOM) */
+body.lang-mode-en .slides section .columns,
+body.lang-mode-fr .slides section .columns {
+  gap: 0 !important;
+}
+
+body.lang-mode-en .slides section .columns > .column.lang-en,
+body.lang-mode-fr .slides section .columns > .column.lang-fr {
+  flex: 1 1 auto !important;
+  width: 94% !important;
+  max-width: 94% !important;
+}
+
+body.lang-mode-en .slides section .columns.bilingual-titles > .column.lang-en,
+body.lang-mode-fr .slides section .columns.bilingual-titles > .column.lang-fr {
+  width: 98% !important;
+  max-width: 98% !important;
+}
+
+/* Language toolbar — top-right (clear of reveal slide numbers, bottom-right) */
+#lang-toolbar {
+  position: fixed;
+  top: 10px;
+  right: 14px;
+  bottom: auto;
+  left: auto;
+  z-index: 40;
+  display: flex;
+  gap: 0.35em;
+  padding: 0;
+  font-family: system-ui, sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  background: transparent;
+  border: none;
+  box-shadow: none;
+}
+
+/* Inactive: dark text on light grey pill */
+#lang-toolbar button {
+  border: none;
+  background: #e2e2e2;
+  color: #1a1a1a;
+  padding: 0.45em 0.75em;
+  border-radius: 999px;
+  cursor: pointer;
+  min-width: 2.5em;
+  line-height: 1;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+#lang-toolbar button:hover:not(.active) {
+  background: #d0d0d0;
+}
+
+/* Active: inverse — light text on dark pill */
+#lang-toolbar button.active {
+  color: #ffffff;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+}
+
+#lang-toolbar button[data-lang="both"].active {
+  background: #2f2f2f;
+}
+
+#lang-toolbar button[data-lang="en"].active {
+  background: #1a5f96;
+}
+
+#lang-toolbar button[data-lang="fr"].active {
+  background: #9a3555;
+}

@@ -1,0 +1,221 @@
+---
+title: "in-class exercise for causal inference and experimental design"
+author: "Macartan Humphreys"
+date: "2026-01-04"
+format: 
+  html:
+    toc: true
+    number-sections: true
+    embed-resources: true
+bibliography: ../slides/bib.bib
+---
+
+
+```{r setup, include=FALSE}
+
+knitr::opts_chunk$set(echo = TRUE)
+
+library(knitr)
+library(tidyverse)
+library(CausalQueries)
+library(DeclareDesign)
+library(kableExtra)
+
+show_answer <- FALSE
+
+run <- FALSE
+```
+
+
+
+# Experiments by hand
+
+
+```{r, echo = FALSE}
+set.seed(1)
+
+full_data <- 
+  fabricate(N = 20,
+          prompt = sample(rep(c(FALSE, TRUE), each = 10)),
+          clue = seq(-19, 19, 2),
+          ID  = sample(1:20),
+          Y0  = 1:20,
+          Y1a = 20:1, # prompt shown but irrelevant
+          Y1b = 1:20, # prompt shown but irrelevant
+          Y1c = 20:1 + 5  + clue, # Good to control or else form blocks
+          Y1d = 1:20 + 5  + clue, # Especially good to control or else form blocks
+          Y1e = rep(15, 20),   # clue shown but irrelevant: Better to select many Y0s
+          Y1f = 2*(20:1)*prompt + 5  # "Read the left number" Better to block with more Y0s in prompt = FALSE group
+          ) |>
+  arrange(ID)
+
+full_data |> write.csv("card_game.csv")
+```
+
+
+
+You have been given an envelope with 20 cards. Each card has two numbers. One in black lettering (on white) and one in white lettering (on black). On the other side of the card there may or may not be writing.
+
+Here is an example of two cards, turned over:
+
+![Example of cards (two of four have been turned over)](cards.jpg)
+
+**You have one job.** *Your job* is to figure out whether--on average--the black numbers are larger or smaller than the white numbers (or the same). 
+
+**The catch**: when you turn over a  card you are only allowed to read the black number *or* the white number (honor code!!).  You have to decide *before reading the card* which number you will look at (though of course you can see the symbol on the card, if there is one, before reading the numbers) 
+
+Proceed as follows:
+
+**Step 1: Implement a first experiment**
+
+1. Put all the cards face down on the table.  
+2. Decide for which ones you will  read the black number and for which ones you will read the white number ($Z$). For this you might first want to detemine a strategy. You are free to use any method.
+3. Turn each card over and read the appropriate number
+4. Fill in a table like the below in a spreadsheet (e.g. .csv file)
+5. When all numbers are complete calculate:
+    1. An estimate of the average difference between the black and white numbers
+    2. A standard error associated with this estimate
+    3. A $p-$value for the null hypothesis that there is no difference
+
+[Discuss]
+
+**Step 2: Redesign and repeat**
+
+6. You have completed the first investigation. You are now doing to do 10 more. Write down a brief pre-analysis plan for these next investigations. This is your design. Based on what you found so far you might want to (a) revist your assignment strategy in step 2 and (b) you analysis strategy in step 4. 
+7. *Findings*: Repeat steps 1 - 5  10 times and show histograms of
+    1. the estimates
+    2. the standard errors
+    3. the  $p-$values
+
+[Discuss]
+    
+**Step 3: Evaluate your design**
+    
+8. *Diagnosis*. Now turn over all the cards:
+    1. calculate the true average difference between the numbers 
+    4. using the calculations you have, estimate: 
+          1. whether your design was biased            
+          2. the power of your design
+          3. the coverage of the confidence intervals
+    2. calculate the correlation between the white numbers, the black numbers 
+    3. calculate the correlation between the black numbers and the prompt / clue (if any)
+
+[Discuss]
+
+**Deliverables**: e-mail me a report that has 
+
+a. names of team members
+b. your analysis plan (short: one paragraph for assignment strategy, one for analysis strategy)
+c. your histograms from step 2
+d. your diagnoses from step 3
+
+```{r, echo = FALSE}
+fabricate(N = 5,
+          ID  = sample(1:5),
+          side = "",
+          number = "",
+          w  = "",
+          b = "",
+          background = "") |>
+  arrange(ID) |>
+  kable(
+    col.names = c(
+      "ID",
+      "Z: Color selected (W = 0, B = 1)",
+      "Y: Number observed",
+      "Y0: White number (if read)",
+      "Y1: Black number (if read)",
+      "X: Background data"
+    ),
+    align = rep("c", 6),  
+    format = "html"
+  ) |>
+  kable_styling(
+    full_width = TRUE,
+    bootstrap_options = c("bordered")
+  ) |>
+  column_spec(1:6, width = "3cm")
+
+```
+
+
+
+
+
+
+# Without clue at analysis stage
+
+```{r, include = show_answer, eval = show_answer}
+# Answer:
+
+design <- declare_model(full_data, 
+                        Z = simple_ra(N),
+                        Ya = Z*Y1a + (1-Z)*Y0,
+                        Yb = Z*Y1b + (1-Z)*Y0,
+                        Yc = Z*Y1c + (1-Z)*Y0,
+                        Yd = Z*Y1d + (1-Z)*Y0,
+                        Ye = Z*Y1e + (1-Z)*Y0,
+                        Yf = Z*Y1f + (1-Z)*Y0) +
+  declare_inquiry(Qa = mean(Y1a - Y0),
+                   Qb = mean(Y1b - Y0),
+                   Qc = mean(Y1c - Y0),
+                   Qd = mean(Y1d - Y0),
+                   Qe = mean(Y1e - Y0),
+                   Qf = mean(Y1f - Y0)) +
+  declare_estimator(Ya ~ Z, inquiry = "Qa", label = "a") +
+  declare_estimator(Yb ~ Z, inquiry = "Qb", label = "b")+
+  declare_estimator(Yc ~ Z, inquiry = "Qc", label = "c")+
+  declare_estimator(Yd ~ Z, inquiry = "Qd", label = "d")+
+  declare_estimator(Ye ~ Z, inquiry = "Qe", label = "e")+
+  declare_estimator(Yf ~ Z, inquiry = "Qf", label = "f")
+
+if(run)
+diagnose_design(design, sims = 5000) |> 
+  write_rds( "cardgame_simulation.rds")
+
+diagnosis <-   read_rds( "cardgame_simulation.rds")
+diagnosis$simulations_df |>
+  select(estimator, estimate, std.error, p.value) |>
+  gather("stat", "val", -estimator) |>
+  ggplot(aes(val)) + geom_histogram() + facet_grid(estimator ~ stat, scales = "free_x") +
+  theme_bw() 
+```
+
+
+# With clue at analysis stage
+
+```{r, include = show_answer, eval = show_answer}
+# Answer:
+
+design_2 <- declare_model(full_data, 
+                        Z = simple_ra(N),
+                        Ya = Z*Y1a + (1-Z)*Y0,
+                        Yb = Z*Y1b + (1-Z)*Y0,
+                        Yc = Z*Y1c + (1-Z)*Y0,
+                        Yd = Z*Y1d + (1-Z)*Y0,
+                        Ye = Z*Y1e + (1-Z)*Y0,
+                        Yf = Z*Y1f + (1-Z)*Y0) +
+  declare_inquiry(Qa = mean(Y1a - Y0),
+                   Qb = mean(Y1b - Y0),
+                   Qc = mean(Y1c - Y0),
+                   Qd = mean(Y1d - Y0),
+                   Qe = mean(Y1e - Y0),
+                   Qf = mean(Y1f - Y0)) +
+  declare_estimator(Ya ~ Z + prompt, inquiry = "Qa", label = "a") +
+  declare_estimator(Yb ~ Z + prompt, inquiry = "Qb", label = "b")+
+  declare_estimator(Yc ~ Z + clue, inquiry = "Qc", label = "c")+
+  declare_estimator(Yd ~ Z + clue, inquiry = "Qd", label = "d")+
+  declare_estimator(Ye ~ Z + clue, inquiry = "Qe", label = "e")+
+  declare_estimator(Yf ~ Z + prompt, inquiry = "Qf", label = "f")
+
+if(run)
+diagnose_design(design_2, sims = 5000) |> 
+  write_rds( "cardgame_simulation_2.rds")
+
+diagnosis_2 <-   read_rds( "cardgame_simulation_2.rds")
+diagnosis_2$simulations_df |>
+  select(estimator, estimate, std.error, p.value) |>
+  gather("stat", "val", -estimator) |>
+  ggplot(aes(val)) + geom_histogram() + facet_grid(estimator ~ stat, scales = "free_x") +
+  theme_bw() 
+```
