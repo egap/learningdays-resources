@@ -5,6 +5,15 @@
   --lang-en-border: #5b9bd5;
   --lang-fr-bg: #fde2e8;
   --lang-fr-border: #d4738f;
+  /* Slide figures: one policy for knitr, markdown, and static images */
+  --fig-max-w: 96%;
+  --fig-max-h: 76vh;
+  --fig-margin: 0.15em auto;
+  --fig-col-max-h: 60vh;
+  --fig-po-max-w: 98%;
+  --fig-po-max-h: 78vh;
+  --fig-photo-max-w: 94%;
+  --fig-photo-max-h: 82vh;
 }
 
 /* --- Force side-by-side columns (49% + padding was wrapping to rows) --- */
@@ -223,6 +232,46 @@ body.lang-mode-fr #title-slide.deck-title-slide .deck-title-line.lang-fr {
   margin-bottom: 0.1em;
 }
 
+/* texreg::htmlreg tables on .smaller slides */
+.reveal section.smaller table.texreg {
+  font-size: 0.48em;
+  line-height: 1.12;
+  width: auto;
+  max-width: 88%;
+  margin: 0.1em auto !important;
+}
+
+.reveal section.smaller table.texreg th,
+.reveal section.smaller table.texreg td {
+  padding: 0.08em 0.35em !important;
+}
+
+.reveal section.smaller table.texreg caption {
+  font-size: 0.95em;
+  margin-bottom: 0.15em;
+}
+
+.reveal section.smaller .cell-output-display:has(table.texreg) {
+  margin: 0.1em auto !important;
+}
+
+/* Fitted regression equation (long inline math from cat()) */
+.reveal .fit-equation {
+  font-size: 0.55em;
+  line-height: 1.25;
+  text-align: center;
+  margin: 0.15em auto;
+  max-width: 98%;
+}
+
+.reveal .fit-equation .katex-display {
+  margin: 0.1em 0;
+}
+
+.reveal .fit-equation .katex {
+  font-size: 1em;
+}
+
 .reveal .center {
   text-align: center;
 }
@@ -286,41 +335,65 @@ body.lang-mode-fr #title-slide.deck-title-slide .deck-title-line.lang-fr {
   box-shadow: none;
 }
 
-/* Slide figures: centered, respect knitr/out.width (do not force 100%) */
+/* --- Slide figures (default policy) --- */
 .reveal section .cell-output-display,
 .reveal section .cell-output-display .quarto-figure,
 .reveal section figure.quarto-float {
   display: flex !important;
   justify-content: center !important;
   width: 100% !important;
-  margin: 0.25em auto !important;
+  margin: var(--fig-margin) !important;
 }
 
 .reveal section .cell-output-display img,
 .reveal section figure img,
-.reveal section .quarto-figure img {
+.reveal section .quarto-figure img,
+.reveal section .slide-figure-wrap img,
+.reveal section img.slide-figure {
   display: block !important;
   width: auto !important;
-  max-width: 72% !important;
+  max-width: var(--fig-max-w) !important;
   height: auto !important;
-  max-height: 52vh !important;
-  margin: 0.25em auto !important;
+  max-height: var(--fig-max-h) !important;
+  margin: var(--fig-margin) !important;
   object-fit: contain;
 }
 
-/* Card experiment photo slide */
+.reveal .slide-figure-wrap {
+  display: block;
+  width: 100%;
+  margin: var(--fig-margin);
+  text-align: center;
+}
+
+.reveal img.slide-figure {
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
+/* Figures inside bilingual columns (half-width slides) */
+.reveal .slides section .column img.slide-figure,
+.reveal .slides section .column .cell-output-display img,
+.reveal .slides section .column .slide-figure-wrap img {
+  width: 100% !important;
+  max-width: 100% !important;
+  max-height: var(--fig-col-max-h) !important;
+  height: auto !important;
+  object-fit: contain;
+}
+
+/* Photo slides (card experiment, etc.) */
 .reveal section.cards-photo-slide img,
 .reveal section#your-materials-2 img {
-  display: block !important;
-  width: 90% !important;
-  max-width: 90% !important;
+  width: auto !important;
+  max-width: var(--fig-photo-max-w) !important;
   height: auto !important;
-  max-height: 78vh !important;
+  max-height: var(--fig-photo-max-h) !important;
   margin: 0.1em auto !important;
   object-fit: contain;
 }
 
-/* po.graph slides: block layout (not flex shrink-wrap); figures at 80% */
+/* Large multi-panel graphs (potential-outcomes slides) */
 .reveal .slides section.po-graph-slide .cell-output-display,
 .reveal .slides section#potential-outcomes-why-randomization-works .cell-output-display,
 .reveal .slides section#potential-outcomes-heterogeneous-effects .cell-output-display,
@@ -345,7 +418,6 @@ body.lang-mode-fr #title-slide.deck-title-slide .deck-title-line.lang-fr {
   text-align: center !important;
 }
 
-/* po.graph multi-panel slides: fill slide width (class was dropped by filter — now restored in lua) */
 .reveal .slides section.po-graph-slide .columns.bilingual-titles,
 .reveal .slides section#potential-outcomes-why-randomization-works .columns.bilingual-titles,
 .reveal .slides section#potential-outcomes-heterogeneous-effects .columns.bilingual-titles,
@@ -367,46 +439,8 @@ body.lang-mode-fr #title-slide.deck-title-slide .deck-title-line.lang-fr {
 .reveal .slides section#potential-outcomes-a-bad-randomization .cell-output-display img,
 .reveal .po-graph-figure,
 .reveal .po-graph-figure img {
-  display: block !important;
-  width: auto !important;
-  max-width: 80% !important;
-  height: auto !important;
-  max-height: 68vh !important;
-  margin: 0 auto !important;
-  object-fit: contain;
-}
-
-.reveal section .slide-figure-wrap img.slide-figure,
-.reveal section > img.slide-figure {
-  display: block !important;
-  width: auto !important;
-  max-width: 72% !important;
-  height: auto !important;
-  max-height: 52vh !important;
-  margin: 0.25em auto !important;
-  object-fit: contain;
-}
-
-/* Figures: plain img src (force-image-src.lua), centered on slide */
-.reveal .slide-figure-wrap {
-  display: block;
-  width: 100%;
-  margin: 0.35em auto 0.5em;
-  text-align: center;
-}
-
-.reveal img.slide-figure {
-  visibility: visible !important;
-  opacity: 1 !important;
-}
-
-/* Side-by-side column figures: use full column width (omit width= in source) */
-.reveal .slides section .column img.slide-figure {
-  width: 100% !important;
-  max-width: 100% !important;
-  max-height: 44vh !important;
-  height: auto !important;
-  object-fit: contain;
+  max-width: var(--fig-po-max-w) !important;
+  max-height: var(--fig-po-max-h) !important;
 }
 
 /* Dense slides (e.g. research question): allow scroll if needed */
@@ -443,6 +477,19 @@ body.lang-mode-en .slides section .columns.bilingual-titles > .column.lang-en,
 body.lang-mode-fr .slides section .columns.bilingual-titles > .column.lang-fr {
   width: 98% !important;
   max-width: 98% !important;
+}
+
+/* Single-language view: full-width columns — restore readable table size */
+body.lang-mode-en .reveal .column.lang-en table,
+body.lang-mode-fr .reveal .column.lang-fr table {
+  font-size: 1.22em; /* column body is 0.82em → ~slide-normal text */
+  line-height: 1.35;
+}
+
+body.lang-mode-en .reveal section.compact-table .columns:not(.bilingual-titles) > .column.lang-en table,
+body.lang-mode-fr .reveal section.compact-table .columns:not(.bilingual-titles) > .column.lang-fr table {
+  font-size: 1.32em; /* compact-table columns use 0.76em body text */
+  line-height: 1.3;
 }
 
 /* Language toolbar — top-right (clear of reveal slide numbers, bottom-right) */

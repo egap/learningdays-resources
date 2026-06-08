@@ -442,7 +442,7 @@
   <meta name="generator" content="quarto-1.8.27">
 
   <meta name="author" content="Macartan + Vin">
-  <meta name="dcterms.date" content="2026-06-07">
+  <meta name="dcterms.date" content="2026-06-08">
   <title>Presenting and interpreting experimental designs and results | Présenter et interpréter les designs et résultats expérimentaux</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -987,6 +987,15 @@ margin-right: 0; }
 --lang-en-border: #5b9bd5;
 --lang-fr-bg: #fde2e8;
 --lang-fr-border: #d4738f;
+
+--fig-max-w: 96%;
+--fig-max-h: 76vh;
+--fig-margin: 0.15em auto;
+--fig-col-max-h: 60vh;
+--fig-po-max-w: 98%;
+--fig-po-max-h: 78vh;
+--fig-photo-max-w: 94%;
+--fig-photo-max-h: 82vh;
 }
 
 .reveal .slides section .columns {
@@ -1172,6 +1181,39 @@ padding-left: 1em;
 .reveal section.compact-table .columns:not(.bilingual-titles) li {
 margin-bottom: 0.1em;
 }
+
+.reveal section.smaller table.texreg {
+font-size: 0.48em;
+line-height: 1.12;
+width: auto;
+max-width: 88%;
+margin: 0.1em auto !important;
+}
+.reveal section.smaller table.texreg th,
+.reveal section.smaller table.texreg td {
+padding: 0.08em 0.35em !important;
+}
+.reveal section.smaller table.texreg caption {
+font-size: 0.95em;
+margin-bottom: 0.15em;
+}
+.reveal section.smaller .cell-output-display:has(table.texreg) {
+margin: 0.1em auto !important;
+}
+
+.reveal .fit-equation {
+font-size: 0.55em;
+line-height: 1.25;
+text-align: center;
+margin: 0.15em auto;
+max-width: 98%;
+}
+.reveal .fit-equation .katex-display {
+margin: 0.1em 0;
+}
+.reveal .fit-equation .katex {
+font-size: 1em;
+}
 .reveal .center {
 text-align: center;
 }
@@ -1231,27 +1273,48 @@ box-shadow: none;
 display: flex !important;
 justify-content: center !important;
 width: 100% !important;
-margin: 0.25em auto !important;
+margin: var(--fig-margin) !important;
 }
 .reveal section .cell-output-display img,
 .reveal section figure img,
-.reveal section .quarto-figure img {
+.reveal section .quarto-figure img,
+.reveal section .slide-figure-wrap img,
+.reveal section img.slide-figure {
 display: block !important;
 width: auto !important;
-max-width: 72% !important;
+max-width: var(--fig-max-w) !important;
 height: auto !important;
-max-height: 52vh !important;
-margin: 0.25em auto !important;
+max-height: var(--fig-max-h) !important;
+margin: var(--fig-margin) !important;
+object-fit: contain;
+}
+.reveal .slide-figure-wrap {
+display: block;
+width: 100%;
+margin: var(--fig-margin);
+text-align: center;
+}
+.reveal img.slide-figure {
+visibility: visible !important;
+opacity: 1 !important;
+}
+
+.reveal .slides section .column img.slide-figure,
+.reveal .slides section .column .cell-output-display img,
+.reveal .slides section .column .slide-figure-wrap img {
+width: 100% !important;
+max-width: 100% !important;
+max-height: var(--fig-col-max-h) !important;
+height: auto !important;
 object-fit: contain;
 }
 
 .reveal section.cards-photo-slide img,
 .reveal section#your-materials-2 img {
-display: block !important;
-width: 90% !important;
-max-width: 90% !important;
+width: auto !important;
+max-width: var(--fig-photo-max-w) !important;
 height: auto !important;
-max-height: 78vh !important;
+max-height: var(--fig-photo-max-h) !important;
 margin: 0.1em auto !important;
 object-fit: contain;
 }
@@ -1278,7 +1341,6 @@ margin: 0 !important;
 padding: 0 !important;
 text-align: center !important;
 }
-
 .reveal .slides section.po-graph-slide .columns.bilingual-titles,
 .reveal .slides section#potential-outcomes-why-randomization-works .columns.bilingual-titles,
 .reveal .slides section#potential-outcomes-heterogeneous-effects .columns.bilingual-titles,
@@ -1298,42 +1360,8 @@ padding: 0.28em 0.45em;
 .reveal .slides section#potential-outcomes-a-bad-randomization .cell-output-display img,
 .reveal .po-graph-figure,
 .reveal .po-graph-figure img {
-display: block !important;
-width: auto !important;
-max-width: 80% !important;
-height: auto !important;
-max-height: 68vh !important;
-margin: 0 auto !important;
-object-fit: contain;
-}
-.reveal section .slide-figure-wrap img.slide-figure,
-.reveal section > img.slide-figure {
-display: block !important;
-width: auto !important;
-max-width: 72% !important;
-height: auto !important;
-max-height: 52vh !important;
-margin: 0.25em auto !important;
-object-fit: contain;
-}
-
-.reveal .slide-figure-wrap {
-display: block;
-width: 100%;
-margin: 0.35em auto 0.5em;
-text-align: center;
-}
-.reveal img.slide-figure {
-visibility: visible !important;
-opacity: 1 !important;
-}
-
-.reveal .slides section .column img.slide-figure {
-width: 100% !important;
-max-width: 100% !important;
-max-height: 44vh !important;
-height: auto !important;
-object-fit: contain;
+max-width: var(--fig-po-max-w) !important;
+max-height: var(--fig-po-max-h) !important;
 }
 
 .reveal .slides section.slide {
@@ -1364,6 +1392,17 @@ body.lang-mode-en .slides section .columns.bilingual-titles > .column.lang-en,
 body.lang-mode-fr .slides section .columns.bilingual-titles > .column.lang-fr {
 width: 98% !important;
 max-width: 98% !important;
+}
+
+body.lang-mode-en .reveal .column.lang-en table,
+body.lang-mode-fr .reveal .column.lang-fr table {
+font-size: 1.22em; 
+line-height: 1.35;
+}
+body.lang-mode-en .reveal section.compact-table .columns:not(.bilingual-titles) > .column.lang-en table,
+body.lang-mode-fr .reveal section.compact-table .columns:not(.bilingual-titles) > .column.lang-fr table {
+font-size: 1.32em; 
+line-height: 1.3;
 }
 
 #lang-toolbar {
@@ -1547,7 +1586,7 @@ Macartan + Vin
 </div>
 </div>
 
-  <p class="date">2026-06-07</p>
+  <p class="date">2026-06-08</p>
 </section>
 <section id="table-of-contents" class="slide level2 hidden-title">
 <h2> </h2>
@@ -1575,7 +1614,7 @@ Table of contents
 <li><a href="#/start-with-the-basics" class="toc-link"><em>Commencez par les bases</em></a></li>
 <li><a href="#/explain-your-research-design" class="toc-link"><em>Expliquez la conception de votre recherche</em></a></li>
 <li><a href="#/explain-your-implementation" class="toc-link"><em>Expliquez la mise en œuvre de votre recherche</em></a></li>
-<li><a href="#/explain-your-answering-strategy" class="toc-link"><em>Expliquez votre plan d’analyse</em></a></li>
+<li><a href="#/explain-your-answering-strategy" class="toc-link"><em>Expliquez votre stratégie d’analyse</em></a></li>
 <li><a href="#/interpret-your-results" class="toc-link"><em>Interprétez vos résultats</em></a></li>
 </ul>
 </div></div>
@@ -1647,22 +1686,22 @@ Explain your research design
 </div></div>
 <div class="columns">
 <div class="column lang-en" style="width:50%;">
-<p>Best order is often IMIDA rather than MIDA!</p>
+<p>Best order is often iMIDA rather than MIDA!</p>
 <ul>
-<li>I: Inquiry — stated abstractly</li>
+<li>i: Inquiry — stated abstractly</li>
 <li>M: Model</li>
 <li>I: Inquiry — stated precisely</li>
 <li>D: Data strategy</li>
 <li>A: Answer strategy</li>
 </ul>
 </div><div class="column lang-fr" style="width:50%;">
-<p>Le meilleur ordre est souvent IMIDA plutôt que MIDA !</p>
+<p>Le meilleur ordre est souvent iMIDA plutôt que MIDA !</p>
 <ul>
-<li>I : Question — énoncée de façon abstraite</li>
+<li>i : Question de recherche — énoncée de façon abstraite</li>
 <li>M : Modèle</li>
-<li>I : Question — énoncée de façon précise</li>
+<li>I : Question de recherche — énoncée de façon précise</li>
 <li>D : Stratégie de données</li>
-<li>A : Stratégie de réponse</li>
+<li>A : Stratégie d’analyse</li>
 </ul>
 </div></div>
 </section>
@@ -1712,7 +1751,7 @@ Explain your answering strategy
 </div>
 </div><div class="column lang-fr" style="width:50%;">
 <div class="bilingual-title-text lang-fr">
-<em>Expliquez votre plan d’analyse</em>
+<em>Expliquez votre stratégie d’analyse</em>
 </div>
 </div></div>
 <div class="columns">
@@ -1768,26 +1807,26 @@ Slide structure
 </div>
 </div><div class="column lang-fr" style="width:50%;">
 <div class="bilingual-title-text lang-fr">
-<em>Structure des diapositives</em>
+<em>Structure de la présentation</em>
 </div>
 </div></div>
 <div class="columns">
 <div class="column lang-en" style="width:50%;">
-<p>5 slides:</p>
+<p>6 slides:</p>
 <ol type="1">
 <li>Title</li>
 <li>High-level question</li>
-<li>I-MIDA</li>
+<li>iMIDA</li>
 <li>Implementation report</li>
 <li>Findings</li>
 <li>Interpretations and implications</li>
 </ol>
 </div><div class="column lang-fr" style="width:50%;">
-<p>5 diapositives :</p>
+<p>6 pages :</p>
 <ol type="1">
 <li>Titre</li>
 <li>Question générale</li>
-<li>I-MIDA</li>
+<li>iMIDA</li>
 <li>Rapport de mise en œuvre</li>
 <li>Résultats</li>
 <li>Interprétations et implications</li>

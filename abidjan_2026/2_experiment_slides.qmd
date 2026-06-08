@@ -1,6 +1,6 @@
 ---
 title: "In-class card experiment | *Expérience en classe : le jeu de cartes*"
-author: "Macartan Humphreys"
+author: "Macartan, Alyssa"
 date: today
 format:
   revealjs:
@@ -8,6 +8,10 @@ format:
 ---
 
 # Introduction | *Introduction*
+
+```{r}
+library(knitr)
+```
 
 ## Welcome | *Bienvenue*
 
@@ -18,7 +22,7 @@ Today you will **design and run a small experiment by hand**.
 
 You will learn about random assignment, analysis, and design evaluation — without a computer on your desk (for the physical part).
 
-Work in **teams**. Be precise. 
+Work in **teams**. Be precise. Play fair.
 
 :::
 ::: {.column .lang-fr width="50%"}
@@ -32,7 +36,6 @@ Travaillez en **équipes**. Soyez rigoureux. Jouez fair-play.
 :::
 :::
 
-# The task | *La tâche*
 
 ## Your materials | *Votre matériel*
 
@@ -60,9 +63,9 @@ Chaque équipe reçoit une **enveloppe avec 20 cartes**.
 
 On each card:
 
-- One number in **black** on white background
-- One number in **white** on black background
-- On the **reverse**, there may or may not be a **symbol or text**
+- One number in **black** writing on white background
+- One number in **white** writing on black background
+- On the **reverse**, there is an ID and there may or may not be a **symbol or text**
 
 :::
 ::: {.column .lang-fr width="50%"}
@@ -71,7 +74,7 @@ Sur chaque carte :
 
 - Un nombre en **noir** sur fond blanc
 - Un nombre en **blanc** sur fond noir
-- Au **dos**, il peut y avoir ou non un **symbole ou du texte**
+- Au **dos**, il y a un ID et il peut y avoir un **symbole ou du texte**
 
 :::
 :::
@@ -83,14 +86,14 @@ Sur chaque carte :
 
 **Question:** On average, are the **black numbers** larger, smaller, or the same as the **white numbers**?
 
-This is your estimand — the quantity you want to learn.
+This is your "**estimand**" — the quantity you want to learn.
 
 :::
 ::: {.column .lang-fr width="50%"}
 
 **Question :** En moyenne, les nombres **noirs** sont-ils plus grands, plus petits ou identiques aux nombres **blancs** ?
 
-C'est votre estimande — la quantité que vous voulez estimer.
+C'est votre **paramètre** — la quantité que vous voulez connaître.
 
 :::
 :::
@@ -112,7 +115,7 @@ You **may** look at the symbol on the back **before** choosing.
 :::
 ::: {.column .lang-fr width="50%"}
 
-Quand vous retournez une carte, vous ne pouvez lire **qu'un seul** nombre :
+Quand vous tournez une carte, vous ne pouvez lire **qu'un seul** nombre :
 
 - le nombre **noir**, **ou**
 - le nombre **blanc** — **pas les deux**
@@ -129,16 +132,16 @@ Vous **pouvez** regarder le symbole au dos **avant** de choisir.
 ::: {.columns}
 ::: {.column .lang-en width="50%"}
 
-Each card can give two possible anwers:
+Each card can give two possible answers:
 
 - the black number
 - the white number
 
 You never observe both on the same card.
 
-You choose the assignment to white or balck: 
+You choose the assignment to white or black: 
 
-$X=1$: read white or $X=1$: read black.
+$X=0$: read white or $X=1$: read black.
 
 :::
 ::: {.column .lang-fr width="50%"}
@@ -152,7 +155,7 @@ Vous n'observez jamais les deux sur la même carte.
 
 Vous choisissez l'assignation au blanc ou au noir :
 
-$X=1$ : lire le blanc ou $X=1$ : lire le noir.
+$X=0$ : lire le blanc ou $X=1$ : lire le noir.
 
 :::
 :::
@@ -168,11 +171,6 @@ $X=1$ : lire le blanc ou $X=1$ : lire le noir.
 2. Choose your **assignment strategy**: for each card, will you read black or white? (Any method is allowed — but write it down.)
 3. Turn cards over and record the number you chose to read.
 4. Enter results in a spreadsheet (one row per card).
-5. Compute:
-   - estimate of the average difference (black minus white)
-   - tell us what you conclude about whether the black or white numbers are bigger
-   - record how certain you are: Very certain, somewhat certain, very uncertain
-   - figure out what the **right** answer is and record whether you got the right answer or not
 
 :::
 ::: {.column .lang-fr width="50%"}
@@ -181,25 +179,58 @@ $X=1$ : lire le blanc ou $X=1$ : lire le noir.
 2. Choisissez votre **stratégie d'assignation** : pour chaque carte, lirez-vous le noir ou le blanc ? (Toute méthode est permise — mais notez-la.)
 3. Retournez les cartes et notez le nombre choisi.
 4. Saisissez les résultats dans un tableur (une ligne par carte).
-5. Calculez :
-   - une estimation de la différence moyenne (noir moins blanc)
-   - indiquez ce que vous concluez sur la question de savoir si les nombres noirs ou blancs sont plus grands
-   - notez votre degré de certitude : Très certain, Assez certain, Très incertain
-   - déterminez la **bonne** réponse et notez si vous avez trouvé la bonne réponse ou non
 
 :::
 :::
 
 ## Data you record | *Données à enregistrer* {.compact-table}
 
+::: {.columns}
+::: {.column .lang-en width="50%"}
+
 | Column | Meaning |
 |:--|:--|
 | ID | Card identifier |
-| $Z$ | Color read: white = 0, black = 1 |
+| $X$ | Color read: white = 0, black = 1 |
 | $Y$ | Number you observed |
 | (later) | Extra columns for symbols or notes |
 
+:::
+::: {.column .lang-fr width="50%"}
 
+| Colonne | Signification |
+|:--|:--|
+| ID | Identifiant de la carte |
+| $X$ | Couleur lue : blanc = 0, noir = 1 |
+| $Y$ | Nombre observé |
+| (plus tard) | Colonnes supplémentaires pour symboles ou notes |
+
+:::
+:::
+
+## Example data | *Exemple de données* {.compact-table}
+
+::: {.columns}
+::: {.column .lang-en width="50%"}
+
+First three rows of your spreadsheet:
+
+:::
+::: {.column .lang-fr width="50%"}
+
+Les trois premières lignes de votre tableur :
+
+:::
+:::
+
+```{r, echo = FALSE}
+data.frame(
+  ID = 1:3,
+  X = c(0, 0, 1),
+  Y = c(9, 2, 3)
+) |>
+  knitr::kable()
+```
 
 ## Step 1 — First experiment | *Étape 1 — Première expérience*
 
@@ -211,7 +242,6 @@ Compute:
    - estimate of the average difference (black minus white)
    - tell us what you conclude about whether the black or white numbers are bigger
    - record how certain you are: Very certain, somewhat certain, very uncertain
-   - figure out what the **right** answer is and record whether you got the right answer or not
 
 :::
 ::: {.column .lang-fr width="50%"}
@@ -221,20 +251,6 @@ Calculez :
    - une estimation de la différence moyenne (noir moins blanc)
    - indiquez ce que vous concluez sur la question de savoir si les nombres noirs ou blancs sont plus grands
    - notez votre degré de certitude : Très certain, Assez certain, Très incertain
-   - déterminez la **bonne** réponse et notez si vous avez trouvé la bonne réponse ou non
-
-:::
-:::
-
-::: {.columns}
-::: {.column .lang-en width="50%"}
-
-Tip: difference-in-means compares average $Y$ when $Z=1$ vs $Z=0$.
-
-:::
-::: {.column .lang-fr width="50%"}
-
-Astuce : la différence de moyennes compare la moyenne de $Y$ quand $Z=1$ vs $Z=0$.
 
 :::
 :::
@@ -252,12 +268,8 @@ You completed one round. Now run **10 more**.
 
 Before you start, write a short **pre-analysis plan** (your design):
 
-- Will you change **how** you assign $Z$?
+- Will you change **how** you assign $X$?
 - Will you change **how** you analyze the data?
-
-Then repeat Steps 1–5 ten times.
-
-Plot histograms of your **estimates**, **standard errors**, and **$p$-values** across the 10 runs.
 
 :::
 ::: {.column .lang-fr width="50%"}
@@ -266,15 +278,59 @@ Vous avez terminé un tour. Maintenant, refaites l'expérience **10 fois**.
 
 Avant de commencer, rédigez un court **plan de pré-analyse** (votre conception) :
 
-- Allez-vous changer **comment** vous assignez $Z$ ?
+- Allez-vous changer **comment** vous assignez $X$ ?
 - Allez-vous changer **comment** vous analysez les données ?
+
+:::
+:::
+
+## Step 2 — Redesign and repeat | *Étape 2 — Reconcevoir et répéter*
+
+::: {.columns}
+::: {.column .lang-en width="50%"}
+
+Then repeat Steps 1–5 ten times.
+
+Plot histograms of your **estimates** across the 10 runs.
+
+[Optional: plot estimates of **standard errors**, and **$p$-values**.]
+
+:::
+::: {.column .lang-fr width="50%"}
 
 Puis répétez les étapes 1–5 dix fois.
 
-Tracez des histogrammes de vos **estimations**, **erreurs-types** et **$p$-valeurs** sur les 10 répétitions.
+Tracez des histogrammes de vos **estimations** sur les 10 répétitions.
+
+[Option : tracez des histogrammes des **erreurs-types** et des **$p$-valeurs**.]
 
 :::
 :::
+
+## Step 2 — Redesign and repeat | *Étape 2 — Reconcevoir et répéter*
+
+```{r, echo = FALSE}
+data.frame(
+  ID = 1:3,
+  X_1 = c(0, 0, 1),
+  Y_1 = c(9, 2, 3),
+  X_2 = c(1, 1, 1),
+  Y_2 = c(7, 1, 3),
+  X_3 = "",
+  Y_3 = ""
+) |>
+  knitr::kable()
+
+data.frame(
+  trial = 1:3,
+  black_average = c(5, 2, 3),
+  white_average = c(1, 6, 3),
+  black_bigger = c(1, 0, 0),
+  certain = c(1, 1, 1)
+) |>
+  knitr::kable()
+```
+
 
 # Step 3 | *Étape 3*
 
@@ -289,7 +345,6 @@ Now turn **all** cards over and read **both** numbers on every card.
 2. Using your 10 runs, assess:
    - **Bias** — did estimates center on the truth?
    - **Power** — how often did you reject “no difference” when there is one?
-   - **Coverage** — did confidence intervals contain the truth?
 3. Explore correlations (white vs black numbers; numbers vs symbols).
 
 :::
@@ -301,7 +356,6 @@ Retournez maintenant **toutes** les cartes et lisez **les deux** nombres sur cha
 2. À partir de vos 10 répétitions, évaluez :
    - **Biais** — les estimations centrent-elles sur la vérité ?
    - **Puissance** — à quelle fréquence rejettez-vous « aucune différence » quand il y en a une ?
-   - **Couverture** — les intervalles de confiance contiennent-ils la vérité ?
 3. Explorez les corrélations (blanc vs noir ; nombres vs symboles).
 
 :::
@@ -341,14 +395,14 @@ d. Diagnostic de l'étape 3
 ::: {.columns}
 ::: {.column .lang-en width="50%"}
 
-- What assignment rule did you use for $Z$? Why?
+- What assignment rule did you use for $X$? Why?
 - Did you use the symbol on the back when choosing? Should you?
 - Could your rule create **bias** even if you analyze correctly?
 
 :::
 ::: {.column .lang-fr width="50%"}
 
-- Quelle règle d'assignation avez-vous utilisée pour $Z$ ? Pourquoi ?
+- Quelle règle d'assignation avez-vous utilisée pour $X$ ? Pourquoi ?
 - Avez-vous utilisé le symbole au dos pour choisir ? Devriez-vous ?
 - Votre règle pourrait-elle créer un **biais** même avec une bonne analyse ?
 
@@ -398,14 +452,14 @@ d. Diagnostic de l'étape 3
 ::: {.columns}
 ::: {.column .lang-en width="50%"}
 
-- What is the difference between **design** (how you assign $Z$) and **analysis** (how you estimate)?
+- What is the difference between **design** (how you assign $X$) and **analysis** (how you estimate)?
 - Why is a **pre-analysis plan** useful before repeating a study?
 - What did this exercise teach you about **randomization**?
 
 :::
 ::: {.column .lang-fr width="50%"}
 
-- Quelle est la différence entre **conception** (comment vous assignez $Z$) et **analyse** (comment vous estimez) ?
+- Quelle est la différence entre **conception** (comment vous assignez $X$) et **analyse** (comment vous estimez) ?
 - Pourquoi un **plan de pré-analyse** est-il utile avant de répéter une étude ?
 - Qu'est-ce que cet exercice vous a appris sur la **randomisation** ?
 

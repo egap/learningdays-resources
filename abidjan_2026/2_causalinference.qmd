@@ -18,7 +18,6 @@ library(patchwork)
 
 opts_chunk$set(
   fig.align = "center",
-  out.width = "90%",
   fig.width = 9,
   fig.height = 6.5
 )
@@ -755,7 +754,7 @@ Nous estimons un effet en prenant deux échantillons de résultats potentiels
 set.seed(1)
 ```
 
-```{r, eval=TRUE, echo = FALSE, fig.width = 15, fig.height = 10, out.width = "88%", fig.class = "po-graph-figure", warning = FALSE}
+```{r, eval=TRUE, echo = FALSE, fig.width = 15, fig.height = 10, fig.class = "po-graph-figure", warning = FALSE}
 N_po <- 50
 u_po <- seq(1:N_po)
 Y1_po <- 1 - (u_po - N_po / 2) / 25 + rnorm(N_po) / 5
@@ -769,7 +768,7 @@ po.graph(N_po, Y0_po, Y1_po, u_po, Z_po, excludep4 = TRUE)
 ## Potential outcomes: A bad selection procedure | *Résultats potentiels : une mauvaise procedure* {.po-graph-slide}
 
 
-```{r,eval=TRUE, echo = FALSE, fig.width = 15, fig.height = 10, out.width = "88%", fig.class = "po-graph-figure", warning = FALSE}
+```{r,eval=TRUE, echo = FALSE, fig.width = 15, fig.height = 10, fig.class = "po-graph-figure", warning = FALSE}
 set.seed(1)
 N_po <- 50
 u_po <- seq(1:N_po)

@@ -12,13 +12,13 @@ end
 
 local function style_attr(width)
   if width == nil or width == "" then
-    return ' style="width:auto;max-width:72%;max-height:52vh;height:auto;object-fit:contain;display:block;margin:0.25em auto;"'
+    return ' style="width:auto;height:auto;object-fit:contain;display:block;margin:0.15em auto;"'
   end
   if not width:match("%%") and not width:match("px") and not width:match("em") then
     width = width .. "px"
   end
   return string.format(
-    ' style="width:%s;max-width:72%%;max-height:52vh;height:auto;object-fit:contain;display:block;margin:0.25em auto;"',
+    ' style="width:%s;height:auto;object-fit:contain;display:block;margin:0.15em auto;"',
     width
   )
 end

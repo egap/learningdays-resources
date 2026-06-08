@@ -1,6 +1,6 @@
 ---
 title: "Estimation and Hypothesis Testing 2 | *Les estimateurs et les tests d'hypothèses 2*"
-author: "Yannick + Adikath; Vin + Macartan"
+author: "Adikath + Macartan; Vin + Yannick"
 date: today
 bibliography: learningdays-book.bib
 format:
@@ -9,6 +9,19 @@ format:
 ---
 
 ## A Quick Reminder | *Un pétit rappel*
+
+
+```{r, include = FALSE}
+library(DeclareDesign)
+library(estimatr)
+set.seed(1)
+df <- fabricate(N = 100, 
+               Coffee = rep(0:1, N/2), 
+               Sport = rnorm(N), 
+               Energy = .2 + .4*Coffee  + 
+                 .3* Sport   + 
+                 .2* Sport*Coffee + rnorm(N))
+```
 
 ::: {.columns}
 ::: {.column .lang-en width="50%"}
@@ -50,8 +63,8 @@ format:
 
 ## Estimator 2: Linear regression | *Estimateur 2 : La régression linéaire*
 
-$$Y_i = \hat{\alpha} + \hat{\beta_A} Z_{Ai} + \hat{\beta_B} Z_{Bi} + e_i$$
-$$Y_i = \hat{\alpha} + \hat{\beta_A} Z_{Ai} + \hat{\beta_B} Z_{Bi} + \hat{\gamma} X_i + e_i$$
+$$Y_i = {\alpha} + {\beta_A} Z_{Ai} + {\beta_B} Z_{Bi} + e_i$$
+$$Y_i = {\alpha} + {\beta_A} Z_{Ai} + {\beta_B} Z_{Bi} + {\gamma} X_i + e_i$$
 
 ::: {.columns}
 ::: {.column .lang-en width="50%"}
@@ -74,7 +87,7 @@ $$Y_i = \hat{\alpha} + \hat{\beta_A} Z_{Ai} + \hat{\beta_B} Z_{Bi} + \hat{\gamma
 
 ## Estimator 2: Linear regression | *Estimateur 2 : La régression linéaire*
 
-$$Y_i = \hat{\alpha} + \hat{\beta_A} Z_{Ai} + \hat{\beta_B} Z_{Bi} + e_i$$
+$$Y_i = {\alpha} + {\beta_A} Z_{Ai} + {\beta_B} Z_{Bi} + e_i$$
 
 ::: {.columns}
 ::: {.column .lang-en width="50%"}
@@ -109,43 +122,15 @@ $Z_B$ only
 
 Neither (control)
 
-$$Y_i = \hat{\alpha} + \hat{\beta_A} Z_{Ai} + \hat{\beta_B} Z_{Bi} + e_i$$
+$$Y_i = {\alpha} + {\beta_A} Z_{Ai} + {\beta_B} Z_{Bi} + e_i$$
 
 :::
 :::
 
 ## Estimators for Multi-arm Designs | *Les estimateurs pour les expériences avec plusieurs bras*
 
-::: {.columns}
-::: {.column .lang-en width="50%"}
 
-```r
-library(estimatr)
-difference_in_means(Y ~ treatment,
-                    condition1 = "T1",
-                    condition2 = "T2")
 
-library(car)
-M <- lm_robust(Y ~ as.factor(treatment))
-linearHypothesis(M, "T1 = T2")
-```
-
-:::
-::: {.column .lang-fr width="50%"}
-
-```r
-library(estimatr)
-difference_in_means(Y ~ treatment,
-                    condition1 = "T1",
-                    condition2 = "T2")
-
-library(car)
-M <- lm_robust(Y ~ as.factor(treatment))
-linearHypothesis(M, "T1 = T2")
-```
-
-:::
-:::
 
 # Block Randomization | *Randomisation par bloc (ou stratifiée)*
 
@@ -218,7 +203,7 @@ $$= \frac{3}{10}*0 + \frac{3}{10}*2 + \frac{4}{10}*3 = \frac{9}{5}$$
 
 ## Estimator 2: Linear Regression with Block Fixed Effects | *Estimateur 2 : La régression linéaire avec effets fixes par bloc*
 
-$$Y_{ij} = \beta_0 + \beta_1 Z_{ij} + \gamma_A BlockA_{ij} + \gamma_B BlockB_{ij} + ... + \epsilon_{ij}$$
+$$Y_{ij} = \alpha_0 + \beta_1 Z_{ij} + \gamma_A BlockA_{ij} + \gamma_B BlockB_{ij} + ... + \epsilon_{ij}$$
 
 ::: {.columns}
 ::: {.column .lang-en width="50%"}
@@ -235,7 +220,7 @@ $$Y_{ij} = \beta_0 + \beta_1 Z_{ij} + \gamma_A BlockA_{ij} + \gamma_B BlockB_{ij
 :::
 :::
 
-$$w_{ij} = \frac{d_i}{p_{ij}} + \frac{1-d_i}{1-p_{ij}} \text{, where } p_{ij}\equiv\frac{m_j}{N_j}$$
+$$w_{ij} = \frac{z_i}{p_{ij}} + \frac{1-z_i}{1-p_{ij}} \text{, where } p_{ij}\equiv\frac{m_j}{N_j}$$
 
 ## Block randomization in R | *Randomisation par bloc en R*
 
@@ -268,8 +253,8 @@ lm_robust(Y ~ treatment + as.factor(block_variable),
 
 ## Estimator: Regression with cluster-robust standard errors | *Estimateur : La régression avec des erreurs types robustes au niveau du cluster*
 
-$$Y_{ic} = \hat{\beta_0} + \hat{\beta_1} Z_{c} + e_{ic}$$
-$$Y_{ic} = \hat{\beta_0} + \hat{\beta_1} Z_{c} + \hat{\gamma} X_{ic} + e_{ic}$$
+$$Y_{ic} = {\alpha_0} + {\beta_1} Z_{c} + e_{ic}$$
+$$Y_{ic} = {\alpha_0} + {\beta_1} Z_{c} + {\gamma} X_{ic} + e_{ic}$$
 
 ::: {.columns}
 ::: {.column .lang-en width="50%"}
@@ -317,10 +302,11 @@ lm_robust(Y ~ treatment + covariate, clusters = cluster_variable)
 
 ## Estimator 1: Difference-in-Means | *Estimateur 1 : La différence en moyennes* {.compact-table}
 
-| | $Z_2 = 1$ | $Z_2 = 0$ |
-|:--|:--|:--|
-| $Z_1 = 1$ | Both $Z_1$ and $Z_2$ | $Z_1$ only |
-| $Z_1 = 0$ | $Z_2$ only | Neither |
+| | $Z_2 = 0$ | $Z_2 = 1$ | Effect of $Z_2$ |
+|:--|:--|:--|:--|
+| $Z_1 = 0$ | Neither | $Z_2$ only | $\beta_2$ |
+| $Z_1 = 1$ | $Z_1$ only | Both $Z_1$ and $Z_2$ | $\beta_2 + \beta_3$ |
+| Effect of $Z_1$ | $\beta_1$ | $\beta_1 + \beta_3$ | $\beta_3$ (diff-in-diff) |
 
 ::: {.columns}
 ::: {.column .lang-en width="50%"}
@@ -341,8 +327,8 @@ lm_robust(Y ~ treatment + covariate, clusters = cluster_variable)
 
 ## Estimator 2: Linear Regression with an Interaction Term | *Estimateur 2 : La régression linéaire avec un terme d'interaction*
 
-$$Y_i = \hat{\beta_0} + \hat{\beta_1} Z_{1i} + \hat{\beta_2} Z_{2i} + \hat{\beta_3} Z_{1i}*Z_{2i} + e_i$$
-$$Y_i = \hat{\beta_0} + \hat{\beta_1} Z_{1i} + \hat{\beta_2} Z_{2i} + \hat{\beta_3} Z_{1i}*Z_{2i} + \hat{\gamma} X_i + e_i$$
+$$Y_i = {\alpha_0} + {\beta_1} Z_{1i} + {\beta_2} Z_{2i} + {\beta_3} Z_{1i}*Z_{2i} + e_i$$
+$$Y_i = {\alpha_0} + {\beta_1} Z_{1i} + {\beta_2} Z_{2i} + {\beta_3} Z_{1i}*Z_{2i} + {\gamma} X_i + e_i$$
 
 ::: {.columns}
 ::: {.column .lang-en width="50%"}
@@ -366,7 +352,7 @@ $$Y_i = \hat{\beta_0} + \hat{\beta_1} Z_{1i} + \hat{\beta_2} Z_{2i} + \hat{\beta
 | $Z_1 = 1$ | Both $Z_1$ and $Z_2$ | **$Z_1$ only** |
 | $Z_1 = 0$ | $Z_2$ only | **Neither** |
 
-$$Y_i = \hat{\beta_0} + \hat{\beta_1} Z_{1i} + \hat{\beta_2} Z_{2i} + \hat{\beta_3} Z_{1i}*Z_{2i} + e_i$$
+$$Y_i = {\alpha_0} + {\beta_1} Z_{1i} + {\beta_2} Z_{2i} + {\beta_3} Z_{1i}*Z_{2i} + e_i$$
 
 ::: {.columns}
 ::: {.column .lang-en width="50%"}
@@ -390,7 +376,7 @@ $$Y_i = \hat{\beta_0} + \hat{\beta_1} Z_{1i} + \hat{\beta_2} Z_{2i} + \hat{\beta
 | $Z_1 = 1$ | **Both $Z_1$ and $Z_2$** | $Z_1$ only |
 | $Z_1 = 0$ | **$Z_2$ only** | Neither |
 
-$$Y_i = \hat{\beta_0} + \hat{\beta_1} Z_{1i} + \hat{\beta_2} Z_{2i} + \hat{\beta_3} Z_{1i}*Z_{2i} + e_i$$
+$$Y_i = {\alpha_0} + {\beta_1} Z_{1i} + {\beta_2} Z_{2i} + {\beta_3} Z_{1i}*Z_{2i} + e_i$$
 
 ::: {.columns}
 ::: {.column .lang-en width="50%"}
@@ -409,51 +395,76 @@ $$Y_i = \hat{\beta_0} + \hat{\beta_1} Z_{1i} + \hat{\beta_2} Z_{2i} + \hat{\beta
 :::
 :::
 
-## Estimator 2: Linear Regression with an Interaction Term | *Estimateur 2 : La régression linéaire avec un terme d'interaction*
 
-![](images/interaction-table-screenshot.png){width="120px" fig-align="center"}
+## Estimator 2: Linear Regression with an Interaction Term | *Estimateur 2 : La régression linéaire avec un terme d'interaction* {.smaller}
 
-$$\hat{Y} = \hat{\alpha} - 0.249 Therapy - 0.079 Cash - 0.308 Therapy*Cash$$
+```{r, echo = TRUE, eval = FALSE}
+lm_robust(Energy ~ Coffee * Sport, data = df)
+```
 
-## Estimator 2: Linear Regression with an Interaction Term | *Estimateur 2 : La régression linéaire avec un terme d'interaction*
+```{r, echo = FALSE, results = 'asis'}
+fit_coffee_sport <- lm_robust(Energy ~ Coffee * Sport, data = df)
+b0 <- unname(coef(fit_coffee_sport)["(Intercept)"])
+b1 <- unname(coef(fit_coffee_sport)["Coffee"])
+b2 <- unname(coef(fit_coffee_sport)["Sport"])
+b3 <- unname(coef(fit_coffee_sport)["Coffee:Sport"])
+fmt <- function(x) format(round(x, 3), nsmall = 3)
+coef_term <- function(b, name) {
+  op <- if (b >= 0) " + " else " - "
+  paste0(op, fmt(abs(b)), " \\times ", name)
+}
+fit_coffee_sport |> texreg::htmlreg(include.ci = FALSE)
+```
 
-$\hat{Y} = \hat{\alpha} - 0.249 Therapy - 0.079 Cash - 0.308 Therapy*Cash$
 
-Neither: $\hat{Y} = \hat{\alpha}$
+```{r, echo = FALSE, results = 'asis'}
+cat(
+  "$$\\hat{Y} = ", fmt(b0),
+  coef_term(b1, "Coffee"),
+  coef_term(b2, "Sport"),
+  coef_term(b3, "Coffee \\times Sport"),
+  "$$\n"
+)
+```
 
-Cash only: $\hat{Y} = \hat{\alpha} - 0.079$
-
-Therapy only: $\hat{Y} = \hat{\alpha} - 0.249$
-
-Therapy and Cash: $\hat{Y} = \hat{\alpha} - 0.249 - 0.079 - 0.308$
-
-$\widehat{ATE}$ of Cash conditional on No Therapy = $\hat{\alpha}-0.079-\hat{\alpha} = -0.079$
-
-$\widehat{ATE}$ of Cash conditional on Therapy = $\hat{\alpha} - 0.249 - 0.079 - 0.308 - (\hat{\alpha} - 0.249) = -0.387$
-
-Interaction effect = $-0.079-0.308-(-0.079) = -0.308$
-
-## Estimator 2: Linear Regression with an Interaction Term | *Estimateur 2 : La régression linéaire avec un terme d'interaction*
+## Estimator 2: Linear Regression with an Interaction Term | *Estimateur 2 : La régression linéaire avec un terme d'interaction* {.compact-table}
 
 ::: {.columns}
 ::: {.column .lang-en width="50%"}
 
-```r
-library(estimatr)
-lm_robust(Y ~ Z1 + Z2 + Z1*Z2)
-lm_robust(Y ~ Z1*Z2)
-lm_robust(Y ~ Z1*Z2 + covariate)
-```
+| | |
+|:--|:--|
+| $\hat{Y} |$ Coffee = 0, Sport = 0 | $\hat{\alpha} =$ `r fmt(b0)` |
+| $\hat{Y} |$ Coffee = 0, Sport = 1 | $\hat{\alpha} + \hat{\beta}_2 =$ `r fmt(b0 + b2)` |
+| $\hat{Y} |$ Coffee = 1, Sport = 0 | $\hat{\alpha} + \hat{\beta}_1 =$ `r fmt(b0 + b1)` |
+| $\hat{Y} |$ Coffee = 1, Sport = 1 | $\hat{\alpha} + \hat{\beta}_1 + \hat{\beta}_2 + \hat{\beta}_3 =$ `r fmt(b0 + b1 + b2 + b3)` |
+| $\widehat{ATE}$ of Coffee \| Sport = 0 | $\hat{\beta}_1 =$ `r fmt(b1)` |
+| $\widehat{ATE}$ of Coffee \| Sport = 1 | $\hat{\beta}_1 + \hat{\beta}_3 =$ `r fmt(b1 + b3)` |
+| Interaction effect | $\hat{\beta}_3 =$ `r fmt(b3)` |
 
 :::
 ::: {.column .lang-fr width="50%"}
 
-```r
-library(estimatr)
-lm_robust(Y ~ Z1 + Z2 + Z1*Z2)
-lm_robust(Y ~ Z1*Z2)
-lm_robust(Y ~ Z1*Z2 + covariate)
-```
+| | |
+|:--|:--|
+| $\hat{Y} |$ Coffee = 0, Sport = 0 | $\hat{\alpha} =$ `r fmt(b0)` |
+| $\hat{Y} |$ Coffee = 0, Sport = 1 | $\hat{\alpha} + \hat{\beta}_2 =$ `r fmt(b0 + b2)` |
+| $\hat{Y} |$ Coffee = 1, Sport = 0 | $\hat{\alpha} + \hat{\beta}_1 =$ `r fmt(b0 + b1)` |
+| $\hat{Y} |$ Coffee = 1, Sport = 1 | $\hat{\alpha} + \hat{\beta}_1 + \hat{\beta}_2 + \hat{\beta}_3 =$ `r fmt(b0 + b1 + b2 + b3)` |
+| $\widehat{ATE}$ de Coffee \| Sport = 0 | $\hat{\beta}_1 =$ `r fmt(b1)` |
+| $\widehat{ATE}$ de Coffee \| Sport = 1 | $\hat{\beta}_1 + \hat{\beta}_3 =$ `r fmt(b1 + b3)` |
+| Effet d'interaction | $\hat{\beta}_3 =$ `r fmt(b3)` |
 
 :::
 :::
+
+
+```{r, echo = FALSE, results = 'asis'}
+cat(
+  "$$\\hat{Y} = ", fmt(b0),
+  coef_term(b1, "Coffee"),
+  coef_term(b2, "Sport"),
+  coef_term(b3, "Coffee \\times Sport"),
+  "$$\n"
+)
+```

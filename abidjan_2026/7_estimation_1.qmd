@@ -1,6 +1,6 @@
 ---
-title: "Inquiries and Answer strategies | Requêtes et stratégies de réponse"
-author: ""
+title: "Estimation and Hypothesis Testing 1 | *L'estimation et les tests d'hypothèses 1*"
+author: "Yannick + Vin; Alyssa + Macartan"
 date: today
 bibliography: learningdays-book.bib
 format:
@@ -8,1522 +8,551 @@ format:
     embed-resources: true
 ---
 
-```{r, echo=FALSE, eval=TRUE}
-#Effacer tous les objets présents dans l'espace de travail
-rm(list = ls())
-```
-```{r installation des librairies, echo=FALSE, eval=TRUE}
-#Vérifier et installer les packages manquants
-list.of.packages <- c("knitr", "DeclareDesign", "tidyverse", "estimatr", "patchwork")
-new.packages <- list.of.packages[!(list.of.packages %in% installed.packages()[,"Package"])]
-if(length(new.packages)) install.packages(new.packages)
-```
+## Estimation and Hypothesis Testing | *L'estimation et les tests d'hypothèses*
 
-
-```{r, echo = FALSE, warning = FALSE, message = FALSE}
-library(knitr)
+```{r, include = FALSE}
 library(DeclareDesign)
-library(tidyverse)
-library(patchwork)
-opts_chunk$set(warning = FALSE, message = FALSE, out.width = "72%", fig.align = "center")
+
+df <- fabricate(N = 100, 
+               Coffee = rep(0:1, N/2), 
+               Sporty_Sportive = rnorm(N), 
+               Energy = .2 + .4*Coffee  + .3* Sporty_Sportive + rnorm(N))
 ```
 
-```{r, echo = FALSE, cache = TRUE}
-MI <-
-  declare_model(
-    N = 250,
-    X = sample(rep(c(0, 1), each = N / 2), N, replace = FALSE),
-    U = rnorm(N, sd = 0.25),
-    potential_outcomes(Y ~ 0.1 * Z + X + U)
-  ) + 
-  declare_inquiry(SATE = mean(Y_Z_1 - Y_Z_0))
-
-D_complete <-
-  declare_assignment(Z = complete_ra(N, prob = 0.5)) +
-  declare_measurement(Y = reveal_outcomes(Y ~ Z))
-
-D_blocked <- 
-  declare_assignment(
-    Z = block_ra(blocks = X, block_prob = c(0.2, 0.5)),
-    probs =
-      obtain_condition_probabilities(assignment = Z, 
-                                     blocks = X, 
-                                     block_prob = c(0.2, 0.5)),
-    ipw = 1 / probs
-  ) +
-  declare_measurement(Y = reveal_outcomes(Y ~ Z))
-
-A_lm <- 
-  declare_estimator(
-    Y ~ Z,
-    .method = lm,
-    label = "difference-in-means"
-  ) 
-
-A_blocked_dim <- 
-  declare_estimator(
-    Y ~ Z,
-    blocks = X,
-    .method = difference_in_means,
-    label = "blocked difference-in-means"
-  ) 
-
-design_complete <- MI + D_complete + A_lm
-design_blocked <- MI + D_blocked + A_lm
-design_blocked_adjusted <- MI + D_blocked + A_blocked_dim
-
-diagnosis <- diagnose_design(
-  design_complete, design_blocked, design_blocked_adjusted, 
-  diagnosands = declare_diagnosands(bias = mean(estimate - estimand),
-                                    coverage = mean(conf.low <= estimand & conf.high >= estimand),
-                                    sd_estimate = sd(estimate),
-                                    se_bias = mean(std.error - sd(estimate)),
-                                    power = mean(p.value <= 0.05),
-                                    rmse = sqrt(mean((estimate - estimand)^2))),
-  sims = 1000)
-```
-
-
-
-
-## How we define and answer questions | Comment nous définissons les questions et y répondons
-
 ::: {.columns}
 ::: {.column .lang-en width="50%"}
 
-**Inquiry**: research question
-
-$\rightarrow$ **Estimand**: the true answer to the inquiry
+- We have randomly assigned treatment and collected our outcome data.
+- Now we use that data for:
+    - **Estimation**: produce an estimate of the true treatment effect
+    - **Hypothesis testing**: assess how consistent the results are with there being no effect
 
 :::
 ::: {.column .lang-fr width="50%"}
 
-**Requête**: question de recherche
-
-$\rightarrow$ **Estimande**: la vraie réponse à la question
+- Le traitement a été assigné de façon aléatoire et nous avons mesuré les résultats.
+- Nous utilisons maintenant ces données pour :
+    - **Estimation** : produire une estimation du véritable effet du traitement
+    - **Test d'hypothèse** : évaluer la cohérence des résultats avec l'absence d'effet
 
 :::
 :::
 
+# Estimation | *L'estimation*
 
-
-
-
-
-
-
+## Estimation | *L'estimation*
 
 ::: {.columns}
 ::: {.column .lang-en width="50%"}
 
-**Answer strategy**: how you will generate answers from the data
-
-$\rightarrow$ **Estimate**: empirical answer to your inquiry | réponse empirique à votre demande
+- Remember that there is a *true* ATE but we can't observe it because of the fundamental problem of causal inference. This is our target, our **estimand**.
+    - For example, the ATE.
+- We use our data to make an educated guess, our **estimate**.
+    - $\widehat{ATE}$
+- If we run the experiment again, different units may be assigned to treatment, and our estimate will likely be different.
 
 :::
 ::: {.column .lang-fr width="50%"}
 
-**Stratégie de réponse**: comment allez-vous générer des réponses à partir des données
-
-$\rightarrow$ **Estimation**: réponse empirique à votre demande
+- Rappelez qu'il y a un *vrai* ATE, mais nous ne pouvons pas l'observer à cause du problème fondamental de l'inférence causale. C'est notre cible, notre **paramètre**.
+    - Par exemple, l'ATE.
+- Nous utilisons nos données pour faire une supposition éclairée, notre **estimation**.
+    - $\widehat{ATE}$
+- Si nous renouvelons l'expérience, différentes unités peuvent être assignées au traitement, et notre estimation sera probablement différente.
 
 :::
 :::
 
-## Inquiries | Requêtes $\rightarrow$ estimands | paramètres
+## Estimators | *Estimateurs*
 
 ::: {.columns}
 ::: {.column .lang-en width="50%"}
 
-- Your inquiry is your *question*
-- Your estimand is the *true answer* to the question
+- The procedure we apply to our data to produce this estimate is our **estimator**.
+- There are many possible estimators for the same estimand.
+- We will introduce several estimators that are commonly used to analyze experiments.
 
 :::
 ::: {.column .lang-fr width="50%"}
 
-- Votre demande est votre *question*
-- Votre estimation est la *vraie réponse*
+- **L'estimateur** est comment on devine la valeur du paramètre à partir des données dont on dispose (les données observées).
+- Il y a plusieurs estimateurs possibles pour le même paramètre.
+- Nous présenterons plusieurs estimateurs couramment utilisés pour analyser des expériences.
 
 :::
 :::
 
-## Inquiries | Requêtes
-
+## Estimators | *Estimateurs*
 
 ::: {.columns}
 ::: {.column .lang-en width="50%"}
 
-**What is your question?**
-
-Is the average effect positive in the sample?
-
-What is the average effect in the sample?
-
-What is the effect among people who comply with treatment?
-
-What is the effect among women in the sample?
+- In general, we prefer estimators that are:
+    - **Unbiased**: If we run the experiment many times, each estimate might be a little too high or low, but it will be correct on average.
+    - **Precise**: The estimates do not vary much from one run of the experiment to another.
+- The best: unbiased and precise.
 
 :::
 ::: {.column .lang-fr width="50%"}
 
-**Quelle est votre question?**
-
-L'effet moyen est-il positif dans l'échantillon ?
-
-Quel est l'effet moyen dans l'échantillon?
-
-Quel est l'effet sur les personnes qui se conforment au traitement?
-
-Quel est l'effet sur les femmes de l'échantillon?
+- En général, nous préférons les estimateurs qui sont :
+    - **Non biaisés** : si vous exécutez l'expérience plusieurs fois, l'estimation peut parfois être trop élevée ou trop faible, mais elle sera correcte en moyenne.
+    - **Précis** : les estimations ne varient pas beaucoup d'une exécution de l'expérience à l'autre.
+- Le meilleur : non biaisé et précis.
 
 :::
 :::
 
-## Inquiries | Requêtes $\rightarrow$ estimands | paramètres
-
-::: {.columns}
-::: {.column .lang-en width="50%"}
-
-| Inquiry                                                              | Estimand |
-|----------------------------------------------------------------------|----------|
-| What is the causal effect of CCTs on gender inequality?              | ?        |
-| What is the causal effect of coffee on whether I got the quiz right? | ?        |
-| Is the average effect positive?                                      | ?        |
-
-:::
-::: {.column .lang-fr width="50%"}
-
-| Requêtes                                                                             | Paramètres |
-|--------------------------------------------------------------------------------------|------------|
-| Quel est l'effet causal des CCTs sur l'inégalité entre les sexes ?                   | ?          |
-| Quel est l'effet causal du café sur le fait que j'ai bien répondu au questionnaire ? | ?          |
-| L'effet moyen est-il positif ?                                                       | ?          |
-
-:::
-:::
-
-
-
-
-## Inquiries | Requêtes $\rightarrow$ estimands | paramètres
-
-::: {.columns}
-::: {.column .lang-en width="50%"}
-
-| Inquiry                                                              | Estimand |
-|----------------------------------------------------------------------|----------|
-| What is the causal effect of CCTs on gender inequality?              | -0.2     |
-| What is the causal effect of coffee on whether I got the quiz right? | 0.05     |
-| Is the average effect positive?                                      | Yes      |
-
-:::
-::: {.column .lang-fr width="50%"}
-
-| Requêtes                                                                             | Paramètre |
-|--------------------------------------------------------------------------------------|-----------|
-| Quel est l'effet causal des CCTs sur l'inégalité entre les sexes ?                   | -0.2      |
-| Quel est l'effet causal du café sur le fait que j'ai bien répondu au questionnaire ? | 0.05      |
-| L'effet moyen est-il positif ?                                                       | Oui       |
-
-:::
-:::
-
-
-## Inquiries | Requêtes
-
-
-::: {.columns}
-::: {.column .lang-en width="50%"}
-
-**Sample average treatment effect**
-Average difference between treated and control potential outcomes *among sampled units*
-
-:::
-::: {.column .lang-fr width="50%"}
-
-**Effet moyen du traitement sur l'échantillon**
-Différence moyenne entre les résultats potentiels des unités traitées et des unités de contrôle *parmi les unités échantillonnées*
-
-:::
-:::
-
-## Inquiries | Requêtes
-
-::: {.columns}
-::: {.column .lang-en width="50%"}
-
-**Sample average treatment effect:**
-
-$$\frac{1}{n} \left\{\sum_{i \leq n} Y_i(1) - \sum_{i \leq n} Y_i(0) \right\}$$
-
-:::
-::: {.column .lang-fr width="50%"}
-
-**Effet moyen du traitement sur l'échantillon :**
-
-$$\frac{1}{n} \left\{\sum_{i \leq n} Y_i(1) - \sum_{i \leq n} Y_i(0) \right\}$$
-
-:::
-:::
-
-
-
-## Answer strategies | Stratégies de réponse
-
-
-::: {.columns}
-::: {.column .lang-en width="50%"}
-
-Answer strategy takes *data* and returns an *estimate* (answer) <br><br>
-Many answer strategies could target same inquiry!
-
-:::
-::: {.column .lang-fr width="50%"}
-
-La stratégie de réponse prend des *données* et renvoie une *estimation* (réponse) <br><br>.
-Plusieurs stratégies de réponse peuvent cibler la même question!
-
-:::
-:::
-
-
-
-
-
-
-::: {.columns}
-::: {.column .lang-en width="50%"}
-
-Examples:
-
-- Linear regression with $Y \sim Z + X$ (take coefficient on $Z$)
-- Probit regression $\rightarrow$ difference in predicted probability
-
-:::
-::: {.column .lang-fr width="50%"}
-
-Exemples:
-- Régression linéaire avec $Y \sim Z + X$ (prendre le coefficient sur $Z$)
-- Régression probit $\rightarrow$ différence dans la probabilité prédite
-
-:::
-:::
-
-## How to select an answer strategy |  Comment choisir une stratégie de réponse ?
-
-::: {.columns}
-::: {.column .lang-en width="50%"}
-
-**Analyze as you randomize**:
-
-1.  Plug-in principle
-
-2.  Reverse distortions created by your design
-
-:::
-::: {.column .lang-fr width="50%"}
-
-**Analysez selon le niveau de randomisation** :
-
-1.  Principe de l'enfichage
-
-2.  Inverser les distorsions créées par votre conception
-
-:::
-:::
-
-## Plug-in principle |  Principe de l'enfichage
-
-::: {.columns}
-::: {.column .lang-en width="50%"}
-
-To estimate unknown quantities, "plug in" observed data and apply the same function (e.g., average)
-
-:::
-::: {.column .lang-fr width="50%"}
-
-Pour estimer des quantités inconnues, il faut "brancher" les données observées et appliquer la même fonction (par exemple, la moyenne).
-
-:::
-:::
-
-## Plug-in principle | Principe de l'enfichage
-
-::: {.columns}
-::: {.column .lang-en width="50%"}
-
-**Example**: sample average treatment effect after complete random assignment
-
-- Inquiry: Average treated potential outcome - Average control potential outcome
-
-- Answer strategy: Average outcome in treatment group - Average outcome in control group
-
-:::
-::: {.column .lang-fr width="50%"}
-
-**Exemple** : effet moyen du traitement de l'échantillon après une randomisaion complète
-
-- Enquête : Résultat potentiel moyen du traitement - Résultat potentiel moyen du contrôle
-
-- Stratégie de réponse : Résultat moyen dans le groupe de traitement - Résultat moyen dans le groupe de contrôle
-
-:::
-:::
-
-## Plug-in principle | Principe de l'enfichage
-
-::: {.columns}
-::: {.column .lang-en width="50%"}
-
-Inquiry:
-
-$$\frac{1}{n} \sum_{i \leq n} Y_i(1) - \frac{1}{n} \sum_{i \leq n} Y_i(0)$$
-**Example**: sample average treatment effect after complete random assignment
-
-
-Answer strategy:
-
-$$\frac{1}{n_1} \sum_{i : Z_i = 1} Y_i - \frac{1}{n_0} \sum_{i : Z_i = 0} Y_i$$
-
-:::
-::: {.column .lang-fr width="50%"}
-
-Requête:
-
-$$\frac{1}{n} \sum_{i \leq n} Y_i(1) - \frac{1}{n} \sum_{i \leq n} Y_i(0)$$
-**Exemple**: effet moyen du traitement de l'échantillon après une randomisation complète
-
-
-Stratégie de réponse:
-
-$$\frac{1}{n_1} \sum_{i : Z_i = 1} Y_i - \frac{1}{n_0} \sum_{i : Z_i = 0} Y_i$$
-
-:::
-:::
-
-## Plug-in principle | Principe de l'enfichage
-
-
-::: {.columns}
-::: {.column .lang-en width="50%"}
-
-**Example**: sample average treatment effect after complete random assignment
-
-Inquiry:
-
-$$\frac{1}{n} \sum_{i \leq n} Y_i(1) - \frac{1}{n} \sum_{i \leq n} Y_i(0)$$
-
-Answer strategy:
-
-summarize(data, 
-estimate = mean(Y[Z == 1]) - mean(Y[Z == 0]))
-
-:::
-::: {.column .lang-fr width="50%"}
-
-**Exemple**: effet moyen du traitement de l'échantillon après une randomisation complète
-
-Requête:
-
-$$\frac{1}{n} \sum_{i \leq n} Y_i(1) - \frac{1}{n} \sum_{i \leq n} Y_i(0)$$
-
-Stratégie de réponse:
-
-summarize(data, estimate = mean(Y[Z == 1]) - mean(Y[Z == 0]))
-
-:::
-:::
-
-------------------------------------------------------------------------
-
-## Applying the answer strategy | Application de la stratégie de réponse
-
-::: {.columns}
-::: {.column .lang-en width="50%"}
-
-Let's look at just the top six rows in our observed data: 
-
-```{r, echo = FALSE}
-data <- draw_data(design_complete)
-data |> select(ID, X, Z, Y) |> head() |> kable(digits = 2)
-```
-
-:::
-::: {.column .lang-fr width="50%"}
-
-Examinons uniquement les six premières lignes de nos données observées :
-
-```{r, echo = FALSE}
-# data <- draw_data(design_complete)
-data |> select(ID, X, Z, Y) |> head() |> kable(digits = 2)
-```
-
-:::
-:::
-
-## Applying the answer strategy | Application de la stratégie de réponse
-
-
-::: {.columns}
-::: {.column .lang-en width="50%"}
-
-Our answer strategy:
-
-`summarize(data, mean(Y[Z == 1]) - mean(Y[Z == 0]))` (difference-in-means)
-
-Our estimate:
-
-```{r, echo = FALSE}
-summarize(data, 
-          estimate = mean(Y[Z == 1]) - mean(Y[Z == 0]))
-```
-
-:::
-::: {.column .lang-fr width="50%"}
-
-Notre stratégie de réponse :
-
-`summarize(data, mean(Y[Z == 1]) - mean(Y[Z == 0]))` (difference-in-means)
-
-Notre estimation :
-
-```{r, echo = FALSE}
-summarize(data, 
-          estimate = mean(Y[Z == 1]) - mean(Y[Z == 0]))
-```
-
-:::
-:::
-
-## How to assess your answers | Comment évaluer vos réponses
-
-
-::: {.columns}
-::: {.column .lang-en width="50%"}
-
-- Assess your *answer strategy* through simulation (diagnosis)
-
-- Assess your *answer* using uncertainty estimate (standard errors, confidence intervals)
-
-:::
-::: {.column .lang-fr width="50%"}
-
-- Évaluer votre *stratégie de réponse* par la simulation (diagnostic)
-
-- Évaluez votre *réponse* en utilisant une estimation d'incertitude (erreurs type, intervalles de confiance).
-
-:::
-:::
-
-## Answer strategies | Stratégies de réponse
-
-::: {.columns}
-::: {.column .lang-en width="50%"}
-
-We want an answer strategy that is:
-
-(a) *unbiased* (valid),
-
-(b) *low variance* (reliable), and
-
-(c) for which we can characterize our uncertainty
-
-:::
-::: {.column .lang-fr width="50%"}
-
-Nous voulons une stratégie de réponse qui soit :
-
-(a) *non biaisée* (valide),
-
-(b) *faible variance* (fiable), et
-
-(c) pour lesquels nous pouvons caractériser notre incertitude
-
-:::
-:::
-
-## Answer strategies | Stratégies de réponse 
+## Estimators | *Estimateurs*
 
 ![](Images/bullseye.png){fig-align="center"}
 
-## How do we assess answer strategies | Comment évaluer les stratégies de réponse
+## General principle: Analyze as you randomize | *Un principe général : analysez comme vous randomisez*
 
 ::: {.columns}
 ::: {.column .lang-en width="50%"}
 
-**Sampling distribution:**\newline
-What happens when we run the experiment many times? 
-
-```{r, echo = FALSE}
-set.seed(10)
-
-design <- 
-  declare_model(
-    N = 100,
-    SD_U = runif(N, min = 0.1, max = 5),
-    U = rnorm(N, sd = SD_U),
-    potential_outcomes(Y ~ 0.2 * Z + U)
-  ) + 
-  declare_inquiries(ATE = mean(Y_Z_1 - Y_Z_0)) + 
-  declare_assignment(Z = complete_ra(N),
-                     Z_fct = factor(Z, levels = c(0, 1), labels = c("Control", "Treatment"))) + 
-  declare_measurement(Y = reveal_outcomes(Y ~ Z)) + 
-  declare_estimator(Y ~ Z, .method = lm_robust)
-
-dat_list <- map(1:1000, ~draw_data(design))
-est_list <- map(dat_list, ~get_estimates(design, data = .))
-estimands <- draw_estimands(design)
-
-sampling_distribution <- function(i) {
-  diff_plot <-
-    ggplot(est_list[[i]]) + 
-    geom_point(aes(y = 0, x = estimate)) + 
-    geom_vline(xintercept = 0, lty = "dashed", color = "darkgray") + 
-    geom_errorbarh(aes(y = 0, xmin = conf.low, xmax = conf.high), height = 0.01) + 
-    coord_cartesian(ylim = c(-0.1, 0.1), xlim = c(-2.2, 2.2)) + 
-    labs(y = "Estimate", title = str_c("Estimate #", i)) + 
-    theme_minimal() + 
-    theme(axis.title.x = element_blank(),
-          axis.text.x = element_blank(),
-          axis.ticks.x = element_blank(),
-          panel.grid.minor.x = element_blank(),
-          panel.grid.minor.y = element_blank(),
-          title = element_text(size = 10))
-  
-  hist_plot <- 
-    ggplot(est_list |> bind_rows() |> slice(1:i)) + 
-    geom_histogram(aes(x = estimate, y = (after_stat(count))/sum(after_stat(count))), binwidth = 0.1, col = NA) + 
-    geom_histogram(aes(x = est_list[[i]]$estimate, y = (after_stat(count))/sum(after_stat(count))), binwidth = 0.1, col = NA, fill = "lightblue") + 
-    scale_y_continuous("Percent of sampling distribution", labels = scales::percent) +
-    scale_x_continuous("") +
-    coord_cartesian(xlim = c(-2.2, 2.2), ylim = c(0, 0.1)) + 
-    labs(title = "Sampling distribution of estimates") + 
-    theme_minimal() +
-    theme(title = element_text(size = 10))
-  
-  gg <- (hist_plot / diff_plot) + plot_layout(heights = c(3, 1))
-  gg
-}
-```
+- This means follow the design of the experiment.
+- Compare groups that are created by random assignment.
 
 :::
 ::: {.column .lang-fr width="50%"}
 
-**Distribution d'échantillonnage:**\newline
-Que se passe-t-il si nous répétons l'expérience plusieurs fois ? 
-
-```{r, echo = FALSE}
-set.seed(10)
-
-design <- 
-  declare_model(
-    N = 100,
-    SD_U = runif(N, min = 0.1, max = 5),
-    U = rnorm(N, sd = SD_U),
-    potential_outcomes(Y ~ 0.2 * Z + U)
-  ) + 
-  declare_inquiries(ATE = mean(Y_Z_1 - Y_Z_0)) + 
-  declare_assignment(Z = complete_ra(N),
-                     Z_fct = factor(Z, levels = c(0, 1), labels = c("Control", "Treatment"))) + 
-  declare_measurement(Y = reveal_outcomes(Y ~ Z)) + 
-  declare_estimator(Y ~ Z, .method = lm_robust)
-
-dat_list <- map(1:1000, ~draw_data(design))
-est_list <- map(dat_list, ~get_estimates(design, data = .))
-estimands <- draw_estimands(design)
-
-sampling_distribution <- function(i) {
-  diff_plot <-
-    ggplot(est_list[[i]]) + 
-    geom_point(aes(y = 0, x = estimate)) + 
-    geom_vline(xintercept = 0, lty = "dashed", color = "darkgray") + 
-    geom_errorbarh(aes(y = 0, xmin = conf.low, xmax = conf.high), height = 0.01) + 
-    coord_cartesian(ylim = c(-0.1, 0.1), xlim = c(-2.2, 2.2)) + 
-    labs(y = "Estimate", title = str_c("Estimate #", i)) + 
-    theme_minimal() + 
-    theme(axis.title.x = element_blank(),
-          axis.text.x = element_blank(),
-          axis.ticks.x = element_blank(),
-          panel.grid.minor.x = element_blank(),
-          panel.grid.minor.y = element_blank(),
-          title = element_text(size = 10))
-  
-  hist_plot <- 
-    ggplot(est_list |> bind_rows() |> slice(1:i)) + 
-    geom_histogram(aes(x = estimate, y = (after_stat(count))/sum(after_stat(count))), binwidth = 0.1, col = NA) + 
-    geom_histogram(aes(x = est_list[[i]]$estimate, y = (after_stat(count))/sum(after_stat(count))), binwidth = 0.1, col = NA, fill = "lightblue") + 
-    scale_y_continuous("Percent of sampling distribution", labels = scales::percent) +
-    scale_x_continuous("") +
-    coord_cartesian(xlim = c(-2.2, 2.2), ylim = c(0, 0.1)) + 
-    labs(title = "Sampling distribution of estimates") + 
-    theme_minimal() +
-    theme(title = element_text(size = 10))
-  
-  gg <- (hist_plot / diff_plot) + plot_layout(heights = c(3, 1))
-  gg
-}
-```
+- Cela signifie suivre la conception de l'expérience.
+- Comparez les groupes créés par l'assignation aléatoire.
 
 :::
 :::
 
-## What is a sampling distribution? | Qu'est-ce qu'une distribution d'échantillonnage ?
-
-```{r, echo = FALSE, fig.width = 7, fig.height = 5}
-i <- 1
-sampling_distribution(1)
-```
-
-
-
-
-## What is a sampling distribution? | Qu'est-ce qu'une distribution d'échantillonnage ?
-
-```{r, echo = FALSE, fig.width = 7, fig.height = 5}
-i <- 1
-sampling_distribution(2)
-```
-
-
-
-## What is a sampling distribution? | Qu'est-ce qu'une distribution d'échantillonnage ?
-
-```{r, echo = FALSE, fig.width = 7, fig.height = 5}
-i <- 1
-sampling_distribution(5)
-```
-
-
-
-## What is a sampling distribution? | Qu'est-ce qu'une distribution d'échantillonnage ?
-
-```{r, echo = FALSE, fig.width = 7, fig.height = 5}
-i <- 1
-sampling_distribution(50)
-```
-
-
-
-## What is a sampling distribution? | Qu'est-ce qu'une distribution d'échantillonnage ?
-
-```{r, echo = FALSE, fig.width = 7, fig.height = 5}
-i <- 1
-sampling_distribution(1000)
-```
-
-
-
-
-
-## What is a sampling distribution? | Qu'est-ce qu'une distribution d'échantillonnage ?
-
-```{r, echo = FALSE, fig.width = 7, fig.height = 5}
-i <- 1000
-diff_plot <-
-  ggplot(est_list[[i]]) + 
-  geom_point(aes(y = 0, x = estimate)) + 
-  geom_vline(xintercept = 0, lty = "dashed", color = "darkgray") + 
-  geom_errorbarh(aes(y = 0, xmin = conf.low, xmax = conf.high), height = 0.01) + 
-  coord_cartesian(ylim = c(-0.1, 0.1), xlim = c(-2.2, 2.2)) + 
-  labs(y = "Estimate", title = str_c("Estimate #", i)) + 
-  theme_minimal() + 
-  theme(axis.title.x = element_blank(),
-        axis.text.x = element_blank(),
-        axis.ticks.x = element_blank(),
-        panel.grid.minor.x = element_blank(),
-        panel.grid.minor.y = element_blank(),
-        title = element_text(size = 10))
-
-hist_plot <- 
-  ggplot(est_list |> bind_rows() |> slice(1:i)) + 
-  geom_histogram(aes(x = estimate, y = (after_stat(count))/sum(after_stat(count))), binwidth = 0.1, col = NA) + 
-  geom_histogram(aes(x = est_list[[i]]$estimate, y = (after_stat(count))/sum(after_stat(count))), binwidth = 0.1, col = NA, fill = "lightblue") + 
-  
-  geom_vline(xintercept = 0.2, color = "red", linewidth = 1.5) +
-  annotate("text", y = 0.095, x = -0.2, label = "Estimand", color = "red", size = 5, font = "bold") +
-  scale_y_continuous("Percent of sampling distribution", labels = scales::percent) +
-  scale_x_continuous("") +
-  coord_cartesian(xlim = c(-2.2, 2.2), ylim = c(0, 0.1)) + 
-  labs(title = "Sampling distribution of estimates") + 
-  theme_minimal() +
-  theme(title = element_text(size = 10))
-
-gg <- (hist_plot / diff_plot) + plot_layout(heights = c(3, 1))
-gg
-
-```
-
-
-
-
-
-
-
-## How do we assess answer strategies | Comment évaluer les stratégies de réponse
-::: {.columns}
-::: {.column .lang-en width="50%"}
-
-**Bias:**
-
-What's the average difference between our estimates and the estimand?
-
-**Standard deviation of estimates:**
-
-How much do our estimates vary?
-
-**Root mean squared error:**
-
-How far off are we on average? (Combines bias and s.d.!)
-
-:::
-::: {.column .lang-fr width="50%"}
-
-**Bias:**
-
-Quelle est la différence moyenne entre nos estimations et le paramètre ?
-
-**Écart-type des estimations:**
-
-De combien varient nos estimations ?
-
-**Erreur quadratique moyenne:**
-
-Quelle est la différence moyenne entre nos estimations et le paramètre ? (Combine le biais et l'écart-type !)
-
-:::
-:::
-
-## How do we assess answer strategies | Comment évaluer les stratégies de réponse
-
+## Estimator 1: Difference-in-means | *Estimateur 1 : la différence des moyennes*
 
 ::: {.columns}
 ::: {.column .lang-en width="50%"}
 
-**Bias:**
-
-`mean(estimate - estimand)`
-
-**Standard deviation of estimates:**
-
-`sd(estimate))`
-
-**Mean squared error:**
-
-`sqrt(mean((estimate - estimand)^2))`
+- We have a simple experiment:
+    - Random assignment to treatment or control.
+    - All units have the same probability of treatment assignment.
+    - Our *estimand* is the ATE.
+- The simplest *estimator* for the ATE is the **difference-in-means**: take the average outcome for the treatment group and subtract the average outcome for the control group.
 
 :::
 ::: {.column .lang-fr width="50%"}
 
-**Bias:**
-
-`moyenne(estimation - paramètre)`
-
-**Écart-type des estimations:**
-
-`sd(estimation))`
-
-**Erreur quadratique moyenne:**
-
-`sqrt(mean((estimate - estimand)^2))`
+- Nous avons une expérience simple :
+    - Assignation aléatoire au traitement ou au contrôle.
+    - Toutes les unités ont la même probabilité de recevoir le traitement.
+    - Notre *paramètre* est l'ATE.
+- L'estimateur le plus simple de l'ATE est **la différence des moyennes** : soustrayez la moyenne des unités assignées au contrôle de la moyenne des unités assignées au traitement.
 
 :::
 :::
 
-## Unbiased, precise | Sans biais, précis
+## Estimator 1: Difference-in-means | *Estimateur 1 : la différence des moyennes*
 
-```{r, echo = FALSE, fig.width = 7, fig.height = 5}
-design <- 
-  declare_model(
-    N = 100,
-    SD_U = runif(N, min = 0.1, max = 0.8),
-    U = rnorm(N, sd = SD_U),
-    potential_outcomes(Y ~ 0.2 * Z + U)
-  ) + 
-  declare_inquiries(ATE = mean(Y_Z_1 - Y_Z_0)) + 
-  declare_assignment(Z = complete_ra(N),
-                     Z_fct = factor(Z, levels = c(0, 1), labels = c("Control", "Treatment"))) + 
-  declare_measurement(Y = reveal_outcomes(Y ~ Z)) + 
-  declare_estimator(Y ~ Z, .method = lm_robust)
+![](images/diff-in-means.png){fig-align="center"}
 
-dat_list <- map(1:1000, ~draw_data(design))
-est_list <- map(dat_list, ~get_estimates(design, data = .))
-estimands <- draw_estimands(design)
+## Estimator 1: Difference-in-means | *Estimateur 1 : la différence des moyennes*
 
-i <- 1000
-hist_plot <- 
-  ggplot(est_list |> bind_rows() |> slice(1:i)) + 
-  geom_histogram(aes(x = estimate, y = (after_stat(count))/sum(after_stat(count))), binwidth = 0.1, col = NA) + 
-  # geom_histogram(aes(x = est_list[[i]]$estimate, y = (after_stat(count))/sum(after_stat(count))), binwidth = 0.1, col = NA, fill = "lightblue") + 
-  geom_vline(xintercept = 0.2, color = "red", linewidth = 1.5) +
-  # annotate("text", y = 0.095, x = -0.2, label = "Estimand", color = "red", size = 5, font = "bold") +
-  scale_y_continuous("Percent of sampling distribution", labels = scales::percent) +
-  scale_x_continuous("") +
-  coord_cartesian(xlim = c(-2.2, 2.2), ylim = c(0, 0.1)) + 
-  labs(title = "Sampling distribution of estimates") + 
-  theme_minimal() +
-  theme(title = element_text(size = 10))
+| Unit | $Z_i$ | $Y_i$ | $Y_i(1)$ | $Y_i(0)$ |
+|:----:|:-----:|:-----:|:--------:|:--------:|
+|  a   |   1   |   5   |    5     |          |
+|  b   |   1   |   4   |    4     |          |
+|  c   |   1   |   2   |    2     |          |
+|  d   |   1   |   1   |    1     |          |
+|  e   |   0   |   1   |          |    1     |
+|  f   |   0   |   1   |          |    1     |
+|  g   |   0   |   0   |          |    0     |
+|  h   |   0   |   2   |          |    2     |
 
-hist_plot
+::: {.fragment}
+
+$$\frac{5+4+2+1}{4} - \frac{1+1+0+2}{4} = 3 - 1 = 2$$
+
+:::
+
+## Estimator 1: Difference-in-means | *Estimateur 1 : la différence des moyennes*
+
+```{r, eval = FALSE, echo = TRUE}
+mean(Y[treatment==1]) - mean(Y[treatment==0])
+
+library(estimatr)
+difference_in_means(Y ~ treatment)
 ```
 
+## Estimator 2: Linear regression | *Estimateur 2 : la régression linéaire*
 
-
-
-
-## Unbiased, imprecise | Sans biais, imprécis
-
-```{r, echo = FALSE, fig.width = 7, fig.height = 5}
-design <- 
-  declare_model(
-    N = 100,
-    SD_U = runif(N, min = 0.1, max = 5),
-    U = rnorm(N, sd = SD_U),
-    potential_outcomes(Y ~ 0.2 * Z + U)
-  ) + 
-  declare_inquiries(ATE = mean(Y_Z_1 - Y_Z_0)) + 
-  declare_assignment(Z = complete_ra(N),
-                     Z_fct = factor(Z, levels = c(0, 1), labels = c("Control", "Treatment"))) + 
-  declare_measurement(Y = reveal_outcomes(Y ~ Z)) + 
-  declare_estimator(Y ~ Z, .method = lm_robust)
-
-dat_list <- map(1:1000, ~draw_data(design))
-est_list <- map(dat_list, ~get_estimates(design, data = .))
-estimands <- draw_estimands(design)
-
-i <- 1000
-hist_plot <- 
-  ggplot(est_list |> bind_rows() |> slice(1:i)) + 
-  geom_histogram(aes(x = estimate, y = (after_stat(count))/sum(after_stat(count))), binwidth = 0.1, col = NA) + 
-  # geom_histogram(aes(x = est_list[[i]]$estimate, y = (after_stat(count))/sum(after_stat(count))), binwidth = 0.1, col = NA, fill = "lightblue") + 
-  geom_vline(xintercept = 0.2, color = "red", linewidth = 1.5) +
-  # annotate("text", y = 0.095, x = -0.2, label = "Estimand", color = "red", size = 5, font = "bold") +
-  scale_y_continuous("Percent of sampling distribution", labels = scales::percent) +
-  scale_x_continuous("") +
-  coord_cartesian(xlim = c(-2.2, 2.2), ylim = c(0, 0.1)) + 
-  labs(title = "Sampling distribution of estimates") + 
-  theme_minimal() +
-  theme(title = element_text(size = 10))
-
-hist_plot
-```
-
-
-
-
-
-
-## Biased, precise | Biaisé, précis
-
-```{r, echo = FALSE, fig.width = 7, fig.height = 5}
-design <- 
-  declare_model(
-    N = 100,
-    SD_U = runif(N, min = 0.1, max = 0.8),
-    U = rnorm(N, sd = SD_U),
-    potential_outcomes(Y ~ 0.2 * Z + U)
-  ) + 
-  declare_inquiries(ATE = mean(Y_Z_1 - Y_Z_0)) + 
-  declare_assignment(Z = complete_ra(N),
-                     Z_fct = factor(Z, levels = c(0, 1), labels = c("Control", "Treatment"))) + 
-  declare_measurement(Y = reveal_outcomes(Y ~ Z),
-                      Y = if_else(Z == 1, Y + 0.5, Y)) + 
-  declare_estimator(Y ~ Z, .method = lm_robust)
-
-dat_list <- map(1:1000, ~draw_data(design))
-est_list <- map(dat_list, ~get_estimates(design, data = .))
-estimands <- draw_estimands(design)
-
-i <- 1000
-hist_plot <- 
-  ggplot(est_list |> bind_rows() |> slice(1:i)) + 
-  geom_histogram(aes(x = estimate, y = (after_stat(count))/sum(after_stat(count))), binwidth = 0.1, col = NA) + 
-  # geom_histogram(aes(x = est_list[[i]]$estimate, y = (after_stat(count))/sum(after_stat(count))), binwidth = 0.1, col = NA, fill = "lightblue") + 
-  geom_vline(xintercept = 0.2, color = "red", linewidth = 1.5) +
-  # annotate("text", y = 0.095, x = -0.2, label = "Estimand", color = "red", size = 5, font = "bold") +
-  scale_y_continuous("Percent of sampling distribution", labels = scales::percent) +
-  scale_x_continuous("") +
-  coord_cartesian(xlim = c(-2.2, 2.2), ylim = c(0, 0.1)) + 
-  labs(title = "Sampling distribution of estimates") + 
-  theme_minimal() +
-  theme(title = element_text(size = 10))
-
-hist_plot
-```
-
-
-
-
-
-
-## Biased, imprecise | Biaisé, imprécis
-
-
-```{r, echo = FALSE, fig.width = 7, fig.height = 5}
-design <- 
-  declare_model(
-    N = 100,
-    SD_U = runif(N, min = 0.1, max = 5),
-    U = rnorm(N, sd = SD_U),
-    potential_outcomes(Y ~ 0.2 * Z + U)
-  ) + 
-  declare_inquiries(ATE = mean(Y_Z_1 - Y_Z_0)) + 
-  declare_assignment(Z = complete_ra(N),
-                     Z_fct = factor(Z, levels = c(0, 1), labels = c("Control", "Treatment"))) + 
-  declare_measurement(Y = reveal_outcomes(Y ~ Z),
-                      Y = if_else(Z == 1, Y + 0.5, Y)) + 
-  declare_estimator(Y ~ Z, .method = lm_robust)
-
-dat_list <- map(1:1000, ~draw_data(design))
-est_list <- map(dat_list, ~get_estimates(design, data = .))
-estimands <- draw_estimands(design)
-
-i <- 1000
-hist_plot <- 
-  ggplot(est_list |> bind_rows() |> slice(1:i)) + 
-  geom_histogram(aes(x = estimate, y = (after_stat(count))/sum(after_stat(count))), binwidth = 0.1, col = NA) + 
-  # geom_histogram(aes(x = est_list[[i]]$estimate, y = (after_stat(count))/sum(after_stat(count))), binwidth = 0.1, col = NA, fill = "lightblue") + 
-  geom_vline(xintercept = 0.2, color = "red", linewidth = 1.5) +
-  # annotate("text", y = 0.095, x = -0.2, label = "Estimand", color = "red", size = 5, font = "bold") +
-  scale_y_continuous("Percent of sampling distribution", labels = scales::percent) +
-  scale_x_continuous("") +
-  coord_cartesian(xlim = c(-2.2, 2.2), ylim = c(0, 0.1)) + 
-  labs(title = "Sampling distribution of estimates") + 
-  theme_minimal() +
-  theme(title = element_text(size = 10))
-
-hist_plot
-```
-
-
-
-
-## Assessing the answer strategy | Évaluation de la stratégie de réponse
+$$Y_i = \hat{\alpha_0} + \hat{\beta_1} Z_i + e_i$$
 
 ::: {.columns}
 ::: {.column .lang-en width="50%"}
 
-Back to example: 
-
-- **Experiment:** complete random assignment
-- **Inquiry:** sample average treatment effect
-- **Answer strategy:** difference-in-means
+- With this simple experiment, we can also use a linear regression. It will produce exactly the same estimate ($\hat{\beta_1}$) of the ATE as the difference-in-means estimator.
+- $\hat{\alpha_0}$ is the average outcome in the control group.
 
 :::
 ::: {.column .lang-fr width="50%"}
 
-Retour à l'exemple : 
-
-- **Expérience:** Randomisation complète
-- **Interrogation:** effet moyen du traitement sur l'échantillon
-- **Stratégie de réponse:** différence de moyenne
+- Pour cette expérience simple, nous pouvons également utiliser la régression linéaire. Elle produira exactement la même estimation ($\hat{\beta_1}$) de l'ATE que l'estimateur de la différence des moyennes.
+- $\hat{\alpha_0}$ est le résultat moyen des unités assignées au contrôle.
 
 :::
 :::
 
+## Estimator 2: Linear regression | *Estimateur 2 : la régression linéaire*
 
+::: {.columns}
+::: {.column width="60%"}
 
+![](images/regression1.png){fig-align="center"}
 
+:::
+::: {.column width="40%"}
 
-```{r, echo = FALSE}
-tidy(diagnosis) |> 
-  filter(diagnosand %in% 
-           c("bias", "sd_estimate", "rmse")) |> 
-  filter(design == "design_complete") |> 
-  mutate(assignment = str_replace(design, "design_", "")) |> 
-  transmute(assignment, 
-            `answer strategy` = estimator, diagnosand, 
-            estimate) |> 
-  mutate(estimate = round(estimate, 2)) |> 
-  kable()
+$$Y_i = {\alpha_0} + {\beta_1} Z_i + e_i$$
+
+:::
+:::
+
+## Estimator 2: Linear regression | *Estimateur 2 : la régression linéaire*
+
+```{r, eval = FALSE, echo = TRUE}
+lm(Y ~ treatment)
 ```
 
+# Hypothesis Testing | *Les tests d'hypothèses*
+
+## Hypothesis: A woman is pregnant | *Hypothèse : une femme est enceinte*
+
+## Truth: the woman is pregnant | *La vérité : la femme est enceinte*
+
+![](images/preg4.jpg){fig-align="center"}
 
 
 
-
-## Assessing answers |  Évaluer les réponses
-
+## Type I and Type II errors | *Erreurs de type I et de type II* {.compact-table}
 
 ::: {.columns}
 ::: {.column .lang-en width="50%"}
 
-*Standard error* - estimate of the true standard deviation of the sampling distribution
+| | Reject $H_0$ | Do not reject $H_0$ |
+|:--|:--|:--|
+| **$H_0$ true** (no effect) | Type I error ($\alpha$) | Correct |
+| **$H_0$ false** (effect exists) | Correct (power $= 1-\beta$) | Type II error ($\beta$) |
 
-*Confidence interval* - interval designed to cover the true estimand 95% of the time
+- **Type I error** ($\alpha$): reject $H_0$ when $H_0$ is true — a false positive.
+- **Type II error** ($\beta$): fail to reject $H_0$ when $H_0$ is false — a false negative.
+- **Power** $= 1 - \beta$: probability of correctly rejecting $H_0$ when there is an effect.
 
 :::
 ::: {.column .lang-fr width="50%"}
 
-*Erreur type* - estimation de l'écart type réel de la distribution d'échantillonnage.
+| | Rejeter $H_0$ | Ne pas rejeter $H_0$ |
+|:--|:--|:--|
+| **$H_0$ vraie** (aucun effet) | Erreur de type I ($\alpha$) | Correct |
+| **$H_0$ fausse** (effet existant) | Correct (puissance $= 1-\beta$) | Erreur de type II ($\beta$) |
 
-*Intervalle de confiance* - intervalle conçu pour couvrir la vraie valeur du paramètre dans 95 % des cas.
+- **Erreur de type I** ($\alpha$) : rejeter $H_0$ alors que $H_0$ est vraie — un faux positif.
+- **Erreur de type II** ($\beta$) : ne pas rejeter $H_0$ alors que $H_0$ est fausse — un faux négatif.
+- **Puissance** $= 1 - \beta$ : probabilité de rejeter correctement $H_0$ lorsqu'il y a un effet.
 
 :::
 :::
 
-`difference_in_means(Y ~ Z, data = experiment_df)`
-
-
-```{r, echo = FALSE}
-set.seed(5)
-draw_data(design_complete) |> 
-  difference_in_means(formula = Y ~ Z, data = _) |> 
-  tidy() |> 
-  select(estimate, std.error, conf.low, conf.high) |> 
-  transmute(Estimate = estimate, `Standard error` = std.error, `Confidence interval` = str_c("(", round(conf.low, 2), ", ", round(conf.high, 2), ")")) |> 
-  kable(digits = 2)
-```
-
-------------------------------------------------------------------------
-
-```{r, eval = FALSE, echo = FALSE}
-sims_df <- 
-  get_simulations(diagnosis) |> 
-  filter(design == "design_complete") |> 
-  mutate(design = case_when(
-    design == "design_blocked" ~ "Block randomization",
-    design == "design_complete" ~ "Complete randomization"
-  )) 
-
-
-# ggplot(sims_df, aes(estimate)) + 
-#   # geom_histogram() + 
-#   geom_histogram(aes(y = (..count..)/sum(..count..)), fill = "lightblue", color = NA) + 
-#   # annotate("text", x = 0.11, y = 0.12, hjust = 0, label = "Inquiry: SATE\nEstimand: 0.1", size = 5) + 
-#   scale_y_continuous("Percent of simulated estimates", labels = scales::percent) +
-#   labs(x = "Estimate") + 
-#   # geom_vline(xintercept = 0.1, lty = "dashed", color = "red") + 
-#   facet_grid(design ~ .) + 
-#   theme_minimal() + 
-#   theme(strip.text.y = element_text(size = 15), 
-#         axis.text.x = element_text(size = 12),
-#         axis.title.x = element_text(size = 15))
-```
-
-
-```{r, eval = FALSE, echo = FALSE, warning=F, message=F}
-summary_df <- 
-  sims_df |> 
-  group_by(design, estimator) |> 
-  summarize(mean_estimate = mean(estimate),
-            estimand = 0.1)
-
-# ggplot(sims_df, aes(x = estimate)) + 
-#   # geom_histogram() + 
-#   geom_histogram(aes(y = (..count..)/sum(..count..)), fill = "lightblue", color = NA) + 
-#   annotate("text", x = 0.11, y = 0.07, hjust = 0, label = "Inquiry: SATE\nEstimand: 0.1", size = 5, color = "red") +
-#   # geom_vline(data = summary_df, aes(xintercept = mean_estimate)) + 
-#   geom_vline(data = summary_df, xintercept = 0.1, color = "red", lty = "dashed") + 
-#   # geom_text(data = summary_df, aes(x = mean_estimate-0.01, y = 0.1, label = glue::glue("Answer strategy: {estimator}\nEstimate: {round(mean_estimate, 2)}")), hjust = 1, size = 5) + 
-#   scale_y_continuous("Percent of simulated estimates", labels = scales::percent) +
-#   labs(x = "Estimate") + 
-#   facet_grid(design ~ .) + 
-#   theme_minimal() + 
-#   theme(strip.text.y = element_text(size = 15), 
-#         axis.text.x = element_text(size = 12),
-#         axis.title.x = element_text(size = 15))
-```
-
-
-```{r, eval = FALSE, echo = FALSE, warning=FALSE, message=FALSE }
-ggplot(sims_df, aes(x = estimate)) + 
-  # geom_histogram() + 
-  geom_histogram(aes(y = (..count..)/sum(..count..)), bins=50, fill = "lightblue", color = NA) + 
-  annotate("text", x = 0.11, y = 0.07, hjust = 0, label = "Inquiry: SATE\nEstimand: 0.1", size = 5, color = "red") +
-  geom_vline(data = summary_df, aes(xintercept = mean_estimate)) +
-  geom_vline(xintercept = 0.1, color = "red", lty = "dashed") + 
-  geom_text(data = summary_df, aes(x = mean_estimate-0.01, y = 0.07, label = glue::glue("Average estimate: {round(mean_estimate, 3)}")), hjust = 1, size = 5) +
-  scale_y_continuous("Percent of simulated estimates", labels = scales::percent) +
-  labs(x = "Estimate") + 
-  facet_grid(design ~ .) + 
-  theme_minimal() + 
-  theme(strip.text.y = element_text(size = 15), 
-        axis.text.x = element_text(size = 12),
-        axis.title.x = element_text(size = 15))
-```
-
-## Review | Révision
-
+## Hypothesis Testing | *Les tests d'hypothèses*
 
 ::: {.columns}
 ::: {.column .lang-en width="50%"}
 
-**Analyze as you randomize**:
-
-1.  Plug-in principle
-
-2.  Correct for distortions
-
-Select an answer strategy that is unbiased, low variance, and quantify level of uncertainty
+- Let's say that the truth is that a medicine has no effect on height. But all the short people were randomly assigned to the medicine and all the tall people to control.
+- If we apply the difference in means, it looks like the medicine made people shorter!
 
 :::
 ::: {.column .lang-fr width="50%"}
 
-**Analysez selon le niveau de randomisation** :
-
-1.  Principe de l'enfichage
-
-2.  Corriger les distorsions
-
-Sélectionner une stratégie de réponse sans biais, à faible variance, et quantifier le niveau d'incertitude.
+- Supposons qu'un médicament n'ait aucun effet sur la taille. Mais toutes les personnes de petite taille ont été assignées au médicament et les personnes de grande taille au contrôle.
+- Si on utilise la différence de moyennes, on dirait que le médicament a rendu les gens plus petits !
 
 :::
 :::
 
-## New example: block randomization | *Nouvel exemple : randomisation par blocs*
+
+
+## Hypothesis Testing | *Les tests d'hypothèses*
 
 ::: {.columns}
 ::: {.column .lang-en width="50%"}
 
-Inquiry: sample average treatment effect
-
-Random assignment procedure: block randomization
+- Warning: We can get an estimate that is not zero even when there is no effect!
+- Are we confident that our non-zero estimate reflects a truly non-zero estimand (truth)?
 
 :::
 ::: {.column .lang-fr width="50%"}
 
-Requête : effet moyen du traitement sur l'échantillon
-
-Procédure d'assignation aléatoire: randomisation par blocs
+- Avertissement : on peut obtenir une estimation non nulle même s'il n'y a aucun effet !
+- Sommes-nous convaincus que notre estimation non nulle reflète un paramètre véritablement non nul (la vérité) ?
 
 :::
 :::
 
-`mutate(data, Z = block_ra(blocks = X, block_prob = c(0.2, 0.5)))`
+## Hypothesis Testing | *Les tests d'hypothèses*
 
 ::: {.columns}
 ::: {.column .lang-en width="50%"}
 
-First six rows of data:
-
-```{r, echo = FALSE}
-
-data <- draw_data(design_blocked)
-data |> select(ID, X, Z, Y) |> head() |> kable(digits = 2)
-```
+- **Hypothesis**: a claim about the world that we will evaluate with data.
+    - A good hypothesis is specific and falsifiable.
+- Start with a **null hypothesis**, a claim we might reject when we examine the data. We will use the null hypothesis that the true ATE is 0.
+- But remember that we can get $\widehat{ATE}$ that is not 0, just by chance.
 
 :::
 ::: {.column .lang-fr width="50%"}
 
-Six premières lignes de données :
- 
-```{r, echo = FALSE}
-
-data <- draw_data(design_blocked)
-data |> select(ID, X, Z, Y) |> head() |> kable(digits = 2)
-```
+- **Hypothèse** : une affirmation sur le monde que nous évaluerons à l'aide de données.
+    - Une bonne hypothèse est spécifique et réfutable.
+- Commencer par une **hypothèse nulle**, une affirmation que nous pourrions rejeter lorsque nous examinons les données. Nous utiliserons l'hypothèse nulle que le vrai ATE est 0.
+- Mais rappelez-vous que nous pouvons obtenir un $\widehat{ATE}$ différent de 0 par hasard.
 
 :::
 :::
 
-## New example: block randomization | Nouvel exemple : la randomisation par blocs
+## Hypothesis Testing | *Les tests d'hypothèses*
+
+![](images/HT1-null.png){fig-align="center"}
 
 ::: {.columns}
 ::: {.column .lang-en width="50%"}
 
-Inquiry: sample average treatment effect
-
-Random assignment procedure: block randomization
+- Distribution of possible $\widehat{ATE}$ if the null hypothesis is true
 
 :::
 ::: {.column .lang-fr width="50%"}
 
-Requête : effet moyen du traitement sur l'échantillon
-
-Procédure d'assignation aléatoire : randomisation par blocs
+- Distribution des $\widehat{ATE}$ possibles si l'hypothèse nulle est vraie
 
 :::
 :::
+
+## Hypothesis Testing | *Les tests d'hypothèses*
+
+![](images/HT2-null5percent.png){fig-align="center"}
 
 ::: {.columns}
 ::: {.column .lang-en width="50%"}
 
-Summary of same data:
-
-```{r, echo = FALSE}
-
-data |> count(X, Z) |> pivot_wider(id_cols = X, names_from = Z, values_from = n, names_prefix = "Z = ") |> kable(digits = 2)
-```
+- Rejection (white) and non-rejection (yellow) regions for a two-sided alternative hypothesis at $\alpha=0.05$
 
 :::
 ::: {.column .lang-fr width="50%"}
 
-Résumé des mêmes données :
-
-```{r, echo = FALSE}
-
-data |> count(X, Z) |> pivot_wider(id_cols = X, names_from = Z, values_from = n, names_prefix = "Z = ") |> kable(digits = 2)
-```
+- Régions de rejet (blanche) et de non-rejet (jaune) pour une hypothèse alternative bilatérale à $\alpha=0{,}05$
 
 :::
 :::
 
-
-
-
-
-## New example: block randomization | Nouvel exemple : la randomisation par blocs
+## Hypothesis Testing | *Les tests d'hypothèses*
 
 ::: {.columns}
 ::: {.column .lang-en width="50%"}
 
-What answer strategy should we select?
+- $\alpha$ is a value that you choose/set **before** hypothesis testing. It is often 0.05 or 5% in the social sciences.
+- $\alpha$ of the area under the curve is in the rejection region.
 
 :::
 ::: {.column .lang-fr width="50%"}
 
-Quelle stratégie de réponse devons-nous choisir ?
+- $\alpha$ est une valeur que vous choisissez / fixez **avant** le test d'hypothèse. Il s'agit souvent de 0,05 ou de 5 % dans les sciences sociales.
+- La proportion $\alpha$ de l'aire sous la courbe se trouve dans la région de rejet.
 
 :::
 :::
 
+## Hypothesis Testing | *Les tests d'hypothèses*
 
-
-
-## New example: block randomization | Nouvel exemple : la randomisation par blocs
+![](images/HT3-twosidedrejectonly.png){fig-align="center"}
 
 ::: {.columns}
 ::: {.column .lang-en width="50%"}
 
-1.  Plug-in principle
-
-Two mini-experiments $\rightarrow$ two difference-in-means estimates $\rightarrow$ average across blocks
+- <span style="color:red">$\widehat{ATE}$</span> falls in the rejection region → reject the null hypothesis
 
 :::
 ::: {.column .lang-fr width="50%"}
 
-1.  Principe de l'enfichage
-
-Deux mini-expériences $\rightarrow$ deux estimations de la différence des moyennes $\rightarrow$ moyenne entre les blocs
+- <span style="color:red">$\widehat{ATE}$</span> se situe dans la région de rejet → rejetez l'hypothèse nulle
 
 :::
 :::
 
-## New example: block randomization | Nouvel exemple : la randomisation par blocs 
-```{r, eval = FALSE}
-data |> 
-  group_by(X) |> 
-  summarize(block_estimate =
-              mean(Y[Z == 1]) - mean(Y[Z == 0])) |> 
-  summarize(estimate = mean(block_estimate))
-```
+## Hypothesis Testing | *Les tests d'hypothèses*
 
-```{r, echo = FALSE}
-data |> 
-  group_by(X) |> 
-  summarize(block_estimate = mean(Y[Z == 1]) - mean(Y[Z == 0])) |> 
-  kable(digits = 2)
-```
-
-```{r, echo = FALSE}
-data |> 
-  group_by(X) |> 
-  summarize(block_estimate = 
-              mean(Y[Z == 1]) - mean(Y[Z == 0])) |> 
-  summarize(estimate = mean(block_estimate)) |> 
-  kable(digits = 2)
-```
-
-
-
-
-## Assessing our answer strategy |  Évaluer notre stratégie de réponse
-
-
-
-
-```{r, echo = FALSE, message=FALSE, warning=FALSE}
-sims_df <- 
-  get_simulations(diagnosis) |> 
-  filter(design != "design_blocked_adjusted") |> 
-  mutate(design = case_when(
-    design == "design_blocked" ~ "Block randomization",
-    design == "design_complete" ~ "Complete randomization"
-  )) 
-
-summary_df <- 
-  sims_df |> 
-  group_by(design, estimator) |> 
-  summarize(mean_estimate = mean(estimate),
-            estimand = 0.1) |> 
-  ungroup() |> 
-  mutate(design = fct_rev(as.factor(design)))
-
-ggplot(sims_df |> mutate(design = fct_rev(as.factor(design))), aes(estimate)) + 
-  geom_histogram(aes(y = (..count..)/sum(..count..)), fill = "lightblue", color = NA) + 
-  annotate("text", x = 0.11, y = 0.07, hjust = 0, label = "Inquiry: SATE\nEstimand: 0.1", size = 5, color = "red") +
-  geom_vline(data = summary_df, aes(xintercept = mean_estimate)) +
-  geom_vline(xintercept = 0.1, color = "red", lty = "dashed") + 
-  geom_text(data = summary_df, aes(x = mean_estimate-0.01, y = 0.07, label = glue::glue("Average estimate:\n {round(mean_estimate, 3)}")), hjust = 1, size = 5) +
-  scale_y_continuous("Percent of simulated estimates", labels = scales::percent) +
-  labs(x = "Estimate") + 
-  facet_grid(design ~ .) + 
-  theme_minimal() + 
-  theme(strip.text.y = element_text(size = 15), 
-        axis.text.x = element_text(size = 12),
-        axis.title.x = element_text(size = 15))
-```
-
-## What answer strategy should we select? | Quelle stratégie de réponse devons-nous choisir ?
+![](images/HT4-twosided.png){fig-align="center"}
 
 ::: {.columns}
 ::: {.column .lang-en width="50%"}
 
-2.  Reverse distortions
-
-Probability of assignment differs across units!
-
-Reverse by weights: $\frac{1}{\mathrm{Pr}(\mathrm{assignment})}$
+- <span style="color:blue">$\widehat{ATE}$</span> falls outside the rejection region → do not reject the null hypothesis
 
 :::
 ::: {.column .lang-fr width="50%"}
 
-2.  Inverser les distorsions
-
-La probabilité d'affectation diffère d'une unité à l'autre !
-
-Inversion par les poids : $\frac{1}{\mathrm{Pr}(\mathrm{assignment})}$
+- <span style="color:blue">$\widehat{ATE}$</span> se situe en dehors de la région de rejet → ne rejetez pas l'hypothèse nulle
 
 :::
 :::
 
-## What answer strategy should we select? | Quelle stratégie de réponse devons-nous choisir ?
+## Hypothesis Testing | *Les tests d'hypothèses*
 
-```{r, echo = FALSE, warning=FALSE, message=FALSE}
-sims_df <- 
-  get_simulations(diagnosis) |> 
-  mutate(design = case_when(
-    design == "design_blocked" ~ "Block randomization\nUnadjusted",
-    design == "design_blocked_adjusted" ~ "Block randomization\nAdjusted",
-    design == "design_complete" ~ "Complete randomization\nDifference-in-means"
-  )) |> 
-  mutate(design = fct_rev(as.factor(design)))
+![](images/HT5-onesided5pc.png){fig-align="center"}
 
-summary_df <- 
-  sims_df |> 
-  group_by(design, estimator) |> 
-  summarize(mean_estimate = mean(estimate),
-            estimand = 0.1)
+::: {.columns}
+::: {.column .lang-en width="50%"}
 
-ggplot(sims_df, aes(estimate)) + 
-  geom_histogram(aes(y = (..count..)/sum(..count..)), fill = "lightblue", color = NA) + 
-  annotate("text", x = 0.11, y = 0.07, hjust = 0, label = "Inquiry: SATE\nEstimand: 0.1", size = 5, color = "red") +
-  geom_vline(data = summary_df, aes(xintercept = mean_estimate)) +
-  geom_vline(xintercept = 0.1, color = "red", lty = "dashed") + 
-  geom_text(data = summary_df, aes(x = mean_estimate-0.01, y = 0.07, label = glue::glue("Average estimate:\n {round(mean_estimate, 3)}")), hjust = 1, size = 5) +
-  scale_y_continuous("Percent of simulated estimates", labels = scales::percent) +
-  labs(x = "Estimate") + 
-  facet_grid(design ~ .) + 
-  theme_minimal() + 
-  theme(strip.text.y = element_text(size = 15), 
-        axis.text.x = element_text(size = 12),
-        axis.title.x = element_text(size = 15))
+- Rejection and non-rejection regions for a one-sided alternative hypothesis at $\alpha=0.05$
+
+:::
+::: {.column .lang-fr width="50%"}
+
+- Régions de rejet et de non-rejet pour une hypothèse alternative unilatérale à $\alpha=0{,}05$
+
+:::
+:::
+
+## $p$-value | *$p$-valeur*
+
+![](images/HT6-pvalue.png){fig-align="center"}
+
+::: {.columns}
+::: {.column .lang-en width="50%"}
+
+- **$p$-value**: For a one-sided test, the probability of seeing a *test statistic* as large as or larger than the test statistic calculated from observed data when the null hypothesis is true.
+
+:::
+::: {.column .lang-fr width="50%"}
+
+- **$p$-valeur** : pour un test d'hypothèse unilatéral, la probabilité de voir une *statistique de test* aussi grande ou plus grande que la statistique de test calculée à partir des données observées lorsque l'hypothèse nulle est vraie.
+
+:::
+:::
+
+## Hypothesis Testing with Linear Regression | *Les tests d'hypothèses avec la régression linéaire*
+
+::: {.columns}
+::: {.column .lang-en width="50%"}
+
+- There are many ways to do hypothesis testing. We are going to take the simplest approach that uses regression.
+- Use linear regression to calculate a $p$-value (two-sided test).
+
+:::
+::: {.column .lang-fr width="50%"}
+
+- Il existe de nombreuses façons de tester des hypothèses. Nous allons utiliser l'approche la plus simple : la régression.
+- Utiliser la régression linéaire pour calculer une $p$-valeur (test bilatéral).
+
+:::
+:::
+
+## Hypothesis Testing with Linear Regression | *Les tests d'hypothèses avec la régression linéaire*
+
+::: {.columns}
+::: {.column .lang-en width="50%"}
+
+- Compare this $p$-value to $\alpha$, a standard we have set in advance.
+- $\alpha$ is the probability of making the mistake of rejecting the null hypothesis when we should not.
+
+:::
+::: {.column .lang-fr width="50%"}
+
+- Comparez cette $p$-valeur à $\alpha$, une norme que nous avons fixée à l'avance.
+- $\alpha$ est la probabilité de faire l'erreur de rejeter l'hypothèse nulle alors que nous ne devrions pas le faire.
+
+:::
+:::
+
+## Hypothesis Testing with Linear Regression | *Les tests d'hypothèses avec la régression linéaire*
+
+::: {.columns}
+::: {.column .lang-en width="50%"}
+
+- If the $p$-value is smaller than or equal to the $\alpha$ level, we reject the null hypothesis of no effect.
+- If the $p$-value is greater than the $\alpha$ level, we fail to reject the null hypothesis of no effect.
+- Remember: We do not accept the null.
+
+:::
+::: {.column .lang-fr width="50%"}
+
+- Si la $p$-valeur est plus petite ou égale au niveau $\alpha$, nous rejetons l'hypothèse nulle d'aucun effet.
+- Si la $p$-valeur est plus grande que le niveau $\alpha$, nous ne parvenons pas à rejeter l'hypothèse nulle d'aucun effet.
+- Rappel : nous n'acceptons pas l'hypothèse nulle.
+
+:::
+:::
+
+
+## Hypothesis Testing with Linear Regression | *Les tests d'hypothèses avec la régression linéaire*
+
+```{r, echo = TRUE, eval = FALSE}
+lm_robust(Energy ~ Coffee, data = df)
+
 ```
 
+```{r, echo = FALSE, results = 'asis'}
+
+lm_robust(Energy ~ Coffee, data = df) |> texreg::htmlreg(include.ci = FALSE) 
 
 
-
-## Returning to assessing answers | Retour à l'évaluation des réponses
-
-
-```{r, echo=FALSE}
-draw_estimates(design_complete, design_blocked) |> 
-  mutate(design = str_replace(design, "design_", "")) |> 
-  select(-term, -statistic, -p.value) |> kable(digits = 2)
 ```
 
+# Covariate Adjustment | *Ajustement des covariables*
 
+## Estimator: Linear regression with covariates | *Estimateur : la régression linéaire avec des covariables*
 
-
-## How to select a standard error estimator | Comment sélectionner un estimateur de l'erreur type
-
-
-::: {.columns}
-::: {.column .lang-en width="50%"}
-
-Analyze as you randomize
-
-1.  Complete randomization: robust standard errors (just believe us!)
-
-2.  Clustered random assignment: cluster-robust s.e. at level where assignment took place
-
-:::
-::: {.column .lang-fr width="50%"}
-
-L'orientation est plus difficile !
-
-1.  Utiliser des erreurs type robustes
-
-2.  L'affectation est-elle en grappe (cluster) ? $\rightarrow$ Erreur type robuste en grappe au niveau où l'assignation a eu lieu.
-
-3.  L'enquête porte-t-elle sur une population dont l'échantillon a été sélectionné au hasard ? Les conseils ci-dessus peuvent ne pas s'appliquer.
-
-:::
-:::
-
-## How do we assess uncertainty estimates | Comment évaluer les estimations de l'incertitude
+$$Y_i = \alpha_0 + \beta_1 Z_i + \gamma X_i + e_i$$
 
 ::: {.columns}
 ::: {.column .lang-en width="50%"}
 
-1.  Standard error is an estimate! Calculate bias
-
-2.  Compare rate CI contains ("covers") the truth -- "coverage" -- to selected nominal rate e.g. 95%
+- We can include a **pre-treatment covariate** $X$ that is *predictive of* the outcome variable in our regression model.
+- Think of $X$ as fixed before the randomization. For example: pre-treatment measure of the outcome.
+- Careful: This can bias our estimates, but improve their precision.
 
 :::
 ::: {.column .lang-fr width="50%"}
 
-1.  L'erreur type est une estimation ! Calculer le biais
-
-2.  Comparer le taux d'IC qui contient ("couvre") la vérité -- "couverture" -- au taux nominal sélectionné, par exemple 95%.
+- Nous pouvons inclure une **covariable pré-traitement** $X$ qui est *prédictive* de la variable de résultat dans notre modèle de régression.
+- Considérez que $X$ est fixé avant la randomisation. Par exemple : une mesure du résultat avant le traitement.
+- Attention : cela peut biaiser nos estimations, mais améliorer leur précision.
 
 :::
 :::
 
-```{r, echo=F}
-tidy(diagnosis) |> 
-  filter(diagnosand %in% c("coverage", "se_bias")) |> 
-  mutate(assignment = str_replace(design, "design_", "")) |> 
-  arrange(desc(diagnosand), design) |> 
-  select(assignment, diagnosand, estimate) |> 
-  kable(digits = 2)
+## Estimator: Linear regression with covariates | *Estimateur : la régression linéaire avec des covariables*
+
+$$Y_i = {\alpha_0} + {\beta_1} Z_i + {\gamma} X_i + e_i$$
+
+::: {.columns}
+::: {.column .lang-en width="50%"}
+
+- The estimated coefficient on the treatment variable ($\hat{\beta_1}$) is again our $\widehat{ATE}$.
+- The estimated coefficient on the covariate ($\hat{\gamma}$) is *not* the causal effect of that variable.
+
+:::
+::: {.column .lang-fr width="50%"}
+
+- Le coefficient estimé sur la variable de traitement ($\hat{\beta_1}$) est encore notre $\widehat{ATE}$.
+- Le coefficient estimé de la covariable ($\hat{\gamma}$) n'est *pas* l'effet causal de cette variable.
+
+:::
+:::
+
+## Estimator: Linear regression with covariates | *Estimateur : la régression linéaire avec des covariables* {.smaller}
+
+```{r, echo = TRUE, eval = FALSE}
+lm_robust(Energy ~ Coffee + Sporty_Sportive, data = df)
+
 ```
 
-## Review | Révision
+```{r, echo = FALSE, results = 'asis'}
 
-::: {.columns}
-::: {.column .lang-en width="50%"}
+lm_robust(Energy ~ Coffee  + Sporty_Sportive, data = df) |> texreg::htmlreg(inclide.ci = FALSE) 
 
-1. **Choose an answer strategy** using the plug-in principle and then reverse distortions from the design.
-
-2. **Assess your answer strategy** (through simulation): is it unbiased and low variance? Can you characterize uncertainty?
-
-:::
-::: {.column .lang-fr width="50%"}
-
-1. **Choisissez une stratégie de réponse** en utilisant le principe du "plug-in" et en inversant les distorsions de la conception.
-
-2. **Évaluez votre stratégie de réponse** (par simulation) : est-elle sans biais et à faible variance ? Pouvez-vous caractériser l'incertitude ?
-
-:::
-:::
-
-## Review | Révision
-
-::: {.columns}
-::: {.column .lang-en width="50%"}
-
-3. **Choose an unbiased estimator of your uncertainty**. Use robust standard errors. If you use cluster assignment, cluster-robust standard errors. 
-
-4. **Assess your answers**: is the standard error small (confidence interval narrow) enough to be confident in your decision?
-
-:::
-::: {.column .lang-fr width="50%"}
-
-3. **Choisissez un estimateur sans biais de votre incertitude**. Utilisez des erreurs type robustes. Si vous utilisez une assignation par grappes, utilisez des erreurs type robustes. 
-
-4. **Évaluez vos réponses** : l'erreur type est-elle suffisamment petite (intervalle de confiance étroit) pour que vous soyez sûr de votre décision ?
-
-:::
-:::
-
+```

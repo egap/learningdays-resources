@@ -67,9 +67,9 @@ options(kable_styling_bootstrap_options = bs_style)
 ::: {.column .lang-fr width="50%"}
 
 - **Model** (*modèle*) : ce qui cause quoi, et comment
-- **Inquiry** (*question*) : une question formulée à partir du modèle
+- **Inquiry** (*question de recherche*) : une question formulée à partir du modèle
 - **Data strategy** (*stratégie de données*) : échantillonnage, assignation, mesure
-- **Answer strategy** (*stratégie de réponse*) : comment on résume les données
+- **Answer strategy** (*stratégie d'analyse*) : comment on résume les données
 
 :::
 :::
@@ -127,11 +127,11 @@ On estime des **diagnosandes** : puissance, biais, RMSE, taux d'erreur, risques 
 :::
 ::: {.column .lang-fr width="50%"}
 
-Le **redesign** modifie les stratégies de données et de réponse pour voir comment les diagnosandes évoluent :
+Le **redesign** modifie les stratégies de données et d'analyse pour voir comment les diagnosandes évoluent :
 
 - taille d'échantillon
 - procédure d'assignation aléatoire
-- stratégie d'estimation
+- stratégie d'analyse
 - arbitrages de mise en œuvre (p.ex. conformité vs. taille d'échantillon)
 
 :::
@@ -177,7 +177,7 @@ simplest_design <-
 ::: {.column .lang-fr width="50%"}
 
 - M : Tirer 100 unités avec des résultats potentiels
-- I : Définir une estimande : l'**effet moyen dans l'échantillon**
+- I : Définir une question de recherche : l'**effet moyen dans l'échantillon**
 - D : Assigner un traitement et mesurer un résultat
 - A : Estimer la moyenne avec l'intercept d'une régression
 
@@ -238,7 +238,7 @@ This produces data, **estimands**, **estimates**, and ancillary statistics.
 ::: {.column .lang-fr width="50%"}
 
 Exécutez toute le design une fois — tapez son nom ou appelez `run_design()`.
-Une exécution produit les données, les **estimandes**, les **estimations** et des statistiques auxiliaires.
+Une exécution produit les données, les **paramètres**, les **estimations** et des statistiques auxiliaires.
 
 :::
 :::
@@ -314,7 +314,7 @@ After many simulations, ask about **bias**: the average gap between estimand and
 :::
 ::: {.column .lang-fr width="50%"}
 
-Après de nombreuses simulations, mesurez le **biais** : l'écart moyen entre estimande et estimation.
+Après de nombreuses simulations, mesurez le **biais** : l'écart moyen entre paramètre et estimation.
 
 :::
 :::
