@@ -159,6 +159,64 @@ Il y a plusieurs effets de traitement (comparaisons) dans une conception factori
 :::
 :::
 
+## 1. Factorial Design | *Conception factorielle* {.smaller}
+
+### Design-based analysis
+
+::: {.columns}
+::: {.column .lang-en width="50%"}
+
+Main estimands
+
+:::
+::: {.column .lang-fr width="50%"}
+
+Paramètres
+
+:::
+:::
+
+```{r factorial-estimands-table, echo = FALSE, results = "asis"}
+library(kableExtra)
+
+grey <- "#E8E8E8"
+blue <- "#DCEEFB"
+green <- "#D4EDDA"
+
+factorial_estimands_tab <- data.frame(
+  v1 = c("$X_1$", "", "", ""),
+  v2 = c("0", "1", "All", "Diff"),
+  v3 = c(
+    "$\\overline{y}_{00}$", "$\\overline{y}_{10}$", "$\\overline{y}_{.0}$",
+    "$\\tau_1 \\mid X_2{=}0$"
+  ),
+  v4 = c(
+    "$\\overline{y}_{01}$", "$\\overline{y}_{11}$", "$\\overline{y}_{.1}$",
+    "$\\tau_1 \\mid X_2{=}1$"
+  ),
+  v5 = c("$\\overline{y}_{0.}$", "$\\overline{y}_{1.}$", "$\\overline{y}$", "$\\tau_1$"),
+  v6 = c(
+    "$\\tau_2 \\mid X_1{=}0$", "$\\tau_2 \\mid X_1{=}1$", "$\\tau_2$", "$\\tau_{12}$"
+  ),
+  check.names = FALSE
+)
+
+cat(
+  factorial_estimands_tab |>
+    kable(
+      col.names = c("", "", "0", "1", "All", "Diff"),
+      escape = FALSE,
+      align = "c"
+    ) |>
+    add_header_above(c(" " = 2, "$X_2$" = 3, " " = 1)) |>
+    column_spec(3, background = c(grey, grey, blue, green)) |>
+    column_spec(4, background = c(grey, grey, blue, green)) |>
+    column_spec(5, background = c(blue, blue, blue, green)) |>
+    column_spec(6, background = rep(green, 4)) |>
+    kable_styling(full_width = FALSE, font_size = 18, position = "center")
+)
+```
+
 ## 1. Factorial Design | *Conception factorielle*
 
 

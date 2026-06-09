@@ -88,18 +88,47 @@ main > p {
   border: 1px solid var(--card-border);
   border-top: 3px solid var(--egap-blue);
   border-radius: 6px;
-  text-decoration: none;
   color: inherit;
   box-shadow: 0 1px 4px rgba(26, 95, 150, 0.06);
   transition: box-shadow 0.15s ease, border-color 0.15s ease, transform 0.12s ease;
 }
 
-a.deck-card:hover {
+.deck-card-link {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  flex: 1;
+  min-width: 0;
+  text-decoration: none;
+  color: inherit;
+}
+
+.deck-card:hover {
   border-top-color: #0d4a78;
   box-shadow: 0 3px 10px rgba(26, 95, 150, 0.12);
   transform: translateY(-1px);
+}
+
+.deck-card:hover .deck-card-link {
   text-decoration: none;
   color: inherit;
+}
+
+.deck-pdfs {
+  font-size: 0.72rem;
+  color: var(--muted);
+  line-height: 1.2;
+  margin-top: 0.1rem;
+}
+
+.deck-pdf-link {
+  color: var(--egap-blue);
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.deck-pdf-link:hover {
+  text-decoration: underline;
 }
 
 .deck-card--placeholder {

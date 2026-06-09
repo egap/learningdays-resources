@@ -6,12 +6,12 @@
   --lang-fr-bg: #fde2e8;
   --lang-fr-border: #d4738f;
   /* Slide figures: one policy for knitr, markdown, and static images */
-  --fig-max-w: 96%;
-  --fig-max-h: 76vh;
+  --fig-max-w: 77%;
+  --fig-max-h: 61vh;
   --fig-margin: 0.15em auto;
   --fig-col-max-h: 60vh;
-  --fig-po-max-w: 98%;
-  --fig-po-max-h: 78vh;
+  --fig-po-max-w: 78%;
+  --fig-po-max-h: 62vh;
   --fig-photo-max-w: 94%;
   --fig-photo-max-h: 82vh;
 }
@@ -230,6 +230,65 @@ body.lang-mode-fr #title-slide.deck-title-slide .deck-title-line.lang-fr {
 
 .reveal section.compact-table .columns:not(.bilingual-titles) li {
   margin-bottom: 0.1em;
+}
+
+/* Card experiment — group summary table (2_experiment_slides) */
+.reveal section.card-groups-slide .columns {
+  gap: 1.35em !important;
+}
+
+.reveal section.card-groups-slide .columns > .column {
+  padding: 0.5em 0.7em !important;
+  font-size: 0.88em;
+  line-height: 1.3;
+}
+
+.reveal section.card-groups-slide .column table {
+  font-size: 0.52em !important;
+  line-height: 1.22;
+  width: 100%;
+  margin-top: 0.35em;
+  table-layout: fixed;
+}
+
+.reveal section.card-groups-slide .column table th,
+.reveal section.card-groups-slide .column table td {
+  padding: 0.15em 0.3em;
+  vertical-align: top;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+/* narrow cols 1–3; wide cols 4–5 (width only — one font size throughout) */
+.reveal section.card-groups-slide .column table th:nth-child(1),
+.reveal section.card-groups-slide .column table td:nth-child(1) {
+  width: 6%;
+}
+
+.reveal section.card-groups-slide .column table th:nth-child(2),
+.reveal section.card-groups-slide .column table td:nth-child(2) {
+  width: 6%;
+}
+
+.reveal section.card-groups-slide .column table th:nth-child(3),
+.reveal section.card-groups-slide .column table td:nth-child(3) {
+  width: 10%;
+}
+
+.reveal section.card-groups-slide .column table th:nth-child(4),
+.reveal section.card-groups-slide .column table td:nth-child(4) {
+  width: 42%;
+}
+
+.reveal section.card-groups-slide .column table th:nth-child(5),
+.reveal section.card-groups-slide .column table td:nth-child(5) {
+  width: 36%;
+}
+
+body.lang-mode-en .reveal section.card-groups-slide .column.lang-en table,
+body.lang-mode-fr .reveal section.card-groups-slide .column.lang-fr table {
+  font-size: 0.52em !important;
+  line-height: 1.22;
 }
 
 /* texreg::htmlreg tables on .smaller slides */

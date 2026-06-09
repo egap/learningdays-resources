@@ -49,6 +49,24 @@ Then `quarto render index.qmd` — an R chunk reads the CSV and builds the grid 
 
 ## Render
 
+### Lecture PDFs (bilingual beamer)
+
+From this folder, render all index decks that have a source `.qmd`:
+
+```bash
+Rscript scripts/render_lecture_pdfs.R
+```
+
+Outputs go to `pdf/<href-stem>.pdf` (e.g. `pdf/1_why-experiment.pdf`), keeping both EN and FR columns. Beamer styling is in `_quarto.yml` + `assets/beamer-header.tex`; `assets/abidjan-bilingual.lua` puts French slide titles in `\framesubtitle{}` on PDF exports. The script renders to a temp file, moves the PDF into `pdf/`, and deletes auxiliary resource folders. Skips placeholders, rows that are already `.pdf`, and rows with no matching `.qmd` (e.g. `15_wrap_up.html`). `15_grants.html` maps to `13_grants.qmd`.
+
+Then refresh the index so deck cards show a **PDF** link where files exist:
+
+```bash
+quarto render index.qmd
+```
+
+### HTML slides
+
 From this folder (or repo root with path):
 
 ```bash

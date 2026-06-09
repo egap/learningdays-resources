@@ -29,15 +29,15 @@ Work in **teams**. Be precise. Play fair.
 
 Aujourd'hui, vous allez **concevoir et mener une petite expérience à la main**.
 
-Vous apprendrez l'assignation aléatoire, l'analyse et le diagnostic de conception — sans ordinateur pour la partie physique.
+Vous découvrirez l'assignation aléatoire, l'analyse et l'évaluation (le diagnostic) de la conception de recherche (sans ordinateur).
 
-Travaillez en **équipes**. Soyez rigoureux. Jouez fair-play.
+Vous travaillerez en **équipes**.
 
 :::
 :::
 
 
-## Your materials | *Votre matériel*
+## Your materials | *Les éléments du jeu*
 
 ::: {.columns}
 ::: {.column .lang-en width="50%"}
@@ -72,9 +72,8 @@ On each card:
 
 Sur chaque carte :
 
-- Un nombre en **noir** sur fond blanc
-- Un nombre en **blanc** sur fond noir
-- Au **dos**, il y a un ID et il peut y avoir un **symbole ou du texte**
+- Une face : un nombre en **noir** sur fond blanc et un nombre en **blanc** sur fond noir
+- L'autre face : on trouve un identifiant et parfois un **symbole ou du texte**
 
 :::
 :::
@@ -93,12 +92,12 @@ This is your "**estimand**" — the quantity you want to learn.
 
 **Question :** En moyenne, les nombres **noirs** sont-ils plus grands, plus petits ou identiques aux nombres **blancs** ?
 
-C'est votre **paramètre** — la quantité que vous voulez connaître.
+C'est votre **paramètre** — la quantité que vous souhaitez déterminer.
 
 :::
 :::
 
-## The catch (honor code) | *La contrainte (code d'honneur)*
+## The catch (honor code) | *Quelques règles*
 
 ::: {.columns}
 ::: {.column .lang-en width="50%"}
@@ -115,14 +114,14 @@ You **may** look at the symbol on the back **before** choosing.
 :::
 ::: {.column .lang-fr width="50%"}
 
-Quand vous tournez une carte, vous ne pouvez lire **qu'un seul** nombre :
+Quand vous retournez une carte, vous ne pouvez lire **qu'un seul** nombre :
 
-- le nombre **noir**, **ou**
-- le nombre **blanc** — **pas les deux**
+- soit le nombre **noir**
+- soit le nombre **blanc** — mais **pas les deux**
 
-Vous devez décider **avant** de lire la carte quel nombre vous allez noter.
+Vous devez décider **avant** de retourner la carte quel nombre vous allez noter.
 
-Vous **pouvez** regarder le symbole au dos **avant** de choisir.
+Vous **pouvez** regarder le symbole au dos **avant** de faire votre choix.
 
 :::
 :::
@@ -146,7 +145,7 @@ $X=0$: read white or $X=1$: read black.
 :::
 ::: {.column .lang-fr width="50%"}
 
-Chaque carte peut donner deux réponses possibles :
+Chaque carte a deux nombres possibles (``résultats potentiels") :
 
 - le nombre noir
 - le nombre blanc
@@ -155,7 +154,7 @@ Vous n'observez jamais les deux sur la même carte.
 
 Vous choisissez l'assignation au blanc ou au noir :
 
-$X=0$ : lire le blanc ou $X=1$ : lire le noir.
+$X=0$ : lire le nombre en blanc ou $X=1$ : lire le nombre en noir.
 
 :::
 :::
@@ -176,9 +175,9 @@ $X=0$ : lire le blanc ou $X=1$ : lire le noir.
 ::: {.column .lang-fr width="50%"}
 
 1. Placez toutes les cartes **face cachée**.
-2. Choisissez votre **stratégie d'assignation** : pour chaque carte, lirez-vous le noir ou le blanc ? (Toute méthode est permise — mais notez-la.)
-3. Retournez les cartes et notez le nombre choisi.
-4. Saisissez les résultats dans un tableur (une ligne par carte).
+2. Choisissez votre **stratégie d'assignation** : pour chaque carte, lirez-vous le noir ou le blanc ? (Toutes les méthodes sont autorisées — mais notez-la.)
+3. Retournez les cartes et notez le nombre que vous avez choisi de lire.
+4. Saisissez les résultats dans un tableau Excel (une ligne par carte).
 
 :::
 :::
@@ -218,7 +217,7 @@ First three rows of your spreadsheet:
 :::
 ::: {.column .lang-fr width="50%"}
 
-Les trois premières lignes de votre tableur :
+Les trois premières lignes de votre feuille :
 
 :::
 :::
@@ -237,25 +236,49 @@ data.frame(
 ::: {.columns}
 ::: {.column .lang-en width="50%"}
 
-Compute:
+   - Estimate of the average difference (black minus white)
+   - Tell us what you conclude about whether the black or white numbers are bigger
+   - Record how certain you are: Very certain, somewhat certain, very uncertain
+   - [Option: record $p$-values if you calculate these]
 
-   - estimate of the average difference (black minus white)
-   - tell us what you conclude about whether the black or white numbers are bigger
-   - record how certain you are: Very certain, somewhat certain, very uncertain
 
 :::
 ::: {.column .lang-fr width="50%"}
 
-Calculez :
-
-   - une estimation de la différence moyenne (noir moins blanc)
-   - indiquez ce que vous concluez sur la question de savoir si les nombres noirs ou blancs sont plus grands
-   - notez votre degré de certitude : Très certain, Assez certain, Très incertain
+   - Calculez une estimation de la différence moyenne (noir moins blanc)
+   - Indiquez quelle conclusion vous tirez concernant la question initiale : les nombres noirs et les nombres blancs sont-ils différents en moyenne ?
+   - Indiquez votre degré de certitude : très sûr, assez sûr, pas du tout sûr
+   - [Option : enregistrer les $p$-valeurs si vous les calculez]
 
 :::
 :::
 
+## Step 1 — Summary: 3 tasks | *Étape 1 — Résumé : 3 tâches* {.smaller}
 
+::: {.columns}
+::: {.column .lang-en width="50%"}
+
+1. Assign black or white
+2. Data collection in spreadsheet: 20 rows
+3. Analysis
+   - Average of white and black
+   - Which is bigger?
+   - Certainty?
+   - [Optional: $p$-value]
+
+:::
+::: {.column .lang-fr width="50%"}
+
+1. Assigner noir ou blanc
+2. Collecte des données dans une feuille Excel (20 lignes)
+3. Analyse
+   - La moyenne des nombres en noir et celle des nombres en blanc
+   - Laquelle est plus grande ?
+   - Certitude ?
+   - [Si vous voulez… $p$-valeur]
+
+:::
+:::
 
 # Step 2 | *Étape 2*
 
@@ -276,7 +299,7 @@ Before you start, write a short **pre-analysis plan** (your design):
 
 Vous avez terminé un tour. Maintenant, refaites l'expérience **10 fois**.
 
-Avant de commencer, rédigez un court **plan de pré-analyse** (votre conception) :
+Avant de commencer, rédigez un court **plan de pré-analyse** (votre conception de recherche) :
 
 - Allez-vous changer **comment** vous assignez $X$ ?
 - Allez-vous changer **comment** vous analysez les données ?
@@ -334,7 +357,7 @@ data.frame(
 
 # Step 3 | *Étape 3*
 
-## Step 3 — Reveal and diagnose | *Étape 3 — Révéler et diagnostiquer*
+## Step 3 — Reveal and diagnose | *Étape 3 — Révéler et diagnostiquer* {.smaller}
 
 ::: {.columns}
 ::: {.column .lang-en width="50%"}
@@ -378,7 +401,7 @@ d. Diagnosis from Step 3
 :::
 ::: {.column .lang-fr width="50%"}
 
-Envoyez par e-mail un court rapport d'équipe avec :
+Envoyez par e-mail un rapport d'équipe avec :
 
 a. Noms des membres de l'équipe  
 b. Plan de pré-analyse (un paragraphe : assignation ; un paragraphe : analyse)  
@@ -390,7 +413,7 @@ d. Diagnostic de l'étape 3
 
 # In-class discussion | *Discussion en classe*
 
-## Discussion 1 — Design choices | *Discussion 1 — Choix de conception*
+## Discussion 1 — Design choices | *Discussion 1 — Choix dans la conception de recherche*
 
 ::: {.columns}
 ::: {.column .lang-en width="50%"}
@@ -421,9 +444,9 @@ d. Diagnostic de l'étape 3
 :::
 ::: {.column .lang-fr width="50%"}
 
-- Votre estimation a-t-elle beaucoup varié sur les 10 répétitions ?
+- Dans quelle mesure vos estimations ont-elles varié au cours des 10 essais ?
 - Les erreurs-types et $p$-valeurs se sont-elles comportées comme prévu ?
-- Que changeriez-vous dans une conception de **deuxième génération** ?
+- Que changeriez-vous dans une conception de recherchde de **deuxième génération** ?
 
 :::
 :::
@@ -459,30 +482,112 @@ d. Diagnostic de l'étape 3
 :::
 ::: {.column .lang-fr width="50%"}
 
-- Quelle est la différence entre **conception** (comment vous assignez $X$) et **analyse** (comment vous estimez) ?
+- Quelle est la différence entre **conception de recherche** (assigner $X$) et **une analyse** (estimer) ?
 - Pourquoi un **plan de pré-analyse** est-il utile avant de répéter une étude ?
 - Qu'est-ce que cet exercice vous a appris sur la **randomisation** ?
 
 :::
 :::
 
-# Get started | *C'est parti*
 
-## Good luck | *Bonne chance*
+
+## What was going on? | *Ce qui se passait ?* {.card-groups-slide}
 
 ::: {.columns}
 ::: {.column .lang-en width="50%"}
 
-Open your envelope. Design deliberately. Discuss as you go.
+In all groups, $Y_0$ were the numbers 1–20.
 
-Questions? Ask your instructors now — then start Step 1.
+|   | $\tau$ | Uncertainty | Clue | Symbols |
+|:--|--:|:-----|:-----------------|:------------------|
+| A | 0 | Low | $Y_1$ negatively correlated with $Y_0$ | Irrelevant |
+| B | 0 | High | $Y_1$ positively correlated with $Y_0$ | Irrelevant |
+| C | 5 | Low | $Y_1$ negatively correlated with $Y_0$ | Use as control / blocks |
+| D | 5 | High | $Y_1$ positively correlated with $Y_0$ | Use as control / blocks |
+| E | 5 | Medium | $Y_1$ has no variance | Irrelevant — choose lots of $Y_0$ |
+| F | 5 | Medium | Heterogeneous by prompt | Block with more $Y_0$ in no-prompt group |
 
 :::
 ::: {.column .lang-fr width="50%"}
 
-Ouvrez votre enveloppe. Concevez avec soin. Discutez en avançant.
+Dans tous les groupes, $Y_0$ étaient les nombres 1 à 20.
 
-Des questions ? Demandez aux formateurs maintenant — puis commencez l'étape 1.
+|   | $\tau$ | Incertitude | Indice | Symboles |
+|:--|--:|:-----|:-----------------|:------------------|
+| A | 0 | Faible | $Y_1$ négativement corrélé à $Y_0$ | Sans importance |
+| B | 0 | Élevée | $Y_1$ positivement corrélé à $Y_0$ | Sans importance |
+| C | 5 | Faible | $Y_1$ négativement corrélé à $Y_0$ | Utiliser comme contrôle / blocs |
+| D | 5 | Élevée | $Y_1$ positivement corrélé à $Y_0$ | Utiliser comme contrôle / blocs |
+| E | 5 | Moyenne | $Y_1$ sans variance | Sans importance — choisir beaucoup de $Y_0$ |
+| F | 5 | Moyenne | Hétérogénéité selon l'invite | Bloquer avec plus de $Y_0$ dans le groupe sans invite |
 
 :::
 :::
+
+
+```{r, include = FALSE}
+library(tidyverse)
+library(DeclareDesign)
+
+diagnosis_1 <- read_rds("saved/cardgame_simulation.rds")
+diag_tbl <- diagnosis_1 |>
+  reshape_diagnosis() |>
+  select(Inquiry, Bias, Power, Coverage)
+```
+
+## Results | *Résultats* {.smaller}
+
+::: {.columns}
+::: {.column .lang-en width="50%"}
+
+Distribution of estimates, standard errors, and $p$-values across estimators.
+
+:::
+::: {.column .lang-fr width="50%"}
+
+Distribution des estimations, erreurs-types et $p$-valeurs par estimateur.
+
+:::
+:::
+
+```{r, echo = FALSE, fig.height = 4.5, fig.width = 8}
+diagnosis_1$simulations_df |>
+  select(estimator, estimate) |>
+  pivot_longer(-estimator, names_to = "stat", values_to = "val") |>
+  ggplot(aes(val)) +
+  geom_histogram(bins = 20) +
+  facet_wrap(estimator ~ stat, scales = "free_x") +
+  theme_bw() +
+  geom_vline(aes(xintercept = 0, color = "red")) +
+  geom_vline(aes(xintercept = 5, color = "red"))
+```
+
+<!-- ## Diagnosis of one design | *Diagnostic d'une conception* {.compact-table .smaller} -->
+
+<!-- ::: {.columns} -->
+<!-- ::: {.column .lang-en width="50%"} -->
+
+<!-- Simulation diagnosis for one card-game design. -->
+
+<!-- ```{r, echo = FALSE} -->
+<!-- diag_tbl |> knitr::kable() -->
+<!-- ``` -->
+
+<!-- ::: -->
+<!-- ::: {.column .lang-fr width="50%"} -->
+
+<!-- Diagnostic par simulation pour une conception du jeu de cartes. -->
+
+<!-- ```{r, echo = FALSE} -->
+<!-- diag_tbl |> -->
+<!--   rename( -->
+<!--     Question = Inquiry, -->
+<!--     Biais = Bias, -->
+<!--     Puissance = Power, -->
+<!--     Couverture = Coverage -->
+<!--   ) |> -->
+<!--   knitr::kable() -->
+<!-- ``` -->
+
+<!-- ::: -->
+<!-- ::: -->

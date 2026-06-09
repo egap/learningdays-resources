@@ -54,6 +54,24 @@ html_escape <- function(x) {
   x
 }
 
+pdf_links_html <- function(href) {
+  pdf_path <- if (grepl("\\.pdf$", href, ignore.case = TRUE)) {
+    href
+  } else {
+    stem <- sub("\\.html$", "", href, ignore.case = TRUE)
+    file.path("pdf", paste0(stem, ".pdf"))
+  }
+
+  if (!file.exists(pdf_path)) {
+    return("")
+  }
+
+  sprintf(
+    '<span class="deck-pdfs"><a class="deck-pdf-link" href="%s">PDF</a></span>',
+    html_escape(pdf_path)
+  )
+}
+
 render_deck_grid <- function(lang = c("en", "fr")) {
   lang <- match.arg(lang)
   decks <- read.csv(
@@ -76,40 +94,51 @@ render_deck_grid <- function(lang = c("en", "fr")) {
     blurb_col <- "blurb"
   }
 
-  cat('<div class="deck-grid">\n')
+  lines <- '<div class="deck-grid">'
   for (i in seq_len(nrow(decks))) {
     row <- decks[i, ]
     title <- html_escape(row[[title_col]])
     blurb <- html_escape(row[[blurb_col]])
     if (is.na(title) || title == "") title <- html_escape(row$title)
     if (is.na(blurb)) blurb <- ""
+    pdf_html <- pdf_links_html(row$href)
 
     if (isTRUE(row$placeholder)) {
-      cat('  <div class="deck-card deck-card--placeholder">\n')
-      cat('    <span class="deck-num">&middot;</span>\n')
-      cat('    <span class="deck-body">\n')
-      cat(sprintf('      <span class="deck-title">%s</span>\n', title))
+      lines <- c(
+        lines,
+        '<div class="deck-card deck-card--placeholder">',
+        '<span class="deck-num">&middot;</span>',
+        '<span class="deck-body">',
+        sprintf('<span class="deck-title">%s</span>', title)
+      )
       if (nzchar(blurb)) {
-        cat(sprintf('      <span class="deck-blurb">%s</span>\n', blurb))
+        lines <- c(lines, sprintf('<span class="deck-blurb">%s</span>', blurb))
       }
-      cat('    </span>\n')
-      cat('  </div>\n')
+      lines <- c(lines, '</span>', '</div>')
     } else {
       label <- html_escape(row[[label_col]])
       if (is.na(label) || label == "") label <- html_escape(row$label)
       href <- html_escape(row$href)
-      cat(sprintf('  <a class="deck-card" href="%s">\n', href))
-      cat(sprintf('    <span class="deck-num">%s</span>\n', label))
-      cat('    <span class="deck-body">\n')
-      cat(sprintf('      <span class="deck-title">%s</span>\n', title))
+      lines <- c(
+        lines,
+        '<div class="deck-card">',
+        sprintf('<a class="deck-card-link" href="%s">', href),
+        sprintf('<span class="deck-num">%s</span>', label),
+        '<span class="deck-body">',
+        sprintf('<span class="deck-title">%s</span>', title)
+      )
       if (nzchar(blurb)) {
-        cat(sprintf('      <span class="deck-blurb">%s</span>\n', blurb))
+        lines <- c(lines, sprintf('<span class="deck-blurb">%s</span>', blurb))
       }
-      cat('    </span>\n')
-      cat('  </a>\n')
+      lines <- c(lines, '</span>', '</a>')
+      if (nzchar(pdf_html)) {
+        lines <- c(lines, pdf_html)
+      }
+      lines <- c(lines, '</div>')
     }
   }
-  cat('</div>\n')
+  lines <- c(lines, '</div>')
+  knitr::asis_output(paste(lines, collapse = "\n"))
 }
 ```
 
@@ -129,9 +158,15 @@ render_deck_grid <- function(lang = c("en", "fr")) {
 
 Teaching slides for the [EGAP](https://egap.org/) Learning Days in Abidjan, 2026.
 
-```{r deck-grid-en, results='asis'}
+```{r}
+#| label: deck-grid-en
+#| results: asis
 render_deck_grid("en")
 ```
+
+### Quiz
+
+- [Quiz for Day 2 (PDF)](quizzes/quiz-tuesday.pdf)
 
 ### Resources
 
@@ -148,11 +183,12 @@ render_deck_grid("en")
   works to accumulate knowledge by pre-planning a meta-analysis of
   multiple studies that have high internal validity due to randomization.
 
+
 - **Research design form** (reference):
-  [English version](0_research_design_form_en.html)
+  [English version](research_design_forms/0_research_design_form_en.html)
 
 - **Download the fill-in Word document** for group work:
-  [English (.docx)](0_research_design_form_blank_en.docx){.docx-link}
+  [English (.docx)](research_design_forms/0_research_design_form_blank_en.docx){.docx-link}
 
 ### Schedule
 
@@ -249,9 +285,15 @@ render_deck_grid("en")
 
 Diapositives pour les [Learning Days EGAP](https://egap.org/) à Abidjan, 2026.
 
-```{r deck-grid-fr, results='asis'}
+```{r}
+#| label: deck-grid-fr
+#| results: asis
 render_deck_grid("fr")
 ```
+
+### Quiz
+
+- [Quiz du jour 2 (PDF)](quizzes/quiz-tuesday.pdf)
 
 ### Ressources
 
@@ -270,10 +312,10 @@ render_deck_grid("fr")
   randomisation.
 
 - **Formulaire de design de recherche** (référence) :
-  [version française](0_research_design_form_fr.html)
+  [version française](research_design_forms/0_research_design_form_fr.html)
 
 - **Téléchargez le document Word à compléter** pour le travail en groupe :
-  [Français (.docx)](0_research_design_form_blank_fr.docx){.docx-link}
+  [Français (.docx)](research_design_forms/0_research_design_form_blank_fr.docx){.docx-link}
 
 ### Programme
 

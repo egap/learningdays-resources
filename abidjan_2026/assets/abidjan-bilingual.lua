@@ -9,6 +9,20 @@
 local toc_entries = {}
 local slug_counts = {}
 
+local function is_beamer()
+  return FORMAT:match("beamer") ~= nil
+end
+
+local function fr_plain(fr_inlines)
+  return pandoc.utils.stringify(fr_inlines)
+end
+
+local function latex_escape(s)
+  s = s:gsub("\\", "\\textbackslash{}")
+  s = s:gsub("([%%&$#_{}~^])", "\\%1")
+  return s
+end
+
 local function trim_spaces(inlines)
   local start, finish = 1, #inlines
   while start <= finish and inlines[start].t == "Space" do
@@ -120,7 +134,6 @@ local function hidden_header(el, en_inlines, id, extra_classes)
   for _, c in ipairs(extra_classes or {}) do
     table.insert(classes, c)
   end
-  -- English text kept for reveal.js menu / accessibility (visually hidden via CSS)
   return pandoc.Header(
     el.level,
     en_inlines,
@@ -184,6 +197,17 @@ local function transform_header(el)
 
   if el.level == 1 then
     table.insert(toc_entries, { id = id, en = en, fr = fr, level = el.level })
+  end
+
+  if is_beamer() then
+    if el.level == 1 then
+      return { pandoc.Header(1, en, pandoc.Attr(id, {}, {})) }
+    end
+    local fr_text = latex_escape(fr_plain(fr))
+    return {
+      pandoc.Header(el.level, en, pandoc.Attr(id, slide_classes_from_header(el), {})),
+      pandoc.RawBlock("latex", "\\framesubtitle{\\emph{" .. fr_text .. "}}\n"),
+    }
   end
 
   return {
@@ -256,10 +280,12 @@ end
 function Pandoc(doc)
   slug_counts = {}
   doc.blocks = transform_blocks(doc.blocks)
-  local toc_blocks = build_toc_blocks()
-  if toc_blocks then
-    for i = #toc_blocks, 1, -1 do
-      table.insert(doc.blocks, 1, toc_blocks[i])
+  if not is_beamer() then
+    local toc_blocks = build_toc_blocks()
+    if toc_blocks then
+      for i = #toc_blocks, 1, -1 do
+        table.insert(doc.blocks, 1, toc_blocks[i])
+      end
     end
   end
   return doc

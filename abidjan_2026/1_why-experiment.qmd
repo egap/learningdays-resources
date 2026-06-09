@@ -22,7 +22,7 @@ format:
 ::: {.column .lang-fr width="50%"}
 
 - Qui sommes-nous, qu'est-ce qu'EGAP
-- Preentations
+- Présentations
 
 :::
 :::
@@ -43,7 +43,6 @@ format:
 
 :::
 ::: {.column .lang-fr width="50%"}
-- Qui sommes-nous, qu'est-ce qu'EGAP
 - Objectifs de l'atelier
   - Comprendre ce qu'est une expérience
   - Comprendre les principales décisions d'un design expérimental
@@ -66,18 +65,18 @@ format:
   - We all know this is often hard: Ask for help
   - Computers away except for exercises
 - Resources
-  - We will share resources on-line
+  - We will share resources on-line [https://egap.github.io/learningdays-resources/abidjan_2026/](https://egap.github.io/learningdays-resources/abidjan_2026/)
   - We will share resources on a thumb drive
 
 :::
 ::: {.column .lang-fr width="50%"}
 
 - Règles de conduite
-  - Nous nous entraidons : communication respectueuse
-  - Nous savons tous que c'est souvent difficile : demandez de l'aide
+  - Communication respectueuse
+  - Demandez de l'aide
   - Ordinateurs rangés sauf pour les exercices
 - Ressources
-  - Nous partagerons des ressources en ligne
+  - Nous partagerons des ressources en ligne [https://egap.github.io/learningdays-resources/abidjan_2026/](https://egap.github.io/learningdays-resources/abidjan_2026/)
   - Nous partagerons des ressources sur une clé USB
 
 :::
@@ -96,10 +95,10 @@ format:
 :::
 ::: {.column .lang-fr width="50%"}
 
-- Quelles sont les limitations des études observationnelles ?
+- Quelles sont les limites des études observationnelles ?
 - Qu'est-ce qu'une expérience aléatoire ?
 - Qui utilise les expériences ?
-- À quoi servent (ou ne servent pas) les expériences ?
+- À quoi servent les expériences ?
 
 :::
 :::
@@ -162,7 +161,7 @@ $$X \overset{?}{\rightarrow} Y$$
 :::
 :::
 
-## Observational research: the usual approach | *Études observationnelles : l'approche typique*
+## Observational research: the usual approach | *Études observationnelles : l'approche habituelle*
 
 ::: {.columns}
 ::: {.column .lang-en width="50%"}
@@ -176,7 +175,7 @@ $$X \overset{?}{\rightarrow} Y$$
 
 - Télécharger et fusionner les bases de données existants
 - Mesurer les comportements ou d'autres résultats, par exemple en menant un sondage
-- On observe, on n'intervient pas, on ne traite pas
+- On observe, sans intervenir ni traiter
 
 :::
 :::
@@ -195,9 +194,9 @@ $$X \overset{?}{\rightarrow} Y$$
 ::: {.column .lang-fr width="50%"}
 
 - Fisman et Gatti (2002) : "Decentralization and corruption: evidence across countries" (cité 2 423 fois)
-- Données de Transparency International et du FMI sur 80 pays ; régressions OLS (avec variables de contrôle)
-- Met en évidence une forte corrélation au niveau des pays entre la décentralisation fiscale des dépenses publiques et une moindre corruption
-- La Banque mondiale a fortement promu la décentralisation dans les années 1990 et 2000
+- Données de Transparency International et du FMI sur 80 pays ; régressions MCO (avec variables de contrôle)
+- Constate une forte corrélation au niveau des pays entre la décentralisation fiscale des dépenses publiques et une baisse de la corruption
+- La Banque mondiale a fortement encouragé la décentralisation dans les années 1990 et 2000
 
 :::
 :::
@@ -215,10 +214,10 @@ $$X \overset{?}{\rightarrow} Y$$
 :::
 ::: {.column .lang-fr width="50%"}
 
-- Les pays qui se décentralisent peuvent
-    - être moins corrompus au départ
-    - avoir des sociétés civiles plus actives
-    - adopter d'autres réformes de gouvernance en même temps
+- Les pays qui se décentralisent sont peut-être
+    - moins touchés par la corruption dès le départ
+    - dotés d'une société civile plus forte
+    - susceptibles d'adopter d'autres réformes de gouvernance en parallèle
 
 :::
 :::
@@ -234,8 +233,8 @@ $$X \overset{?}{\rightarrow} Y$$
 :::
 ::: {.column .lang-fr width="50%"}
 
-- *Facteurs de confusion* : des facteurs cachés qui donnent l'impression qu'il y a un effet causal alors qu'il n'y en a peut-être pas
-- Les études observationnelles peuvent montrer des tendances et des associations, mais rarement une relation causale
+- *Facteurs de confusion* : facteur caché qui donne l'impression qu'il existe un lien de causalité alors qu'il n'y en a peut-être pas
+- La recherche observationnelle permet de mettre en évidence des tendances et des associations, mais rarement des liens de causalité
 
 :::
 :::
@@ -253,7 +252,7 @@ $$X \overset{?}{\rightarrow} Y$$
 ::: {.column .lang-fr width="50%"}
 
 - Vous avez un traitement (intervention)
-- *Vous assignez de manière aléatoire des sujets aux conditions de traitement et de contrôle*
+- *Vous répartissez aléatoirement les unités entre le groupe de traitement et le groupe témoin*
 - Vous comparez les résultats des unités assignées au traitement à ceux des unités assignées au contrôle
 
 :::
@@ -265,13 +264,18 @@ $$X \overset{?}{\rightarrow} Y$$
 ```{r}
 #| include: false
 library(ggplot2)
+source("R/pdf_lang_helpers.R")
 
 plot_decentralization_rct <- function() {
   en_col <- "#3a7bbf"
   fr_col <- "#c45c7a"
+  lang <- deck_lang()
 
   add_bilingual_pill <- function(p, x, y, en, fr, w = 1.55, h = 0.58) {
-    p +
+    labels <- pick_lang_pair(en, fr)
+    en <- labels$en
+    fr <- labels$fr
+    p <- p +
       annotate(
         "rect",
         xmin = x - w / 2,
@@ -281,26 +285,33 @@ plot_decentralization_rct <- function() {
         fill = "white",
         color = "grey35",
         linewidth = 0.3
-      ) +
-      annotate(
-        "text",
-        x = x,
-        y = y + 0.12,
-        label = en,
-        color = en_col,
-        size = 2.45,
-        lineheight = 0.85
-      ) +
-      annotate(
-        "text",
-        x = x,
-        y = y - 0.15,
-        label = fr,
-        color = fr_col,
-        size = 2.35,
-        lineheight = 0.85,
-        fontface = "italic"
       )
+    if (!is.null(en)) {
+      p <- p +
+        annotate(
+          "text",
+          x = x,
+          y = if (is.null(fr)) y else y + 0.12,
+          label = en,
+          color = en_col,
+          size = 3,
+          lineheight = 0.85
+        )
+    }
+    if (!is.null(fr)) {
+      p <- p +
+        annotate(
+          "text",
+          x = x,
+          y = if (is.null(en)) y else y - 0.15,
+          label = fr,
+          color = fr_col,
+          size = 3,
+          lineheight = 0.85,
+          fontface = "italic"
+        )
+    }
+    p
   }
 
   units_pts <- data.frame(
@@ -315,7 +326,13 @@ plot_decentralization_rct <- function() {
       size = 2.8,
       color = "black"
     ) +
-    annotate("text", x = 0.75, y = 0.48, label = "Villages", size = 3)
+    annotate(
+      "text",
+      x = 0.75,
+      y = 0.48,
+      label = pick_lang("Villages", "Villages"),
+      size = 3
+    )
 
   p <- add_bilingual_pill(p, 3.35, 2.35, "Treatment group", "Groupe de traitement", w = 1.45, h = 0.58)
   p <- add_bilingual_pill(p, 3.35, 0.65, "Control group", "Groupe témoin", w = 1.35, h = 0.58)
@@ -332,7 +349,7 @@ plot_decentralization_rct <- function() {
     w = 2.15, h = 0.82
   )
 
-  p +
+  p <- p +
     geom_segment(
       aes(x = 1.15, xend = 2.55, y = 1.50, yend = 2.35),
       arrow = arrow(length = unit(0.12, "cm"), type = "closed"),
@@ -367,26 +384,39 @@ plot_decentralization_rct <- function() {
       fill = "white",
       color = "grey35",
       linewidth = 0.3
-    ) +
-    annotate(
-      "text",
-      x = 10.30,
-      y = 1.62,
-      label = "Difference shows effect of decentralization",
-      color = en_col,
-      size = 2.35,
-      lineheight = 0.85
-    ) +
-    annotate(
-      "text",
-      x = 10.30,
-      y = 1.36,
-      label = "La différence montre l'effet de la décentralisation",
-      color = fr_col,
-      size = 2.25,
-      lineheight = 0.85,
-      fontface = "italic"
-    ) +
+    )
+
+  diff_labels <- pick_lang_pair(
+    "Difference shows effect of decentralization",
+    "La différence montre l'effet"
+  )
+  if (!is.null(diff_labels$en)) {
+    p <- p +
+      annotate(
+        "text",
+        x = 10.30,
+        y = if (is.null(diff_labels$fr)) 1.50 else 1.62,
+        label = diff_labels$en,
+        color = en_col,
+        size = 3,
+        lineheight = 0.85
+      )
+  }
+  if (!is.null(diff_labels$fr)) {
+    p <- p +
+      annotate(
+        "text",
+        x = 10.30,
+        y = if (is.null(diff_labels$en)) 1.50 else 1.36,
+        label = diff_labels$fr,
+        color = fr_col,
+        size = 3,
+        lineheight = 0.85,
+        fontface = "italic"
+      )
+  }
+
+  p +
     coord_cartesian(xlim = c(0, 12), ylim = c(0.2, 2.8), clip = "off") +
     theme_void() +
     theme(
@@ -401,24 +431,24 @@ plot_decentralization_rct <- function() {
 #| fig-align: center
 #| fig-width: 12
 #| fig-height: 3.4
-#| out-width: 98%
+#| out-width: 100%
 plot_decentralization_rct()
 ```
 
 
-## Why an experiment? | *Pourquoi une expérimentation ?*
+## Why an experiment? | *Pourquoi mener une expérience ?*
 
 ::: {.columns}
 ::: {.column .lang-en width="50%"}
 
 - Random assignment $\rightarrow$ highly credible evidence that there is no effect
-- If politicians/bureaucrats believe results, they won't spend money on a useless intervention
+- If politicians/bureaucrats believe results, they won't spend money on decentralization (if the goal is reduced corruption)
 
 :::
 ::: {.column .lang-fr width="50%"}
 
-- Affectation aléatoire $\rightarrow$ preuve hautement crédible qu'il n'y a aucun effet
-- Si les politiciens ou les fonctionnaires croient aux résultats, ils ne dépenseront pas d'argent pour une intervention inutile
+- L'assignation aléatoire $\rightarrow$ une preuve très solide de l'absence d'effet
+- Si les responsables politiques et les fonctionnaires croient ce que révèlent les résultats, ils ne consacreront pas de fonds à la décentralisation (si leur objectif est de réduire la corruption)
 
 :::
 :::
@@ -441,7 +471,7 @@ plot_decentralization_rct()
 - Essais cliniques
 - Campagnes politiques
 - Tests A/B en tech
-- Essais politiques dans les gouvernements
+- Expérimentations de politiques publiques au sein des gouvernements
 
 :::
 :::
@@ -458,14 +488,14 @@ plot_decentralization_rct()
 :::
 ::: {.column .lang-fr width="50%"}
 
-- Corrigé des croyances erronées
-- Montré que certaines politiques ne s'étendent pas bien
-- Soutenu les bonnes politiques
+- Corrigé certaines idées fausses
+- montré que certaines choses ne sont pas transposables à plus grande échelle
+- favorisé la mise en place de bonnes politiques publiques
 
 :::
 :::
 
-## Proving beliefs wrong | *Démontrer que les croyances sont fausses*
+## Proving beliefs wrong | *Corriger certaines idées fausses*
 
 ::: {.columns}
 ::: {.column .lang-en width="50%"}
@@ -477,14 +507,14 @@ plot_decentralization_rct()
 :::
 ::: {.column .lang-fr width="50%"}
 
-- Croyance : La microfinance réduit la pauvreté
-- Plusieurs études ont randomisé l'accès au microcrédit au niveau du groupe ou du quartier
-- Résultat : Aucun impact sur le revenu des ménages, la consommation ou l'autonomisation des femmes
+- Idée reçue : la microfinance favorise la réduction de la pauvreté
+- De nombreuses études ont mis en place des programmes de microcrédit de manière aléatoire
+- Résultat : aucun impact sur les revenus des ménages, la consommation ou l'autonomisation des femmes 
 
 :::
 :::
 
-## Proving beliefs right | *Prouver que les croyances sont justes*
+## Proving beliefs right | *Valider les croyances*
 
 ::: {.columns}
 ::: {.column .lang-en width="50%"}
@@ -496,7 +526,7 @@ plot_decentralization_rct()
 :::
 ::: {.column .lang-fr width="50%"}
 
-- Croyance : Les transferts monétaires conditionnels augmentent la fréquentation scolaire
+- Idée reçue : Les transferts monétaires conditionnels augmentent la fréquentation scolaire
 - Étude : Le programme PROGRESA au Mexique a randomisé le versement d'allocations aux familles pour maintenir leurs enfants à l'école
 - Résultat : Forte hausse des inscriptions, en particulier pour les filles et les élèves du secondaire
 
@@ -533,7 +563,7 @@ plot_decentralization_rct()
 :::
 ::: {.column .lang-fr width="50%"}
 
-- Mettons les croyances à l'épreuve
+- Mettons nos convictions à l'épreuve
 - Qu'est-ce qui fonctionne ? $\rightarrow$ Découvrons-le !
 
 :::

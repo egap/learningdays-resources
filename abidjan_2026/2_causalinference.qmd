@@ -15,7 +15,8 @@ execute:
 library(tidyverse)
 library(knitr)
 library(patchwork)
-
+library(DeclareDesign)
+source("R/pdf_lang_helpers.R")
 opts_chunk$set(
   fig.align = "center",
   fig.width = 9,
@@ -34,12 +35,15 @@ add_bilingual_note <- function(
   size_en = 8.5,
   size_fr = 8
 ) {
+  labels <- pick_lang_pair(en, fr)
+  en <- labels$en
+  fr <- labels$fr
   if (!is.null(en)) {
     p <- p +
       annotate(
         "text",
         x = x,
-        y = y + 0.14,
+        y = if (is.null(fr)) y else y + 0.14,
         label = en,
         color = COL_EN,
         size = size_en,
@@ -51,7 +55,7 @@ add_bilingual_note <- function(
       annotate(
         "text",
         x = x,
-        y = y - 0.14,
+        y = if (is.null(en)) y else y - 0.14,
         label = fr,
         color = COL_FR,
         size = size_fr,
@@ -151,8 +155,17 @@ X_sample2 <- c(1, 1, 0, 0, 0, 1, 0, 1, 1, 0, 1, 0)
 X_sample3 <- c(1, 1, 0, 1, 1, 0, 0, 0, 1, 1, 0, 0)
 
 set.seed(123)
-Z_assign <- rep(0L, 12L)
-Z_assign[sample(12L, 6L)] <- 1L
+Z_assign <- complete_ra(12)
+Z_assign_2 <- complete_ra(12)
+
+est_diff_label <- function(Z) {
+  sprintf(
+    "%.2f - %.2f = %.2f",
+    mean(Y1[Z == 1]),
+    mean(Y0[Z == 0]),
+    mean(Y1[Z == 1]) - mean(Y0[Z == 0])
+  )
+}
 
 PO_TREAT <- "#F8766D"
 PO_CONTROL <- "#619CFF"
@@ -233,31 +246,54 @@ po_panel <- function(
   y_en = "Outcome",
   y_fr = "Résultat"
 ) {
-  p +
+  lang <- deck_lang()
+  title_main <- if (identical(lang, "fr")) title_fr else title_en
+  title_sub <- if (identical(lang, "both")) title_fr else NULL
+  xlab <- if (identical(lang, "fr")) x_fr else x_en
+  ylab <- if (identical(lang, "fr")) y_fr else y_en
+  title_col <- if (identical(lang, "fr")) COL_FR else COL_EN
+
+  p <- p +
     coord_cartesian(xlim = c(-1.5, N + 0.5), ylim = c(-3, 4.5), clip = "off") +
-    labs(title = title_en, subtitle = title_fr, x = x_en, y = y_en) +
+    labs(title = title_main, subtitle = title_sub, x = xlab, y = ylab) +
     theme_bw() +
     theme(
       plot.title = element_text(
-        color = COL_EN, size = 11, face = "bold", margin = margin(b = 2)
+        color = title_col,
+        size = 11,
+        face = if (identical(lang, "fr")) "italic" else "bold",
+        margin = margin(b = 2)
       ),
       plot.subtitle = element_text(
         color = COL_FR, size = 10, face = "italic", margin = margin(b = 6)
       ),
-      axis.title.x = element_text(color = COL_EN, size = 10, margin = margin(t = 8)),
-      axis.title.y = element_text(color = COL_EN, size = 10),
+      axis.title.x = element_text(
+        color = if (identical(lang, "fr")) COL_FR else COL_EN,
+        size = 10,
+        margin = margin(t = 8)
+      ),
+      axis.title.y = element_text(
+        color = if (identical(lang, "fr")) COL_FR else COL_EN,
+        size = 10
+      ),
       axis.text = element_text(size = 9),
       legend.position = "none",
       plot.margin = margin(8, 8, 16, 8, "pt")
-    ) +
-    annotate(
-      "text", x = N / 2, y = -3.55, label = x_fr,
-      color = COL_FR, size = 3.2, fontface = "italic"
-    ) +
-    annotate(
-      "text", x = -1.05, y = 0.5, label = y_fr,
-      color = COL_FR, size = 3.2, fontface = "italic", angle = 90
     )
+
+  if (identical(lang, "both")) {
+    p <- p +
+      annotate(
+        "text", x = N / 2, y = -3.55, label = x_fr,
+        color = COL_FR, size = 3.2, fontface = "italic"
+      ) +
+      annotate(
+        "text", x = -1.05, y = 0.5, label = y_fr,
+        color = COL_FR, size = 3.2, fontface = "italic", angle = 90
+      )
+  }
+
+  p
 }
 
 po.graph <- function(N, Y0, Y1, u, Z, excludep4 = FALSE) {
@@ -381,8 +417,7 @@ set.seed(123)
 n_hist_sim <- 3000
 y1_sample_means <- replicate(n_hist_sim, mean(y1_hist[sample(12, 6)]))
 ate_estimates <- replicate(n_hist_sim, {
-  z <- rep(0L, 12L)
-  z[sample(12, 6)] <- 1L
+  z <- sample(Z_assign)
   mean(y1_hist[z == 1]) - mean(y0_hist[z == 0])
 })
 
@@ -503,7 +538,6 @@ plot_sample_hist <- function(
 # Learning about the average causal effect from an experiment | *Comment apprendre l'effet causal moyen d'une expérience aléatoire*
 
 ## Research question | *La question de recherche*
-![](Images/A_small_cup_of_coffee.jpeg){width="170px" fig-align="center"}
 
 
 ::: {.columns}
@@ -519,11 +553,13 @@ plot_sample_hist <- function(
 :::
 :::
 
-::: {.footnote}
+<!-- ::: {.footnote} -->
 
-Par Julius Schorzman — Travail personnel, CC BY-SA 2.0, <https://commons.wikimedia.org/w/index.php?curid=107645>
+<!-- Par Julius Schorzman — Travail personnel, CC BY-SA 2.0, <https://commons.wikimedia.org/w/index.php?curid=107645> -->
 
-:::
+<!-- ::: -->
+
+![](Images/A_small_cup_of_coffee.jpeg){width="80px" fig-align="center"}
 
 ## The ATE is the average of *individual* treatment effects | L'ATE est la moyenne des effets de traitement *individuels*
 
@@ -574,7 +610,7 @@ Pour une unité $i$, nous supposons qu'il y a deux résultats
 :::
 
 
-## We have 12 units | *Nous avons 12 unités*
+## We have 12 units | *Nous avons 12 unités* {.smaller}
 
 ```{r, echo = FALSE}
 plot_grid(
@@ -587,7 +623,7 @@ plot_grid(
 ```
 
 
-## Each unit has both $Y_i(1)$ and $Y_i(0)$ | *Chaque unité a à la fois* $Y_i(1)$ et $Y_i(0)$
+## Each unit has both $Y_i(1)$ and $Y_i(0)$ | *Chaque unité a à la fois* $Y_i(1)$ et $Y_i(0)$  {.smaller}
 
 ```{r}
 plot_grid(
@@ -598,7 +634,7 @@ plot_grid(
 )
 ```
 
-## Each unit has both $Y_i(1)$ and $Y_i(0)$ | *Chaque unité a à la fois* $Y_i(1)$ et $Y_i(0)$
+## Each unit has both $Y_i(1)$ and $Y_i(0)$ | *Chaque unité a à la fois* $Y_i(1)$ et $Y_i(0)$  {.smaller}
 
 ```{r}
 plot_grid(
@@ -609,7 +645,7 @@ plot_grid(
 )
 ```
 
-## The treatment effect for $i$ is defined as $\tau_i \equiv Y_i(1) - Y_i(0)$ | *L'effet de traitement pour individu $i$ est défini comme* $\tau_i \equiv Y_i(1) - Y_i(0)$
+## The treatment effect for $i$ is defined as $\tau_i \equiv Y_i(1) - Y_i(0)$ | *L'effet de traitement pour individu $i$ est défini comme* $\tau_i \equiv Y_i(1) - Y_i(0)$  {.smaller}
 
 
 ```{r}
@@ -622,7 +658,7 @@ plot_grid(
 ```
 
 
-## Average Treatment Effect $\overline{\tau_i}= \overline{Y_i(1)-Y_i(0)}$ / *L'effet moyen du traitement* (ATE)  $\overline{\tau_i}= \overline{Y_i(1)-Y_i(0)}$
+## Average Treatment Effect $\overline{\tau_i}= \overline{Y_i(1)-Y_i(0)}$ / *L'effet moyen du traitement* (ATE)  $\overline{\tau_i}= \overline{Y_i(1)-Y_i(0)}$  {.smaller}
 
 
 ```{r}
@@ -701,7 +737,7 @@ Ce que nous **observons réellement**, c'est une combinaison de résultats poten
 
 
 
-## A random assignment | *Une assignation aléatoire*
+## A random assignment | *Une assignation aléatoire*  {.smaller}
 
 ```{r, echo = FALSE}
 plot_assignment(
@@ -710,22 +746,16 @@ plot_assignment(
 )
 ```
 
-## We learn the outcomes and produce an estimate | *Nous apprenons les résultats et produisons une estimation*
+## We learn the outcomes and produce an estimate | *Nous apprenons les résultats et produisons une estimation*  {.smaller}
 
 ```{r, echo = FALSE}
-est_diff <- sprintf(
-  "%.2f - %.2f = %.2f",
-  mean(Y1[Z_assign == 1]),
-  mean(Y0[Z_assign == 0]),
-  mean(Y1[Z_assign == 1]) - mean(Y0[Z_assign == 0])
-)
 plot_assignment(
   labels = if_else(Z_assign == 1, as.character(Y1), as.character(Y0)),
   Z = Z_assign,
 #  subtitle_en = "Sample mean difference",
 #  subtitle_fr = "Différence des moyennes d'échantillon"
-  title_en = est_diff,
-  title_fr = est_diff,
+  title_en = est_diff_label(Z_assign),
+  title_fr = est_diff_label(Z_assign),
 )
 ```
 
@@ -796,10 +826,10 @@ po.graph(N_po, Y0_po, Y1_po, u_po, Z_po, excludep4 = TRUE)
 plot_assignment(
   labels = if_else(Z_assign == 1, as.character(Y1), as.character(Y0)),
   Z = Z_assign,
-  title_en = est_diff,
-  title_fr = est_diff,
-  subtitle_en = "Sample mean difference",
-  subtitle_fr = "Différence des moyennes d'échantillon"
+#  subtitle_en = "Sample mean difference",
+#  subtitle_fr = "Différence des moyennes d'échantillon"
+  title_en = est_diff_label(Z_assign),
+  title_fr = est_diff_label(Z_assign),
 )
 ```
 
@@ -813,12 +843,12 @@ plot_assignment(
 #| fig-height: 5.25
 #| out-width: 100%
 plot_assignment(
-  labels = if_else(Z_assign == 1, as.character(Y1), as.character(Y0)),
-  Z = sample(Z_assign),
-  title_en = est_diff,
-  title_fr = est_diff,
-  subtitle_en = "Sample mean difference",
-  subtitle_fr = "Différence des moyennes d'échantillon"
+  labels = if_else(Z_assign_2 == 1, as.character(Y1), as.character(Y0)),
+  Z = Z_assign_2,
+#  subtitle_en = "Sample mean difference",
+#  subtitle_fr = "Différence des moyennes d'échantillon"
+  title_en = est_diff_label(Z_assign_2),
+  title_fr = est_diff_label(Z_assign_2)
 )
 ```
 
@@ -827,7 +857,7 @@ plot_assignment(
 
 ## Randomization works in expectation | *La randomisation fonctionne en moyenne*
 
-```{r, echo = FALSE, fig.width = 8, fig.height = 4.5}
+```{r, echo = FALSE, fig.width = 8, fig.height = 3.5}
 plot_sample_hist(
   values = ate_estimates,
   true_value = mean(tau_hist),
@@ -838,6 +868,8 @@ plot_sample_hist(
   x_fr = "ATE estimé"
 )
 ```
+
+## Randomization works in expectation | *La randomisation fonctionne en moyenne*
 
 ::: {.columns}
 ::: {.column .lang-en width="50%"}
@@ -862,7 +894,7 @@ plot_sample_hist(
 
 # Why? | *Pourquoi?*
 
-## Randomization works in expectation | *La randomisation fonctionne en moyenne*
+## Randomization works in expectation | *La randomisation fonctionne en moyenne* {.smaller}
 
 $$\mathbb E_R[\overline{Y_i}|X_i=1]=\overline{Y_i(1)}$$
 $$\mathbb E_R[\overline{Y_i}|X_i=0]=\overline{Y_i(0)}$$
@@ -959,6 +991,8 @@ plot_sample_hist(
 )
 ```
 
+
+## Average of sample averages | *La moyenne des moyennes de l'échantillon*
 
 ::: {.columns}
 ::: {.column .lang-en width="50%"}
@@ -1324,55 +1358,33 @@ par le statut de traitement des autres sujets.
 ::: {.columns}
 ::: {.column .lang-en width="50%"}
 
--   Randomization generally gives us internal validity -- confidence in our estimate of the causal effect of $X$ on $Y$ for our study.
-
-
-
--   Observational studies generally need other strong assumptions to try to deal with selection bias.
+- Randomization generally gives us **internal validity** — confidence in our estimate of the causal effect of $X$ on $Y$ for our study.
+- Observational studies generally need other strong assumptions to try to deal with selection bias.
 
 :::
 ::: {.column .lang-fr width="50%"}
 
--   La randomisation nous donne généralement une validité interne : une confiance dans notre estimation de l’effet causal de $X$ sur $Y$ pour notre étude.
-
-
-
--   Les études observationelles ont besoin d'autres hypothèses
-    fortes pour résoudre le biais de sélection.
+- La randomisation nous donne généralement une **validité interne** : confiance dans notre estimation de l'effet causal de $X$ sur $Y$ pour notre étude.
+- Les études observationnelles ont besoin d'autres hypothèses fortes pour traiter le biais de sélection.
 
 :::
 :::
 
-## External Validity (Generalizability) | *La validité externe (Généralisabilité) *
- 
+## External validity (generalizability) | *La validité externe (généralisabilité)*
+
 ::: {.columns}
 ::: {.column .lang-en width="50%"}
 
--   The units in your study might or might not be representative of a
-    larger population.
-
-
-
--   The conclusions from one study may not apply to other settings (i.e., not have
-    external validity).
-
-
-
--   This is a general concern for both observational and randomized studies.
+- The units in your study might or might not be representative of a larger population.
+- The conclusions from one study may not apply to other settings (i.e., may lack external validity).
+- This is a general concern for both observational and randomized studies.
 
 :::
 ::: {.column .lang-fr width="50%"}
 
--   Les unités de votre étude peuvent ou non être représentatives d'une
-    population plus large.
-    
-    
-
--   Les conclusions d'une étude peuvent ne pas s'appliquer à d'autres contextes (i.e. manque de la validité externe).
-
-
-
--   C'est une préoccupation générale, tant pour les études observationnelles que pour les études randomisées.
+- Les unités de votre étude peuvent ou non être représentatives d'une population plus large.
+- Les conclusions d'une étude peuvent ne pas s'appliquer à d'autres contextes (c.-à-d. manque de validité externe).
+- C'est une préoccupation générale, tant pour les études observationnelles que pour les études randomisées.
 
 :::
 :::
