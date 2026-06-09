@@ -12,11 +12,11 @@ format:
 
 ```{r, include = FALSE}
 library(DeclareDesign)
-
+set.seed(1)
 df <- fabricate(N = 100, 
-               Coffee = rep(0:1, N/2), 
-               Sporty_Sportive = rnorm(N), 
-               Energy = .2 + .4*Coffee  + .3* Sporty_Sportive + rnorm(N))
+               Sporty_Sportive = rep(0:1, N/2), 
+               Coffee =  block_ra(Sporty_Sportive), 
+               Energy = .2 + .8*Coffee  + Sporty_Sportive + rnorm(N))
 ```
 
 ::: {.columns}
@@ -181,19 +181,19 @@ difference_in_means(Y ~ treatment)
 
 ## Estimator 2: Linear regression | *Estimateur 2 : la régression linéaire*
 
-$$Y_i = \hat{\alpha_0} + \hat{\beta_1} Z_i + e_i$$
+$$Y_i = \beta_0 + \beta_1 Z_i + e_i$$
 
 ::: {.columns}
 ::: {.column .lang-en width="50%"}
 
 - With this simple experiment, we can also use a linear regression. It will produce exactly the same estimate ($\hat{\beta_1}$) of the ATE as the difference-in-means estimator.
-- $\hat{\alpha_0}$ is the average outcome in the control group.
+- $\hat{\beta_0}$ is the average outcome in the control group.
 
 :::
 ::: {.column .lang-fr width="50%"}
 
 - Pour cette expérience simple, nous pouvons également utiliser la régression linéaire. Elle produira exactement la même estimation ($\hat{\beta_1}$) de l'ATE que l'estimateur de la différence des moyennes.
-- $\hat{\alpha_0}$ est le résultat moyen des unités assignées au contrôle.
+- $\hat{\beta_0}$ est le résultat moyen des unités assignées au contrôle.
 
 :::
 :::
@@ -208,7 +208,7 @@ $$Y_i = \hat{\alpha_0} + \hat{\beta_1} Z_i + e_i$$
 :::
 ::: {.column width="40%"}
 
-$$Y_i = {\alpha_0} + {\beta_1} Z_i + e_i$$
+$$Y_i = {\beta_0} + {\beta_1} Z_i + e_i$$
 
 :::
 :::
@@ -554,7 +554,15 @@ lm_robust(Energy ~ Coffee + Sporty_Sportive, data = df)
 
 ```{r, echo = FALSE, results = 'asis'}
 
-lm_robust(Energy ~ Coffee  + Sporty_Sportive, data = df) |>   texreg::htmlreg(inclide.ci = FALSE) 
+lm_robust(Energy ~ Coffee  + Sporty_Sportive, data = df) |>   texreg::htmlreg(include.ci = FALSE) 
 
 ```
 
+## Estimator: Linear regression with covariates | *Estimateur : la régression linéaire avec des covariables* {.smaller}
+
+
+```{r,  results = 'asis'}
+
+lm_robust(Energy ~ Coffee, data = df) |>   texreg::htmlreg(include.ci = FALSE) 
+
+```

@@ -1,7 +1,7 @@
 ---
 title: "R exercises | *Exercices R*"
 subtitle: "Learning Days practice sessions | *Sessions pratiques Learning Days*"
-author: "Vincent + EGAP Learning Days"
+author: "Vincent + Alyssa"
 date: today
 format:
   revealjs:
@@ -351,7 +351,41 @@ Inspectez `treatment_simple`. Comptez traitement vs contrôle avec `table()`. At
 table(experiment_data$treatment_simple)
 ```
 
+
+## `randomizr` Commands Refresher | *Rappel des commandes `randomizr`* {.smaller}
+
+```{r, eval = TRUE}
+library(randomizr)
+set.seed(100)
+```
+```{r, eval = TRUE}
+# Simple random assignment (N = 4; arms not necessarily equal) 
+# Assignation aléatoire simple (N = 4 ; bras pas forcément égaux)*
+simple_ra(4)
+# Complete random assignment (N = 4; exactly half treated) 
+# *Assignation complète (N = 4 ; exactement la moitié en traitement)*
+complete_ra(4)
+```
+
+```{r, eval = TRUE}
+# Example: blocked assignment within 4 blocks of 3 units 
+# Exemple : assignation par blocs dans 4 blocs de 3 unités*
+block_ra(blocks = c(1,1,1,2,2,2,3,3,3,4,4,4))
+```
+
+```{r, eval = TRUE}
+# Example: cluster assignment across 4 clusters of 3 units 
+# *Exemple : assignation par grappes sur 4 grappes de 3 unités*
+cluster_ra(clusters = c(1,1,1,2,2,2,3,3,3,4,4,4))
+```
+
 ## Activity 2 — complete randomization | *Activité 2 — randomisation complète*
+
+```{r, eval = TRUE}
+# Example: shuffle a vector with sample() 
+# Exemple : mélanger un vecteur avec sample()*
+sample(c(1,2,3))
+```
 
 ::: {.columns}
 ::: {.column .lang-en width="50%"}
@@ -365,6 +399,7 @@ Construisez un vecteur avec **exactement** $m$ traités et $N - m$ contrôles, p
 
 :::
 :::
+
 
 ```{r}
 N <- nrow(experiment_data)
@@ -408,9 +443,8 @@ Chargez **randomizr** et essayez `complete_ra()`. Vérifiez avec `table()` comme
 :::
 :::
 
-```{r}
-library(randomizr)
 
+```{r}
 experiment_data$treatment_complete2 <-
   complete_ra(N = nrow(experiment_data), prob = 0.5)
 ```
@@ -421,6 +455,7 @@ experiment_data$treatment_complete2 <-
 ::: {.column .lang-en width="50%"}
 
 Use **Gender** as the block variable. `block_ra()` randomizes within each block.
+
 
 :::
 ::: {.column .lang-fr width="50%"}
@@ -435,6 +470,29 @@ experiment_data$treatment_blocked <-
   block_ra(blocks = experiment_data$Gender, prob = 0.5)
 
 table(experiment_data$Gender, experiment_data$treatment_blocked)
+```
+
+## Activity 2 — cluster randomization | *Activité 2 — randomisation par cluster*
+
+::: {.columns}
+::: {.column .lang-en width="50%"}
+
+Use **HomeCountry** as the cluster variable. `cluster_ra()` randomizes by cluster.
+
+:::
+::: {.column .lang-fr width="50%"}
+
+Utilisez **HomeCountry** comme variable de cluster. `block_ra()` randomise par cluster (grappe).
+
+:::
+:::
+
+```{r}
+experiment_data$treatment_clustered <-
+  cluster_ra(clusters = experiment_data$HomeCountry, prob = 0.5)
+
+table(experiment_data$HomeCountry, experiment_data$treatment_clustered)
+
 ```
 
 # Activity 3 | *Activité 3*
@@ -520,13 +578,13 @@ Puis soustrayez : $\bar{Y}_{\text{traitement}} - \bar{Y}_{\text{contrôle}}$ = A
 ```{r}
 # treatment group — replace OUTCOME and TREATMENT / value
 mean(experiment_data$OUTCOME_VARIABLE[
-  experiment_data$TREATMENT_VARIABLE == 1
-], na.rm = TRUE)
+  experiment_data$TREATMENT_VARIABLE == 1], 
+  na.rm = TRUE)
 
 # control group
 mean(experiment_data$OUTCOME_VARIABLE[
-  experiment_data$TREATMENT_VARIABLE == 0
-], na.rm = TRUE)
+  experiment_data$TREATMENT_VARIABLE == 0], 
+  na.rm = TRUE)
 ```
 
 ## Activity 3 — interpret | *Activité 3 — interpréter*

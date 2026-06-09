@@ -1,6 +1,6 @@
 ---
-title: "Power and more | *Puissance statistique*"
-author: "Macartan,  Alyssa"
+title: "Power and more | *Puissance statistique et au-delà*"
+author: "Macartan,  Vin"
 date: today
 format:
   revealjs:
@@ -117,67 +117,6 @@ Othello : la probabilité de tout cela si elle était innocente est sûrement in
 :::
 :::
 
-## Frequentist vs Bayesian | *Fréquentiste vs bayésien*
-
-::: {.columns}
-::: {.column .lang-en width="50%"}
-
-Othello focuses on $\Pr(\text{Data} \mid \text{Hypothesis TRUE})$ — not on $\Pr(\text{Hypothesis TRUE} \mid \text{Data})$.
-
-He assesses how likely the data would be **if** she were faithful — not his belief in her fidelity.
-
-Hypotheses are often **rejected**, sometimes **maintained**, rarely **accepted**.
-
-:::
-::: {.column .lang-fr width="50%"}
-
-Othello se concentre sur $\Pr(\text{Données} \mid \text{Hypothèse VRAIE})$ — pas sur $\Pr(\text{Hypothèse VRAIE} \mid \text{Données})$.
-
-Il évalue la probabilité des données **si** elle était fidèle — pas sa croyance en sa fidélité.
-
-Les hypothèses sont souvent **rejetées**, parfois **maintenues**, rarement **acceptées**.
-
-:::
-:::
-
-## $p$ values in your head | *$p$ values in your head*
-
-::: {.columns}
-::: {.column .lang-en width="50%"}
-
-
-You randomized treatment assignment. Your data:
-
-:::
-::: {.column .lang-fr width="50%"}
-
-
-Vous avez randomisé l'assignation au traitement. Vos données :
-
-:::
-:::
-
-| Unit         | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 |
-|--------------|---|---|---|---|---|---|---|---|---|----|
-| Treatment    | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 1 | 0 | 0  |
-| Health score | 4 | 2 | 3 | 1 | 2 | 3 | 4 | 8 | 7 | 6  |
-
-## $p$ value questions | *Questions sur la $p$-value*
-
-::: {.columns}
-::: {.column .lang-en width="50%"}
-
-- Does treatment improve health?
-- What is the $p$ value for the null that treatment had **no effect on anybody**?
-
-:::
-::: {.column .lang-fr width="50%"}
-
-- Le traitement améliore-t-il la santé ?
-- Quelle est la $p$-value pour l'hypothèse nulle d'**aucun effet sur personne** ?
-
-:::
-:::
 
 # Power | *Puissance*
 
@@ -225,7 +164,7 @@ What is the power of this test?
 :::
 ::: {.column .lang-fr width="50%"}
 
-Hypothese : un six **ne sort jamais** sur ce dé.
+Hypothèse : un six **ne sort jamais** sur ce dé.
 
 Test : 
 
@@ -283,7 +222,7 @@ What should $x$ and $y$ be?
 
 La puissance peut sembler plus difficile car le rejet implique une probabilité **calculée** — une probabilité de probabilité.
 
-Hypothese : le dé est **équitable**.
+Hypothèse : le dé est **équitable**.
 
 - Lancer **1000** fois.
 - Rejeter si moins de $x$ six ou plus de $y$ six.
@@ -293,22 +232,22 @@ Que valent $x$ et $y$ ?
 :::
 :::
 
-## Step 1: rejection rule | *Étape 1 : règle de rejet*
+## Step 1: rejection rule | *Étape 1 : règle de rejet* {.smaller}
 
 ::: {.columns}
 ::: {.column .lang-en width="50%"}
 
-Set a rejection rule based on events unlikely under the hypothesis.
+* Set a rejection rule based on events unlikely under the hypothesis.
 
-Expected number of sixes if the die is fair:
+* Expected number of sixes if the die is fair is 166. What would be 'unusually many' 6s? What would be 'unusually few' 6s? 
 
 :::
 ::: {.column .lang-fr width="50%"}
 
 
-Fixer une règle de rejet à partir d'événements improbables sous l'hypothèse.
+* Fixer une règle de rejet à partir d'événements improbables sous l'hypothèse.
 
-Nombre attendu de six si le dé est équitable :
+* Nombre attendu de six si le dé est équitable :
 
 :::
 :::
@@ -338,7 +277,7 @@ fabricate(N = 1001, sixes = 0:1000, p = dbinom(sixes, 1000, 1 / 6)) |>
 c(lower = pbinom(143, 1000, 1 / 6), upper = 1 - pbinom(189, 1000, 1 / 6))
 ```
 
-## Step 2: power | *Étape 2 : puissance*
+## Step 2: power | *Étape 2 : puissance* {.smaller}
 
 ::: {.columns}
 ::: {.column .lang-en width="50%"}
@@ -382,7 +321,7 @@ Si les six sortent 20 % du temps, vous verrez probablement ≥ 190 six et rejete
 :::
 :::
 
-# Interpretations | *Interpretations*
+# Interpretations | *Interprétations*
 
 ## Rule of thumb | *Règle empirique*
 
@@ -418,41 +357,6 @@ Si les six sortent 20 % du temps, vous verrez probablement ≥ 190 six et rejete
 :::
 :::
 
-## Subtleties (1) | *Subtilités (1)*
-
-::: {.columns}
-::: {.column .lang-en width="50%"}
-
-- Is a significant result from an underpowered study less credible? (Only with a significance filter.)
-- What significance level for power analysis? (Use what you will use in practice — stricter α → lower power.)
-
-:::
-::: {.column .lang-fr width="50%"}
-
-- Un résultat significatif d'une étude sous-puissante est-il moins crédible ? (Seulement avec un filtre de significativité.)
-- Quel niveau de significativité pour l'analyse de puissance ? (Celui que vous utiliserez — un α plus strict → moins de puissance.)
-
-:::
-:::
-
-## Subtleties (2) | *Subtilités (2)*
-
-::: {.columns}
-::: {.column .lang-en width="50%"}
-
-- Must you know the effect size? (No — but know what sizes you want to detect.)
-- Power is one of many **diagnosands**.
-- What's power for Bayesians?
-
-:::
-::: {.column .lang-fr width="50%"}
-
-- Faut-il connaître la taille d'effet ? (Non — mais savoir quelles tailles vous voulez détecter.)
-- La puissance n'est qu'un **diagnosande** parmi d'autres.
-- Et la puissance pour les bayésiens ?
-
-:::
-:::
 
 # Power analytics | *Analyse de puissance*
 
@@ -503,7 +407,7 @@ Sommez : probabilité au-dessus de 1,96 ou en dessous de $-1.96$.
 :::
 :::
 
-## Simple intuition | *Intuition simple*
+## Power function | *Fonction de puissance*
 
 
 ```{r}
@@ -546,7 +450,7 @@ pwrss::power.z.test(
 ```
 
 
-## Graph: effect 1.96 | *Graphique : effet 1,96*
+## Graph: effect 1.96 (plot) | *Graphique : effet 1,96 (graphique)*
 
 ```{r, echo = FALSE}
 pwrss::power.z.test(
@@ -572,18 +476,6 @@ Substantiellement : si une estimation est **à peine** significative en moyenne,
 
 ## Graph: effect 2.5 | *Graphique : effet 2,5*
 
-::: {.columns}
-::: {.column .lang-en width="50%"}
-
-If the effect were 2.5 — is that a lot?
-
-:::
-::: {.column .lang-fr width="50%"}
-
-Si l'effet valait 2,5 — est-ce beaucoup ?
-
-:::
-:::
 
 ```{r}
 pwrss::power.z.test(
@@ -592,20 +484,8 @@ pwrss::power.z.test(
 )
 ```
 
-## Graph: effect 2.5 | *Graphique : effet 2,5*
+## Graph: effect 0 | *Graphique : effet 0*
 
-::: {.columns}
-::: {.column .lang-en width="50%"}
-
-If the effect were 0 — do we have any power?
-
-:::
-::: {.column .lang-fr width="50%"}
-
-Si l'effet valait 0 — est-ce que nous aurions de la puissance ?
-
-:::
-:::
 
 ```{r}
 pwrss::power.z.test(
@@ -614,7 +494,7 @@ pwrss::power.z.test(
 )
 ```
 
-# with Math and functions
+# Math and functions | *Maths et fonctions*
 
 ## Trial: standard error | *Essai : erreur-type*
 
@@ -647,22 +527,6 @@ $$\sigma_\tau=\frac{2\sigma}{\sqrt{N}}$$
 :::
 :::
 
-## Trial: power by hand | *Essai : puissance à la main*
-
-```{r}
-se <- function(sd, N) (N / (N - 1))^.5 * 2 * sd / (N^.5)
-
-power_2 <- function(
-    b, alpha = .05, sd = 1, N = 100,
-    critical = qnorm(1 - alpha / 2), se = 2 * sd / N^.5
-) {
-  1 - pnorm(critical, mean = abs(b) / se(sd, N)) +
-    pnorm(-critical, mean = abs(b) / se(sd, N))
-}
-
-power_2(0)
-power_2(.5)
-```
 
 ## Trial: with pwrss | *Essai : avec pwrss*
 
@@ -685,7 +549,6 @@ pwrss::pwrss.t.2means(
   alternative = "not equal", verbose = FALSE
 )
 
-power_2(.50, N = 100)
 ```
 
 
@@ -713,9 +576,22 @@ $$\sqrt{\frac{4\sigma^2_k}{K} + \frac{4\sigma^2_i}{nK}}$$
 
 ## Design effect | *Effet de conception*
 
+::: {.columns}
+::: {.column .lang-en width="50%"}
+
 With $\rho = \frac{\sigma^2_k}{\sigma^2_k + \sigma^2_i}$:
 
 $$\sqrt{((n - 1)\rho + 1)\frac{4\sigma^2}{nK}}$$
+
+:::
+::: {.column .lang-fr width="50%"}
+
+Avec $\rho = \frac{\sigma^2_k}{\sigma^2_k + \sigma^2_i}$ :
+
+$$\sqrt{((n - 1)\rho + 1)\frac{4\sigma^2}{nK}}$$
+
+:::
+:::
 
 ::: {.columns}
 ::: {.column .lang-en width="50%"}
@@ -738,32 +614,78 @@ Insérez dans le calcul et procédez comme avant.
 
 # Power via diagnosis | *Puissance par diagnostic*
 
-## A design | *Un design*
-
-A design in which you choose how many clusters you have!
+## Design 1: complete randomization | *Conception 1 : randomisation complète*
 
 ```{r}
+# Simple
 N <- 100
-b <- 0.5
-n_clusters <- 50
 
-design <-
+complete_design <-
   declare_model(
     N = N,
-    U = rnorm(N),
-    potential_outcomes(Y ~ b * Z + U),
-    clusters = cut(rank(U), n_clusters, labels = 1:n_clusters)
+    State = sample(1:4, N, replace = TRUE),
+    U = rnorm(N)/4,
+    Y0 = State + U,
+    Y1 = State + U + .2
   ) +
+  declare_inquiry(ate = mean(Y1 - Y0)) +
   declare_assignment(
-    Z = cluster_ra(clusters = clusters),
-    Y = reveal_outcomes(Y ~ Z)
+    Z = complete_ra(N),
+    Y = Z*Y1 + (1-Z)*Y0
   ) +
-  declare_inquiry(ate = mean(Y_Z_1 - Y_Z_0)) +
-  declare_estimator(Y ~ Z, inquiry = "ate", clusters = clusters)
+  declare_estimator(Y ~ Z, label = "complete")
 
 ```
 
-## Power via diagnosis | *Puissance par diagnostic*
+## Design 2: cluster randomization | *Conception 2 : randomisation par grappes*
+
+```{r}
+# Simple
+N <- 100
+
+clustered_design <-
+  declare_model(
+    N = N,
+    State = sample(1:4, N, replace = TRUE),
+    U = rnorm(N)/4,
+    Y0 = State + U,
+    Y1 = State + U + .2
+  ) +
+  declare_inquiry(ate = mean(Y1 - Y0)) +
+  declare_assignment(
+    Z = cluster_ra(clusters = State),
+    Y = Z*Y1 + (1-Z)*Y0
+  ) +
+  declare_estimator(Y ~ Z,  clusters = State, label = "clustered")
+
+```
+
+
+
+## Design 3: blocked randomization | *Conception 3 : randomisation par blocs*
+
+```{r}
+# Simple
+N <- 100
+
+blocked_design <-
+  declare_model(
+    N = N,
+    State = sample(1:4, N, replace = TRUE),
+    U = rnorm(N)/4,
+    Y0 = State + U,
+    Y1 = State + U + .2
+  ) +
+  declare_inquiry(ate = mean(Y1 - Y0)) +
+  declare_assignment(
+    Z = block_ra(blocks = State),
+    Y = Z*Y1 + (1-Z)*Y0
+  ) +
+  declare_estimator(Y ~ Z + State, label = "blocked")
+
+```
+
+## Design diagnosis | *Diagnostic de conception*
 
 ::: {.columns}
 ::: {.column .lang-en width="50%"}
@@ -779,159 +701,67 @@ Le diagnostic de conception est **arbitrairement flexible**.
 :::
 
 
-## Simulate many times | *Simuler plusieurs fois*
-
-```{r, eval = FALSE}
-sims_1 <- simulate_design(design)
-sims_1 |> select(sim_ID, estimate, p.value)
-```
-
-```{r, echo = FALSE}
-sims_1 <- simulate_design(design, sims = 2000)
-sims_1 |>
-  select(sim_ID, estimate, p.value) |>
-  head() |>
-  kable(digits = 2)
-```
-
-## Power: $p$-value distribution | *Puissance : distribution des $p$*
-
-::: {.columns}
-::: {.column .lang-en width="50%"}
-
-Power is the mass of the sampling distribution of **decisions** under the model.
-
-:::
-::: {.column .lang-fr width="50%"}
-
-La puissance est la masse de la distribution d'échantillonnage des **décisions** sous le modèle.
-
-:::
-:::
-
-```{r, message = FALSE, fig.height = 1.5, fig.width = 6, echo = FALSE}
-sims_1 |>
-  ggplot(aes(p.value)) +
-  geom_histogram() +
-  geom_vline(xintercept = .05, color = "red")
-```
-
-## Estimates and significance | *Estimations et significativité*
-
-::: {.columns}
-::: {.column .lang-en width="50%"}
-
-Closely related to the estimates you might get:
-
-:::
-::: {.column .lang-fr width="50%"}
-
-Étroitement lié aux estimations possibles :
-
-:::
-:::
-
-```{r, fig.height = 1.5, fig.width = 6, echo = FALSE}
-sims_1 |>
-  mutate(significant = p.value <= .05) |>
-  ggplot(aes(estimate, p.value, color = significant)) +
-  geom_point()
-```
-
-## Coverage check | *Vérifier la couverture*
 
 ```{r}
-sims_1 |>
-  mutate(within = (b > sims_1$conf.low) & (b < sims_1$conf.high)) |>
-  pull(within) |>
-  mean()
+diagnoses <- diagnose_designs(
+  complete_design, clustered_design, blocked_design,
+  sims = 500)
 ```
 
-## Valid $p$-values | *$p$-values valides*
 
-::: {.columns}
-::: {.column .lang-en width="50%"}
-
-A valid $p$-value satisfies $\Pr(p \leq x) \leq x$ for every $x \in [0,1]$ **under the null**.
-
-:::
-::: {.column .lang-fr width="50%"}
-
-Une $p$-value valide satisfait $\Pr(p \leq x) \leq x$ pour tout $x \in [0,1]$ **sous l'hypothèse nulle**.
-
-:::
-:::
-
-```{r, eval = FALSE}
-sims_2 <- redesign(design, b = 0) |> simulate_design()
-```
+## Distribution of $p$-values | *Distribution des $p$-values*
 
 ```{r, echo = FALSE}
-sims_2 <- redesign(design, b = 0) |> simulate_design(sims = 3000)
+diagnoses$simulations_df |>
+  ggplot(aes(p.value)) + geom_histogram() + facet_grid(~design) 
+
 ```
 
-```{r, message = FALSE, fig.height = 1.5, fig.width = 6, echo = FALSE}
-sims_2 |>
-  ggplot(aes(p.value)) +
-  geom_histogram(binwidth = 0.05, boundary = 0) +
-  geom_vline(xintercept = .05, color = "red")
-```
 
-## diagnose_design() | *diagnose_design()*
-
-```{r, eval = FALSE}
-diagnose_design(design)
-```
+## diagnose_design() | *diagnose_design()*  {.smaller}
 
 ```{r, echo = FALSE}
-design |>
-  diagnose_design(sims = 1000) |>
+diagnoses  |>
   reshape_diagnosis() |>
-  select("Mean Estimate", "Bias", "SD Estimate", "RMSE", "Power", "Coverage") |>
+  select(Design, "Mean Estimate", "Bias", "SD Estimate", "RMSE", "Power", "Coverage") |>
   kable()
 ```
 
-## Multiple effect sizes | *Plusieurs tailles d'effet*
 
-```{r, eval = FALSE}
-design |>
-  redesign(b = c(0, 0.5, 1), n_clusters = c(5, 10, 50)) |>
-  diagnose_design()
-```
+## Distribution of estimates | *Distribution des estimations*
 
 ```{r, echo = FALSE}
-designs <-
-  design |>
-  redesign(b = c(0, 0.5, 1), n_clusters = c(5, 10, 50)) 
+diagnoses$simulations_df |>
+  ggplot(aes(estimate)) + geom_histogram() + facet_grid(~design) 
 
-diagnosis <- diagnose_design(designs, sims = 200) 
-
-diagnosis |>
-  reshape_diagnosis() |>
-  select(b, n_clusters, "Mean Estimate", "Bias", "SD Estimate", "RMSE", "Power", "Coverage") |>
-  kable()
 ```
 
-## Power over `n_clusters` and b | *Puissance selon `n_clusters` et b*
+## Varying assignment and $N$ | *Varier l'assignation et $N$*
 
-```{r, eval = FALSE}
-diagnosis |> tidy() |>
-  filter(diagnosand == "power") |>
-  ggplot(aes(b, estimate, color = factor(n_clusters))) +
-  geom_line()
+```{r, echo = TRUE}
+
+diagnosis <- 
+  list(redesign(complete_design, N = 100),
+       redesign(complete_design, N = 200),
+       redesign(complete_design, N = 600),
+       redesign(clustered_design, N = 100),
+       redesign(clustered_design, N = 200),
+       redesign(clustered_design, N = 600),
+       redesign(blocked_design, N = 100),
+       redesign(blocked_design, N = 200),
+       redesign(blocked_design, N = 600)) |>
+  diagnose_design(sims = 500)
+
 ```
+
+## Power over $N$ and strategy | *Puissance selon $N$ et la stratégie*
 
 ```{r, echo = FALSE}
 
-diagnosis |> tidy() |>
-  filter(diagnosand == "power") |>
-  ggplot(aes(b, estimate, color = factor(n_clusters))) +
-  geom_line() +
-  ylab("power")
+diagnosis$diagnosands_df  |>
+  ggplot(aes(N, power)) + geom_line() + facet_grid(~ estimator) 
 ```
 
-
-# Takeaways | *Messages clés*
 
 ## Big takeaways | *Messages clés*
 

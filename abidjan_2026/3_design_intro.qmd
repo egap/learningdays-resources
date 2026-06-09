@@ -35,48 +35,20 @@ options(kable_styling_bootstrap_options = bs_style)
 ::: {.columns}
 ::: {.column .lang-en width="50%"}
 
-1. Understand what the essential elements of a design are
-2. Understand that if you state these elements clearly, you can assess the quality of a design
-3. Learn how design adjustments can be optimized
-4. Gain exposure to the kind of code that lets you do this in practice
+1. Understand that if you can state the MIDA elements of a design in code, you can assess the quality of a design
+2. Learn how design adjustments can be optimized
+3. Get exposure to the kind of code that lets you do this in practice
 
 :::
 ::: {.column .lang-fr width="50%"}
 
-1. Comprendre quels sont les éléments essentiels d'une conception de recherche
-2. Comprendre que si vous énoncez clairement ces éléments, vous pouvez évaluer la qualité d'une conception de recherche
-3. Apprendre à modifier nos conception de recherche de manière optimale 
-4. Découvrir le code qui permet de mettre en œuvre ces procédures
+1. Comprendre que si vous pouvez déclarer les éléments MIDA d'un design en code, vous pouvez évaluer la qualité d'un design
+2. Apprendre à optimiser les ajustements de design
+3. Découvrir le type de code qui permet de le faire en pratique
 
 :::
 :::
 
-# MIDA framework | *Cadre MIDA*
-
-## Four elements | *Quatre éléments*
-
-::: {.columns}
-::: {.column .lang-en width="50%"}
-
-- **Model**: what causes what, and how
-- **Inquiry**: a question stated in terms of the model
-- **Data strategy**: sampling, assignment, measurement
-- **Answer strategy**: how we summarize the data
-
-:::
-::: {.column .lang-fr width="50%"}
-
-- **Model** (*Modèle*) : comment x influence-t-il y (et que sont x et y) 
-- **Inquiry** (*Interrogation/question de recherche*) : une question formulée selon les termes du modèle
-- **Data strategy** (*stratégie en matière de Données*) : échantillonnage, assignation du traitment, mesure
-- **Answer strategy** (*stratégie d'Analyse*) : comment on utilise les données pour répondre à la question
-
-:::
-:::
-
-## MIDA diagram | *Schéma MIDA*
-
-![](images/mida.png){width="72%" fig-align="center"}
 
 ## Declaration | *Déclaration*
 
@@ -105,9 +77,9 @@ We estimate **diagnosands**: power, bias, RMSE, error rates, ethical harm, amoun
 :::
 ::: {.column .lang-fr width="50%"}
 
-Le **diagnostic** évalue la performance de la conception de recherche, compte tenu des conditions posées.
+Le **diagnostic** examine comment le design se comportera dans des conditions imaginées.
 
-On estime des **paramètres de diagnostic** : puissance statistique, biais, erreur quadratique moyenne, taux d'erreur, risques éthiques, quantité apprise, ...
+On estime des **indicateurs de diagnostic** : puissance statistique, biais, erreur quadratique moyenne, taux d'erreur, risques éthiques, quantité apprise, …
 
 :::
 :::
@@ -127,7 +99,7 @@ On estime des **paramètres de diagnostic** : puissance statistique, biais, erre
 :::
 ::: {.column .lang-fr width="50%"}
 
-L'étape **redesign** (re-concevoir) adapte la stratégie de données et d'analyse afin d'observer comment les paramètres du diagnostic évoluent. On peut modifier : 
+L'étape **redesign** (re-concevoir) adapte la stratégie de données et d'analyse afin d'observer comment les indicateurs de diagnostic évoluent. On peut modifier : 
 
 - la taille de l'échantillon
 - la procédure d'assignation aléatoire (randomisation)
@@ -156,7 +128,9 @@ Quelle est la conception de recherche **diagnostiquable** la plus simple ?
 
 ```{r}
 simplest_design <-
-  declare_model(N = 100, Y0 = rnorm(N), Y1 = .2 + rnorm(N)) +
+  declare_model(N = 100, 
+                Y0 = rnorm(N), 
+                Y1 = Y0 + .2) +
   declare_inquiry(Q = mean(Y1- Y0)) +
   declare_assignment(X = simple_ra(N)) +
   declare_measurement(Y = X*Y1 + (1-X)*Y0) +
@@ -185,45 +159,6 @@ simplest_design <-
 :::
 
 
-## The pipe (1) | *L'opérateur pipe (1)*
-
-::: {.columns}
-::: {.column .lang-en width="50%"}
-
-Each step is a function that presupposes what earlier steps created.
-
-- Step **order** matters
-- Most steps take the `main` data frame in and pass it out
-
-:::
-::: {.column .lang-fr width="50%"}
-
-Chaque ligne est une fonction qui s'appuie sur ce qui a été créé lors des étapes précédentes. Le pipe passe le résultat de l'expression de gauche comme premier argument de la fonction de droite.
-
-- L'**ordre** des étapes est important
-- La plupart des étapes prennent le cadre de données `main` en entrée et le renvoient en sortie
-
-:::
-:::
-
-## The pipe (2) | *L'opérateur pipe (2)*
-
-::: {.columns}
-::: {.column .lang-en width="50%"}
-
-- `declare_estimator` → `estimator_df`
-- `declare_inquiry` → `estimand_df`
-- You can run steps **one at a time**
-
-:::
-::: {.column .lang-fr width="50%"}
-
-- `declare_estimator` → `estimator_df`
-- `declare_inquiry` → `estimand_df`
-- Vous pouvez exécuter les étapes **une par une**
-
-:::
-:::
 
 
 ## Run once | *Exécuter le code une fois*
@@ -238,7 +173,7 @@ This produces data, **estimands**, **estimates**, and ancillary statistics.
 ::: {.column .lang-fr width="50%"}
 
 Exécutez le code de la conception de recherche dans son intégralité une fois — tapez son nom ou appelez `run_design()`.
-Cela génère des données, des **paramètres**, des **estimations** et des statistiques auxiliaires.
+Cela génère des données, des **estimandes**, des **estimations** et des statistiques auxiliaires.
 
 :::
 :::
@@ -314,7 +249,7 @@ After many simulations, ask about **bias**: the average gap between estimand and
 :::
 ::: {.column .lang-fr width="50%"}
 
-Après de nombreuses simulations, mesurez le **biais** : la différence moyenne entre le paramètre et l'estimation.
+Après de nombreuses simulations, mesurez le **biais** : la différence moyenne entre l'estimande et l'estimation.
 
 :::
 :::
@@ -351,7 +286,7 @@ some_runs |>
 :::
 ::: {.column .lang-fr width="50%"}
 
-`diagnose_design()` calcule les paramètres de diagnostic en une seule étape.
+`diagnose_design()` calcule les indicateurs de diagnostic en une seule étape.
 
 :::
 :::
@@ -371,42 +306,6 @@ diagnosis |>
 
 
 
-## Tidy format | *Format tidy*
-
-::: {.columns}
-::: {.column .lang-en width="50%"}
-
-Use `tidy()` for a data frame ready to plot.
-
-:::
-::: {.column .lang-fr width="50%"}
-
-Utilisez `tidy()` pour un data frame prêt à être représenté graphiquement.
-
-:::
-:::
-
-```{r, eval = FALSE}
-diagnosis |> tidy()
-```
-
-```{r, echo = FALSE}
-diagnosis |>
-  tidy() |>
-  kable(digits = 2) |>
-  kable_styling(font_size = 14)
-```
-
-## Diagnosis plot | *Graphique de diagnostic*
-
-```{r, fig.width = 6, fig.height = 2.2, echo = FALSE}
-diagnosis |>
-  tidy() |>
-  ggplot(aes(estimate, diagnosand)) +
-  geom_point() +
-  geom_errorbarh(aes(xmax = conf.high, xmin = conf.low, height = .2))
-```
-
 
 # Redesign | *Redesign*
 
@@ -415,35 +314,45 @@ diagnosis |>
 ::: {.columns}
 ::: {.column .lang-en width="50%"}
 
-Three ways to modify a design:
 
-1. Write new code
-2. `replace_step`, `insert_step`, `delete_step`
-3. Change a **parameter** with `redesign` ← we focus on this
+Make a new design by taking an existing design and change a **parameter** 
+
+```{r, eval = FALSE}
+design_2 <- design |> redesign(N = 300)
+```
+
 
 :::
 ::: {.column .lang-fr width="50%"}
 
-Trois façons de modifier une conception de recherche :
+Créez un nouveau design en partant d'un design existant et en modifiant une **variable**
 
-1. Réécrire du code
-2. `replace_step`, `insert_step`, `delete_step`
-3. Changer un **paramètre** avec `redesign` ← notre focus
+```{r, eval = FALSE}
+design_2 <- design |> redesign(N = 300)
+```
 
 :::
 :::
 
-## Design parameters | *Paramètres de design*
+## Design parameters | *Variables de design* {.smaller}
 
 ::: {.columns}
 ::: {.column .lang-en width="50%"}
 
-A **parameter** is a quantity in your environment that the design references explicitly — e.g. `N` instead of a fixed number.
+* To do this your design needs *parameters*
+
+* A **parameter** is a quantity in your environment that the design references explicitly — e.g. `N` instead of a fixed number.
+
+* You create it in your environment and then reference it when you make your design
 
 :::
 ::: {.column .lang-fr width="50%"}
 
-Un **paramètre** est une quantité dans votre environnement que le design cite explicitement — p.ex. `N` au lieu d'un nombre fixe.
+* Pour cela, votre design a besoin de *variables*
+
+* Une **variable** est une quantité dans votre environnement que le design cite explicitement — p.ex. `N` au lieu d'un nombre fixé.
+
+* Vous la créez dans votre environnement, puis vous y faites référence lorsque vous construisez votre design.
 
 :::
 :::
@@ -479,37 +388,23 @@ design_200 <- simplest_design |> redesign(N = 200)
 design_200 |> draw_data() |> nrow()
 ```
 
-## A list of designs | *Une liste de designs*
+## A list of designs | *Une liste de designs* {.smaller}
+
+
 
 ::: {.columns}
 ::: {.column .lang-en width="50%"}
 
-Pass a **vector** of parameter values to get several designs at once.
+* Pass a **vector** of parameter values to get several designs at once.
+
+* With two parameters, the function `redesign()` builds a grid of designs — easy to diagnose and compare.
 
 :::
 ::: {.column .lang-fr width="50%"}
 
-Passez un **vecteur** de valeurs de paramètres pour obtenir plusieurs designs d'un coup.
+* Passez un **vecteur** de valeurs de variables pour obtenir plusieurs designs à la fois.
 
-:::
-:::
-
-```{r}
-design_Ns <- simplest_design |> redesign(N = c(200, 400, 800))
-design_Ns |> lapply(draw_data) |> lapply(nrow)
-```
-
-## Multiple parameters | *Paramètres multiples*
-
-::: {.columns}
-::: {.column .lang-en width="50%"}
-
-With two parameters, la fonction `redesign()` builds a grid of designs — easy to diagnose and compare.
-
-:::
-::: {.column .lang-fr width="50%"}
-
-Avec deux paramètres, `redesign()` construit un tableau de designs — facile à diagnostiquer et comparer.
+* Avec deux variables, la fonction `redesign()` construit un tableau de designs — facile à diagnostiquer et à comparer.
 
 :::
 :::
@@ -545,7 +440,7 @@ redesign_tidy |>
   kable_styling(font_size = 14)
 ```
 
-## Plot after redesign | *Graphique après redesign*
+## Plot after redesign | *Graphique après redesign* {.smaller}
 
 ::: {.columns}
 ::: {.column .lang-en width="50%"}
@@ -571,12 +466,12 @@ redesign_tidy |>
 ::: {.columns}
 ::: {.column .lang-en width="50%"}
 
-Power depends on N and effect size; RMSE depends on N only.
+Power depends on *N* and effect size; RMSE depends on *N* only.
 
 :::
 ::: {.column .lang-fr width="50%"}
 
-La puissance statistique dépend du N et de la taille de l'effet ; L'erreur quadratique moyenne ne dépend que de N.
+La puissance statistique dépend du *N* et de la taille de l'effet ; L'erreur quadratique moyenne ne dépend que de *N*.
 
 :::
 :::
@@ -642,23 +537,6 @@ Commandes clés pour **exécuter** un design et **en tirer des conclusions** :
 
 :::
 :::
-
-## Cheat sheet | *Aide-mémoire*
-
-::: {.columns}
-::: {.column .lang-en width="50%"}
-
-[RStudio cheat sheet (PDF)](https://raw.githubusercontent.com/rstudio/cheatsheets/master/declaredesign.pdf)
-
-:::
-::: {.column .lang-fr width="50%"}
-
-[Aide-mémoire RStudio (PDF)](https://raw.githubusercontent.com/rstudio/cheatsheets/master/declaredesign.pdf)
-
-:::
-:::
-
-![](images/cheat_sheet.png){width="68%" fig-align="center"}
 
 ## Other resources | *Autres ressources*
 

@@ -54,21 +54,49 @@ html_escape <- function(x) {
   x
 }
 
-pdf_links_html <- function(href) {
-  pdf_path <- if (grepl("\\.pdf$", href, ignore.case = TRUE)) {
+format_links_html <- function(href) {
+  html_path <- if (grepl("\\.html$", href, ignore.case = TRUE)) {
     href
   } else {
-    stem <- sub("\\.html$", "", href, ignore.case = TRUE)
-    file.path("pdf", paste0(stem, ".pdf"))
+    NA_character_
   }
 
-  if (!file.exists(pdf_path)) {
+  pdf_path <- if (grepl("\\.pdf$", href, ignore.case = TRUE)) {
+    href
+  } else if (!is.na(html_path)) {
+    stem <- sub("\\.html$", "", href, ignore.case = TRUE)
+    file.path("pdf", paste0(stem, ".pdf"))
+  } else {
+    NA_character_
+  }
+
+  parts <- character(0)
+  if (!is.na(html_path) && file.exists(html_path)) {
+    parts <- c(
+      parts,
+      sprintf(
+        '<a class="deck-format-link deck-html-link" href="%s">HTML</a>',
+        html_escape(html_path)
+      )
+    )
+  }
+  if (!is.na(pdf_path) && file.exists(pdf_path)) {
+    parts <- c(
+      parts,
+      sprintf(
+        '<a class="deck-format-link deck-pdf-link" href="%s">PDF</a>',
+        html_escape(pdf_path)
+      )
+    )
+  }
+
+  if (length(parts) == 0) {
     return("")
   }
 
   sprintf(
-    '<span class="deck-pdfs"><a class="deck-pdf-link" href="%s">PDF</a></span>',
-    html_escape(pdf_path)
+    '<span class="deck-formats">%s</span>',
+    paste(parts, collapse = ' <span class="deck-format-sep">·</span> ')
   )
 }
 
@@ -101,7 +129,7 @@ render_deck_grid <- function(lang = c("en", "fr")) {
     blurb <- html_escape(row[[blurb_col]])
     if (is.na(title) || title == "") title <- html_escape(row$title)
     if (is.na(blurb)) blurb <- ""
-    pdf_html <- pdf_links_html(row$href)
+    format_html <- format_links_html(row$href)
 
     if (isTRUE(row$placeholder)) {
       lines <- c(
@@ -131,8 +159,8 @@ render_deck_grid <- function(lang = c("en", "fr")) {
         lines <- c(lines, sprintf('<span class="deck-blurb">%s</span>', blurb))
       }
       lines <- c(lines, '</span>', '</a>')
-      if (nzchar(pdf_html)) {
-        lines <- c(lines, pdf_html)
+      if (nzchar(format_html)) {
+        lines <- c(lines, format_html)
       }
       lines <- c(lines, '</div>')
     }
@@ -167,6 +195,7 @@ render_deck_grid("en")
 ### Quiz
 
 - [Quiz for Day 2 (PDF)](quizzes/quiz-tuesday.pdf)
+- [Quiz for Day 3 (PDF)](quizzes/quiz-wednesday.pdf)
 
 ### Resources
 
@@ -294,6 +323,7 @@ render_deck_grid("fr")
 ### Quiz
 
 - [Quiz du jour 2 (PDF)](quizzes/quiz-tuesday.pdf)
+- [Quiz du jour 3 (PDF)](quizzes/quiz-wednesday.pdf)
 
 ### Ressources
 
