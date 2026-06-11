@@ -1,0 +1,42 @@
+# Multi-page HTML book: one Quarto chapter per lecture (.qmd child).
+# Render EN / FR with profiles: quarto render --profile en|fr
+project:
+  type: book
+  output-dir: output
+  resources:
+    - ../assets/**
+    - ../Images/**
+    - ../data/**
+    - ../saved/**
+    - ../R/**
+
+profile:
+  default: en
+  group: [en, fr]
+
+book:
+  author: EGAP
+  date: today
+
+format:
+  html:
+    toc: true
+    toc-depth: 3
+    toc-expand: 2
+    number-sections: true
+    theme: default
+    css: ../assets/abidjan-book.css
+    embed-resources: true
+    filters:
+      - ../assets/abidjan-bilingual.lua
+      - ../assets/force-image-src.lua
+    include-in-header:
+      text: |
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+execute:
+  freeze: auto
+  echo: false
+  warning: false
+  message: false
+

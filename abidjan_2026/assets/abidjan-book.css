@@ -1,0 +1,110 @@
+/* Monolingual HTML book exports (book/output/en|fr/) */
+
+
+:root {
+  --egap-blue: #1a5f96;
+  --egap-blue-light: #dceefb;
+  --text: #1a1a1a;
+  --muted: #555;
+  --page-bg: #ffffff;
+}
+
+html,
+body,
+#quarto-content,
+main.content,
+.quarto-container {
+  background: var(--page-bg) !important;
+}
+
+body {
+  color: var(--text);
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  line-height: 1.5;
+}
+
+main.content {
+  max-width: 52rem;
+  margin: 0 auto 3rem;
+  padding: 0 1.25rem 2rem;
+}
+
+#title-block-header {
+  margin-bottom: 1.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #d8e3ee;
+}
+
+#title-block-header .subtitle {
+  color: var(--muted);
+}
+
+h1 {
+  color: var(--egap-blue);
+  margin-top: 2.5rem;
+  padding-top: 0.5rem;
+  border-top: 3px solid var(--egap-blue-light);
+}
+
+h2 {
+  margin-top: 1.75rem;
+  color: #234;
+}
+
+h3 {
+  margin-top: 1.25rem;
+  font-size: 1.05rem;
+  color: #334;
+}
+
+/* Level-3 TOC entries (slide titles under a section) start collapsed via toc-expand: 2 */
+#quarto-sidebar-toc-left .sidebar-item-container .collapse {
+  font-size: 0.85rem;
+}
+
+.book-part {
+  margin: 2.5rem 0 1rem;
+  padding: 0.75rem 1rem;
+  background: var(--egap-blue-light);
+  border-left: 4px solid var(--egap-blue);
+  border-radius: 4px;
+}
+
+.book-part h1 {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 1.35rem;
+}
+
+.columns {
+  display: block;
+}
+
+.column {
+  width: 100% !important;
+  max-width: 100%;
+  padding: 0;
+  margin: 0 0 1rem;
+}
+
+figure img,
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+table {
+  font-size: 0.92rem;
+}
+
+#quarto-sidebar-toc-left,
+#quarto-sidebar {
+  font-size: 0.9rem;
+}
+
+/* Book project: chapter links in the left navigation */
+.sidebar-navigation .sidebar-item a.active,
+.sidebar-navigation .chapter-number {
+  color: var(--egap-blue);
+}

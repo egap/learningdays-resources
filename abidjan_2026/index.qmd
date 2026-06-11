@@ -12,33 +12,7 @@ format:
     include-in-header:
       text: |
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <script>
-        document.addEventListener("DOMContentLoaded", function () {
-          document.body.classList.add("index-page");
-          var langTabs = [
-            { match: /English/i, flags: ["assets/flags/ie.svg", "assets/flags/us.svg"], label: "English" },
-            { match: /Fran[cç]ais/i, flags: ["assets/flags/ci.svg", "assets/flags/fr.svg"], label: "Français" }
-          ];
-          document.querySelectorAll(".lang-tabs-top > .nav-tabs > .nav-item > .nav-link").forEach(function (link) {
-            if (link.querySelector(".tab-flag")) return;
-            for (var i = 0; i < langTabs.length; i++) {
-              if (langTabs[i].match.test(link.textContent)) {
-                link.textContent = "";
-                langTabs[i].flags.forEach(function (src) {
-                  var img = document.createElement("img");
-                  img.className = "tab-flag";
-                  img.src = src;
-                  img.alt = "";
-                  img.setAttribute("role", "presentation");
-                  link.appendChild(img);
-                });
-                link.appendChild(document.createTextNode(" " + langTabs[i].label));
-                break;
-              }
-            }
-          });
-        });
-        </script>
+        <script src="assets/index-tabs.js"></script>
 execute:
   echo: false
   warning: false
@@ -46,139 +20,39 @@ execute:
 ---
 
 ```{r deck-grid-setup, include=FALSE}
-html_escape <- function(x) {
-  x <- gsub("&", "&amp;", x, fixed = TRUE)
-  x <- gsub("<", "&lt;", x, fixed = TRUE)
-  x <- gsub(">", "&gt;", x, fixed = TRUE)
-  x <- gsub('"', "&quot;", x, fixed = TRUE)
-  x
-}
+source("scripts/index_helpers.R")
 
-format_links_html <- function(href) {
-  html_path <- if (grepl("\\.html$", href, ignore.case = TRUE)) {
-    href
-  } else {
-    NA_character_
-  }
-
-  pdf_path <- if (grepl("\\.pdf$", href, ignore.case = TRUE)) {
-    href
-  } else if (!is.na(html_path)) {
-    stem <- sub("\\.html$", "", href, ignore.case = TRUE)
-    file.path("pdf", paste0(stem, ".pdf"))
-  } else {
-    NA_character_
-  }
-
-  parts <- character(0)
-  if (!is.na(html_path) && file.exists(html_path)) {
-    parts <- c(
-      parts,
-      sprintf(
-        '<a class="deck-format-link deck-html-link" href="%s">HTML</a>',
-        html_escape(html_path)
-      )
-    )
-  }
-  if (!is.na(pdf_path) && file.exists(pdf_path)) {
-    parts <- c(
-      parts,
-      sprintf(
-        '<a class="deck-format-link deck-pdf-link" href="%s">PDF</a>',
-        html_escape(pdf_path)
-      )
-    )
-  }
-
-  if (length(parts) == 0) {
-    return("")
-  }
-
-  sprintf(
-    '<span class="deck-formats">%s</span>',
-    paste(parts, collapse = ' <span class="deck-format-sep">·</span> ')
-  )
-}
-
-render_deck_grid <- function(lang = c("en", "fr")) {
-  lang <- match.arg(lang)
-  decks <- read.csv(
-    "index.csv",
-    stringsAsFactors = FALSE,
-    na.strings = c("", "NA"),
-    comment.char = ""
-  )
-  decks <- decks[order(decks$sort_order), , drop = FALSE]
-  decks$placeholder <- tolower(as.character(decks$placeholder)) %in%
-    c("true", "t", "1", "yes")
-
-  if (lang == "fr") {
-    label_col <- "label_fr"
-    title_col <- "title_fr"
-    blurb_col <- "blurb_fr"
-  } else {
-    label_col <- "label"
-    title_col <- "title"
-    blurb_col <- "blurb"
-  }
-
-  lines <- '<div class="deck-grid">'
-  for (i in seq_len(nrow(decks))) {
-    row <- decks[i, ]
-    title <- html_escape(row[[title_col]])
-    blurb <- html_escape(row[[blurb_col]])
-    if (is.na(title) || title == "") title <- html_escape(row$title)
-    if (is.na(blurb)) blurb <- ""
-    format_html <- format_links_html(row$href)
-
-    if (isTRUE(row$placeholder)) {
-      lines <- c(
-        lines,
-        '<div class="deck-card deck-card--placeholder">',
-        '<span class="deck-num">&middot;</span>',
-        '<span class="deck-body">',
-        sprintf('<span class="deck-title">%s</span>', title)
-      )
-      if (nzchar(blurb)) {
-        lines <- c(lines, sprintf('<span class="deck-blurb">%s</span>', blurb))
-      }
-      lines <- c(lines, '</span>', '</div>')
-    } else {
-      label <- html_escape(row[[label_col]])
-      if (is.na(label) || label == "") label <- html_escape(row$label)
-      href <- html_escape(row$href)
-      lines <- c(
-        lines,
-        '<div class="deck-card">',
-        sprintf('<a class="deck-card-link" href="%s">', href),
-        sprintf('<span class="deck-num">%s</span>', label),
-        '<span class="deck-body">',
-        sprintf('<span class="deck-title">%s</span>', title)
-      )
-      if (nzchar(blurb)) {
-        lines <- c(lines, sprintf('<span class="deck-blurb">%s</span>', blurb))
-      }
-      lines <- c(lines, '</span>', '</a>')
-      if (nzchar(format_html)) {
-        lines <- c(lines, format_html)
-      }
-      lines <- c(lines, '</div>')
-    }
-  }
-  lines <- c(lines, '</div>')
-  knitr::asis_output(paste(lines, collapse = "\n"))
-}
+quiz_stem <- c(
+  "quizzes/quiz-tuesday",
+  "quizzes/quiz-wednesday",
+  "quizzes/quiz-thursday"
+)
+quiz_label_en <- c("Day 2", "Day 3", "Day 4")
+quiz_label_fr <- c("Quiz du jour 2", "Quiz du jour 3", "Quiz du jour 4")
 ```
 
 ::: {.hero}
-![](egap-logo.png){.logo width="150px"}
+![](assets/egap-logo.png){.logo width="150px"}
+
+<nav class="index-lang-switch" aria-label="Language">
+  <button type="button" class="lang-opt is-active" data-lang="en" aria-pressed="true" aria-label="English">
+    <img class="tab-flag" src="assets/flags/ie.svg" alt="" role="presentation">
+    <img class="tab-flag" src="assets/flags/us.svg" alt="" role="presentation">
+    <img class="tab-flag" src="assets/flags/ng.svg" alt="" role="presentation">
+    EN
+  </button>
+  <button type="button" class="lang-opt" data-lang="fr" aria-pressed="false" aria-label="Français">
+    <img class="tab-flag" src="assets/flags/ci.svg" alt="" role="presentation">
+    <img class="tab-flag" src="assets/flags/fr.svg" alt="" role="presentation">
+    <img class="tab-flag" src="assets/flags/cm.svg" alt="" role="presentation">
+    FR
+  </button>
+</nav>
 :::
 
-::: {.panel-tabset .lang-tabs-top}
+::: {#index-lang-en .index-lang-panel .is-active}
 
-## <img class="tab-flag" src="assets/flags/ie.svg" alt="" role="presentation"> <img class="tab-flag" src="assets/flags/us.svg" alt="" role="presentation"> English
-
-::: {.panel-tabset .index-subtabs}
+::: {.panel-tabset .index-main-tabs}
 
 ### Slides
 
@@ -192,10 +66,13 @@ Teaching slides for the [EGAP](https://egap.org/) Learning Days in Abidjan, 2026
 render_deck_grid("en")
 ```
 
-### Quiz
+### Quizzes
 
-- [Quiz for Day 2 (PDF)](quizzes/quiz-tuesday.pdf)
-- [Quiz for Day 3 (PDF)](quizzes/quiz-wednesday.pdf)
+```{r}
+#| label: quiz-list-en
+#| results: asis
+render_quiz_list("en", quiz_stem, quiz_label_en)
+```
 
 ### Resources
 
@@ -212,6 +89,9 @@ render_deck_grid("en")
   works to accumulate knowledge by pre-planning a meta-analysis of
   multiple studies that have high internal validity due to randomization.
 
+- [DeclareDesign](https://declaredesign.org/) — software, tutorials, and design library (MIDA framework)
+
+- [_Research Design in the Social Sciences_](https://book.declaredesign.org/) — declaration, diagnosis, and redesign (free online)
 
 - **Research design form** (reference):
   [English version](research_design_forms/0_research_design_form_en.html)
@@ -304,9 +184,11 @@ render_deck_grid("en")
 
 :::
 
-## <img class="tab-flag" src="assets/flags/ci.svg" alt="" role="presentation"> <img class="tab-flag" src="assets/flags/fr.svg" alt="" role="presentation"> Français
+:::
 
-::: {.panel-tabset .index-subtabs}
+::: {#index-lang-fr .index-lang-panel}
+
+::: {.panel-tabset .index-main-tabs}
 
 ### Diapos
 
@@ -322,8 +204,11 @@ render_deck_grid("fr")
 
 ### Quiz
 
-- [Quiz du jour 2 (PDF)](quizzes/quiz-tuesday.pdf)
-- [Quiz du jour 3 (PDF)](quizzes/quiz-wednesday.pdf)
+```{r}
+#| label: quiz-list-fr
+#| results: asis
+render_quiz_list("fr", quiz_stem, quiz_label_fr)
+```
 
 ### Ressources
 
@@ -340,6 +225,10 @@ render_deck_grid("fr")
   vise à accumuler des connaissances en pré-planifiant une méta-analyse de
   plusieurs études qui ont une validité interne élevée en raison de la
   randomisation.
+
+- [DeclareDesign](https://declaredesign.org/) — logiciels, tutoriels et bibliothèque de designs (cadre MIDA)
+
+- [_Research Design in the Social Sciences_](https://book.declaredesign.org/) — déclaration, diagnostic et reconception (livre en ligne gratuit)
 
 - **Formulaire de design de recherche** (référence) :
   [version française](research_design_forms/0_research_design_form_fr.html)
@@ -433,44 +322,3 @@ render_deck_grid("fr")
 :::
 
 :::
-
-```{r render-all-decks, eval=FALSE, include=FALSE}
-decks <- read.csv(
-  "index.csv",
-  stringsAsFactors = FALSE,
-  na.strings = c("", "NA"),
-  comment.char = ""
-)
-decks <- decks[order(decks$sort_order), , drop = FALSE]
-decks$placeholder <- tolower(as.character(decks$placeholder)) %in%
-  c("true", "t", "1", "yes")
-
-qmd_files <- sub("\\.html$", ".qmd", decks$href[!isTRUE(decks$placeholder)])
-qmd_files <- sub("\\.pdf$", ".qmd", qmd_files)
-
-quarto <- Sys.which("quarto")
-if (quarto == "") {
-  stop("quarto not found on PATH")
-}
-
-failed <- character(0)
-for (f in qmd_files) {
-  if (!file.exists(f)) {
-    warning("Missing: ", f)
-    failed <- c(failed, f)
-    next
-  }
-  message("Rendering ", f, " ...")
-  out <- system2(quarto, c("render", f), stdout = TRUE, stderr = TRUE)
-  status <- attr(out, "status")
-  if (!is.null(status) && status != 0L) {
-    warning("Failed: ", f, "\n", paste(out, collapse = "\n"))
-    failed <- c(failed, f)
-  }
-}
-
-if (length(failed)) {
-  stop("Render failed for: ", paste(failed, collapse = ", "))
-}
-message("All ", length(qmd_files), " decks rendered OK.")
-```

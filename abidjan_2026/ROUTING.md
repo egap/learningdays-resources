@@ -226,7 +226,7 @@ py scripts/convert_bilingual_rmd.py 6_randomization_2.Rmd 6_randomization_2.qmd
 title: "English | *Français*"
 author: "..."
 date: today
-bibliography: learningdays-book.bib
+bibliography: assets/learningdays-book.bib
 format:
   revealjs:
     embed-resources: true

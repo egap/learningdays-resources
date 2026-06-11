@@ -1,0 +1,22 @@
+# Quizzes subfolder: wire bilingual assets with paths relative to this directory.
+# Root _quarto.yml uses assets/… which does not resolve when rendering quizzes/*.qmd.
+
+format:
+  revealjs:
+    theme: white
+    slide-number: true
+    center: false
+    transition: fade
+    width: 1280
+    height: 720
+    margin: 0.08
+    auto-stretch: false
+    slide-level: 2
+    toc: false
+    preview-links: auto
+    plugins: [notes, search]
+    filters:
+      - ../assets/abidjan-bilingual.lua
+      - ../assets/force-image-src.lua
+    include-in-header: header.html
+    include-after-body: after-body.html

@@ -5,6 +5,8 @@ date: today
 format:
   revealjs:
     embed-resources: true
+execute:
+  freeze: auto
 ---
 
 # Introduction | *Introduction*
@@ -54,7 +56,7 @@ Chaque équipe reçoit une **enveloppe avec 20 cartes**.
 
 ## Your materials | *Votre matériel* {.cards-photo-slide}
 
-![](images/cards.jpg){width="90%" fig-align="center"}
+![](Images/cards.jpg){width="90%" fig-align="center"}
 
 ## What's on each card | *Sur chaque carte*
 
@@ -529,7 +531,15 @@ Dans tous les groupes, $Y_0$ étaient les nombres 1 à 20.
 library(tidyverse)
 library(DeclareDesign)
 
-diagnosis_1 <- read_rds("saved/cardgame_simulation.rds")
+cardgame_rds <- "saved/cardgame_simulation.rds"
+if (!file.exists(cardgame_rds)) {
+  stop(
+    "Missing ", cardgame_rds,
+    ". Run ensure_cardgame_simulation() or make_everything() first.",
+    call. = FALSE
+  )
+}
+diagnosis_1 <- read_rds(cardgame_rds)
 diag_tbl <- diagnosis_1 |>
   reshape_diagnosis() |>
   select(Inquiry, Bias, Power, Coverage)

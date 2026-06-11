@@ -1,0 +1,610 @@
+---
+title: "Comprehensive Test | *Test complet*"
+author: "EGAP Learning Days — Abidjan 2026"
+date: today
+format:
+  html:
+    theme: default
+    toc: true
+    toc-depth: 2
+    number-sections: false
+    css: ../assets/abidjan-index.css
+execute:
+  echo: false
+  warning: false
+  message: false
+---
+
+::: {.callout-note}
+**Instructions | *Consignes***
+
+Answer all 20 multiple-choice questions (choose **one** letter per question). Then answer the open-ended question in Question 21.
+
+*Répondez aux 20 questions à choix multiples (une seule lettre par question), puis à la question ouverte (Question 21).*
+:::
+
+# Multiple choice | *Choix multiples*
+
+## Question 1
+
+::: {.columns}
+::: {.column .lang-en width="50%"}
+
+What is the **fundamental problem of causal inference**?
+
+a. We can never measure outcomes accurately  
+b. For each unit, we observe only one potential outcome, not both $Y(1)$ and $Y(0)$  
+c. Treatment effects are always zero on average  
+d. Randomization always fails in the field  
+
+:::
+::: {.column .lang-fr width="50%"}
+
+Quel est le **problème fondamental de l'inférence causale** ?
+
+a. On ne peut jamais mesurer les résultats avec précision  
+b. Pour chaque unité, on n'observe qu'un seul résultat potentiel, pas à la fois $Y(1)$ et $Y(0)$  
+c. Les effets de traitement sont toujours nuls en moyenne  
+d. La randomisation échoue toujours sur le terrain  
+
+:::
+:::
+
+## Question 2
+
+::: {.columns}
+::: {.column .lang-en width="50%"}
+
+The **Average Treatment Effect (ATE)** is defined as:
+
+a. The effect of treatment on the treated units only  
+b. The difference between treated and control group means in the sample  
+c. $\mathbb{E}[Y(1) - Y(0)]$ over the population of interest  
+d. The coefficient on a covariate in a regression model  
+
+:::
+::: {.column .lang-fr width="50%"}
+
+L'**effet moyen du traitement (ATE)** est défini comme :
+
+a. L'effet du traitement sur les unités traitées seulement  
+b. La différence des moyennes traitement–contrôle dans l'échantillon  
+c. $\mathbb{E}[Y(1) - Y(0)]$ sur la population d'intérêt  
+d. Le coefficient d'une covariable dans un modèle de régression  
+
+:::
+:::
+
+## Question 3
+
+::: {.columns}
+::: {.column .lang-en width="50%"}
+
+A researcher compares farmers who chose extension services to those who did not, and finds higher yields among users. The main threat to a causal interpretation is:
+
+a. Measurement error in yields  
+b. Selection bias: users may differ from non-users in ways that affect yields  
+c. The sample size is too small  
+d. Yields are measured in kilograms  
+
+:::
+::: {.column .lang-fr width="50%"}
+
+Un chercheur compare des agriculteurs qui ont choisi les services d'extension à ceux qui ne l'ont pas fait, et observe des rendements plus élevés chez les utilisateurs. La principale menace à une interprétation causale est :
+
+a. Une erreur de mesure des rendements  
+b. Un biais de sélection : les utilisateurs peuvent différer des non-utilisateurs de façons qui affectent les rendements  
+c. La taille de l'échantillon est trop petite  
+d. Les rendements sont mesurés en kilogrammes  
+
+:::
+:::
+
+## Question 4
+
+::: {.columns}
+::: {.column .lang-en width="50%"}
+
+You must assign **exactly** 50 units to treatment and 50 to control from a list of 100. Which approach is appropriate?
+
+a. `simple_ra()` with `prob = 0.5`  
+b. `complete_ra()` with `m = 50`  
+c. `block_ra()` with one block  
+d. Flip a coin 100 times  
+
+:::
+::: {.column .lang-fr width="50%"}
+
+Vous devez assigner **exactement** 50 unités au traitement et 50 au contrôle à partir d'une liste de 100. Quelle approche convient ?
+
+a. `simple_ra()` avec `prob = 0.5`  
+b. `complete_ra()` avec `m = 50`  
+c. `block_ra()` avec un seul bloc  
+d. Lancer une pièce 100 fois  
+
+:::
+:::
+
+## Question 5
+
+::: {.columns}
+::: {.column .lang-en width="50%"}
+
+In a village with 10 households, treatment is assigned at the **village** level: either all 10 receive treatment or all 10 are control. This is an example of:
+
+a. Simple random assignment  
+b. Complete random assignment  
+c. Blocked random assignment  
+d. Cluster random assignment  
+
+:::
+::: {.column .lang-fr width="50%"}
+
+Dans un village de 10 ménages, le traitement est assigné au niveau du **village** : soit les 10 sont traités, soit les 10 sont contrôle. Il s'agit d'un exemple de :
+
+a. Assignation aléatoire simple  
+b. Assignation complète  
+c. Randomisation par blocs  
+d. Randomisation par grappes  
+
+:::
+:::
+
+## Question 6
+
+::: {.columns}
+::: {.column .lang-en width="50%"}
+
+Blocking on a pre-treatment variable that predicts the outcome typically:
+
+a. Biases the ATE estimate  
+b. Reduces the precision of the ATE estimate  
+c. Improves the precision of the ATE estimate (when analysis includes blocks)  
+d. Eliminates the need for randomization  
+
+:::
+::: {.column .lang-fr width="50%"}
+
+Bloquer sur une variable pré-traitement qui prédit le résultat permet typiquement de :
+
+a. Biaiser l'estimation de l'ATE  
+b. Réduire la précision de l'estimation de l'ATE  
+c. Améliorer la précision de l'ATE (si l'analyse inclut les blocs)  
+d. Éliminer le besoin de randomisation  
+
+:::
+:::
+
+## Question 7
+
+::: {.columns}
+::: {.column .lang-en width="50%"}
+
+The principle **"analyze as you randomize"** means:
+
+a. Use the same estimator regardless of how treatment was assigned  
+b. Match your analysis strategy to the randomization procedure (e.g., include blocks if you blocked)  
+c. Always use linear regression with many covariates  
+d. Report only descriptive statistics  
+
+:::
+::: {.column .lang-fr width="50%"}
+
+Le principe **« analyser comme on randomise »** signifie :
+
+a. Utiliser le même estimateur quelle que soit l'assignation  
+b. Adapter l'analyse à la procédure de randomisation (p. ex. inclure les blocs si vous avez bloqué)  
+c. Toujours utiliser une régression linéaire avec beaucoup de covariables  
+d. Ne présenter que des statistiques descriptives  
+
+:::
+:::
+
+## Question 8
+
+::: {.columns}
+::: {.column .lang-en width="50%"}
+
+In a randomized experiment, the difference-in-means estimator is unbiased for the ATE because randomization ensures:
+
+a. Treatment and control groups have identical outcomes  
+b. Treatment and control groups are balanced on every covariate  
+c. $\mathbb{E}[Y(0) \mid Z=1] = \mathbb{E}[Y(0) \mid Z=0]$ (and similarly for $Y(1)$)  
+d. The sample size is large  
+
+:::
+::: {.column .lang-fr width="50%"}
+
+Dans une expérience randomisée, l'estimateur différence des moyennes est non biaisé pour l'ATE car la randomisation assure :
+
+a. Des résultats identiques entre traitement et contrôle  
+b. Un équilibre parfait sur toutes les covariables  
+c. $\mathbb{E}[Y(0) \mid Z=1] = \mathbb{E}[Y(0) \mid Z=0]$ (et de même pour $Y(1)$)  
+d. Une grande taille d'échantillon  
+
+:::
+:::
+
+## Question 9
+
+::: {.columns}
+::: {.column .lang-en width="50%"}
+
+You add a pre-treatment covariate $X$ to your regression $Y \sim Z + X$. The coefficient on $X$ should be interpreted as:
+
+a. The causal effect of $X$ on $Y$  
+b. The average association between $X$ and $Y$, not necessarily causal  
+c. The ATE  
+d. The standard error of the ATE  
+
+:::
+::: {.column .lang-fr width="50%"}
+
+Vous ajoutez une covariable pré-traitement $X$ à la régression $Y \sim Z + X$. Le coefficient de $X$ doit être interprété comme :
+
+a. L'effet causal de $X$ sur $Y$  
+b. Une association moyenne entre $X$ et $Y$, pas nécessairement causale  
+c. L'ATE  
+d. L'erreur-type de l'ATE  
+
+:::
+:::
+
+## Question 10
+
+::: {.columns}
+::: {.column .lang-en width="50%"}
+
+A **$p$-value** in a classical hypothesis test represents:
+
+a. The probability that the null hypothesis is true  
+b. The probability of seeing data at least this extreme **if** the null hypothesis is true  
+c. The size of the treatment effect  
+d. The power of the study  
+
+:::
+::: {.column .lang-fr width="50%"}
+
+Une **$p$-value** dans un test classique représente :
+
+a. La probabilité que l'hypothèse nulle soit vraie  
+b. La probabilité d'observer des données au moins aussi extrêmes **si** l'hypothèse nulle est vraie  
+c. La taille de l'effet du traitement  
+d. La puissance de l'étude  
+
+:::
+:::
+
+## Question 11
+
+::: {.columns}
+::: {.column .lang-en width="50%"}
+
+If a test fails to reject the null hypothesis at $\alpha = 0.05$, the correct conclusion is:
+
+a. The null hypothesis is true  
+b. The treatment has no effect  
+c. We do not have sufficient evidence to reject the null at this significance level  
+d. The experiment was underpowered  
+
+:::
+::: {.column .lang-fr width="50%"}
+
+Si un test ne permet pas de rejeter l'hypothèse nulle à $\alpha = 0,05$, la conclusion correcte est :
+
+a. L'hypothèse nulle est vraie  
+b. Le traitement n'a aucun effet  
+c. Nous n'avons pas assez de preuves pour rejeter l'hypothèse nulle à ce seuil  
+d. L'expérience était sous-puissante  
+
+:::
+:::
+
+## Question 12
+
+::: {.columns}
+::: {.column .lang-en width="50%"}
+
+**Statistical power** is:
+
+a. The probability of correctly accepting the null hypothesis  
+b. The probability of rejecting the null when a specified alternative is true  
+c. The same as the significance level $\alpha$  
+d. The expected value of the treatment effect  
+
+:::
+::: {.column .lang-fr width="50%"}
+
+La **puissance statistique** est :
+
+a. La probabilité d'accepter correctement l'hypothèse nulle  
+b. La probabilité de rejeter l'hypothèse nulle quand une alternative donnée est vraie  
+c. La même chose que le seuil de significativité $\alpha$  
+d. La valeur attendue de l'effet du traitement  
+
+:::
+:::
+
+## Question 13
+
+::: {.columns}
+::: {.column .lang-en width="50%"}
+
+Holding other factors fixed, power generally **increases** when:
+
+a. Sample size decreases  
+b. Outcome variability increases  
+c. The true effect size increases  
+d. The significance level $\alpha$ becomes stricter (e.g. 0.01 instead of 0.05)  
+
+:::
+::: {.column .lang-fr width="50%"}
+
+Toutes choses égales par ailleurs, la puissance **augmente** généralement quand :
+
+a. La taille de l'échantillon diminue  
+b. La variabilité du résultat augmente  
+c. La taille d'effet vraie augmente  
+d. Le seuil $\alpha$ devient plus strict (p. ex. 0,01 au lieu de 0,05)  
+
+:::
+:::
+
+## Question 14
+
+::: {.columns}
+::: {.column .lang-en width="50%"}
+
+In the MIDA framework (DeclareDesign), **diagnosis** is used to:
+
+a. Replace the need for data collection  
+b. Simulate designs and evaluate properties like bias, RMSE, and power before running the study  
+c. Prove that a design is unbiased in all circumstances  
+d. Select covariates after seeing outcomes  
+
+:::
+::: {.column .lang-fr width="50%"}
+
+Dans le cadre MIDA (DeclareDesign), le **diagnostic** sert à :
+
+a. Remplacer la collecte de données  
+b. Simuler des conceptions et évaluer biais, RMSE, puissance, etc. avant l'étude  
+c. Prouver qu'une conception est non biaisée dans tous les cas  
+d. Choisir les covariables après avoir vu les résultats  
+
+:::
+:::
+
+## Question 15
+
+::: {.columns}
+::: {.column .lang-en width="50%"}
+
+**SUTVA** (Stable Unit Treatment Value Assumption) requires roughly that:
+
+a. All units must receive the same dose of treatment  
+b. One unit's treatment and outcomes are not affected by other units' treatment assignments  
+c. Treatment effects are constant across all units  
+d. There is no attrition  
+
+:::
+::: {.column .lang-fr width="50%"}
+
+**SUTVA** (hypothèse de valeur de traitement stable) exige en gros que :
+
+a. Toutes les unités reçoivent la même dose de traitement  
+b. Le traitement et les résultats d'une unité ne dépendent pas de l'assignation des autres unités  
+c. Les effets de traitement sont constants pour toutes les unités  
+d. Il n'y a pas d'attrition  
+
+:::
+:::
+
+## Question 16
+
+::: {.columns}
+::: {.column .lang-en width="50%"}
+
+In a **factorial design** with factors A and B, estimating the interaction $A \times B$ allows you to assess:
+
+a. Whether factor A has any main effect  
+b. Whether the effect of A depends on the level of B  
+c. The overall sample mean  
+d. Whether randomization was successful  
+
+:::
+::: {.column .lang-fr width="50%"}
+
+Dans une **conception factorielle** avec facteurs A et B, estimer l'interaction $A \times B$ permet d'évaluer :
+
+a. Si le facteur A a un effet principal  
+b. Si l'effet de A dépend du niveau de B  
+c. La moyenne globale de l'échantillon  
+d. Si la randomisation a réussi  
+
+:::
+:::
+
+## Question 17
+
+::: {.columns}
+::: {.column .lang-en width="50%"}
+
+**Attrition** threatens internal validity primarily because:
+
+a. It always increases statistical power  
+b. Loss of units can break the balance created by randomization if attrition is related to treatment or potential outcomes  
+c. It makes the ATE definition impossible  
+d. It only matters in observational studies  
+
+:::
+::: {.column .lang-fr width="50%"}
+
+L'**attrition** menace la validité interne surtout parce que :
+
+a. Elle augmente toujours la puissance statistique  
+b. La perte d'unités peut rompre l'équilibre créé par la randomisation si l'attrition est liée au traitement ou aux résultats potentiels  
+c. Elle rend impossible la définition de l'ATE  
+d. Elle ne compte que dans les études observationnelles  
+
+:::
+:::
+
+## Question 18
+
+::: {.columns}
+::: {.column .lang-en width="50%"}
+
+When treatment is randomized at the cluster level, standard errors should typically:
+
+a. Ignore clustering because randomization guarantees independence  
+b. Account for correlation within clusters (e.g., cluster-robust SEs)  
+c. Be set to zero  
+d. Use only the number of clusters as $N$ without adjustment  
+
+:::
+::: {.column .lang-fr width="50%"}
+
+Quand le traitement est randomisé au niveau des grappes, les erreurs-types doivent typiquement :
+
+a. Ignorer les grappes car la randomisation garantit l'indépendance  
+b. Tenir compte de la corrélation intra-grappe (p. ex. erreurs robustes par grappe)  
+c. Être fixées à zéro  
+d. Utiliser seulement le nombre de grappes comme $N$ sans ajustement  
+
+:::
+:::
+
+## Question 19
+
+::: {.columns}
+::: {.column .lang-en width="50%"}
+
+An **encouragement design** (instrumental variables setup) is often used when:
+
+a. Treatment is perfectly complied with by everyone  
+b. Some assigned-to-treatment units do not take up treatment, but assignment still affects uptake  
+c. There is no control group  
+d. Outcomes are measured before treatment  
+
+:::
+::: {.column .lang-fr width="50%"}
+
+Une **conception par incitation** (variables instrumentales) est souvent utilisée quand :
+
+a. Tout le monde respecte parfaitement le traitement assigné  
+b. Certaines unités assignées au traitement ne le prennent pas, mais l'assignation influence tout de même l'adhésion  
+c. Il n'y a pas de groupe contrôle  
+d. Les résultats sont mesurés avant le traitement  
+
+:::
+:::
+
+## Question 20
+
+::: {.columns}
+::: {.column .lang-en width="50%"}
+
+Which statement best describes the relationship between **randomization** and **causal identification**?
+
+a. Randomization identifies individual-level treatment effects for every unit  
+b. Randomization makes treated and control groups comparable in expectation, enabling unbiased estimation of average effects  
+c. Randomization is only needed when sample size is small  
+d. Randomization replaces the need to define potential outcomes  
+
+:::
+::: {.column .lang-fr width="50%"}
+
+Quelle affirmation décrit le mieux le lien entre **randomisation** et **identification causale** ?
+
+a. La randomisation identifie les effets individuels pour chaque unité  
+b. La randomisation rend les groupes comparables en espérance, ce qui permet d'estimer sans biais des effets moyens  
+c. La randomisation n'est nécessaire que si l'échantillon est petit  
+d. La randomisation remplace la définition des résultats potentiels  
+
+:::
+:::
+
+# Open-ended | *Question ouverte*
+
+## Question 21
+
+::: {.columns}
+::: {.column .lang-en width="50%"}
+
+**Core concept check.** In your own words (3–6 sentences):
+
+1. State the **fundamental problem of causal inference**.  
+2. Explain why simply comparing average outcomes between a treated group and an untreated group **does not** automatically give a causal effect—even if the groups look similar on some observed characteristics.  
+3. Describe **one** way that randomization helps address this problem.
+
+*Write your answer below.*
+
+::: {.callout-tip}
+Use potential outcomes notation ($Y(1)$, $Y(0)$) if it helps, but plain language is fine.
+:::
+
+:::
+::: {.column .lang-fr width="50%"}
+
+**Vérification d'un concept clé.** Dans vos propres mots (3–6 phrases) :
+
+1. Énoncez le **problème fondamental de l'inférence causale**.  
+2. Expliquez pourquoi comparer simplement les moyennes entre un groupe traité et un groupe non traité **ne donne pas** automatiquement un effet causal — même si les groupes se ressemblent sur certaines caractéristiques observées.  
+3. Décrivez **une** façon dont la randomisation aide à résoudre ce problème.
+
+*Écrivez votre réponse ci-dessous.*
+
+::: {.callout-tip}
+Vous pouvez utiliser la notation des résultats potentiels ($Y(1)$, $Y(0)$), mais un langage simple convient aussi.
+:::
+
+:::
+:::
+
+---
+
+*Space for answer / Espace pour la réponse:*
+
+<br><br><br><br><br><br><br><br>
+
+---
+
+# Answer key (instructors) | *Corrigé (instructeurs)*
+
+::: {.callout-warning collapse="true"}
+## Multiple-choice answers
+
+| Q | Answer | Brief rationale |
+|---|--------|-----------------|
+| 1 | **b** | Only one potential outcome is observed per unit. |
+| 2 | **c** | ATE is the expectation of unit-level effects. |
+| 3 | **b** | Self-selection confounds treatment with other factors. |
+| 4 | **b** | Complete RA fixes exact treated/control counts. |
+| 5 | **d** | All units in a cluster share the same assignment. |
+| 6 | **c** | Blocking reduces residual variance when analyzed correctly. |
+| 7 | **b** | Analysis should mirror the randomization strategy. |
+| 8 | **c** | Randomization balances potential outcomes in expectation. |
+| 9 | **b** | Covariate coefficients are not causal without further design. |
+| 10 | **b** | $p$-value is $P(\text{data} \mid H_0)$, not $P(H_0 \mid \text{data})$. |
+| 11 | **c** | Non-rejection is not acceptance of the null. |
+| 12 | **b** | Power = probability of rejection under a specified alternative. |
+| 13 | **c** | Larger effects are easier to detect. |
+| 14 | **b** | Diagnosis simulates and evaluates design properties. |
+| 15 | **b** | No interference / spillovers across units. |
+| 16 | **b** | Interaction = effect of A depends on B. |
+| 17 | **b** | Selective attrition can reintroduce imbalance. |
+| 18 | **b** | Units within clusters are correlated. |
+| 19 | **b** | IV/encouragement exploits assignment-induced variation in uptake. |
+| 20 | **b** | Randomization identifies average causal effects in expectation. |
+
+## Question 21 — model answer (guide)
+
+A strong answer should include:
+
+- **Fundamental problem:** for each unit $i$, we observe either $Y_i(1)$ or $Y_i(0)$, never both; individual causal effects $\tau_i = Y_i(1) - Y_i(0)$ are not directly observable.
+- **Observational comparison:** treated and untreated units may differ in unobserved ways $U$ that affect outcomes; the difference in means mixes the effect of $Z$ with confounding.
+- **Randomization helps:** it makes treatment independent of potential outcomes (and pre-treatment characteristics), so $\mathbb{E}[Y(0)\mid Z=1]=\mathbb{E}[Y(0)\mid Z=0]$ and the difference in means estimates the ATE without bias (in expectation).
+
+*Une bonne réponse couvre les mêmes trois points : un seul résultat potentiel observé ; comparaisons observationnelles confondues ; randomisation qui équilibre les groupes en espérance.*
+:::

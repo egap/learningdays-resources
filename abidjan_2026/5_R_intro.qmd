@@ -2,7 +2,7 @@
 title: "Introduction to R | *Introduction à R*"
 author: "Vincent,  Yannick"
 date: today
-bibliography: learningdays-book.bib
+bibliography: assets/learningdays-book.bib
 format:
   revealjs:
     embed-resources: true
@@ -12,26 +12,15 @@ execute:
 
 ```{r, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
+suppressPackageStartupMessages({
+  library(dplyr)
+  library(ggplot2)
+  library(randomizr)
+  library(readr)
+})
+# Used in factors, summary stats, and ggplot sections before the read_csv demo chunk.
+ships <- read_csv("data/ships.csv")
 ```
-
-# Guide | *Guide*
-
-## R refresher | *Rappel R*
-
-::: {.columns}
-::: {.column .lang-en width="50%"}
-
-- Objects
-- Functions
-
-:::
-::: {.column .lang-fr width="50%"}
-
-- Objets
-- Fonctions
-
-:::
-:::
 
 # Getting started | *Premiers pas*
 
@@ -42,10 +31,14 @@ knitr::opts_chunk$set(echo = TRUE)
 
 This section is for readers opening R for the first time. It covers the practical setup the rest of the course assumes.
 
+**R basics:** everything is an **object** (data, results, models); you manipulate objects with **functions** like `mean()`, `read_csv()`, or `filter()`.
+
 :::
 ::: {.column .lang-fr width="50%"}
 
 Cette section s'adresse à ceux qui ouvrent R pour la première fois. Elle couvre la configuration pratique que le reste du cours présuppose.
+
+**Bases de R :** tout est un **objet** (données, résultats, modèles) ; vous manipulez les objets avec des **fonctions** comme `mean()`, `read_csv()` ou `filter()`.
 
 :::
 :::
@@ -82,6 +75,8 @@ When you open RStudio you typically see four panes:
 
 - **Console** — run commands one at a time; results print here
 - **Source / Editor** — write scripts (`.R`) or Quarto (`.qmd`); code runs only when you send it
+- **Environment / History** — objects in memory and command history
+- **Files / Plots / Help / Packages** — file browser, plots, help pages, installed packages
 
 :::
 ::: {.column .lang-fr width="50%"}
@@ -90,26 +85,77 @@ When you open RStudio you typically see four panes:
 
 - **Console** — exécuter des commandes une par une ; les résultats s'affichent ici
 - **Source / Éditeur** — écrire des scripts (`.R`) ou Quarto (`.qmd`) ; le code ne s'exécute que lorsque vous l'envoyez
-
-:::
-:::
-
-## RStudio panes (2) | *Les fenêtres de RStudio (2)*
-
-::: {.columns}
-::: {.column .lang-en width="50%"}
-
-- **Environment / History** — objects in memory and command history
-- **Files / Plots / Help / Packages** — file browser, plots, help pages, installed packages
-
-:::
-::: {.column .lang-fr width="50%"}
-
 - **Environnement / Historique** — objets en mémoire et historique des commandes
 - **Fichiers / Graphiques / Aide / Packages** — explorateur de fichiers, graphiques, aide, packages installés
 
 :::
 :::
+
+## Work in scripts | *Travailler dans des scripts*
+
+::: {.columns}
+::: {.column .lang-en width="50%"}
+
+**Write your work in a script** (`.R` or `.qmd`), not only in the Console.
+
+- Save the script often — your analysis becomes **reproducible**
+- You can re-run the same steps tomorrow, share them with a coauthor, or fix a mistake without retyping
+- The Console is for quick tests; the script is the **record** of what you did
+
+:::
+::: {.column .lang-fr width="50%"}
+
+**Écrivez votre travail dans un script** (`.R` ou `.qmd`), pas seulement dans la Console.
+
+- Sauvegardez souvent — votre analyse devient **reproductible**
+- Vous pouvez refaire les mêmes étapes demain, les partager avec un coauteur ou corriger une erreur sans tout retaper
+- La Console sert aux tests rapides ; le script est le **journal** de ce que vous avez fait
+
+:::
+:::
+
+## Readable code | *Code lisible* {.smaller}
+
+::: {.columns}
+::: {.column .lang-en width="50%"}
+
+Small habits make scripts easier to read, debug, and share:
+
+- Space around `<-` and `+`
+- One main step per line; break long pipes across lines
+- Short comments on *why*, not on every line
+- Descriptive object names (`treatment`, not `x`)
+
+:::
+::: {.column .lang-fr width="50%"}
+
+De petites habitudes rendent les scripts plus faciles à lire, déboguer et partager :
+
+- Espaces autour de `<-` et `+`
+- Une étape principale par ligne ; couper les longs pipes sur plusieurs lignes
+- Commentaires courts sur le *pourquoi*, pas sur chaque ligne
+- Noms d'objets explicites (`traitement`, pas `x`)
+
+:::
+:::
+
+```{r, eval = FALSE}
+# DON'T                          # DO
+ships<-read.csv("data/ships.csv")   ships <- read_csv("data/ships.csv")
+
+# DON'T                          # DO
+x <- complete_ra(10)                set.seed(42)
+                                    treatment <- complete_ra(10)  # 5 treated | 5 traités
+
+# DON'T: one cramped line
+ships |> filter(Months>10) |> select(Months,Dammage) |> mutate(dpm=Dammage/Months)
+
+# DO: line breaks and spaces
+ships |>
+  filter(Months > 10) |>
+  select(Months, Dammage) |>
+  mutate(damage_per_month = Dammage / Months)
+```
 
 ## Running code | *Exécuter du code*
 
@@ -118,14 +164,10 @@ When you open RStudio you typically see four panes:
 
 Type in the **console** and press Enter, or write in a **script** and send with **Ctrl + Enter** (Windows/Linux) or **Cmd + Enter** (Mac).
 
-Scripts are preferable — work is saved and reproducible.
-
 :::
 ::: {.column .lang-fr width="50%"}
 
 Tapez dans la **console** et appuyez sur Entrée, ou écrivez dans un **script** et envoyez avec **Ctrl + Entrée** (Windows/Linux) ou **Cmd + Entrée** (Mac).
-
-Les scripts sont préférables — le travail est sauvegardé et reproductible.
 
 :::
 :::
@@ -146,10 +188,10 @@ Deux types de commandes se comportent différemment :
 :::
 
 ```{r}
-2 + 2              # add two numbers and show the result
+2 + 2              # show result | afficher le résultat
 
-x <- 2 + 2         # compute 2 + 2 and store in object x
-x                  # show the value stored in x
+x <- 2 + 2         # store in x | stocker dans x
+x                  # display x | afficher x
 ```
 
 ## Working directory | *Répertoire de travail*
@@ -159,41 +201,79 @@ x                  # show the value stored in x
 
 The **working directory** is the folder R reads from and writes to by default. Many early errors come from R looking in the wrong place for a data file.
 
+Open your **RStudio Project** first — then paths like `data/ships.csv` work reliably.
+
 :::
 ::: {.column .lang-fr width="50%"}
 
 Le **répertoire de travail** est le dossier que R utilise par défaut pour lire et écrire. Beaucoup d'erreurs viennent d'un mauvais chemin vers un fichier de données.
 
+Ouvrez d'abord votre **projet RStudio** — les chemins comme `data/ships.csv` fonctionnent alors de façon fiable.
+
 :::
 :::
 
-```{r}
-getwd()              # current working directory
-list.files("data/")  # files R can see in a folder
+```{r, eval = FALSE}
+getwd()   # current working directory | répertoire de travail actuel
+
 ```
 
-## RStudio projects | *Projets RStudio*
+## RStudio projects: why | *Projets RStudio : pourquoi*
 
 ::: {.columns}
 ::: {.column .lang-en width="50%"}
 
-Best practice: work inside an **RStudio Project**.
+Best practice: work inside an **RStudio Project** (`.Rproj` file).
 
-1. File → New Project → New Directory → New Project
-2. Put scripts and data inside the project folder
-3. Open the project each session — `getwd()` should point to the project root
+- Sets the working directory automatically
+- Keeps scripts, data, and outputs together
+- Makes collaboration and replication much easier
 
 :::
 ::: {.column .lang-fr width="50%"}
 
-Bonne pratique : travailler dans un **projet RStudio**.
+Bonne pratique : travailler dans un **projet RStudio** (fichier `.Rproj`).
+
+- Définit automatiquement le répertoire de travail
+- Regroupe scripts, données et sorties au même endroit
+- Facilite la collaboration et la reproductibilité
+
+:::
+:::
+
+## RStudio projects: how | *Projets RStudio : comment*
+
+::: {.columns}
+::: {.column .lang-en width="50%"}
+
+**Create a project**
+
+1. File → New Project → New Directory → New Project
+2. Put scripts and data inside the project folder
+3. RStudio creates a `.Rproj` file in that folder
+
+**Open it each session**
+
+- Double-click the `.Rproj` file, or File → Open Project
+- Check with `getwd()` — it should point to the project root
+
+:::
+::: {.column .lang-fr width="50%"}
+
+**Créer un projet**
 
 1. Fichier → Nouveau projet → Nouveau répertoire → Nouveau projet
 2. Placer scripts et données dans le dossier du projet
-3. Ouvrir le projet à chaque session — `getwd()` doit pointer vers la racine du projet
+3. RStudio crée un fichier `.Rproj` dans ce dossier
+
+**L'ouvrir à chaque session**
+
+- Double-cliquez sur le fichier `.Rproj`, ou Fichier → Ouvrir un projet
+- Vérifiez avec `getwd()` — il doit pointer vers la racine du projet
 
 :::
 :::
+
 
 ## Packages | *Packages*
 
@@ -211,9 +291,40 @@ L'installation de base de R est étendue par des **packages**. **Installer** une
 :::
 
 ```{r, eval = FALSE}
-install.packages("readr")   # download and install (once)
-library(readr)              # load for this session
+install.packages("readr")   # once | une fois
+library(readr)              # each session | chaque session
 ```
+
+## Packages we'll use today | *Packages utilisés aujourd'hui*
+
+::: {.columns}
+::: {.column .lang-en width="50%"}
+
+| Package | Purpose |
+|---------|---------|
+| **readr** | Read CSV files (`read_csv()`) |
+| **dplyr** | Manipulate data (`filter`, `select`, `mutate`) |
+| **ggplot2** | Plots |
+| **randomizr** | Treatment assignment (`simple_ra`, `complete_ra`) |
+| **DeclareDesign** | Declare and simulate designs |
+
+Already loaded for this deck (except DeclareDesign, loaded later).
+
+:::
+::: {.column .lang-fr width="50%"}
+
+| Package | Rôle |
+|---------|------|
+| **readr** | Lire des CSV (`read_csv()`) |
+| **dplyr** | Manipuler les données (`filter`, `select`, `mutate`) |
+| **ggplot2** | Graphiques |
+| **randomizr** | Assignation au traitement (`simple_ra`, `complete_ra`) |
+| **DeclareDesign** | Déclarer et simuler des designs |
+
+Déjà chargés pour ce support (sauf DeclareDesign, chargé plus tard).
+
+:::
+:::
 
 ## Getting help | *Obtenir de l'aide*
 
@@ -231,16 +342,22 @@ Lisez les messages d'erreur **de bas en haut** — ils identifient en général 
 :::
 
 ```{r, eval = FALSE}
-?mean                      # help page for mean()
-args(mean)                 # arguments that mean() accepts
+?mean       # help page | page d'aide
+args(mean)  # function arguments | arguments de la fonction
 ```
 
 ## Housekeeping | *Nettoyage de la session*
 
 ```{r}
-ls()                       # list objects in memory
-rm(x)                      # remove object x
-rm(list = ls())            # remove all objects (use with care!)
+ls()   # list objects | lister les objets
+
+if (exists("x")) {
+  rm(x)   # remove x if it exists | supprimer x s'il existe
+}
+```
+
+```{r, eval = FALSE}
+rm(list = ls())   # remove all objects | supprimer tous les objets (attention !)
 ```
 
 # Scalars, vectors, and arithmetic | *Scalaires, vecteurs et arithmétique*
@@ -262,7 +379,7 @@ R fonctionne comme une calculatrice. L'affectation utilise `<-` (ou `=`). Les fo
 
 ```{r}
 r <- 3
-pi * r^2                   # area of a circle
+pi * r^2   # area of circle | aire du cercle
 sin(pi / 4)
 sqrt(2)
 log(2)
@@ -306,6 +423,40 @@ z <- c("A", "B", "a", "c")
 z[1]
 z[2:3]
 which(z == "a")
+```
+
+
+## Factors | *Facteurs (variables catégorielles)*
+
+::: {.columns}
+::: {.column .lang-en width="50%"}
+
+Categorical variables are stored as **factors**. Use `levels()` and `table()` to inspect them; `relevel()` to set a **reference category**.
+
+**Warning:** `as.numeric()` on a factor returns internal **codes**, not labels.
+
+:::
+::: {.column .lang-fr width="50%"}
+
+Les variables catégorielles sont des **facteurs**. Utilisez `levels()` et `table()` pour les inspecter ; `relevel()` pour fixer une **catégorie de référence**.
+
+**Attention :** `as.numeric()` sur un facteur renvoie les **codes** internes, pas les étiquettes.
+
+:::
+:::
+
+```{r}
+ships$Type      <- as.factor(ships$Type)
+ships$Operation <- as.factor(ships$Operation)
+
+levels(ships$Operation)
+table(ships$Operation)
+
+ships$Operation <- relevel(ships$Operation, ref = "75")
+levels(ships$Operation)
+
+as.numeric(ships$Operation)[1:5]    # codes, not labels | codes, pas étiquettes
+as.character(ships$Operation)[1:5]  # labels | étiquettes
 ```
 
 # Data frames | *Data frames*
@@ -352,112 +503,29 @@ colnames(people)
 ::: {.columns}
 ::: {.column .lang-en width="50%"}
 
-Put the data file in your project folder, then use `read.csv()` or `readr::read_csv()`.
+Put the data file in your project folder, then use `readr::read_csv()` (recommended) or base `read.csv()`.
 
 :::
 ::: {.column .lang-fr width="50%"}
 
-Placez le fichier dans le dossier du projet, puis utilisez `read.csv()` ou `readr::read_csv()`.
+Placez le fichier dans le dossier du projet, puis utilisez `readr::read_csv()` (recommandé) ou `read.csv()` de base.
 
 :::
 :::
 
 ```{r}
-ships <- read.csv("data/ships.csv")
+ships <- read_csv("data/ships.csv")
 
 class(ships)
 names(ships)
 head(ships)
-str(ships)
-```
-
-## Missing values on import | *Valeurs manquantes à l'import*
-
-```{r}
-Echo <- read.csv("data/echocardiogram.data",
-                 header     = FALSE,
-                 na.strings = c("?"))
-
-names(Echo) <- c("survival", "alive", "age", "peri",
-                 "frac_short", "epss", "lvdd")
-
-head(Echo)
+glimpse(ships)
 ```
 
 ## Writing data | *Exporter des données*
 
-```{r}
-write.csv(ships,
-          file = "data/ships_out.csv",
-          row.names = FALSE)
-```
-
-# Data types | *Types de données*
-
-## Factors | *Facteurs (variables catégorielles)*
-
-::: {.columns}
-::: {.column .lang-en width="50%"}
-
-Categorical variables are stored as **factors**. Inspect levels with `levels()` and counts with `table()`.
-
-:::
-::: {.column .lang-fr width="50%"}
-
-Les variables catégorielles sont des **facteurs**. Inspectez les niveaux avec `levels()` et les effectifs avec `table()`.
-
-:::
-:::
-
-```{r}
-ships$Type      <- as.factor(ships$Type)
-ships$Operation <- as.factor(ships$Operation)
-
-levels(ships$Operation)
-table(ships$Operation)
-```
-
-## Re-leveling factors | *Recoder les niveaux*
-
-::: {.columns}
-::: {.column .lang-en width="50%"}
-
-Use `relevel()` to change the **reference category**.
-
-:::
-::: {.column .lang-fr width="50%"}
-
-Utilisez `relevel()` pour changer la **catégorie de référence**.
-
-:::
-:::
-
-```{r}
-ships$Operation <- relevel(ships$Operation, ref = "75")
-levels(ships$Operation)
-```
-
-## Factor codes vs labels | *Codes vs étiquettes*
-
-::: {.columns}
-::: {.column .lang-en width="50%"}
-
-**Warning:** `as.numeric()` on a factor returns underlying **codes**, not the labels.
-
-:::
-::: {.column .lang-fr width="50%"}
-
-**Attention :** `as.numeric()` sur un facteur renvoie les **codes** internes, pas les étiquettes.
-
-:::
-:::
-
-```{r}
-codes  <- as.numeric(ships$Operation)
-labels <- as.character(ships$Operation)
-
-codes[1:5]
-labels[1:5]
+```{r, eval = FALSE}
+write_csv(ships, "data/ships_out.csv")
 ```
 
 # Summary statistics | *Statistiques descriptives*
@@ -483,10 +551,23 @@ summary(ships)
 
 ## Numeric summaries | *Résumés numériques*
 
+::: {.columns}
+::: {.column .lang-en width="50%"}
+
+Note: this dataset spells the damage column `Dammage` (typo in the original file).
+
+:::
+::: {.column .lang-fr width="50%"}
+
+Note : dans ce jeu de données, la colonne s'appelle `Dammage` (faute d'orthographe dans le fichier d'origine).
+
+:::
+:::
+
 ```{r}
-mean.dam <- mean(ships$Dammage)
-sd.dam   <- sd(ships$Dammage)
-var.dam  <- var(ships$Dammage)
+mean_dam <- mean(ships$Dammage)
+sd_dam   <- sd(ships$Dammage)
+var_dam  <- var(ships$Dammage)
 
 quantile(ships$Dammage,
          probs = c(0.25, 0.5, 0.75))
@@ -505,8 +586,66 @@ cor(ships$Months, ships$Dammage)
 table(ships$Type)
 table(ships$Operation, ships$Type)
 
-mean(Echo$age)
-mean(Echo$age, na.rm = TRUE)
+x <- c(10, 20, NA, 30)
+mean(x)                 # NA if missing | NA si valeur manquante
+mean(x, na.rm = TRUE)   # ignore missing | ignorer les manquantes
+```
+
+# Pipes and dplyr | *Pipes et dplyr*
+
+## The pipe `|>` | *Le pipe `|>`*
+
+::: {.columns}
+::: {.column .lang-en width="50%"}
+
+The pipe **passes the result on the left into the function on the right**. Read it top to bottom as a sequence of steps.
+
+:::
+::: {.column .lang-fr width="50%"}
+
+Le pipe **envoie le résultat de gauche vers la fonction de droite**. Lisez-le de haut en bas comme une suite d'étapes.
+
+:::
+:::
+
+```{r}
+c(1, 2) |> mean()
+
+ships |>
+  filter(Months > 10) |>
+  pull(Dammage) |>
+  mean()
+```
+
+## dplyr: mutate, select, filter | *dplyr : mutate, select, filter*
+
+::: {.columns}
+::: {.column .lang-en width="50%"}
+
+**dplyr** manipulates data frames with verbs you will use constantly:
+
+- `filter()` — keep rows that match a condition
+- `select()` — keep chosen columns
+- `mutate()` — create or modify columns
+
+:::
+::: {.column .lang-fr width="50%"}
+
+**dplyr** manipule les data frames avec des verbes que vous utiliserez souvent :
+
+- `filter()` — garder les lignes qui vérifient une condition
+- `select()` — garder certaines colonnes
+- `mutate()` — créer ou modifier des colonnes
+
+:::
+:::
+
+```{r}
+ships |>
+  filter(Months > 10) |>
+  select(Months, Dammage, Type) |>
+  mutate(damage_per_month = Dammage / Months) |>
+  head()
 ```
 
 # Plotting with ggplot2 | *Graphiques avec ggplot2*
@@ -529,10 +668,6 @@ Nous utilisons **ggplot2** (tidyverse). Modèle de base :
 ```r
 ggplot(data = ..., aes(x = ..., y = ...)) +
   geom_...()
-```
-
-```{r}
-library(ggplot2)
 ```
 
 ## Scatterplot | *Nuage de points*
@@ -570,46 +705,77 @@ ggplot(data = ships,
        title = "Damage by ship type")
 ```
 
-## Mini workflow | *Mini parcours*
+
+
+# Randomization in R | *Randomisation en R*
+
+## Base R tools | *Outils de base*
 
 ::: {.columns}
 ::: {.column .lang-en width="50%"}
 
-1. Open the RStudio project
-2. Create a script `intro.R`
-3. Read the data
-4. Inspect variables
-5. Summarize and plot with ggplot
+For simulations and experiments you will often use:
+
+- `set.seed()` — make random draws **reproducible**
+- `sample()` — draw random labels (e.g. treatment assignment)
+- `rnorm()` — draw from a normal distribution
+- `rbinom()` — draw 0/1 outcomes (coin flips)
 
 :::
 ::: {.column .lang-fr width="50%"}
 
-1. Ouvrir le projet RStudio
-2. Créer un script `intro.R`
-3. Importer les données
-4. Inspecter les variables
-5. Résumer et graphiquer avec ggplot
+Pour les simulations et expériences, vous utiliserez souvent :
+
+- `set.seed()` — rendre les tirages aléatoires **reproductibles**
+- `sample()` — tirer des étiquettes au hasard (p. ex. assignation au traitement)
+- `rnorm()` — tirer selon une loi normale
+- `rbinom()` — tirer des résultats 0/1 (pile ou face)
 
 :::
 :::
-
-## Mini workflow (code) | *Mini parcours (code)*
 
 ```{r}
-ships <- read.csv("data/ships.csv")
+set.seed(42)
 
-str(ships)
-summary(ships$Dammage)
+sample(1:10, 5)                        # random labels | étiquettes aléatoires
+sample(0:1, 10, replace = TRUE)        # 0/1 assignments | assignations 0/1
 
-ggplot(data = ships,
-       aes(x = Months, y = Dammage)) +
-  geom_point(color = "darkred") +
-  labs(x = "Months in service",
-       y = "Damage",
-       title = "Damage vs. months in service")
+rnorm(5)                               # normal draws | tirages normaux
+rbinom(10, size = 1, prob = 0.5)       # coin flips | pile ou face
 ```
 
-# Let's go | *Allons-y*
+## randomizr: simple_ra() and complete_ra() | *randomizr : simple_ra() et complete_ra()*
+
+::: {.columns}
+::: {.column .lang-en width="50%"}
+
+The **randomizr** package assigns treatment for experiments:
+
+- `simple_ra()` — independent random assignment (arms not necessarily equal)
+- `complete_ra()` — fixed number treated (e.g. exactly half)
+
+Use `table()` to see how many units are in each arm.
+
+:::
+::: {.column .lang-fr width="50%"}
+
+Le package **randomizr** assigne le traitement dans les expériences :
+
+- `simple_ra()` — assignation aléatoire indépendante (bras pas forcément égaux)
+- `complete_ra()` — nombre fixe de traités (p. ex. exactement la moitié)
+
+Utilisez `table()` pour voir combien d'unités sont dans chaque bras.
+
+:::
+:::
+
+```{r}
+set.seed(42)
+
+table(simple_ra(10))     # counts per arm | effectifs par bras
+table(complete_ra(10))   # exactly 5 and 5 | exactement 5 et 5
+```
+
 
 ## Simulation by hand | *Simulation à la main*
 
@@ -627,6 +793,8 @@ Une petite expérience randomisée en R de base :
 :::
 
 ```{r}
+set.seed(42)
+
 N <- 10
 Z <- sample(0:1, N, replace = TRUE)
 Y <- Z + rnorm(N)
@@ -654,6 +822,8 @@ library(DeclareDesign)
 ```
 
 ```{r}
+set.seed(42)
+
 N <- 10
 design <-
   declare_model(N,
@@ -662,9 +832,62 @@ design <-
   declare_inquiry(ATE = 1) +
   declare_estimator(Y ~ Z)
 
-design
+dat <- draw_data(design)
+lm(Y ~ Z, data = dat) |> summary()
 ```
 
+# Wrap-up | *Pour finir*
+
+## Mini workflow | *Mini parcours*
+
+::: {.columns}
+::: {.column .lang-en width="50%"}
+
+1. Open the RStudio project
+2. Create a script `intro.R`
+3. Read the data
+4. Inspect and summarize
+5. Manipulate with pipes, plot with ggplot, simulate with randomization
+
+:::
+::: {.column .lang-fr width="50%"}
+
+1. Ouvrir le projet RStudio
+2. Créer un script `intro.R`
+3. Importer les données
+4. Inspecter et résumer
+5. Manipuler avec les pipes, graphiquer avec ggplot, simuler avec la randomisation
+
+:::
+:::
+
+## Mini workflow (code) | *Mini parcours (code)*
+
+::: {.columns}
+::: {.column .lang-en width="50%"}
+
+Recap: we read the data again here on purpose — a script should run start to finish.
+
+:::
+::: {.column .lang-fr width="50%"}
+
+Récapitulatif : nous relisons les données exprès — un script doit pouvoir s'exécuter du début à la fin.
+
+:::
+:::
+
 ```{r}
-lm(Y ~ Z) |> summary()
+ships <- read_csv("data/ships.csv")   # reload from scratch | recharger depuis le début
+
+str(ships)
+summary(ships$Dammage)
+
+ggplot(data = ships,
+       aes(x = Months, y = Dammage)) +
+  geom_point(color = "darkred") +
+  labs(x = "Months in service",
+       y = "Damage",
+       title = "Damage vs. months in service")
 ```
+
+# Let's go | *Allons-y*

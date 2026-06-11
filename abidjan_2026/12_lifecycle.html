@@ -442,7 +442,7 @@
   <meta name="generator" content="quarto-1.8.27">
 
   <meta name="author" content="Vin + Macartan">
-  <meta name="dcterms.date" content="2026-06-08">
+  <meta name="dcterms.date" content="2026-06-11">
   <title>Lifecycle of an experiment | Cycle de vie d’une expérience</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -988,12 +988,12 @@ margin-right: 0; }
 --lang-fr-bg: #fde2e8;
 --lang-fr-border: #d4738f;
 
---fig-max-w: 96%;
---fig-max-h: 76vh;
+--fig-max-w: 77%;
+--fig-max-h: 61vh;
 --fig-margin: 0.15em auto;
 --fig-col-max-h: 60vh;
---fig-po-max-w: 98%;
---fig-po-max-h: 78vh;
+--fig-po-max-w: 78%;
+--fig-po-max-h: 62vh;
 --fig-photo-max-w: 94%;
 --fig-photo-max-h: 82vh;
 }
@@ -1180,6 +1180,55 @@ padding-left: 1em;
 }
 .reveal section.compact-table .columns:not(.bilingual-titles) li {
 margin-bottom: 0.1em;
+}
+
+.reveal section.card-groups-slide .columns {
+gap: 1.35em !important;
+}
+.reveal section.card-groups-slide .columns > .column {
+padding: 0.5em 0.7em !important;
+font-size: 0.88em;
+line-height: 1.3;
+}
+.reveal section.card-groups-slide .column table {
+font-size: 0.52em !important;
+line-height: 1.22;
+width: 100%;
+margin-top: 0.35em;
+table-layout: fixed;
+}
+.reveal section.card-groups-slide .column table th,
+.reveal section.card-groups-slide .column table td {
+padding: 0.15em 0.3em;
+vertical-align: top;
+overflow-wrap: anywhere;
+word-break: break-word;
+}
+
+.reveal section.card-groups-slide .column table th:nth-child(1),
+.reveal section.card-groups-slide .column table td:nth-child(1) {
+width: 6%;
+}
+.reveal section.card-groups-slide .column table th:nth-child(2),
+.reveal section.card-groups-slide .column table td:nth-child(2) {
+width: 6%;
+}
+.reveal section.card-groups-slide .column table th:nth-child(3),
+.reveal section.card-groups-slide .column table td:nth-child(3) {
+width: 10%;
+}
+.reveal section.card-groups-slide .column table th:nth-child(4),
+.reveal section.card-groups-slide .column table td:nth-child(4) {
+width: 42%;
+}
+.reveal section.card-groups-slide .column table th:nth-child(5),
+.reveal section.card-groups-slide .column table td:nth-child(5) {
+width: 36%;
+}
+body.lang-mode-en .reveal section.card-groups-slide .column.lang-en table,
+body.lang-mode-fr .reveal section.card-groups-slide .column.lang-fr table {
+font-size: 0.52em !important;
+line-height: 1.22;
 }
 
 .reveal section.smaller table.texreg {
@@ -1586,7 +1635,7 @@ Vin + Macartan
 </div>
 </div>
 
-  <p class="date">2026-06-08</p>
+  <p class="date">2026-06-11</p>
 </section>
 <section id="key-points" class="slide level2 hidden-title">
 <h2>Key points</h2>
@@ -1617,68 +1666,86 @@ Key points
 </ul>
 </div></div>
 </section>
-<section id="14-key-steps-1" class="slide level2 hidden-title">
-<h2>14 key steps (1)</h2>
+<section id="experimentation-stages-1" class="slide level2 hidden-title smaller">
+<h2>Experimentation: Stages (1)</h2>
 <div class="columns bilingual-titles slide-title">
 <div class="column lang-en" style="width:50%;">
 <div class="bilingual-title-text lang-en">
-14 key steps (1)
+Experimentation: Stages (1)
 </div>
 </div><div class="column lang-fr" style="width:50%;">
 <div class="bilingual-title-text lang-fr">
-<em>14 étapes clés (1)</em>
+<em>Expérimentation : étapes (1)</em>
 </div>
 </div></div>
 <div class="columns">
 <div class="column lang-en" style="width:50%;">
-<p><strong>Launch the experiment</strong></p>
 <ol type="1">
-<li>Learn about the world</li>
-<li>Find an idea</li>
-<li>Build a set of partners</li>
-<li>Define your design</li>
-<li>Find funding</li>
-<li>Assess your design</li>
-<li>Test and workshop your design</li>
-<li>Pilot and pivot</li>
+<li>Find a good <strong>question</strong>: Minimally, find an <span class="math inline">\(X\)</span> and a <span class="math inline">\(Y\)</span>. You might have <span class="math inline">\(X\)</span>-based motivations, <span class="math inline">\(Y\)</span>-based motivations, Theory based, hypothesis based, mechanism based, replication focused</li>
+<li>Survey literatures, identify <strong>contribution</strong>.</li>
+<li>Identify funders and partners, <strong>resources</strong>. Perhaps run exploratory pilot analyses.</li>
+<li>Develop a <strong>design</strong>: Data strategy | Measurement strategy | Answer strategy</li>
+<li><strong>Simulate</strong> the design: Power analysis, confirmation of properties of estimators</li>
+<li><strong>Present</strong>! Gather feedback</li>
+<li>Gather <strong>priors</strong>: what do others expect will happen?</li>
+<li>Apply for <strong>ethics</strong> approval</li>
+<li>Ensure <strong>compliance</strong> with other provisions (e.g. GDPR)!</li>
+<li><strong>Register</strong> a pre-analysis plan (e.g. OSF, AEA)</li>
 </ol>
 </div><div class="column lang-fr" style="width:50%;">
-<p><strong>Lancer l’expérience</strong></p>
 <ol type="1">
-<li>Découvrir le monde</li>
-<li>Trouver l’idée</li>
-<li>Constituer un partenariat</li>
-<li>Définir votre design</li>
-<li>Obtenir le financement</li>
-<li>Évaluer votre design</li>
-<li>Tester le design et recueillir des commentaires</li>
-<li>Piloter et pivoter</li>
+<li>Trouver une bonne <strong>question</strong> : au minimum, identifier un <span class="math inline">\(X\)</span> et un <span class="math inline">\(Y\)</span>: motivations liées au <span class="math inline">\(X\)</span>, motivations liées au <span class="math inline">\(Y\)</span>, théorie, hypothèses, mécanismes, réplication</li>
+<li>Passer en revue la littérature, identifier la <strong>contribution</strong>.</li>
+<li>Identifier bailleurs de fonds et partenaires, <strong>ressources</strong>. Peut-être mener des analyses pilotes exploratoires.</li>
+<li>Élaborer un <strong>design</strong> : stratégie de données | stratégie de mesure | stratégie de réponse</li>
+<li><strong>Simuler</strong> le design : analyse de puissance, propriétés des estimateurs</li>
+<li><strong>Présenter</strong> ! Recueillir des retours</li>
+<li>Recueillir des <strong>priors</strong> : que s’attendent les autres ?</li>
+<li>Demander l’approbation <strong>éthique</strong></li>
+<li>Assurer la <strong>conformité</strong> aux autres exigences (p. ex. RGPD) !</li>
+<li><strong>Enregistrer</strong> un plan de pré-analyse (p. ex. OSF, AEA)</li>
 </ol>
 </div></div>
 </section>
-<section id="14-key-steps-2" class="slide level2 hidden-title">
-<h2>14 key steps (2)</h2>
+<section id="experimentation-stages-2" class="slide level2 hidden-title smaller">
+<h2>Experimentation: Stages (2)</h2>
 <div class="columns bilingual-titles slide-title">
 <div class="column lang-en" style="width:50%;">
 <div class="bilingual-title-text lang-en">
-14 key steps (2)
+Experimentation: Stages (2)
 </div>
 </div><div class="column lang-fr" style="width:50%;">
 <div class="bilingual-title-text lang-fr">
-<em>14 étapes clés (2)</em>
+<em>Expérimentation : étapes (2)</em>
 </div>
 </div></div>
 <div class="columns">
 <div class="column lang-en" style="width:50%;">
-<p><strong>Run the experiment</strong></p>
-<p>9–11. Implement, monitor, pivot</p>
-<p><strong>Analyze and report</strong></p>
-<p>12–14. Analyze, communicate, archive</p>
+<ol start="11" type="1">
+<li>Conduct <strong>Baseline</strong> (if needed): <strong>With live data quality control!</strong></li>
+<li>Implement <strong>randomization</strong></li>
+<li>Gather <strong>process</strong> observations</li>
+<li>Implement <strong>Endline</strong>. <strong>With live data quality control!</strong></li>
+<li>Run <strong>analysis</strong>; check analysis</li>
+<li>Generate <strong>key tables</strong></li>
+<li><strong>Present</strong> to colleagues, but also present to any stakeholders</li>
+<li>Prep <strong>replication</strong> materials. Make <strong>data</strong> and code available to others</li>
+<li><strong>Writeup</strong></li>
+<li><strong>Submit</strong> [Get rejected — Submit again]</li>
+</ol>
 </div><div class="column lang-fr" style="width:50%;">
-<p><strong>Mettre en œuvre l’expérience</strong></p>
-<p>9–11. Mettre en œuvre, contrôler, pivoter</p>
-<p><strong>Analyser et rédiger</strong></p>
-<p>12–14. Analyser, communiquer, archiver</p>
+<ol start="11" type="1">
+<li>Mener le <strong>baseline</strong> (si nécessaire) : <strong>contrôle qualité des données en direct !</strong></li>
+<li>Mettre en œuvre la <strong>randomisation</strong></li>
+<li>Recueillir des observations de <strong>processus</strong></li>
+<li>Mener l’<strong>endline</strong>. <strong>Contrôle qualité des données en direct !</strong></li>
+<li>Exécuter l’<strong>analyse</strong> ; vérifier l’analyse</li>
+<li>Produire les <strong>tableaux clés</strong></li>
+<li><strong>Présenter</strong> aux collègues et aux parties prenantes</li>
+<li>Préparer les matériaux de <strong>réplication</strong>. Rendre <strong>données</strong> et code disponibles</li>
+<li><strong>Rédaction</strong></li>
+<li><strong>Soumettre</strong> [Rejet — soumettre à nouveau]</li>
+</ol>
 </div></div>
 </section>
 <section id="where-to-start" class="slide level2 hidden-title">
@@ -2040,6 +2107,7 @@ Five uses of AI
 </div></div>
 <div class="columns">
 <div class="column lang-en" style="width:50%;">
+<p><strong>Principle:</strong> AI can be excellent for giving feedback and making suggestions, but do not let it make writing or analysis choices for you.</p>
 <ul>
 <li>Idea generation and research gaps</li>
 <li>Survey design (simplify questions, spot errors)</li>
@@ -2049,6 +2117,7 @@ Five uses of AI
 </ul>
 <p><em>Always check work; beware of plagiarism</em></p>
 </div><div class="column lang-fr" style="width:50%;">
+<p><strong>Principe :</strong> l’IA peut être excellente pour donner des retours et faire des suggestions, mais ne la laissez pas faire vos choix d’écriture ou d’analyse.</p>
 <ul>
 <li>Génération d’idées et lacunes de recherche</li>
 <li>Conception d’enquêtes (simplifier, détecter les erreurs)</li>

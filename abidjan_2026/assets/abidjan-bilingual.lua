@@ -8,6 +8,13 @@
 
 local toc_entries = {}
 local slug_counts = {}
+local in_lecture_section = false
+
+local book_lang = os.getenv("ABIDJAN_LANG")
+
+local function is_book_mode()
+  return book_lang == "en" or book_lang == "fr"
+end
 
 local function is_beamer()
   return FORMAT:match("beamer") ~= nil
@@ -187,9 +194,33 @@ local function build_toc_blocks()
   }
 end
 
+local function book_heading_level(orig_level)
+  if orig_level == 1 then
+    in_lecture_section = true
+    return 2
+  elseif orig_level == 2 then
+    if in_lecture_section then
+      return 3
+    end
+    return 2
+  elseif in_lecture_section then
+    return math.min(orig_level + 1, 6)
+  end
+  return orig_level
+end
+
 local function transform_header(el)
   local en, fr = split_bilingual_inlines(el.content)
   if not en then
+    if is_book_mode() then
+      if el.level == 1 and has_class(el, "book-chapter") then
+        in_lecture_section = false
+        return { el }
+      end
+      return {
+        pandoc.Header(book_heading_level(el.level), el.content, el.attr),
+      }
+    end
     return { el }
   end
 
@@ -197,6 +228,20 @@ local function transform_header(el)
 
   if el.level == 1 then
     table.insert(toc_entries, { id = id, en = en, fr = fr, level = el.level })
+  end
+
+  if is_book_mode() then
+    local title = en
+    if book_lang == "fr" then
+      title = fr
+    end
+    return {
+      pandoc.Header(
+        book_heading_level(el.level),
+        title,
+        pandoc.Attr(id, slide_classes_from_header(el), {})
+      ),
+    }
   end
 
   if is_beamer() then
@@ -245,7 +290,11 @@ local function pair_shorthand(blocks)
     if b.t == "Div" and is_shorthand_en(b) and i < #blocks then
       local nxt = blocks[i + 1]
       if nxt.t == "Div" and is_shorthand_fr(nxt) then
-        table.insert(out, wrap_en_fr_columns(b, nxt))
+        if is_book_mode() then
+          table.insert(out, book_lang == "fr" and nxt or b)
+        else
+          table.insert(out, wrap_en_fr_columns(b, nxt))
+        end
         i = i + 2
       else
         table.insert(out, b)
@@ -259,13 +308,84 @@ local function pair_shorthand(blocks)
   return out
 end
 
+local function column_lang(div)
+  if has_class(div, "lang-en") then
+    return "en"
+  end
+  if has_class(div, "lang-fr") then
+    return "fr"
+  end
+  return nil
+end
+
+local function filter_book_lang_block(block)
+  if not is_book_mode() then
+    return block
+  end
+
+  if block.t == "Div" then
+    local lang = column_lang(block)
+    if lang and lang ~= book_lang then
+      return nil
+    end
+
+    if has_class(block, "columns") or has_class(block, "column") then
+      local kept = {}
+      for _, child in ipairs(block.content) do
+        local filtered = filter_book_lang_block(child)
+        if filtered then
+          table.insert(kept, filtered)
+        end
+      end
+      if #kept == 1 then
+        return filter_book_lang_block(kept[1])
+      end
+      block.content = kept
+    else
+      local kept = {}
+      for _, child in ipairs(block.content) do
+        local filtered = filter_book_lang_block(child)
+        if filtered then
+          table.insert(kept, filtered)
+        end
+      end
+      block.content = kept
+    end
+  elseif block.t == "Section" then
+    local kept = {}
+    for _, child in ipairs(block.content) do
+      local filtered = filter_book_lang_block(child)
+      if filtered then
+        table.insert(kept, filtered)
+      end
+    end
+    block.content = kept
+  end
+
+  return block
+end
+
+local function filter_book_lang_blocks(blocks)
+  if not is_book_mode() then
+    return blocks
+  end
+  local out = {}
+  for _, block in ipairs(blocks) do
+    local filtered = filter_book_lang_block(block)
+    if filtered then
+      table.insert(out, filtered)
+    end
+  end
+  return out
+end
+
 local function transform_blocks(blocks)
   local expanded = {}
   for _, b in ipairs(blocks) do
     if b.t == "Section" then
       b.blocks = transform_blocks(b.blocks)
       table.insert(expanded, b)
-    elseif b.t == "Header" and b.level <= 2 then
+    elseif b.t == "Header" and (is_book_mode() or b.level <= 2) then
       local pieces = transform_header(b)
       for _, piece in ipairs(pieces) do
         table.insert(expanded, piece)
@@ -279,8 +399,10 @@ end
 
 function Pandoc(doc)
   slug_counts = {}
+  in_lecture_section = false
   doc.blocks = transform_blocks(doc.blocks)
-  if not is_beamer() then
+  doc.blocks = filter_book_lang_blocks(doc.blocks)
+  if not is_beamer() and not is_book_mode() then
     local toc_blocks = build_toc_blocks()
     if toc_blocks then
       for i = #toc_blocks, 1, -1 do

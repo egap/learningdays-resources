@@ -2,7 +2,7 @@
 title: "Estimation and Hypothesis Testing 2 | *Les estimateurs et les tests d'hypothèses 2*"
 author: "Adikath + Macartan; Vin + Yannick"
 date: today
-bibliography: learningdays-book.bib
+bibliography: assets/learningdays-book.bib
 format:
   revealjs:
     embed-resources: true
@@ -14,6 +14,7 @@ format:
 ```{r, include = FALSE}
 library(DeclareDesign)
 library(estimatr)
+library(knitr)
 set.seed(1)
 df <- fabricate(N = 100, 
                Coffee = rep(0:1, N/2), 
@@ -468,3 +469,53 @@ cat(
   "$$\n"
 )
 ```
+
+
+
+# Encouragement design | *Conception incitative*
+
+## Encouragement design | *Conception incitative*
+
+::: {.columns}
+::: {.column .lang-en width="50%"}
+
+- Situation: You can't force people to take (receive) your treatment. Treatment assigned is not the same as treatment received.
+- We can randomize **encouragement** $Z$ to take the treatment, such as a request to drink coffee or offering a subsidy to participate in a program.
+- We measure the encouragement $Z$, taking the treatment $D$, and the outcome $Y$.
+- We analyze using instrumental variables techniques (two stage least squares).
+
+:::
+::: {.column .lang-fr width="50%"}
+
+- Situation : vous ne pouvez pas forcer les gens à prendre (recevoir) le traitement. Le traitement assigné n'est pas le même que le traitement reçu.
+- Nous pouvons randomiser l'**incitation** $Z$ à suivre le traitement, par exemple en demandant de boire un café ou en offrant une subvention.
+- On mesure l'incitation $Z$, le traitement reçu $D$, et le résultat $Y$.
+- Nous analysons à l'aide de techniques de variables instrumentales (moindres carrés en deux étapes).
+
+:::
+:::
+
+
+## Encouragement design: Code | *Conception incitative: Code*
+
+```{r, echo = TRUE}
+df <- fabricate(N = 1000, Z = complete_ra(N),
+            complier = complete_ra(N),
+            D = Z*complier,
+            Y = complier + D + rnorm(N)/100)
+
+df |> head() |> kable()
+
+```
+
+## Encouragement design: Code | *Conception incitative: Code* {.smaller}
+
+```{r, results='asis', echo = TRUE}
+list(
+  ITT = lm_robust(Y ~ Z, data = df),
+  WRONG = lm_robust(Y ~ D, data = df),
+  CACE = iv_robust(Y ~ D | Z, data = df)) |> 
+texreg::htmlreg(include.ci = FALSE,)
+
+```
+

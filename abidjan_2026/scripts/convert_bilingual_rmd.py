@@ -21,7 +21,7 @@ YAML_TAIL = """---
 title: "{title}"
 author: "{author}"
 date: {date}
-bibliography: learningdays-book.bib
+bibliography: assets/learningdays-book.bib
 format:
   revealjs:
     embed-resources: true

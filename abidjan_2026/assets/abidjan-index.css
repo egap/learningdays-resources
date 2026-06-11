@@ -37,13 +37,68 @@ main.content {
 
 .hero {
   text-align: center;
-  margin-bottom: 1.25rem;
+  margin-bottom: 1rem;
   padding: 1rem 0 0.25rem;
+  position: relative;
 }
 
 .hero .logo {
   display: block;
   margin: 0 auto 0.5rem;
+}
+
+/* Language toggle — top-left, not a nested tab row */
+.index-lang-switch {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  margin: 0.35rem 0 0;
+  position: absolute;
+  top: 0.5rem;
+  left: 0;
+}
+
+.index-lang-switch .lang-opt {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.2rem;
+  border: 1px solid var(--card-border);
+  border-radius: 999px;
+  background: #fff;
+  color: var(--muted);
+  font-size: 0.82rem;
+  font-weight: 600;
+  padding: 0.3rem 0.7rem 0.3rem 0.55rem;
+  cursor: pointer;
+  line-height: 1.2;
+}
+
+.index-lang-switch .lang-opt:hover {
+  border-color: var(--egap-blue);
+  color: var(--egap-blue);
+}
+
+.index-lang-switch .lang-opt.is-active {
+  background: var(--egap-blue-light);
+  border-color: var(--egap-blue);
+  color: var(--egap-blue);
+}
+
+.index-lang-switch .tab-flag {
+  display: inline-block;
+  width: 1.1rem;
+  height: 0.72rem;
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  border-radius: 2px;
+  object-fit: cover;
+}
+
+.index-lang-panel {
+  display: none;
+}
+
+.index-lang-panel.is-active {
+  display: block;
 }
 
 h1.title {
@@ -123,15 +178,33 @@ main > p {
 }
 
 .deck-format-link,
-.deck-pdf-link {
+.deck-pdf-link,
+.deck-qmd-link {
   color: var(--egap-blue);
   font-weight: 700;
   text-decoration: none;
 }
 
 .deck-format-link:hover,
-.deck-pdf-link:hover {
+.deck-pdf-link:hover,
+.deck-qmd-link:hover {
   text-decoration: underline;
+}
+
+.quiz-list {
+  list-style: none;
+  padding: 0;
+  margin: 0.5rem 0 1rem;
+}
+
+.quiz-list li {
+  margin: 0.45rem 0;
+  line-height: 1.35;
+}
+
+.quiz-label {
+  font-weight: 600;
+  color: var(--text);
 }
 
 .deck-format-sep {
@@ -202,6 +275,13 @@ main > p {
     padding: 0 0.85rem;
   }
 
+  .index-lang-switch {
+    position: static;
+    justify-content: center;
+    width: 100%;
+    margin: 0.5rem 0 0.25rem;
+  }
+
   .deck-grid {
     grid-template-columns: 1fr;
   }
@@ -225,48 +305,17 @@ footer,
   gap: 0.15rem;
 }
 
-/* Top-level language tabs (🇮🇪🇺🇸 / 🇨🇮🇫🇷) */
-.index-page .lang-tabs-top > .nav-tabs {
-  border-bottom-width: 3px;
-  margin-bottom: 1.5rem;
-  gap: 0.35rem;
-}
-
-.index-page .lang-tabs-top > .nav-tabs .nav-link {
-  font-size: 1.05rem;
-  padding: 0.55rem 1.15rem;
-  letter-spacing: 0.01em;
-}
-
-.index-page .lang-tabs-top > .nav-tabs .nav-link.active {
-  border-bottom-width: 4px;
-}
-
-.index-page .lang-tabs-top .tab-flag {
-  display: inline-block;
-  width: 1.35rem;
-  height: 0.9rem;
-  margin-right: 0.15rem;
-  vertical-align: -0.12em;
-  border: 1px solid rgba(0, 0, 0, 0.12);
-  border-radius: 2px;
-  object-fit: cover;
-}
-
-.index-page .lang-tabs-top .nav-link .tab-flag:last-of-type {
-  margin-right: 0.45rem;
-}
-
-/* Four subtabs under each language */
-.index-page .index-subtabs > .nav-tabs {
+/* Main section tabs (Slides / Quiz / …) — one row, full width */
+.index-page .index-main-tabs > .nav-tabs {
   justify-content: flex-start;
   flex-wrap: wrap;
   margin-bottom: 1rem;
+  gap: 0.15rem;
 }
 
-.index-page .index-subtabs > .nav-tabs .nav-link {
-  font-size: 0.9rem;
-  padding: 0.4rem 0.75rem;
+.index-page .index-main-tabs > .nav-tabs .nav-link {
+  font-size: 0.95rem;
+  padding: 0.45rem 0.85rem;
 }
 
 .panel-tabset .nav-link {

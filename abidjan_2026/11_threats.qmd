@@ -2,7 +2,7 @@
 title: "Threats to internal validity | *Menaces à la validité interne*"
 author: "Yannick + Adikath + Vin; Macartan + Vincent"
 date: today
-bibliography: learningdays-book.bib
+bibliography: assets/learningdays-book.bib
 format:
   revealjs:
     embed-resources: true
@@ -10,6 +10,10 @@ format:
 
 ## Key points | *Points clés*
 
+```{r, include = FALSE}
+library(DeclareDesign)
+library(knitr)
+```
 ::: {.columns}
 ::: {.column .lang-en width="50%"}
 
@@ -201,6 +205,30 @@ Pour estimer le LATE/CACE à partir d'une expérience randomisée, deux hypothè
 
 :::
 :::
+
+## 3. Encouragement design: Code | *Conception incitative: Code*
+
+```{r, echo = TRUE}
+df <- fabricate(N = 1000, Z = complete_ra(N),
+            complier = complete_ra(N),
+            D = Z*complier,
+            Y = complier + D + rnorm(N)/100)
+
+df |> head() |> kable()
+
+```
+
+## 3. Encouragement design: Code | *Conception incitative: Code* {.smaller}
+
+```{r, results='asis', echo = TRUE}
+list(
+  ITT = lm_robust(Y ~ Z, data = df),
+  WRONG = lm_robust(Y ~ D, data = df),
+  CACE = iv_robust(Y ~ D | Z, data = df)) |> 
+texreg::htmlreg(include.ci = FALSE,)
+
+```
+
 
 # Spillovers | *Spillovers*
 
