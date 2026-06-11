@@ -1,0 +1,1220 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="fr" xml:lang="fr"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.27">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>17&nbsp; Ex02 — Exercices R – EGAP Learning Days Abidjan 2026</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<link href="../../chapters/fr/E03_projects.html" rel="next">
+<link href="../../chapters/fr/E01_experiment_slides.html" rel="prev">
+<script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-ed96de9b727972fe78a7b5d16c58bf87.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-d9ea66fcd6c317012447f26e9c021348.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "Pas de résultats",
+    "search-matching-documents-text": "documents trouvés",
+    "search-copy-link-title": "Copier le lien vers la recherche",
+    "search-hide-matches-text": "Cacher les correspondances additionnelles",
+    "search-more-match-text": "correspondance de plus dans ce document",
+    "search-more-matches-text": "correspondances de plus dans ce document",
+    "search-clear-button-title": "Effacer",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Annuler",
+    "search-submit-button-title": "Envoyer",
+    "search-label": "Recherche"
+  }
+}</script>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="../../assets/abidjan-book.css">
+</head>
+
+<body class="nav-sidebar floating nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">EGAP Learning Days Abidjan 2026</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Recherche"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Basculer la navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="https://egap.github.io/learningdays-resources/abidjan_2026/index.html"> 
+<span class="menu-text">Toutes les ressources</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Basculer la barre latérale" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../chapters/fr/E01_experiment_slides.html">Exercices et quiz</a></li><li class="breadcrumb-item"><a href="../../chapters/fr/E02_R_exercises.html"><span class="chapter-title">Ex02 — Exercices R</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Basculer la barre latérale" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-title">Home</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Cours</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Basculer la section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/fr/L01_why-experiment.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">C01 — Pourquoi expérimenter ?</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/fr/L02_causalinference.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">C02 — Inférence causale</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/fr/L03_randomization_1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">C03 — Randomisation 1</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/fr/L04_R_intro.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">C04 — Introduction à R</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/fr/L05_randomization_2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">C05 — Randomisation 2</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/fr/L06_design_intro.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">C06 — Design et diagnostic</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/fr/L07_estimation_1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">C07 — Estimation 1</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/fr/L08_estimation_2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">C08 — Estimation 2</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/fr/L09_power_intro.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">C09 — Puissance et diagnostic</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/fr/L10_ethics.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">C10 — Éthique et expériences</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/fr/L11_presenting.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">C11 — Présenter les résultats</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/fr/L12_threats.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">C12 — Menaces à la validité</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/fr/L13_lifecycle.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">C13 — Cycle de vie d’une expérience</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/fr/L14_grants.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">C14 — Demandes de subvention</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+ <span class="menu-text">Exercices et quiz</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Basculer la section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/fr/E01_experiment_slides.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Ex01 — Expérience en classe</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/fr/E02_R_exercises.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Ex02 — Exercices R</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/fr/E03_projects.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Ex03 — Projets</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/fr/quiz-tuesday.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Quiz — jour 2</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/fr/quiz-wednesday.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Quiz — jour 3</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/fr/quiz-thursday.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">Quiz — jour 4</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active" data-toc-expanded="2">
+    <h2 id="toc-title">Table des matières</h2>
+   
+  <ul>
+  <li><a href="#how-to-work" id="toc-how-to-work" class="nav-link active" data-scroll-target="#how-to-work"><span class="header-section-number">17.1</span> <em>Comment travailler</em></a>
+  <ul class="collapse">
+  <li><a href="#step-1-�-create-your-exercise-folder" id="toc-step-1-�-create-your-exercise-folder" class="nav-link" data-scroll-target="#step-1-�-create-your-exercise-folder"><span class="header-section-number">17.1.1</span> <em>Étape 1 — créer votre dossier</em></a></li>
+  <li><a href="#step-2-�-download-the-data" id="toc-step-2-�-download-the-data" class="nav-link" data-scroll-target="#step-2-�-download-the-data"><span class="header-section-number">17.1.2</span> <em>Étape 2 — télécharger les données</em></a></li>
+  <li><a href="#step-3-�-copy-paste-edit" id="toc-step-3-�-copy-paste-edit" class="nav-link" data-scroll-target="#step-3-�-copy-paste-edit"><span class="header-section-number">17.1.3</span> <em>Étape 3 — copier, coller, modifier</em></a></li>
+  <li><a href="#step-4-�-check-your-setup" id="toc-step-4-�-check-your-setup" class="nav-link" data-scroll-target="#step-4-�-check-your-setup"><span class="header-section-number">17.1.4</span> <em>Étape 4 — vérifier la configuration</em></a></li>
+  </ul></li>
+  <li><a href="#overview" id="toc-overview" class="nav-link" data-scroll-target="#overview"><span class="header-section-number">17.2</span> <em>Vue d’ensemble</em></a>
+  <ul class="collapse">
+  <li><a href="#welcome" id="toc-welcome" class="nav-link" data-scroll-target="#welcome"><span class="header-section-number">17.2.1</span> <em>Bienvenue</em></a></li>
+  <li><a href="#the-data" id="toc-the-data" class="nav-link" data-scroll-target="#the-data"><span class="header-section-number">17.2.2</span> <em>Les données</em></a></li>
+  </ul></li>
+  <li><a href="#activity-1" id="toc-activity-1" class="nav-link" data-scroll-target="#activity-1"><span class="header-section-number">17.3</span> <em>Activité 1</em></a>
+  <ul class="collapse">
+  <li><a href="#r-basics-�-goals" id="toc-r-basics-�-goals" class="nav-link" data-scroll-target="#r-basics-�-goals"><span class="header-section-number">17.3.1</span> <em>Bases de R — objectifs</em></a></li>
+  <li><a href="#activity-1-�-task-1" id="toc-activity-1-�-task-1" class="nav-link" data-scroll-target="#activity-1-�-task-1"><span class="header-section-number">17.3.2</span> <em>Activité 1 — tâche 1</em></a></li>
+  <li><a href="#activity-1-�-task-2" id="toc-activity-1-�-task-2" class="nav-link" data-scroll-target="#activity-1-�-task-2"><span class="header-section-number">17.3.3</span> <em>Activité 1 — tâche 2</em></a></li>
+  <li><a href="#activity-1-�-task-3" id="toc-activity-1-�-task-3" class="nav-link" data-scroll-target="#activity-1-�-task-3"><span class="header-section-number">17.3.4</span> <em>Activité 1 — tâche 3</em></a></li>
+  </ul></li>
+  <li><a href="#activity-2" id="toc-activity-2" class="nav-link" data-scroll-target="#activity-2"><span class="header-section-number">17.4</span> <em>Activité 2</em></a>
+  <ul class="collapse">
+  <li><a href="#randomization-�-goals" id="toc-randomization-�-goals" class="nav-link" data-scroll-target="#randomization-�-goals"><span class="header-section-number">17.4.1</span> <em>Randomisation — objectifs</em></a></li>
+  <li><a href="#activity-2-�-load-data" id="toc-activity-2-�-load-data" class="nav-link" data-scroll-target="#activity-2-�-load-data"><span class="header-section-number">17.4.2</span> <em>Activité 2 — charger les données</em></a></li>
+  <li><a href="#activity-2-�-simple-randomization" id="toc-activity-2-�-simple-randomization" class="nav-link" data-scroll-target="#activity-2-�-simple-randomization"><span class="header-section-number">17.4.3</span> <em>Activité 2 — randomisation simple</em></a></li>
+  <li><a href="#activity-2-�-check-simple-assignment" id="toc-activity-2-�-check-simple-assignment" class="nav-link" data-scroll-target="#activity-2-�-check-simple-assignment"><span class="header-section-number">17.4.4</span> <em>Activité 2 — vérifier l’assignation simple</em></a></li>
+  <li><a href="#randomizr-commands-refresher" id="toc-randomizr-commands-refresher" class="nav-link" data-scroll-target="#randomizr-commands-refresher"><span class="header-section-number">17.4.5</span> <em>Rappel des commandes <code>randomizr</code></em></a></li>
+  <li><a href="#activity-2-�-complete-randomization" id="toc-activity-2-�-complete-randomization" class="nav-link" data-scroll-target="#activity-2-�-complete-randomization"><span class="header-section-number">17.4.6</span> <em>Activité 2 — randomisation complète</em></a></li>
+  <li><a href="#activity-2-�-check-complete-assignment" id="toc-activity-2-�-check-complete-assignment" class="nav-link" data-scroll-target="#activity-2-�-check-complete-assignment"><span class="header-section-number">17.4.7</span> <em>Activité 2 — vérifier l’assignation complète</em></a></li>
+  <li><a href="#activity-2-�-randomizr" id="toc-activity-2-�-randomizr" class="nav-link" data-scroll-target="#activity-2-�-randomizr"><span class="header-section-number">17.4.8</span> <em>Activité 2 — package randomizr</em></a></li>
+  <li><a href="#activity-2-�-blocked-randomization" id="toc-activity-2-�-blocked-randomization" class="nav-link" data-scroll-target="#activity-2-�-blocked-randomization"><span class="header-section-number">17.4.9</span> <em>Activité 2 — randomisation par blocs</em></a></li>
+  <li><a href="#activity-2-�-cluster-randomization" id="toc-activity-2-�-cluster-randomization" class="nav-link" data-scroll-target="#activity-2-�-cluster-randomization"><span class="header-section-number">17.4.10</span> <em>Activité 2 — randomisation par cluster</em></a></li>
+  </ul></li>
+  <li><a href="#activity-3" id="toc-activity-3" class="nav-link" data-scroll-target="#activity-3"><span class="header-section-number">17.5</span> <em>Activité 3</em></a>
+  <ul class="collapse">
+  <li><a href="#difference-in-means-�-goals" id="toc-difference-in-means-�-goals" class="nav-link" data-scroll-target="#difference-in-means-�-goals"><span class="header-section-number">17.5.1</span> <em>Différence des moyennes — objectifs</em></a></li>
+  <li><a href="#activity-3-�-identify-variables" id="toc-activity-3-�-identify-variables" class="nav-link" data-scroll-target="#activity-3-�-identify-variables"><span class="header-section-number">17.5.2</span> <em>Activité 3 — identifier les variables</em></a></li>
+  <li><a href="#activity-3-�-overall-mean" id="toc-activity-3-�-overall-mean" class="nav-link" data-scroll-target="#activity-3-�-overall-mean"><span class="header-section-number">17.5.3</span> <em>Activité 3 — moyenne globale</em></a></li>
+  <li><a href="#activity-3-�-group-means" id="toc-activity-3-�-group-means" class="nav-link" data-scroll-target="#activity-3-�-group-means"><span class="header-section-number">17.5.4</span> <em>Activité 3 — moyennes par groupe</em></a></li>
+  <li><a href="#activity-3-�-interpret" id="toc-activity-3-�-interpret" class="nav-link" data-scroll-target="#activity-3-�-interpret"><span class="header-section-number">17.5.5</span> <em>Activité 3 — interpréter</em></a></li>
+  </ul></li>
+  <li><a href="#activity-4" id="toc-activity-4" class="nav-link" data-scroll-target="#activity-4"><span class="header-section-number">17.6</span> <em>Activité 4</em></a>
+  <ul class="collapse">
+  <li><a href="#power-analysis-�-goals" id="toc-power-analysis-�-goals" class="nav-link" data-scroll-target="#power-analysis-�-goals"><span class="header-section-number">17.6.1</span> <em>Analyse de puissance — objectifs</em></a></li>
+  <li><a href="#activity-4-�-calculator" id="toc-activity-4-�-calculator" class="nav-link" data-scroll-target="#activity-4-�-calculator"><span class="header-section-number">17.6.2</span> <em>Activité 4 — calculateur</em></a></li>
+  <li><a href="#activity-4-�-tasks" id="toc-activity-4-�-tasks" class="nav-link" data-scroll-target="#activity-4-�-tasks"><span class="header-section-number">17.6.3</span> <em>Activité 4 — tâches</em></a></li>
+  </ul></li>
+  <li><a href="#activity-5" id="toc-activity-5" class="nav-link" data-scroll-target="#activity-5"><span class="header-section-number">17.7</span> <em>Activité 5</em></a>
+  <ul class="collapse">
+  <li><a href="#estimation-�-goals" id="toc-estimation-�-goals" class="nav-link" data-scroll-target="#estimation-�-goals"><span class="header-section-number">17.7.1</span> <em>Estimation — objectifs</em></a></li>
+  <li><a href="#activity-5-�-load-data" id="toc-activity-5-�-load-data" class="nav-link" data-scroll-target="#activity-5-�-load-data"><span class="header-section-number">17.7.2</span> <em>Activité 5 — charger les données</em></a></li>
+  <li><a href="#activity-5-�-complete-randomization" id="toc-activity-5-�-complete-randomization" class="nav-link" data-scroll-target="#activity-5-�-complete-randomization"><span class="header-section-number">17.7.3</span> <em>Activité 5 — randomisation complète</em></a></li>
+  <li><a href="#activity-5-�-blocked-randomization" id="toc-activity-5-�-blocked-randomization" class="nav-link" data-scroll-target="#activity-5-�-blocked-randomization"><span class="header-section-number">17.7.4</span> <em>Activité 5 — randomisation par blocs</em></a></li>
+  <li><a href="#activity-5-�-takeaway" id="toc-activity-5-�-takeaway" class="nav-link" data-scroll-target="#activity-5-�-takeaway"><span class="header-section-number">17.7.5</span> <em>Activité 5 — message clé</em></a></li>
+  </ul></li>
+  <li><a href="#wrap-up" id="toc-wrap-up" class="nav-link" data-scroll-target="#wrap-up"><span class="header-section-number">17.8</span> <em>Conclusion</em></a>
+  <ul class="collapse">
+  <li><a href="#next-steps" id="toc-next-steps" class="nav-link" data-scroll-target="#next-steps"><span class="header-section-number">17.8.1</span> <em>Prochaines étapes</em></a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../chapters/fr/E01_experiment_slides.html">Exercices et quiz</a></li><li class="breadcrumb-item"><a href="../../chapters/fr/E02_R_exercises.html"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Ex02 — Exercices R</span></a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Ex02 — Exercices R</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="how-to-work" class="level2" data-number="17.1">
+<h2 data-number="17.1" class="anchored" data-anchor-id="how-to-work"><span class="header-section-number">17.1</span> <em>Comment travailler</em></h2>
+<section id="step-1-�-create-your-exercise-folder" class="level3" data-number="17.1.1">
+<h3 data-number="17.1.1" class="anchored" data-anchor-id="step-1-�-create-your-exercise-folder"><span class="header-section-number">17.1.1</span> <em>Étape 1 — créer votre dossier</em></h3>
+<div class="column lang-fr" style="width:50%;">
+<p><strong>Avant l’activité 1</strong>, créez un dossier dédié sur votre ordinateur, par exemple :</p>
+<p><code>learningdays_exercises/</code></p>
+<p>À l’intérieur, créez <strong>un script R vide</strong>, par exemple :</p>
+<p><code>mes_exercices.R</code></p>
+<p>Vous construirez ce fichier au fur et à mesure — <strong>ces slides sont votre seul support</strong> (pas de fichier séparé).</p>
+</div>
+</section>
+<section id="step-2-�-download-the-data" class="level3" data-number="17.1.2">
+<h3 data-number="17.1.2" class="anchored" data-anchor-id="step-2-�-download-the-data"><span class="header-section-number">17.1.2</span> <em>Étape 2 — télécharger les données</em></h3>
+<div class="column lang-fr" style="width:50%;">
+<p>Téléchargez <strong><code>data_for_analysis.csv</code></strong> et enregistrez-le <strong>dans le même dossier</strong> que votre fichier <code>.R</code> (pas dans un sous-dossier) :</p>
+<p><a href="R_exercises/E/data_for_analysis.csv">Télécharger data_for_analysis.csv</a></p>
+<p>Votre dossier doit ressembler à :</p>
+<pre><code>learningdays_exercises/
+  mes_exercices.R
+  data_for_analysis.csv</code></pre>
+<p>Dans RStudio : <strong>File → New Project → Existing Directory</strong> et sélectionnez ce dossier pour que <code>getwd()</code> pointe ici.</p>
+</div>
+</section>
+<section id="step-3-�-copy-paste-edit" class="level3" data-number="17.1.3">
+<h3 data-number="17.1.3" class="anchored" data-anchor-id="step-3-�-copy-paste-edit"><span class="header-section-number">17.1.3</span> <em>Étape 3 — copier, coller, modifier</em></h3>
+<div class="column lang-fr" style="width:50%;">
+<p>Pour <strong>chaque slide</strong> avec du code R :</p>
+<ol type="1">
+<li><strong>Copiez</strong> le bloc de code de la slide dans votre fichier <code>.R</code></li>
+<li><strong>Modifiez</strong> les espaces réservés (noms de variables, graine, réponses en commentaires)</li>
+<li><strong>Exécutez</strong> la ligne ou la sélection avec <strong>Ctrl + Entrée</strong> (Windows/Linux) ou <strong>Cmd + Entrée</strong> (Mac)</li>
+</ol>
+<p>Ajoutez des <strong>commentaires</strong> dans votre script pour les réponses (<code># Réponse : ...</code>).</p>
+<p>Ne <strong>sautez pas</strong> d’étapes — faites les activités 1 → 5 dans l’ordre.</p>
+</div>
+</section>
+<section id="step-4-�-check-your-setup" class="level3" data-number="17.1.4">
+<h3 data-number="17.1.4" class="anchored" data-anchor-id="step-4-�-check-your-setup"><span class="header-section-number">17.1.4</span> <em>Étape 4 — vérifier la configuration</em></h3>
+<div class="column lang-fr" style="width:50%;">
+<p>Avant de commencer l’activité 1, vérifiez :</p>
+<ul class="task-list">
+<li><label><input type="checkbox">Le dossier d’exercices existe</label></li>
+<li><label><input type="checkbox">Un fichier <code>.R</code> vide est créé et ouvert dans RStudio</label></li>
+<li><label><input type="checkbox"><code>data_for_analysis.csv</code> est <strong>dans ce dossier</strong></label></li>
+<li><label><input type="checkbox">Le projet RStudio pointe vers ce dossier</label></li>
+</ul>
+<p>Puis exécutez le contrôle ci-dessous — vous devez voir le CSV dans la liste.</p>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">getwd</span>()</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">dir</span>()</span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+</section>
+<section id="overview" class="level2" data-number="17.2">
+<h2 data-number="17.2" class="anchored" data-anchor-id="overview"><span class="header-section-number">17.2</span> <em>Vue d’ensemble</em></h2>
+<section id="welcome" class="level3" data-number="17.2.1">
+<h3 data-number="17.2.1" class="anchored" data-anchor-id="welcome"><span class="header-section-number">17.2.1</span> <em>Bienvenue</em></h3>
+<div class="column lang-fr" style="width:50%;">
+<p>Cinq activités — toutes les instructions et le code sont <strong>sur ces slides</strong> :</p>
+<ol type="1">
+<li>Bases de R — charger et inspecter les données</li>
+<li>Randomisation — simple, complète, par blocs</li>
+<li>Différence des moyennes — estimer l’ATE à la main</li>
+<li>Puissance — calculateur EGAP en ligne (sans R)</li>
+<li>Estimation — <code>estimatr</code> et <strong>analysez comme vous randomisez</strong></li>
+</ol>
+</div>
+</section>
+<section id="the-data" class="level3" data-number="17.2.2">
+<h3 data-number="17.2.2" class="anchored" data-anchor-id="the-data"><span class="header-section-number">17.2.2</span> <em>Les données</em></h3>
+<div class="column lang-fr" style="width:50%;">
+<p>Données des participants aux Learning Days (expérience en classe). Variables : identifiant, <strong>Gender</strong>, pays, <strong>treatment</strong> assigné, et résultats.</p>
+<p><strong>Votre tâche :</strong> inspectez les données et identifiez les colonnes de traitement et de résultat avant d’analyser.</p>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(<span class="fu">read.csv</span>(<span class="st">"data_for_analysis.csv"</span>))</span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+</section>
+<section id="activity-1" class="level2" data-number="17.3">
+<h2 data-number="17.3" class="anchored" data-anchor-id="activity-1"><span class="header-section-number">17.3</span> <em>Activité 1</em></h2>
+<section id="r-basics-�-goals" class="level3" data-number="17.3.1">
+<h3 data-number="17.3.1" class="anchored" data-anchor-id="r-basics-�-goals"><span class="header-section-number">17.3.1</span> <em>Bases de R — objectifs</em></h3>
+<div class="column lang-fr" style="width:50%;">
+<p><strong>Objectifs :</strong> charger les données, inspecter les variables, se familiariser avec RStudio.</p>
+<p>Copiez chaque bloc de code ci-dessous dans votre fichier <code>.R</code> au fur et à mesure.</p>
+</div>
+</section>
+<section id="activity-1-�-task-1" class="level3" data-number="17.3.2">
+<h3 data-number="17.3.2" class="anchored" data-anchor-id="activity-1-�-task-1"><span class="header-section-number">17.3.2</span> <em>Activité 1 — tâche 1</em></h3>
+<div class="column lang-fr" style="width:50%;">
+<p>Vérifiez que le CSV est dans votre dossier de projet. Exécutez <code>dir()</code> — voyez-vous <code>data_for_analysis.csv</code> ?</p>
+<p>Sinon, demandez de l’aide à un instructeur.</p>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dir</span>()</span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="activity-1-�-task-2" class="level3" data-number="17.3.3">
+<h3 data-number="17.3.3" class="anchored" data-anchor-id="activity-1-�-task-2"><span class="header-section-number">17.3.3</span> <em>Activité 1 — tâche 2</em></h3>
+<p>Lisez les données dans l’objet <code>experiment_data</code>. Regardez l’onglet <strong>Environment</strong> — apparaît-il ?</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>experiment_data <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"data_for_analysis.csv"</span>)</span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="activity-1-�-task-3" class="level3" data-number="17.3.4">
+<h3 data-number="17.3.4" class="anchored" data-anchor-id="activity-1-�-task-3"><span class="header-section-number">17.3.4</span> <em>Activité 1 — tâche 3</em></h3>
+<div class="column lang-fr" style="width:50%;">
+<p>Ouvrez le <strong>data viewer</strong> (cliquez sur <code>experiment_data</code> dans Environment).</p>
+<p><strong>Question :</strong> Quels sont les noms de variables ? Lesquels pourraient être le traitement ? Les résultats ?</p>
+</div>
+</section>
+</section>
+<section id="activity-2" class="level2" data-number="17.4">
+<h2 data-number="17.4" class="anchored" data-anchor-id="activity-2"><span class="header-section-number">17.4</span> <em>Activité 2</em></h2>
+<section id="randomization-�-goals" class="level3" data-number="17.4.1">
+<h3 data-number="17.4.1" class="anchored" data-anchor-id="randomization-�-goals"><span class="header-section-number">17.4.1</span> <em>Randomisation — objectifs</em></h3>
+<p><strong>Contexte :</strong> Les instructeurs ont randomisé le traitement lors de l’expérience en classe. Maintenant <strong>vous</strong> randomisez — assignation simple, complète et par blocs — avec les mêmes données.</p>
+</section>
+<section id="activity-2-�-load-data" class="level3" data-number="17.4.2">
+<h3 data-number="17.4.2" class="anchored" data-anchor-id="activity-2-�-load-data"><span class="header-section-number">17.4.2</span> <em>Activité 2 — charger les données</em></h3>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>experiment_data <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"data_for_analysis.csv"</span>)</span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="activity-2-�-simple-randomization" class="level3" data-number="17.4.3">
+<h3 data-number="17.4.3" class="anchored" data-anchor-id="activity-2-�-simple-randomization"><span class="header-section-number">17.4.3</span> <em>Activité 2 — randomisation simple</em></h3>
+<p>Fixez une <strong>graine</strong> (<code>set.seed</code>) pour reproduire la randomisation. Utilisez <code>rbinom()</code> pour assigner 0/1 avec probabilité 0,5.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)   <span class="co"># choose your own seed</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>experiment_data<span class="sc">$</span>treatment_simple <span class="ot">&lt;-</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rbinom</span>(<span class="at">n =</span> <span class="fu">nrow</span>(experiment_data), <span class="at">size =</span> <span class="dv">1</span>, <span class="at">prob =</span> <span class="fl">0.5</span>)</span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="activity-2-�-check-simple-assignment" class="level3" data-number="17.4.4">
+<h3 data-number="17.4.4" class="anchored" data-anchor-id="activity-2-�-check-simple-assignment"><span class="header-section-number">17.4.4</span> <em>Activité 2 — vérifier l’assignation simple</em></h3>
+<p>Inspectez <code>treatment_simple</code>. Comptez traitement vs contrôle avec <code>table()</code>. Attendez-vous à <strong>environ</strong> la moitié en traitement (pas forcément exact).</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(experiment_data<span class="sc">$</span>treatment_simple)</span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="randomizr-commands-refresher" class="level3 smaller" data-number="17.4.5">
+<h3 class="smaller anchored" data-number="17.4.5" data-anchor-id="randomizr-commands-refresher"><span class="header-section-number">17.4.5</span> <em>Rappel des commandes <code>randomizr</code></em></h3>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(randomizr)</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">100</span>)</span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Simple random assignment (N = 4; arms not necessarily equal) </span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Assignation aléatoire simple (N = 4 ; bras pas forcément égaux)*</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="fu">simple_ra</span>(<span class="dv">4</span>)</span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0 0 1 0</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Complete random assignment (N = 4; exactly half treated) </span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="co"># *Assignation complète (N = 4 ; exactement la moitié en traitement)*</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="fu">complete_ra</span>(<span class="dv">4</span>)</span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0 0 1 1</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Example: blocked assignment within 4 blocks of 3 units </span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Exemple : assignation par blocs dans 4 blocs de 3 unités*</span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="fu">block_ra</span>(<span class="at">blocks =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">2</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">3</span>,<span class="dv">3</span>,<span class="dv">4</span>,<span class="dv">4</span>,<span class="dv">4</span>))</span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] 1 1 0 1 0 0 1 0 1 0 1 0</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Example: cluster assignment across 4 clusters of 3 units </span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="co"># *Exemple : assignation par grappes sur 4 grappes de 3 unités*</span></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="fu">cluster_ra</span>(<span class="at">clusters =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">2</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">3</span>,<span class="dv">3</span>,<span class="dv">4</span>,<span class="dv">4</span>,<span class="dv">4</span>))</span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] 1 1 1 0 0 0 0 0 0 1 1 1</code></pre>
+</div>
+</div>
+</section>
+<section id="activity-2-�-complete-randomization" class="level3" data-number="17.4.6">
+<h3 data-number="17.4.6" class="anchored" data-anchor-id="activity-2-�-complete-randomization"><span class="header-section-number">17.4.6</span> <em>Activité 2 — randomisation complète</em></h3>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Example: shuffle a vector with sample() </span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Exemple : mélanger un vecteur avec sample()*</span></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="fu">sample</span>(<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>))</span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 3 2 1</code></pre>
+</div>
+</div>
+<p>Construisez un vecteur avec <strong>exactement</strong> <span class="math inline">\(m\)</span> traités et <span class="math inline">\(N - m\)</span> contrôles, puis mélangez avec <code>sample()</code>.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>N <span class="ot">&lt;-</span> <span class="fu">nrow</span>(experiment_data)</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>m <span class="ot">&lt;-</span> <span class="fu">floor</span>(N <span class="sc">/</span> <span class="dv">2</span>)</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>vec <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">rep</span>(<span class="dv">1</span>, m), <span class="fu">rep</span>(<span class="dv">0</span>, N <span class="sc">-</span> m))</span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>experiment_data<span class="sc">$</span>treatment_complete <span class="ot">&lt;-</span> <span class="fu">sample</span>(vec)</span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="activity-2-�-check-complete-assignment" class="level3" data-number="17.4.7">
+<h3 data-number="17.4.7" class="anchored" data-anchor-id="activity-2-�-check-complete-assignment"><span class="header-section-number">17.4.7</span> <em>Activité 2 — vérifier l’assignation complète</em></h3>
+<p>Utilisez <code>table()</code>. Les effectifs doivent correspondre <strong>exactement</strong> à ce que vous avez mis dans <code>vec</code>.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(experiment_data<span class="sc">$</span>treatment_complete)</span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="activity-2-�-randomizr" class="level3" data-number="17.4.8">
+<h3 data-number="17.4.8" class="anchored" data-anchor-id="activity-2-�-randomizr"><span class="header-section-number">17.4.8</span> <em>Activité 2 — package randomizr</em></h3>
+<p>Chargez <strong>randomizr</strong> et essayez <code>complete_ra()</code>. Vérifiez avec <code>table()</code> comme avant.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>experiment_data<span class="sc">$</span>treatment_complete2 <span class="ot">&lt;-</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">complete_ra</span>(<span class="at">N =</span> <span class="fu">nrow</span>(experiment_data), <span class="at">prob =</span> <span class="fl">0.5</span>)</span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="activity-2-�-blocked-randomization" class="level3" data-number="17.4.9">
+<h3 data-number="17.4.9" class="anchored" data-anchor-id="activity-2-�-blocked-randomization"><span class="header-section-number">17.4.9</span> <em>Activité 2 — randomisation par blocs</em></h3>
+<p>Utilisez <strong>Gender</strong> comme variable de bloc. <code>block_ra()</code> randomise à l’intérieur de chaque bloc.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>experiment_data<span class="sc">$</span>treatment_blocked <span class="ot">&lt;-</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">block_ra</span>(<span class="at">blocks =</span> experiment_data<span class="sc">$</span>Gender, <span class="at">prob =</span> <span class="fl">0.5</span>)</span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(experiment_data<span class="sc">$</span>Gender, experiment_data<span class="sc">$</span>treatment_blocked)</span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="activity-2-�-cluster-randomization" class="level3" data-number="17.4.10">
+<h3 data-number="17.4.10" class="anchored" data-anchor-id="activity-2-�-cluster-randomization"><span class="header-section-number">17.4.10</span> <em>Activité 2 — randomisation par cluster</em></h3>
+<p>Utilisez <strong>HomeCountry</strong> comme variable de cluster. <code>block_ra()</code> randomise par cluster (grappe).</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>experiment_data<span class="sc">$</span>treatment_clustered <span class="ot">&lt;-</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cluster_ra</span>(<span class="at">clusters =</span> experiment_data<span class="sc">$</span>HomeCountry, <span class="at">prob =</span> <span class="fl">0.5</span>)</span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(experiment_data<span class="sc">$</span>HomeCountry, experiment_data<span class="sc">$</span>treatment_clustered)</span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+</section>
+<section id="activity-3" class="level2" data-number="17.5">
+<h2 data-number="17.5" class="anchored" data-anchor-id="activity-3"><span class="header-section-number">17.5</span> <em>Activité 3</em></h2>
+<section id="difference-in-means-�-goals" class="level3" data-number="17.5.1">
+<h3 data-number="17.5.1" class="anchored" data-anchor-id="difference-in-means-�-goals"><span class="header-section-number">17.5.1</span> <em>Différence des moyennes — objectifs</em></h3>
+<p><strong>Contexte :</strong> Le traitement a été randomisé ; les résultats ont été mesurés. Estimez l’<strong>effet moyen du traitement</strong> à la main (différence de moyennes) — première étape vers les tests d’hypothèse.</p>
+</section>
+<section id="activity-3-�-identify-variables" class="level3" data-number="17.5.2">
+<h3 data-number="17.5.2" class="anchored" data-anchor-id="activity-3-�-identify-variables"><span class="header-section-number">17.5.2</span> <em>Activité 3 — identifier les variables</em></h3>
+<div class="column lang-fr" style="width:50%;">
+<p>D’après le data viewer, notez :</p>
+<ol type="1">
+<li>Nom de la variable de résultat</li>
+<li>Nom de la variable de traitement et quelle valeur = traité</li>
+</ol>
+</div>
+</section>
+<section id="activity-3-�-overall-mean" class="level3" data-number="17.5.3">
+<h3 data-number="17.5.3" class="anchored" data-anchor-id="activity-3-�-overall-mean"><span class="header-section-number">17.5.3</span> <em>Activité 3 — moyenne globale</em></h3>
+<div class="column lang-fr" style="width:50%;">
+<p>Utilisez <code>mean(..., na.rm = TRUE)</code> pour exclure les valeurs manquantes (<code>NA</code>).</p>
+<p>Remplacez l’espace réservé par votre variable de résultat.</p>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(experiment_data<span class="sc">$</span>OUTCOME_VARIABLE, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="activity-3-�-group-means" class="level3" data-number="17.5.4">
+<h3 data-number="17.5.4" class="anchored" data-anchor-id="activity-3-�-group-means"><span class="header-section-number">17.5.4</span> <em>Activité 3 — moyennes par groupe</em></h3>
+<div class="column lang-fr" style="width:50%;">
+<p>Calculez la moyenne du résultat en <strong>traitement</strong> et en <strong>contrôle</strong> avec des sous-ensembles <code>[ ]</code>.</p>
+<p>Puis soustrayez : <span class="math inline">\(\bar{Y}_{\text{traitement}} - \bar{Y}_{\text{contrôle}}\)</span> = ATE estimé.</p>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="co"># treatment group — replace OUTCOME and TREATMENT / value</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(experiment_data<span class="sc">$</span>OUTCOME_VARIABLE[</span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>  experiment_data<span class="sc">$</span>TREATMENT_VARIABLE <span class="sc">==</span> <span class="dv">1</span>], </span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a><span class="co"># control group</span></span>
+<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(experiment_data<span class="sc">$</span>OUTCOME_VARIABLE[</span>
+<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a>  experiment_data<span class="sc">$</span>TREATMENT_VARIABLE <span class="sc">==</span> <span class="dv">0</span>], </span>
+<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="activity-3-�-interpret" class="level3" data-number="17.5.5">
+<h3 data-number="17.5.5" class="anchored" data-anchor-id="activity-3-�-interpret"><span class="header-section-number">17.5.5</span> <em>Activité 3 — interpréter</em></h3>
+<div class="column lang-fr" style="width:50%;">
+<p>Comparez votre ATE à l’<strong>échelle</strong> de la variable de résultat. La différence est-elle grande ou petite ?</p>
+<p>Notez votre réponse en commentaire dans votre fichier <code>.R</code> (<code># Réponse : ...</code>).</p>
+</div>
+</section>
+</section>
+<section id="activity-4" class="level2" data-number="17.6">
+<h2 data-number="17.6" class="anchored" data-anchor-id="activity-4"><span class="header-section-number">17.6</span> <em>Activité 4</em></h2>
+<section id="power-analysis-�-goals" class="level3" data-number="17.6.1">
+<h3 data-number="17.6.1" class="anchored" data-anchor-id="power-analysis-�-goals"><span class="header-section-number">17.6.1</span> <em>Analyse de puissance — objectifs</em></h3>
+<div class="column lang-fr" style="width:50%;">
+<p><strong>Contexte :</strong> La taille d’échantillon est un choix de conception clé. <strong>Puissance</strong> = probabilité de détecter un effet s’il existe.</p>
+<p>Cette activité utilise le <strong>calculateur de puissance EGAP</strong> (application web — pas de code R à copier). Notez les réponses en commentaires dans votre fichier <code>.R</code>.</p>
+</div>
+</section>
+<section id="activity-4-�-calculator" class="level3" data-number="17.6.2">
+<h3 data-number="17.6.2" class="anchored" data-anchor-id="activity-4-�-calculator"><span class="header-section-number">17.6.2</span> <em>Activité 4 — calculateur</em></h3>
+<div class="column lang-fr" style="width:50%;">
+<p>Ouvrez le calculateur :</p>
+<p><a href="https://egap.shinyapps.io/power-app">egap.shinyapps.io/power-app</a></p>
+<p>Entrées clés : niveau de significativité (0,05), taille d’effet attendue, écart-type du résultat, cible de puissance (80 %), <em>N</em> max pour le graphique.</p>
+</div>
+</section>
+<section id="activity-4-�-tasks" class="level3" data-number="17.6.3">
+<h3 data-number="17.6.3" class="anchored" data-anchor-id="activity-4-�-tasks"><span class="header-section-number">17.6.3</span> <em>Activité 4 — tâches</em></h3>
+<ol type="1">
+<li>Taille d’effet = 1, ET = 1 : puissance pour <em>N</em> = 100 et <em>N</em> = 500 ?</li>
+<li><strong>Doublez</strong> la taille d’effet — la puissance augmente ou diminue ?</li>
+<li><strong>Doublez</strong> l’écart-type — la puissance augmente ou diminue ?</li>
+<li>Avec <em>N</em> = 500 fixé, quelle est la <strong>plus petite taille d’effet détectable</strong> à 80 % de puissance ?</li>
+</ol>
+</section>
+</section>
+<section id="activity-5" class="level2" data-number="17.7">
+<h2 data-number="17.7" class="anchored" data-anchor-id="activity-5"><span class="header-section-number">17.7</span> <em>Activité 5</em></h2>
+<section id="estimation-�-goals" class="level3" data-number="17.7.1">
+<h3 data-number="17.7.1" class="anchored" data-anchor-id="estimation-�-goals"><span class="header-section-number">17.7.1</span> <em>Estimation — objectifs</em></h3>
+<p><strong>Contexte :</strong> Différentes <strong>stratégies d’analyse</strong> donnent des réponses différentes. Le bon estimateur dépend de la façon dont vous avez <strong>randomisé</strong> (complète vs par blocs).</p>
+</section>
+<section id="activity-5-�-load-data" class="level3" data-number="17.7.2">
+<h3 data-number="17.7.2" class="anchored" data-anchor-id="activity-5-�-load-data"><span class="header-section-number">17.7.2</span> <em>Activité 5 — charger les données</em></h3>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>experiment_data <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"data_for_analysis.csv"</span>)</span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(estimatr)</span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="activity-5-�-complete-randomization" class="level3" data-number="17.7.3">
+<h3 data-number="17.7.3" class="anchored" data-anchor-id="activity-5-�-complete-randomization"><span class="header-section-number">17.7.3</span> <em>Activité 5 — randomisation complète</em></h3>
+<div class="column lang-fr" style="width:50%;">
+<p>Si vous avez utilisé une randomisation <strong>complète</strong>, analysez avec <code>difference_in_means()</code> <strong>sans</strong> blocs.</p>
+<p>Remplacez les noms de variables. Comparez avec votre calcul manuel de l’activité 3.</p>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="fu">difference_in_means</span>(</span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>  OUTCOME_VARIABLE <span class="sc">~</span> TREATMENT_VARIABLE,</span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> experiment_data</span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="activity-5-�-blocked-randomization" class="level3" data-number="17.7.4">
+<h3 data-number="17.7.4" class="anchored" data-anchor-id="activity-5-�-blocked-randomization"><span class="header-section-number">17.7.4</span> <em>Activité 5 — randomisation par blocs</em></h3>
+<div class="column lang-fr" style="width:50%;">
+<p>Si l’assignation était <strong>stratifiée</strong> par Gender, ajoutez <code>blocks = Gender</code>.</p>
+<p>Comparez <strong>Estimate</strong> et <strong>Std. Error</strong> au modèle sans blocs. Ils diffèrent — lequel correspond à votre design ?</p>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">difference_in_means</span>(</span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>  OUTCOME_VARIABLE <span class="sc">~</span> TREATMENT_VARIABLE,</span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">blocks =</span> Gender,</span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> experiment_data</span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="activity-5-�-takeaway" class="level3" data-number="17.7.5">
+<h3 data-number="17.7.5" class="anchored" data-anchor-id="activity-5-�-takeaway"><span class="header-section-number">17.7.5</span> <em>Activité 5 — message clé</em></h3>
+<p><strong>Analysez comme vous randomisez.</strong> Choisissez l’estimateur qui correspond à votre stratégie de données.</p>
+</section>
+</section>
+<section id="wrap-up" class="level2" data-number="17.8">
+<h2 data-number="17.8" class="anchored" data-anchor-id="wrap-up"><span class="header-section-number">17.8</span> <em>Conclusion</em></h2>
+<section id="next-steps" class="level3" data-number="17.8.1">
+<h3 data-number="17.8.1" class="anchored" data-anchor-id="next-steps"><span class="header-section-number">17.8.1</span> <em>Prochaines étapes</em></h3>
+<ul>
+<li>Sauvegardez votre fichier <code>.R</code> — c’est votre trace complète de la session.</li>
+<li>Revenez aux slides de cours sur randomisation, estimation et puissance si besoin.</li>
+<li>Toutes les activités utilisent le même <code>data_for_analysis.csv</code> dans votre dossier d’exercices.</li>
+</ul>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copié");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copié");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../../chapters/fr/E01_experiment_slides.html" class="pagination-link" aria-label="Ex01 — Expérience en classe">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Ex01 — Expérience en classe</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../../chapters/fr/E03_projects.html" class="pagination-link" aria-label="Ex03 — Projets">
+        <span class="nav-page-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Ex03 — Projets</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

@@ -1,0 +1,65 @@
+---
+title: "My presentation"
+author: my name
+date: today
+theme: solarized
+---
+
+```{r}
+library(DeclareDesign)
+library(tidyverse)
+```
+
+## Introduction
+
+My question
+
+1. this
+2. that
+
+
+## My design
+
+* M: I work with a population of XX with features Z
+* I: I want to know XX
+* D: I assign treatment Z and gather measure M
+* A: I use differences in means
+
+## Implementation
+
+Key challenges:
+
+1.
+2.
+
+## My data
+
+```{r}
+#| echo: true
+#| out-width: '60%'
+
+
+df <- read.csv("data.csv")
+
+hist(df$Y)
+  
+```
+
+
+## My analysis {.smaller}
+
+```{r}
+#| echo: true
+#| results: 'asis'
+
+model <- lm_robust(Y ~ X, data = df)
+
+texreg::htmlreg(model) 
+  
+```
+
+
+## Conclusions
+
+* Good stuff
+* More good stuff

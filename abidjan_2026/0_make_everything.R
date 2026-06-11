@@ -56,9 +56,7 @@ ROOT <- .abidjan_root()
 INDEX_CSV <- file.path(ROOT, "index.csv")
 PDF_DIR <- file.path(ROOT, "pdf")
 
-QMD_OVERRIDES <- c(
-  "15_grants.html" = "13_grants.qmd"
-)
+QMD_OVERRIDES <- character(0)
 
 QUIZ_QMDS <- c(
   "quizzes/quiz-tuesday.qmd",
@@ -226,7 +224,7 @@ ensure_local_images <- function(root = ROOT) {
   invisible(TRUE)
 }
 
-#' Build saved/cardgame_simulation.rds if missing (2_experiment_slides.qmd).
+#' Build saved/cardgame_simulation.rds if missing (E01_experiment_slides.qmd).
 ensure_cardgame_simulation <- function() {
   out_path <- file.path(ROOT, "saved", "cardgame_simulation.rds")
   if (file.exists(out_path)) {

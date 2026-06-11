@@ -1,0 +1,1189 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="fr" xml:lang="fr"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.27">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>13&nbsp; C12 — Menaces à la validité – EGAP Learning Days Abidjan 2026</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<link href="../../chapters/fr/L13_lifecycle.html" rel="next">
+<link href="../../chapters/fr/L11_presenting.html" rel="prev">
+<script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-ed96de9b727972fe78a7b5d16c58bf87.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-d9ea66fcd6c317012447f26e9c021348.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "Pas de résultats",
+    "search-matching-documents-text": "documents trouvés",
+    "search-copy-link-title": "Copier le lien vers la recherche",
+    "search-hide-matches-text": "Cacher les correspondances additionnelles",
+    "search-more-match-text": "correspondance de plus dans ce document",
+    "search-more-matches-text": "correspondances de plus dans ce document",
+    "search-clear-button-title": "Effacer",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Annuler",
+    "search-submit-button-title": "Envoyer",
+    "search-label": "Recherche"
+  }
+}</script>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+<link rel="stylesheet" href="../../assets/abidjan-book.css">
+</head>
+
+<body class="nav-sidebar floating nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">EGAP Learning Days Abidjan 2026</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Recherche"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Basculer la navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="https://egap.github.io/learningdays-resources/abidjan_2026/index.html"> 
+<span class="menu-text">Toutes les ressources</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Basculer la barre latérale" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../chapters/fr/L01_why-experiment.html">Cours</a></li><li class="breadcrumb-item"><a href="../../chapters/fr/L12_threats.html"><span class="chapter-title">C12 — Menaces à la validité</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Basculer la barre latérale" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-title">Home</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Cours</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Basculer la section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/fr/L01_why-experiment.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">C01 — Pourquoi expérimenter ?</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/fr/L02_causalinference.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">C02 — Inférence causale</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/fr/L03_randomization_1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">C03 — Randomisation 1</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/fr/L04_R_intro.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">C04 — Introduction à R</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/fr/L05_randomization_2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">C05 — Randomisation 2</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/fr/L06_design_intro.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">C06 — Design et diagnostic</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/fr/L07_estimation_1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">C07 — Estimation 1</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/fr/L08_estimation_2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">C08 — Estimation 2</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/fr/L09_power_intro.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">C09 — Puissance et diagnostic</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/fr/L10_ethics.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">C10 — Éthique et expériences</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/fr/L11_presenting.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">C11 — Présenter les résultats</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/fr/L12_threats.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">C12 — Menaces à la validité</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/fr/L13_lifecycle.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">C13 — Cycle de vie d’une expérience</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/fr/L14_grants.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">C14 — Demandes de subvention</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+ <span class="menu-text">Exercices et quiz</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Basculer la section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/fr/E01_experiment_slides.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Ex01 — Expérience en classe</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/fr/E02_R_exercises.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Ex02 — Exercices R</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/fr/E03_projects.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Ex03 — Projets</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/fr/quiz-tuesday.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Quiz — jour 2</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/fr/quiz-wednesday.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Quiz — jour 3</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/fr/quiz-thursday.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">Quiz — jour 4</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active" data-toc-expanded="2">
+    <h2 id="toc-title">Table des matières</h2>
+   
+  <ul>
+  <li><a href="#key-points" id="toc-key-points" class="nav-link active" data-scroll-target="#key-points"><span class="header-section-number">13.1</span> <em>Points clés</em></a></li>
+  <li><a href="#core-assumptions" id="toc-core-assumptions" class="nav-link" data-scroll-target="#core-assumptions"><span class="header-section-number">13.2</span> <em>Hypothèses de base</em></a>
+  <ul class="collapse">
+  <li><a href="#review" id="toc-review" class="nav-link" data-scroll-target="#review"><span class="header-section-number">13.2.1</span> <em>Rappel</em></a></li>
+  </ul></li>
+  <li><a href="#attrition" id="toc-attrition" class="nav-link" data-scroll-target="#attrition"><span class="header-section-number">13.3</span> <em>Attrition</em></a>
+  <ul class="collapse">
+  <li><a href="#missing-outcome-data" id="toc-missing-outcome-data" class="nav-link" data-scroll-target="#missing-outcome-data"><span class="header-section-number">13.3.1</span> <em>Données de résultat manquantes</em></a></li>
+  <li><a href="#what-can-we-do-1" id="toc-what-can-we-do-1" class="nav-link" data-scroll-target="#what-can-we-do-1"><span class="header-section-number">13.3.2</span> <em>Que faire ? (1)</em></a></li>
+  <li><a href="#what-can-we-do-2" id="toc-what-can-we-do-2" class="nav-link" data-scroll-target="#what-can-we-do-2"><span class="header-section-number">13.3.3</span> <em>Que faire ? (2)</em></a></li>
+  <li><a href="#missing-covariates" id="toc-missing-covariates" class="nav-link" data-scroll-target="#missing-covariates"><span class="header-section-number">13.3.4</span> <em>Covariables manquantes</em></a></li>
+  </ul></li>
+  <li><a href="#non-compliance" id="toc-non-compliance" class="nav-link" data-scroll-target="#non-compliance"><span class="header-section-number">13.4</span> <em>Non-conformité</em></a>
+  <ul class="collapse">
+  <li><a href="#non-compliance-2" id="toc-non-compliance-2" class="nav-link" data-scroll-target="#non-compliance-2"><span class="header-section-number">13.4.1</span> <em>Non-conformité</em></a></li>
+  <li><a href="#late" id="toc-late" class="nav-link" data-scroll-target="#late"><span class="header-section-number">13.4.2</span> CACE | <em>LATE / CACE</em></a></li>
+  <li><a href="#3-encouragement-design-code" id="toc-3-encouragement-design-code" class="nav-link" data-scroll-target="#3-encouragement-design-code"><span class="header-section-number">13.4.3</span> <em>Conception incitative: Code</em></a></li>
+  <li><a href="#3-encouragement-design-code-2" id="toc-3-encouragement-design-code-2" class="nav-link" data-scroll-target="#3-encouragement-design-code-2"><span class="header-section-number">13.4.4</span> <em>Conception incitative: Code</em></a></li>
+  </ul></li>
+  <li><a href="#spillovers" id="toc-spillovers" class="nav-link" data-scroll-target="#spillovers"><span class="header-section-number">13.5</span> <em>Spillovers</em></a>
+  <ul class="collapse">
+  <li><a href="#interference" id="toc-interference" class="nav-link" data-scroll-target="#interference"><span class="header-section-number">13.5.1</span> <em>Interférence</em></a></li>
+  <li><a href="#studying-spillovers" id="toc-studying-spillovers" class="nav-link" data-scroll-target="#studying-spillovers"><span class="header-section-number">13.5.2</span> <em>Étudier les spillovers</em></a></li>
+  </ul></li>
+  <li><a href="#demand-effects" id="toc-demand-effects" class="nav-link" data-scroll-target="#demand-effects"><span class="header-section-number">13.6</span> <em>Effets de demande</em></a>
+  <ul class="collapse">
+  <li><a href="#demand-effects-2" id="toc-demand-effects-2" class="nav-link" data-scroll-target="#demand-effects-2"><span class="header-section-number">13.6.1</span> <em>Effets de demande</em></a></li>
+  <li><a href="#good-practices" id="toc-good-practices" class="nav-link" data-scroll-target="#good-practices"><span class="header-section-number">13.6.2</span> <em>Bonnes pratiques</em></a></li>
+  </ul></li>
+  <li><a href="#non-excludability" id="toc-non-excludability" class="nav-link" data-scroll-target="#non-excludability"><span class="header-section-number">13.7</span> <em>Non-excludabilité</em></a>
+  <ul class="collapse">
+  <li><a href="#differential-handling" id="toc-differential-handling" class="nav-link" data-scroll-target="#differential-handling"><span class="header-section-number">13.7.1</span> <em>Traitement différentiel</em></a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../chapters/fr/L01_why-experiment.html">Cours</a></li><li class="breadcrumb-item"><a href="../../chapters/fr/L12_threats.html"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">C12 — Menaces à la validité</span></a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">C12 — Menaces à la validité</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="key-points" class="level2" data-number="13.1">
+<h2 data-number="13.1" class="anchored" data-anchor-id="key-points"><span class="header-section-number">13.1</span> <em>Points clés</em></h2>
+<ul>
+<li>Attrition (données de résultat manquantes)</li>
+<li>Non-conformité</li>
+<li>Effets de spillover</li>
+<li>Effets de demande</li>
+<li>Traitement différentiel des bras de traitement</li>
+</ul>
+</section>
+<section id="core-assumptions" class="level2" data-number="13.2">
+<h2 data-number="13.2" class="anchored" data-anchor-id="core-assumptions"><span class="header-section-number">13.2</span> <em>Hypothèses de base</em></h2>
+<section id="review" class="level3" data-number="13.2.1">
+<h3 data-number="13.2.1" class="anchored" data-anchor-id="review"><span class="header-section-number">13.2.1</span> <em>Rappel</em></h3>
+<ol type="1">
+<li><strong>Excludabilité</strong></li>
+<li><strong>Non-interférence</strong></li>
+<li><strong>Assignation aléatoire</strong> des sujets au traitement</li>
+</ol>
+</section>
+</section>
+<section id="attrition" class="level2" data-number="13.3">
+<h2 data-number="13.3" class="anchored" data-anchor-id="attrition"><span class="header-section-number">13.3</span> <em>Attrition</em></h2>
+<section id="missing-outcome-data" class="level3" data-number="13.3.1">
+<h3 data-number="13.3.1" class="anchored" data-anchor-id="missing-outcome-data"><span class="header-section-number">13.3.1</span> <em>Données de résultat manquantes</em></h3>
+<div class="column lang-fr" style="width:50%;">
+<p>Certaines unités peuvent avoir des <strong>résultats manquants</strong> lorsque :</p>
+<ul>
+<li>les répondants sont introuvables ou refusent l’enquête de fin</li>
+<li>des dossiers sont perdus</li>
+</ul>
+<p>C’est problématique quand le <strong>traitement affecte le taux de non-réponse</strong> — p.ex. moins de réponses en contrôle, ou migration des traités.</p>
+<p>Si l’on supprime les cas manquants, on ne compare plus des groupes traitement et contrôle comparables.</p>
+</div>
+</section>
+<section id="what-can-we-do-1" class="level3" data-number="13.3.2">
+<h3 data-number="13.3.2" class="anchored" data-anchor-id="what-can-we-do-1"><span class="header-section-number">13.3.2</span> <em>Que faire ? (1)</em></h3>
+<ul>
+<li>Vérifier si les taux d’attrition sont similaires entre traitement et contrôle.</li>
+<li>Vérifier si les profils de covariables sont similaires.</li>
+<li>Ne <strong>pas</strong> exclure les observations avec résultats manquants de l’analyse.</li>
+<li>Quand les résultats manquent, parfois <strong>encadrer</strong> les effets du traitement.</li>
+</ul>
+</section>
+<section id="what-can-we-do-2" class="level3" data-number="13.3.3">
+<h3 data-number="13.3.3" class="anchored" data-anchor-id="what-can-we-do-2"><span class="header-section-number">13.3.3</span> <em>Que faire ? (2)</em></h3>
+<div class="column lang-fr" style="width:50%;">
+<p>Meilleure approche : <strong>anticiper et prévenir</strong> l’attrition.</p>
+<ul>
+<li>Garder les sujets dans l’ignorance de leur statut de traitement.</li>
+<li>Promettre le traitement au groupe contrôle après l’étude.</li>
+<li>Prévoir d’atteindre tous les sujets en fin d’étude.</li>
+<li>Budgéter un suivi intensif d’un échantillon aléatoire d’attritionnaires.</li>
+</ul>
+</div>
+</section>
+<section id="missing-covariates" class="level3" data-number="13.3.4">
+<h3 data-number="13.3.4" class="anchored" data-anchor-id="missing-covariates"><span class="header-section-number">13.3.4</span> <em>Covariables manquantes</em></h3>
+<div class="column lang-fr" style="width:50%;">
+<p>Des <strong>covariables de base</strong> manquantes (non modifiées par le traitement) posent moins de problèmes.</p>
+<ul>
+<li>On peut encore estimer les effets causaux sans elles.</li>
+<li>On peut imputer comme prévu.</li>
+<li>On peut conditionner directement sur la non-réponse.</li>
+</ul>
+</div>
+</section>
+</section>
+<section id="non-compliance" class="level2" data-number="13.4">
+<h2 data-number="13.4" class="anchored" data-anchor-id="non-compliance"><span class="header-section-number">13.4</span> <em>Non-conformité</em></h2>
+<section id="non-compliance-2" class="level3" data-number="13.4.1">
+<h3 data-number="13.4.1" class="anchored" data-anchor-id="non-compliance-2"><span class="header-section-number">13.4.1</span> <em>Non-conformité</em></h3>
+<div class="column lang-fr" style="width:50%;">
+<p>Parfois, des unités assignées au traitement <strong>ne le reçoivent pas</strong> (non-conformité).</p>
+<ul>
+<li>Non-conformité <strong>unilatérale</strong> : tout le contrôle reste non traité ; seuls certains traités reçoivent le traitement.</li>
+</ul>
+<p>L’effet de l’<strong>assignation</strong> ≠ effet de la <strong>réception</strong> du traitement.</p>
+<p>L’effet de réception est le <strong>LATE</strong> / <strong>CACE</strong> — local aux conformes (ceux qui prennent le traitement quand assignés).</p>
+</div>
+</section>
+<section id="late" class="level3" data-number="13.4.2">
+<h3 data-number="13.4.2" class="anchored" data-anchor-id="late"><span class="header-section-number">13.4.2</span> CACE | <em>LATE / CACE</em></h3>
+<div class="column lang-fr" style="width:50%;">
+<p>Pour estimer le LATE/CACE à partir d’une expérience randomisée, deux hypothèses :</p>
+<ol type="1">
+<li><strong>Restriction d’exclusion :</strong> l’assignation n’affecte les résultats que via la réception du traitement.</li>
+<li><strong>Monotonicité :</strong> pas de <strong>défiants</strong> — unités qui prennent le traitement si assignées au contrôle mais pas si assignées au traitement.</li>
+</ol>
+</div>
+</section>
+<section id="3-encouragement-design-code" class="level3" data-number="13.4.3">
+<h3 data-number="13.4.3" class="anchored" data-anchor-id="3-encouragement-design-code"><span class="header-section-number">13.4.3</span> <em>Conception incitative: Code</em></h3>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">fabricate</span>(<span class="at">N =</span> <span class="dv">1000</span>, <span class="at">Z =</span> <span class="fu">complete_ra</span>(N),</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>            <span class="at">complier =</span> <span class="fu">complete_ra</span>(N),</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>            <span class="at">D =</span> Z<span class="sc">*</span>complier,</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>            <span class="at">Y =</span> complier <span class="sc">+</span> D <span class="sc">+</span> <span class="fu">rnorm</span>(N)<span class="sc">/</span><span class="dv">100</span>)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>df <span class="sc">|&gt;</span> <span class="fu">head</span>() <span class="sc">|&gt;</span> <span class="fu">kable</span>()</span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: left;">ID</th>
+<th style="text-align: right;">Z</th>
+<th style="text-align: right;">complier</th>
+<th style="text-align: right;">D</th>
+<th style="text-align: right;">Y</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">0001</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">-0.0027233</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">0002</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0.9817061</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">0003</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0.0089876</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">0004</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0.0042328</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">0005</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">-0.0010837</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">0006</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">2.0032188</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</section>
+<section id="3-encouragement-design-code-2" class="level3 smaller" data-number="13.4.4">
+<h3 class="smaller anchored" data-number="13.4.4" data-anchor-id="3-encouragement-design-code-2"><span class="header-section-number">13.4.4</span> <em>Conception incitative: Code</em></h3>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">list</span>(</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">ITT =</span> <span class="fu">lm_robust</span>(Y <span class="sc">~</span> Z, <span class="at">data =</span> df),</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">WRONG =</span> <span class="fu">lm_robust</span>(Y <span class="sc">~</span> D, <span class="at">data =</span> df),</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">CACE =</span> <span class="fu">iv_robust</span>(Y <span class="sc">~</span> D <span class="sc">|</span> Z, <span class="at">data =</span> df)) <span class="sc">|&gt;</span> </span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>texreg<span class="sc">::</span><span class="fu">htmlreg</span>(<span class="at">include.ci =</span> <span class="cn">FALSE</span>,)</span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
+<table class="texreg" style="margin: 10px auto;border-collapse: collapse;border-spacing: 0px;caption-side: bottom;color: #000000;border-top: 2px solid #000000;">
+<caption>
+Statistical models
+</caption>
+<thead>
+<tr>
+<th style="padding-left: 5px;padding-right: 5px;">
+&nbsp;
+</th>
+<th style="padding-left: 5px;padding-right: 5px;">
+ITT
+</th>
+<th style="padding-left: 5px;padding-right: 5px;">
+WRONG
+</th>
+<th style="padding-left: 5px;padding-right: 5px;">
+CACE
+</th>
+</tr>
+</thead>
+<tbody>
+<tr style="border-top: 1px solid #000000;">
+<td style="padding-left: 5px;padding-right: 5px;">
+(Intercept)
+</td>
+<td style="padding-left: 5px;padding-right: 5px;">
+0.52<sup>***</sup>
+</td>
+<td style="padding-left: 5px;padding-right: 5px;">
+0.34<sup>***</sup>
+</td>
+<td style="padding-left: 5px;padding-right: 5px;">
+0.52<sup>***</sup>
+</td>
+</tr>
+<tr>
+<td style="padding-left: 5px;padding-right: 5px;">
+&nbsp;
+</td>
+<td style="padding-left: 5px;padding-right: 5px;">
+(0.02)
+</td>
+<td style="padding-left: 5px;padding-right: 5px;">
+(0.02)
+</td>
+<td style="padding-left: 5px;padding-right: 5px;">
+(0.02)
+</td>
+</tr>
+<tr>
+<td style="padding-left: 5px;padding-right: 5px;">
+Z
+</td>
+<td style="padding-left: 5px;padding-right: 5px;">
+0.45<sup>***</sup>
+</td>
+<td style="padding-left: 5px;padding-right: 5px;">
+&nbsp;
+</td>
+<td style="padding-left: 5px;padding-right: 5px;">
+&nbsp;
+</td>
+</tr>
+<tr>
+<td style="padding-left: 5px;padding-right: 5px;">
+&nbsp;
+</td>
+<td style="padding-left: 5px;padding-right: 5px;">
+(0.05)
+</td>
+<td style="padding-left: 5px;padding-right: 5px;">
+&nbsp;
+</td>
+<td style="padding-left: 5px;padding-right: 5px;">
+&nbsp;
+</td>
+</tr>
+<tr>
+<td style="padding-left: 5px;padding-right: 5px;">
+D
+</td>
+<td style="padding-left: 5px;padding-right: 5px;">
+&nbsp;
+</td>
+<td style="padding-left: 5px;padding-right: 5px;">
+1.66<sup>***</sup>
+</td>
+<td style="padding-left: 5px;padding-right: 5px;">
+0.93<sup>***</sup>
+</td>
+</tr>
+<tr>
+<td style="padding-left: 5px;padding-right: 5px;">
+&nbsp;
+</td>
+<td style="padding-left: 5px;padding-right: 5px;">
+&nbsp;
+</td>
+<td style="padding-left: 5px;padding-right: 5px;">
+(0.02)
+</td>
+<td style="padding-left: 5px;padding-right: 5px;">
+(0.07)
+</td>
+</tr>
+<tr style="border-top: 1px solid #000000;">
+<td style="padding-left: 5px;padding-right: 5px;">
+R<sup>2</sup>
+</td>
+<td style="padding-left: 5px;padding-right: 5px;">
+0.08
+</td>
+<td style="padding-left: 5px;padding-right: 5px;">
+0.75
+</td>
+<td style="padding-left: 5px;padding-right: 5px;">
+0.60
+</td>
+</tr>
+<tr>
+<td style="padding-left: 5px;padding-right: 5px;">
+Adj. R<sup>2</sup>
+</td>
+<td style="padding-left: 5px;padding-right: 5px;">
+0.07
+</td>
+<td style="padding-left: 5px;padding-right: 5px;">
+0.75
+</td>
+<td style="padding-left: 5px;padding-right: 5px;">
+0.60
+</td>
+</tr>
+<tr>
+<td style="padding-left: 5px;padding-right: 5px;">
+Num. obs.
+</td>
+<td style="padding-left: 5px;padding-right: 5px;">
+1000
+</td>
+<td style="padding-left: 5px;padding-right: 5px;">
+1000
+</td>
+<td style="padding-left: 5px;padding-right: 5px;">
+1000
+</td>
+</tr>
+<tr style="border-bottom: 2px solid #000000;">
+<td style="padding-left: 5px;padding-right: 5px;">
+RMSE
+</td>
+<td style="padding-left: 5px;padding-right: 5px;">
+0.79
+</td>
+<td style="padding-left: 5px;padding-right: 5px;">
+0.41
+</td>
+<td style="padding-left: 5px;padding-right: 5px;">
+0.52
+</td>
+</tr>
+</tbody>
+<tfoot>
+<tr>
+<td style="font-size: 0.8em;" colspan="4">
+<sup>***</sup>p &lt; 0.001; <sup>**</sup>p &lt; 0.01; <sup>*</sup>p &lt; 0.05
+</td>
+</tr>
+</tfoot>
+</table>
+</section>
+</section>
+<section id="spillovers" class="level2" data-number="13.5">
+<h2 data-number="13.5" class="anchored" data-anchor-id="spillovers"><span class="header-section-number">13.5</span> <em>Spillovers</em></h2>
+<section id="interference" class="level3" data-number="13.5.1">
+<h3 data-number="13.5.1" class="anchored" data-anchor-id="interference"><span class="header-section-number">13.5.1</span> <em>Interférence</em></h3>
+<div class="column lang-fr" style="width:50%;">
+<p>Parfois, le traitement assigné à une unité affecte le <strong>résultat d’une autre</strong>.</p>
+<p>Si le statut de traitement d’une unité affecte le résultat d’une autre, l’<strong>non-interférence</strong> est violée.</p>
+<p>On peut échantillonner des unités éloignées pour limiter la « transmission » des effets.</p>
+</div>
+</section>
+<section id="studying-spillovers" class="level3" data-number="13.5.2">
+<h3 data-number="13.5.2" class="anchored" data-anchor-id="studying-spillovers"><span class="header-section-number">13.5.2</span> <em>Étudier les spillovers</em></h3>
+<div class="column lang-fr" style="width:50%;">
+<p>Pas un problème si l’étude est <strong>conçue</strong> pour étudier les spillovers.</p>
+<p>Pour les investiguer :</p>
+<ul>
+<li>Mesurer des unités jamais éligibles au traitement mais proches d’unités éligibles.</li>
+<li>Utiliser une randomisation en <strong>deux étapes</strong>.</li>
+<li>Assigner à des grappes (p.ex. districts) différentes <strong>intensités</strong> de traitement.</li>
+</ul>
+</div>
+</section>
+</section>
+<section id="demand-effects" class="level2" data-number="13.6">
+<h2 data-number="13.6" class="anchored" data-anchor-id="demand-effects"><span class="header-section-number">13.6</span> <em>Effets de demande</em></h2>
+<section id="demand-effects-2" class="level3" data-number="13.6.1">
+<h3 data-number="13.6.1" class="anchored" data-anchor-id="demand-effects-2"><span class="header-section-number">13.6.1</span> <em>Effets de demande</em></h3>
+<div class="column lang-fr" style="width:50%;">
+<p><strong>Effets de demande :</strong> savoir qu’on est observé peut modifier le comportement.</p>
+<ul>
+<li>Erreur de mesure systématique dans les deux groupes.</li>
+<li>Une attention accrue au groupe traité peut annuler l’équivalence créée par la randomisation.</li>
+</ul>
+</div>
+</section>
+<section id="good-practices" class="level3" data-number="13.6.2">
+<h3 data-number="13.6.2" class="anchored" data-anchor-id="good-practices"><span class="header-section-number">13.6.2</span> <em>Bonnes pratiques</em></h3>
+<ul>
+<li>Collecter les données de la façon la plus <strong>discrète</strong> possible.</li>
+<li>Dans la mesure du possible, seul le sujet connaît son statut.</li>
+<li><strong>Masquer</strong> le statut de traitement aux enquêteurs/chercheurs.</li>
+<li>Ne pas mesurer davantage le groupe traité.</li>
+</ul>
+</section>
+</section>
+<section id="non-excludability" class="level2" data-number="13.7">
+<h2 data-number="13.7" class="anchored" data-anchor-id="non-excludability"><span class="header-section-number">13.7</span> <em>Non-excludabilité</em></h2>
+<section id="differential-handling" class="level3" data-number="13.7.1">
+<h3 data-number="13.7.1" class="anchored" data-anchor-id="differential-handling"><span class="header-section-number">13.7.1</span> <em>Traitement différentiel</em></h3>
+<div class="column lang-fr" style="width:50%;">
+<p>Traiter différemment les groupes traitement et contrôle signifie que les écarts de résultats peuvent refléter le traitement <strong>et/ou</strong> un traitement différentiel.</p>
+<p>Exemples : instruments d’enquête différents, vagues de données supplémentaires pour le traitement.</p>
+<p>Concevoir l’étude et les instruments pour que tous les bras soient traités pareil <strong>sauf le traitement lui-même</strong>.</p>
+</div>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copié");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copié");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../../chapters/fr/L11_presenting.html" class="pagination-link" aria-label="C11 — Présenter les résultats">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">C11 — Présenter les résultats</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../../chapters/fr/L13_lifecycle.html" class="pagination-link" aria-label="C13 — Cycle de vie d'une expérience">
+        <span class="nav-page-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">C13 — Cycle de vie d’une expérience</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

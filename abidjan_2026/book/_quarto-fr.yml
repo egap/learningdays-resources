@@ -3,21 +3,37 @@ lang: fr
 book:
   title: "EGAP Learning Days Abidjan 2026"
   subtitle: "Supports de cours — Français"
+  navbar:
+    search: true
+    left:
+      - text: "Toutes les ressources"
+        href: "https://egap.github.io/learningdays-resources/abidjan_2026/index.html"
   chapters:
     - index.qmd
-    - chapters/fr/1_why-experiment.qmd
-    - chapters/fr/2_causalinference.qmd
-    - chapters/fr/4_randomization_1.qmd
-    - chapters/fr/5_R_intro.qmd
-    - chapters/fr/6_randomization_2.qmd
-    - chapters/fr/3_design_intro.qmd
-    - chapters/fr/7_estimation_1.qmd
-    - chapters/fr/8_estimation_2.qmd
-    - chapters/fr/9_power_intro.qmd
-    - chapters/fr/10_presenting.qmd
-    - chapters/fr/11_threats.qmd
-    - chapters/fr/12_lifecycle.qmd
-    - chapters/fr/13_grants.qmd
+    - part: "Cours"
+      chapters:
+        - chapters/fr/L01_why-experiment.qmd
+        - chapters/fr/L02_causalinference.qmd
+        - chapters/fr/L03_randomization_1.qmd
+        - chapters/fr/L04_R_intro.qmd
+        - chapters/fr/L05_randomization_2.qmd
+        - chapters/fr/L06_design_intro.qmd
+        - chapters/fr/L07_estimation_1.qmd
+        - chapters/fr/L08_estimation_2.qmd
+        - chapters/fr/L09_power_intro.qmd
+        - chapters/fr/L10_ethics.qmd
+        - chapters/fr/L11_presenting.qmd
+        - chapters/fr/L12_threats.qmd
+        - chapters/fr/L13_lifecycle.qmd
+        - chapters/fr/L14_grants.qmd
+    - part: "Exercices et quiz"
+      chapters:
+        - chapters/fr/E01_experiment_slides.qmd
+        - chapters/fr/E02_R_exercises.qmd
+        - chapters/fr/E03_projects.qmd
+        - chapters/fr/quiz-tuesday.qmd
+        - chapters/fr/quiz-wednesday.qmd
+        - chapters/fr/quiz-thursday.qmd
 
 project:
   output-dir: output/fr

@@ -1,10 +1,13 @@
 ---
-# Book title/subtitle come from _quarto-{en,fr}.yml (profile).
+title: "Home"
+number-sections: false
+format:
+  html:
+    toc: false
 ---
 
 ```{r, include=FALSE}
 source("R/chapter_setup.R")
-source("R/book_index_helpers.R")
 profile <- Sys.getenv("QUARTO_PROFILE", unset = "en")
 if (!profile %in% c("en", "fr")) profile <- "en"
 init_lecture_chapter(profile)
@@ -14,22 +17,12 @@ init_lecture_chapter(profile)
 
 ::: {.content-visible when-profile="en"}
 
-Course notes from the Abidjan 2026 Learning Days lecture decks. Use the **left sidebar** to move between lectures.
-
-```{r}
-#| results: asis
-render_book_chapter_list("en")
-```
+Course notes from the Abidjan 2026 Learning Days lecture decks. Use the **left sidebar** to move between lectures, exercises, and quizzes.
 
 :::
 
 ::: {.content-visible when-profile="fr"}
 
-Supports de cours des Learning Days Abidjan 2026. Utilisez la **barre latérale à gauche** pour naviguer entre les cours.
-
-```{r}
-#| results: asis
-render_book_chapter_list("fr")
-```
+Supports de cours des Learning Days Abidjan 2026. Utilisez la **barre latérale à gauche** pour naviguer entre les cours, exercices et quiz.
 
 :::

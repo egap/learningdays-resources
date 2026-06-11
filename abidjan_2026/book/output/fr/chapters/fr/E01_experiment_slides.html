@@ -1,0 +1,1241 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="fr" xml:lang="fr"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.27">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>16&nbsp; Ex01 — Expérience en classe – EGAP Learning Days Abidjan 2026</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<link href="../../chapters/fr/E02_R_exercises.html" rel="next">
+<link href="../../chapters/fr/L14_grants.html" rel="prev">
+<script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-ed96de9b727972fe78a7b5d16c58bf87.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-d9ea66fcd6c317012447f26e9c021348.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "Pas de résultats",
+    "search-matching-documents-text": "documents trouvés",
+    "search-copy-link-title": "Copier le lien vers la recherche",
+    "search-hide-matches-text": "Cacher les correspondances additionnelles",
+    "search-more-match-text": "correspondance de plus dans ce document",
+    "search-more-matches-text": "correspondances de plus dans ce document",
+    "search-clear-button-title": "Effacer",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Annuler",
+    "search-submit-button-title": "Envoyer",
+    "search-label": "Recherche"
+  }
+}</script>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="../../assets/abidjan-book.css">
+</head>
+
+<body class="nav-sidebar floating nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">EGAP Learning Days Abidjan 2026</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Recherche"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Basculer la navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="https://egap.github.io/learningdays-resources/abidjan_2026/index.html"> 
+<span class="menu-text">Toutes les ressources</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Basculer la barre latérale" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../chapters/fr/E01_experiment_slides.html">Exercices et quiz</a></li><li class="breadcrumb-item"><a href="../../chapters/fr/E01_experiment_slides.html"><span class="chapter-title">Ex01 — Expérience en classe</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Basculer la barre latérale" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-title">Home</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Cours</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Basculer la section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/fr/L01_why-experiment.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">C01 — Pourquoi expérimenter ?</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/fr/L02_causalinference.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">C02 — Inférence causale</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/fr/L03_randomization_1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">C03 — Randomisation 1</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/fr/L04_R_intro.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">C04 — Introduction à R</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/fr/L05_randomization_2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">C05 — Randomisation 2</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/fr/L06_design_intro.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">C06 — Design et diagnostic</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/fr/L07_estimation_1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">C07 — Estimation 1</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/fr/L08_estimation_2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">C08 — Estimation 2</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/fr/L09_power_intro.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">C09 — Puissance et diagnostic</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/fr/L10_ethics.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">C10 — Éthique et expériences</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/fr/L11_presenting.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">C11 — Présenter les résultats</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/fr/L12_threats.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">C12 — Menaces à la validité</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/fr/L13_lifecycle.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">C13 — Cycle de vie d’une expérience</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/fr/L14_grants.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">C14 — Demandes de subvention</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+ <span class="menu-text">Exercices et quiz</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Basculer la section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/fr/E01_experiment_slides.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Ex01 — Expérience en classe</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/fr/E02_R_exercises.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Ex02 — Exercices R</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/fr/E03_projects.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Ex03 — Projets</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/fr/quiz-tuesday.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Quiz — jour 2</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/fr/quiz-wednesday.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Quiz — jour 3</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/fr/quiz-thursday.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">Quiz — jour 4</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active" data-toc-expanded="2">
+    <h2 id="toc-title">Table des matières</h2>
+   
+  <ul>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction"><span class="header-section-number">16.1</span> <em>Introduction</em></a>
+  <ul class="collapse">
+  <li><a href="#welcome" id="toc-welcome" class="nav-link" data-scroll-target="#welcome"><span class="header-section-number">16.1.1</span> <em>Bienvenue</em></a></li>
+  <li><a href="#your-materials" id="toc-your-materials" class="nav-link" data-scroll-target="#your-materials"><span class="header-section-number">16.1.2</span> <em>Les éléments du jeu</em></a></li>
+  <li><a href="#your-materials-2" id="toc-your-materials-2" class="nav-link" data-scroll-target="#your-materials-2"><span class="header-section-number">16.1.3</span> <em>Votre matériel</em></a></li>
+  <li><a href="#what�s-on-each-card" id="toc-what�s-on-each-card" class="nav-link" data-scroll-target="#what�s-on-each-card"><span class="header-section-number">16.1.4</span> <em>Sur chaque carte</em></a></li>
+  <li><a href="#the-research-question" id="toc-the-research-question" class="nav-link" data-scroll-target="#the-research-question"><span class="header-section-number">16.1.5</span> <em>La question de recherche</em></a></li>
+  <li><a href="#the-catch-honor-code" id="toc-the-catch-honor-code" class="nav-link" data-scroll-target="#the-catch-honor-code"><span class="header-section-number">16.1.6</span> <em>Quelques règles</em></a></li>
+  <li><a href="#why-this-is-hard" id="toc-why-this-is-hard" class="nav-link" data-scroll-target="#why-this-is-hard"><span class="header-section-number">16.1.7</span> <em>Pourquoi c’est difficile</em></a></li>
+  </ul></li>
+  <li><a href="#step-1" id="toc-step-1" class="nav-link" data-scroll-target="#step-1"><span class="header-section-number">16.2</span> <em>Étape 1</em></a>
+  <ul class="collapse">
+  <li><a href="#step-1-�-first-experiment" id="toc-step-1-�-first-experiment" class="nav-link" data-scroll-target="#step-1-�-first-experiment"><span class="header-section-number">16.2.1</span> <em>Étape 1 — Première expérience</em></a></li>
+  <li><a href="#data-you-record" id="toc-data-you-record" class="nav-link" data-scroll-target="#data-you-record"><span class="header-section-number">16.2.2</span> <em>Données à enregistrer</em></a></li>
+  <li><a href="#example-data" id="toc-example-data" class="nav-link" data-scroll-target="#example-data"><span class="header-section-number">16.2.3</span> <em>Exemple de données</em></a></li>
+  <li><a href="#step-1-�-first-experiment-2" id="toc-step-1-�-first-experiment-2" class="nav-link" data-scroll-target="#step-1-�-first-experiment-2"><span class="header-section-number">16.2.4</span> <em>Étape 1 — Première expérience</em></a></li>
+  <li><a href="#step-1-�-summary-3-tasks" id="toc-step-1-�-summary-3-tasks" class="nav-link" data-scroll-target="#step-1-�-summary-3-tasks"><span class="header-section-number">16.2.5</span> <em>Étape 1 — Résumé : 3 tâches</em></a></li>
+  </ul></li>
+  <li><a href="#step-2" id="toc-step-2" class="nav-link" data-scroll-target="#step-2"><span class="header-section-number">16.3</span> <em>Étape 2</em></a>
+  <ul class="collapse">
+  <li><a href="#step-2-�-redesign-and-repeat" id="toc-step-2-�-redesign-and-repeat" class="nav-link" data-scroll-target="#step-2-�-redesign-and-repeat"><span class="header-section-number">16.3.1</span> <em>Étape 2 — Reconcevoir et répéter</em></a></li>
+  <li><a href="#step-2-�-redesign-and-repeat-2" id="toc-step-2-�-redesign-and-repeat-2" class="nav-link" data-scroll-target="#step-2-�-redesign-and-repeat-2"><span class="header-section-number">16.3.2</span> <em>Étape 2 — Reconcevoir et répéter</em></a></li>
+  <li><a href="#step-2-�-redesign-and-repeat-3" id="toc-step-2-�-redesign-and-repeat-3" class="nav-link" data-scroll-target="#step-2-�-redesign-and-repeat-3"><span class="header-section-number">16.3.3</span> <em>Étape 2 — Reconcevoir et répéter</em></a></li>
+  </ul></li>
+  <li><a href="#step-3" id="toc-step-3" class="nav-link" data-scroll-target="#step-3"><span class="header-section-number">16.4</span> <em>Étape 3</em></a>
+  <ul class="collapse">
+  <li><a href="#step-3-�-reveal-and-diagnose" id="toc-step-3-�-reveal-and-diagnose" class="nav-link" data-scroll-target="#step-3-�-reveal-and-diagnose"><span class="header-section-number">16.4.1</span> <em>Étape 3 — Révéler et diagnostiquer</em></a></li>
+  </ul></li>
+  <li><a href="#deliverables" id="toc-deliverables" class="nav-link" data-scroll-target="#deliverables"><span class="header-section-number">16.5</span> <em>Livrables</em></a>
+  <ul class="collapse">
+  <li><a href="#what-to-submit" id="toc-what-to-submit" class="nav-link" data-scroll-target="#what-to-submit"><span class="header-section-number">16.5.1</span> <em>Ce qu’il faut rendre</em></a></li>
+  </ul></li>
+  <li><a href="#in-class-discussion" id="toc-in-class-discussion" class="nav-link" data-scroll-target="#in-class-discussion"><span class="header-section-number">16.6</span> <em>Discussion en classe</em></a>
+  <ul class="collapse">
+  <li><a href="#discussion-1-�-design-choices" id="toc-discussion-1-�-design-choices" class="nav-link" data-scroll-target="#discussion-1-�-design-choices"><span class="header-section-number">16.6.1</span> <em>Discussion 1 — Choix dans la conception de recherche</em></a></li>
+  <li><a href="#discussion-2-�-what-you-learned-from-repeating" id="toc-discussion-2-�-what-you-learned-from-repeating" class="nav-link" data-scroll-target="#discussion-2-�-what-you-learned-from-repeating"><span class="header-section-number">16.6.2</span> <em>Discussion 2 — Ce que la répétition vous a appris</em></a></li>
+  <li><a href="#discussion-3-�-truth-and-diagnosis" id="toc-discussion-3-�-truth-and-diagnosis" class="nav-link" data-scroll-target="#discussion-3-�-truth-and-diagnosis"><span class="header-section-number">16.6.3</span> <em>Discussion 3 — Vérité et diagnostic</em></a></li>
+  <li><a href="#discussion-4-�-big-picture" id="toc-discussion-4-�-big-picture" class="nav-link" data-scroll-target="#discussion-4-�-big-picture"><span class="header-section-number">16.6.4</span> <em>Discussion 4 — Vue d’ensemble</em></a></li>
+  <li><a href="#what-was-going-on" id="toc-what-was-going-on" class="nav-link" data-scroll-target="#what-was-going-on"><span class="header-section-number">16.6.5</span> <em>Ce qui se passait ?</em></a></li>
+  <li><a href="#results" id="toc-results" class="nav-link" data-scroll-target="#results"><span class="header-section-number">16.6.6</span> <em>Résultats</em></a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../chapters/fr/E01_experiment_slides.html">Exercices et quiz</a></li><li class="breadcrumb-item"><a href="../../chapters/fr/E01_experiment_slides.html"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Ex01 — Expérience en classe</span></a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Ex01 — Expérience en classe</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="introduction" class="level2" data-number="16.1">
+<h2 data-number="16.1" class="anchored" data-anchor-id="introduction"><span class="header-section-number">16.1</span> <em>Introduction</em></h2>
+<section id="welcome" class="level3" data-number="16.1.1">
+<h3 data-number="16.1.1" class="anchored" data-anchor-id="welcome"><span class="header-section-number">16.1.1</span> <em>Bienvenue</em></h3>
+<div class="column lang-fr" style="width:50%;">
+<p>Aujourd’hui, vous allez <strong>concevoir et mener une petite expérience à la main</strong>.</p>
+<p>Vous découvrirez l’assignation aléatoire, l’analyse et l’évaluation (le diagnostic) de la conception de recherche (sans ordinateur).</p>
+<p>Vous travaillerez en <strong>équipes</strong>.</p>
+</div>
+</section>
+<section id="your-materials" class="level3" data-number="16.1.2">
+<h3 data-number="16.1.2" class="anchored" data-anchor-id="your-materials"><span class="header-section-number">16.1.2</span> <em>Les éléments du jeu</em></h3>
+<p>Chaque équipe reçoit une <strong>enveloppe avec 20 cartes</strong>.</p>
+</section>
+<section id="your-materials-2" class="level3 cards-photo-slide" data-number="16.1.3">
+<h3 class="cards-photo-slide anchored" data-number="16.1.3" data-anchor-id="your-materials-2"><span class="header-section-number">16.1.3</span> <em>Votre matériel</em></h3>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../../Images/cards.jpg" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:90.0%"></p>
+</figure>
+</div>
+</section>
+<section id="what�s-on-each-card" class="level3" data-number="16.1.4">
+<h3 data-number="16.1.4" class="anchored" data-anchor-id="what�s-on-each-card"><span class="header-section-number">16.1.4</span> <em>Sur chaque carte</em></h3>
+<div class="column lang-fr" style="width:50%;">
+<p>Sur chaque carte :</p>
+<ul>
+<li>Une face : un nombre en <strong>noir</strong> sur fond blanc et un nombre en <strong>blanc</strong> sur fond noir</li>
+<li>L’autre face : on trouve un identifiant et parfois un <strong>symbole ou du texte</strong></li>
+</ul>
+</div>
+</section>
+<section id="the-research-question" class="level3" data-number="16.1.5">
+<h3 data-number="16.1.5" class="anchored" data-anchor-id="the-research-question"><span class="header-section-number">16.1.5</span> <em>La question de recherche</em></h3>
+<div class="column lang-fr" style="width:50%;">
+<p><strong>Question :</strong> En moyenne, les nombres <strong>noirs</strong> sont-ils plus grands, plus petits ou identiques aux nombres <strong>blancs</strong> ?</p>
+<p>C’est votre <strong>paramètre</strong> — la quantité que vous souhaitez déterminer.</p>
+</div>
+</section>
+<section id="the-catch-honor-code" class="level3" data-number="16.1.6">
+<h3 data-number="16.1.6" class="anchored" data-anchor-id="the-catch-honor-code"><span class="header-section-number">16.1.6</span> <em>Quelques règles</em></h3>
+<div class="column lang-fr" style="width:50%;">
+<p>Quand vous retournez une carte, vous ne pouvez lire <strong>qu’un seul</strong> nombre :</p>
+<ul>
+<li>soit le nombre <strong>noir</strong></li>
+<li>soit le nombre <strong>blanc</strong> — mais <strong>pas les deux</strong></li>
+</ul>
+<p>Vous devez décider <strong>avant</strong> de retourner la carte quel nombre vous allez noter.</p>
+<p>Vous <strong>pouvez</strong> regarder le symbole au dos <strong>avant</strong> de faire votre choix.</p>
+</div>
+</section>
+<section id="why-this-is-hard" class="level3" data-number="16.1.7">
+<h3 data-number="16.1.7" class="anchored" data-anchor-id="why-this-is-hard"><span class="header-section-number">16.1.7</span> <em>Pourquoi c’est difficile</em></h3>
+<div class="column lang-fr" style="width:50%;">
+<p>Chaque carte a deux nombres possibles (``résultats potentiels”) :</p>
+<ul>
+<li>le nombre noir</li>
+<li>le nombre blanc</li>
+</ul>
+<p>Vous n’observez jamais les deux sur la même carte.</p>
+<p>Vous choisissez l’assignation au blanc ou au noir :</p>
+<p><span class="math inline">\(X=0\)</span> : lire le nombre en blanc ou <span class="math inline">\(X=1\)</span> : lire le nombre en noir.</p>
+</div>
+</section>
+</section>
+<section id="step-1" class="level2" data-number="16.2">
+<h2 data-number="16.2" class="anchored" data-anchor-id="step-1"><span class="header-section-number">16.2</span> <em>Étape 1</em></h2>
+<section id="step-1-�-first-experiment" class="level3" data-number="16.2.1">
+<h3 data-number="16.2.1" class="anchored" data-anchor-id="step-1-�-first-experiment"><span class="header-section-number">16.2.1</span> <em>Étape 1 — Première expérience</em></h3>
+<ol type="1">
+<li>Placez toutes les cartes <strong>face cachée</strong>.</li>
+<li>Choisissez votre <strong>stratégie d’assignation</strong> : pour chaque carte, lirez-vous le noir ou le blanc ? (Toutes les méthodes sont autorisées — mais notez-la.)</li>
+<li>Retournez les cartes et notez le nombre que vous avez choisi de lire.</li>
+<li>Saisissez les résultats dans un tableau Excel (une ligne par carte).</li>
+</ol>
+</section>
+<section id="data-you-record" class="level3 compact-table" data-number="16.2.2">
+<h3 class="compact-table anchored" data-number="16.2.2" data-anchor-id="data-you-record"><span class="header-section-number">16.2.2</span> <em>Données à enregistrer</em></h3>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Colonne</th>
+<th style="text-align: left;">Signification</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">ID</td>
+<td style="text-align: left;">Identifiant de la carte</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><span class="math inline">\(X\)</span></td>
+<td style="text-align: left;">Couleur lue : blanc = 0, noir = 1</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><span class="math inline">\(Y\)</span></td>
+<td style="text-align: left;">Nombre observé</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">(plus tard)</td>
+<td style="text-align: left;">Colonnes supplémentaires pour symboles ou notes</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="example-data" class="level3 compact-table" data-number="16.2.3">
+<h3 class="compact-table anchored" data-number="16.2.3" data-anchor-id="example-data"><span class="header-section-number">16.2.3</span> <em>Exemple de données</em></h3>
+<p>Les trois premières lignes de votre feuille :</p>
+<div class="cell">
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: right;">ID</th>
+<th style="text-align: right;">X</th>
+<th style="text-align: right;">Y</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">9</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">2</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">3</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</section>
+<section id="step-1-�-first-experiment-2" class="level3" data-number="16.2.4">
+<h3 data-number="16.2.4" class="anchored" data-anchor-id="step-1-�-first-experiment-2"><span class="header-section-number">16.2.4</span> <em>Étape 1 — Première expérience</em></h3>
+<ul>
+<li>Calculez une estimation de la différence moyenne (noir moins blanc)</li>
+<li>Indiquez quelle conclusion vous tirez concernant la question initiale : les nombres noirs et les nombres blancs sont-ils différents en moyenne ?</li>
+<li>Indiquez votre degré de certitude : très sûr, assez sûr, pas du tout sûr</li>
+<li>[Option : enregistrer les <span class="math inline">\(p\)</span>-valeurs si vous les calculez]</li>
+</ul>
+</section>
+<section id="step-1-�-summary-3-tasks" class="level3 smaller" data-number="16.2.5">
+<h3 class="smaller anchored" data-number="16.2.5" data-anchor-id="step-1-�-summary-3-tasks"><span class="header-section-number">16.2.5</span> <em>Étape 1 — Résumé : 3 tâches</em></h3>
+<ol type="1">
+<li>Assigner noir ou blanc</li>
+<li>Collecte des données dans une feuille Excel (20 lignes)</li>
+<li>Analyse
+<ul>
+<li>La moyenne des nombres en noir et celle des nombres en blanc</li>
+<li>Laquelle est plus grande ?</li>
+<li>Certitude ?</li>
+<li>[Si vous voulez… <span class="math inline">\(p\)</span>-valeur]</li>
+</ul></li>
+</ol>
+</section>
+</section>
+<section id="step-2" class="level2" data-number="16.3">
+<h2 data-number="16.3" class="anchored" data-anchor-id="step-2"><span class="header-section-number">16.3</span> <em>Étape 2</em></h2>
+<section id="step-2-�-redesign-and-repeat" class="level3" data-number="16.3.1">
+<h3 data-number="16.3.1" class="anchored" data-anchor-id="step-2-�-redesign-and-repeat"><span class="header-section-number">16.3.1</span> <em>Étape 2 — Reconcevoir et répéter</em></h3>
+<div class="column lang-fr" style="width:50%;">
+<p>Vous avez terminé un tour. Maintenant, refaites l’expérience <strong>10 fois</strong>.</p>
+<p>Avant de commencer, rédigez un court <strong>plan de pré-analyse</strong> (votre conception de recherche) :</p>
+<ul>
+<li>Allez-vous changer <strong>comment</strong> vous assignez <span class="math inline">\(X\)</span> ?</li>
+<li>Allez-vous changer <strong>comment</strong> vous analysez les données ?</li>
+</ul>
+</div>
+</section>
+<section id="step-2-�-redesign-and-repeat-2" class="level3" data-number="16.3.2">
+<h3 data-number="16.3.2" class="anchored" data-anchor-id="step-2-�-redesign-and-repeat-2"><span class="header-section-number">16.3.2</span> <em>Étape 2 — Reconcevoir et répéter</em></h3>
+<div class="column lang-fr" style="width:50%;">
+<p>Puis répétez les étapes 1–5 dix fois.</p>
+<p>Tracez des histogrammes de vos <strong>estimations</strong> sur les 10 répétitions.</p>
+<p>[Option : tracez des histogrammes des <strong>erreurs-types</strong> et des <strong><span class="math inline">\(p\)</span>-valeurs</strong>.]</p>
+</div>
+</section>
+<section id="step-2-�-redesign-and-repeat-3" class="level3" data-number="16.3.3">
+<h3 data-number="16.3.3" class="anchored" data-anchor-id="step-2-�-redesign-and-repeat-3"><span class="header-section-number">16.3.3</span> <em>Étape 2 — Reconcevoir et répéter</em></h3>
+<div class="cell">
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: right;">ID</th>
+<th style="text-align: right;">X_1</th>
+<th style="text-align: right;">Y_1</th>
+<th style="text-align: right;">X_2</th>
+<th style="text-align: right;">Y_2</th>
+<th style="text-align: left;">X_3</th>
+<th style="text-align: left;">Y_3</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">9</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">7</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: right;">trial</th>
+<th style="text-align: right;">black_average</th>
+<th style="text-align: right;">white_average</th>
+<th style="text-align: right;">black_bigger</th>
+<th style="text-align: right;">certain</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">6</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</section>
+</section>
+<section id="step-3" class="level2" data-number="16.4">
+<h2 data-number="16.4" class="anchored" data-anchor-id="step-3"><span class="header-section-number">16.4</span> <em>Étape 3</em></h2>
+<section id="step-3-�-reveal-and-diagnose" class="level3 smaller" data-number="16.4.1">
+<h3 class="smaller anchored" data-number="16.4.1" data-anchor-id="step-3-�-reveal-and-diagnose"><span class="header-section-number">16.4.1</span> <em>Étape 3 — Révéler et diagnostiquer</em></h3>
+<div class="column lang-fr" style="width:50%;">
+<p>Retournez maintenant <strong>toutes</strong> les cartes et lisez <strong>les deux</strong> nombres sur chaque carte.</p>
+<ol type="1">
+<li>Calculez la <strong>vraie</strong> différence moyenne (noir moins blanc).</li>
+<li>À partir de vos 10 répétitions, évaluez :
+<ul>
+<li><strong>Biais</strong> — les estimations centrent-elles sur la vérité ?</li>
+<li><strong>Puissance</strong> — à quelle fréquence rejettez-vous « aucune différence » quand il y en a une ?</li>
+</ul></li>
+<li>Explorez les corrélations (blanc vs noir ; nombres vs symboles).</li>
+</ol>
+</div>
+</section>
+</section>
+<section id="deliverables" class="level2" data-number="16.5">
+<h2 data-number="16.5" class="anchored" data-anchor-id="deliverables"><span class="header-section-number">16.5</span> <em>Livrables</em></h2>
+<section id="what-to-submit" class="level3" data-number="16.5.1">
+<h3 data-number="16.5.1" class="anchored" data-anchor-id="what-to-submit"><span class="header-section-number">16.5.1</span> <em>Ce qu’il faut rendre</em></h3>
+<div class="column lang-fr" style="width:50%;">
+<p>Envoyez par e-mail un rapport d’équipe avec :</p>
+<ol type="a">
+<li>Noms des membres de l’équipe<br>
+</li>
+<li>Plan de pré-analyse (un paragraphe : assignation ; un paragraphe : analyse)<br>
+</li>
+<li>Histogrammes de l’étape 2<br>
+</li>
+<li>Diagnostic de l’étape 3</li>
+</ol>
+</div>
+</section>
+</section>
+<section id="in-class-discussion" class="level2" data-number="16.6">
+<h2 data-number="16.6" class="anchored" data-anchor-id="in-class-discussion"><span class="header-section-number">16.6</span> <em>Discussion en classe</em></h2>
+<section id="discussion-1-�-design-choices" class="level3" data-number="16.6.1">
+<h3 data-number="16.6.1" class="anchored" data-anchor-id="discussion-1-�-design-choices"><span class="header-section-number">16.6.1</span> <em>Discussion 1 — Choix dans la conception de recherche</em></h3>
+<ul>
+<li>Quelle règle d’assignation avez-vous utilisée pour <span class="math inline">\(X\)</span> ? Pourquoi ?</li>
+<li>Avez-vous utilisé le symbole au dos pour choisir ? Devriez-vous ?</li>
+<li>Votre règle pourrait-elle créer un <strong>biais</strong> même avec une bonne analyse ?</li>
+</ul>
+</section>
+<section id="discussion-2-�-what-you-learned-from-repeating" class="level3" data-number="16.6.2">
+<h3 data-number="16.6.2" class="anchored" data-anchor-id="discussion-2-�-what-you-learned-from-repeating"><span class="header-section-number">16.6.2</span> <em>Discussion 2 — Ce que la répétition vous a appris</em></h3>
+<ul>
+<li>Dans quelle mesure vos estimations ont-elles varié au cours des 10 essais ?</li>
+<li>Les erreurs-types et <span class="math inline">\(p\)</span>-valeurs se sont-elles comportées comme prévu ?</li>
+<li>Que changeriez-vous dans une conception de recherchde de <strong>deuxième génération</strong> ?</li>
+</ul>
+</section>
+<section id="discussion-3-�-truth-and-diagnosis" class="level3" data-number="16.6.3">
+<h3 data-number="16.6.3" class="anchored" data-anchor-id="discussion-3-�-truth-and-diagnosis"><span class="header-section-number">16.6.3</span> <em>Discussion 3 — Vérité et diagnostic</em></h3>
+<ul>
+<li>Vos conceptions étaient-elles <strong>non biaisées</strong> ? <strong>Puissantes</strong> ? <strong>Bien calibrées</strong> ?</li>
+<li>Quand la <strong>randomisation par bloc</strong> ou <strong>l’ajustement sur les symboles</strong> aiderait-il ?</li>
+<li>En quoi ce jeu de cartes ressemble-t-il à une vraie expérience de terrain ? Qu’est-ce qui diffère ?</li>
+</ul>
+</section>
+<section id="discussion-4-�-big-picture" class="level3" data-number="16.6.4">
+<h3 data-number="16.6.4" class="anchored" data-anchor-id="discussion-4-�-big-picture"><span class="header-section-number">16.6.4</span> <em>Discussion 4 — Vue d’ensemble</em></h3>
+<ul>
+<li>Quelle est la différence entre <strong>conception de recherche</strong> (assigner <span class="math inline">\(X\)</span>) et <strong>une analyse</strong> (estimer) ?</li>
+<li>Pourquoi un <strong>plan de pré-analyse</strong> est-il utile avant de répéter une étude ?</li>
+<li>Qu’est-ce que cet exercice vous a appris sur la <strong>randomisation</strong> ?</li>
+</ul>
+</section>
+<section id="what-was-going-on" class="level3 card-groups-slide" data-number="16.6.5">
+<h3 class="card-groups-slide anchored" data-number="16.6.5" data-anchor-id="what-was-going-on"><span class="header-section-number">16.6.5</span> <em>Ce qui se passait ?</em></h3>
+<div class="column lang-fr" style="width:50%;">
+<p>Dans tous les groupes, <span class="math inline">\(Y_0\)</span> étaient les nombres 1 à 20.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 6%">
+<col style="width: 6%">
+<col style="width: 12%">
+<col style="width: 36%">
+<col style="width: 38%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;"></th>
+<th style="text-align: right;"><span class="math inline">\(\tau\)</span></th>
+<th style="text-align: left;">Incertitude</th>
+<th style="text-align: left;">Indice</th>
+<th style="text-align: left;">Symboles</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">A</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: left;">Faible</td>
+<td style="text-align: left;"><span class="math inline">\(Y_1\)</span> négativement corrélé à <span class="math inline">\(Y_0\)</span></td>
+<td style="text-align: left;">Sans importance</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">B</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: left;">Élevée</td>
+<td style="text-align: left;"><span class="math inline">\(Y_1\)</span> positivement corrélé à <span class="math inline">\(Y_0\)</span></td>
+<td style="text-align: left;">Sans importance</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">C</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: left;">Faible</td>
+<td style="text-align: left;"><span class="math inline">\(Y_1\)</span> négativement corrélé à <span class="math inline">\(Y_0\)</span></td>
+<td style="text-align: left;">Utiliser comme contrôle / blocs</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">D</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: left;">Élevée</td>
+<td style="text-align: left;"><span class="math inline">\(Y_1\)</span> positivement corrélé à <span class="math inline">\(Y_0\)</span></td>
+<td style="text-align: left;">Utiliser comme contrôle / blocs</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">E</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: left;">Moyenne</td>
+<td style="text-align: left;"><span class="math inline">\(Y_1\)</span> sans variance</td>
+<td style="text-align: left;">Sans importance — choisir beaucoup de <span class="math inline">\(Y_0\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">F</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: left;">Moyenne</td>
+<td style="text-align: left;">Hétérogénéité selon l’invite</td>
+<td style="text-align: left;">Bloquer avec plus de <span class="math inline">\(Y_0\)</span> dans le groupe sans invite</td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="results" class="level3 smaller" data-number="16.6.6">
+<h3 class="smaller anchored" data-number="16.6.6" data-anchor-id="results"><span class="header-section-number">16.6.6</span> <em>Résultats</em></h3>
+<p>Distribution des estimations, erreurs-types et <span class="math inline">\(p\)</span>-valeurs par estimateur.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="E01_experiment_slides_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid figure-img" width="768"></p>
+</figure>
+</div>
+</div>
+</div>
+<!-- ## Diagnosis of one design | *Diagnostic d'une conception* {.compact-table .smaller} -->
+<!-- ::: {.columns} -->
+<!-- ::: {.column .lang-en width="50%"} -->
+<!-- Simulation diagnosis for one card-game design. -->
+<!-- ```{r, echo = FALSE} -->
+<!-- diag_tbl |> knitr::kable() -->
+<!-- ``` -->
+<!-- ::: -->
+<!-- ::: {.column .lang-fr width="50%"} -->
+<!-- Diagnostic par simulation pour une conception du jeu de cartes. -->
+<!-- ```{r, echo = FALSE} -->
+<!-- diag_tbl |> -->
+<!--   rename( -->
+<!--     Question = Inquiry, -->
+<!--     Biais = Bias, -->
+<!--     Puissance = Power, -->
+<!--     Couverture = Coverage -->
+<!--   ) |> -->
+<!--   knitr::kable() -->
+<!-- ``` -->
+<!-- ::: -->
+<!-- ::: -->
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copié");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copié");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../../chapters/fr/L14_grants.html" class="pagination-link" aria-label="C14 — Demandes de subvention">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">C14 — Demandes de subvention</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../../chapters/fr/E02_R_exercises.html" class="pagination-link" aria-label="Ex02 — Exercices R">
+        <span class="nav-page-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Ex02 — Exercices R</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

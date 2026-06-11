@@ -79,7 +79,7 @@ make_book <- function(langs = BOOK_LANGS, sync = TRUE) {
   clean_book_chapter_artifacts()
   clean_book_nested_output()
 
-  expected_lectures <- count_book_lectures()
+  expected_lectures <- count_book_chapters()
   ok <- 0L
   failed <- 0L
   old_lang <- Sys.getenv("ABIDJAN_LANG", unset = NA_character_)
@@ -100,7 +100,7 @@ make_book <- function(langs = BOOK_LANGS, sync = TRUE) {
 
     message("\n== Book ", lang, " ==")
     message("  profile: ", lang, " -> book/output/", lang, "/")
-    message("  expecting ", expected_lectures, " lecture chapters")
+    message("  expecting ", expected_lectures, " chapters (lectures + exercises + quizzes)")
 
     Sys.setenv(ABIDJAN_LANG = lang)
 
@@ -113,6 +113,9 @@ make_book <- function(langs = BOOK_LANGS, sync = TRUE) {
     if (n_fixed > 0L) {
       message("  fixed image paths in ", n_fixed, " HTML file(s)")
     }
+    fix_book_sidebar_nav(lang)
+    fix_book_home_numbering(lang)
+    fix_book_landing_page(lang)
     verify_ok <- isTRUE(verify_book_output(lang, expected_lectures = expected_lectures))
 
     if (render_ok && verify_ok) {
@@ -133,6 +136,12 @@ make_book <- function(langs = BOOK_LANGS, sync = TRUE) {
   }
 
   message("\nBook: ", ok, " ok, ", failed, " failed")
+  if (ok > 0L && failed == 0L) {
+    message(
+      "GitHub Pages: commit and push book/output/ (see book/.gitignore). ",
+      "Then open https://egap.github.io/learningdays-resources/abidjan_2026/book/output/en/index.html"
+    )
+  }
   invisible(list(ok = ok, failed = failed, output_dir = file.path(BOOK_ROOT, "output")))
 }
 

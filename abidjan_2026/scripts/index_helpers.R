@@ -9,9 +9,7 @@ html_escape <- function(x) {
   x
 }
 
-qmd_overrides <- c(
-  "15_grants" = "13_grants.qmd"
-)
+qmd_overrides <- character(0)
 
 resolve_qmd_path <- function(stem) {
   override <- unname(qmd_overrides[stem])

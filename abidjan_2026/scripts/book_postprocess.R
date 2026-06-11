@@ -1,11 +1,21 @@
 # Post-render fixes for the HTML book (Images/, knitr *_files/, img paths).
 
-copy_tree <- function(src, dst) {
+BOOK_IMAGE_EXTENSIONS <- c("png", "jpg", "jpeg", "gif", "webp", "svg")
+
+is_book_image_file <- function(path) {
+  ext <- tolower(sub(".*\\.", "", basename(path)))
+  ext %in% BOOK_IMAGE_EXTENSIONS
+}
+
+copy_tree <- function(src, dst, keep = is_book_image_file) {
   if (!dir.exists(src)) {
     return(FALSE)
   }
   dir.create(dst, recursive = TRUE, showWarnings = FALSE)
   files <- list.files(src, recursive = TRUE, full.names = TRUE, all.files = FALSE)
+  if (is.function(keep)) {
+    files <- files[vapply(files, keep, logical(1L))]
+  }
   if (!length(files)) {
     return(FALSE)
   }
@@ -154,7 +164,131 @@ fix_book_image_paths <- function(lang, book_root = file.path(ROOT, "book")) {
   invisible(n)
 }
 
+# Home is unnumbered: drop chapter-number on index links; renumber remaining chapters.
+fix_book_home_numbering <- function(lang, book_root = file.path(ROOT, "book")) {
+  out_root <- normalizePath(file.path(book_root, "output", lang), winslash = "/", mustWork = FALSE)
+  if (!dir.exists(out_root)) {
+    return(invisible(0L))
+  }
+
+  n <- 0L
+  for (f in list.files(out_root, pattern = "\\.html$", recursive = TRUE, full.names = TRUE)) {
+    txt <- paste(readLines(f, warn = FALSE, encoding = "UTF-8"), collapse = "\n")
+    orig <- txt
+
+    had_numbered_home <- grepl(
+      'href="(?:\\./|(?:\\.\\./)+)?index\\.html"[\\s\\S]*?<span class="chapter-number">',
+      txt,
+      perl = TRUE
+    )
+
+    txt <- gsub(
+      '(href="(?:\\./|(?:\\.\\./)+)?index\\.html"[\\s\\S]*?)<span class="chapter-number">\\d+</span>&nbsp;\\s*',
+      "\\1",
+      txt,
+      perl = TRUE
+    )
+
+    if (isTRUE(had_numbered_home)) {
+      for (num in 2:25) {
+        txt <- gsub(
+          sprintf('<span class="chapter-number">%d</span>', num),
+          sprintf('<span class="chapter-number">__TMP_%d__</span>', num),
+          txt,
+          fixed = TRUE
+        )
+      }
+      for (num in 2:25) {
+        txt <- gsub(
+          sprintf('<span class="chapter-number">__TMP_%d__</span>', num),
+          sprintf('<span class="chapter-number">%d</span>', num - 1L),
+          txt,
+          fixed = TRUE
+        )
+      }
+    }
+
+    if (!identical(orig, txt)) {
+      writeLines(strsplit(txt, "\n", fixed = TRUE)[[1]], f, useBytes = TRUE)
+      n <- n + 1L
+    }
+  }
+
+  if (n > 0L) {
+    message("  fixed Home chapter numbering in ", n, " HTML file(s)")
+  }
+  invisible(n)
+}
+
+# Patch stale index.html (e.g. YAML comment rendered as "0.1 Book title/subtitle…").
+fix_book_landing_page <- function(lang, book_root = file.path(ROOT, "book")) {
+  bad_title <- "Book title/subtitle come from _quarto-{en,fr}.yml (profile)."
+  good_title <- "Home"
+  out_root <- file.path(book_root, "output", lang)
+  if (!dir.exists(out_root)) {
+    return(invisible(0L))
+  }
+
+  n <- 0L
+  for (f in list.files(out_root, pattern = "\\.(html|json)$", recursive = TRUE, full.names = TRUE)) {
+    txt <- paste(readLines(f, warn = FALSE, encoding = "UTF-8"), collapse = "\n")
+    if (!grepl(bad_title, txt, fixed = TRUE)) next
+    txt <- gsub(bad_title, good_title, txt, fixed = TRUE)
+    writeLines(strsplit(txt, "\n", fixed = TRUE)[[1]], f, useBytes = TRUE)
+    n <- n + 1L
+  }
+
+  for (index_path in file.path(out_root, "index.html")) {
+    if (!file.exists(index_path)) next
+    txt <- paste(readLines(index_path, warn = FALSE, encoding = "UTF-8"), collapse = "\n")
+    orig <- txt
+
+    txt <- gsub(
+      '(?s)<hr>\\s*<section id="book-titlesubtitle[^"]*" class="level2" data-number="0\\.1">.*?</section>\\s*',
+      "",
+      txt,
+      perl = TRUE
+    )
+    txt <- gsub(
+      '<section id="home" class="level2 unnumbered">\\s*<h2 class="unnumbered anchored" data-anchor-id="home">Home</h2>\\s*',
+      '<section id="home" class="level2 unnumbered book-landing-intro">',
+      txt,
+      perl = TRUE
+    )
+    txt <- gsub(
+      '(?s)<!-- margin-sidebar -->\\s*<div id="quarto-margin-sidebar" class="sidebar margin-sidebar">.*?</div>\\s*<!-- main -->',
+      "<!-- main -->",
+      txt,
+      perl = TRUE
+    )
+    txt <- gsub(
+      '<body class="([^"]*)"',
+      '<body class="\\1 book-landing"',
+      txt,
+      perl = TRUE
+    )
+
+    if (!identical(orig, txt)) {
+      writeLines(strsplit(txt, "\n", fixed = TRUE)[[1]], index_path, useBytes = TRUE)
+      n <- n + 1L
+    }
+  }
+
+  if (n > 0L) {
+    message("  patched book landing page (", lang, ")")
+  }
+  invisible(n)
+}
+
 count_book_lectures <- function(root = ROOT) {
+  count_book_chapters(root, "lecture")
+}
+
+count_book_chapters <- function(root = ROOT, kind = c("all", "lecture", "extra")) {
+  kind <- match.arg(kind)
+  source(file.path(root, "scripts", "sync_book_chapters.R"), local = TRUE)
+  source(file.path(root, "scripts", "index_helpers.R"), local = TRUE)
+
   idx <- read.csv(
     file.path(root, "index.csv"),
     stringsAsFactors = FALSE,
@@ -162,30 +296,101 @@ count_book_lectures <- function(root = ROOT) {
   )
   idx$placeholder <- tolower(as.character(idx$placeholder)) %in%
     c("true", "t", "1", "yes")
+
+  old_wd <- getwd()
+  on.exit(setwd(old_wd), add = TRUE)
+  setwd(root)
+
+  n_lectures <- 0L
   lectures <- idx[
-    grepl("^Lecture", idx$label) &
+    grepl("^L\\d+", idx$label) &
       !idx$placeholder &
       !grepl("\\.pdf$", idx$href, ignore.case = TRUE),
     ,
     drop = FALSE
   ]
-  source(file.path(root, "scripts", "index_helpers.R"), local = TRUE)
-  old_wd <- getwd()
-  on.exit(setwd(old_wd), add = TRUE)
-  setwd(root)
-  n <- 0L
   for (s in sub("\\.html$", "", lectures$href)) {
-    p <- resolve_qmd_path(s)
-    if (!is.na(p) && nzchar(p)) {
+    if (!is.na(resolve_qmd_path(s))) n_lectures <- n_lectures + 1L
+  }
+
+  n_extras <- 0L
+  exercises <- idx[grepl("^E\\d+", idx$label) & !idx$placeholder, , drop = FALSE]
+  for (s in sub("\\.html$", "", exercises$href)) {
+    if (!is.na(resolve_qmd_path(s))) n_extras <- n_extras + 1L
+  }
+  for (s in BOOK_QUIZ_STEMS) {
+    if (!is.na(resolve_qmd_path(s))) n_extras <- n_extras + 1L
+  }
+
+  switch(
+    kind,
+    all = n_lectures + n_extras,
+    lecture = n_lectures,
+    extra = n_extras
+  )
+}
+
+BOOK_RESOURCES_URL <- "https://egap.github.io/learningdays-resources/abidjan_2026/index.html"
+
+fix_book_sidebar_nav <- function(lang, book_root = file.path(ROOT, "book"), resources_url = BOOK_RESOURCES_URL) {
+  out_root <- normalizePath(file.path(book_root, "output", lang), winslash = "/", mustWork = FALSE)
+  if (!dir.exists(out_root)) {
+    return(invisible(0L))
+  }
+
+  resources_label <- if (lang == "fr") "Toutes les ressources" else "All resources"
+  resources_li <- paste0(
+    '<li class="sidebar-item sidebar-resources-link">',
+    '<div class="sidebar-item-container"> ',
+    '<a href="', resources_url, '" class="sidebar-item-text sidebar-link" target="_blank" rel="noopener noreferrer">',
+    '<span class="menu-text">', resources_label, "</span></a>",
+    "</div></li>"
+  )
+  marker <- 'class="sidebar-resources-link"'
+
+  html_files <- list.files(out_root, pattern = "\\.html$", recursive = TRUE, full.names = TRUE)
+  n <- 0L
+  for (f in html_files) {
+    f_norm <- normalizePath(f, winslash = "/", mustWork = FALSE)
+    rel <- sub(paste0("^", out_root, "/?"), "", f_norm)
+    depth <- length(strsplit(rel, "/", fixed = TRUE)[[1]]) - 1L
+    index_href <- if (depth > 0L) {
+      paste0(paste(rep("../", depth), collapse = ""), "index.html")
+    } else {
+      "index.html"
+    }
+
+    txt <- readLines(f, warn = FALSE, encoding = "UTF-8")
+    new_txt <- gsub(
+      '(<div class="sidebar-title mb-0 py-0">\\s*\\n\\s*<a href=")[^"]*(">)',
+      paste0("\\1", index_href, "\\2"),
+      txt,
+      perl = TRUE
+    )
+
+    if (!any(grepl(marker, new_txt, fixed = TRUE))) {
+      new_txt <- gsub(
+        '(<ul class="list-unstyled mt-1">\\s*\\n)',
+        paste0("\\1        ", resources_li, "\n"),
+        new_txt,
+        perl = TRUE
+      )
+    }
+
+    if (!identical(txt, new_txt)) {
+      writeLines(new_txt, f, useBytes = TRUE)
       n <- n + 1L
     }
   }
-  n
+  if (n > 0L) {
+    message("  fixed sidebar navigation in ", n, " HTML file(s)")
+  }
+  invisible(n)
 }
 
 verify_book_output <- function(lang, book_root = file.path(ROOT, "book"), expected_lectures = NULL) {
   if (is.null(expected_lectures)) {
-    expected_lectures <- count_book_lectures()
+    expected_lectures <- count_book_chapters()
   }
   out <- file.path(book_root, "output", lang)
   chapters_dir <- file.path(out, "chapters", lang)

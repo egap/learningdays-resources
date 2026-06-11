@@ -1,0 +1,962 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="fr" xml:lang="fr"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.27">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>2&nbsp; C01 — Pourquoi expérimenter ? – EGAP Learning Days Abidjan 2026</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<link href="../../chapters/fr/L02_causalinference.html" rel="next">
+<link href="../../index.html" rel="prev">
+<script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-ed96de9b727972fe78a7b5d16c58bf87.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-d9ea66fcd6c317012447f26e9c021348.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "Pas de résultats",
+    "search-matching-documents-text": "documents trouvés",
+    "search-copy-link-title": "Copier le lien vers la recherche",
+    "search-hide-matches-text": "Cacher les correspondances additionnelles",
+    "search-more-match-text": "correspondance de plus dans ce document",
+    "search-more-matches-text": "correspondances de plus dans ce document",
+    "search-clear-button-title": "Effacer",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Annuler",
+    "search-submit-button-title": "Envoyer",
+    "search-label": "Recherche"
+  }
+}</script>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="../../assets/abidjan-book.css">
+</head>
+
+<body class="nav-sidebar floating nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">EGAP Learning Days Abidjan 2026</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Recherche"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Basculer la navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="https://egap.github.io/learningdays-resources/abidjan_2026/index.html"> 
+<span class="menu-text">Toutes les ressources</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Basculer la barre latérale" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../chapters/fr/L01_why-experiment.html">Cours</a></li><li class="breadcrumb-item"><a href="../../chapters/fr/L01_why-experiment.html"><span class="chapter-title">C01 — Pourquoi expérimenter ?</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Basculer la barre latérale" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-title">Home</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Cours</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Basculer la section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/fr/L01_why-experiment.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">C01 — Pourquoi expérimenter ?</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/fr/L02_causalinference.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">C02 — Inférence causale</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/fr/L03_randomization_1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">C03 — Randomisation 1</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/fr/L04_R_intro.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">C04 — Introduction à R</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/fr/L05_randomization_2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">C05 — Randomisation 2</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/fr/L06_design_intro.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">C06 — Design et diagnostic</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/fr/L07_estimation_1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">C07 — Estimation 1</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/fr/L08_estimation_2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">C08 — Estimation 2</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/fr/L09_power_intro.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">C09 — Puissance et diagnostic</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/fr/L10_ethics.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">C10 — Éthique et expériences</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/fr/L11_presenting.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">C11 — Présenter les résultats</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/fr/L12_threats.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">C12 — Menaces à la validité</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/fr/L13_lifecycle.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">C13 — Cycle de vie d’une expérience</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/fr/L14_grants.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">C14 — Demandes de subvention</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+ <span class="menu-text">Exercices et quiz</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Basculer la section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/fr/E01_experiment_slides.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Ex01 — Expérience en classe</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/fr/E02_R_exercises.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Ex02 — Exercices R</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/fr/E03_projects.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Ex03 — Projets</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/fr/quiz-tuesday.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Quiz — jour 2</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/fr/quiz-wednesday.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Quiz — jour 3</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/fr/quiz-thursday.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">Quiz — jour 4</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active" data-toc-expanded="2">
+    <h2 id="toc-title">Table des matières</h2>
+   
+  <ul>
+  <li><a href="#welcome" id="toc-welcome" class="nav-link active" data-scroll-target="#welcome"><span class="header-section-number">2.1</span> <em>Bienvenue</em></a></li>
+  <li><a href="#welcome-2" id="toc-welcome-2" class="nav-link" data-scroll-target="#welcome-2"><span class="header-section-number">2.2</span> <em>Bienvenue</em></a></li>
+  <li><a href="#welcome-3" id="toc-welcome-3" class="nav-link" data-scroll-target="#welcome-3"><span class="header-section-number">2.3</span> <em>Bienvenue</em></a></li>
+  <li><a href="#key-points-for-this-lecture" id="toc-key-points-for-this-lecture" class="nav-link" data-scroll-target="#key-points-for-this-lecture"><span class="header-section-number">2.4</span> <em>Points clés du cours</em></a></li>
+  <li><a href="#the-big-picture" id="toc-the-big-picture" class="nav-link" data-scroll-target="#the-big-picture"><span class="header-section-number">2.5</span> <em>La vue d’ensemble</em></a></li>
+  <li><a href="#what-is-x-called-what-is-y-called" id="toc-what-is-x-called-what-is-y-called" class="nav-link" data-scroll-target="#what-is-x-called-what-is-y-called"><span class="header-section-number">2.6</span> <em>Comment appelle-t-on X ? Comment appelle-t-on Y ?</em></a></li>
+  <li><a href="#what-is-x-called-what-is-y-called-2" id="toc-what-is-x-called-what-is-y-called-2" class="nav-link" data-scroll-target="#what-is-x-called-what-is-y-called-2"><span class="header-section-number">2.7</span> <em>Comment appelle-t-on X ? Comment appelle-t-on Y ?</em></a></li>
+  <li><a href="#what-is-the-impact-of-decentralization-on-corruption" id="toc-what-is-the-impact-of-decentralization-on-corruption" class="nav-link" data-scroll-target="#what-is-the-impact-of-decentralization-on-corruption"><span class="header-section-number">2.8</span> <em>Quel est l’impact de la décentralisation sur la corruption ?</em></a></li>
+  <li><a href="#observational-research-the-usual-approach" id="toc-observational-research-the-usual-approach" class="nav-link" data-scroll-target="#observational-research-the-usual-approach"><span class="header-section-number">2.9</span> <em>Études observationnelles : l’approche habituelle</em></a></li>
+  <li><a href="#an-observational-study-of-decentralization" id="toc-an-observational-study-of-decentralization" class="nav-link" data-scroll-target="#an-observational-study-of-decentralization"><span class="header-section-number">2.10</span> <em>Une étude observationnelle de la décentralisation</em></a></li>
+  <li><a href="#should-the-world-bank-believe-that-decentralization-decreases-corruption-based-on-fisman-and-gatti-2002" id="toc-should-the-world-bank-believe-that-decentralization-decreases-corruption-based-on-fisman-and-gatti-2002" class="nav-link" data-scroll-target="#should-the-world-bank-believe-that-decentralization-decreases-corruption-based-on-fisman-and-gatti-2002"><span class="header-section-number">2.11</span> <em>La Banque mondiale devrait-elle croire que la décentralisation réduit la corruption ?</em></a></li>
+  <li><a href="#confounding" id="toc-confounding" class="nav-link" data-scroll-target="#confounding"><span class="header-section-number">2.12</span> <em>Facteurs de confusion</em></a></li>
+  <li><a href="#what-is-a-randomized-experiment" id="toc-what-is-a-randomized-experiment" class="nav-link" data-scroll-target="#what-is-a-randomized-experiment"><span class="header-section-number">2.13</span> <em>Qu’est-ce qu’une expérience aléatoire ?</em></a></li>
+  <li><a href="#randomized-experiment-diagram" id="toc-randomized-experiment-diagram" class="nav-link" data-scroll-target="#randomized-experiment-diagram"><span class="header-section-number">2.14</span> <em>Schéma d’une expérience aléatoire</em></a></li>
+  <li><a href="#why-an-experiment" id="toc-why-an-experiment" class="nav-link" data-scroll-target="#why-an-experiment"><span class="header-section-number">2.15</span> <em>Pourquoi mener une expérience ?</em></a></li>
+  <li><a href="#widespread-use" id="toc-widespread-use" class="nav-link" data-scroll-target="#widespread-use"><span class="header-section-number">2.16</span> <em>Utilisation répandue</em></a></li>
+  <li><a href="#use-in-social-science" id="toc-use-in-social-science" class="nav-link" data-scroll-target="#use-in-social-science"><span class="header-section-number">2.17</span> <em>Utilisation en sciences sociales</em></a></li>
+  <li><a href="#proving-beliefs-wrong" id="toc-proving-beliefs-wrong" class="nav-link" data-scroll-target="#proving-beliefs-wrong"><span class="header-section-number">2.18</span> <em>Corriger certaines idées fausses</em></a></li>
+  <li><a href="#proving-beliefs-right" id="toc-proving-beliefs-right" class="nav-link" data-scroll-target="#proving-beliefs-right"><span class="header-section-number">2.19</span> <em>Valider les croyances</em></a></li>
+  <li><a href="#limitations-to-experiments" id="toc-limitations-to-experiments" class="nav-link" data-scroll-target="#limitations-to-experiments"><span class="header-section-number">2.20</span> <em>Limites des expériences</em></a></li>
+  <li><a href="#why-experiments" id="toc-why-experiments" class="nav-link" data-scroll-target="#why-experiments"><span class="header-section-number">2.21</span> <em>Pourquoi des expérimentations ?</em></a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../chapters/fr/L01_why-experiment.html">Cours</a></li><li class="breadcrumb-item"><a href="../../chapters/fr/L01_why-experiment.html"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">C01 — Pourquoi expérimenter ?</span></a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">C01 — Pourquoi expérimenter ?</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="welcome" class="level2" data-number="2.1">
+<h2 data-number="2.1" class="anchored" data-anchor-id="welcome"><span class="header-section-number">2.1</span> <em>Bienvenue</em></h2>
+<ul>
+<li>Qui sommes-nous, qu’est-ce qu’EGAP</li>
+<li>Présentations</li>
+</ul>
+</section>
+<section id="welcome-2" class="level2" data-number="2.2">
+<h2 data-number="2.2" class="anchored" data-anchor-id="welcome-2"><span class="header-section-number">2.2</span> <em>Bienvenue</em></h2>
+<ul>
+<li>Objectifs de l’atelier
+<ul>
+<li>Comprendre ce qu’est une expérience</li>
+<li>Comprendre les principales décisions d’un design expérimental</li>
+<li>Comprendre comment analyser et interpréter des données expérimentales</li>
+<li>Construire des communautés de chercheurs et de praticiens en Afrique</li>
+</ul></li>
+<li>Structure
+<ul>
+<li>Combinaison de cours magistraux</li>
+<li>Exercices en classe / Activités</li>
+</ul></li>
+</ul>
+</section>
+<section id="welcome-3" class="level2" data-number="2.3">
+<h2 data-number="2.3" class="anchored" data-anchor-id="welcome-3"><span class="header-section-number">2.3</span> <em>Bienvenue</em></h2>
+<ul>
+<li>Règles de conduite
+<ul>
+<li>Communication respectueuse</li>
+<li>Demandez de l’aide</li>
+<li>Ordinateurs rangés sauf pour les exercices</li>
+</ul></li>
+<li>Ressources
+<ul>
+<li>Nous partagerons des ressources en ligne <a href="https://egap.github.io/learningdays-resources/abidjan_2026/">https://egap.github.io/learningdays-resources/abidjan_2026/</a></li>
+<li>Nous partagerons des ressources sur une clé USB</li>
+</ul></li>
+</ul>
+</section>
+<section id="key-points-for-this-lecture" class="level2" data-number="2.4">
+<h2 data-number="2.4" class="anchored" data-anchor-id="key-points-for-this-lecture"><span class="header-section-number">2.4</span> <em>Points clés du cours</em></h2>
+<ul>
+<li>Quelles sont les limites des études observationnelles ?</li>
+<li>Qu’est-ce qu’une expérience aléatoire ?</li>
+<li>Qui utilise les expériences ?</li>
+<li>À quoi servent les expériences ?</li>
+</ul>
+</section>
+<section id="the-big-picture" class="level2" data-number="2.5">
+<h2 data-number="2.5" class="anchored" data-anchor-id="the-big-picture"><span class="header-section-number">2.5</span> <em>La vue d’ensemble</em></h2>
+<p><span class="math display">\[X \overset{?}{\rightarrow} Y\]</span></p>
+</section>
+<section id="what-is-x-called-what-is-y-called" class="level2" data-number="2.6">
+<h2 data-number="2.6" class="anchored" data-anchor-id="what-is-x-called-what-is-y-called"><span class="header-section-number">2.6</span> <em>Comment appelle-t-on X ? Comment appelle-t-on Y ?</em></h2>
+<p><span class="math display">\[X \overset{?}{\rightarrow} Y\]</span></p>
+<ul>
+<li>Comment appelle-t-on X ?</li>
+<li>Comment appelle-t-on Y ?</li>
+</ul>
+</section>
+<section id="what-is-x-called-what-is-y-called-2" class="level2" data-number="2.7">
+<h2 data-number="2.7" class="anchored" data-anchor-id="what-is-x-called-what-is-y-called-2"><span class="header-section-number">2.7</span> <em>Comment appelle-t-on X ? Comment appelle-t-on Y ?</em></h2>
+<p><span class="math display">\[X \overset{?}{\rightarrow} Y\]</span></p>
+<ul>
+<li><strong>X</strong> : variable indépendante, traitement</li>
+<li><strong>Y</strong> : variable dépendante, variable de résultat</li>
+</ul>
+</section>
+<section id="what-is-the-impact-of-decentralization-on-corruption" class="level2" data-number="2.8">
+<h2 data-number="2.8" class="anchored" data-anchor-id="what-is-the-impact-of-decentralization-on-corruption"><span class="header-section-number">2.8</span> <em>Quel est l’impact de la décentralisation sur la corruption ?</em></h2>
+<ul>
+<li>Comment y répondre ?</li>
+</ul>
+</section>
+<section id="observational-research-the-usual-approach" class="level2" data-number="2.9">
+<h2 data-number="2.9" class="anchored" data-anchor-id="observational-research-the-usual-approach"><span class="header-section-number">2.9</span> <em>Études observationnelles : l’approche habituelle</em></h2>
+<ul>
+<li>Télécharger et fusionner les bases de données existants</li>
+<li>Mesurer les comportements ou d’autres résultats, par exemple en menant un sondage</li>
+<li>On observe, sans intervenir ni traiter</li>
+</ul>
+</section>
+<section id="an-observational-study-of-decentralization" class="level2" data-number="2.10">
+<h2 data-number="2.10" class="anchored" data-anchor-id="an-observational-study-of-decentralization"><span class="header-section-number">2.10</span> <em>Une étude observationnelle de la décentralisation</em></h2>
+<ul>
+<li>Fisman et Gatti (2002) : “Decentralization and corruption: evidence across countries” (cité 2 423 fois)</li>
+<li>Données de Transparency International et du FMI sur 80 pays ; régressions MCO (avec variables de contrôle)</li>
+<li>Constate une forte corrélation au niveau des pays entre la décentralisation fiscale des dépenses publiques et une baisse de la corruption</li>
+<li>La Banque mondiale a fortement encouragé la décentralisation dans les années 1990 et 2000</li>
+</ul>
+</section>
+<section id="should-the-world-bank-believe-that-decentralization-decreases-corruption-based-on-fisman-and-gatti-2002" class="level2" data-number="2.11">
+<h2 data-number="2.11" class="anchored" data-anchor-id="should-the-world-bank-believe-that-decentralization-decreases-corruption-based-on-fisman-and-gatti-2002"><span class="header-section-number">2.11</span> <em>La Banque mondiale devrait-elle croire que la décentralisation réduit la corruption ?</em></h2>
+<ul>
+<li>Les pays qui se décentralisent sont peut-être
+<ul>
+<li>moins touchés par la corruption dès le départ</li>
+<li>dotés d’une société civile plus forte</li>
+<li>susceptibles d’adopter d’autres réformes de gouvernance en parallèle</li>
+</ul></li>
+</ul>
+</section>
+<section id="confounding" class="level2" data-number="2.12">
+<h2 data-number="2.12" class="anchored" data-anchor-id="confounding"><span class="header-section-number">2.12</span> <em>Facteurs de confusion</em></h2>
+<ul>
+<li><em>Facteurs de confusion</em> : facteur caché qui donne l’impression qu’il existe un lien de causalité alors qu’il n’y en a peut-être pas</li>
+<li>La recherche observationnelle permet de mettre en évidence des tendances et des associations, mais rarement des liens de causalité</li>
+</ul>
+</section>
+<section id="what-is-a-randomized-experiment" class="level2" data-number="2.13">
+<h2 data-number="2.13" class="anchored" data-anchor-id="what-is-a-randomized-experiment"><span class="header-section-number">2.13</span> <em>Qu’est-ce qu’une expérience aléatoire ?</em></h2>
+<ul>
+<li>Vous avez un traitement (intervention)</li>
+<li><em>Vous répartissez aléatoirement les unités entre le groupe de traitement et le groupe témoin</em></li>
+<li>Vous comparez les résultats des unités assignées au traitement à ceux des unités assignées au contrôle</li>
+</ul>
+</section>
+<section id="randomized-experiment-diagram" class="level2" data-number="2.14">
+<h2 data-number="2.14" class="anchored" data-anchor-id="randomized-experiment-diagram"><span class="header-section-number">2.14</span> <em>Schéma d’une expérience aléatoire</em></h2>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="L01_why-experiment_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:100.0%"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="why-an-experiment" class="level2" data-number="2.15">
+<h2 data-number="2.15" class="anchored" data-anchor-id="why-an-experiment"><span class="header-section-number">2.15</span> <em>Pourquoi mener une expérience ?</em></h2>
+<ul>
+<li>L’assignation aléatoire <span class="math inline">\(\rightarrow\)</span> une preuve très solide de l’absence d’effet</li>
+<li>Si les responsables politiques et les fonctionnaires croient ce que révèlent les résultats, ils ne consacreront pas de fonds à la décentralisation (si leur objectif est de réduire la corruption)</li>
+</ul>
+</section>
+<section id="widespread-use" class="level2" data-number="2.16">
+<h2 data-number="2.16" class="anchored" data-anchor-id="widespread-use"><span class="header-section-number">2.16</span> <em>Utilisation répandue</em></h2>
+<ul>
+<li>Essais cliniques</li>
+<li>Campagnes politiques</li>
+<li>Tests A/B en tech</li>
+<li>Expérimentations de politiques publiques au sein des gouvernements</li>
+</ul>
+</section>
+<section id="use-in-social-science" class="level2" data-number="2.17">
+<h2 data-number="2.17" class="anchored" data-anchor-id="use-in-social-science"><span class="header-section-number">2.17</span> <em>Utilisation en sciences sociales</em></h2>
+<ul>
+<li>Corrigé certaines idées fausses</li>
+<li>montré que certaines choses ne sont pas transposables à plus grande échelle</li>
+<li>favorisé la mise en place de bonnes politiques publiques</li>
+</ul>
+</section>
+<section id="proving-beliefs-wrong" class="level2" data-number="2.18">
+<h2 data-number="2.18" class="anchored" data-anchor-id="proving-beliefs-wrong"><span class="header-section-number">2.18</span> <em>Corriger certaines idées fausses</em></h2>
+<ul>
+<li>Idée reçue : la microfinance favorise la réduction de la pauvreté</li>
+<li>De nombreuses études ont mis en place des programmes de microcrédit de manière aléatoire</li>
+<li>Résultat : aucun impact sur les revenus des ménages, la consommation ou l’autonomisation des femmes</li>
+</ul>
+</section>
+<section id="proving-beliefs-right" class="level2" data-number="2.19">
+<h2 data-number="2.19" class="anchored" data-anchor-id="proving-beliefs-right"><span class="header-section-number">2.19</span> <em>Valider les croyances</em></h2>
+<ul>
+<li>Idée reçue : Les transferts monétaires conditionnels augmentent la fréquentation scolaire</li>
+<li>Étude : Le programme PROGRESA au Mexique a randomisé le versement d’allocations aux familles pour maintenir leurs enfants à l’école</li>
+<li>Résultat : Forte hausse des inscriptions, en particulier pour les filles et les élèves du secondaire</li>
+</ul>
+</section>
+<section id="limitations-to-experiments" class="level2" data-number="2.20">
+<h2 data-number="2.20" class="anchored" data-anchor-id="limitations-to-experiments"><span class="header-section-number">2.20</span> <em>Limites des expériences</em></h2>
+<ul>
+<li>Certaines choses ne nécessitent pas d’expérience (le tabac et les parachutes)</li>
+<li>Certaines expériences ne sont pas éthiques</li>
+<li>Certaines interventions ne peuvent pas être randomisées</li>
+</ul>
+</section>
+<section id="why-experiments" class="level2" data-number="2.21">
+<h2 data-number="2.21" class="anchored" data-anchor-id="why-experiments"><span class="header-section-number">2.21</span> <em>Pourquoi des expérimentations ?</em></h2>
+<ul>
+<li>Mettons nos convictions à l’épreuve</li>
+<li>Qu’est-ce qui fonctionne ? <span class="math inline">\(\rightarrow\)</span> Découvrons-le !</li>
+</ul>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copié");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copié");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../../index.html" class="pagination-link" aria-label="Home">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-title">Home</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../../chapters/fr/L02_causalinference.html" class="pagination-link" aria-label="C02 — Inférence causale">
+        <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">C02 — Inférence causale</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

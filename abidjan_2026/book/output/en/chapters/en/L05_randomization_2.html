@@ -1,0 +1,1374 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.27">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>6&nbsp; L05 — Randomization 2 – EGAP Learning Days Abidjan 2026</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<link href="../../chapters/en/L06_design_intro.html" rel="next">
+<link href="../../chapters/en/L04_R_intro.html" rel="prev">
+<script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-ed96de9b727972fe78a7b5d16c58bf87.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-d9ea66fcd6c317012447f26e9c021348.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="../../assets/abidjan-book.css">
+</head>
+
+<body class="nav-sidebar floating nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">EGAP Learning Days Abidjan 2026</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="https://egap.github.io/learningdays-resources/abidjan_2026/index.html"> 
+<span class="menu-text">All resources</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../chapters/en/L01_why-experiment.html">Lectures</a></li><li class="breadcrumb-item"><a href="../../chapters/en/L05_randomization_2.html"><span class="chapter-title">L05 — Randomization 2</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-title">Home</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Lectures</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/en/L01_why-experiment.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">L01 — Why experiment?</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/en/L02_causalinference.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">L02 — Causal inference</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/en/L03_randomization_1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">L03 — Randomization 1</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/en/L04_R_intro.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">L04 — Introduction to R</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/en/L05_randomization_2.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">L05 — Randomization 2</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/en/L06_design_intro.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">L06 — Design &amp; diagnosis</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/en/L07_estimation_1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">L07 — Estimation 1</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/en/L08_estimation_2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">L08 — Estimation 2</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/en/L09_power_intro.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">L09 — Power &amp; diagnosis</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/en/L10_ethics.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">L10 — Ethics and experiments</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/en/L11_presenting.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">L11 — Presenting results</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/en/L12_threats.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">L12 — Threats to validity</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/en/L13_lifecycle.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">L13 — Lifecycle of an experiment</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/en/L14_grants.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">L14 — Applying for grants</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+ <span class="menu-text">Exercises &amp; quizzes</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/en/E01_experiment_slides.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">E01 — In-class experiment</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/en/E02_R_exercises.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">E02 — R exercises</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/en/E03_projects.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">E03 — Projects</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/en/quiz-tuesday.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Quiz — Day 2</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/en/quiz-wednesday.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Quiz — Day 3</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/en/quiz-thursday.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">Quiz — Day 4</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active" data-toc-expanded="2">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#some-common-designs" id="toc-some-common-designs" class="nav-link active" data-scroll-target="#some-common-designs"><span class="header-section-number">6.1</span> Some common designs</a></li>
+  <li><a href="#1-factorial-design" id="toc-1-factorial-design" class="nav-link" data-scroll-target="#1-factorial-design"><span class="header-section-number">6.2</span> 1. Factorial Design</a></li>
+  <li><a href="#1-factorial-design-2" id="toc-1-factorial-design-2" class="nav-link" data-scroll-target="#1-factorial-design-2"><span class="header-section-number">6.3</span> 1. Factorial Design</a></li>
+  <li><a href="#1-factorial-design-3" id="toc-1-factorial-design-3" class="nav-link" data-scroll-target="#1-factorial-design-3"><span class="header-section-number">6.4</span> 1. Factorial Design</a></li>
+  <li><a href="#1-factorial-design-4" id="toc-1-factorial-design-4" class="nav-link" data-scroll-target="#1-factorial-design-4"><span class="header-section-number">6.5</span> 1. Factorial Design</a></li>
+  <li><a href="#1-factorial-design-5" id="toc-1-factorial-design-5" class="nav-link" data-scroll-target="#1-factorial-design-5"><span class="header-section-number">6.6</span> 1. Factorial Design</a></li>
+  <li><a href="#1-factorial-design-6" id="toc-1-factorial-design-6" class="nav-link" data-scroll-target="#1-factorial-design-6"><span class="header-section-number">6.7</span> 1. Factorial Design</a></li>
+  <li><a href="#1-factorial-design-7" id="toc-1-factorial-design-7" class="nav-link" data-scroll-target="#1-factorial-design-7"><span class="header-section-number">6.8</span> 1. Factorial Design</a></li>
+  <li><a href="#1-factorial-design-8" id="toc-1-factorial-design-8" class="nav-link" data-scroll-target="#1-factorial-design-8"><span class="header-section-number">6.9</span> 1. Factorial Design</a>
+  <ul class="collapse">
+  <li><a href="#design-based-analysis" id="toc-design-based-analysis" class="nav-link" data-scroll-target="#design-based-analysis"><span class="header-section-number">6.9.1</span> Design-based analysis</a></li>
+  </ul></li>
+  <li><a href="#1-factorial-design-9" id="toc-1-factorial-design-9" class="nav-link" data-scroll-target="#1-factorial-design-9"><span class="header-section-number">6.10</span> 1. Factorial Design</a></li>
+  <li><a href="#2-waitlist-design-delayed-access" id="toc-2-waitlist-design-delayed-access" class="nav-link" data-scroll-target="#2-waitlist-design-delayed-access"><span class="header-section-number">6.11</span> 2. Waitlist design (delayed access)</a></li>
+  <li><a href="#2-waitlist-design-delayed-access-2" id="toc-2-waitlist-design-delayed-access-2" class="nav-link" data-scroll-target="#2-waitlist-design-delayed-access-2"><span class="header-section-number">6.12</span> 2. Waitlist design (delayed access)</a></li>
+  <li><a href="#2-waitlist-design-delayed-access-3" id="toc-2-waitlist-design-delayed-access-3" class="nav-link" data-scroll-target="#2-waitlist-design-delayed-access-3"><span class="header-section-number">6.13</span> 2. Waitlist design (delayed access)</a></li>
+  <li><a href="#2-waitlist-design-delayed-access-4" id="toc-2-waitlist-design-delayed-access-4" class="nav-link" data-scroll-target="#2-waitlist-design-delayed-access-4"><span class="header-section-number">6.14</span> 2. Waitlist design (delayed access)</a></li>
+  <li><a href="#3-encouragement-design" id="toc-3-encouragement-design" class="nav-link" data-scroll-target="#3-encouragement-design"><span class="header-section-number">6.15</span> 3. Encouragement design</a>
+  <ul class="collapse">
+  <li><a href="#3-encouragement-design-2" id="toc-3-encouragement-design-2" class="nav-link" data-scroll-target="#3-encouragement-design-2"><span class="header-section-number">6.15.1</span> 3. Encouragement design</a></li>
+  <li><a href="#3-encouragement-design-3" id="toc-3-encouragement-design-3" class="nav-link" data-scroll-target="#3-encouragement-design-3"><span class="header-section-number">6.15.2</span> 3. Encouragement design</a></li>
+  <li><a href="#3-encouragement-design-4" id="toc-3-encouragement-design-4" class="nav-link" data-scroll-target="#3-encouragement-design-4"><span class="header-section-number">6.15.3</span> 3. Encouragement design</a></li>
+  <li><a href="#3-encouragement-design-5" id="toc-3-encouragement-design-5" class="nav-link" data-scroll-target="#3-encouragement-design-5"><span class="header-section-number">6.15.4</span> 3. Encouragement design</a></li>
+  <li><a href="#3-encouragement-design-6" id="toc-3-encouragement-design-6" class="nav-link" data-scroll-target="#3-encouragement-design-6"><span class="header-section-number">6.15.5</span> 3. Encouragement design</a></li>
+  <li><a href="#3-encouragement-design-7" id="toc-3-encouragement-design-7" class="nav-link" data-scroll-target="#3-encouragement-design-7"><span class="header-section-number">6.15.6</span> 3. Encouragement design</a></li>
+  <li><a href="#3-encouragement-design-8" id="toc-3-encouragement-design-8" class="nav-link" data-scroll-target="#3-encouragement-design-8"><span class="header-section-number">6.15.7</span> 3. Encouragement design</a></li>
+  <li><a href="#3-encouragement-design-9" id="toc-3-encouragement-design-9" class="nav-link" data-scroll-target="#3-encouragement-design-9"><span class="header-section-number">6.15.8</span> 3. Encouragement design</a></li>
+  <li><a href="#3-encouragement-design-10" id="toc-3-encouragement-design-10" class="nav-link" data-scroll-target="#3-encouragement-design-10"><span class="header-section-number">6.15.9</span> 3. Encouragement design</a></li>
+  <li><a href="#3-encouragement-design-11" id="toc-3-encouragement-design-11" class="nav-link" data-scroll-target="#3-encouragement-design-11"><span class="header-section-number">6.15.10</span> 3. Encouragement design</a></li>
+  <li><a href="#3-encouragement-design-12" id="toc-3-encouragement-design-12" class="nav-link" data-scroll-target="#3-encouragement-design-12"><span class="header-section-number">6.15.11</span> 3. Encouragement design</a></li>
+  <li><a href="#3-encouragement-design-13" id="toc-3-encouragement-design-13" class="nav-link" data-scroll-target="#3-encouragement-design-13"><span class="header-section-number">6.15.12</span> 3. Encouragement design</a></li>
+  <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary"><span class="header-section-number">6.15.13</span> Summary</a></li>
+  <li><a href="#resources" id="toc-resources" class="nav-link" data-scroll-target="#resources"><span class="header-section-number">6.15.14</span> Resources</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../chapters/en/L01_why-experiment.html">Lectures</a></li><li class="breadcrumb-item"><a href="../../chapters/en/L05_randomization_2.html"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">L05 — Randomization 2</span></a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">L05 — Randomization 2</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="some-common-designs" class="level2" data-number="6.1">
+<h2 data-number="6.1" class="anchored" data-anchor-id="some-common-designs"><span class="header-section-number">6.1</span> Some common designs</h2>
+<ol type="1">
+<li>Factorial</li>
+<li>Waitlist (delayed access)</li>
+<li>Encouragement</li>
+</ol>
+</section>
+<section id="1-factorial-design" class="level2" data-number="6.2">
+<h2 data-number="6.2" class="anchored" data-anchor-id="1-factorial-design"><span class="header-section-number">6.2</span> 1. Factorial Design</h2>
+<ul>
+<li>In a factorial design, there are two or more <strong>factors</strong> and each factor has two or more conditions.</li>
+<li>Each unit is assigned to one of the possible combinations of these conditions.</li>
+</ul>
+</section>
+<section id="1-factorial-design-2" class="level2 compact-table" data-number="6.3">
+<h2 class="compact-table anchored" data-number="6.3" data-anchor-id="1-factorial-design-2"><span class="header-section-number">6.3</span> 1. Factorial Design</h2>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;"></th>
+<th style="text-align: left;">Transport: No</th>
+<th style="text-align: left;">Transport: Yes</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><strong>Information: No</strong></td>
+<td style="text-align: left;">Neither</td>
+<td style="text-align: left;">Transport only</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><strong>Information: Yes</strong></td>
+<td style="text-align: left;">Information only</td>
+<td style="text-align: left;">Information + Transportation</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="1-factorial-design-3" class="level2 compact-table" data-number="6.4">
+<h2 class="compact-table anchored" data-number="6.4" data-anchor-id="1-factorial-design-3"><span class="header-section-number">6.4</span> 1. Factorial Design</h2>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;"></th>
+<th style="text-align: left;">Transport: No</th>
+<th style="text-align: left;">Transport: Yes</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><strong>Information: No</strong></td>
+<td style="text-align: left;">Neither</td>
+<td style="text-align: left;">Transport only</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><strong>Information: Yes</strong></td>
+<td style="text-align: left;">Information only</td>
+<td style="text-align: left;">Information + Transportation</td>
+</tr>
+</tbody>
+</table>
+<div class="column lang-en" style="width:50%;">
+<p>There are many possible treatment effects (comparisons) in a factorial design:</p>
+<ol type="1">
+<li>Conditional Average Treatment Effect (CATE): the ATE of one factor, for a given level of the other factor.</li>
+</ol>
+</div>
+</section>
+<section id="1-factorial-design-4" class="level2 compact-table" data-number="6.5">
+<h2 class="compact-table anchored" data-number="6.5" data-anchor-id="1-factorial-design-4"><span class="header-section-number">6.5</span> 1. Factorial Design</h2>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;"></th>
+<th style="text-align: left;">Transport: No</th>
+<th style="text-align: left;">Transport: Yes</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><strong>Information: No</strong></td>
+<td style="text-align: left;">Neither</td>
+<td style="text-align: left;">Transport only</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><strong>Information: Yes</strong></td>
+<td style="text-align: left;">Information only</td>
+<td style="text-align: left;">Information + Transportation</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>There are four possible CATEs in this design.</li>
+<li>One is the CATE of information conditional on having transport. It compares the cell with information + transport to the cell with transport only. We can ignore the first column.</li>
+</ul>
+</section>
+<section id="1-factorial-design-5" class="level2 compact-table" data-number="6.6">
+<h2 class="compact-table anchored" data-number="6.6" data-anchor-id="1-factorial-design-5"><span class="header-section-number">6.6</span> 1. Factorial Design</h2>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;"></th>
+<th style="text-align: left;">Transport: No</th>
+<th style="text-align: left;">Transport: Yes</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><strong>Information: No</strong></td>
+<td style="text-align: left;">Neither</td>
+<td style="text-align: left;">Transport only</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><strong>Information: Yes</strong></td>
+<td style="text-align: left;">Information only</td>
+<td style="text-align: left;">Information + Transportation</td>
+</tr>
+</tbody>
+</table>
+<ol start="2" type="1">
+<li>Interaction effect: the ATE of one factor may differ by levels of the other factor. A treatment effect may be larger or smaller depending on the other treatment.</li>
+</ol>
+</section>
+<section id="1-factorial-design-6" class="level2 compact-table" data-number="6.7">
+<h2 class="compact-table anchored" data-number="6.7" data-anchor-id="1-factorial-design-6"><span class="header-section-number">6.7</span> 1. Factorial Design</h2>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;"></th>
+<th style="text-align: left;">Transport: No</th>
+<th style="text-align: left;">Transport: Yes</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><strong>Information: No</strong></td>
+<td style="text-align: left;">Neither</td>
+<td style="text-align: left;">Transport only</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><strong>Information: Yes</strong></td>
+<td style="text-align: left;">Information only</td>
+<td style="text-align: left;">Information + Transportation</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>Does having transport change the effect of information? We compare the CATE of information with transport (from before) to the CATE of information without transport.</li>
+<li>If the 2 CATEs are different, we say there is an interaction effect.</li>
+</ul>
+</section>
+<section id="1-factorial-design-7" class="level2 compact-table" data-number="6.8">
+<h2 class="compact-table anchored" data-number="6.8" data-anchor-id="1-factorial-design-7"><span class="header-section-number">6.8</span> 1. Factorial Design</h2>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;"></th>
+<th style="text-align: left;">Transport: No</th>
+<th style="text-align: left;">Transport: Yes</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><strong>Information: No</strong></td>
+<td style="text-align: left;">Neither</td>
+<td style="text-align: left;">Transport only</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><strong>Information: Yes</strong></td>
+<td style="text-align: left;">Information only</td>
+<td style="text-align: left;">Information + Transportation</td>
+</tr>
+</tbody>
+</table>
+<ol start="3" type="1">
+<li>Average effect of one treatment (given the distribution of the other treatment).</li>
+</ol>
+</section>
+<section id="1-factorial-design-8" class="level2 smaller" data-number="6.9">
+<h2 class="smaller anchored" data-number="6.9" data-anchor-id="1-factorial-design-8"><span class="header-section-number">6.9</span> 1. Factorial Design</h2>
+<section id="design-based-analysis" class="level3" data-number="6.9.1">
+<h3 data-number="6.9.1" class="anchored" data-anchor-id="design-based-analysis"><span class="header-section-number">6.9.1</span> Design-based analysis</h3>
+<p>Main estimands</p>
+<table class="table" style="font-size: 18px; width: auto !important; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="empty-cells: hide;border-bottom:hidden;" colspan="2">
+</th>
+<th style="border-bottom:hidden;padding-bottom:0; padding-left:3px;padding-right:3px;text-align: center; " colspan="3">
+<div style="border-bottom: 1px solid #ddd; padding-bottom: 5px; ">
+<span class="math inline">\(X_2\)</span>
+</div>
+</th>
+<th style="empty-cells: hide;border-bottom:hidden;" colspan="1">
+</th>
+</tr>
+<tr>
+<th style="text-align:center;">
+</th>
+<th style="text-align:center;">
+</th>
+<th style="text-align:center;">
+0
+</th>
+<th style="text-align:center;">
+1
+</th>
+<th style="text-align:center;">
+All
+</th>
+<th style="text-align:center;">
+Diff
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center;">
+<span class="math inline">\(X_1\)</span>
+</td>
+<td style="text-align:center;">
+0
+</td>
+<td style="text-align:center;background-color: rgba(232, 232, 232, 255) !important;">
+<span class="math inline">\(\overline{y}_{00}\)</span>
+</td>
+<td style="text-align:center;background-color: rgba(232, 232, 232, 255) !important;">
+<span class="math inline">\(\overline{y}_{01}\)</span>
+</td>
+<td style="text-align:center;background-color: rgba(220, 238, 251, 255) !important;">
+<span class="math inline">\(\overline{y}_{0.}\)</span>
+</td>
+<td style="text-align:center;background-color: rgba(212, 237, 218, 255) !important;">
+<span class="math inline">\(\tau_2 \mid X_1{=}0\)</span>
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+</td>
+<td style="text-align:center;">
+1
+</td>
+<td style="text-align:center;background-color: rgba(232, 232, 232, 255) !important;">
+<span class="math inline">\(\overline{y}_{10}\)</span>
+</td>
+<td style="text-align:center;background-color: rgba(232, 232, 232, 255) !important;">
+<span class="math inline">\(\overline{y}_{11}\)</span>
+</td>
+<td style="text-align:center;background-color: rgba(220, 238, 251, 255) !important;">
+<span class="math inline">\(\overline{y}_{1.}\)</span>
+</td>
+<td style="text-align:center;background-color: rgba(212, 237, 218, 255) !important;">
+<span class="math inline">\(\tau_2 \mid X_1{=}1\)</span>
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+</td>
+<td style="text-align:center;">
+All
+</td>
+<td style="text-align:center;background-color: rgba(220, 238, 251, 255) !important;">
+<span class="math inline">\(\overline{y}_{.0}\)</span>
+</td>
+<td style="text-align:center;background-color: rgba(220, 238, 251, 255) !important;">
+<span class="math inline">\(\overline{y}_{.1}\)</span>
+</td>
+<td style="text-align:center;background-color: rgba(220, 238, 251, 255) !important;">
+<span class="math inline">\(\overline{y}\)</span>
+</td>
+<td style="text-align:center;background-color: rgba(212, 237, 218, 255) !important;">
+<span class="math inline">\(\tau_2\)</span>
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+</td>
+<td style="text-align:center;">
+Diff
+</td>
+<td style="text-align:center;background-color: rgba(212, 237, 218, 255) !important;">
+<span class="math inline">\(\tau_1 \mid X_2{=}0\)</span>
+</td>
+<td style="text-align:center;background-color: rgba(212, 237, 218, 255) !important;">
+<span class="math inline">\(\tau_1 \mid X_2{=}1\)</span>
+</td>
+<td style="text-align:center;background-color: rgba(212, 237, 218, 255) !important;">
+<span class="math inline">\(\tau_1\)</span>
+</td>
+<td style="text-align:center;background-color: rgba(212, 237, 218, 255) !important;">
+<span class="math inline">\(\tau_{12}\)</span>
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+<section id="1-factorial-design-9" class="level2" data-number="6.10">
+<h2 data-number="6.10" class="anchored" data-anchor-id="1-factorial-design-9"><span class="header-section-number">6.10</span> 1. Factorial Design</h2>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(randomizr)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">12345</span>)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>information <span class="ot">&lt;-</span> <span class="fu">complete_ra</span>(<span class="at">N =</span> <span class="dv">24</span>, <span class="at">m =</span> <span class="dv">12</span>)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>transport <span class="ot">&lt;-</span> <span class="fu">block_ra</span>(<span class="at">blocks =</span> information)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(information, transport)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>           transport
+information 0 1
+          0 6 6
+          1 6 6</code></pre>
+</div>
+</div>
+</section>
+<section id="2-waitlist-design-delayed-access" class="level2" data-number="6.11">
+<h2 data-number="6.11" class="anchored" data-anchor-id="2-waitlist-design-delayed-access"><span class="header-section-number">6.11</span> 2. Waitlist design (delayed access)</h2>
+<ul>
+<li>Situation: Only a certain number of units can be treated at a time. Once treated, a unit stays in treatment.</li>
+<li>When an intervention can be or must be rolled out in stages, you can randomize the order (<em>timing</em>) in which units are treated.</li>
+</ul>
+</section>
+<section id="2-waitlist-design-delayed-access-2" class="level2" data-number="6.12">
+<h2 data-number="6.12" class="anchored" data-anchor-id="2-waitlist-design-delayed-access-2"><span class="header-section-number">6.12</span> 2. Waitlist design (delayed access)</h2>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../../Images/delayed_access.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="300"></p>
+</figure>
+</div>
+<ul>
+<li>Your control group are the as-yet untreated units.</li>
+</ul>
+</section>
+<section id="2-waitlist-design-delayed-access-3" class="level2" data-number="6.13">
+<h2 data-number="6.13" class="anchored" data-anchor-id="2-waitlist-design-delayed-access-3"><span class="header-section-number">6.13</span> 2. Waitlist design (delayed access)</h2>
+<ul>
+<li>We need to assume <strong>no anticipation</strong>.</li>
+<li>This means that the potential outcome is not affected by future treatment status.</li>
+</ul>
+</section>
+<section id="2-waitlist-design-delayed-access-4" class="level2" data-number="6.14">
+<h2 data-number="6.14" class="anchored" data-anchor-id="2-waitlist-design-delayed-access-4"><span class="header-section-number">6.14</span> 2. Waitlist design (delayed access)</h2>
+<ul>
+<li>We analyze the data from all time periods together.</li>
+<li>Be careful: the probability of assignment to treatment will vary over time because units assigned to treatment in earlier stages are not eligible for treatment in later stages.</li>
+</ul>
+</section>
+<section id="3-encouragement-design" class="level2" data-number="6.15">
+<h2 data-number="6.15" class="anchored" data-anchor-id="3-encouragement-design"><span class="header-section-number">6.15</span> 3. Encouragement design</h2>
+<section id="3-encouragement-design-2" class="level3" data-number="6.15.1">
+<h3 data-number="6.15.1" class="anchored" data-anchor-id="3-encouragement-design-2"><span class="header-section-number">6.15.1</span> 3. Encouragement design</h3>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="L05_randomization_2_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="3-encouragement-design-3" class="level3" data-number="6.15.2">
+<h3 data-number="6.15.2" class="anchored" data-anchor-id="3-encouragement-design-3"><span class="header-section-number">6.15.2</span> 3. Encouragement design</h3>
+<ul>
+<li>Situation: You can’t force people to take (receive) your treatment. Treatment assigned is not the same as treatment received.</li>
+<li>We can randomize <strong>encouragement</strong> <span class="math inline">\(Z\)</span> to take the treatment, such as a request to drink coffee or offering a subsidy to participate in a program.</li>
+<li>We measure the encouragement <span class="math inline">\(Z\)</span>, taking the treatment <span class="math inline">\(D\)</span>, and the outcome <span class="math inline">\(Y\)</span>.</li>
+</ul>
+</section>
+<section id="3-encouragement-design-4" class="level3" data-number="6.15.3">
+<h3 data-number="6.15.3" class="anchored" data-anchor-id="3-encouragement-design-4"><span class="header-section-number">6.15.3</span> 3. Encouragement design</h3>
+<ul>
+<li><span class="math inline">\(D\)</span> is not randomized!</li>
+<li>So it is difficult to learn the ATE of <span class="math inline">\(D\)</span> on <span class="math inline">\(Y\)</span>.</li>
+<li>But we may be able to target other estimands.</li>
+</ul>
+</section>
+<section id="3-encouragement-design-5" class="level3" data-number="6.15.4">
+<h3 data-number="6.15.4" class="anchored" data-anchor-id="3-encouragement-design-5"><span class="header-section-number">6.15.4</span> 3. Encouragement design</h3>
+<div class="column lang-en" style="width:50%;">
+<p><strong>Estimand 1:</strong></p>
+<ul>
+<li>We can learn the average effect of the <em>encouragement</em> <span class="math inline">\(Z\)</span> to take the treatment on the outcome <span class="math inline">\(Y\)</span>.</li>
+<li>This is the ATE of <span class="math inline">\(Z\)</span>, also known as <strong>ITT</strong>, the intent-to-treat effect.</li>
+</ul>
+</div>
+</section>
+<section id="3-encouragement-design-6" class="level3" data-number="6.15.5">
+<h3 data-number="6.15.5" class="anchored" data-anchor-id="3-encouragement-design-6"><span class="header-section-number">6.15.5</span> 3. Encouragement design</h3>
+<div class="column lang-en" style="width:50%;">
+<p><strong>Estimand 2:</strong></p>
+<ul>
+<li>With some additional assumptions, we can also learn the average effect of <em>taking the treatment</em> <span class="math inline">\(D\)</span> for Compliers.</li>
+<li>This is known as the Complier Average Causal Effect (CACE) or Local Average Treatment Effect (LATE).</li>
+</ul>
+</div>
+</section>
+<section id="3-encouragement-design-7" class="level3" data-number="6.15.6">
+<h3 data-number="6.15.6" class="anchored" data-anchor-id="3-encouragement-design-7"><span class="header-section-number">6.15.6</span> 3. Encouragement design</h3>
+<ul>
+<li>Who are Compliers? They are units that would take the treatment if encouraged (<span class="math inline">\(D(1)=1\)</span>) and not if not (<span class="math inline">\(D(0)=0\)</span>).</li>
+</ul>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Type</th>
+<th style="text-align: center;"><span class="math inline">\(Z=1\)</span></th>
+<th style="text-align: center;"><span class="math inline">\(Z=0\)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Always Taker</td>
+<td style="text-align: center;"><span class="math inline">\(D(1)=1\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(D(0)=1\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><strong>Complier</strong></td>
+<td style="text-align: center;"><span class="math inline">\(D(1)=1\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(D(0)=0\)</span></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Never Taker</td>
+<td style="text-align: center;"><span class="math inline">\(D(1)=0\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(D(0)=0\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Defier</td>
+<td style="text-align: center;"><span class="math inline">\(D(1)=0\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(D(0)=1\)</span></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="3-encouragement-design-8" class="level3" data-number="6.15.7">
+<h3 data-number="6.15.7" class="anchored" data-anchor-id="3-encouragement-design-8"><span class="header-section-number">6.15.7</span> 3. Encouragement design</h3>
+<ul>
+<li>Additional assumption 1: For CACE, we need <strong>excludability</strong> (exclusion restriction): the encouragement <span class="math inline">\(Z\)</span> only affects the outcome <span class="math inline">\(Y\)</span> through taking the treatment <span class="math inline">\(D\)</span>.</li>
+</ul>
+</section>
+<section id="3-encouragement-design-9" class="level3" data-number="6.15.8">
+<h3 data-number="6.15.8" class="anchored" data-anchor-id="3-encouragement-design-9"><span class="header-section-number">6.15.8</span> 3. Encouragement design</h3>
+<ul>
+<li>Additional assumption 2: For CACE using this design, we also need the assumption of <strong>monotonicity</strong>. This means no Defiers.</li>
+</ul>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Type</th>
+<th style="text-align: center;"><span class="math inline">\(Z=1\)</span></th>
+<th style="text-align: center;"><span class="math inline">\(Z=0\)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Always Taker</td>
+<td style="text-align: center;"><span class="math inline">\(D(1)=1\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(D(0)=1\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><strong>Complier</strong></td>
+<td style="text-align: center;"><span class="math inline">\(D(1)=1\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(D(0)=0\)</span></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Never Taker</td>
+<td style="text-align: center;"><span class="math inline">\(D(1)=0\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(D(0)=0\)</span></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="3-encouragement-design-10" class="level3" data-number="6.15.9">
+<h3 data-number="6.15.9" class="anchored" data-anchor-id="3-encouragement-design-10"><span class="header-section-number">6.15.9</span> 3. Encouragement design</h3>
+<ul>
+<li>Careful (1)! Do not compare those who take treatment (<span class="math inline">\(D=1\)</span>) to those who do not (<span class="math inline">\(D=0\)</span>). Taking treatment is not randomly assigned and the two groups are not comparable.</li>
+</ul>
+</section>
+<section id="3-encouragement-design-11" class="level3" data-number="6.15.10">
+<h3 data-number="6.15.10" class="anchored" data-anchor-id="3-encouragement-design-11"><span class="header-section-number">6.15.10</span> 3. Encouragement design</h3>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="L05_randomization_2_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid figure-img" width="480"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="3-encouragement-design-12" class="level3" data-number="6.15.11">
+<h3 data-number="6.15.11" class="anchored" data-anchor-id="3-encouragement-design-12"><span class="header-section-number">6.15.11</span> 3. Encouragement design</h3>
+<ul>
+<li>Careful (2)! For the CACE, we have to assess whether excludability and monotonicity hold in our study.</li>
+<li>If not, we can still target the ITT with the other standard key assumptions.</li>
+</ul>
+</section>
+<section id="3-encouragement-design-13" class="level3" data-number="6.15.12">
+<h3 data-number="6.15.12" class="anchored" data-anchor-id="3-encouragement-design-13"><span class="header-section-number">6.15.12</span> 3. Encouragement design</h3>
+<ul>
+<li>When would you target ITT? When would you target CACE?</li>
+<li>ITT: Policy can directly change <span class="math inline">\(Z\)</span>, but not <span class="math inline">\(D\)</span>.</li>
+<li>CACE: We may want to know the effect of <span class="math inline">\(D\)</span> even if it’s for just some of the units.</li>
+</ul>
+</section>
+<section id="summary" class="level3" data-number="6.15.13">
+<h3 data-number="6.15.13" class="anchored" data-anchor-id="summary"><span class="header-section-number">6.15.13</span> Summary</h3>
+<ul>
+<li>Factorial: 2 or more treatments with possible interaction</li>
+<li>Waitlist: when we have a constraint on how many treatments can be delivered at once</li>
+<li>Encouragement: when we can’t force units to take the treatment</li>
+</ul>
+</section>
+<section id="resources" class="level3" data-number="6.15.14">
+<h3 data-number="6.15.14" class="anchored" data-anchor-id="resources"><span class="header-section-number">6.15.14</span> Resources</h3>
+<p>EGAP Methods Guide on Randomization: <a href="https://egap.org/resource/10-things-to-know-about-randomization/" class="uri">https://egap.org/resource/10-things-to-know-about-randomization/</a></p>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../../chapters/en/L04_R_intro.html" class="pagination-link" aria-label="L04 — Introduction to R">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">L04 — Introduction to R</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../../chapters/en/L06_design_intro.html" class="pagination-link" aria-label="L06 — Design &amp; diagnosis">
+        <span class="nav-page-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">L06 — Design &amp; diagnosis</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

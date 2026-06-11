@@ -1,0 +1,1637 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="fr" xml:lang="fr"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.27">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>5&nbsp; C04 — Introduction à R – EGAP Learning Days Abidjan 2026</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<link href="../../chapters/fr/L05_randomization_2.html" rel="next">
+<link href="../../chapters/fr/L03_randomization_1.html" rel="prev">
+<script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-ed96de9b727972fe78a7b5d16c58bf87.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-d9ea66fcd6c317012447f26e9c021348.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "Pas de résultats",
+    "search-matching-documents-text": "documents trouvés",
+    "search-copy-link-title": "Copier le lien vers la recherche",
+    "search-hide-matches-text": "Cacher les correspondances additionnelles",
+    "search-more-match-text": "correspondance de plus dans ce document",
+    "search-more-matches-text": "correspondances de plus dans ce document",
+    "search-clear-button-title": "Effacer",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Annuler",
+    "search-submit-button-title": "Envoyer",
+    "search-label": "Recherche"
+  }
+}</script>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+<link rel="stylesheet" href="../../assets/abidjan-book.css">
+</head>
+
+<body class="nav-sidebar floating nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">EGAP Learning Days Abidjan 2026</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Recherche"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Basculer la navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="https://egap.github.io/learningdays-resources/abidjan_2026/index.html"> 
+<span class="menu-text">Toutes les ressources</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Basculer la barre latérale" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../chapters/fr/L01_why-experiment.html">Cours</a></li><li class="breadcrumb-item"><a href="../../chapters/fr/L04_R_intro.html"><span class="chapter-title">C04 — Introduction à R</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Basculer la barre latérale" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-title">Home</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Cours</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Basculer la section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/fr/L01_why-experiment.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">C01 — Pourquoi expérimenter ?</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/fr/L02_causalinference.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">C02 — Inférence causale</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/fr/L03_randomization_1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">C03 — Randomisation 1</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/fr/L04_R_intro.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">C04 — Introduction à R</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/fr/L05_randomization_2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">C05 — Randomisation 2</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/fr/L06_design_intro.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">C06 — Design et diagnostic</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/fr/L07_estimation_1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">C07 — Estimation 1</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/fr/L08_estimation_2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">C08 — Estimation 2</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/fr/L09_power_intro.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">C09 — Puissance et diagnostic</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/fr/L10_ethics.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">C10 — Éthique et expériences</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/fr/L11_presenting.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">C11 — Présenter les résultats</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/fr/L12_threats.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">C12 — Menaces à la validité</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/fr/L13_lifecycle.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">C13 — Cycle de vie d’une expérience</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/fr/L14_grants.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">C14 — Demandes de subvention</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+ <span class="menu-text">Exercices et quiz</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Basculer la section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/fr/E01_experiment_slides.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Ex01 — Expérience en classe</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/fr/E02_R_exercises.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Ex02 — Exercices R</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/fr/E03_projects.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Ex03 — Projets</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/fr/quiz-tuesday.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Quiz — jour 2</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/fr/quiz-wednesday.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Quiz — jour 3</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/fr/quiz-thursday.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">Quiz — jour 4</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active" data-toc-expanded="2">
+    <h2 id="toc-title">Table des matières</h2>
+   
+  <ul>
+  <li><a href="#getting-started" id="toc-getting-started" class="nav-link active" data-scroll-target="#getting-started"><span class="header-section-number">5.1</span> <em>Premiers pas</em></a>
+  <ul class="collapse">
+  <li><a href="#overview" id="toc-overview" class="nav-link" data-scroll-target="#overview"><span class="header-section-number">5.1.1</span> <em>Vue d’ensemble</em></a></li>
+  <li><a href="#r-and-rstudio" id="toc-r-and-rstudio" class="nav-link" data-scroll-target="#r-and-rstudio"><span class="header-section-number">5.1.2</span> <em>R et RStudio</em></a></li>
+  <li><a href="#rstudio-panes" id="toc-rstudio-panes" class="nav-link" data-scroll-target="#rstudio-panes"><span class="header-section-number">5.1.3</span> <em>Les fenêtres de RStudio</em></a></li>
+  <li><a href="#work-in-scripts" id="toc-work-in-scripts" class="nav-link" data-scroll-target="#work-in-scripts"><span class="header-section-number">5.1.4</span> <em>Travailler dans des scripts</em></a></li>
+  <li><a href="#readable-code" id="toc-readable-code" class="nav-link" data-scroll-target="#readable-code"><span class="header-section-number">5.1.5</span> <em>Code lisible</em></a></li>
+  <li><a href="#running-code" id="toc-running-code" class="nav-link" data-scroll-target="#running-code"><span class="header-section-number">5.1.6</span> <em>Exécuter du code</em></a></li>
+  <li><a href="#assignment-vs-display" id="toc-assignment-vs-display" class="nav-link" data-scroll-target="#assignment-vs-display"><span class="header-section-number">5.1.7</span> <em>Affectation vs affichage</em></a></li>
+  <li><a href="#working-directory" id="toc-working-directory" class="nav-link" data-scroll-target="#working-directory"><span class="header-section-number">5.1.8</span> <em>Répertoire de travail</em></a></li>
+  <li><a href="#rstudio-projects-why" id="toc-rstudio-projects-why" class="nav-link" data-scroll-target="#rstudio-projects-why"><span class="header-section-number">5.1.9</span> <em>Projets RStudio : pourquoi</em></a></li>
+  <li><a href="#rstudio-projects-how" id="toc-rstudio-projects-how" class="nav-link" data-scroll-target="#rstudio-projects-how"><span class="header-section-number">5.1.10</span> <em>Projets RStudio : comment</em></a></li>
+  <li><a href="#packages" id="toc-packages" class="nav-link" data-scroll-target="#packages"><span class="header-section-number">5.1.11</span> <em>Packages</em></a></li>
+  <li><a href="#packages-we�ll-use-today" id="toc-packages-we�ll-use-today" class="nav-link" data-scroll-target="#packages-we�ll-use-today"><span class="header-section-number">5.1.12</span> <em>Packages utilisés aujourd’hui</em></a></li>
+  <li><a href="#getting-help" id="toc-getting-help" class="nav-link" data-scroll-target="#getting-help"><span class="header-section-number">5.1.13</span> <em>Obtenir de l’aide</em></a></li>
+  <li><a href="#housekeeping" id="toc-housekeeping" class="nav-link" data-scroll-target="#housekeeping"><span class="header-section-number">5.1.14</span> <em>Nettoyage de la session</em></a></li>
+  </ul></li>
+  <li><a href="#scalars-vectors-and-arithmetic" id="toc-scalars-vectors-and-arithmetic" class="nav-link" data-scroll-target="#scalars-vectors-and-arithmetic"><span class="header-section-number">5.2</span> <em>Scalaires, vecteurs et arithmétique</em></a>
+  <ul class="collapse">
+  <li><a href="#r-as-a-calculator" id="toc-r-as-a-calculator" class="nav-link" data-scroll-target="#r-as-a-calculator"><span class="header-section-number">5.2.1</span> <em>R comme calculatrice</em></a></li>
+  <li><a href="#creating-vectors" id="toc-creating-vectors" class="nav-link" data-scroll-target="#creating-vectors"><span class="header-section-number">5.2.2</span> <em>Créer des vecteurs</em></a></li>
+  <li><a href="#vector-summaries" id="toc-vector-summaries" class="nav-link" data-scroll-target="#vector-summaries"><span class="header-section-number">5.2.3</span> <em>Résumés d’un vecteur</em></a></li>
+  <li><a href="#factors" id="toc-factors" class="nav-link" data-scroll-target="#factors"><span class="header-section-number">5.2.4</span> <em>Facteurs (variables catégorielles)</em></a></li>
+  </ul></li>
+  <li><a href="#data-frames" id="toc-data-frames" class="nav-link" data-scroll-target="#data-frames"><span class="header-section-number">5.3</span> <em>Data frames</em></a>
+  <ul class="collapse">
+  <li><a href="#what-is-a-data-frame" id="toc-what-is-a-data-frame" class="nav-link" data-scroll-target="#what-is-a-data-frame"><span class="header-section-number">5.3.1</span> <em>Qu’est-ce qu’un data frame ?</em></a></li>
+  <li><a href="#accessing-columns" id="toc-accessing-columns" class="nav-link" data-scroll-target="#accessing-columns"><span class="header-section-number">5.3.2</span> <em>Accéder aux colonnes</em></a></li>
+  </ul></li>
+  <li><a href="#reading-data" id="toc-reading-data" class="nav-link" data-scroll-target="#reading-data"><span class="header-section-number">5.4</span> <em>Importer des données</em></a>
+  <ul class="collapse">
+  <li><a href="#reading-a-csv" id="toc-reading-a-csv" class="nav-link" data-scroll-target="#reading-a-csv"><span class="header-section-number">5.4.1</span> <em>Lire un CSV</em></a></li>
+  <li><a href="#writing-data" id="toc-writing-data" class="nav-link" data-scroll-target="#writing-data"><span class="header-section-number">5.4.2</span> <em>Exporter des données</em></a></li>
+  </ul></li>
+  <li><a href="#summary-statistics" id="toc-summary-statistics" class="nav-link" data-scroll-target="#summary-statistics"><span class="header-section-number">5.5</span> <em>Statistiques descriptives</em></a>
+  <ul class="collapse">
+  <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary"><span class="header-section-number">5.5.1</span> <em>summary()</em></a></li>
+  <li><a href="#numeric-summaries" id="toc-numeric-summaries" class="nav-link" data-scroll-target="#numeric-summaries"><span class="header-section-number">5.5.2</span> <em>Résumés numériques</em></a></li>
+  <li><a href="#covariance-and-correlation" id="toc-covariance-and-correlation" class="nav-link" data-scroll-target="#covariance-and-correlation"><span class="header-section-number">5.5.3</span> <em>Covariance et corrélation</em></a></li>
+  <li><a href="#tables-and-missing-values" id="toc-tables-and-missing-values" class="nav-link" data-scroll-target="#tables-and-missing-values"><span class="header-section-number">5.5.4</span> <em>Tableaux et valeurs manquantes</em></a></li>
+  </ul></li>
+  <li><a href="#pipes-and-dplyr" id="toc-pipes-and-dplyr" class="nav-link" data-scroll-target="#pipes-and-dplyr"><span class="header-section-number">5.6</span> <em>Pipes et dplyr</em></a>
+  <ul class="collapse">
+  <li><a href="#the-pipe" id="toc-the-pipe" class="nav-link" data-scroll-target="#the-pipe"><span class="header-section-number">5.6.1</span> <em>Le pipe <code>|&gt;</code></em></a></li>
+  <li><a href="#dplyr-mutate-select-filter" id="toc-dplyr-mutate-select-filter" class="nav-link" data-scroll-target="#dplyr-mutate-select-filter"><span class="header-section-number">5.6.2</span> <em>dplyr : mutate, select, filter</em></a></li>
+  </ul></li>
+  <li><a href="#plotting-with-ggplot2" id="toc-plotting-with-ggplot2" class="nav-link" data-scroll-target="#plotting-with-ggplot2"><span class="header-section-number">5.7</span> <em>Graphiques avec ggplot2</em></a>
+  <ul class="collapse">
+  <li><a href="#the-ggplot-pattern" id="toc-the-ggplot-pattern" class="nav-link" data-scroll-target="#the-ggplot-pattern"><span class="header-section-number">5.7.1</span> <em>Le modèle ggplot</em></a></li>
+  <li><a href="#scatterplot" id="toc-scatterplot" class="nav-link" data-scroll-target="#scatterplot"><span class="header-section-number">5.7.2</span> <em>Nuage de points</em></a></li>
+  <li><a href="#histogram" id="toc-histogram" class="nav-link" data-scroll-target="#histogram"><span class="header-section-number">5.7.3</span> <em>Histogramme</em></a></li>
+  <li><a href="#boxplot-by-group" id="toc-boxplot-by-group" class="nav-link" data-scroll-target="#boxplot-by-group"><span class="header-section-number">5.7.4</span> <em>Boîte à moustaches par groupe</em></a></li>
+  </ul></li>
+  <li><a href="#randomization-in-r" id="toc-randomization-in-r" class="nav-link" data-scroll-target="#randomization-in-r"><span class="header-section-number">5.8</span> <em>Randomisation en R</em></a>
+  <ul class="collapse">
+  <li><a href="#base-r-tools" id="toc-base-r-tools" class="nav-link" data-scroll-target="#base-r-tools"><span class="header-section-number">5.8.1</span> <em>Outils de base</em></a></li>
+  <li><a href="#randomizr-simplera-and-completera" id="toc-randomizr-simplera-and-completera" class="nav-link" data-scroll-target="#randomizr-simplera-and-completera"><span class="header-section-number">5.8.2</span> <em>randomizr : simple_ra() et complete_ra()</em></a></li>
+  <li><a href="#simulation-by-hand" id="toc-simulation-by-hand" class="nav-link" data-scroll-target="#simulation-by-hand"><span class="header-section-number">5.8.3</span> <em>Simulation à la main</em></a></li>
+  <li><a href="#same-in-declaredesign" id="toc-same-in-declaredesign" class="nav-link" data-scroll-target="#same-in-declaredesign"><span class="header-section-number">5.8.4</span> <em>Même chose avec DeclareDesign</em></a></li>
+  </ul></li>
+  <li><a href="#wrap-up" id="toc-wrap-up" class="nav-link" data-scroll-target="#wrap-up"><span class="header-section-number">5.9</span> <em>Pour finir</em></a>
+  <ul class="collapse">
+  <li><a href="#mini-workflow" id="toc-mini-workflow" class="nav-link" data-scroll-target="#mini-workflow"><span class="header-section-number">5.9.1</span> <em>Mini parcours</em></a></li>
+  <li><a href="#mini-workflow-code" id="toc-mini-workflow-code" class="nav-link" data-scroll-target="#mini-workflow-code"><span class="header-section-number">5.9.2</span> <em>Mini parcours (code)</em></a></li>
+  </ul></li>
+  <li><a href="#let�s-go" id="toc-let�s-go" class="nav-link" data-scroll-target="#let�s-go"><span class="header-section-number">5.10</span> <em>Allons-y</em></a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../chapters/fr/L01_why-experiment.html">Cours</a></li><li class="breadcrumb-item"><a href="../../chapters/fr/L04_R_intro.html"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">C04 — Introduction à R</span></a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">C04 — Introduction à R</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="getting-started" class="level2" data-number="5.1">
+<h2 data-number="5.1" class="anchored" data-anchor-id="getting-started"><span class="header-section-number">5.1</span> <em>Premiers pas</em></h2>
+<section id="overview" class="level3" data-number="5.1.1">
+<h3 data-number="5.1.1" class="anchored" data-anchor-id="overview"><span class="header-section-number">5.1.1</span> <em>Vue d’ensemble</em></h3>
+<div class="column lang-fr" style="width:50%;">
+<p>Cette section s’adresse à ceux qui ouvrent R pour la première fois. Elle couvre la configuration pratique que le reste du cours présuppose.</p>
+<p><strong>Bases de R :</strong> tout est un <strong>objet</strong> (données, résultats, modèles) ; vous manipulez les objets avec des <strong>fonctions</strong> comme <code>mean()</code>, <code>read_csv()</code> ou <code>filter()</code>.</p>
+</div>
+</section>
+<section id="r-and-rstudio" class="level3" data-number="5.1.2">
+<h3 data-number="5.1.2" class="anchored" data-anchor-id="r-and-rstudio"><span class="header-section-number">5.1.2</span> <em>R et RStudio</em></h3>
+<div class="column lang-fr" style="width:50%;">
+<p><strong>R</strong> est le langage et le moteur de calcul.</p>
+<p><strong>RStudio</strong> est une application distincte qui offre une interface plus confortable à R.</p>
+<p>Installez R d’abord, puis RStudio.</p>
+</div>
+</section>
+<section id="rstudio-panes" class="level3" data-number="5.1.3">
+<h3 data-number="5.1.3" class="anchored" data-anchor-id="rstudio-panes"><span class="header-section-number">5.1.3</span> <em>Les fenêtres de RStudio</em></h3>
+<div class="column lang-fr" style="width:50%;">
+<p>À l’ouverture de RStudio, vous voyez typiquement quatre fenêtres :</p>
+<ul>
+<li><strong>Console</strong> — exécuter des commandes une par une ; les résultats s’affichent ici</li>
+<li><strong>Source / Éditeur</strong> — écrire des scripts (<code>.R</code>) ou Quarto (<code>.qmd</code>) ; le code ne s’exécute que lorsque vous l’envoyez</li>
+<li><strong>Environnement / Historique</strong> — objets en mémoire et historique des commandes</li>
+<li><strong>Fichiers / Graphiques / Aide / Packages</strong> — explorateur de fichiers, graphiques, aide, packages installés</li>
+</ul>
+</div>
+</section>
+<section id="work-in-scripts" class="level3" data-number="5.1.4">
+<h3 data-number="5.1.4" class="anchored" data-anchor-id="work-in-scripts"><span class="header-section-number">5.1.4</span> <em>Travailler dans des scripts</em></h3>
+<div class="column lang-fr" style="width:50%;">
+<p><strong>Écrivez votre travail dans un script</strong> (<code>.R</code> ou <code>.qmd</code>), pas seulement dans la Console.</p>
+<ul>
+<li>Sauvegardez souvent — votre analyse devient <strong>reproductible</strong></li>
+<li>Vous pouvez refaire les mêmes étapes demain, les partager avec un coauteur ou corriger une erreur sans tout retaper</li>
+<li>La Console sert aux tests rapides ; le script est le <strong>journal</strong> de ce que vous avez fait</li>
+</ul>
+</div>
+</section>
+<section id="readable-code" class="level3 smaller" data-number="5.1.5">
+<h3 class="smaller anchored" data-number="5.1.5" data-anchor-id="readable-code"><span class="header-section-number">5.1.5</span> <em>Code lisible</em></h3>
+<div class="column lang-fr" style="width:50%;">
+<p>De petites habitudes rendent les scripts plus faciles à lire, déboguer et partager :</p>
+<ul>
+<li>Espaces autour de <code>&lt;-</code> et <code>+</code></li>
+<li>Une étape principale par ligne ; couper les longs pipes sur plusieurs lignes</li>
+<li>Commentaires courts sur le <em>pourquoi</em>, pas sur chaque ligne</li>
+<li>Noms d’objets explicites (<code>traitement</code>, pas <code>x</code>)</li>
+</ul>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># DON'T                          # DO</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>ships<span class="ot">&lt;-</span><span class="fu">read.csv</span>(<span class="st">"data/ships.csv"</span>)   ships <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"data/ships.csv"</span>)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co"># DON'T                          # DO</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">complete_ra</span>(<span class="dv">10</span>)                <span class="fu">set.seed</span>(<span class="dv">42</span>)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>                                    treatment <span class="ot">&lt;-</span> <span class="fu">complete_ra</span>(<span class="dv">10</span>)  <span class="co"># 5 treated | 5 traités</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="co"># DON'T: one cramped line</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>ships <span class="sc">|&gt;</span> <span class="fu">filter</span>(Months<span class="sc">&gt;</span><span class="dv">10</span>) <span class="sc">|&gt;</span> <span class="fu">select</span>(Months,Dammage) <span class="sc">|&gt;</span> <span class="fu">mutate</span>(<span class="at">dpm=</span>Dammage<span class="sc">/</span>Months)</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="co"># DO: line breaks and spaces</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>ships <span class="sc">|&gt;</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Months <span class="sc">&gt;</span> <span class="dv">10</span>) <span class="sc">|&gt;</span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(Months, Dammage) <span class="sc">|&gt;</span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">damage_per_month =</span> Dammage <span class="sc">/</span> Months)</span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="running-code" class="level3" data-number="5.1.6">
+<h3 data-number="5.1.6" class="anchored" data-anchor-id="running-code"><span class="header-section-number">5.1.6</span> <em>Exécuter du code</em></h3>
+<p>Tapez dans la <strong>console</strong> et appuyez sur Entrée, ou écrivez dans un <strong>script</strong> et envoyez avec <strong>Ctrl + Entrée</strong> (Windows/Linux) ou <strong>Cmd + Entrée</strong> (Mac).</p>
+</section>
+<section id="assignment-vs-display" class="level3" data-number="5.1.7">
+<h3 data-number="5.1.7" class="anchored" data-anchor-id="assignment-vs-display"><span class="header-section-number">5.1.7</span> <em>Affectation vs affichage</em></h3>
+<p>Deux types de commandes se comportent différemment :</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="dv">2</span> <span class="sc">+</span> <span class="dv">2</span>              <span class="co"># show result | afficher le résultat</span></span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 4</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="dv">2</span> <span class="sc">+</span> <span class="dv">2</span>         <span class="co"># store in x | stocker dans x</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>x                  <span class="co"># display x | afficher x</span></span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 4</code></pre>
+</div>
+</div>
+</section>
+<section id="working-directory" class="level3" data-number="5.1.8">
+<h3 data-number="5.1.8" class="anchored" data-anchor-id="working-directory"><span class="header-section-number">5.1.8</span> <em>Répertoire de travail</em></h3>
+<div class="column lang-fr" style="width:50%;">
+<p>Le <strong>répertoire de travail</strong> est le dossier que R utilise par défaut pour lire et écrire. Beaucoup d’erreurs viennent d’un mauvais chemin vers un fichier de données.</p>
+<p>Ouvrez d’abord votre <strong>projet RStudio</strong> — les chemins comme <code>data/ships.csv</code> fonctionnent alors de façon fiable.</p>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">getwd</span>()   <span class="co"># current working directory | répertoire de travail actuel</span></span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="rstudio-projects-why" class="level3" data-number="5.1.9">
+<h3 data-number="5.1.9" class="anchored" data-anchor-id="rstudio-projects-why"><span class="header-section-number">5.1.9</span> <em>Projets RStudio : pourquoi</em></h3>
+<div class="column lang-fr" style="width:50%;">
+<p>Bonne pratique : travailler dans un <strong>projet RStudio</strong> (fichier <code>.Rproj</code>).</p>
+<ul>
+<li>Définit automatiquement le répertoire de travail</li>
+<li>Regroupe scripts, données et sorties au même endroit</li>
+<li>Facilite la collaboration et la reproductibilité</li>
+</ul>
+</div>
+</section>
+<section id="rstudio-projects-how" class="level3" data-number="5.1.10">
+<h3 data-number="5.1.10" class="anchored" data-anchor-id="rstudio-projects-how"><span class="header-section-number">5.1.10</span> <em>Projets RStudio : comment</em></h3>
+<div class="column lang-fr" style="width:50%;">
+<p><strong>Créer un projet</strong></p>
+<ol type="1">
+<li>Fichier → Nouveau projet → Nouveau répertoire → Nouveau projet</li>
+<li>Placer scripts et données dans le dossier du projet</li>
+<li>RStudio crée un fichier <code>.Rproj</code> dans ce dossier</li>
+</ol>
+<p><strong>L’ouvrir à chaque session</strong></p>
+<ul>
+<li>Double-cliquez sur le fichier <code>.Rproj</code>, ou Fichier → Ouvrir un projet</li>
+<li>Vérifiez avec <code>getwd()</code> — il doit pointer vers la racine du projet</li>
+</ul>
+</div>
+</section>
+<section id="packages" class="level3" data-number="5.1.11">
+<h3 data-number="5.1.11" class="anchored" data-anchor-id="packages"><span class="header-section-number">5.1.11</span> <em>Packages</em></h3>
+<p>L’installation de base de R est étendue par des <strong>packages</strong>. <strong>Installer</strong> une fois ; <strong>charger</strong> à chaque session avec <code>library()</code>.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"readr"</span>)   <span class="co"># once | une fois</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readr)              <span class="co"># each session | chaque session</span></span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="packages-we�ll-use-today" class="level3" data-number="5.1.12">
+<h3 data-number="5.1.12" class="anchored" data-anchor-id="packages-we�ll-use-today"><span class="header-section-number">5.1.12</span> <em>Packages utilisés aujourd’hui</em></h3>
+<div class="column lang-fr" style="width:50%;">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 60%">
+<col style="width: 40%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Package</th>
+<th>Rôle</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>readr</strong></td>
+<td>Lire des CSV (<code>read_csv()</code>)</td>
+</tr>
+<tr class="even">
+<td><strong>dplyr</strong></td>
+<td>Manipuler les données (<code>filter</code>, <code>select</code>, <code>mutate</code>)</td>
+</tr>
+<tr class="odd">
+<td><strong>ggplot2</strong></td>
+<td>Graphiques</td>
+</tr>
+<tr class="even">
+<td><strong>randomizr</strong></td>
+<td>Assignation au traitement (<code>simple_ra</code>, <code>complete_ra</code>)</td>
+</tr>
+<tr class="odd">
+<td><strong>DeclareDesign</strong></td>
+<td>Déclarer et simuler des designs</td>
+</tr>
+</tbody>
+</table>
+<p>Déjà chargés pour ce support (sauf DeclareDesign, chargé plus tard).</p>
+</div>
+</section>
+<section id="getting-help" class="level3" data-number="5.1.13">
+<h3 data-number="5.1.13" class="anchored" data-anchor-id="getting-help"><span class="header-section-number">5.1.13</span> <em>Obtenir de l’aide</em></h3>
+<p>Lisez les messages d’erreur <strong>de bas en haut</strong> — ils identifient en général l’objet ou le fichier en cause.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>?mean       <span class="co"># help page | page d'aide</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="fu">args</span>(mean)  <span class="co"># function arguments | arguments de la fonction</span></span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="housekeeping" class="level3" data-number="5.1.14">
+<h3 data-number="5.1.14" class="anchored" data-anchor-id="housekeeping"><span class="header-section-number">5.1.14</span> <em>Nettoyage de la session</em></h3>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span>()   <span class="co"># list objects | lister les objets</span></span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "init_lecture_chapter" "ships"                "x"                   </code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="fu">exists</span>(<span class="st">"x"</span>)) {</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rm</span>(x)   <span class="co"># remove x if it exists | supprimer x s'il existe</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span>(<span class="at">list =</span> <span class="fu">ls</span>())   <span class="co"># remove all objects | supprimer tous les objets (attention !)</span></span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+</section>
+<section id="scalars-vectors-and-arithmetic" class="level2" data-number="5.2">
+<h2 data-number="5.2" class="anchored" data-anchor-id="scalars-vectors-and-arithmetic"><span class="header-section-number">5.2</span> <em>Scalaires, vecteurs et arithmétique</em></h2>
+<section id="r-as-a-calculator" class="level3" data-number="5.2.1">
+<h3 data-number="5.2.1" class="anchored" data-anchor-id="r-as-a-calculator"><span class="header-section-number">5.2.1</span> <em>R comme calculatrice</em></h3>
+<p>R fonctionne comme une calculatrice. L’affectation utilise <code>&lt;-</code> (ou <code>=</code>). Les fonctions mathématiques courantes sont intégrées.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>r <span class="ot">&lt;-</span> <span class="dv">3</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>pi <span class="sc">*</span> r<span class="sc">^</span><span class="dv">2</span>   <span class="co"># area of circle | aire du cercle</span></span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 28.27433</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sin</span>(pi <span class="sc">/</span> <span class="dv">4</span>)</span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.7071068</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sqrt</span>(<span class="dv">2</span>)</span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 1.414214</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">log</span>(<span class="dv">2</span>)</span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.6931472</code></pre>
+</div>
+</div>
+</section>
+<section id="creating-vectors" class="level3" data-number="5.2.2">
+<h3 data-number="5.2.2" class="anchored" data-anchor-id="creating-vectors"><span class="header-section-number">5.2.2</span> <em>Créer des vecteurs</em></h3>
+<p>Les vecteurs se créent avec <code>c()</code>. L’arithmétique est <strong>élément par élément</strong>.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">4</span>, <span class="dv">6</span>, <span class="sc">-</span><span class="dv">1</span>)</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">4</span>, <span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">2</span>)</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>x <span class="sc">+</span> y</span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 6 5 8 1</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>x <span class="sc">-</span> y</span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] -2  3  4 -3</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>x <span class="sc">/</span> y</span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1]  0.5  4.0  3.0 -0.5</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>x <span class="sc">*</span> y</span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1]  8  4 12 -2</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>x<span class="sc">^</span><span class="dv">2</span></span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1]  4 16 36  1</code></pre>
+</div>
+</div>
+</section>
+<section id="vector-summaries" class="level3" data-number="5.2.3">
+<h3 data-number="5.2.3" class="anchored" data-anchor-id="vector-summaries"><span class="header-section-number">5.2.3</span> <em>Résumés d’un vecteur</em></h3>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="fu">length</span>(x)</span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 4</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(x)</span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 2.75</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sd</span>(x)</span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 2.986079</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="fu">var</span>(x)</span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 8.916667</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>z <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"A"</span>, <span class="st">"B"</span>, <span class="st">"a"</span>, <span class="st">"c"</span>)</span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>z[<span class="dv">1</span>]</span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "A"</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>z[<span class="dv">2</span><span class="sc">:</span><span class="dv">3</span>]</span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "B" "a"</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="fu">which</span>(z <span class="sc">==</span> <span class="st">"a"</span>)</span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 3</code></pre>
+</div>
+</div>
+</section>
+<section id="factors" class="level3" data-number="5.2.4">
+<h3 data-number="5.2.4" class="anchored" data-anchor-id="factors"><span class="header-section-number">5.2.4</span> <em>Facteurs (variables catégorielles)</em></h3>
+<div class="column lang-fr" style="width:50%;">
+<p>Les variables catégorielles sont des <strong>facteurs</strong>. Utilisez <code>levels()</code> et <code>table()</code> pour les inspecter ; <code>relevel()</code> pour fixer une <strong>catégorie de référence</strong>.</p>
+<p><strong>Attention :</strong> <code>as.numeric()</code> sur un facteur renvoie les <strong>codes</strong> internes, pas les étiquettes.</p>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a>ships<span class="sc">$</span>Type      <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(ships<span class="sc">$</span>Type)</span>
+<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a>ships<span class="sc">$</span>Operation <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(ships<span class="sc">$</span>Operation)</span>
+<span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-4"><a href="#cb45-4" aria-hidden="true" tabindex="-1"></a><span class="fu">levels</span>(ships<span class="sc">$</span>Operation)</span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "60" "75"</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(ships<span class="sc">$</span>Operation)</span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+60 75 
+20 20 </code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb49"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a>ships<span class="sc">$</span>Operation <span class="ot">&lt;-</span> <span class="fu">relevel</span>(ships<span class="sc">$</span>Operation, <span class="at">ref =</span> <span class="st">"75"</span>)</span>
+<span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a><span class="fu">levels</span>(ships<span class="sc">$</span>Operation)</span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "75" "60"</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb51"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="fu">as.numeric</span>(ships<span class="sc">$</span>Operation)[<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>]    <span class="co"># codes, not labels | codes, pas étiquettes</span></span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 2 1 2 1 2</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb53"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a><span class="fu">as.character</span>(ships<span class="sc">$</span>Operation)[<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>]  <span class="co"># labels | étiquettes</span></span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "60" "75" "60" "75" "60"</code></pre>
+</div>
+</div>
+</section>
+</section>
+<section id="data-frames" class="level2" data-number="5.3">
+<h2 data-number="5.3" class="anchored" data-anchor-id="data-frames"><span class="header-section-number">5.3</span> <em>Data frames</em></h2>
+<section id="what-is-a-data-frame" class="level3" data-number="5.3.1">
+<h3 data-number="5.3.1" class="anchored" data-anchor-id="what-is-a-data-frame"><span class="header-section-number">5.3.1</span> <em>Qu’est-ce qu’un data frame ?</em></h3>
+<p>La plupart des données sont des <strong>data frames</strong> : tableaux de lignes (cas) et colonnes (variables). Les colonnes peuvent être de types différents.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb55"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a>height <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">172</span>, <span class="dv">165</span>, <span class="dv">180</span>, <span class="dv">158</span>)</span>
+<span id="cb55-2"><a href="#cb55-2" aria-hidden="true" tabindex="-1"></a>weight <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">70</span>, <span class="dv">60</span>, <span class="dv">82</span>, <span class="dv">55</span>)</span>
+<span id="cb55-3"><a href="#cb55-3" aria-hidden="true" tabindex="-1"></a>sex    <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"F"</span>, <span class="st">"F"</span>, <span class="st">"M"</span>, <span class="st">"F"</span>)</span>
+<span id="cb55-4"><a href="#cb55-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb55-5"><a href="#cb55-5" aria-hidden="true" tabindex="-1"></a>people <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(height, weight, sex)</span>
+<span id="cb55-6"><a href="#cb55-6" aria-hidden="true" tabindex="-1"></a>people</span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  height weight sex
+1    172     70   F
+2    165     60   F
+3    180     82   M
+4    158     55   F</code></pre>
+</div>
+</div>
+</section>
+<section id="accessing-columns" class="level3" data-number="5.3.2">
+<h3 data-number="5.3.2" class="anchored" data-anchor-id="accessing-columns"><span class="header-section-number">5.3.2</span> <em>Accéder aux colonnes</em></h3>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb57"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a>people<span class="sc">$</span>height</span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 172 165 180 158</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb59"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a>people[ , <span class="st">"height"</span>]</span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 172 165 180 158</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb61"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb61-1"><a href="#cb61-1" aria-hidden="true" tabindex="-1"></a>people[ , <span class="dv">1</span>]</span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 172 165 180 158</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb63"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb63-1"><a href="#cb63-1" aria-hidden="true" tabindex="-1"></a>people[<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>, ]</span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  height weight sex
+1    172     70   F
+2    165     60   F</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb65"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb65-1"><a href="#cb65-1" aria-hidden="true" tabindex="-1"></a>people[<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>, <span class="dv">1</span>]</span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 172 165</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb67"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb67-1"><a href="#cb67-1" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(people)</span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "height" "weight" "sex"   </code></pre>
+</div>
+</div>
+</section>
+</section>
+<section id="reading-data" class="level2" data-number="5.4">
+<h2 data-number="5.4" class="anchored" data-anchor-id="reading-data"><span class="header-section-number">5.4</span> <em>Importer des données</em></h2>
+<section id="reading-a-csv" class="level3" data-number="5.4.1">
+<h3 data-number="5.4.1" class="anchored" data-anchor-id="reading-a-csv"><span class="header-section-number">5.4.1</span> <em>Lire un CSV</em></h3>
+<p>Placez le fichier dans le dossier du projet, puis utilisez <code>readr::read_csv()</code> (recommandé) ou <code>read.csv()</code> de base.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb69"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb69-1"><a href="#cb69-1" aria-hidden="true" tabindex="-1"></a>ships <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"data/ships.csv"</span>)</span>
+<span id="cb69-2"><a href="#cb69-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb69-3"><a href="#cb69-3" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(ships)</span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "spec_tbl_df" "tbl_df"      "tbl"         "data.frame" </code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb71"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb71-1"><a href="#cb71-1" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(ships)</span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "Type"         "Construction" "Operation"    "Months"       "Dammage"     </code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb73"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb73-1"><a href="#cb73-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(ships)</span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 5
+  Type  Construction Operation Months Dammage
+  &lt;chr&gt;        &lt;dbl&gt;     &lt;dbl&gt;  &lt;dbl&gt;   &lt;dbl&gt;
+1 A               60        60    127       0
+2 A               60        75     63       0
+3 A               65        60   1095       3
+4 A               65        75   1095       4
+5 A               70        60   1512       6
+6 A               70        75   3353      18</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb75"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb75-1"><a href="#cb75-1" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(ships)</span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Rows: 40
+Columns: 5
+$ Type         &lt;chr&gt; "A", "A", "A", "A", "A", "A", "A", "A", "B", "B", "B", "B…
+$ Construction &lt;dbl&gt; 60, 60, 65, 65, 70, 70, 75, 75, 60, 60, 65, 65, 70, 70, 7…
+$ Operation    &lt;dbl&gt; 60, 75, 60, 75, 60, 75, 60, 75, 60, 75, 60, 75, 60, 75, 6…
+$ Months       &lt;dbl&gt; 127, 63, 1095, 1095, 1512, 3353, 0, 2244, 44882, 17176, 2…
+$ Dammage      &lt;dbl&gt; 0, 0, 3, 4, 6, 18, 0, 11, 39, 29, 58, 53, 12, 44, 0, 18, …</code></pre>
+</div>
+</div>
+</section>
+<section id="writing-data" class="level3" data-number="5.4.2">
+<h3 data-number="5.4.2" class="anchored" data-anchor-id="writing-data"><span class="header-section-number">5.4.2</span> <em>Exporter des données</em></h3>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb77"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb77-1"><a href="#cb77-1" aria-hidden="true" tabindex="-1"></a><span class="fu">write_csv</span>(ships, <span class="st">"data/ships_out.csv"</span>)</span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+</section>
+<section id="summary-statistics" class="level2" data-number="5.5">
+<h2 data-number="5.5" class="anchored" data-anchor-id="summary-statistics"><span class="header-section-number">5.5</span> <em>Statistiques descriptives</em></h2>
+<section id="summary" class="level3" data-number="5.5.1">
+<h3 data-number="5.5.1" class="anchored" data-anchor-id="summary"><span class="header-section-number">5.5.1</span> <em>summary()</em></h3>
+<p><code>summary()</code> donne un aperçu de chaque variable d’un data frame.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb78"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb78-1"><a href="#cb78-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(ships)</span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>     Type            Construction     Operation        Months       
+ Length:40          Min.   :60.00   Min.   :60.0   Min.   :    0.0  
+ Class :character   1st Qu.:63.75   1st Qu.:60.0   1st Qu.:  175.8  
+ Mode  :character   Median :67.50   Median :67.5   Median :  782.0  
+                    Mean   :67.50   Mean   :67.5   Mean   : 4089.3  
+                    3rd Qu.:71.25   3rd Qu.:75.0   3rd Qu.: 2078.5  
+                    Max.   :75.00   Max.   :75.0   Max.   :44882.0  
+    Dammage    
+ Min.   : 0.0  
+ 1st Qu.: 0.0  
+ Median : 2.0  
+ Mean   : 8.9  
+ 3rd Qu.:11.0  
+ Max.   :58.0  </code></pre>
+</div>
+</div>
+</section>
+<section id="numeric-summaries" class="level3" data-number="5.5.2">
+<h3 data-number="5.5.2" class="anchored" data-anchor-id="numeric-summaries"><span class="header-section-number">5.5.2</span> <em>Résumés numériques</em></h3>
+<p>Note : dans ce jeu de données, la colonne s’appelle <code>Dammage</code> (faute d’orthographe dans le fichier d’origine).</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb80"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb80-1"><a href="#cb80-1" aria-hidden="true" tabindex="-1"></a>mean_dam <span class="ot">&lt;-</span> <span class="fu">mean</span>(ships<span class="sc">$</span>Dammage)</span>
+<span id="cb80-2"><a href="#cb80-2" aria-hidden="true" tabindex="-1"></a>sd_dam   <span class="ot">&lt;-</span> <span class="fu">sd</span>(ships<span class="sc">$</span>Dammage)</span>
+<span id="cb80-3"><a href="#cb80-3" aria-hidden="true" tabindex="-1"></a>var_dam  <span class="ot">&lt;-</span> <span class="fu">var</span>(ships<span class="sc">$</span>Dammage)</span>
+<span id="cb80-4"><a href="#cb80-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb80-5"><a href="#cb80-5" aria-hidden="true" tabindex="-1"></a><span class="fu">quantile</span>(ships<span class="sc">$</span>Dammage,</span>
+<span id="cb80-6"><a href="#cb80-6" aria-hidden="true" tabindex="-1"></a>         <span class="at">probs =</span> <span class="fu">c</span>(<span class="fl">0.25</span>, <span class="fl">0.5</span>, <span class="fl">0.75</span>))</span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>25% 50% 75% 
+  0   2  11 </code></pre>
+</div>
+</div>
+</section>
+<section id="covariance-and-correlation" class="level3" data-number="5.5.3">
+<h3 data-number="5.5.3" class="anchored" data-anchor-id="covariance-and-correlation"><span class="header-section-number">5.5.3</span> <em>Covariance et corrélation</em></h3>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb82"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb82-1"><a href="#cb82-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cov</span>(ships<span class="sc">$</span>Months, ships<span class="sc">$</span>Dammage)</span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 115306.1</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb84"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb84-1"><a href="#cb84-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cor</span>(ships<span class="sc">$</span>Months, ships<span class="sc">$</span>Dammage)</span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.8525174</code></pre>
+</div>
+</div>
+</section>
+<section id="tables-and-missing-values" class="level3" data-number="5.5.4">
+<h3 data-number="5.5.4" class="anchored" data-anchor-id="tables-and-missing-values"><span class="header-section-number">5.5.4</span> <em>Tableaux et valeurs manquantes</em></h3>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb86"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb86-1"><a href="#cb86-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(ships<span class="sc">$</span>Type)</span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+A B C D E 
+8 8 8 8 8 </code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb88"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb88-1"><a href="#cb88-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(ships<span class="sc">$</span>Operation, ships<span class="sc">$</span>Type)</span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>    
+     A B C D E
+  60 4 4 4 4 4
+  75 4 4 4 4 4</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb90"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb90-1"><a href="#cb90-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">10</span>, <span class="dv">20</span>, <span class="cn">NA</span>, <span class="dv">30</span>)</span>
+<span id="cb90-2"><a href="#cb90-2" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(x)                 <span class="co"># NA if missing | NA si valeur manquante</span></span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] NA</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb92"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb92-1"><a href="#cb92-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(x, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)   <span class="co"># ignore missing | ignorer les manquantes</span></span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 20</code></pre>
+</div>
+</div>
+</section>
+</section>
+<section id="pipes-and-dplyr" class="level2" data-number="5.6">
+<h2 data-number="5.6" class="anchored" data-anchor-id="pipes-and-dplyr"><span class="header-section-number">5.6</span> <em>Pipes et dplyr</em></h2>
+<section id="the-pipe" class="level3" data-number="5.6.1">
+<h3 data-number="5.6.1" class="anchored" data-anchor-id="the-pipe"><span class="header-section-number">5.6.1</span> <em>Le pipe <code>|&gt;</code></em></h3>
+<p>Le pipe <strong>envoie le résultat de gauche vers la fonction de droite</strong>. Lisez-le de haut en bas comme une suite d’étapes.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb94"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb94-1"><a href="#cb94-1" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>) <span class="sc">|&gt;</span> <span class="fu">mean</span>()</span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 1.5</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb96"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb96-1"><a href="#cb96-1" aria-hidden="true" tabindex="-1"></a>ships <span class="sc">|&gt;</span></span>
+<span id="cb96-2"><a href="#cb96-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Months <span class="sc">&gt;</span> <span class="dv">10</span>) <span class="sc">|&gt;</span></span>
+<span id="cb96-3"><a href="#cb96-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pull</span>(Dammage) <span class="sc">|&gt;</span></span>
+<span id="cb96-4"><a href="#cb96-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mean</span>()</span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 10.47059</code></pre>
+</div>
+</div>
+</section>
+<section id="dplyr-mutate-select-filter" class="level3" data-number="5.6.2">
+<h3 data-number="5.6.2" class="anchored" data-anchor-id="dplyr-mutate-select-filter"><span class="header-section-number">5.6.2</span> <em>dplyr : mutate, select, filter</em></h3>
+<div class="column lang-fr" style="width:50%;">
+<p><strong>dplyr</strong> manipule les data frames avec des verbes que vous utiliserez souvent :</p>
+<ul>
+<li><code>filter()</code> — garder les lignes qui vérifient une condition</li>
+<li><code>select()</code> — garder certaines colonnes</li>
+<li><code>mutate()</code> — créer ou modifier des colonnes</li>
+</ul>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb98"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb98-1"><a href="#cb98-1" aria-hidden="true" tabindex="-1"></a>ships <span class="sc">|&gt;</span></span>
+<span id="cb98-2"><a href="#cb98-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Months <span class="sc">&gt;</span> <span class="dv">10</span>) <span class="sc">|&gt;</span></span>
+<span id="cb98-3"><a href="#cb98-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(Months, Dammage, Type) <span class="sc">|&gt;</span></span>
+<span id="cb98-4"><a href="#cb98-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">damage_per_month =</span> Dammage <span class="sc">/</span> Months) <span class="sc">|&gt;</span></span>
+<span id="cb98-5"><a href="#cb98-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>()</span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 4
+  Months Dammage Type  damage_per_month
+   &lt;dbl&gt;   &lt;dbl&gt; &lt;chr&gt;            &lt;dbl&gt;
+1    127       0 A              0      
+2     63       0 A              0      
+3   1095       3 A              0.00274
+4   1095       4 A              0.00365
+5   1512       6 A              0.00397
+6   3353      18 A              0.00537</code></pre>
+</div>
+</div>
+</section>
+</section>
+<section id="plotting-with-ggplot2" class="level2" data-number="5.7">
+<h2 data-number="5.7" class="anchored" data-anchor-id="plotting-with-ggplot2"><span class="header-section-number">5.7</span> <em>Graphiques avec ggplot2</em></h2>
+<section id="the-ggplot-pattern" class="level3" data-number="5.7.1">
+<h3 data-number="5.7.1" class="anchored" data-anchor-id="the-ggplot-pattern"><span class="header-section-number">5.7.1</span> <em>Le modèle ggplot</em></h3>
+<p>Nous utilisons <strong>ggplot2</strong> (tidyverse). Modèle de base :</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb100"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb100-1"><a href="#cb100-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> ..., <span class="fu">aes</span>(<span class="at">x =</span> ..., <span class="at">y =</span> ...)) <span class="sc">+</span></span>
+<span id="cb100-2"><a href="#cb100-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_...</span>()</span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="scatterplot" class="level3" data-number="5.7.2">
+<h3 data-number="5.7.2" class="anchored" data-anchor-id="scatterplot"><span class="header-section-number">5.7.2</span> <em>Nuage de points</em></h3>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb101"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb101-1"><a href="#cb101-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> ships,</span>
+<span id="cb101-2"><a href="#cb101-2" aria-hidden="true" tabindex="-1"></a>       <span class="fu">aes</span>(<span class="at">x =</span> Months, <span class="at">y =</span> Dammage)) <span class="sc">+</span></span>
+<span id="cb101-3"><a href="#cb101-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">color =</span> <span class="st">"blue"</span>) <span class="sc">+</span></span>
+<span id="cb101-4"><a href="#cb101-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Months"</span>,</span>
+<span id="cb101-5"><a href="#cb101-5" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Damage"</span>,</span>
+<span id="cb101-6"><a href="#cb101-6" aria-hidden="true" tabindex="-1"></a>       <span class="at">title =</span> <span class="st">"Damage vs. months in service"</span>)</span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="L04_R_intro_files/figure-html/unnamed-chunk-27-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="histogram" class="level3" data-number="5.7.3">
+<h3 data-number="5.7.3" class="anchored" data-anchor-id="histogram"><span class="header-section-number">5.7.3</span> <em>Histogramme</em></h3>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb102"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb102-1"><a href="#cb102-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> ships,</span>
+<span id="cb102-2"><a href="#cb102-2" aria-hidden="true" tabindex="-1"></a>       <span class="fu">aes</span>(<span class="at">x =</span> Dammage)) <span class="sc">+</span></span>
+<span id="cb102-3"><a href="#cb102-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">bins =</span> <span class="dv">20</span>,</span>
+<span id="cb102-4"><a href="#cb102-4" aria-hidden="true" tabindex="-1"></a>                 <span class="at">fill =</span> <span class="st">"lightgray"</span>,</span>
+<span id="cb102-5"><a href="#cb102-5" aria-hidden="true" tabindex="-1"></a>                 <span class="at">color =</span> <span class="st">"black"</span>) <span class="sc">+</span></span>
+<span id="cb102-6"><a href="#cb102-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Damage"</span>,</span>
+<span id="cb102-7"><a href="#cb102-7" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Count"</span>,</span>
+<span id="cb102-8"><a href="#cb102-8" aria-hidden="true" tabindex="-1"></a>       <span class="at">title =</span> <span class="st">"Histogram of damage"</span>)</span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="L04_R_intro_files/figure-html/unnamed-chunk-28-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="boxplot-by-group" class="level3" data-number="5.7.4">
+<h3 data-number="5.7.4" class="anchored" data-anchor-id="boxplot-by-group"><span class="header-section-number">5.7.4</span> <em>Boîte à moustaches par groupe</em></h3>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb103"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb103-1"><a href="#cb103-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> ships,</span>
+<span id="cb103-2"><a href="#cb103-2" aria-hidden="true" tabindex="-1"></a>       <span class="fu">aes</span>(<span class="at">x =</span> Type, <span class="at">y =</span> Dammage)) <span class="sc">+</span></span>
+<span id="cb103-3"><a href="#cb103-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>() <span class="sc">+</span></span>
+<span id="cb103-4"><a href="#cb103-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Ship type"</span>,</span>
+<span id="cb103-5"><a href="#cb103-5" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Damage"</span>,</span>
+<span id="cb103-6"><a href="#cb103-6" aria-hidden="true" tabindex="-1"></a>       <span class="at">title =</span> <span class="st">"Damage by ship type"</span>)</span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="L04_R_intro_files/figure-html/unnamed-chunk-29-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="randomization-in-r" class="level2" data-number="5.8">
+<h2 data-number="5.8" class="anchored" data-anchor-id="randomization-in-r"><span class="header-section-number">5.8</span> <em>Randomisation en R</em></h2>
+<section id="base-r-tools" class="level3" data-number="5.8.1">
+<h3 data-number="5.8.1" class="anchored" data-anchor-id="base-r-tools"><span class="header-section-number">5.8.1</span> <em>Outils de base</em></h3>
+<div class="column lang-fr" style="width:50%;">
+<p>Pour les simulations et expériences, vous utiliserez souvent :</p>
+<ul>
+<li><code>set.seed()</code> — rendre les tirages aléatoires <strong>reproductibles</strong></li>
+<li><code>sample()</code> — tirer des étiquettes au hasard (p.&nbsp;ex. assignation au traitement)</li>
+<li><code>rnorm()</code> — tirer selon une loi normale</li>
+<li><code>rbinom()</code> — tirer des résultats 0/1 (pile ou face)</li>
+</ul>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb104"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb104-1"><a href="#cb104-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">42</span>)</span>
+<span id="cb104-2"><a href="#cb104-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb104-3"><a href="#cb104-3" aria-hidden="true" tabindex="-1"></a><span class="fu">sample</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>, <span class="dv">5</span>)                        <span class="co"># random labels | étiquettes aléatoires</span></span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1]  1  5 10  8  2</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb106"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb106-1"><a href="#cb106-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sample</span>(<span class="dv">0</span><span class="sc">:</span><span class="dv">1</span>, <span class="dv">10</span>, <span class="at">replace =</span> <span class="cn">TRUE</span>)        <span class="co"># 0/1 assignments | assignations 0/1</span></span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] 1 1 1 0 1 0 1 0 1 0</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb108"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb108-1"><a href="#cb108-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rnorm</span>(<span class="dv">5</span>)                               <span class="co"># normal draws | tirages normaux</span></span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1]  1.5548955 -1.1876414  0.1518129 -1.0861326  1.6133728</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb110"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb110-1"><a href="#cb110-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rbinom</span>(<span class="dv">10</span>, <span class="at">size =</span> <span class="dv">1</span>, <span class="at">prob =</span> <span class="fl">0.5</span>)       <span class="co"># coin flips | pile ou face</span></span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] 1 0 1 0 1 1 1 0 1 0</code></pre>
+</div>
+</div>
+</section>
+<section id="randomizr-simplera-and-completera" class="level3" data-number="5.8.2">
+<h3 data-number="5.8.2" class="anchored" data-anchor-id="randomizr-simplera-and-completera"><span class="header-section-number">5.8.2</span> <em>randomizr : simple_ra() et complete_ra()</em></h3>
+<div class="column lang-fr" style="width:50%;">
+<p>Le package <strong>randomizr</strong> assigne le traitement dans les expériences :</p>
+<ul>
+<li><code>simple_ra()</code> — assignation aléatoire indépendante (bras pas forcément égaux)</li>
+<li><code>complete_ra()</code> — nombre fixe de traités (p.&nbsp;ex. exactement la moitié)</li>
+</ul>
+<p>Utilisez <code>table()</code> pour voir combien d’unités sont dans chaque bras.</p>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb112"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb112-1"><a href="#cb112-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">42</span>)</span>
+<span id="cb112-2"><a href="#cb112-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb112-3"><a href="#cb112-3" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(<span class="fu">simple_ra</span>(<span class="dv">10</span>))     <span class="co"># counts per arm | effectifs par bras</span></span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+0 1 
+2 8 </code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb114"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb114-1"><a href="#cb114-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(<span class="fu">complete_ra</span>(<span class="dv">10</span>))   <span class="co"># exactly 5 and 5 | exactement 5 et 5</span></span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+0 1 
+5 5 </code></pre>
+</div>
+</div>
+</section>
+<section id="simulation-by-hand" class="level3" data-number="5.8.3">
+<h3 data-number="5.8.3" class="anchored" data-anchor-id="simulation-by-hand"><span class="header-section-number">5.8.3</span> <em>Simulation à la main</em></h3>
+<p>Une petite expérience randomisée en R de base :</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb116"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb116-1"><a href="#cb116-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">42</span>)</span>
+<span id="cb116-2"><a href="#cb116-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb116-3"><a href="#cb116-3" aria-hidden="true" tabindex="-1"></a>N <span class="ot">&lt;-</span> <span class="dv">10</span></span>
+<span id="cb116-4"><a href="#cb116-4" aria-hidden="true" tabindex="-1"></a>Z <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="dv">0</span><span class="sc">:</span><span class="dv">1</span>, N, <span class="at">replace =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb116-5"><a href="#cb116-5" aria-hidden="true" tabindex="-1"></a>Y <span class="ot">&lt;-</span> Z <span class="sc">+</span> <span class="fu">rnorm</span>(N)</span>
+<span id="cb116-6"><a href="#cb116-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb116-7"><a href="#cb116-7" aria-hidden="true" tabindex="-1"></a><span class="fu">lm</span>(Y <span class="sc">~</span> Z) <span class="sc">|&gt;</span> <span class="fu">summary</span>()</span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = Y ~ Z)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-1.7902 -0.7133 -0.4993  0.9030  1.8853 
+
+Coefficients:
+            Estimate Std. Error t value Pr(&gt;|t|)
+(Intercept)   0.6101     0.5629   1.084    0.310
+Z             0.7912     0.7960   0.994    0.349
+
+Residual standard error: 1.259 on 8 degrees of freedom
+Multiple R-squared:  0.1099,    Adjusted R-squared:  -0.001326 
+F-statistic: 0.9881 on 1 and 8 DF,  p-value: 0.3493</code></pre>
+</div>
+</div>
+</section>
+<section id="same-in-declaredesign" class="level3" data-number="5.8.4">
+<h3 data-number="5.8.4" class="anchored" data-anchor-id="same-in-declaredesign"><span class="header-section-number">5.8.4</span> <em>Même chose avec DeclareDesign</em></h3>
+<p>La même conception déclarée avec <strong>DeclareDesign</strong> :</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb118"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb118-1"><a href="#cb118-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(DeclareDesign)</span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb119"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb119-1"><a href="#cb119-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">42</span>)</span>
+<span id="cb119-2"><a href="#cb119-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb119-3"><a href="#cb119-3" aria-hidden="true" tabindex="-1"></a>N <span class="ot">&lt;-</span> <span class="dv">10</span></span>
+<span id="cb119-4"><a href="#cb119-4" aria-hidden="true" tabindex="-1"></a>design <span class="ot">&lt;-</span></span>
+<span id="cb119-5"><a href="#cb119-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">declare_model</span>(N,</span>
+<span id="cb119-6"><a href="#cb119-6" aria-hidden="true" tabindex="-1"></a>                <span class="at">Z =</span> <span class="fu">sample</span>(<span class="dv">0</span><span class="sc">:</span><span class="dv">1</span>, N, <span class="at">replace =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb119-7"><a href="#cb119-7" aria-hidden="true" tabindex="-1"></a>                <span class="at">Y =</span> Z <span class="sc">+</span> <span class="fu">rnorm</span>(N)) <span class="sc">+</span></span>
+<span id="cb119-8"><a href="#cb119-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">declare_inquiry</span>(<span class="at">ATE =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb119-9"><a href="#cb119-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">declare_estimator</span>(Y <span class="sc">~</span> Z)</span>
+<span id="cb119-10"><a href="#cb119-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb119-11"><a href="#cb119-11" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> <span class="fu">draw_data</span>(design)</span>
+<span id="cb119-12"><a href="#cb119-12" aria-hidden="true" tabindex="-1"></a><span class="fu">lm</span>(Y <span class="sc">~</span> Z, <span class="at">data =</span> dat) <span class="sc">|&gt;</span> <span class="fu">summary</span>()</span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = Y ~ Z, data = dat)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-1.7902 -0.7133 -0.4993  0.9030  1.8853 
+
+Coefficients:
+            Estimate Std. Error t value Pr(&gt;|t|)
+(Intercept)   0.6101     0.5629   1.084    0.310
+Z             0.7912     0.7960   0.994    0.349
+
+Residual standard error: 1.259 on 8 degrees of freedom
+Multiple R-squared:  0.1099,    Adjusted R-squared:  -0.001326 
+F-statistic: 0.9881 on 1 and 8 DF,  p-value: 0.3493</code></pre>
+</div>
+</div>
+</section>
+</section>
+<section id="wrap-up" class="level2" data-number="5.9">
+<h2 data-number="5.9" class="anchored" data-anchor-id="wrap-up"><span class="header-section-number">5.9</span> <em>Pour finir</em></h2>
+<section id="mini-workflow" class="level3" data-number="5.9.1">
+<h3 data-number="5.9.1" class="anchored" data-anchor-id="mini-workflow"><span class="header-section-number">5.9.1</span> <em>Mini parcours</em></h3>
+<ol type="1">
+<li>Ouvrir le projet RStudio</li>
+<li>Créer un script <code>intro.R</code></li>
+<li>Importer les données</li>
+<li>Inspecter et résumer</li>
+<li>Manipuler avec les pipes, graphiquer avec ggplot, simuler avec la randomisation</li>
+</ol>
+</section>
+<section id="mini-workflow-code" class="level3" data-number="5.9.2">
+<h3 data-number="5.9.2" class="anchored" data-anchor-id="mini-workflow-code"><span class="header-section-number">5.9.2</span> <em>Mini parcours (code)</em></h3>
+<p>Récapitulatif : nous relisons les données exprès — un script doit pouvoir s’exécuter du début à la fin.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb121"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb121-1"><a href="#cb121-1" aria-hidden="true" tabindex="-1"></a>ships <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"data/ships.csv"</span>)   <span class="co"># reload from scratch | recharger depuis le début</span></span>
+<span id="cb121-2"><a href="#cb121-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb121-3"><a href="#cb121-3" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(ships)</span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>spc_tbl_ [40 × 5] (S3: spec_tbl_df/tbl_df/tbl/data.frame)
+ $ Type        : chr [1:40] "A" "A" "A" "A" ...
+ $ Construction: num [1:40] 60 60 65 65 70 70 75 75 60 60 ...
+ $ Operation   : num [1:40] 60 75 60 75 60 75 60 75 60 75 ...
+ $ Months      : num [1:40] 127 63 1095 1095 1512 ...
+ $ Dammage     : num [1:40] 0 0 3 4 6 18 0 11 39 29 ...
+ - attr(*, "spec")=
+  .. cols(
+  ..   Type = col_character(),
+  ..   Construction = col_double(),
+  ..   Operation = col_double(),
+  ..   Months = col_double(),
+  ..   Dammage = col_double()
+  .. )
+ - attr(*, "problems")=&lt;externalptr&gt; </code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb123"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb123-1"><a href="#cb123-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(ships<span class="sc">$</span>Dammage)</span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+    0.0     0.0     2.0     8.9    11.0    58.0 </code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb125"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb125-1"><a href="#cb125-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> ships,</span>
+<span id="cb125-2"><a href="#cb125-2" aria-hidden="true" tabindex="-1"></a>       <span class="fu">aes</span>(<span class="at">x =</span> Months, <span class="at">y =</span> Dammage)) <span class="sc">+</span></span>
+<span id="cb125-3"><a href="#cb125-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">color =</span> <span class="st">"darkred"</span>) <span class="sc">+</span></span>
+<span id="cb125-4"><a href="#cb125-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Months in service"</span>,</span>
+<span id="cb125-5"><a href="#cb125-5" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Damage"</span>,</span>
+<span id="cb125-6"><a href="#cb125-6" aria-hidden="true" tabindex="-1"></a>       <span class="at">title =</span> <span class="st">"Damage vs. months in service"</span>)</span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="L04_R_intro_files/figure-html/unnamed-chunk-35-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="let�s-go" class="level2" data-number="5.10">
+<h2 data-number="5.10" class="anchored" data-anchor-id="let�s-go"><span class="header-section-number">5.10</span> <em>Allons-y</em></h2>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copié");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copié");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../../chapters/fr/L03_randomization_1.html" class="pagination-link" aria-label="C03 — Randomisation 1">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">C03 — Randomisation 1</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../../chapters/fr/L05_randomization_2.html" class="pagination-link" aria-label="C05 — Randomisation 2">
+        <span class="nav-page-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">C05 — Randomisation 2</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

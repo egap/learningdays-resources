@@ -1,0 +1,1509 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="fr" xml:lang="fr"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.27">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>8&nbsp; C07 — Estimation 1 – EGAP Learning Days Abidjan 2026</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<link href="../../chapters/fr/L08_estimation_2.html" rel="next">
+<link href="../../chapters/fr/L06_design_intro.html" rel="prev">
+<script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-ed96de9b727972fe78a7b5d16c58bf87.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-d9ea66fcd6c317012447f26e9c021348.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "Pas de résultats",
+    "search-matching-documents-text": "documents trouvés",
+    "search-copy-link-title": "Copier le lien vers la recherche",
+    "search-hide-matches-text": "Cacher les correspondances additionnelles",
+    "search-more-match-text": "correspondance de plus dans ce document",
+    "search-more-matches-text": "correspondances de plus dans ce document",
+    "search-clear-button-title": "Effacer",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Annuler",
+    "search-submit-button-title": "Envoyer",
+    "search-label": "Recherche"
+  }
+}</script>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="../../assets/abidjan-book.css">
+</head>
+
+<body class="nav-sidebar floating nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">EGAP Learning Days Abidjan 2026</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Recherche"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Basculer la navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="https://egap.github.io/learningdays-resources/abidjan_2026/index.html"> 
+<span class="menu-text">Toutes les ressources</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Basculer la barre latérale" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../chapters/fr/L01_why-experiment.html">Cours</a></li><li class="breadcrumb-item"><a href="../../chapters/fr/L07_estimation_1.html"><span class="chapter-title">C07 — Estimation 1</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Basculer la barre latérale" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-title">Home</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Cours</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Basculer la section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/fr/L01_why-experiment.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">C01 — Pourquoi expérimenter ?</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/fr/L02_causalinference.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">C02 — Inférence causale</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/fr/L03_randomization_1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">C03 — Randomisation 1</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/fr/L04_R_intro.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">C04 — Introduction à R</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/fr/L05_randomization_2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">C05 — Randomisation 2</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/fr/L06_design_intro.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">C06 — Design et diagnostic</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/fr/L07_estimation_1.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">C07 — Estimation 1</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/fr/L08_estimation_2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">C08 — Estimation 2</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/fr/L09_power_intro.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">C09 — Puissance et diagnostic</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/fr/L10_ethics.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">C10 — Éthique et expériences</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/fr/L11_presenting.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">C11 — Présenter les résultats</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/fr/L12_threats.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">C12 — Menaces à la validité</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/fr/L13_lifecycle.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">C13 — Cycle de vie d’une expérience</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/fr/L14_grants.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">C14 — Demandes de subvention</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+ <span class="menu-text">Exercices et quiz</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Basculer la section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/fr/E01_experiment_slides.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Ex01 — Expérience en classe</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/fr/E02_R_exercises.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Ex02 — Exercices R</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/fr/E03_projects.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Ex03 — Projets</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/fr/quiz-tuesday.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Quiz — jour 2</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/fr/quiz-wednesday.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Quiz — jour 3</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/fr/quiz-thursday.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">Quiz — jour 4</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active" data-toc-expanded="2">
+    <h2 id="toc-title">Table des matières</h2>
+   
+  <ul>
+  <li><a href="#estimation-and-hypothesis-testing" id="toc-estimation-and-hypothesis-testing" class="nav-link active" data-scroll-target="#estimation-and-hypothesis-testing"><span class="header-section-number">8.1</span> <em>L’estimation et les tests d’hypothèses</em></a></li>
+  <li><a href="#estimation" id="toc-estimation" class="nav-link" data-scroll-target="#estimation"><span class="header-section-number">8.2</span> <em>L’estimation</em></a>
+  <ul class="collapse">
+  <li><a href="#estimation-2" id="toc-estimation-2" class="nav-link" data-scroll-target="#estimation-2"><span class="header-section-number">8.2.1</span> <em>L’estimation</em></a></li>
+  <li><a href="#estimators" id="toc-estimators" class="nav-link" data-scroll-target="#estimators"><span class="header-section-number">8.2.2</span> <em>Estimateurs</em></a></li>
+  <li><a href="#estimators-2" id="toc-estimators-2" class="nav-link" data-scroll-target="#estimators-2"><span class="header-section-number">8.2.3</span> <em>Estimateurs</em></a></li>
+  <li><a href="#estimators-3" id="toc-estimators-3" class="nav-link" data-scroll-target="#estimators-3"><span class="header-section-number">8.2.4</span> <em>Estimateurs</em></a></li>
+  <li><a href="#general-principle-analyze-as-you-randomize" id="toc-general-principle-analyze-as-you-randomize" class="nav-link" data-scroll-target="#general-principle-analyze-as-you-randomize"><span class="header-section-number">8.2.5</span> <em>Un principe général : analysez comme vous randomisez</em></a></li>
+  <li><a href="#estimator-1-difference-in-means" id="toc-estimator-1-difference-in-means" class="nav-link" data-scroll-target="#estimator-1-difference-in-means"><span class="header-section-number">8.2.6</span> <em>Estimateur 1 : la différence des moyennes</em></a></li>
+  <li><a href="#estimator-1-difference-in-means-2" id="toc-estimator-1-difference-in-means-2" class="nav-link" data-scroll-target="#estimator-1-difference-in-means-2"><span class="header-section-number">8.2.7</span> <em>Estimateur 1 : la différence des moyennes</em></a></li>
+  <li><a href="#estimator-1-difference-in-means-3" id="toc-estimator-1-difference-in-means-3" class="nav-link" data-scroll-target="#estimator-1-difference-in-means-3"><span class="header-section-number">8.2.8</span> <em>Estimateur 1 : la différence des moyennes</em></a></li>
+  <li><a href="#estimator-1-difference-in-means-4" id="toc-estimator-1-difference-in-means-4" class="nav-link" data-scroll-target="#estimator-1-difference-in-means-4"><span class="header-section-number">8.2.9</span> <em>Estimateur 1 : la différence des moyennes</em></a></li>
+  <li><a href="#estimator-2-linear-regression" id="toc-estimator-2-linear-regression" class="nav-link" data-scroll-target="#estimator-2-linear-regression"><span class="header-section-number">8.2.10</span> <em>Estimateur 2 : la régression linéaire</em></a></li>
+  <li><a href="#estimator-2-linear-regression-2" id="toc-estimator-2-linear-regression-2" class="nav-link" data-scroll-target="#estimator-2-linear-regression-2"><span class="header-section-number">8.2.11</span> <em>Estimateur 2 : la régression linéaire</em></a></li>
+  <li><a href="#estimator-2-linear-regression-3" id="toc-estimator-2-linear-regression-3" class="nav-link" data-scroll-target="#estimator-2-linear-regression-3"><span class="header-section-number">8.2.12</span> <em>Estimateur 2 : la régression linéaire</em></a></li>
+  </ul></li>
+  <li><a href="#hypothesis-testing" id="toc-hypothesis-testing" class="nav-link" data-scroll-target="#hypothesis-testing"><span class="header-section-number">8.3</span> <em>Les tests d’hypothèses</em></a>
+  <ul class="collapse">
+  <li><a href="#hypothesis-a-woman-is-pregnant" id="toc-hypothesis-a-woman-is-pregnant" class="nav-link" data-scroll-target="#hypothesis-a-woman-is-pregnant"><span class="header-section-number">8.3.1</span> <em>Hypothèse : une femme est enceinte</em></a></li>
+  <li><a href="#truth-the-woman-is-pregnant" id="toc-truth-the-woman-is-pregnant" class="nav-link" data-scroll-target="#truth-the-woman-is-pregnant"><span class="header-section-number">8.3.2</span> <em>La vérité : la femme est enceinte</em></a></li>
+  <li><a href="#type-i-and-type-ii-errors" id="toc-type-i-and-type-ii-errors" class="nav-link" data-scroll-target="#type-i-and-type-ii-errors"><span class="header-section-number">8.3.3</span> <em>Erreurs de type I et de type II</em></a></li>
+  <li><a href="#hypothesis-testing-2" id="toc-hypothesis-testing-2" class="nav-link" data-scroll-target="#hypothesis-testing-2"><span class="header-section-number">8.3.4</span> <em>Les tests d’hypothèses</em></a></li>
+  <li><a href="#hypothesis-testing-3" id="toc-hypothesis-testing-3" class="nav-link" data-scroll-target="#hypothesis-testing-3"><span class="header-section-number">8.3.5</span> <em>Les tests d’hypothèses</em></a></li>
+  <li><a href="#hypothesis-testing-4" id="toc-hypothesis-testing-4" class="nav-link" data-scroll-target="#hypothesis-testing-4"><span class="header-section-number">8.3.6</span> <em>Les tests d’hypothèses</em></a></li>
+  <li><a href="#hypothesis-testing-5" id="toc-hypothesis-testing-5" class="nav-link" data-scroll-target="#hypothesis-testing-5"><span class="header-section-number">8.3.7</span> <em>Les tests d’hypothèses</em></a></li>
+  <li><a href="#hypothesis-testing-6" id="toc-hypothesis-testing-6" class="nav-link" data-scroll-target="#hypothesis-testing-6"><span class="header-section-number">8.3.8</span> <em>Les tests d’hypothèses</em></a></li>
+  <li><a href="#hypothesis-testing-7" id="toc-hypothesis-testing-7" class="nav-link" data-scroll-target="#hypothesis-testing-7"><span class="header-section-number">8.3.9</span> <em>Les tests d’hypothèses</em></a></li>
+  <li><a href="#hypothesis-testing-8" id="toc-hypothesis-testing-8" class="nav-link" data-scroll-target="#hypothesis-testing-8"><span class="header-section-number">8.3.10</span> <em>Les tests d’hypothèses</em></a></li>
+  <li><a href="#hypothesis-testing-9" id="toc-hypothesis-testing-9" class="nav-link" data-scroll-target="#hypothesis-testing-9"><span class="header-section-number">8.3.11</span> <em>Les tests d’hypothèses</em></a></li>
+  <li><a href="#hypothesis-testing-10" id="toc-hypothesis-testing-10" class="nav-link" data-scroll-target="#hypothesis-testing-10"><span class="header-section-number">8.3.12</span> <em>Les tests d’hypothèses</em></a></li>
+  <li><a href="#p-value" id="toc-p-value" class="nav-link" data-scroll-target="#p-value"><span class="header-section-number">8.3.13</span> <em><span class="math inline">\(p\)</span>-valeur</em></a></li>
+  <li><a href="#hypothesis-testing-with-linear-regression" id="toc-hypothesis-testing-with-linear-regression" class="nav-link" data-scroll-target="#hypothesis-testing-with-linear-regression"><span class="header-section-number">8.3.14</span> <em>Les tests d’hypothèses avec la régression linéaire</em></a></li>
+  <li><a href="#hypothesis-testing-with-linear-regression-2" id="toc-hypothesis-testing-with-linear-regression-2" class="nav-link" data-scroll-target="#hypothesis-testing-with-linear-regression-2"><span class="header-section-number">8.3.15</span> <em>Les tests d’hypothèses avec la régression linéaire</em></a></li>
+  <li><a href="#hypothesis-testing-with-linear-regression-3" id="toc-hypothesis-testing-with-linear-regression-3" class="nav-link" data-scroll-target="#hypothesis-testing-with-linear-regression-3"><span class="header-section-number">8.3.16</span> <em>Les tests d’hypothèses avec la régression linéaire</em></a></li>
+  <li><a href="#hypothesis-testing-with-linear-regression-4" id="toc-hypothesis-testing-with-linear-regression-4" class="nav-link" data-scroll-target="#hypothesis-testing-with-linear-regression-4"><span class="header-section-number">8.3.17</span> <em>Les tests d’hypothèses avec la régression linéaire</em></a></li>
+  </ul></li>
+  <li><a href="#covariate-adjustment" id="toc-covariate-adjustment" class="nav-link" data-scroll-target="#covariate-adjustment"><span class="header-section-number">8.4</span> <em>Ajustement des covariables</em></a>
+  <ul class="collapse">
+  <li><a href="#estimator-linear-regression-with-covariates" id="toc-estimator-linear-regression-with-covariates" class="nav-link" data-scroll-target="#estimator-linear-regression-with-covariates"><span class="header-section-number">8.4.1</span> <em>Estimateur : la régression linéaire avec des covariables</em></a></li>
+  <li><a href="#estimator-linear-regression-with-covariates-2" id="toc-estimator-linear-regression-with-covariates-2" class="nav-link" data-scroll-target="#estimator-linear-regression-with-covariates-2"><span class="header-section-number">8.4.2</span> <em>Estimateur : la régression linéaire avec des covariables</em></a></li>
+  <li><a href="#estimator-linear-regression-with-covariates-3" id="toc-estimator-linear-regression-with-covariates-3" class="nav-link" data-scroll-target="#estimator-linear-regression-with-covariates-3"><span class="header-section-number">8.4.3</span> <em>Estimateur : la régression linéaire avec des covariables</em></a></li>
+  <li><a href="#estimator-linear-regression-with-covariates-4" id="toc-estimator-linear-regression-with-covariates-4" class="nav-link" data-scroll-target="#estimator-linear-regression-with-covariates-4"><span class="header-section-number">8.4.4</span> <em>Estimateur : la régression linéaire avec des covariables</em></a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../chapters/fr/L01_why-experiment.html">Cours</a></li><li class="breadcrumb-item"><a href="../../chapters/fr/L07_estimation_1.html"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">C07 — Estimation 1</span></a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">C07 — Estimation 1</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="estimation-and-hypothesis-testing" class="level2" data-number="8.1">
+<h2 data-number="8.1" class="anchored" data-anchor-id="estimation-and-hypothesis-testing"><span class="header-section-number">8.1</span> <em>L’estimation et les tests d’hypothèses</em></h2>
+<ul>
+<li>Le traitement a été assigné de façon aléatoire et nous avons mesuré les résultats.</li>
+<li>Nous utilisons maintenant ces données pour :
+<ul>
+<li><strong>Estimation</strong> : produire une estimation du véritable effet du traitement</li>
+<li><strong>Test d’hypothèse</strong> : évaluer la cohérence des résultats avec l’absence d’effet</li>
+</ul></li>
+</ul>
+</section>
+<section id="estimation" class="level2" data-number="8.2">
+<h2 data-number="8.2" class="anchored" data-anchor-id="estimation"><span class="header-section-number">8.2</span> <em>L’estimation</em></h2>
+<section id="estimation-2" class="level3" data-number="8.2.1">
+<h3 data-number="8.2.1" class="anchored" data-anchor-id="estimation-2"><span class="header-section-number">8.2.1</span> <em>L’estimation</em></h3>
+<ul>
+<li>Rappelez qu’il y a un <em>vrai</em> ATE, mais nous ne pouvons pas l’observer à cause du problème fondamental de l’inférence causale. C’est notre cible, notre <strong>paramètre</strong>.
+<ul>
+<li>Par exemple, l’ATE.</li>
+</ul></li>
+<li>Nous utilisons nos données pour faire une supposition éclairée, notre <strong>estimation</strong>.
+<ul>
+<li><span class="math inline">\(\widehat{ATE}\)</span></li>
+</ul></li>
+<li>Si nous renouvelons l’expérience, différentes unités peuvent être assignées au traitement, et notre estimation sera probablement différente.</li>
+</ul>
+</section>
+<section id="estimators" class="level3" data-number="8.2.2">
+<h3 data-number="8.2.2" class="anchored" data-anchor-id="estimators"><span class="header-section-number">8.2.2</span> <em>Estimateurs</em></h3>
+<ul>
+<li><strong>L’estimateur</strong> est comment on devine la valeur du paramètre à partir des données dont on dispose (les données observées).</li>
+<li>Il y a plusieurs estimateurs possibles pour le même paramètre.</li>
+<li>Nous présenterons plusieurs estimateurs couramment utilisés pour analyser des expériences.</li>
+</ul>
+</section>
+<section id="estimators-2" class="level3" data-number="8.2.3">
+<h3 data-number="8.2.3" class="anchored" data-anchor-id="estimators-2"><span class="header-section-number">8.2.3</span> <em>Estimateurs</em></h3>
+<ul>
+<li>En général, nous préférons les estimateurs qui sont :
+<ul>
+<li><strong>Non biaisés</strong> : si vous exécutez l’expérience plusieurs fois, l’estimation peut parfois être trop élevée ou trop faible, mais elle sera correcte en moyenne.</li>
+<li><strong>Précis</strong> : les estimations ne varient pas beaucoup d’une exécution de l’expérience à l’autre.</li>
+</ul></li>
+<li>Le meilleur : non biaisé et précis.</li>
+</ul>
+</section>
+<section id="estimators-3" class="level3" data-number="8.2.4">
+<h3 data-number="8.2.4" class="anchored" data-anchor-id="estimators-3"><span class="header-section-number">8.2.4</span> <em>Estimateurs</em></h3>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../../Images/bullseye.png" class="img-fluid quarto-figure quarto-figure-center figure-img"></p>
+</figure>
+</div>
+</section>
+<section id="general-principle-analyze-as-you-randomize" class="level3" data-number="8.2.5">
+<h3 data-number="8.2.5" class="anchored" data-anchor-id="general-principle-analyze-as-you-randomize"><span class="header-section-number">8.2.5</span> <em>Un principe général : analysez comme vous randomisez</em></h3>
+<ul>
+<li>Cela signifie suivre la conception de l’expérience.</li>
+<li>Comparez les groupes créés par l’assignation aléatoire.</li>
+</ul>
+</section>
+<section id="estimator-1-difference-in-means" class="level3" data-number="8.2.6">
+<h3 data-number="8.2.6" class="anchored" data-anchor-id="estimator-1-difference-in-means"><span class="header-section-number">8.2.6</span> <em>Estimateur 1 : la différence des moyennes</em></h3>
+<ul>
+<li>Nous avons une expérience simple :
+<ul>
+<li>Assignation aléatoire au traitement ou au contrôle.</li>
+<li>Toutes les unités ont la même probabilité de recevoir le traitement.</li>
+<li>Notre <em>paramètre</em> est l’ATE.</li>
+</ul></li>
+<li>L’estimateur le plus simple de l’ATE est <strong>la différence des moyennes</strong> : soustrayez la moyenne des unités assignées au contrôle de la moyenne des unités assignées au traitement.</li>
+</ul>
+</section>
+<section id="estimator-1-difference-in-means-2" class="level3" data-number="8.2.7">
+<h3 data-number="8.2.7" class="anchored" data-anchor-id="estimator-1-difference-in-means-2"><span class="header-section-number">8.2.7</span> <em>Estimateur 1 : la différence des moyennes</em></h3>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../../Images/diff-in-means.png" class="img-fluid quarto-figure quarto-figure-center figure-img"></p>
+</figure>
+</div>
+</section>
+<section id="estimator-1-difference-in-means-3" class="level3" data-number="8.2.8">
+<h3 data-number="8.2.8" class="anchored" data-anchor-id="estimator-1-difference-in-means-3"><span class="header-section-number">8.2.8</span> <em>Estimateur 1 : la différence des moyennes</em></h3>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: center;">Unit</th>
+<th style="text-align: center;"><span class="math inline">\(Z_i\)</span></th>
+<th style="text-align: center;"><span class="math inline">\(Y_i\)</span></th>
+<th style="text-align: center;"><span class="math inline">\(Y_i(1)\)</span></th>
+<th style="text-align: center;"><span class="math inline">\(Y_i(0)\)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">a</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">5</td>
+<td style="text-align: center;">5</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">b</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">4</td>
+<td style="text-align: center;">4</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">c</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">2</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">d</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">e</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">f</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;">1</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">g</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">h</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">2</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;">2</td>
+</tr>
+</tbody>
+</table>
+<div class="fragment">
+<p><span class="math display">\[\frac{5+4+2+1}{4} - \frac{1+1+0+2}{4} = 3 - 1 = 2\]</span></p>
+</div>
+</section>
+<section id="estimator-1-difference-in-means-4" class="level3" data-number="8.2.9">
+<h3 data-number="8.2.9" class="anchored" data-anchor-id="estimator-1-difference-in-means-4"><span class="header-section-number">8.2.9</span> <em>Estimateur 1 : la différence des moyennes</em></h3>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(Y[treatment<span class="sc">==</span><span class="dv">1</span>]) <span class="sc">-</span> <span class="fu">mean</span>(Y[treatment<span class="sc">==</span><span class="dv">0</span>])</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(estimatr)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">difference_in_means</span>(Y <span class="sc">~</span> treatment)</span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="estimator-2-linear-regression" class="level3" data-number="8.2.10">
+<h3 data-number="8.2.10" class="anchored" data-anchor-id="estimator-2-linear-regression"><span class="header-section-number">8.2.10</span> <em>Estimateur 2 : la régression linéaire</em></h3>
+<p><span class="math display">\[Y_i = \beta_0 + \beta_1 Z_i + e_i\]</span></p>
+<ul>
+<li>Pour cette expérience simple, nous pouvons également utiliser la régression linéaire. Elle produira exactement la même estimation (<span class="math inline">\(\hat{\beta_1}\)</span>) de l’ATE que l’estimateur de la différence des moyennes.</li>
+<li><span class="math inline">\(\hat{\beta_0}\)</span> est le résultat moyen des unités assignées au contrôle.</li>
+</ul>
+</section>
+<section id="estimator-2-linear-regression-2" class="level3" data-number="8.2.11">
+<h3 data-number="8.2.11" class="anchored" data-anchor-id="estimator-2-linear-regression-2"><span class="header-section-number">8.2.11</span> <em>Estimateur 2 : la régression linéaire</em></h3>
+<div class="columns">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../../Images/regression1.png" class="img-fluid quarto-figure quarto-figure-center figure-img"></p>
+</figure>
+</div><p><span class="math display">\[Y_i = {\beta_0} + {\beta_1} Z_i + e_i\]</span></p>
+</div>
+</section>
+<section id="estimator-2-linear-regression-3" class="level3" data-number="8.2.12">
+<h3 data-number="8.2.12" class="anchored" data-anchor-id="estimator-2-linear-regression-3"><span class="header-section-number">8.2.12</span> <em>Estimateur 2 : la régression linéaire</em></h3>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">lm</span>(Y <span class="sc">~</span> treatment)</span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+</section>
+<section id="hypothesis-testing" class="level2" data-number="8.3">
+<h2 data-number="8.3" class="anchored" data-anchor-id="hypothesis-testing"><span class="header-section-number">8.3</span> <em>Les tests d’hypothèses</em></h2>
+<section id="hypothesis-a-woman-is-pregnant" class="level3" data-number="8.3.1">
+<h3 data-number="8.3.1" class="anchored" data-anchor-id="hypothesis-a-woman-is-pregnant"><span class="header-section-number">8.3.1</span> <em>Hypothèse : une femme est enceinte</em></h3>
+</section>
+<section id="truth-the-woman-is-pregnant" class="level3" data-number="8.3.2">
+<h3 data-number="8.3.2" class="anchored" data-anchor-id="truth-the-woman-is-pregnant"><span class="header-section-number">8.3.2</span> <em>La vérité : la femme est enceinte</em></h3>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../../Images/preg4.jpg" class="img-fluid quarto-figure quarto-figure-center figure-img"></p>
+</figure>
+</div>
+</section>
+<section id="type-i-and-type-ii-errors" class="level3 compact-table" data-number="8.3.3">
+<h3 class="compact-table anchored" data-number="8.3.3" data-anchor-id="type-i-and-type-ii-errors"><span class="header-section-number">8.3.3</span> <em>Erreurs de type I et de type II</em></h3>
+<div class="column lang-fr" style="width:50%;">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;"></th>
+<th style="text-align: left;">Rejeter <span class="math inline">\(H_0\)</span></th>
+<th style="text-align: left;">Ne pas rejeter <span class="math inline">\(H_0\)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><strong><span class="math inline">\(H_0\)</span> vraie</strong> (aucun effet)</td>
+<td style="text-align: left;">Erreur de type I (<span class="math inline">\(\alpha\)</span>)</td>
+<td style="text-align: left;">Correct</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><strong><span class="math inline">\(H_0\)</span> fausse</strong> (effet existant)</td>
+<td style="text-align: left;">Correct (puissance <span class="math inline">\(= 1-\beta\)</span>)</td>
+<td style="text-align: left;">Erreur de type II (<span class="math inline">\(\beta\)</span>)</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><strong>Erreur de type I</strong> (<span class="math inline">\(\alpha\)</span>) : rejeter <span class="math inline">\(H_0\)</span> alors que <span class="math inline">\(H_0\)</span> est vraie — un faux positif.</li>
+<li><strong>Erreur de type II</strong> (<span class="math inline">\(\beta\)</span>) : ne pas rejeter <span class="math inline">\(H_0\)</span> alors que <span class="math inline">\(H_0\)</span> est fausse — un faux négatif.</li>
+<li><strong>Puissance</strong> <span class="math inline">\(= 1 - \beta\)</span> : probabilité de rejeter correctement <span class="math inline">\(H_0\)</span> lorsqu’il y a un effet.</li>
+</ul>
+</div>
+</section>
+<section id="hypothesis-testing-2" class="level3" data-number="8.3.4">
+<h3 data-number="8.3.4" class="anchored" data-anchor-id="hypothesis-testing-2"><span class="header-section-number">8.3.4</span> <em>Les tests d’hypothèses</em></h3>
+<ul>
+<li>Supposons qu’un médicament n’ait aucun effet sur la taille. Mais toutes les personnes de petite taille ont été assignées au médicament et les personnes de grande taille au contrôle.</li>
+<li>Si on utilise la différence de moyennes, on dirait que le médicament a rendu les gens plus petits !</li>
+</ul>
+</section>
+<section id="hypothesis-testing-3" class="level3" data-number="8.3.5">
+<h3 data-number="8.3.5" class="anchored" data-anchor-id="hypothesis-testing-3"><span class="header-section-number">8.3.5</span> <em>Les tests d’hypothèses</em></h3>
+<ul>
+<li>Avertissement : on peut obtenir une estimation non nulle même s’il n’y a aucun effet !</li>
+<li>Sommes-nous convaincus que notre estimation non nulle reflète un paramètre véritablement non nul (la vérité) ?</li>
+</ul>
+</section>
+<section id="hypothesis-testing-4" class="level3" data-number="8.3.6">
+<h3 data-number="8.3.6" class="anchored" data-anchor-id="hypothesis-testing-4"><span class="header-section-number">8.3.6</span> <em>Les tests d’hypothèses</em></h3>
+<ul>
+<li><strong>Hypothèse</strong> : une affirmation sur le monde que nous évaluerons à l’aide de données.
+<ul>
+<li>Une bonne hypothèse est spécifique et réfutable.</li>
+</ul></li>
+<li>Commencer par une <strong>hypothèse nulle</strong>, une affirmation que nous pourrions rejeter lorsque nous examinons les données. Nous utiliserons l’hypothèse nulle que le vrai ATE est 0.</li>
+<li>Mais rappelez-vous que nous pouvons obtenir un <span class="math inline">\(\widehat{ATE}\)</span> différent de 0 par hasard.</li>
+</ul>
+</section>
+<section id="hypothesis-testing-5" class="level3" data-number="8.3.7">
+<h3 data-number="8.3.7" class="anchored" data-anchor-id="hypothesis-testing-5"><span class="header-section-number">8.3.7</span> <em>Les tests d’hypothèses</em></h3>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../../Images/HT1-null.png" class="img-fluid quarto-figure quarto-figure-center figure-img"></p>
+</figure>
+</div>
+<ul>
+<li>Distribution des <span class="math inline">\(\widehat{ATE}\)</span> possibles si l’hypothèse nulle est vraie</li>
+</ul>
+</section>
+<section id="hypothesis-testing-6" class="level3" data-number="8.3.8">
+<h3 data-number="8.3.8" class="anchored" data-anchor-id="hypothesis-testing-6"><span class="header-section-number">8.3.8</span> <em>Les tests d’hypothèses</em></h3>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../../Images/HT2-null5percent.png" class="img-fluid quarto-figure quarto-figure-center figure-img"></p>
+</figure>
+</div>
+<ul>
+<li>Régions de rejet (blanche) et de non-rejet (jaune) pour une hypothèse alternative bilatérale à <span class="math inline">\(\alpha=0{,}05\)</span></li>
+</ul>
+</section>
+<section id="hypothesis-testing-7" class="level3" data-number="8.3.9">
+<h3 data-number="8.3.9" class="anchored" data-anchor-id="hypothesis-testing-7"><span class="header-section-number">8.3.9</span> <em>Les tests d’hypothèses</em></h3>
+<ul>
+<li><span class="math inline">\(\alpha\)</span> est une valeur que vous choisissez / fixez <strong>avant</strong> le test d’hypothèse. Il s’agit souvent de 0,05 ou de 5 % dans les sciences sociales.</li>
+<li>La proportion <span class="math inline">\(\alpha\)</span> de l’aire sous la courbe se trouve dans la région de rejet.</li>
+</ul>
+</section>
+<section id="hypothesis-testing-8" class="level3" data-number="8.3.10">
+<h3 data-number="8.3.10" class="anchored" data-anchor-id="hypothesis-testing-8"><span class="header-section-number">8.3.10</span> <em>Les tests d’hypothèses</em></h3>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../../Images/HT3-twosidedrejectonly.png" class="img-fluid quarto-figure quarto-figure-center figure-img"></p>
+</figure>
+</div>
+<ul>
+<li><span style="color:red"><span class="math inline">\(\widehat{ATE}\)</span></span> se situe dans la région de rejet → rejetez l’hypothèse nulle</li>
+</ul>
+</section>
+<section id="hypothesis-testing-9" class="level3" data-number="8.3.11">
+<h3 data-number="8.3.11" class="anchored" data-anchor-id="hypothesis-testing-9"><span class="header-section-number">8.3.11</span> <em>Les tests d’hypothèses</em></h3>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../../Images/HT4-twosided.png" class="img-fluid quarto-figure quarto-figure-center figure-img"></p>
+</figure>
+</div>
+<ul>
+<li><span style="color:blue"><span class="math inline">\(\widehat{ATE}\)</span></span> se situe en dehors de la région de rejet → ne rejetez pas l’hypothèse nulle</li>
+</ul>
+</section>
+<section id="hypothesis-testing-10" class="level3" data-number="8.3.12">
+<h3 data-number="8.3.12" class="anchored" data-anchor-id="hypothesis-testing-10"><span class="header-section-number">8.3.12</span> <em>Les tests d’hypothèses</em></h3>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../../Images/HT5-onesided5pc.png" class="img-fluid quarto-figure quarto-figure-center figure-img"></p>
+</figure>
+</div>
+<ul>
+<li>Régions de rejet et de non-rejet pour une hypothèse alternative unilatérale à <span class="math inline">\(\alpha=0{,}05\)</span></li>
+</ul>
+</section>
+<section id="p-value" class="level3" data-number="8.3.13">
+<h3 data-number="8.3.13" class="anchored" data-anchor-id="p-value"><span class="header-section-number">8.3.13</span> <em><span class="math inline">\(p\)</span>-valeur</em></h3>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../../Images/HT6-pvalue.png" class="img-fluid quarto-figure quarto-figure-center figure-img"></p>
+</figure>
+</div>
+<ul>
+<li><strong><span class="math inline">\(p\)</span>-valeur</strong> : pour un test d’hypothèse unilatéral, la probabilité de voir une <em>statistique de test</em> aussi grande ou plus grande que la statistique de test calculée à partir des données observées lorsque l’hypothèse nulle est vraie.</li>
+</ul>
+</section>
+<section id="hypothesis-testing-with-linear-regression" class="level3" data-number="8.3.14">
+<h3 data-number="8.3.14" class="anchored" data-anchor-id="hypothesis-testing-with-linear-regression"><span class="header-section-number">8.3.14</span> <em>Les tests d’hypothèses avec la régression linéaire</em></h3>
+<ul>
+<li>Il existe de nombreuses façons de tester des hypothèses. Nous allons utiliser l’approche la plus simple : la régression.</li>
+<li>Utiliser la régression linéaire pour calculer une <span class="math inline">\(p\)</span>-valeur (test bilatéral).</li>
+</ul>
+</section>
+<section id="hypothesis-testing-with-linear-regression-2" class="level3" data-number="8.3.15">
+<h3 data-number="8.3.15" class="anchored" data-anchor-id="hypothesis-testing-with-linear-regression-2"><span class="header-section-number">8.3.15</span> <em>Les tests d’hypothèses avec la régression linéaire</em></h3>
+<ul>
+<li>Comparez cette <span class="math inline">\(p\)</span>-valeur à <span class="math inline">\(\alpha\)</span>, une norme que nous avons fixée à l’avance.</li>
+<li><span class="math inline">\(\alpha\)</span> est la probabilité de faire l’erreur de rejeter l’hypothèse nulle alors que nous ne devrions pas le faire.</li>
+</ul>
+</section>
+<section id="hypothesis-testing-with-linear-regression-3" class="level3" data-number="8.3.16">
+<h3 data-number="8.3.16" class="anchored" data-anchor-id="hypothesis-testing-with-linear-regression-3"><span class="header-section-number">8.3.16</span> <em>Les tests d’hypothèses avec la régression linéaire</em></h3>
+<ul>
+<li>Si la <span class="math inline">\(p\)</span>-valeur est plus petite ou égale au niveau <span class="math inline">\(\alpha\)</span>, nous rejetons l’hypothèse nulle d’aucun effet.</li>
+<li>Si la <span class="math inline">\(p\)</span>-valeur est plus grande que le niveau <span class="math inline">\(\alpha\)</span>, nous ne parvenons pas à rejeter l’hypothèse nulle d’aucun effet.</li>
+<li>Rappel : nous n’acceptons pas l’hypothèse nulle.</li>
+</ul>
+</section>
+<section id="hypothesis-testing-with-linear-regression-4" class="level3" data-number="8.3.17">
+<h3 data-number="8.3.17" class="anchored" data-anchor-id="hypothesis-testing-with-linear-regression-4"><span class="header-section-number">8.3.17</span> <em>Les tests d’hypothèses avec la régression linéaire</em></h3>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">lm_robust</span>(Energy <span class="sc">~</span> Coffee, <span class="at">data =</span> df)</span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<table class="texreg" style="margin: 10px auto;border-collapse: collapse;border-spacing: 0px;caption-side: bottom;color: #000000;border-top: 2px solid #000000;">
+<caption>
+Statistical models
+</caption>
+<thead>
+<tr>
+<th style="padding-left: 5px;padding-right: 5px;">
+&nbsp;
+</th>
+<th style="padding-left: 5px;padding-right: 5px;">
+Model 1
+</th>
+</tr>
+</thead>
+<tbody>
+<tr style="border-top: 1px solid #000000;">
+<td style="padding-left: 5px;padding-right: 5px;">
+(Intercept)
+</td>
+<td style="padding-left: 5px;padding-right: 5px;">
+0.77<sup>***</sup>
+</td>
+</tr>
+<tr>
+<td style="padding-left: 5px;padding-right: 5px;">
+&nbsp;
+</td>
+<td style="padding-left: 5px;padding-right: 5px;">
+(0.15)
+</td>
+</tr>
+<tr>
+<td style="padding-left: 5px;padding-right: 5px;">
+Coffee
+</td>
+<td style="padding-left: 5px;padding-right: 5px;">
+0.51<sup>*</sup>
+</td>
+</tr>
+<tr>
+<td style="padding-left: 5px;padding-right: 5px;">
+&nbsp;
+</td>
+<td style="padding-left: 5px;padding-right: 5px;">
+(0.21)
+</td>
+</tr>
+<tr style="border-top: 1px solid #000000;">
+<td style="padding-left: 5px;padding-right: 5px;">
+R<sup>2</sup>
+</td>
+<td style="padding-left: 5px;padding-right: 5px;">
+0.06
+</td>
+</tr>
+<tr>
+<td style="padding-left: 5px;padding-right: 5px;">
+Adj. R<sup>2</sup>
+</td>
+<td style="padding-left: 5px;padding-right: 5px;">
+0.05
+</td>
+</tr>
+<tr>
+<td style="padding-left: 5px;padding-right: 5px;">
+Num. obs.
+</td>
+<td style="padding-left: 5px;padding-right: 5px;">
+100
+</td>
+</tr>
+<tr style="border-bottom: 2px solid #000000;">
+<td style="padding-left: 5px;padding-right: 5px;">
+RMSE
+</td>
+<td style="padding-left: 5px;padding-right: 5px;">
+1.04
+</td>
+</tr>
+</tbody>
+<tfoot>
+<tr>
+<td style="font-size: 0.8em;" colspan="2">
+<sup>***</sup>p &lt; 0.001; <sup>**</sup>p &lt; 0.01; <sup>*</sup>p &lt; 0.05
+</td>
+</tr>
+</tfoot>
+</table>
+</section>
+</section>
+<section id="covariate-adjustment" class="level2" data-number="8.4">
+<h2 data-number="8.4" class="anchored" data-anchor-id="covariate-adjustment"><span class="header-section-number">8.4</span> <em>Ajustement des covariables</em></h2>
+<section id="estimator-linear-regression-with-covariates" class="level3" data-number="8.4.1">
+<h3 data-number="8.4.1" class="anchored" data-anchor-id="estimator-linear-regression-with-covariates"><span class="header-section-number">8.4.1</span> <em>Estimateur : la régression linéaire avec des covariables</em></h3>
+<p><span class="math display">\[Y_i = \alpha_0 + \beta_1 Z_i + \gamma X_i + e_i\]</span></p>
+<ul>
+<li>Nous pouvons inclure une <strong>covariable pré-traitement</strong> <span class="math inline">\(X\)</span> qui est <em>prédictive</em> de la variable de résultat dans notre modèle de régression.</li>
+<li>Considérez que <span class="math inline">\(X\)</span> est fixé avant la randomisation. Par exemple : une mesure du résultat avant le traitement.</li>
+<li>Attention : cela peut biaiser nos estimations, mais améliorer leur précision.</li>
+</ul>
+</section>
+<section id="estimator-linear-regression-with-covariates-2" class="level3" data-number="8.4.2">
+<h3 data-number="8.4.2" class="anchored" data-anchor-id="estimator-linear-regression-with-covariates-2"><span class="header-section-number">8.4.2</span> <em>Estimateur : la régression linéaire avec des covariables</em></h3>
+<p><span class="math display">\[Y_i = {\alpha_0} + {\beta_1} Z_i + {\gamma} X_i + e_i\]</span></p>
+<ul>
+<li>Le coefficient estimé sur la variable de traitement (<span class="math inline">\(\hat{\beta_1}\)</span>) est encore notre <span class="math inline">\(\widehat{ATE}\)</span>.</li>
+<li>Le coefficient estimé de la covariable (<span class="math inline">\(\hat{\gamma}\)</span>) n’est <em>pas</em> l’effet causal de cette variable.</li>
+</ul>
+</section>
+<section id="estimator-linear-regression-with-covariates-3" class="level3 smaller" data-number="8.4.3">
+<h3 class="smaller anchored" data-number="8.4.3" data-anchor-id="estimator-linear-regression-with-covariates-3"><span class="header-section-number">8.4.3</span> <em>Estimateur : la régression linéaire avec des covariables</em></h3>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">lm_robust</span>(Energy <span class="sc">~</span> Coffee <span class="sc">+</span> Sporty_Sportive, <span class="at">data =</span> df)</span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<table class="texreg" style="margin: 10px auto;border-collapse: collapse;border-spacing: 0px;caption-side: bottom;color: #000000;border-top: 2px solid #000000;">
+<caption>
+Statistical models
+</caption>
+<thead>
+<tr>
+<th style="padding-left: 5px;padding-right: 5px;">
+&nbsp;
+</th>
+<th style="padding-left: 5px;padding-right: 5px;">
+Model 1
+</th>
+</tr>
+</thead>
+<tbody>
+<tr style="border-top: 1px solid #000000;">
+<td style="padding-left: 5px;padding-right: 5px;">
+(Intercept)
+</td>
+<td style="padding-left: 5px;padding-right: 5px;">
+0.24
+</td>
+</tr>
+<tr>
+<td style="padding-left: 5px;padding-right: 5px;">
+&nbsp;
+</td>
+<td style="padding-left: 5px;padding-right: 5px;">
+(0.16)
+</td>
+</tr>
+<tr>
+<td style="padding-left: 5px;padding-right: 5px;">
+Coffee
+</td>
+<td style="padding-left: 5px;padding-right: 5px;">
+0.51<sup>**</sup>
+</td>
+</tr>
+<tr>
+<td style="padding-left: 5px;padding-right: 5px;">
+&nbsp;
+</td>
+<td style="padding-left: 5px;padding-right: 5px;">
+(0.18)
+</td>
+</tr>
+<tr>
+<td style="padding-left: 5px;padding-right: 5px;">
+Sporty_Sportive
+</td>
+<td style="padding-left: 5px;padding-right: 5px;">
+1.05<sup>***</sup>
+</td>
+</tr>
+<tr>
+<td style="padding-left: 5px;padding-right: 5px;">
+&nbsp;
+</td>
+<td style="padding-left: 5px;padding-right: 5px;">
+(0.18)
+</td>
+</tr>
+<tr style="border-top: 1px solid #000000;">
+<td style="padding-left: 5px;padding-right: 5px;">
+R<sup>2</sup>
+</td>
+<td style="padding-left: 5px;padding-right: 5px;">
+0.30
+</td>
+</tr>
+<tr>
+<td style="padding-left: 5px;padding-right: 5px;">
+Adj. R<sup>2</sup>
+</td>
+<td style="padding-left: 5px;padding-right: 5px;">
+0.29
+</td>
+</tr>
+<tr>
+<td style="padding-left: 5px;padding-right: 5px;">
+Num. obs.
+</td>
+<td style="padding-left: 5px;padding-right: 5px;">
+100
+</td>
+</tr>
+<tr style="border-bottom: 2px solid #000000;">
+<td style="padding-left: 5px;padding-right: 5px;">
+RMSE
+</td>
+<td style="padding-left: 5px;padding-right: 5px;">
+0.90
+</td>
+</tr>
+</tbody>
+<tfoot>
+<tr>
+<td style="font-size: 0.8em;" colspan="2">
+<sup>***</sup>p &lt; 0.001; <sup>**</sup>p &lt; 0.01; <sup>*</sup>p &lt; 0.05
+</td>
+</tr>
+</tfoot>
+</table>
+</section>
+<section id="estimator-linear-regression-with-covariates-4" class="level3 smaller" data-number="8.4.4">
+<h3 class="smaller anchored" data-number="8.4.4" data-anchor-id="estimator-linear-regression-with-covariates-4"><span class="header-section-number">8.4.4</span> <em>Estimateur : la régression linéaire avec des covariables</em></h3>
+<table class="texreg" style="margin: 10px auto;border-collapse: collapse;border-spacing: 0px;caption-side: bottom;color: #000000;border-top: 2px solid #000000;">
+<caption>
+Statistical models
+</caption>
+<thead>
+<tr>
+<th style="padding-left: 5px;padding-right: 5px;">
+&nbsp;
+</th>
+<th style="padding-left: 5px;padding-right: 5px;">
+Model 1
+</th>
+</tr>
+</thead>
+<tbody>
+<tr style="border-top: 1px solid #000000;">
+<td style="padding-left: 5px;padding-right: 5px;">
+(Intercept)
+</td>
+<td style="padding-left: 5px;padding-right: 5px;">
+0.77<sup>***</sup>
+</td>
+</tr>
+<tr>
+<td style="padding-left: 5px;padding-right: 5px;">
+&nbsp;
+</td>
+<td style="padding-left: 5px;padding-right: 5px;">
+(0.15)
+</td>
+</tr>
+<tr>
+<td style="padding-left: 5px;padding-right: 5px;">
+Coffee
+</td>
+<td style="padding-left: 5px;padding-right: 5px;">
+0.51<sup>*</sup>
+</td>
+</tr>
+<tr>
+<td style="padding-left: 5px;padding-right: 5px;">
+&nbsp;
+</td>
+<td style="padding-left: 5px;padding-right: 5px;">
+(0.21)
+</td>
+</tr>
+<tr style="border-top: 1px solid #000000;">
+<td style="padding-left: 5px;padding-right: 5px;">
+R<sup>2</sup>
+</td>
+<td style="padding-left: 5px;padding-right: 5px;">
+0.06
+</td>
+</tr>
+<tr>
+<td style="padding-left: 5px;padding-right: 5px;">
+Adj. R<sup>2</sup>
+</td>
+<td style="padding-left: 5px;padding-right: 5px;">
+0.05
+</td>
+</tr>
+<tr>
+<td style="padding-left: 5px;padding-right: 5px;">
+Num. obs.
+</td>
+<td style="padding-left: 5px;padding-right: 5px;">
+100
+</td>
+</tr>
+<tr style="border-bottom: 2px solid #000000;">
+<td style="padding-left: 5px;padding-right: 5px;">
+RMSE
+</td>
+<td style="padding-left: 5px;padding-right: 5px;">
+1.04
+</td>
+</tr>
+</tbody>
+<tfoot>
+<tr>
+<td style="font-size: 0.8em;" colspan="2">
+<sup>***</sup>p &lt; 0.001; <sup>**</sup>p &lt; 0.01; <sup>*</sup>p &lt; 0.05
+</td>
+</tr>
+</tfoot>
+</table>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copié");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copié");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../../chapters/fr/L06_design_intro.html" class="pagination-link" aria-label="C06 — Design et diagnostic">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">C06 — Design et diagnostic</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../../chapters/fr/L08_estimation_2.html" class="pagination-link" aria-label="C08 — Estimation 2">
+        <span class="nav-page-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">C08 — Estimation 2</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

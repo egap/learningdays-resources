@@ -1,0 +1,959 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="fr" xml:lang="fr"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.27">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>14&nbsp; C13 — Cycle de vie d’une expérience – EGAP Learning Days Abidjan 2026</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<link href="../../chapters/fr/L14_grants.html" rel="next">
+<link href="../../chapters/fr/L12_threats.html" rel="prev">
+<script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-ed96de9b727972fe78a7b5d16c58bf87.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-d9ea66fcd6c317012447f26e9c021348.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "Pas de résultats",
+    "search-matching-documents-text": "documents trouvés",
+    "search-copy-link-title": "Copier le lien vers la recherche",
+    "search-hide-matches-text": "Cacher les correspondances additionnelles",
+    "search-more-match-text": "correspondance de plus dans ce document",
+    "search-more-matches-text": "correspondances de plus dans ce document",
+    "search-clear-button-title": "Effacer",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Annuler",
+    "search-submit-button-title": "Envoyer",
+    "search-label": "Recherche"
+  }
+}</script>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="../../assets/abidjan-book.css">
+</head>
+
+<body class="nav-sidebar floating nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">EGAP Learning Days Abidjan 2026</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Recherche"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Basculer la navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="https://egap.github.io/learningdays-resources/abidjan_2026/index.html"> 
+<span class="menu-text">Toutes les ressources</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Basculer la barre latérale" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../chapters/fr/L01_why-experiment.html">Cours</a></li><li class="breadcrumb-item"><a href="../../chapters/fr/L13_lifecycle.html"><span class="chapter-title">C13 — Cycle de vie d’une expérience</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Basculer la barre latérale" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-title">Home</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Cours</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Basculer la section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/fr/L01_why-experiment.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">C01 — Pourquoi expérimenter ?</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/fr/L02_causalinference.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">C02 — Inférence causale</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/fr/L03_randomization_1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">C03 — Randomisation 1</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/fr/L04_R_intro.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">C04 — Introduction à R</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/fr/L05_randomization_2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">C05 — Randomisation 2</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/fr/L06_design_intro.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">C06 — Design et diagnostic</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/fr/L07_estimation_1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">C07 — Estimation 1</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/fr/L08_estimation_2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">C08 — Estimation 2</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/fr/L09_power_intro.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">C09 — Puissance et diagnostic</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/fr/L10_ethics.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">C10 — Éthique et expériences</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/fr/L11_presenting.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">C11 — Présenter les résultats</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/fr/L12_threats.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">C12 — Menaces à la validité</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/fr/L13_lifecycle.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">C13 — Cycle de vie d’une expérience</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/fr/L14_grants.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">C14 — Demandes de subvention</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+ <span class="menu-text">Exercices et quiz</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Basculer la section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/fr/E01_experiment_slides.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Ex01 — Expérience en classe</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/fr/E02_R_exercises.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Ex02 — Exercices R</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/fr/E03_projects.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Ex03 — Projets</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/fr/quiz-tuesday.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Quiz — jour 2</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/fr/quiz-wednesday.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Quiz — jour 3</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/fr/quiz-thursday.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">Quiz — jour 4</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active" data-toc-expanded="2">
+    <h2 id="toc-title">Table des matières</h2>
+   
+  <ul>
+  <li><a href="#key-points" id="toc-key-points" class="nav-link active" data-scroll-target="#key-points"><span class="header-section-number">14.1</span> <em>Points clés du cours</em></a></li>
+  <li><a href="#experimentation-stages-1" id="toc-experimentation-stages-1" class="nav-link" data-scroll-target="#experimentation-stages-1"><span class="header-section-number">14.2</span> <em>Expérimentation : étapes (1)</em></a></li>
+  <li><a href="#experimentation-stages-2" id="toc-experimentation-stages-2" class="nav-link" data-scroll-target="#experimentation-stages-2"><span class="header-section-number">14.3</span> <em>Expérimentation : étapes (2)</em></a></li>
+  <li><a href="#where-to-start" id="toc-where-to-start" class="nav-link" data-scroll-target="#where-to-start"><span class="header-section-number">14.4</span> <em>Par où commencer ?</em></a></li>
+  <li><a href="#do-i-always-need-a-partner" id="toc-do-i-always-need-a-partner" class="nav-link" data-scroll-target="#do-i-always-need-a-partner"><span class="header-section-number">14.5</span> <em>Ai-je toujours besoin d’un partenaire ?</em></a></li>
+  <li><a href="#finding-a-partner-1" id="toc-finding-a-partner-1" class="nav-link" data-scroll-target="#finding-a-partner-1"><span class="header-section-number">14.6</span> <em>Trouver un partenaire (1)</em></a></li>
+  <li><a href="#finding-a-partner-2" id="toc-finding-a-partner-2" class="nav-link" data-scroll-target="#finding-a-partner-2"><span class="header-section-number">14.7</span> <em>Trouver un partenaire (2)</em></a></li>
+  <li><a href="#write-a-preanalysis-plan-pap" id="toc-write-a-preanalysis-plan-pap" class="nav-link" data-scroll-target="#write-a-preanalysis-plan-pap"><span class="header-section-number">14.8</span> <em>Écrire un plan de pré-analyse (PAP)</em></a></li>
+  <li><a href="#why-write-a-pap" id="toc-why-write-a-pap" class="nav-link" data-scroll-target="#why-write-a-pap"><span class="header-section-number">14.9</span> <em>À quoi sert un PAP ?</em></a></li>
+  <li><a href="#assess-your-design" id="toc-assess-your-design" class="nav-link" data-scroll-target="#assess-your-design"><span class="header-section-number">14.10</span> <em>Évaluer votre design</em></a></li>
+  <li><a href="#feedback" id="toc-feedback" class="nav-link" data-scroll-target="#feedback"><span class="header-section-number">14.11</span> <em>Retours d’information</em></a></li>
+  <li><a href="#funding-budget-elements" id="toc-funding-budget-elements" class="nav-link" data-scroll-target="#funding-budget-elements"><span class="header-section-number">14.12</span> <em>Financement : éléments du budget</em></a></li>
+  <li><a href="#funding-who-pays" id="toc-funding-who-pays" class="nav-link" data-scroll-target="#funding-who-pays"><span class="header-section-number">14.13</span> <em>Financement : qui finance ?</em></a></li>
+  <li><a href="#scoping-and-piloting" id="toc-scoping-and-piloting" class="nav-link" data-scroll-target="#scoping-and-piloting"><span class="header-section-number">14.14</span> <em>Cadrage et pilotage</em></a></li>
+  <li><a href="#five-uses-of-ai" id="toc-five-uses-of-ai" class="nav-link" data-scroll-target="#five-uses-of-ai"><span class="header-section-number">14.15</span> <em>Cinq usages de l’IA</em></a></li>
+  <li><a href="#recap-14-steps" id="toc-recap-14-steps" class="nav-link" data-scroll-target="#recap-14-steps"><span class="header-section-number">14.16</span> <em>Récapitulatif : 14 étapes</em></a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../chapters/fr/L01_why-experiment.html">Cours</a></li><li class="breadcrumb-item"><a href="../../chapters/fr/L13_lifecycle.html"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">C13 — Cycle de vie d’une expérience</span></a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">C13 — Cycle de vie d’une expérience</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="key-points" class="level2" data-number="14.1">
+<h2 data-number="14.1" class="anchored" data-anchor-id="key-points"><span class="header-section-number">14.1</span> <em>Points clés du cours</em></h2>
+<ul>
+<li>Commencez par la recherche descriptive</li>
+<li>Évaluez votre conception de multiples façons</li>
+<li>Constituez la bonne équipe — personnes et culture</li>
+<li>N’hésitez pas à abandonner un projet</li>
+</ul>
+</section>
+<section id="experimentation-stages-1" class="level2 smaller" data-number="14.2">
+<h2 class="smaller anchored" data-number="14.2" data-anchor-id="experimentation-stages-1"><span class="header-section-number">14.2</span> <em>Expérimentation : étapes (1)</em></h2>
+<ol type="1">
+<li>Trouver une bonne <strong>question</strong> : au minimum, identifier un <span class="math inline">\(X\)</span> et un <span class="math inline">\(Y\)</span>: motivations liées au <span class="math inline">\(X\)</span>, motivations liées au <span class="math inline">\(Y\)</span>, théorie, hypothèses, mécanismes, réplication</li>
+<li>Passer en revue la littérature, identifier la <strong>contribution</strong>.</li>
+<li>Identifier bailleurs de fonds et partenaires, <strong>ressources</strong>. Peut-être mener des analyses pilotes exploratoires.</li>
+<li>Élaborer un <strong>design</strong> : stratégie de données | stratégie de mesure | stratégie de réponse</li>
+<li><strong>Simuler</strong> le design : analyse de puissance, propriétés des estimateurs</li>
+<li><strong>Présenter</strong> ! Recueillir des retours</li>
+<li>Recueillir des <strong>priors</strong> : que s’attendent les autres ?</li>
+<li>Demander l’approbation <strong>éthique</strong></li>
+<li>Assurer la <strong>conformité</strong> aux autres exigences (p.&nbsp;ex. RGPD) !</li>
+<li><strong>Enregistrer</strong> un plan de pré-analyse (p.&nbsp;ex. OSF, AEA)</li>
+</ol>
+</section>
+<section id="experimentation-stages-2" class="level2 smaller" data-number="14.3">
+<h2 class="smaller anchored" data-number="14.3" data-anchor-id="experimentation-stages-2"><span class="header-section-number">14.3</span> <em>Expérimentation : étapes (2)</em></h2>
+<ol start="11" type="1">
+<li>Mener le <strong>baseline</strong> (si nécessaire) : <strong>contrôle qualité des données en direct !</strong></li>
+<li>Mettre en œuvre la <strong>randomisation</strong></li>
+<li>Recueillir des observations de <strong>processus</strong></li>
+<li>Mener l’<strong>endline</strong>. <strong>Contrôle qualité des données en direct !</strong></li>
+<li>Exécuter l’<strong>analyse</strong> ; vérifier l’analyse</li>
+<li>Produire les <strong>tableaux clés</strong></li>
+<li><strong>Présenter</strong> aux collègues et aux parties prenantes</li>
+<li>Préparer les matériaux de <strong>réplication</strong>. Rendre <strong>données</strong> et code disponibles</li>
+<li><strong>Rédaction</strong></li>
+<li><strong>Soumettre</strong> [Rejet — soumettre à nouveau]</li>
+</ol>
+</section>
+<section id="where-to-start" class="level2" data-number="14.4">
+<h2 data-number="14.4" class="anchored" data-anchor-id="where-to-start"><span class="header-section-number">14.4</span> <em>Par où commencer ?</em></h2>
+<div class="column lang-fr" style="width:50%;">
+<p><strong>Qui trouve l’idée ?</strong></p>
+<ul>
+<li>Un chercheur</li>
+<li>Une organisation de mise en œuvre</li>
+<li>Un bailleur de fonds</li>
+</ul>
+<p><strong>D’où vient l’idée :</strong></p>
+<ul>
+<li>Littérature descriptive</li>
+<li>Expériences (cartes des lacunes, réplication)</li>
+<li>Entretiens/observation avec participants ou personnel</li>
+<li>Lacunes de preuves dans la pratique</li>
+</ul>
+</div>
+</section>
+<section id="do-i-always-need-a-partner" class="level2" data-number="14.5">
+<h2 data-number="14.5" class="anchored" data-anchor-id="do-i-always-need-a-partner"><span class="header-section-number">14.5</span> <em>Ai-je toujours besoin d’un partenaire ?</em></h2>
+<div class="column lang-fr" style="width:50%;">
+<p>Il est parfois préférable de mener l’intervention et l’évaluation <strong>vous-même</strong> si…</p>
+<ul>
+<li>L’intervention est relativement modeste</li>
+<li>Vous avez besoin de beaucoup de contrôle (variations, contenu)</li>
+<li>Vous testez moins un programme existant</li>
+</ul>
+</div>
+</section>
+<section id="finding-a-partner-1" class="level2" data-number="14.6">
+<h2 data-number="14.6" class="anchored" data-anchor-id="finding-a-partner-1"><span class="header-section-number">14.6</span> <em>Trouver un partenaire (1)</em></h2>
+<div class="column lang-fr" style="width:50%;">
+<p>Les évaluations d’impact impliquent presque toujours <strong>deux partenaires</strong>.</p>
+<p><strong>1. Un chercheur</strong></p>
+<ul>
+<li>Compétences techniques en conception et analyse</li>
+<li>Peut être indépendant du programme → moins de biais</li>
+<li>Responsable de la randomisation, mesure, analyse, interprétation</li>
+</ul>
+</div>
+</section>
+<section id="finding-a-partner-2" class="level2" data-number="14.7">
+<h2 data-number="14.7" class="anchored" data-anchor-id="finding-a-partner-2"><span class="header-section-number">14.7</span> <em>Trouver un partenaire (2)</em></h2>
+<div class="column lang-fr" style="width:50%;">
+<p><strong>2. Une équipe de programmation</strong></p>
+<ul>
+<li>Compétences en conception et mise en œuvre de programmes</li>
+<li>Veut savoir si un programme produit les effets attendus</li>
+<li>Met en œuvre le programme et respecte le design (randomisation, calendrier, etc.)</li>
+</ul>
+</div>
+</section>
+<section id="write-a-preanalysis-plan-pap" class="level2" data-number="14.8">
+<h2 data-number="14.8" class="anchored" data-anchor-id="write-a-preanalysis-plan-pap"><span class="header-section-number">14.8</span> <em>Écrire un plan de pré-analyse (PAP)</em></h2>
+<div class="column lang-fr" style="width:50%;">
+<p>Un <strong>PAP</strong> est une description complète et détaillée de votre design :</p>
+<ul>
+<li>Plans de randomisation et de mesure</li>
+<li>Hypothèses et stratégie d’analyse</li>
+<li>Analyse de puissance</li>
+</ul>
+<p>Exemples : <a href="https://osf.io/registries/">registres OSF</a></p>
+</div>
+</section>
+<section id="why-write-a-pap" class="level2" data-number="14.9">
+<h2 data-number="14.9" class="anchored" data-anchor-id="why-write-a-pap"><span class="header-section-number">14.9</span> <em>À quoi sert un PAP ?</em></h2>
+<ul>
+<li>Aide à définir complètement le plan → moins d’erreurs</li>
+<li>Réduit les analyses biaisées → moins de <strong>p-hacking</strong></li>
+</ul>
+</section>
+<section id="assess-your-design" class="level2" data-number="14.10">
+<h2 data-number="14.10" class="anchored" data-anchor-id="assess-your-design"><span class="header-section-number">14.10</span> <em>Évaluer votre design</em></h2>
+<ul>
+<li>Le design a-t-il une (bonne) puissance ?</li>
+<li>Analysez-vous comme vous randomisez ?</li>
+<li>Les risques pour participants, communautés et personnel sont-ils suffisamment faibles ?</li>
+<li>Est-ce rentable ?</li>
+</ul>
+</section>
+<section id="feedback" class="level2" data-number="14.11">
+<h2 data-number="14.11" class="anchored" data-anchor-id="feedback"><span class="header-section-number">14.11</span> <em>Retours d’information</em></h2>
+<ul>
+<li><strong>Chercheurs :</strong> améliorer le design (puissance, mesures, liens théoriques)</li>
+<li><strong>Décideurs :</strong> le design est-il informatif ? L’intervention résout-elle un problème ?</li>
+<li><strong>Programmeurs :</strong> faisable ? Quels risques ?</li>
+<li><strong>Participants :</strong> participeriez-vous ?</li>
+<li><strong>Tous :</strong> problèmes éthiques ?</li>
+</ul>
+</section>
+<section id="funding-budget-elements" class="level2" data-number="14.12">
+<h2 data-number="14.12" class="anchored" data-anchor-id="funding-budget-elements"><span class="header-section-number">14.12</span> <em>Financement : éléments du budget</em></h2>
+<div class="column lang-fr" style="width:50%;">
+<p>Éléments principaux du budget :</p>
+<ul>
+<li>Le programme</li>
+<li>La mesure</li>
+<li>Votre temps</li>
+</ul>
+</div>
+</section>
+<section id="funding-who-pays" class="level2" data-number="14.13">
+<h2 data-number="14.13" class="anchored" data-anchor-id="funding-who-pays"><span class="header-section-number">14.13</span> <em>Financement : qui finance ?</em></h2>
+<div class="column lang-fr" style="width:50%;">
+<p><strong>Premiers bailleurs</strong></p>
+<ul>
+<li>L’organisation qui gère le programme</li>
+<li>Amis et collègues</li>
+</ul>
+<p><strong>Bailleurs plus grands (et plus lents)</strong></p>
+<ul>
+<li>Agences de recherche, agences de développement</li>
+<li>Bailleurs bilatéraux/multilatéraux, fondations</li>
+</ul>
+</div>
+</section>
+<section id="scoping-and-piloting" class="level2" data-number="14.14">
+<h2 data-number="14.14" class="anchored" data-anchor-id="scoping-and-piloting"><span class="header-section-number">14.14</span> <em>Cadrage et pilotage</em></h2>
+<ul>
+<li>L’intervention est-elle réalisable ?</li>
+<li>La stratégie de mesure est-elle réalisable ?</li>
+<li>De quelles données avez-vous besoin ?</li>
+<li>Tous les partenaires peuvent-ils jouer leur rôle ?</li>
+<li>On <strong>n’apprend pas</strong> grand-chose sur la taille d’effet avec un pilote !</li>
+</ul>
+</section>
+<section id="five-uses-of-ai" class="level2" data-number="14.15">
+<h2 data-number="14.15" class="anchored" data-anchor-id="five-uses-of-ai"><span class="header-section-number">14.15</span> <em>Cinq usages de l’IA</em></h2>
+<div class="column lang-fr" style="width:50%;">
+<p><strong>Principe :</strong> l’IA peut être excellente pour donner des retours et faire des suggestions, mais ne la laissez pas faire vos choix d’écriture ou d’analyse.</p>
+<ul>
+<li>Génération d’idées et lacunes de recherche</li>
+<li>Conception d’enquêtes (simplifier, détecter les erreurs)</li>
+<li>Codage (nettoyage, randomisation, estimation, puissance)</li>
+<li>Traduction (questionnaires, protocoles, formation)</li>
+<li>Retour sur la rédaction du rapport</li>
+</ul>
+<p><em>Toujours vérifier ; attention au plagiat</em></p>
+</div>
+</section>
+<section id="recap-14-steps" class="level2" data-number="14.16">
+<h2 data-number="14.16" class="anchored" data-anchor-id="recap-14-steps"><span class="header-section-number">14.16</span> <em>Récapitulatif : 14 étapes</em></h2>
+<div class="column lang-fr" style="width:50%;">
+<p><strong>Lancer :</strong> découvrir → idée → partenaires → design → financement → évaluer → atelier → pilote</p>
+<p><strong>Mettre en œuvre :</strong> implémenter → contrôler → pivoter</p>
+<p><strong>Rédiger :</strong> analyser → communiquer → archiver</p>
+</div>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copié");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copié");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../../chapters/fr/L12_threats.html" class="pagination-link" aria-label="C12 — Menaces à la validité">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">C12 — Menaces à la validité</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../../chapters/fr/L14_grants.html" class="pagination-link" aria-label="C14 — Demandes de subvention">
+        <span class="nav-page-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">C14 — Demandes de subvention</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

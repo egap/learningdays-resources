@@ -1,0 +1,1465 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="fr" xml:lang="fr"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.27">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>7&nbsp; C06 — Design et diagnostic – EGAP Learning Days Abidjan 2026</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<link href="../../chapters/fr/L07_estimation_1.html" rel="next">
+<link href="../../chapters/fr/L05_randomization_2.html" rel="prev">
+<script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-ed96de9b727972fe78a7b5d16c58bf87.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-d9ea66fcd6c317012447f26e9c021348.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "Pas de résultats",
+    "search-matching-documents-text": "documents trouvés",
+    "search-copy-link-title": "Copier le lien vers la recherche",
+    "search-hide-matches-text": "Cacher les correspondances additionnelles",
+    "search-more-match-text": "correspondance de plus dans ce document",
+    "search-more-matches-text": "correspondances de plus dans ce document",
+    "search-clear-button-title": "Effacer",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Annuler",
+    "search-submit-button-title": "Envoyer",
+    "search-label": "Recherche"
+  }
+}</script>
+<script src="../../site_libs/kePrint-0.0.1/kePrint.js"></script>
+
+<link href="../../site_libs/lightable-0.0.1/lightable.css" rel="stylesheet">
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+<link rel="stylesheet" href="../../assets/abidjan-book.css">
+</head>
+
+<body class="nav-sidebar floating nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">EGAP Learning Days Abidjan 2026</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Recherche"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Basculer la navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="https://egap.github.io/learningdays-resources/abidjan_2026/index.html"> 
+<span class="menu-text">Toutes les ressources</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Basculer la barre latérale" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../chapters/fr/L01_why-experiment.html">Cours</a></li><li class="breadcrumb-item"><a href="../../chapters/fr/L06_design_intro.html"><span class="chapter-title">C06 — Design et diagnostic</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Basculer la barre latérale" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-title">Home</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Cours</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Basculer la section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/fr/L01_why-experiment.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">C01 — Pourquoi expérimenter ?</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/fr/L02_causalinference.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">C02 — Inférence causale</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/fr/L03_randomization_1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">C03 — Randomisation 1</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/fr/L04_R_intro.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">C04 — Introduction à R</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/fr/L05_randomization_2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">C05 — Randomisation 2</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/fr/L06_design_intro.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">C06 — Design et diagnostic</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/fr/L07_estimation_1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">C07 — Estimation 1</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/fr/L08_estimation_2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">C08 — Estimation 2</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/fr/L09_power_intro.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">C09 — Puissance et diagnostic</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/fr/L10_ethics.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">C10 — Éthique et expériences</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/fr/L11_presenting.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">C11 — Présenter les résultats</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/fr/L12_threats.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">C12 — Menaces à la validité</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/fr/L13_lifecycle.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">C13 — Cycle de vie d’une expérience</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/fr/L14_grants.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">C14 — Demandes de subvention</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+ <span class="menu-text">Exercices et quiz</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Basculer la section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/fr/E01_experiment_slides.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Ex01 — Expérience en classe</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/fr/E02_R_exercises.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Ex02 — Exercices R</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/fr/E03_projects.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Ex03 — Projets</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/fr/quiz-tuesday.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Quiz — jour 2</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/fr/quiz-wednesday.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Quiz — jour 3</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/fr/quiz-thursday.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">Quiz — jour 4</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active" data-toc-expanded="2">
+    <h2 id="toc-title">Table des matières</h2>
+   
+  <ul>
+  <li><a href="#learning-goals" id="toc-learning-goals" class="nav-link active" data-scroll-target="#learning-goals"><span class="header-section-number">7.1</span> <em>Objectifs d’apprentissage</em></a></li>
+  <li><a href="#declaration" id="toc-declaration" class="nav-link" data-scroll-target="#declaration"><span class="header-section-number">7.2</span> <em>Déclaration</em></a></li>
+  <li><a href="#diagnosis" id="toc-diagnosis" class="nav-link" data-scroll-target="#diagnosis"><span class="header-section-number">7.3</span> <em>Diagnostic</em></a></li>
+  <li><a href="#redesign" id="toc-redesign" class="nav-link" data-scroll-target="#redesign"><span class="header-section-number">7.4</span> <em>Redesign</em></a></li>
+  <li><a href="#declaration-2" id="toc-declaration-2" class="nav-link" data-scroll-target="#declaration-2"><span class="header-section-number">7.5</span> <em>Déclaration</em></a>
+  <ul class="collapse">
+  <li><a href="#simplest-design" id="toc-simplest-design" class="nav-link" data-scroll-target="#simplest-design"><span class="header-section-number">7.5.1</span> <em>design la plus simple</em></a></li>
+  <li><a href="#what-it-does" id="toc-what-it-does" class="nav-link" data-scroll-target="#what-it-does"><span class="header-section-number">7.5.2</span> <em>Ce que fait le code</em></a></li>
+  <li><a href="#run-once" id="toc-run-once" class="nav-link" data-scroll-target="#run-once"><span class="header-section-number">7.5.3</span> <em>Exécuter le code une fois</em></a></li>
+  <li><a href="#simulation" id="toc-simulation" class="nav-link" data-scroll-target="#simulation"><span class="header-section-number">7.5.4</span> <em>Simulation</em></a></li>
+  <li><a href="#distribution-of-estimates" id="toc-distribution-of-estimates" class="nav-link" data-scroll-target="#distribution-of-estimates"><span class="header-section-number">7.5.5</span> <em>Distribution des estimations</em></a></li>
+  <li><a href="#distribution-of-errors" id="toc-distribution-of-errors" class="nav-link" data-scroll-target="#distribution-of-errors"><span class="header-section-number">7.5.6</span> <em>Distribution des erreurs</em></a></li>
+  <li><a href="#distribution-of-p-values" id="toc-distribution-of-p-values" class="nav-link" data-scroll-target="#distribution-of-p-values"><span class="header-section-number">7.5.7</span> <em>Distribution des p-valeurs</em></a></li>
+  </ul></li>
+  <li><a href="#diagnosis-2" id="toc-diagnosis-2" class="nav-link" data-scroll-target="#diagnosis-2"><span class="header-section-number">7.6</span> <em>Diagnostic</em></a>
+  <ul class="collapse">
+  <li><a href="#bias-by-hand" id="toc-bias-by-hand" class="nav-link" data-scroll-target="#bias-by-hand"><span class="header-section-number">7.6.1</span> <em>Biais à la main</em></a></li>
+  <li><a href="#diagnosedesign" id="toc-diagnosedesign" class="nav-link" data-scroll-target="#diagnosedesign"><span class="header-section-number">7.6.2</span> <em>diagnose_design()</em></a></li>
+  </ul></li>
+  <li><a href="#redesign-2" id="toc-redesign-2" class="nav-link" data-scroll-target="#redesign-2"><span class="header-section-number">7.7</span> <em>Redesign</em></a>
+  <ul class="collapse">
+  <li><a href="#what-is-redesign" id="toc-what-is-redesign" class="nav-link" data-scroll-target="#what-is-redesign"><span class="header-section-number">7.7.1</span> <em>Qu’est-ce que le redesign ?</em></a></li>
+  <li><a href="#design-parameters" id="toc-design-parameters" class="nav-link" data-scroll-target="#design-parameters"><span class="header-section-number">7.7.2</span> <em>Variables de design</em></a></li>
+  <li><a href="#simple-redesign" id="toc-simple-redesign" class="nav-link" data-scroll-target="#simple-redesign"><span class="header-section-number">7.7.3</span> <em>Redesign simple</em></a></li>
+  <li><a href="#a-list-of-designs" id="toc-a-list-of-designs" class="nav-link" data-scroll-target="#a-list-of-designs"><span class="header-section-number">7.7.4</span> <em>Une liste de designs</em></a></li>
+  <li><a href="#compare-diagnoses" id="toc-compare-diagnoses" class="nav-link" data-scroll-target="#compare-diagnoses"><span class="header-section-number">7.7.5</span> <em>Comparer les diagnostics</em></a></li>
+  <li><a href="#plot-after-redesign" id="toc-plot-after-redesign" class="nav-link" data-scroll-target="#plot-after-redesign"><span class="header-section-number">7.7.6</span> <em>Graphique après redesign</em></a></li>
+  </ul></li>
+  <li><a href="#resources" id="toc-resources" class="nav-link" data-scroll-target="#resources"><span class="header-section-number">7.8</span> <em>Ressources</em></a>
+  <ul class="collapse">
+  <li><a href="#declare-commands" id="toc-declare-commands" class="nav-link" data-scroll-target="#declare-commands"><span class="header-section-number">7.8.1</span> <em>Commandes declare_</em></a></li>
+  <li><a href="#using-a-design" id="toc-using-a-design" class="nav-link" data-scroll-target="#using-a-design"><span class="header-section-number">7.8.2</span> <em>Utiliser un design</em></a></li>
+  <li><a href="#other-resources" id="toc-other-resources" class="nav-link" data-scroll-target="#other-resources"><span class="header-section-number">7.8.3</span> <em>Autres ressources</em></a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../chapters/fr/L01_why-experiment.html">Cours</a></li><li class="breadcrumb-item"><a href="../../chapters/fr/L06_design_intro.html"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">C06 — Design et diagnostic</span></a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">C06 — Design et diagnostic</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="learning-goals" class="level2" data-number="7.1">
+<h2 data-number="7.1" class="anchored" data-anchor-id="learning-goals"><span class="header-section-number">7.1</span> <em>Objectifs d’apprentissage</em></h2>
+<ol type="1">
+<li>Comprendre que si vous pouvez déclarer les éléments MIDA d’un design en code, vous pouvez évaluer la qualité d’un design</li>
+<li>Apprendre à optimiser les ajustements de design</li>
+<li>Découvrir le type de code qui permet de le faire en pratique</li>
+</ol>
+</section>
+<section id="declaration" class="level2" data-number="7.2">
+<h2 data-number="7.2" class="anchored" data-anchor-id="declaration"><span class="header-section-number">7.2</span> <em>Déclaration</em></h2>
+<p>La <strong>déclaration</strong> indique à l’ordinateur (et aux lecteurs) ce que sont <strong>M</strong>, <strong>I</strong>, <strong>D</strong> et <strong>A</strong>.</p>
+</section>
+<section id="diagnosis" class="level2" data-number="7.3">
+<h2 data-number="7.3" class="anchored" data-anchor-id="diagnosis"><span class="header-section-number">7.3</span> <em>Diagnostic</em></h2>
+<div class="column lang-fr" style="width:50%;">
+<p>Le <strong>diagnostic</strong> examine comment le design se comportera dans des conditions imaginées.</p>
+<p>On estime des <strong>indicateurs de diagnostic</strong> : puissance statistique, biais, erreur quadratique moyenne, taux d’erreur, risques éthiques, quantité apprise, …</p>
+</div>
+</section>
+<section id="redesign" class="level2" data-number="7.4">
+<h2 data-number="7.4" class="anchored" data-anchor-id="redesign"><span class="header-section-number">7.4</span> <em>Redesign</em></h2>
+<div class="column lang-fr" style="width:50%;">
+<p>L’étape <strong>redesign</strong> (re-concevoir) adapte la stratégie de données et d’analyse afin d’observer comment les indicateurs de diagnostic évoluent. On peut modifier :</p>
+<ul>
+<li>la taille de l’échantillon</li>
+<li>la procédure d’assignation aléatoire (randomisation)</li>
+<li>la stratégie d’analyse</li>
+<li>les compromis liés à la mise en œuvre (p.ex. respect de la conformité vs.&nbsp;la taille d’échantillon)</li>
+</ul>
+</div>
+</section>
+<section id="declaration-2" class="level2" data-number="7.5">
+<h2 data-number="7.5" class="anchored" data-anchor-id="declaration-2"><span class="header-section-number">7.5</span> <em>Déclaration</em></h2>
+<section id="simplest-design" class="level3" data-number="7.5.1">
+<h3 data-number="7.5.1" class="anchored" data-anchor-id="simplest-design"><span class="header-section-number">7.5.1</span> <em>design la plus simple</em></h3>
+<p>Quelle est la conception de recherche <strong>diagnostiquable</strong> la plus simple ?</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>simplest_design <span class="ot">&lt;-</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">declare_model</span>(<span class="at">N =</span> <span class="dv">100</span>, </span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>                <span class="at">Y0 =</span> <span class="fu">rnorm</span>(N), </span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>                <span class="at">Y1 =</span> Y0 <span class="sc">+</span> .<span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">declare_inquiry</span>(<span class="at">Q =</span> <span class="fu">mean</span>(Y1<span class="sc">-</span> Y0)) <span class="sc">+</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">declare_assignment</span>(<span class="at">X =</span> <span class="fu">simple_ra</span>(N)) <span class="sc">+</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">declare_measurement</span>(<span class="at">Y =</span> X<span class="sc">*</span>Y1 <span class="sc">+</span> (<span class="dv">1</span><span class="sc">-</span>X)<span class="sc">*</span>Y0) <span class="sc">+</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">declare_estimator</span>(Y <span class="sc">~</span> X)</span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="what-it-does" class="level3" data-number="7.5.2">
+<h3 data-number="7.5.2" class="anchored" data-anchor-id="what-it-does"><span class="header-section-number">7.5.2</span> <em>Ce que fait le code</em></h3>
+<ul>
+<li>M : Tirer 100 unités avec leurs résultats potentiels</li>
+<li>I : Définir une interrogation (une question de recherche) : l’<strong>effet moyen dans l’échantillon</strong></li>
+<li>D : Assigner le traitement et mesurer le résultat</li>
+<li>A : Estimer la moyenne avec l’ordonnée à l’origine d’une régression</li>
+</ul>
+</section>
+<section id="run-once" class="level3" data-number="7.5.3">
+<h3 data-number="7.5.3" class="anchored" data-anchor-id="run-once"><span class="header-section-number">7.5.3</span> <em>Exécuter le code une fois</em></h3>
+<p>Exécutez le code de la conception de recherche dans son intégralité une fois — tapez son nom ou appelez <code>run_design()</code>. Cela génère des données, des <strong>estimandes</strong>, des <strong>estimations</strong> et des statistiques auxiliaires.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>simplest_design <span class="sc">|&gt;</span> <span class="fu">run_design</span>()</span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell">
+<div class="cell-output-display">
+<div class="table-responsive">
+<table class="table table-striped table-hover table-condensed caption-top table-sm small">
+<thead>
+<tr class="header">
+<th style="text-align: left;" data-quarto-table-cell-role="th">inquiry</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">estimand</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">estimator</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">term</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">estimate</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">std.error</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">statistic</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">p.value</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">conf.low</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">conf.high</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">df</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">outcome</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Q</td>
+<td style="text-align: right;">0.2</td>
+<td style="text-align: left;">estimator</td>
+<td style="text-align: left;">X</td>
+<td style="text-align: right;">0.1</td>
+<td style="text-align: right;">0.22</td>
+<td style="text-align: right;">0.45</td>
+<td style="text-align: right;">0.66</td>
+<td style="text-align: right;">-0.33</td>
+<td style="text-align: right;">0.52</td>
+<td style="text-align: right;">98</td>
+<td style="text-align: left;">Y</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</section>
+<section id="simulation" class="level3" data-number="7.5.4">
+<h3 data-number="7.5.4" class="anchored" data-anchor-id="simulation"><span class="header-section-number">7.5.4</span> <em>Simulation</em></h3>
+<p>Répétez le design <strong>plusieurs fois</strong> avec <code>simulate_design()</code>.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>some_runs <span class="sc">|&gt;</span> <span class="fu">head</span>()</span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell">
+<div class="cell-output-display">
+<div class="table-responsive">
+<table class="table table-striped table-hover table-condensed caption-top table-sm small">
+<thead>
+<tr class="header">
+<th style="text-align: left;" data-quarto-table-cell-role="th">design</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">sim_ID</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">inquiry</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">estimand</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">estimator</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">term</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">estimate</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">std.error</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">statistic</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">p.value</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">conf.low</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">conf.high</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">df</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">outcome</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">simplest_design</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">Q</td>
+<td style="text-align: right;">0.2</td>
+<td style="text-align: left;">estimator</td>
+<td style="text-align: left;">X</td>
+<td style="text-align: right;">0.61</td>
+<td style="text-align: right;">0.22</td>
+<td style="text-align: right;">2.76</td>
+<td style="text-align: right;">0.01</td>
+<td style="text-align: right;">0.17</td>
+<td style="text-align: right;">1.05</td>
+<td style="text-align: right;">98</td>
+<td style="text-align: left;">Y</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">simplest_design</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: left;">Q</td>
+<td style="text-align: right;">0.2</td>
+<td style="text-align: left;">estimator</td>
+<td style="text-align: left;">X</td>
+<td style="text-align: right;">0.18</td>
+<td style="text-align: right;">0.19</td>
+<td style="text-align: right;">0.95</td>
+<td style="text-align: right;">0.35</td>
+<td style="text-align: right;">-0.20</td>
+<td style="text-align: right;">0.56</td>
+<td style="text-align: right;">98</td>
+<td style="text-align: left;">Y</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">simplest_design</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: left;">Q</td>
+<td style="text-align: right;">0.2</td>
+<td style="text-align: left;">estimator</td>
+<td style="text-align: left;">X</td>
+<td style="text-align: right;">0.25</td>
+<td style="text-align: right;">0.19</td>
+<td style="text-align: right;">1.32</td>
+<td style="text-align: right;">0.19</td>
+<td style="text-align: right;">-0.13</td>
+<td style="text-align: right;">0.62</td>
+<td style="text-align: right;">98</td>
+<td style="text-align: left;">Y</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">simplest_design</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: left;">Q</td>
+<td style="text-align: right;">0.2</td>
+<td style="text-align: left;">estimator</td>
+<td style="text-align: left;">X</td>
+<td style="text-align: right;">0.42</td>
+<td style="text-align: right;">0.21</td>
+<td style="text-align: right;">1.98</td>
+<td style="text-align: right;">0.05</td>
+<td style="text-align: right;">0.00</td>
+<td style="text-align: right;">0.85</td>
+<td style="text-align: right;">98</td>
+<td style="text-align: left;">Y</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">simplest_design</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: left;">Q</td>
+<td style="text-align: right;">0.2</td>
+<td style="text-align: left;">estimator</td>
+<td style="text-align: left;">X</td>
+<td style="text-align: right;">0.17</td>
+<td style="text-align: right;">0.20</td>
+<td style="text-align: right;">0.82</td>
+<td style="text-align: right;">0.42</td>
+<td style="text-align: right;">-0.24</td>
+<td style="text-align: right;">0.57</td>
+<td style="text-align: right;">98</td>
+<td style="text-align: left;">Y</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">simplest_design</td>
+<td style="text-align: right;">6</td>
+<td style="text-align: left;">Q</td>
+<td style="text-align: right;">0.2</td>
+<td style="text-align: left;">estimator</td>
+<td style="text-align: left;">X</td>
+<td style="text-align: right;">0.14</td>
+<td style="text-align: right;">0.21</td>
+<td style="text-align: right;">0.69</td>
+<td style="text-align: right;">0.49</td>
+<td style="text-align: right;">-0.27</td>
+<td style="text-align: right;">0.56</td>
+<td style="text-align: right;">98</td>
+<td style="text-align: left;">Y</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</section>
+<section id="distribution-of-estimates" class="level3" data-number="7.5.5">
+<h3 data-number="7.5.5" class="anchored" data-anchor-id="distribution-of-estimates"><span class="header-section-number">7.5.5</span> <em>Distribution des estimations</em></h3>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="L06_design_intro_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="distribution-of-errors" class="level3" data-number="7.5.6">
+<h3 data-number="7.5.6" class="anchored" data-anchor-id="distribution-of-errors"><span class="header-section-number">7.5.6</span> <em>Distribution des erreurs</em></h3>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="L06_design_intro_files/figure-html/unnamed-chunk-13-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="distribution-of-p-values" class="level3" data-number="7.5.7">
+<h3 data-number="7.5.7" class="anchored" data-anchor-id="distribution-of-p-values"><span class="header-section-number">7.5.7</span> <em>Distribution des p-valeurs</em></h3>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="L06_design_intro_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="diagnosis-2" class="level2" data-number="7.6">
+<h2 data-number="7.6" class="anchored" data-anchor-id="diagnosis-2"><span class="header-section-number">7.6</span> <em>Diagnostic</em></h2>
+<section id="bias-by-hand" class="level3" data-number="7.6.1">
+<h3 data-number="7.6.1" class="anchored" data-anchor-id="bias-by-hand"><span class="header-section-number">7.6.1</span> <em>Biais à la main</em></h3>
+<p>Après de nombreuses simulations, mesurez le <strong>biais</strong> : la différence moyenne entre l’estimande et l’estimation.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>some_runs <span class="sc">|&gt;</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">error =</span> estimate <span class="sc">-</span> estimand) <span class="sc">|&gt;</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">mean_estimate =</span> <span class="fu">mean</span>(estimate),</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">mean_estimand =</span> <span class="fu">mean</span>(estimand),</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">bias =</span> <span class="fu">mean</span>(error)</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell">
+<div class="cell-output-display">
+<div class="table-responsive">
+<table class="table table-striped table-hover table-condensed caption-top table-sm small">
+<thead>
+<tr class="header">
+<th style="text-align: right;" data-quarto-table-cell-role="th">mean_estimate</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">mean_estimand</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">bias</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">0.19</td>
+<td style="text-align: right;">0.2</td>
+<td style="text-align: right;">-0.01</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</section>
+<section id="diagnosedesign" class="level3" data-number="7.6.2">
+<h3 data-number="7.6.2" class="anchored" data-anchor-id="diagnosedesign"><span class="header-section-number">7.6.2</span> <em>diagnose_design()</em></h3>
+<p><code>diagnose_design()</code> calcule les indicateurs de diagnostic en une seule étape.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>diagnosis <span class="ot">&lt;-</span> simplest_design <span class="sc">|&gt;</span> <span class="fu">diagnose_design</span>()</span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell">
+<div class="cell-output-display">
+<div class="table-responsive">
+<table class="table table-striped table-hover table-condensed caption-top table-sm small">
+<thead>
+<tr class="header">
+<th style="text-align: left;" data-quarto-table-cell-role="th">Design</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">N Sims</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">Mean Estimand</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">Mean Estimate</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">Bias</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">SD Estimate</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">RMSE</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">Power</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">Coverage</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">simplest_design</td>
+<td style="text-align: left;">1000</td>
+<td style="text-align: left;">0.20</td>
+<td style="text-align: left;">0.20</td>
+<td style="text-align: left;">0.00</td>
+<td style="text-align: left;">0.20</td>
+<td style="text-align: left;">0.20</td>
+<td style="text-align: left;">0.18</td>
+<td style="text-align: left;">0.94</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">(0.00)</td>
+<td style="text-align: left;">(0.01)</td>
+<td style="text-align: left;">(0.01)</td>
+<td style="text-align: left;">(0.00)</td>
+<td style="text-align: left;">(0.00)</td>
+<td style="text-align: left;">(0.01)</td>
+<td style="text-align: left;">(0.01)</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="redesign-2" class="level2" data-number="7.7">
+<h2 data-number="7.7" class="anchored" data-anchor-id="redesign-2"><span class="header-section-number">7.7</span> <em>Redesign</em></h2>
+<section id="what-is-redesign" class="level3" data-number="7.7.1">
+<h3 data-number="7.7.1" class="anchored" data-anchor-id="what-is-redesign"><span class="header-section-number">7.7.1</span> <em>Qu’est-ce que le redesign ?</em></h3>
+<div class="column lang-fr" style="width:50%;">
+<p>Créez un nouveau design en partant d’un design existant et en modifiant une <strong>variable</strong></p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>design_2 <span class="ot">&lt;-</span> design <span class="sc">|&gt;</span> <span class="fu">redesign</span>(<span class="at">N =</span> <span class="dv">300</span>)</span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div>
+</section>
+<section id="design-parameters" class="level3 smaller" data-number="7.7.2">
+<h3 class="smaller anchored" data-number="7.7.2" data-anchor-id="design-parameters"><span class="header-section-number">7.7.2</span> <em>Variables de design</em></h3>
+<ul>
+<li><p>Pour cela, votre design a besoin de <em>variables</em></p></li>
+<li><p>Une <strong>variable</strong> est une quantité dans votre environnement que le design cite explicitement — p.ex. <code>N</code> au lieu d’un nombre fixé.</p></li>
+<li><p>Vous la créez dans votre environnement, puis vous y faites référence lorsque vous construisez votre design.</p></li>
+</ul>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>N <span class="ot">&lt;-</span> <span class="dv">100</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>simplest_design <span class="ot">&lt;-</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">declare_model</span>(<span class="at">N =</span> N, <span class="at">Y0 =</span> <span class="fu">rnorm</span>(N), <span class="at">Y1 =</span> <span class="dv">1</span> <span class="sc">+</span> <span class="fu">rnorm</span>(N)) <span class="sc">+</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">declare_inquiry</span>(<span class="at">Q =</span> <span class="fu">mean</span>(Y1<span class="sc">-</span> Y0)) <span class="sc">+</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">declare_assignment</span>(<span class="at">X =</span> <span class="fu">simple_ra</span>(N)) <span class="sc">+</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">declare_measurement</span>(<span class="at">Y =</span> X<span class="sc">*</span>Y1 <span class="sc">+</span> (<span class="dv">1</span><span class="sc">-</span>X)<span class="sc">*</span>Y0) <span class="sc">+</span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">declare_estimator</span>(Y <span class="sc">~</span> X)</span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="simple-redesign" class="level3" data-number="7.7.3">
+<h3 data-number="7.7.3" class="anchored" data-anchor-id="simple-redesign"><span class="header-section-number">7.7.3</span> <em>Redesign simple</em></h3>
+<p><code>redesign()</code> renvoie un design modifié — ici avec <code>N = 200</code>.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>design_200 <span class="ot">&lt;-</span> simplest_design <span class="sc">|&gt;</span> <span class="fu">redesign</span>(<span class="at">N =</span> <span class="dv">200</span>)</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>design_200 <span class="sc">|&gt;</span> <span class="fu">draw_data</span>() <span class="sc">|&gt;</span> <span class="fu">nrow</span>()</span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 200</code></pre>
+</div>
+</div>
+</section>
+<section id="a-list-of-designs" class="level3 smaller" data-number="7.7.4">
+<h3 class="smaller anchored" data-number="7.7.4" data-anchor-id="a-list-of-designs"><span class="header-section-number">7.7.4</span> <em>Une liste de designs</em></h3>
+<ul>
+<li><p>Passez un <strong>vecteur</strong> de valeurs de variables pour obtenir plusieurs designs à la fois.</p></li>
+<li><p>Avec deux variables, la fonction <code>redesign()</code> construit un tableau de designs — facile à diagnostiquer et à comparer.</p></li>
+</ul>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>N <span class="ot">&lt;-</span> <span class="dv">100</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>b <span class="ot">&lt;-</span> .<span class="dv">2</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>simplest_design <span class="ot">&lt;-</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">declare_model</span>(<span class="at">N =</span> N, <span class="at">Y0 =</span> <span class="fu">rnorm</span>(N), <span class="at">Y1 =</span> b <span class="sc">+</span> <span class="fu">rnorm</span>(N)) <span class="sc">+</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">declare_inquiry</span>(<span class="at">Q =</span> <span class="fu">mean</span>(Y1<span class="sc">-</span> Y0)) <span class="sc">+</span></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">declare_assignment</span>(<span class="at">X =</span> <span class="fu">simple_ra</span>(N)) <span class="sc">+</span></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">declare_measurement</span>(<span class="at">Y =</span> X<span class="sc">*</span>Y1 <span class="sc">+</span> (<span class="dv">1</span><span class="sc">-</span>X)<span class="sc">*</span>Y0) <span class="sc">+</span></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">declare_estimator</span>(Y <span class="sc">~</span> X)</span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>designs <span class="ot">&lt;-</span> <span class="fu">redesign</span>(simplest_design, <span class="at">N =</span> <span class="fu">c</span>(<span class="dv">100</span>, <span class="dv">200</span>, <span class="dv">500</span>), <span class="at">b =</span> <span class="fu">c</span>(<span class="dv">0</span>, .<span class="dv">2</span>, .<span class="dv">5</span>))</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>designs <span class="sc">|&gt;</span> <span class="fu">diagnose_design</span>() <span class="sc">|&gt;</span> <span class="fu">tidy</span>()</span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="compare-diagnoses" class="level3" data-number="7.7.5">
+<h3 data-number="7.7.5" class="anchored" data-anchor-id="compare-diagnoses"><span class="header-section-number">7.7.5</span> <em>Comparer les diagnostics</em></h3>
+<div class="cell">
+<div class="cell-output-display">
+<div class="table-responsive">
+<table class="table table-striped table-hover table-condensed caption-top table-sm small">
+<thead>
+<tr class="header">
+<th style="text-align: right;" data-quarto-table-cell-role="th">N</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">b</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">diagnosand</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">estimate</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">std.error</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">conf.low</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">conf.high</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">100</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: left;">rmse</td>
+<td style="text-align: right;">0.14</td>
+<td style="text-align: right;">0.01</td>
+<td style="text-align: right;">0.12</td>
+<td style="text-align: right;">0.15</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">100</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: left;">power</td>
+<td style="text-align: right;">0.03</td>
+<td style="text-align: right;">0.01</td>
+<td style="text-align: right;">0.01</td>
+<td style="text-align: right;">0.05</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">200</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: left;">rmse</td>
+<td style="text-align: right;">0.10</td>
+<td style="text-align: right;">0.00</td>
+<td style="text-align: right;">0.10</td>
+<td style="text-align: right;">0.11</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">200</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: left;">power</td>
+<td style="text-align: right;">0.04</td>
+<td style="text-align: right;">0.01</td>
+<td style="text-align: right;">0.02</td>
+<td style="text-align: right;">0.06</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">500</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: left;">rmse</td>
+<td style="text-align: right;">0.06</td>
+<td style="text-align: right;">0.00</td>
+<td style="text-align: right;">0.06</td>
+<td style="text-align: right;">0.06</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">500</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: left;">power</td>
+<td style="text-align: right;">0.04</td>
+<td style="text-align: right;">0.01</td>
+<td style="text-align: right;">0.02</td>
+<td style="text-align: right;">0.07</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">100</td>
+<td style="text-align: right;">0.2</td>
+<td style="text-align: left;">rmse</td>
+<td style="text-align: right;">0.15</td>
+<td style="text-align: right;">0.01</td>
+<td style="text-align: right;">0.13</td>
+<td style="text-align: right;">0.17</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">100</td>
+<td style="text-align: right;">0.2</td>
+<td style="text-align: left;">power</td>
+<td style="text-align: right;">0.18</td>
+<td style="text-align: right;">0.03</td>
+<td style="text-align: right;">0.13</td>
+<td style="text-align: right;">0.24</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">200</td>
+<td style="text-align: right;">0.2</td>
+<td style="text-align: left;">rmse</td>
+<td style="text-align: right;">0.10</td>
+<td style="text-align: right;">0.00</td>
+<td style="text-align: right;">0.09</td>
+<td style="text-align: right;">0.11</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">200</td>
+<td style="text-align: right;">0.2</td>
+<td style="text-align: left;">power</td>
+<td style="text-align: right;">0.28</td>
+<td style="text-align: right;">0.03</td>
+<td style="text-align: right;">0.23</td>
+<td style="text-align: right;">0.34</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">500</td>
+<td style="text-align: right;">0.2</td>
+<td style="text-align: left;">rmse</td>
+<td style="text-align: right;">0.07</td>
+<td style="text-align: right;">0.00</td>
+<td style="text-align: right;">0.06</td>
+<td style="text-align: right;">0.08</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">500</td>
+<td style="text-align: right;">0.2</td>
+<td style="text-align: left;">power</td>
+<td style="text-align: right;">0.53</td>
+<td style="text-align: right;">0.03</td>
+<td style="text-align: right;">0.47</td>
+<td style="text-align: right;">0.58</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">100</td>
+<td style="text-align: right;">0.5</td>
+<td style="text-align: left;">rmse</td>
+<td style="text-align: right;">0.14</td>
+<td style="text-align: right;">0.01</td>
+<td style="text-align: right;">0.13</td>
+<td style="text-align: right;">0.15</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">100</td>
+<td style="text-align: right;">0.5</td>
+<td style="text-align: left;">power</td>
+<td style="text-align: right;">0.71</td>
+<td style="text-align: right;">0.03</td>
+<td style="text-align: right;">0.65</td>
+<td style="text-align: right;">0.76</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">200</td>
+<td style="text-align: right;">0.5</td>
+<td style="text-align: left;">rmse</td>
+<td style="text-align: right;">0.09</td>
+<td style="text-align: right;">0.00</td>
+<td style="text-align: right;">0.09</td>
+<td style="text-align: right;">0.10</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">200</td>
+<td style="text-align: right;">0.5</td>
+<td style="text-align: left;">power</td>
+<td style="text-align: right;">0.92</td>
+<td style="text-align: right;">0.02</td>
+<td style="text-align: right;">0.89</td>
+<td style="text-align: right;">0.94</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">500</td>
+<td style="text-align: right;">0.5</td>
+<td style="text-align: left;">rmse</td>
+<td style="text-align: right;">0.07</td>
+<td style="text-align: right;">0.00</td>
+<td style="text-align: right;">0.06</td>
+<td style="text-align: right;">0.07</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">500</td>
+<td style="text-align: right;">0.5</td>
+<td style="text-align: left;">power</td>
+<td style="text-align: right;">1.00</td>
+<td style="text-align: right;">0.00</td>
+<td style="text-align: right;">1.00</td>
+<td style="text-align: right;">1.00</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</section>
+<section id="plot-after-redesign" class="level3 smaller" data-number="7.7.6">
+<h3 class="smaller anchored" data-number="7.7.6" data-anchor-id="plot-after-redesign"><span class="header-section-number">7.7.6</span> <em>Graphique après redesign</em></h3>
+<p>Après <code>tidy()</code>, ggplot permet de comparer facilement les redesigns.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="L06_design_intro_files/figure-html/unnamed-chunk-26-1.png" class="img-fluid figure-img" width="576"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>La puissance statistique dépend du <em>N</em> et de la taille de l’effet ; L’erreur quadratique moyenne ne dépend que de <em>N</em>.</p>
+</section>
+</section>
+<section id="resources" class="level2" data-number="7.8">
+<h2 data-number="7.8" class="anchored" data-anchor-id="resources"><span class="header-section-number">7.8</span> <em>Ressources</em></h2>
+<section id="declare-commands" class="level3" data-number="7.8.1">
+<h3 data-number="7.8.1" class="anchored" data-anchor-id="declare-commands"><span class="header-section-number">7.8.1</span> <em>Commandes declare_</em></h3>
+<div class="column lang-fr" style="width:50%;">
+<p>Étapes clés pour <strong>construire</strong> un design :</p>
+<ul>
+<li><code>declare_model()</code></li>
+<li><code>declare_inquiry()</code></li>
+<li><code>declare_sampling()</code></li>
+<li><code>declare_assignment()</code></li>
+<li><code>declare_measurement()</code></li>
+<li><code>declare_estimator()</code></li>
+<li>… et d’autres fonctions <code>declare_*</code></li>
+</ul>
+</div>
+</section>
+<section id="using-a-design" class="level3" data-number="7.8.2">
+<h3 data-number="7.8.2" class="anchored" data-anchor-id="using-a-design"><span class="header-section-number">7.8.2</span> <em>Utiliser un design</em></h3>
+<div class="column lang-fr" style="width:50%;">
+<p>Commandes clés pour <strong>exécuter</strong> un design et <strong>en tirer des conclusions</strong> :</p>
+<ul>
+<li><code>draw_data(design)</code>, <code>draw_estimands(design)</code>, <code>draw_estimates(design)</code></li>
+<li><code>get_estimates(design, data)</code></li>
+<li><code>run_design(design)</code>, <code>simulate_design(design)</code></li>
+<li><code>diagnose_design(design)</code></li>
+<li><code>redesign(design, N = 200)</code></li>
+<li><code>compare_designs()</code>, <code>compare_diagnoses()</code></li>
+</ul>
+</div>
+</section>
+<section id="other-resources" class="level3" data-number="7.8.3">
+<h3 data-number="7.8.3" class="anchored" data-anchor-id="other-resources"><span class="header-section-number">7.8.3</span> <em>Autres ressources</em></h3>
+<ul>
+<li>Diapositives complètes : <a href="https://macartan.github.io/dd_bootcamp/">macartan.github.io/dd_bootcamp</a></li>
+<li>Site web : <a href="https://declaredesign.org/">declaredesign.org</a></li>
+<li>Livre : <a href="https://book.declaredesign.org">book.declaredesign.org</a></li>
+<li>Aide console : <code>?DeclareDesign</code></li>
+</ul>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copié");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copié");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../../chapters/fr/L05_randomization_2.html" class="pagination-link" aria-label="C05 — Randomisation 2">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">C05 — Randomisation 2</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../../chapters/fr/L07_estimation_1.html" class="pagination-link" aria-label="C07 — Estimation 1">
+        <span class="nav-page-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">C07 — Estimation 1</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

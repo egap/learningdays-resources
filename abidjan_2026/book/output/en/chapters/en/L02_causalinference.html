@@ -1,0 +1,1308 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.27">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>3&nbsp; L02 — Causal inference – EGAP Learning Days Abidjan 2026</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<link href="../../chapters/en/L03_randomization_1.html" rel="next">
+<link href="../../chapters/en/L01_why-experiment.html" rel="prev">
+<script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-ed96de9b727972fe78a7b5d16c58bf87.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-d9ea66fcd6c317012447f26e9c021348.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="../../assets/abidjan-book.css">
+</head>
+
+<body class="nav-sidebar floating nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">EGAP Learning Days Abidjan 2026</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="https://egap.github.io/learningdays-resources/abidjan_2026/index.html"> 
+<span class="menu-text">All resources</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../chapters/en/L01_why-experiment.html">Lectures</a></li><li class="breadcrumb-item"><a href="../../chapters/en/L02_causalinference.html"><span class="chapter-title">L02 — Causal inference</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-title">Home</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Lectures</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/en/L01_why-experiment.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">L01 — Why experiment?</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/en/L02_causalinference.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">L02 — Causal inference</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/en/L03_randomization_1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">L03 — Randomization 1</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/en/L04_R_intro.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">L04 — Introduction to R</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/en/L05_randomization_2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">L05 — Randomization 2</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/en/L06_design_intro.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">L06 — Design &amp; diagnosis</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/en/L07_estimation_1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">L07 — Estimation 1</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/en/L08_estimation_2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">L08 — Estimation 2</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/en/L09_power_intro.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">L09 — Power &amp; diagnosis</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/en/L10_ethics.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">L10 — Ethics and experiments</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/en/L11_presenting.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">L11 — Presenting results</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/en/L12_threats.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">L12 — Threats to validity</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/en/L13_lifecycle.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">L13 — Lifecycle of an experiment</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/en/L14_grants.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">L14 — Applying for grants</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+ <span class="menu-text">Exercises &amp; quizzes</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/en/E01_experiment_slides.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">E01 — In-class experiment</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/en/E02_R_exercises.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">E02 — R exercises</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/en/E03_projects.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">E03 — Projects</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/en/quiz-tuesday.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Quiz — Day 2</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/en/quiz-wednesday.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Quiz — Day 3</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/en/quiz-thursday.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">Quiz — Day 4</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active" data-toc-expanded="2">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#causal-effects" id="toc-causal-effects" class="nav-link active" data-scroll-target="#causal-effects"><span class="header-section-number">3.1</span> Causal effects</a>
+  <ul class="collapse">
+  <li><a href="#what-do-we-mean-by-��x-causes-y�" id="toc-what-do-we-mean-by-��x-causes-y�" class="nav-link" data-scroll-target="#what-do-we-mean-by-��x-causes-y�"><span class="header-section-number">3.1.1</span> What do we mean by “<span class="math inline">\(X\)</span> causes <span class="math inline">\(Y\)</span>”?</a></li>
+  <li><a href="#treatments" id="toc-treatments" class="nav-link" data-scroll-target="#treatments"><span class="header-section-number">3.1.2</span> Treatments</a></li>
+  </ul></li>
+  <li><a href="#learning-about-the-average-causal-effect-from-an-experiment" id="toc-learning-about-the-average-causal-effect-from-an-experiment" class="nav-link" data-scroll-target="#learning-about-the-average-causal-effect-from-an-experiment"><span class="header-section-number">3.2</span> Learning about the average causal effect from an experiment</a>
+  <ul class="collapse">
+  <li><a href="#research-question" id="toc-research-question" class="nav-link" data-scroll-target="#research-question"><span class="header-section-number">3.2.1</span> Research question</a></li>
+  <li><a href="#the-ate-is-the-average-of-individual-treatment-effects" id="toc-the-ate-is-the-average-of-individual-treatment-effects" class="nav-link" data-scroll-target="#the-ate-is-the-average-of-individual-treatment-effects"><span class="header-section-number">3.2.2</span> The ATE is the average of <em>individual</em> treatment effects</a></li>
+  <li><a href="#we-use-a-model-of-potential-outcomes" id="toc-we-use-a-model-of-potential-outcomes" class="nav-link" data-scroll-target="#we-use-a-model-of-potential-outcomes"><span class="header-section-number">3.2.3</span> We use a model of potential outcomes</a></li>
+  <li><a href="#we-have-12-units" id="toc-we-have-12-units" class="nav-link" data-scroll-target="#we-have-12-units"><span class="header-section-number">3.2.4</span> We have 12 units</a></li>
+  <li><a href="#each-unit-has-both-yi1-and-yi0" id="toc-each-unit-has-both-yi1-and-yi0" class="nav-link" data-scroll-target="#each-unit-has-both-yi1-and-yi0"><span class="header-section-number">3.2.5</span> Each unit has both <span class="math inline">\(Y_i(1)\)</span> and <span class="math inline">\(Y_i(0)\)</span></a></li>
+  <li><a href="#each-unit-has-both-yi1-and-yi0-2" id="toc-each-unit-has-both-yi1-and-yi0-2" class="nav-link" data-scroll-target="#each-unit-has-both-yi1-and-yi0-2"><span class="header-section-number">3.2.6</span> Each unit has both <span class="math inline">\(Y_i(1)\)</span> and <span class="math inline">\(Y_i(0)\)</span></a></li>
+  <li><a href="#the-treatment-effect-for-i-is-defined-as-taui-equiv-yi1-yi0" id="toc-the-treatment-effect-for-i-is-defined-as-taui-equiv-yi1-yi0" class="nav-link" data-scroll-target="#the-treatment-effect-for-i-is-defined-as-taui-equiv-yi1-yi0"><span class="header-section-number">3.2.7</span> The treatment effect for <span class="math inline">\(i\)</span> is defined as <span class="math inline">\(\tau_i \equiv Y_i(1) - Y_i(0)\)</span></a></li>
+  <li><a href="#average-treatment-effect-overlinetaui-overlineyi1-yi0" id="toc-average-treatment-effect-overlinetaui-overlineyi1-yi0" class="nav-link" data-scroll-target="#average-treatment-effect-overlinetaui-overlineyi1-yi0"><span class="header-section-number">3.2.8</span> Average Treatment Effect <span class="math inline">\(\overline{\tau_i}= \overline{Y_i(1)-Y_i(0)}\)</span></a></li>
+  <li><a href="#fundamental-problem-of-causal-inference" id="toc-fundamental-problem-of-causal-inference" class="nav-link" data-scroll-target="#fundamental-problem-of-causal-inference"><span class="header-section-number">3.2.9</span> Fundamental problem of causal inference</a></li>
+  <li><a href="#connecting-observed-outcomes-to-potential-outcomes" id="toc-connecting-observed-outcomes-to-potential-outcomes" class="nav-link" data-scroll-target="#connecting-observed-outcomes-to-potential-outcomes"><span class="header-section-number">3.2.10</span> Connecting observed outcomes to potential outcomes</a></li>
+  <li><a href="#a-random-assignment" id="toc-a-random-assignment" class="nav-link" data-scroll-target="#a-random-assignment"><span class="header-section-number">3.2.11</span> A random assignment</a></li>
+  <li><a href="#we-learn-the-outcomes-and-produce-an-estimate" id="toc-we-learn-the-outcomes-and-produce-an-estimate" class="nav-link" data-scroll-target="#we-learn-the-outcomes-and-produce-an-estimate"><span class="header-section-number">3.2.12</span> We learn the outcomes and produce an estimate</a></li>
+  <li><a href="#potential-outcomes-why-randomization-works" id="toc-potential-outcomes-why-randomization-works" class="nav-link" data-scroll-target="#potential-outcomes-why-randomization-works"><span class="header-section-number">3.2.13</span> Potential outcomes: why randomization works</a></li>
+  <li><a href="#potential-outcomes-a-bad-selection-procedure" id="toc-potential-outcomes-a-bad-selection-procedure" class="nav-link" data-scroll-target="#potential-outcomes-a-bad-selection-procedure"><span class="header-section-number">3.2.14</span> Potential outcomes: A bad selection procedure</a></li>
+  </ul></li>
+  <li><a href="#randomization-works-in-expectation" id="toc-randomization-works-in-expectation" class="nav-link" data-scroll-target="#randomization-works-in-expectation"><span class="header-section-number">3.3</span> Randomization works in expectation</a>
+  <ul class="collapse">
+  <li><a href="#important-a-different-random-assignment-would-have-produced-another-estimate-maybe-different" id="toc-important-a-different-random-assignment-would-have-produced-another-estimate-maybe-different" class="nav-link" data-scroll-target="#important-a-different-random-assignment-would-have-produced-another-estimate-maybe-different"><span class="header-section-number">3.3.1</span> Important!: A different random assignment would have produced another estimate (maybe different)</a></li>
+  <li><a href="#randomization-works-in-expectation-2" id="toc-randomization-works-in-expectation-2" class="nav-link" data-scroll-target="#randomization-works-in-expectation-2"><span class="header-section-number">3.3.2</span> Randomization works in expectation</a></li>
+  <li><a href="#randomization-works-in-expectation-3" id="toc-randomization-works-in-expectation-3" class="nav-link" data-scroll-target="#randomization-works-in-expectation-3"><span class="header-section-number">3.3.3</span> Randomization works in expectation</a></li>
+  </ul></li>
+  <li><a href="#why" id="toc-why" class="nav-link" data-scroll-target="#why"><span class="header-section-number">3.4</span> Why?</a>
+  <ul class="collapse">
+  <li><a href="#randomization-works-in-expectation-4" id="toc-randomization-works-in-expectation-4" class="nav-link" data-scroll-target="#randomization-works-in-expectation-4"><span class="header-section-number">3.4.1</span> Randomization works in expectation</a></li>
+  <li><a href="#remember-we-can-take-a-random-sample-of-these-yi1" id="toc-remember-we-can-take-a-random-sample-of-these-yi1" class="nav-link" data-scroll-target="#remember-we-can-take-a-random-sample-of-these-yi1"><span class="header-section-number">3.4.2</span> Remember! We can take a random sample of these <span class="math inline">\(Y_i(1)\)</span></a></li>
+  <li><a href="#we-can-take-another-random-sample-of-these-yi1" id="toc-we-can-take-another-random-sample-of-these-yi1" class="nav-link" data-scroll-target="#we-can-take-another-random-sample-of-these-yi1"><span class="header-section-number">3.4.3</span> We can take another random sample of these <span class="math inline">\(Y_i(1)\)</span></a></li>
+  <li><a href="#and-another" id="toc-and-another" class="nav-link" data-scroll-target="#and-another"><span class="header-section-number">3.4.4</span> And another!</a></li>
+  <li><a href="#average-of-sample-averages" id="toc-average-of-sample-averages" class="nav-link" data-scroll-target="#average-of-sample-averages"><span class="header-section-number">3.4.5</span> Average of sample averages</a></li>
+  <li><a href="#average-of-sample-averages-2" id="toc-average-of-sample-averages-2" class="nav-link" data-scroll-target="#average-of-sample-averages-2"><span class="header-section-number">3.4.6</span> Average of sample averages</a></li>
+  <li><a href="#randomization-works-in-expectation-5" id="toc-randomization-works-in-expectation-5" class="nav-link" data-scroll-target="#randomization-works-in-expectation-5"><span class="header-section-number">3.4.7</span> Randomization works in expectation</a></li>
+  </ul></li>
+  <li><a href="#quiz" id="toc-quiz" class="nav-link" data-scroll-target="#quiz"><span class="header-section-number">3.5</span> Quiz</a>
+  <ul class="collapse">
+  <li><a href="#quiz" id="toc-quiz" class="nav-link" data-scroll-target="#quiz"><span class="header-section-number">3.5.1</span> Quiz</a></li>
+  <li><a href="#quiz-2" id="toc-quiz-2" class="nav-link" data-scroll-target="#quiz-2"><span class="header-section-number">3.5.2</span> Quiz</a></li>
+  </ul></li>
+  <li><a href="#core-assumptions" id="toc-core-assumptions" class="nav-link" data-scroll-target="#core-assumptions"><span class="header-section-number">3.6</span> Core assumptions</a>
+  <ul class="collapse">
+  <li><a href="#core-assumptions-2" id="toc-core-assumptions-2" class="nav-link" data-scroll-target="#core-assumptions-2"><span class="header-section-number">3.6.1</span> Core assumptions</a></li>
+  <li><a href="#core-assumption-1-random-assignment-of-treatment" id="toc-core-assumption-1-random-assignment-of-treatment" class="nav-link" data-scroll-target="#core-assumption-1-random-assignment-of-treatment"><span class="header-section-number">3.6.2</span> Core assumption 1: Random assignment of treatment</a></li>
+  <li><a href="#core-assumption-1-random-assignment-of-treatment-2" id="toc-core-assumption-1-random-assignment-of-treatment-2" class="nav-link" data-scroll-target="#core-assumption-1-random-assignment-of-treatment-2"><span class="header-section-number">3.6.3</span> Core assumption 1: Random assignment of treatment</a></li>
+  <li><a href="#core-assumption-2-sutva-part-1" id="toc-core-assumption-2-sutva-part-1" class="nav-link" data-scroll-target="#core-assumption-2-sutva-part-1"><span class="header-section-number">3.6.4</span> Core assumption 2: SUTVA, part 1</a></li>
+  <li><a href="#core-assumption-2-sutva-part-2" id="toc-core-assumption-2-sutva-part-2" class="nav-link" data-scroll-target="#core-assumption-2-sutva-part-2"><span class="header-section-number">3.6.5</span> Core assumption 2: SUTVA, part 2</a></li>
+  <li><a href="#core-assumption-3-excludability" id="toc-core-assumption-3-excludability" class="nav-link" data-scroll-target="#core-assumption-3-excludability"><span class="header-section-number">3.6.6</span> Core assumption 3: Excludability</a></li>
+  <li><a href="#these-assumptions-are-our-responsibility" id="toc-these-assumptions-are-our-responsibility" class="nav-link" data-scroll-target="#these-assumptions-are-our-responsibility"><span class="header-section-number">3.6.7</span> These assumptions are our responsibility</a></li>
+  </ul></li>
+  <li><a href="#randomized-experiments-vs-observational-studies" id="toc-randomized-experiments-vs-observational-studies" class="nav-link" data-scroll-target="#randomized-experiments-vs-observational-studies"><span class="header-section-number">3.7</span> Randomized experiments vs observational studies</a>
+  <ul class="collapse">
+  <li><a href="#randomized-studies" id="toc-randomized-studies" class="nav-link" data-scroll-target="#randomized-studies"><span class="header-section-number">3.7.1</span> Randomized studies</a></li>
+  <li><a href="#internal-validity" id="toc-internal-validity" class="nav-link" data-scroll-target="#internal-validity"><span class="header-section-number">3.7.2</span> Internal validity</a></li>
+  <li><a href="#external-validity-generalizability" id="toc-external-validity-generalizability" class="nav-link" data-scroll-target="#external-validity-generalizability"><span class="header-section-number">3.7.3</span> External validity (generalizability)</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../chapters/en/L01_why-experiment.html">Lectures</a></li><li class="breadcrumb-item"><a href="../../chapters/en/L02_causalinference.html"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">L02 — Causal inference</span></a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">L02 — Causal inference</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="causal-effects" class="level2" data-number="3.1">
+<h2 data-number="3.1" class="anchored" data-anchor-id="causal-effects"><span class="header-section-number">3.1</span> Causal effects</h2>
+<section id="what-do-we-mean-by-��x-causes-y�" class="level3" data-number="3.1.1">
+<h3 data-number="3.1.1" class="anchored" data-anchor-id="what-do-we-mean-by-��x-causes-y�"><span class="header-section-number">3.1.1</span> What do we mean by “<span class="math inline">\(X\)</span> causes <span class="math inline">\(Y\)</span>”?</h3>
+<ul>
+<li><p>We take a counterfactual approach.</p></li>
+<li><p>“<span class="math inline">\(X\)</span> causes <span class="math inline">\(Y\)</span>” is a claim about what didn’t happen.</p>
+<ul>
+<li><p>“If <span class="math inline">\(X\)</span> had not occurred, then <span class="math inline">\(Y\)</span> would not have occurred.”</p></li>
+<li><p>“With <span class="math inline">\(X\)</span>, the probability of <span class="math inline">\(Y\)</span> is higher than would be without <span class="math inline">\(X\)</span>.”</p></li>
+<li><p>“<span class="math inline">\(X\)</span> causes <span class="math inline">\(Y\)</span>” does not mean some other thing, <span class="math inline">\(W\)</span>, does not cause <span class="math inline">\(Y\)</span>.</p></li>
+</ul></li>
+</ul>
+</section>
+<section id="treatments" class="level3" data-number="3.1.2">
+<h3 data-number="3.1.2" class="anchored" data-anchor-id="treatments"><span class="header-section-number">3.1.2</span> Treatments</h3>
+<ul>
+<li><p>We must define what having <span class="math inline">\(X\)</span> and not having <span class="math inline">\(X\)</span> mean to define a causal effect.</p></li>
+<li><p>You have to define what you mean by control:</p>
+<ul>
+<li><p>Absence of any intervention.</p></li>
+<li><p>Placebo.</p></li>
+</ul></li>
+</ul>
+</section>
+</section>
+<section id="learning-about-the-average-causal-effect-from-an-experiment" class="level2" data-number="3.2">
+<h2 data-number="3.2" class="anchored" data-anchor-id="learning-about-the-average-causal-effect-from-an-experiment"><span class="header-section-number">3.2</span> Learning about the average causal effect from an experiment</h2>
+<section id="research-question" class="level3" data-number="3.2.1">
+<h3 data-number="3.2.1" class="anchored" data-anchor-id="research-question"><span class="header-section-number">3.2.1</span> Research question</h3>
+<ul>
+<li>What is the effect of drinking coffee at breakfast on energy levels right now for everyone at Learning Days?</li>
+</ul>
+<!-- ::: {.footnote} -->
+<!-- Par Julius Schorzman — Travail personnel, CC BY-SA 2.0, <https://commons.wikimedia.org/w/index.php?curid=107645> -->
+<!-- ::: -->
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../../Images/A_small_cup_of_coffee.jpeg" class="img-fluid quarto-figure quarto-figure-center figure-img" width="80"></p>
+</figure>
+</div>
+</section>
+<section id="the-ate-is-the-average-of-individual-treatment-effects" class="level3" data-number="3.2.2">
+<h3 data-number="3.2.2" class="anchored" data-anchor-id="the-ate-is-the-average-of-individual-treatment-effects"><span class="header-section-number">3.2.2</span> The ATE is the average of <em>individual</em> treatment effects</h3>
+<ul>
+<li>Before defining an average treatment effect, we define a treatment effect for an individual <span class="math inline">\(i\)</span>.</li>
+</ul>
+</section>
+<section id="we-use-a-model-of-potential-outcomes" class="level3" data-number="3.2.3">
+<h3 data-number="3.2.3" class="anchored" data-anchor-id="we-use-a-model-of-potential-outcomes"><span class="header-section-number">3.2.3</span> We use a model of potential outcomes</h3>
+<div class="column lang-en" style="width:50%;">
+<p>For a unit <span class="math inline">\(i\)</span>, we assume that there are two <em>potential</em> outcomes: <span class="math inline">\(Y_i(1)\)</span> and <span class="math inline">\(Y_i(0)\)</span>.</p>
+<ul>
+<li><p><span class="math inline">\(Y_i(1)\)</span> is the outcome that we <em>would</em> obtain <em>if</em> the unit were to receive the treatment (<span class="math inline">\(X_i=1\)</span>).</p></li>
+<li><p><span class="math inline">\(Y_i(0)\)</span> is the outcome that we <em>would</em> obtain <em>if</em> the unit were to receive the control (<span class="math inline">\(X_i=0\)</span>).</p></li>
+</ul>
+</div>
+</section>
+<section id="we-have-12-units" class="level3 smaller" data-number="3.2.4">
+<h3 class="smaller anchored" data-number="3.2.4" data-anchor-id="we-have-12-units"><span class="header-section-number">3.2.4</span> We have 12 units</h3>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="L02_causalinference_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="864"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="each-unit-has-both-yi1-and-yi0" class="level3 smaller" data-number="3.2.5">
+<h3 class="smaller anchored" data-number="3.2.5" data-anchor-id="each-unit-has-both-yi1-and-yi0"><span class="header-section-number">3.2.5</span> Each unit has both <span class="math inline">\(Y_i(1)\)</span> and <span class="math inline">\(Y_i(0)\)</span></h3>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="L02_causalinference_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="864"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="each-unit-has-both-yi1-and-yi0-2" class="level3 smaller" data-number="3.2.6">
+<h3 class="smaller anchored" data-number="3.2.6" data-anchor-id="each-unit-has-both-yi1-and-yi0-2"><span class="header-section-number">3.2.6</span> Each unit has both <span class="math inline">\(Y_i(1)\)</span> and <span class="math inline">\(Y_i(0)\)</span></h3>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="L02_causalinference_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="864"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="the-treatment-effect-for-i-is-defined-as-taui-equiv-yi1-yi0" class="level3 smaller" data-number="3.2.7">
+<h3 class="smaller anchored" data-number="3.2.7" data-anchor-id="the-treatment-effect-for-i-is-defined-as-taui-equiv-yi1-yi0"><span class="header-section-number">3.2.7</span> The treatment effect for <span class="math inline">\(i\)</span> is defined as <span class="math inline">\(\tau_i \equiv Y_i(1) - Y_i(0)\)</span></h3>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="L02_causalinference_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="864"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="average-treatment-effect-overlinetaui-overlineyi1-yi0" class="level3 smaller" data-number="3.2.8">
+<h3 class="smaller anchored" data-number="3.2.8" data-anchor-id="average-treatment-effect-overlinetaui-overlineyi1-yi0"><span class="header-section-number">3.2.8</span> Average Treatment Effect <span class="math inline">\(\overline{\tau_i}= \overline{Y_i(1)-Y_i(0)}\)</span></h3>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="L02_causalinference_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="864"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="fundamental-problem-of-causal-inference" class="level3" data-number="3.2.9">
+<h3 data-number="3.2.9" class="anchored" data-anchor-id="fundamental-problem-of-causal-inference"><span class="header-section-number">3.2.9</span> Fundamental problem of causal inference</h3>
+<ul>
+<li><p><strong>We can’t measure the individual-level causal effect</strong>, because we can’t observe both <span class="math inline">\(Y_i(1)\)</span> and <span class="math inline">\(Y_i(0)\)</span> at the same time.</p></li>
+<li><p>But we can still estimate the <strong>average treatment effect</strong> with a randomized experiment.</p></li>
+</ul>
+<!-- ## Let's go back to the $Y_i(1)$ | *Revenons à* $Y_i(1)$ -->
+<!-- ```{r} -->
+<!-- plot_grid( -->
+<!--   Y1, -->
+<!--   title = sprintf("true average of Y(1) = %.2f", mean(Y1)), -->
+<!--   color = "red" -->
+<!-- ) -->
+<!-- ``` -->
+</section>
+<section id="connecting-observed-outcomes-to-potential-outcomes" class="level3" data-number="3.2.10">
+<h3 data-number="3.2.10" class="anchored" data-anchor-id="connecting-observed-outcomes-to-potential-outcomes"><span class="header-section-number">3.2.10</span> Connecting observed outcomes to potential outcomes</h3>
+<p>What we <strong>actually see</strong> is a combination of potential outcomes, coming from different samples: the sample of those assigned to treatment and the sample of those assigned to control.</p>
+</section>
+<section id="a-random-assignment" class="level3 smaller" data-number="3.2.11">
+<h3 class="smaller anchored" data-number="3.2.11" data-anchor-id="a-random-assignment"><span class="header-section-number">3.2.11</span> A random assignment</h3>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="L02_causalinference_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="864"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="we-learn-the-outcomes-and-produce-an-estimate" class="level3 smaller" data-number="3.2.12">
+<h3 class="smaller anchored" data-number="3.2.12" data-anchor-id="we-learn-the-outcomes-and-produce-an-estimate"><span class="header-section-number">3.2.12</span> We learn the outcomes and produce an estimate</h3>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="L02_causalinference_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="864"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>We estimate an effect by taking two samples of potential outcomes</p>
+</section>
+<section id="potential-outcomes-why-randomization-works" class="level3 po-graph-slide" data-number="3.2.13">
+<h3 class="po-graph-slide anchored" data-number="3.2.13" data-anchor-id="potential-outcomes-why-randomization-works"><span class="header-section-number">3.2.13</span> Potential outcomes: why randomization works</h3>
+<div class="cell" data-layout-align="center" data-fig.class="po-graph-figure">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="L02_causalinference_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="1440"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="potential-outcomes-a-bad-selection-procedure" class="level3 po-graph-slide" data-number="3.2.14">
+<h3 class="po-graph-slide anchored" data-number="3.2.14" data-anchor-id="potential-outcomes-a-bad-selection-procedure"><span class="header-section-number">3.2.14</span> Potential outcomes: A bad selection procedure</h3>
+<div class="cell" data-layout-align="center" data-fig.class="po-graph-figure">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="L02_causalinference_files/figure-html/unnamed-chunk-15-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="1440"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="randomization-works-in-expectation" class="level2" data-number="3.3">
+<h2 data-number="3.3" class="anchored" data-anchor-id="randomization-works-in-expectation"><span class="header-section-number">3.3</span> Randomization works in expectation</h2>
+<section id="important-a-different-random-assignment-would-have-produced-another-estimate-maybe-different" class="level3" data-number="3.3.1">
+<h3 data-number="3.3.1" class="anchored" data-anchor-id="important-a-different-random-assignment-would-have-produced-another-estimate-maybe-different"><span class="header-section-number">3.3.1</span> Important!: A different random assignment would have produced another estimate (maybe different)</h3>
+<div class="columns">
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="L02_causalinference_files/figure-html/unnamed-chunk-16-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:100.0%"></p>
+</figure>
+</div>
+</div>
+</div><div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="L02_causalinference_files/figure-html/unnamed-chunk-17-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:100.0%"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="randomization-works-in-expectation-2" class="level3" data-number="3.3.2">
+<h3 data-number="3.3.2" class="anchored" data-anchor-id="randomization-works-in-expectation-2"><span class="header-section-number">3.3.2</span> Randomization works in expectation</h3>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="L02_causalinference_files/figure-html/unnamed-chunk-18-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="768"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="randomization-works-in-expectation-3" class="level3" data-number="3.3.3">
+<h3 data-number="3.3.3" class="anchored" data-anchor-id="randomization-works-in-expectation-3"><span class="header-section-number">3.3.3</span> Randomization works in expectation</h3>
+<ul>
+<li><p>A particular random assignment will probably not give us the true average treatment effect.</p></li>
+<li><p>But the average of the estimates produced by all possible randomizations will be the true average treatment effect!</p></li>
+</ul>
+</section>
+</section>
+<section id="why" class="level2" data-number="3.4">
+<h2 data-number="3.4" class="anchored" data-anchor-id="why"><span class="header-section-number">3.4</span> Why?</h2>
+<section id="randomization-works-in-expectation-4" class="level3 smaller" data-number="3.4.1">
+<h3 class="smaller anchored" data-number="3.4.1" data-anchor-id="randomization-works-in-expectation-4"><span class="header-section-number">3.4.1</span> Randomization works in expectation</h3>
+<p><span class="math display">\[\mathbb E_R[\overline{Y_i}|X_i=1]=\overline{Y_i(1)}\]</span> <span class="math display">\[\mathbb E_R[\overline{Y_i}|X_i=0]=\overline{Y_i(0)}\]</span></p>
+<div class="column lang-en" style="width:50%;">
+<p>Because the units were randomly assigned to treatment, the average of the <span class="math inline">\(Y_i\)</span> for the treated units is a good estimate of the average of <span class="math inline">\(Y_i(1)\)</span> for all the units.</p>
+<p>The same logic applies to the units randomly assigned to control.</p>
+</div>
+</section>
+<section id="remember-we-can-take-a-random-sample-of-these-yi1" class="level3" data-number="3.4.2">
+<h3 data-number="3.4.2" class="anchored" data-anchor-id="remember-we-can-take-a-random-sample-of-these-yi1"><span class="header-section-number">3.4.2</span> Remember! We can take a random sample of these <span class="math inline">\(Y_i(1)\)</span></h3>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="L02_causalinference_files/figure-html/unnamed-chunk-19-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="864"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="we-can-take-another-random-sample-of-these-yi1" class="level3" data-number="3.4.3">
+<h3 data-number="3.4.3" class="anchored" data-anchor-id="we-can-take-another-random-sample-of-these-yi1"><span class="header-section-number">3.4.3</span> We can take another random sample of these <span class="math inline">\(Y_i(1)\)</span></h3>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="L02_causalinference_files/figure-html/unnamed-chunk-20-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="864"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="and-another" class="level3" data-number="3.4.4">
+<h3 data-number="3.4.4" class="anchored" data-anchor-id="and-another"><span class="header-section-number">3.4.4</span> And another!</h3>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="L02_causalinference_files/figure-html/unnamed-chunk-21-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="864"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="average-of-sample-averages" class="level3" data-number="3.4.5">
+<h3 data-number="3.4.5" class="anchored" data-anchor-id="average-of-sample-averages"><span class="header-section-number">3.4.5</span> Average of sample averages</h3>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="L02_causalinference_files/figure-html/unnamed-chunk-22-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="768"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="average-of-sample-averages-2" class="level3" data-number="3.4.6">
+<h3 data-number="3.4.6" class="anchored" data-anchor-id="average-of-sample-averages-2"><span class="header-section-number">3.4.6</span> Average of sample averages</h3>
+<ul>
+<li><p>A particular sample average will not be the true population average.</p></li>
+<li><p>But the average of all the sample averages will be the true population average!</p></li>
+</ul>
+</section>
+<section id="randomization-works-in-expectation-5" class="level3" data-number="3.4.7">
+<h3 data-number="3.4.7" class="anchored" data-anchor-id="randomization-works-in-expectation-5"><span class="header-section-number">3.4.7</span> Randomization works in expectation</h3>
+<p><span class="math display">\[
+\begin{aligned}
+ATE = \overline{\tau_i} &amp;= \overline{Y_i(1)-Y_i(0)} \\
+&amp;= \overline{Y_i(1)}-\overline{Y_i(0)}
+\end{aligned}
+\]</span></p>
+<p>And we can estimate these components!</p>
+<p><span class="math display">\[\text{✓  }\mathbb E_R[\overline{Y_i}|X_i=1]=\overline{Y_i(1)}\]</span></p>
+<p><span class="math display">\[\text{✓  }\mathbb E_R[\overline{Y_i}|X_i=0]=\overline{Y_i(0)}\]</span></p>
+</section>
+</section>
+<section id="quiz" class="level2" data-number="3.5">
+<h2 data-number="3.5" class="anchored" data-anchor-id="quiz"><span class="header-section-number">3.5</span> Quiz</h2>
+<section id="quiz" class="level3 compact-table" data-number="3.5.1">
+<h3 class="compact-table anchored" data-number="3.5.1" data-anchor-id="quiz"><span class="header-section-number">3.5.1</span> Quiz</h3>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Unit</th>
+<th style="text-align: center;">Y(0)</th>
+<th style="text-align: center;">Y(1)</th>
+<th style="text-align: center;"><span class="math inline">\(\tau_i\)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1</td>
+<td style="text-align: center;">4</td>
+<td style="text-align: center;">3</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr class="even">
+<td>2</td>
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">3</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr class="odd">
+<td>3</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">3</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr class="even">
+<td>4</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">3</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr class="odd">
+<td>5</td>
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">3</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Questions for us:</strong> What are the unit level treatment effects? What is the average treatment effect?</p>
+</section>
+<section id="quiz-2" class="level3 compact-table" data-number="3.5.2">
+<h3 class="compact-table anchored" data-number="3.5.2" data-anchor-id="quiz-2"><span class="header-section-number">3.5.2</span> Quiz</h3>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Z</th>
+<th style="text-align: center;">Y(0)</th>
+<th style="text-align: center;">Y(1)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">✓</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;">2</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">X</td>
+<td style="text-align: center;">3</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">X</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">✓</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;">3</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">X</td>
+<td style="text-align: center;">2</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<div class="column lang-en" style="width:50%;">
+<p><strong>Fill in the blanks, assuming…</strong></p>
+<ul>
+<li>a constant treatment effect of <span class="math inline">\(+1\)</span></li>
+<li>a constant treatment effect of <span class="math inline">\(-1\)</span></li>
+<li>an <em>average</em> treatment effect of <span class="math inline">\(0\)</span></li>
+</ul>
+<p>What is the actual treatment effect?</p>
+</div>
+</section>
+</section>
+<section id="core-assumptions" class="level2" data-number="3.6">
+<h2 data-number="3.6" class="anchored" data-anchor-id="core-assumptions"><span class="header-section-number">3.6</span> Core assumptions</h2>
+<section id="core-assumptions-2" class="level3" data-number="3.6.1">
+<h3 data-number="3.6.1" class="anchored" data-anchor-id="core-assumptions-2"><span class="header-section-number">3.6.1</span> Core assumptions</h3>
+<ol type="1">
+<li><p>Random assignment of treatment.</p></li>
+<li><p>SUTVA (Stable unit treatment value assumption).</p></li>
+<li><p>Excludability.</p></li>
+</ol>
+</section>
+<section id="core-assumption-1-random-assignment-of-treatment" class="level3" data-number="3.6.2">
+<h3 data-number="3.6.2" class="anchored" data-anchor-id="core-assumption-1-random-assignment-of-treatment"><span class="header-section-number">3.6.2</span> Core assumption 1: Random assignment of treatment</h3>
+<ul>
+<li><p>Random assignment means that each observation has a <em>known</em> probability of assignment to experimental conditions <em>between</em> 0 and 1.</p></li>
+<li><p>No unit in the experimental sample is assigned to treatment with certainty (probability = 1) or to control with certainty (probability = 0).</p></li>
+<li><p>It doesn’t mean haphazard or uncontrolled!</p></li>
+</ul>
+</section>
+<section id="core-assumption-1-random-assignment-of-treatment-2" class="level3" data-number="3.6.3">
+<h3 data-number="3.6.3" class="anchored" data-anchor-id="core-assumption-1-random-assignment-of-treatment-2"><span class="header-section-number">3.6.3</span> Core assumption 1: Random assignment of treatment</h3>
+<ul>
+<li>Careful: Treatment assignment may be randomized, but treatment condition received may not be the same and hence not randomized.</li>
+</ul>
+</section>
+<section id="core-assumption-2-sutva-part-1" class="level3" data-number="3.6.4">
+<h3 data-number="3.6.4" class="anchored" data-anchor-id="core-assumption-2-sutva-part-1"><span class="header-section-number">3.6.4</span> Core assumption 2: SUTVA, part 1</h3>
+<div class="column lang-en" style="width:50%;">
+<p>2.1 No interference – A subject’s potential outcome reflects only whether that subject receives the treatment himself/herself. It is not affected by how treatments happen to be allocated to other subjects.</p>
+<ul>
+<li>A classic violation is the case of vaccines and their spillover effects.</li>
+</ul>
+</div>
+</section>
+<section id="core-assumption-2-sutva-part-2" class="level3" data-number="3.6.5">
+<h3 data-number="3.6.5" class="anchored" data-anchor-id="core-assumption-2-sutva-part-2"><span class="header-section-number">3.6.5</span> Core assumption 2: SUTVA, part 2</h3>
+<div class="column lang-en" style="width:50%;">
+<p>2.2 No hidden variations of the treatment</p>
+<ul>
+<li>Say treatment is taking a vaccine, but there are two kinds of vaccines and they have different ingredients.</li>
+</ul>
+</div>
+</section>
+<section id="core-assumption-3-excludability" class="level3" data-number="3.6.6">
+<h3 data-number="3.6.6" class="anchored" data-anchor-id="core-assumption-3-excludability"><span class="header-section-number">3.6.6</span> Core assumption 3: Excludability</h3>
+<div class="column lang-en" style="width:50%;">
+<ol start="3" type="1">
+<li>Treatment assignment has no effect on outcomes except through its effect on whether treatment was received.</li>
+</ol>
+<ul>
+<li>Treatment and control groups should be treated the same, except for the actual treatment.</li>
+</ul>
+</div>
+</section>
+<section id="these-assumptions-are-our-responsibility" class="level3" data-number="3.6.7">
+<h3 data-number="3.6.7" class="anchored" data-anchor-id="these-assumptions-are-our-responsibility"><span class="header-section-number">3.6.7</span> These assumptions are our responsibility</h3>
+<ul>
+<li><p>If the assumptions are not valid, the conclusions may not be trustworthy.</p></li>
+<li><p>We should design and execute our research in ways that ensure these assumptions are valid. Check for problems when you can.</p></li>
+</ul>
+</section>
+</section>
+<section id="randomized-experiments-vs-observational-studies" class="level2" data-number="3.7">
+<h2 data-number="3.7" class="anchored" data-anchor-id="randomized-experiments-vs-observational-studies"><span class="header-section-number">3.7</span> Randomized experiments vs observational studies</h2>
+<section id="randomized-studies" class="level3" data-number="3.7.1">
+<h3 data-number="3.7.1" class="anchored" data-anchor-id="randomized-studies"><span class="header-section-number">3.7.1</span> Randomized studies</h3>
+<ul>
+<li><p>Randomize treatment, then measure outcomes.</p></li>
+<li><p>Randomization creates two groups that we expect to be similar. Differences before receiving treatment are only due to chance.</p></li>
+<li><p><strong>We</strong> create the difference with the treatment. Therefore, we can attribute differences in outcomes to the treatment (plus chance) instead of other factors.</p></li>
+</ul>
+</section>
+<section id="internal-validity" class="level3" data-number="3.7.2">
+<h3 data-number="3.7.2" class="anchored" data-anchor-id="internal-validity"><span class="header-section-number">3.7.2</span> Internal validity</h3>
+<ul>
+<li>Randomization generally gives us <strong>internal validity</strong> — confidence in our estimate of the causal effect of <span class="math inline">\(X\)</span> on <span class="math inline">\(Y\)</span> for our study.</li>
+<li>Observational studies generally need other strong assumptions to try to deal with selection bias.</li>
+</ul>
+</section>
+<section id="external-validity-generalizability" class="level3" data-number="3.7.3">
+<h3 data-number="3.7.3" class="anchored" data-anchor-id="external-validity-generalizability"><span class="header-section-number">3.7.3</span> External validity (generalizability)</h3>
+<ul>
+<li>The units in your study might or might not be representative of a larger population.</li>
+<li>The conclusions from one study may not apply to other settings (i.e., may lack external validity).</li>
+<li>This is a general concern for both observational and randomized studies.</li>
+</ul>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../../chapters/en/L01_why-experiment.html" class="pagination-link" aria-label="L01 — Why experiment?">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">L01 — Why experiment?</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../../chapters/en/L03_randomization_1.html" class="pagination-link" aria-label="L03 — Randomization 1">
+        <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">L03 — Randomization 1</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

@@ -1,4 +1,4 @@
-# Build saved/cardgame_simulation.rds for 2_experiment_slides.qmd
+# Build saved/cardgame_simulation.rds for E01_experiment_slides.qmd
 # Source from 0_make_everything.R or: Rscript scripts/build_cardgame_simulation.R
 
 build_cardgame_simulation <- function(
