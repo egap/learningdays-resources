@@ -2440,24 +2440,26 @@ max-width: min(96rem, 98vw);
 padding: 0 1.5rem;
 }
 .hero {
-text-align: center;
+display: flex;
+flex-wrap: wrap;
+align-items: center;
+justify-content: space-between;
+gap: 1rem;
 margin-bottom: 1rem;
-padding: 1rem 0 0.25rem;
-position: relative;
+padding: 0.75rem 0 0.25rem;
 }
 .hero .logo {
 display: block;
-margin: 0 auto 0.5rem;
+margin: 0;
+flex: 0 0 auto;
 }
 
 .index-lang-switch {
 display: inline-flex;
 align-items: center;
 gap: 0.35rem;
-margin: 0.35rem 0 0;
-position: absolute;
-top: 0.5rem;
-left: 0;
+margin: 0 0 0 auto;
+flex: 0 0 auto;
 }
 .index-lang-switch .lang-opt {
 display: inline-flex;
@@ -2662,11 +2664,22 @@ grid-template-columns: repeat(2, minmax(0, 1fr));
 main.content {
 padding: 0 0.85rem;
 }
+.hero {
+gap: 0.65rem;
+}
+.hero .logo {
+width: 120px;
+}
 .index-lang-switch {
-position: static;
-justify-content: center;
-width: 100%;
-margin: 0.5rem 0 0.25rem;
+margin-left: auto;
+}
+.index-page .index-main-tabs > .nav-tabs,
+.schedule-panel > .panel-tabset > .nav-tabs {
+flex-wrap: wrap;
+}
+.index-page .index-main-tabs > .nav-tabs > .nav-item,
+.schedule-panel > .panel-tabset > .nav-tabs > .nav-item {
+flex: 1 1 45%;
 }
 .deck-grid {
 grid-template-columns: 1fr;
@@ -2688,15 +2701,36 @@ margin-bottom: 1.25rem;
 gap: 0.15rem;
 }
 
+.index-page .tabset-margin-container {
+display: none !important;
+}
 .index-page .index-main-tabs > .nav-tabs {
-justify-content: flex-start;
-flex-wrap: wrap;
+display: flex;
+width: 100%;
+flex-wrap: nowrap;
+justify-content: stretch;
 margin-bottom: 1rem;
 gap: 0.15rem;
 }
+.index-page .index-main-tabs > .nav-tabs > .nav-item {
+flex: 1 1 0;
+min-width: 0;
+}
 .index-page .index-main-tabs > .nav-tabs .nav-link {
+display: block;
+width: 100%;
+text-align: center;
 font-size: 0.95rem;
 padding: 0.45rem 0.85rem;
+}
+.index-page .index-main-tabs > .tab-content,
+.index-page .index-main-tabs > .tab-content > .tab-pane,
+.index-page .index-main-tabs .cell {
+width: 100%;
+max-width: none;
+}
+.index-page .quiz-list {
+width: 100%;
 }
 .panel-tabset .nav-link {
 color: var(--muted);
@@ -2746,15 +2780,33 @@ width: 100%;
 max-width: none;
 margin: 0.25rem 0 0.5rem;
 }
+.schedule-panel > .panel-tabset {
+width: 100%;
+max-width: none;
+}
 .schedule-panel > .panel-tabset > .nav-tabs {
-justify-content: flex-start;
-flex-wrap: wrap;
+display: flex;
+width: 100%;
+flex-wrap: nowrap;
+justify-content: stretch;
 margin-bottom: 0.85rem;
 gap: 0.1rem;
 }
+.schedule-panel > .panel-tabset > .nav-tabs > .nav-item {
+flex: 1 1 0;
+min-width: 0;
+}
 .schedule-panel > .panel-tabset > .nav-tabs .nav-link {
+display: block;
+width: 100%;
+text-align: center;
 font-size: 0.84rem;
 padding: 0.35rem 0.7rem;
+}
+.schedule-panel > .panel-tabset > .tab-content,
+.schedule-panel > .panel-tabset > .tab-content > .tab-pane {
+width: 100%;
+max-width: none;
 }
 .schedule-panel table,
 .schedule-panel .column table {
@@ -2902,7 +2954,7 @@ border-radius: 6px;
 <span class="deck-blurb">Motivation: limits of observational research and what randomized experiments offer.</span>
 </span>
 </a>
-<span class="deck-formats"><a class="deck-format-link deck-html-link" href="L01_why-experiment.html">HTML</a> <span class="deck-format-sep">·</span> <a class="deck-format-link deck-qmd-link" href="L01_why-experiment.qmd">QMD</a></span>
+<span class="deck-formats"><a class="deck-format-link deck-html-link" href="L01_why-experiment.html">HTML</a> <span class="deck-format-sep">·</span> <a class="deck-format-link deck-pdf-link" href="pdf/L01_why-experiment.pdf">PDF</a> <span class="deck-format-sep">·</span> <a class="deck-format-link deck-qmd-link" href="L01_why-experiment.qmd">QMD</a></span>
 </div>
 <div class="deck-card">
 <a class="deck-card-link" href="E01_experiment_slides.html">
@@ -2912,7 +2964,7 @@ border-radius: 6px;
 <span class="deck-blurb">Card-game briefing: random assignment and diagnosis by hand.</span>
 </span>
 </a>
-<span class="deck-formats"><a class="deck-format-link deck-html-link" href="E01_experiment_slides.html">HTML</a> <span class="deck-format-sep">·</span> <a class="deck-format-link deck-qmd-link" href="E01_experiment_slides.qmd">QMD</a></span>
+<span class="deck-formats"><a class="deck-format-link deck-html-link" href="E01_experiment_slides.html">HTML</a> <span class="deck-format-sep">·</span> <a class="deck-format-link deck-pdf-link" href="pdf/E01_experiment_slides.pdf">PDF</a> <span class="deck-format-sep">·</span> <a class="deck-format-link deck-qmd-link" href="E01_experiment_slides.qmd">QMD</a></span>
 </div>
 <div class="deck-card">
 <a class="deck-card-link" href="L02_causalinference.html">
@@ -2922,7 +2974,7 @@ border-radius: 6px;
 <span class="deck-blurb">Potential outcomes, average treatment effects, and identification.</span>
 </span>
 </a>
-<span class="deck-formats"><a class="deck-format-link deck-html-link" href="L02_causalinference.html">HTML</a> <span class="deck-format-sep">·</span> <a class="deck-format-link deck-qmd-link" href="L02_causalinference.qmd">QMD</a></span>
+<span class="deck-formats"><a class="deck-format-link deck-html-link" href="L02_causalinference.html">HTML</a> <span class="deck-format-sep">·</span> <a class="deck-format-link deck-pdf-link" href="pdf/L02_causalinference.pdf">PDF</a> <span class="deck-format-sep">·</span> <a class="deck-format-link deck-qmd-link" href="L02_causalinference.qmd">QMD</a></span>
 </div>
 <div class="deck-card">
 <a class="deck-card-link" href="L03_randomization_1.html">
@@ -2932,7 +2984,7 @@ border-radius: 6px;
 <span class="deck-blurb">Simple, complete, block, cluster, and multi-arm assignment.</span>
 </span>
 </a>
-<span class="deck-formats"><a class="deck-format-link deck-html-link" href="L03_randomization_1.html">HTML</a> <span class="deck-format-sep">·</span> <a class="deck-format-link deck-qmd-link" href="L03_randomization_1.qmd">QMD</a></span>
+<span class="deck-formats"><a class="deck-format-link deck-html-link" href="L03_randomization_1.html">HTML</a> <span class="deck-format-sep">·</span> <a class="deck-format-link deck-pdf-link" href="pdf/L03_randomization_1.pdf">PDF</a> <span class="deck-format-sep">·</span> <a class="deck-format-link deck-qmd-link" href="L03_randomization_1.qmd">QMD</a></span>
 </div>
 <div class="deck-card">
 <a class="deck-card-link" href="L04_R_intro.html">
@@ -2942,7 +2994,7 @@ border-radius: 6px;
 <span class="deck-blurb">Objects, functions, and basics for running analyses in R.</span>
 </span>
 </a>
-<span class="deck-formats"><a class="deck-format-link deck-html-link" href="L04_R_intro.html">HTML</a> <span class="deck-format-sep">·</span> <a class="deck-format-link deck-qmd-link" href="L04_R_intro.qmd">QMD</a></span>
+<span class="deck-formats"><a class="deck-format-link deck-html-link" href="L04_R_intro.html">HTML</a> <span class="deck-format-sep">·</span> <a class="deck-format-link deck-pdf-link" href="pdf/L04_R_intro.pdf">PDF</a> <span class="deck-format-sep">·</span> <a class="deck-format-link deck-qmd-link" href="L04_R_intro.qmd">QMD</a></span>
 </div>
 <div class="deck-card">
 <a class="deck-card-link" href="E02_R_exercises.html">
@@ -2952,7 +3004,7 @@ border-radius: 6px;
 <span class="deck-blurb">Guided R practice: data basics randomization estimation and power.</span>
 </span>
 </a>
-<span class="deck-formats"><a class="deck-format-link deck-html-link" href="E02_R_exercises.html">HTML</a> <span class="deck-format-sep">·</span> <a class="deck-format-link deck-qmd-link" href="E02_R_exercises.qmd">QMD</a></span>
+<span class="deck-formats"><a class="deck-format-link deck-html-link" href="E02_R_exercises.html">HTML</a> <span class="deck-format-sep">·</span> <a class="deck-format-link deck-pdf-link" href="pdf/E02_R_exercises.pdf">PDF</a> <span class="deck-format-sep">·</span> <a class="deck-format-link deck-qmd-link" href="E02_R_exercises.qmd">QMD</a></span>
 </div>
 <div class="deck-card">
 <a class="deck-card-link" href="L05_randomization_2.html">
@@ -2962,7 +3014,7 @@ border-radius: 6px;
 <span class="deck-blurb">Factorial, waitlist, and encouragement designs.</span>
 </span>
 </a>
-<span class="deck-formats"><a class="deck-format-link deck-html-link" href="L05_randomization_2.html">HTML</a> <span class="deck-format-sep">·</span> <a class="deck-format-link deck-qmd-link" href="L05_randomization_2.qmd">QMD</a></span>
+<span class="deck-formats"><a class="deck-format-link deck-html-link" href="L05_randomization_2.html">HTML</a> <span class="deck-format-sep">·</span> <a class="deck-format-link deck-pdf-link" href="pdf/L05_randomization_2.pdf">PDF</a> <span class="deck-format-sep">·</span> <a class="deck-format-link deck-qmd-link" href="L05_randomization_2.qmd">QMD</a></span>
 </div>
 <div class="deck-card">
 <a class="deck-card-link" href="E03_projects.html">
@@ -2972,7 +3024,7 @@ border-radius: 6px;
 <span class="deck-blurb">Getting going on group projects</span>
 </span>
 </a>
-<span class="deck-formats"><a class="deck-format-link deck-html-link" href="E03_projects.html">HTML</a> <span class="deck-format-sep">·</span> <a class="deck-format-link deck-qmd-link" href="E03_projects.qmd">QMD</a></span>
+<span class="deck-formats"><a class="deck-format-link deck-html-link" href="E03_projects.html">HTML</a> <span class="deck-format-sep">·</span> <a class="deck-format-link deck-pdf-link" href="pdf/E03_projects.pdf">PDF</a> <span class="deck-format-sep">·</span> <a class="deck-format-link deck-qmd-link" href="E03_projects.qmd">QMD</a></span>
 </div>
 <div class="deck-card">
 <a class="deck-card-link" href="L06_design_intro.html">
@@ -2982,7 +3034,7 @@ border-radius: 6px;
 <span class="deck-blurb">MIDA framework: declare, diagnose, and redesign with DeclareDesign.</span>
 </span>
 </a>
-<span class="deck-formats"><a class="deck-format-link deck-html-link" href="L06_design_intro.html">HTML</a> <span class="deck-format-sep">·</span> <a class="deck-format-link deck-qmd-link" href="L06_design_intro.qmd">QMD</a></span>
+<span class="deck-formats"><a class="deck-format-link deck-html-link" href="L06_design_intro.html">HTML</a> <span class="deck-format-sep">·</span> <a class="deck-format-link deck-pdf-link" href="pdf/L06_design_intro.pdf">PDF</a> <span class="deck-format-sep">·</span> <a class="deck-format-link deck-qmd-link" href="L06_design_intro.qmd">QMD</a></span>
 </div>
 <div class="deck-card">
 <a class="deck-card-link" href="L07_estimation_1.html">
@@ -2992,7 +3044,7 @@ border-radius: 6px;
 <span class="deck-blurb">Inquiries, estimands, answer strategies, and estimators.</span>
 </span>
 </a>
-<span class="deck-formats"><a class="deck-format-link deck-html-link" href="L07_estimation_1.html">HTML</a> <span class="deck-format-sep">·</span> <a class="deck-format-link deck-qmd-link" href="L07_estimation_1.qmd">QMD</a></span>
+<span class="deck-formats"><a class="deck-format-link deck-html-link" href="L07_estimation_1.html">HTML</a> <span class="deck-format-sep">·</span> <a class="deck-format-link deck-pdf-link" href="pdf/L07_estimation_1.pdf">PDF</a> <span class="deck-format-sep">·</span> <a class="deck-format-link deck-qmd-link" href="L07_estimation_1.qmd">QMD</a></span>
 </div>
 <div class="deck-card">
 <a class="deck-card-link" href="L08_estimation_2.html">
@@ -3002,7 +3054,7 @@ border-radius: 6px;
 <span class="deck-blurb">Multi-arm experiments, regression, and hypothesis testing.</span>
 </span>
 </a>
-<span class="deck-formats"><a class="deck-format-link deck-html-link" href="L08_estimation_2.html">HTML</a> <span class="deck-format-sep">·</span> <a class="deck-format-link deck-qmd-link" href="L08_estimation_2.qmd">QMD</a></span>
+<span class="deck-formats"><a class="deck-format-link deck-html-link" href="L08_estimation_2.html">HTML</a> <span class="deck-format-sep">·</span> <a class="deck-format-link deck-pdf-link" href="pdf/L08_estimation_2.pdf">PDF</a> <span class="deck-format-sep">·</span> <a class="deck-format-link deck-qmd-link" href="L08_estimation_2.qmd">QMD</a></span>
 </div>
 <div class="deck-card">
 <a class="deck-card-link" href="L09_power_intro.html">
@@ -3012,7 +3064,7 @@ border-radius: 6px;
 <span class="deck-blurb">p-values, power, and simulation-based design diagnosis.</span>
 </span>
 </a>
-<span class="deck-formats"><a class="deck-format-link deck-html-link" href="L09_power_intro.html">HTML</a> <span class="deck-format-sep">·</span> <a class="deck-format-link deck-qmd-link" href="L09_power_intro.qmd">QMD</a></span>
+<span class="deck-formats"><a class="deck-format-link deck-html-link" href="L09_power_intro.html">HTML</a> <span class="deck-format-sep">·</span> <a class="deck-format-link deck-pdf-link" href="pdf/L09_power_intro.pdf">PDF</a> <span class="deck-format-sep">·</span> <a class="deck-format-link deck-qmd-link" href="L09_power_intro.qmd">QMD</a></span>
 </div>
 <div class="deck-card">
 <a class="deck-card-link" href="L10_ethics.html">
@@ -3022,7 +3074,7 @@ border-radius: 6px;
 <span class="deck-blurb">Respect for persons, beneficence, and justice; informed consent, IRB review, and researcher responsibility.</span>
 </span>
 </a>
-<span class="deck-formats"><a class="deck-format-link deck-qmd-link" href="L10_ethics.qmd">QMD</a></span>
+<span class="deck-formats"><a class="deck-format-link deck-html-link" href="L10_ethics.html">HTML</a> <span class="deck-format-sep">·</span> <a class="deck-format-link deck-pdf-link" href="pdf/L10_ethics.pdf">PDF</a> <span class="deck-format-sep">·</span> <a class="deck-format-link deck-qmd-link" href="L10_ethics.qmd">QMD</a></span>
 </div>
 <div class="deck-card">
 <a class="deck-card-link" href="L11_presenting.html">
@@ -3032,7 +3084,7 @@ border-radius: 6px;
 <span class="deck-blurb">Communicating experimental designs and interpreting findings.</span>
 </span>
 </a>
-<span class="deck-formats"><a class="deck-format-link deck-html-link" href="L11_presenting.html">HTML</a> <span class="deck-format-sep">·</span> <a class="deck-format-link deck-qmd-link" href="L11_presenting.qmd">QMD</a></span>
+<span class="deck-formats"><a class="deck-format-link deck-html-link" href="L11_presenting.html">HTML</a> <span class="deck-format-sep">·</span> <a class="deck-format-link deck-pdf-link" href="pdf/L11_presenting.pdf">PDF</a> <span class="deck-format-sep">·</span> <a class="deck-format-link deck-qmd-link" href="L11_presenting.qmd">QMD</a></span>
 </div>
 <div class="deck-card">
 <a class="deck-card-link" href="L12_threats.html">
@@ -3042,7 +3094,7 @@ border-radius: 6px;
 <span class="deck-blurb">Attrition, non-compliance, spillovers, demand effects, and excludability.</span>
 </span>
 </a>
-<span class="deck-formats"><a class="deck-format-link deck-html-link" href="L12_threats.html">HTML</a> <span class="deck-format-sep">·</span> <a class="deck-format-link deck-qmd-link" href="L12_threats.qmd">QMD</a></span>
+<span class="deck-formats"><a class="deck-format-link deck-html-link" href="L12_threats.html">HTML</a> <span class="deck-format-sep">·</span> <a class="deck-format-link deck-pdf-link" href="pdf/L12_threats.pdf">PDF</a> <span class="deck-format-sep">·</span> <a class="deck-format-link deck-qmd-link" href="L12_threats.qmd">QMD</a></span>
 </div>
 <div class="deck-card">
 <a class="deck-card-link" href="L13_lifecycle.html">
@@ -3052,7 +3104,7 @@ border-radius: 6px;
 <span class="deck-blurb">From idea and partners through funding, piloting, implementation, and reporting.</span>
 </span>
 </a>
-<span class="deck-formats"><a class="deck-format-link deck-html-link" href="L13_lifecycle.html">HTML</a> <span class="deck-format-sep">·</span> <a class="deck-format-link deck-qmd-link" href="L13_lifecycle.qmd">QMD</a></span>
+<span class="deck-formats"><a class="deck-format-link deck-html-link" href="L13_lifecycle.html">HTML</a> <span class="deck-format-sep">·</span> <a class="deck-format-link deck-pdf-link" href="pdf/L13_lifecycle.pdf">PDF</a> <span class="deck-format-sep">·</span> <a class="deck-format-link deck-qmd-link" href="L13_lifecycle.qmd">QMD</a></span>
 </div>
 <div class="deck-card">
 <a class="deck-card-link" href="L14_grants.html">
@@ -3062,7 +3114,7 @@ border-radius: 6px;
 <span class="deck-blurb">Building a six-part argument: stakes, design, timeline, budget, and team.</span>
 </span>
 </a>
-<span class="deck-formats"><a class="deck-format-link deck-html-link" href="L14_grants.html">HTML</a> <span class="deck-format-sep">·</span> <a class="deck-format-link deck-qmd-link" href="L14_grants.qmd">QMD</a></span>
+<span class="deck-formats"><a class="deck-format-link deck-html-link" href="L14_grants.html">HTML</a> <span class="deck-format-sep">·</span> <a class="deck-format-link deck-pdf-link" href="pdf/L14_grants.pdf">PDF</a> <span class="deck-format-sep">·</span> <a class="deck-format-link deck-qmd-link" href="L14_grants.qmd">QMD</a></span>
 </div>
 <div class="deck-card deck-card--placeholder">
 <span class="deck-num">·</span>
@@ -3437,7 +3489,7 @@ border-radius: 6px;
 <span class="deck-blurb">Motivation : limites de la recherche observationnelle et apport des expériences randomisées.</span>
 </span>
 </a>
-<span class="deck-formats"><a class="deck-format-link deck-html-link" href="L01_why-experiment.html">HTML</a> <span class="deck-format-sep">·</span> <a class="deck-format-link deck-qmd-link" href="L01_why-experiment.qmd">QMD</a></span>
+<span class="deck-formats"><a class="deck-format-link deck-html-link" href="L01_why-experiment.html">HTML</a> <span class="deck-format-sep">·</span> <a class="deck-format-link deck-pdf-link" href="pdf/L01_why-experiment.pdf">PDF</a> <span class="deck-format-sep">·</span> <a class="deck-format-link deck-qmd-link" href="L01_why-experiment.qmd">QMD</a></span>
 </div>
 <div class="deck-card">
 <a class="deck-card-link" href="E01_experiment_slides.html">
@@ -3447,7 +3499,7 @@ border-radius: 6px;
 <span class="deck-blurb">Jeu de cartes : assignation aléatoire et diagnostic à la main.</span>
 </span>
 </a>
-<span class="deck-formats"><a class="deck-format-link deck-html-link" href="E01_experiment_slides.html">HTML</a> <span class="deck-format-sep">·</span> <a class="deck-format-link deck-qmd-link" href="E01_experiment_slides.qmd">QMD</a></span>
+<span class="deck-formats"><a class="deck-format-link deck-html-link" href="E01_experiment_slides.html">HTML</a> <span class="deck-format-sep">·</span> <a class="deck-format-link deck-pdf-link" href="pdf/E01_experiment_slides.pdf">PDF</a> <span class="deck-format-sep">·</span> <a class="deck-format-link deck-qmd-link" href="E01_experiment_slides.qmd">QMD</a></span>
 </div>
 <div class="deck-card">
 <a class="deck-card-link" href="L02_causalinference.html">
@@ -3457,7 +3509,7 @@ border-radius: 6px;
 <span class="deck-blurb">Résultats potentiels, effets moyens du traitement et identification.</span>
 </span>
 </a>
-<span class="deck-formats"><a class="deck-format-link deck-html-link" href="L02_causalinference.html">HTML</a> <span class="deck-format-sep">·</span> <a class="deck-format-link deck-qmd-link" href="L02_causalinference.qmd">QMD</a></span>
+<span class="deck-formats"><a class="deck-format-link deck-html-link" href="L02_causalinference.html">HTML</a> <span class="deck-format-sep">·</span> <a class="deck-format-link deck-pdf-link" href="pdf/L02_causalinference.pdf">PDF</a> <span class="deck-format-sep">·</span> <a class="deck-format-link deck-qmd-link" href="L02_causalinference.qmd">QMD</a></span>
 </div>
 <div class="deck-card">
 <a class="deck-card-link" href="L03_randomization_1.html">
@@ -3467,7 +3519,7 @@ border-radius: 6px;
 <span class="deck-blurb">Assignation simple, complète, par blocs, par grappes et multi-bras.</span>
 </span>
 </a>
-<span class="deck-formats"><a class="deck-format-link deck-html-link" href="L03_randomization_1.html">HTML</a> <span class="deck-format-sep">·</span> <a class="deck-format-link deck-qmd-link" href="L03_randomization_1.qmd">QMD</a></span>
+<span class="deck-formats"><a class="deck-format-link deck-html-link" href="L03_randomization_1.html">HTML</a> <span class="deck-format-sep">·</span> <a class="deck-format-link deck-pdf-link" href="pdf/L03_randomization_1.pdf">PDF</a> <span class="deck-format-sep">·</span> <a class="deck-format-link deck-qmd-link" href="L03_randomization_1.qmd">QMD</a></span>
 </div>
 <div class="deck-card">
 <a class="deck-card-link" href="L04_R_intro.html">
@@ -3477,7 +3529,7 @@ border-radius: 6px;
 <span class="deck-blurb">Objets, fonctions et bases pour analyser en R.</span>
 </span>
 </a>
-<span class="deck-formats"><a class="deck-format-link deck-html-link" href="L04_R_intro.html">HTML</a> <span class="deck-format-sep">·</span> <a class="deck-format-link deck-qmd-link" href="L04_R_intro.qmd">QMD</a></span>
+<span class="deck-formats"><a class="deck-format-link deck-html-link" href="L04_R_intro.html">HTML</a> <span class="deck-format-sep">·</span> <a class="deck-format-link deck-pdf-link" href="pdf/L04_R_intro.pdf">PDF</a> <span class="deck-format-sep">·</span> <a class="deck-format-link deck-qmd-link" href="L04_R_intro.qmd">QMD</a></span>
 </div>
 <div class="deck-card">
 <a class="deck-card-link" href="E02_R_exercises.html">
@@ -3487,7 +3539,7 @@ border-radius: 6px;
 <span class="deck-blurb">Pratique guidée : bases des données, randomisation, estimation et puissance.</span>
 </span>
 </a>
-<span class="deck-formats"><a class="deck-format-link deck-html-link" href="E02_R_exercises.html">HTML</a> <span class="deck-format-sep">·</span> <a class="deck-format-link deck-qmd-link" href="E02_R_exercises.qmd">QMD</a></span>
+<span class="deck-formats"><a class="deck-format-link deck-html-link" href="E02_R_exercises.html">HTML</a> <span class="deck-format-sep">·</span> <a class="deck-format-link deck-pdf-link" href="pdf/E02_R_exercises.pdf">PDF</a> <span class="deck-format-sep">·</span> <a class="deck-format-link deck-qmd-link" href="E02_R_exercises.qmd">QMD</a></span>
 </div>
 <div class="deck-card">
 <a class="deck-card-link" href="L05_randomization_2.html">
@@ -3497,7 +3549,7 @@ border-radius: 6px;
 <span class="deck-blurb">Conceptions factorielles, liste d&#39;attente et incitations.</span>
 </span>
 </a>
-<span class="deck-formats"><a class="deck-format-link deck-html-link" href="L05_randomization_2.html">HTML</a> <span class="deck-format-sep">·</span> <a class="deck-format-link deck-qmd-link" href="L05_randomization_2.qmd">QMD</a></span>
+<span class="deck-formats"><a class="deck-format-link deck-html-link" href="L05_randomization_2.html">HTML</a> <span class="deck-format-sep">·</span> <a class="deck-format-link deck-pdf-link" href="pdf/L05_randomization_2.pdf">PDF</a> <span class="deck-format-sep">·</span> <a class="deck-format-link deck-qmd-link" href="L05_randomization_2.qmd">QMD</a></span>
 </div>
 <div class="deck-card">
 <a class="deck-card-link" href="E03_projects.html">
@@ -3507,7 +3559,7 @@ border-radius: 6px;
 <span class="deck-blurb">Mise en route des projets de groupe</span>
 </span>
 </a>
-<span class="deck-formats"><a class="deck-format-link deck-html-link" href="E03_projects.html">HTML</a> <span class="deck-format-sep">·</span> <a class="deck-format-link deck-qmd-link" href="E03_projects.qmd">QMD</a></span>
+<span class="deck-formats"><a class="deck-format-link deck-html-link" href="E03_projects.html">HTML</a> <span class="deck-format-sep">·</span> <a class="deck-format-link deck-pdf-link" href="pdf/E03_projects.pdf">PDF</a> <span class="deck-format-sep">·</span> <a class="deck-format-link deck-qmd-link" href="E03_projects.qmd">QMD</a></span>
 </div>
 <div class="deck-card">
 <a class="deck-card-link" href="L06_design_intro.html">
@@ -3517,7 +3569,7 @@ border-radius: 6px;
 <span class="deck-blurb">MIDA : déclarer, diagnostiquer et reconcevoir avec DeclareDesign.</span>
 </span>
 </a>
-<span class="deck-formats"><a class="deck-format-link deck-html-link" href="L06_design_intro.html">HTML</a> <span class="deck-format-sep">·</span> <a class="deck-format-link deck-qmd-link" href="L06_design_intro.qmd">QMD</a></span>
+<span class="deck-formats"><a class="deck-format-link deck-html-link" href="L06_design_intro.html">HTML</a> <span class="deck-format-sep">·</span> <a class="deck-format-link deck-pdf-link" href="pdf/L06_design_intro.pdf">PDF</a> <span class="deck-format-sep">·</span> <a class="deck-format-link deck-qmd-link" href="L06_design_intro.qmd">QMD</a></span>
 </div>
 <div class="deck-card">
 <a class="deck-card-link" href="L07_estimation_1.html">
@@ -3527,7 +3579,7 @@ border-radius: 6px;
 <span class="deck-blurb">Questions de recherche, paramètres, stratégies d&#39;analyse et estimateurs.</span>
 </span>
 </a>
-<span class="deck-formats"><a class="deck-format-link deck-html-link" href="L07_estimation_1.html">HTML</a> <span class="deck-format-sep">·</span> <a class="deck-format-link deck-qmd-link" href="L07_estimation_1.qmd">QMD</a></span>
+<span class="deck-formats"><a class="deck-format-link deck-html-link" href="L07_estimation_1.html">HTML</a> <span class="deck-format-sep">·</span> <a class="deck-format-link deck-pdf-link" href="pdf/L07_estimation_1.pdf">PDF</a> <span class="deck-format-sep">·</span> <a class="deck-format-link deck-qmd-link" href="L07_estimation_1.qmd">QMD</a></span>
 </div>
 <div class="deck-card">
 <a class="deck-card-link" href="L08_estimation_2.html">
@@ -3537,7 +3589,7 @@ border-radius: 6px;
 <span class="deck-blurb">Expériences multi-bras, régression et tests d&#39;hypothèses.</span>
 </span>
 </a>
-<span class="deck-formats"><a class="deck-format-link deck-html-link" href="L08_estimation_2.html">HTML</a> <span class="deck-format-sep">·</span> <a class="deck-format-link deck-qmd-link" href="L08_estimation_2.qmd">QMD</a></span>
+<span class="deck-formats"><a class="deck-format-link deck-html-link" href="L08_estimation_2.html">HTML</a> <span class="deck-format-sep">·</span> <a class="deck-format-link deck-pdf-link" href="pdf/L08_estimation_2.pdf">PDF</a> <span class="deck-format-sep">·</span> <a class="deck-format-link deck-qmd-link" href="L08_estimation_2.qmd">QMD</a></span>
 </div>
 <div class="deck-card">
 <a class="deck-card-link" href="L09_power_intro.html">
@@ -3547,7 +3599,7 @@ border-radius: 6px;
 <span class="deck-blurb">p-valeurs, puissance et diagnostic de design par simulation.</span>
 </span>
 </a>
-<span class="deck-formats"><a class="deck-format-link deck-html-link" href="L09_power_intro.html">HTML</a> <span class="deck-format-sep">·</span> <a class="deck-format-link deck-qmd-link" href="L09_power_intro.qmd">QMD</a></span>
+<span class="deck-formats"><a class="deck-format-link deck-html-link" href="L09_power_intro.html">HTML</a> <span class="deck-format-sep">·</span> <a class="deck-format-link deck-pdf-link" href="pdf/L09_power_intro.pdf">PDF</a> <span class="deck-format-sep">·</span> <a class="deck-format-link deck-qmd-link" href="L09_power_intro.qmd">QMD</a></span>
 </div>
 <div class="deck-card">
 <a class="deck-card-link" href="L10_ethics.html">
@@ -3557,7 +3609,7 @@ border-radius: 6px;
 <span class="deck-blurb">Respect des personnes, bienfaisance et justice ; consentement éclairé, comités d&#39;éthique et responsabilité du chercheur.</span>
 </span>
 </a>
-<span class="deck-formats"><a class="deck-format-link deck-qmd-link" href="L10_ethics.qmd">QMD</a></span>
+<span class="deck-formats"><a class="deck-format-link deck-html-link" href="L10_ethics.html">HTML</a> <span class="deck-format-sep">·</span> <a class="deck-format-link deck-pdf-link" href="pdf/L10_ethics.pdf">PDF</a> <span class="deck-format-sep">·</span> <a class="deck-format-link deck-qmd-link" href="L10_ethics.qmd">QMD</a></span>
 </div>
 <div class="deck-card">
 <a class="deck-card-link" href="L11_presenting.html">
@@ -3567,7 +3619,7 @@ border-radius: 6px;
 <span class="deck-blurb">Communiquer les designs expérimentaux et interpréter les résultats.</span>
 </span>
 </a>
-<span class="deck-formats"><a class="deck-format-link deck-html-link" href="L11_presenting.html">HTML</a> <span class="deck-format-sep">·</span> <a class="deck-format-link deck-qmd-link" href="L11_presenting.qmd">QMD</a></span>
+<span class="deck-formats"><a class="deck-format-link deck-html-link" href="L11_presenting.html">HTML</a> <span class="deck-format-sep">·</span> <a class="deck-format-link deck-pdf-link" href="pdf/L11_presenting.pdf">PDF</a> <span class="deck-format-sep">·</span> <a class="deck-format-link deck-qmd-link" href="L11_presenting.qmd">QMD</a></span>
 </div>
 <div class="deck-card">
 <a class="deck-card-link" href="L12_threats.html">
@@ -3577,7 +3629,7 @@ border-radius: 6px;
 <span class="deck-blurb">Attrition, non-observance, spillovers, effets de demande et excluabilité.</span>
 </span>
 </a>
-<span class="deck-formats"><a class="deck-format-link deck-html-link" href="L12_threats.html">HTML</a> <span class="deck-format-sep">·</span> <a class="deck-format-link deck-qmd-link" href="L12_threats.qmd">QMD</a></span>
+<span class="deck-formats"><a class="deck-format-link deck-html-link" href="L12_threats.html">HTML</a> <span class="deck-format-sep">·</span> <a class="deck-format-link deck-pdf-link" href="pdf/L12_threats.pdf">PDF</a> <span class="deck-format-sep">·</span> <a class="deck-format-link deck-qmd-link" href="L12_threats.qmd">QMD</a></span>
 </div>
 <div class="deck-card">
 <a class="deck-card-link" href="L13_lifecycle.html">
@@ -3587,7 +3639,7 @@ border-radius: 6px;
 <span class="deck-blurb">De l&#39;idée aux partenaires, financement, pilote, mise en œuvre et rapport.</span>
 </span>
 </a>
-<span class="deck-formats"><a class="deck-format-link deck-html-link" href="L13_lifecycle.html">HTML</a> <span class="deck-format-sep">·</span> <a class="deck-format-link deck-qmd-link" href="L13_lifecycle.qmd">QMD</a></span>
+<span class="deck-formats"><a class="deck-format-link deck-html-link" href="L13_lifecycle.html">HTML</a> <span class="deck-format-sep">·</span> <a class="deck-format-link deck-pdf-link" href="pdf/L13_lifecycle.pdf">PDF</a> <span class="deck-format-sep">·</span> <a class="deck-format-link deck-qmd-link" href="L13_lifecycle.qmd">QMD</a></span>
 </div>
 <div class="deck-card">
 <a class="deck-card-link" href="L14_grants.html">
@@ -3597,7 +3649,7 @@ border-radius: 6px;
 <span class="deck-blurb">Construire un argument en six parties : enjeux, design, calendrier, budget et équipe.</span>
 </span>
 </a>
-<span class="deck-formats"><a class="deck-format-link deck-html-link" href="L14_grants.html">HTML</a> <span class="deck-format-sep">·</span> <a class="deck-format-link deck-qmd-link" href="L14_grants.qmd">QMD</a></span>
+<span class="deck-formats"><a class="deck-format-link deck-html-link" href="L14_grants.html">HTML</a> <span class="deck-format-sep">·</span> <a class="deck-format-link deck-pdf-link" href="pdf/L14_grants.pdf">PDF</a> <span class="deck-format-sep">·</span> <a class="deck-format-link deck-qmd-link" href="L14_grants.qmd">QMD</a></span>
 </div>
 <div class="deck-card deck-card--placeholder">
 <span class="deck-num">·</span>
