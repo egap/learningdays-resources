@@ -16,7 +16,7 @@
 #   make_quiz_html()
 #   make_lecture_pdfs()
 #   make_index()
-#   source("make_book.R"); make_book_poc()  # -> book/output/en|fr/ (one page per lecture)
+#   source("make_book.R"); make_book()  # -> book/output/en|fr/ from index.csv lectures
 #
 # WHAT THIS BUILDS
 #   • Lecture decks  — reveal.js HTML next to each .qmd (from index.csv)

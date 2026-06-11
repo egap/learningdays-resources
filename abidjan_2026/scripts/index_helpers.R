@@ -136,6 +136,36 @@ render_quiz_list <- function(language, stem, labels) {
   knitr::asis_output(paste(lines, collapse = "\n"))
 }
 
+BOOK_INDEX_HREF <- c(
+  en = "book/output/en/index.html",
+  fr = "book/output/fr/index.html"
+)
+
+render_book_link <- function(lang = c("en", "fr")) {
+  lang <- match.arg(lang)
+  href <- BOOK_INDEX_HREF[[lang]]
+  if (!file.exists(href)) {
+    return(knitr::asis_output(""))
+  }
+
+  label <- if (lang == "en") {
+    "All slides"
+  } else {
+    "Toutes les diapos"
+  }
+
+  html <- sprintf(
+    paste0(
+      '<p class="book-all-slides">',
+      '<a class="book-all-slides-link" href="%s" target="_blank" rel="noopener noreferrer">%s</a>',
+      "</p>"
+    ),
+    html_escape(href),
+    html_escape(label)
+  )
+  knitr::asis_output(html)
+}
+
 render_deck_grid <- function(lang = c("en", "fr")) {
   lang <- match.arg(lang)
   decks <- read.csv(

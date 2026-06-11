@@ -202,15 +202,16 @@ Répétez le design **plusieurs fois** avec `simulate_design()`.
 :::
 :::
 
-```{r, warning = FALSE}
+```{r, include=FALSE, warning = FALSE}
 some_runs <- simplest_design |> simulate_design(sims = 100)
 ```
+
 ```{r, warning = FALSE, eval = FALSE}
-some_runs
+some_runs |> head()
 ```
 
 ```{r, warning = FALSE, echo = FALSE}
-some_runs |> kable(digits = 2) |> kable_styling(font_size = 14)
+some_runs |> head() |> kable(digits = 2) |> kable_styling(font_size = 14)
 ```
 
 ## Distribution of estimates | *Distribution des estimations*

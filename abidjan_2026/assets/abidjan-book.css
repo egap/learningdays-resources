@@ -108,3 +108,38 @@ table {
 .sidebar-navigation .chapter-number {
   color: var(--egap-blue);
 }
+
+/* Keep chapter sidebar visible on wide screens (not collapsed to hamburger-only) */
+@media (min-width: 992px) {
+  nav#quarto-sidebar.sidebar-navigation.collapse {
+    display: block !important;
+    visibility: visible !important;
+  }
+}
+
+nav#quarto-sidebar.sidebar-navigation {
+  max-height: 100vh;
+  overflow-y: auto !important;
+}
+
+.book-chapter-list {
+  margin: 0.75rem 0 1.5rem;
+  padding-left: 1.25rem;
+  line-height: 1.6;
+}
+
+.book-chapter-list a {
+  color: var(--egap-blue);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.book-chapter-list a:hover {
+  text-decoration: underline;
+}
+
+.book-chapter-num {
+  color: var(--muted);
+  font-weight: 700;
+  margin-right: 0.25rem;
+}

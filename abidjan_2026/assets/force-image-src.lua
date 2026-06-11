@@ -1,12 +1,14 @@
 --[[
   Emit <img src="..."> with CSS width (HTML width attr must be integer pixels).
-  Paths use Images/ (same folder as HTML) — see scripts/ensure_local_images.py.
+  Used for reveal.js slide decks only (Images/ next to HTML).
+  The HTML book does not use this filter — Quarto + postprocess handle images there.
 ]]
 
 local function normalize_src(src)
   return src
     :gsub("^%.%./Images/", "Images/")
     :gsub("^%.%.%/Images/", "Images/")
+    :gsub("^images/", "Images/")
     :gsub("^Images/", "Images/")
 end
 

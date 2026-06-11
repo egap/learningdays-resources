@@ -10,6 +10,10 @@ format:
 
 ## Some common types of randomization | *Quelques types courants de randomisation*
 
+```{r, include= FALSE}
+library(DeclareDesign)
+```
+
 ::: {.columns}
 ::: {.column .lang-en width="50%"}
 
@@ -73,6 +77,11 @@ format:
 :::
 :::
 
+```{r, echo = TRUE}
+simple_ra(3)
+simple_ra(3)
+```
+
 ## 2. Complete randomization (drawing from an urn) | *Randomisation complète (tirage d'une urne)*
 
 ::: {.columns}
@@ -112,6 +121,12 @@ format:
 
 :::
 :::
+
+```{r, echo = TRUE}
+complete_ra(4)
+complete_ra(4)
+```
+
 
 ## 3. Block (or stratified) randomization | *Randomisation par bloc (ou stratifiée)*
 
@@ -238,6 +253,15 @@ Comment définir vos blocs ?
 :::
 :::
 
+## 3. Block (or stratified) randomization | *Randomisation par bloc (ou stratifiée)*
+
+```{r, echo = TRUE}
+blocks <- c(1,1,1,1,2,2,2,2)
+block_ra(blocks = blocks)
+block_ra(blocks = blocks)
+```
+
+
 ## 4. Cluster randomization | *Randomisation par grappe (cluster)*
 
 ::: {.columns}
@@ -306,6 +330,14 @@ Comment définir vos blocs ?
 :::
 :::
 
+## 4. Cluster randomization | *Randomisation par grappe (cluster)*
+
+```{r, echo = TRUE}
+my_clusters <- c(1,1,1,1,2,2,2,2)
+cluster_ra(clusters = my_clusters)
+cluster_ra(clusters = my_clusters)
+```
+
 ## 5. You can combine blocks and clusters | *Vous pouvez combiner blocs et grappes*
 
 ![](images/blockcluster_randomization.png){width="300px" fig-align="center"}
@@ -324,6 +356,16 @@ Comment définir vos blocs ?
 
 :::
 :::
+
+
+## 5. You can combine blocks and clusters | *Vous pouvez combiner blocs et grappes*
+
+```{r, echo = TRUE}
+my_blocks <- c(1,1,1,1,2,2,2,2)
+my_clusters <- c(1,1,2,2,3,3,4,4)
+block_and_cluster_ra(blocks = my_blocks, clusters = my_clusters)
+block_and_cluster_ra(blocks = my_blocks, clusters = my_clusters)
+```
 
 ## 6. Multi-arm design | *Conception à plusieurs bras*
 
@@ -375,6 +417,13 @@ Comment définir vos blocs ?
 
 :::
 :::
+
+## 6. Multi-arm design | *Conception à plusieurs bras*
+
+```{r, echo = TRUE}
+complete_ra(12, num_arms = 3)
+complete_ra(12, prob_each = c(.1, .2, .7))
+```
 
 ## Resource | *Ressource*
 
