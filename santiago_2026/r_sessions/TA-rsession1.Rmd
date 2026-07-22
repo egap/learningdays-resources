@@ -1,0 +1,203 @@
+---
+title: "R Session 1: Fundamentos"
+author: "EGAP Latin America Hub Learning Days"
+date: "26 August 2024"
+output:
+  beamer_presentation:
+    includes:
+      in_header: columns.tex
+  revealjs::revealjs_presentation:
+    fig_caption: true
+    theme: default
+    highlight: pygments
+    center: false
+    transition: fade
+    smart: false
+    self_contained: false
+    reveal_plugins: ["notes", "search", "chalkboard"]
+    pandoc_args: [ "--toc" ]
+    reveal_options:
+      slideNumber: true
+      previewLinks: true
+      chalkboard:
+        theme: whiteboard
+        toggleNotesButton: false
+header-includes: |
+   \setbeamertemplate{footline}{\begin{beamercolorbox}{section in head/foot}
+   \includegraphics[height=.5cm]{egap-logo.png} \hfill
+   \insertframenumber / \inserttotalframenumber \end{beamercolorbox}}
+   \usepackage{textpos}
+   \usepackage{booktabs,multirow,makecell}
+---
+
+## Bienvenidos a R! En esta primera actividad, les ayudaremos a tener una idea del análisis de datos básicos en R
+
+\centering
+\vfill
+\textbf{\large Objetivos: aprender a cargar datos, inspeccionar los datos para ver qué variables hay y realizar resúmenes básicos de datos}
+\vfill
+
+##
+\centering
+\vfill
+\textbf{\Huge Ejercicio 1: Empezando}
+\vfill
+
+## Directorio de trabajo
+El primer paso es definir la carpeta en donde vamos a estar trabajando, para esto usamos el comando setwd()
+\includegraphics[height=0.8cm]{images/r_session/setwd}
+En esta carpeta es en donde deberían de tener los datos con los que vamos a trabajar. Para revisar el directorio usamos dir()
+\includegraphics[height=0.8cm]{images/r_session/dir}
+
+##
+\centering
+\vfill
+\textbf{\large Pregunta 1:} \large ¿El archivo de datos con el que trabajamos está en la lista que devolvió la función? 
+\vfill
+
+##
+\centering
+\vfill
+\textbf{\Huge Ejercicio 2: Importando los datos}
+\vfill
+
+## Importar la base de datos
+R leerá el archivo y luego lo agregará como un objeto a su "espacio de trabajo" donde podemos analizarlo. 
+
+\includegraphics[height=0.8cm]{images/r_session/read_csv}
+
+Podemos hacer esto a través de la función read_csv(), que toma un nombre de archivo que proporciona y lee ese archivo y crea un objeto de datos R, llamado marco de datos.
+
+##
+\centering
+\vfill
+\textbf{\large Pregunta 2:} \large encuentre la pestaña "entorno" en su ventana de RStudio. Pida ayuda a un instructor o a alguien a su lado si no lo ve. ¿Aparece el objeto llamado experiment_data en el entorno?
+\vfill
+
+##
+\centering
+\vfill
+\textbf{\Huge Ejercicio 3: Inspeccionar los datos}
+\vfill
+
+## Tómese un momento para mirar los datos en sí
+Para hacer esto, encuentre la pestaña Entorno y haga clic una vez en el objeto experiment_data. Esto abre el "visor de datos". Este es siempre un buen lugar para empezar a ver qué hay en los datos.
+
+\includegraphics[height=5cm]{images/r_session/bd}
+
+##
+\centering
+\vfill
+\textbf{\Huge Ejercicio 4: instalar el tidyverse y cargar paquetes}
+\vfill
+
+## Un "paquete" en R es una colección de funciones (comandos), datos y documentación que es como un kit de herramientas
+El tidyverse es una familia de paquetes que están diseñados para trabajar juntos.
+
+1. Vamos a empezar por instalarlo.
+\includegraphics[height=0.8cm]{images/r_session/install}
+
+2. Tiene que descargar, así que debe estar conectado al wifi. (Esto puede llevar un tiempo si el internet es lento)
+
+3. Ahora vamos a cargar el paquete tidyverse. Para hacer esto, utilizamos otra función library() que hace que todos los recursos del paquete estén disponibles para ti en tu sesión de R
+\includegraphics[height=0.8cm]{images/r_session/library}
+
+##
+\centering
+\vfill
+\textbf{\Huge Ejercicio 5: modificar los datos}
+\vfill
+
+## A continuación vamos a aprender cómo manipular, o modificar, un data frame
+Esto es útil si quieres crear una nueva variable, o cambiar una variable existente. Vamos a manipular nuestro data frame modificándolo y luego escribiendo sobre el original
+
+\includegraphics[height=1.5cm]{images/r_session/mutate}
+
+Una vez que ejecutamos esas líneas de código vemos que hay nuevas columnas a la derecha llamadas coffee, tea, y ivoirien. Vuelvan a revisar la base de datos, ¿aparecen las columnas?
+
+## Para que esta nueva columna se guarde en nuestro conjunto de datos, también necesitamos escribir sobre el objeto de datos original
+
+\includegraphics[height=1.5cm]{images/r_session/mutate2}
+
+## Una forma rápida de contar los valores de una variable es la función count()
+
+Tome experiment_data y luego cuente los valores de la variable coffee
+
+\includegraphics[height=1.3cm]{images/r_session/count}
+
+##
+\centering
+\vfill
+\textbf{\large Pregunta 3:} \large ¿Cuántas unidades toman cada valor en la variable tea?
+\vfill
+
+## ¿Cuál es el resultado en la consola?
+
+\includegraphics[height=5cm]{images/r_session/count2}
+
+## Volvamos al código
+
+¿Qué significa el símbolo "%>%"?
+
+Estos se llaman "pipes" y le dicen a R que siga trabajando en una secuencia de pasos. Puede leerlos como "y luego..." porque conducen a la siguiente acción que desea realizar
+
+##
+\centering
+\vfill
+\textbf{\Huge Ejercicio 6: resumir datos}
+\vfill
+
+## Otra tarea común en el análisis de datos es resumir los datos
+
+Es posible que desee conocer el valor promedio de una variable, el máximo o la varianza. R tiene otra función de envoltura poderosa para ayudarlo a calcular este tipo de estadísticas resumidas: summarise(). 
+
+Comencemos con un ejemplo: tomemos la media y la desviación estándar de la variable tea.
+
+\includegraphics[height=1.3cm]{images/r_session/summarize}
+
+## Vemos que la media de tea es 0.54 y la desviación estándar es 0.51
+
+\includegraphics[height=3cm]{images/r_session/mean}
+
+##
+\centering
+\vfill
+\textbf{\large Pregunta 4:} \large ¿Cuáles son la media, el máximo y el mínimo de la variable colombian?
+\vfill
+
+## Respuesta
+
+\includegraphics[height=3cm]{images/r_session/mean2}
+
+##
+\centering
+\vfill
+\textbf{\Huge Ejercicio 7: filtrar los datos}
+\vfill
+
+## Lo último que aprenderemos ahora es cómo filtrar los datos, o mirar solo un subconjunto de las observaciones
+
+Esto es útil si queremos saber algo sobre un subconjunto de las observaciones y se usa a menudo en combinación con summarise().
+
+Comencemos filtrando por género para que solo estemos mirando a las participantes femeninas en el experimento.
+
+\includegraphics[height=1cm]{images/r_session/filter}
+
+## 
+Debería ver solo 10 de las 24 observaciones en el conjunto de datos que se imprimen, y todas tienen "F" en la variable Género. Este código ha "filtrado" los datos para que solo mantenga las observaciones donde Género == "F".
+
+\includegraphics[height=2.5cm]{images/r_session/filter2}
+
+## También podemos usar count() y summarise() para ejecutar funciones de resumen solo en este grupo. Aquí es donde las "pipes" son realmente útiles.
+
+Comencemos contando los valores de la variable té solo para las participantes *femeninas*
+
+\includegraphics[height=1.2cm]{images/r_session/filter3}
+
+Sigamos a calcular la media de té solo para *hombres*
+
+\includegraphics[height=1.2cm]{images/r_session/filter4}
+
+
+
+

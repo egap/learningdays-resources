@@ -1,0 +1,59 @@
+# Santiago 2026 -- shared reveal.js defaults for any future .qmd decks in this
+# folder (the hub itself only renders index.qmd; static slides live in slides/).
+
+project:
+  type: default
+  render:
+    - "*.qmd"
+  resources:
+    - "Images/**"
+    - "index.csv"
+    - "slides/**"
+    - "r_sessions/**"
+    - "forms/**"
+    - "pdf/**"
+    - "assets/egap-logo.png"
+    - "assets/flags/**"
+    - "assets/santiago-bilingual.css"
+    - "assets/santiago-bilingual.js"
+    - "assets/index-tabs.js"
+    - "assets/reveal-images.js"
+    - "assets/after-body.html"
+
+format:
+  revealjs:
+    theme: white
+    slide-number: true
+    center: false
+    transition: fade
+    width: 1280
+    height: 720
+    margin: 0.08
+    auto-stretch: false
+    slide-level: 2
+    toc: false
+    preview-links: auto
+    # chalkboard is incompatible with embed-resources (self-contained HTML)
+    plugins: [notes, search]
+    filters:
+      - assets/santiago-bilingual.lua
+      - assets/force-image-src.lua
+    include-in-header: assets/header.html
+    include-after-body: assets/after-body.html
+  beamer:
+    aspectratio: 169
+    fontsize: 10pt
+    theme: Madrid
+    colortheme: dolphin
+    fonttheme: structurebold
+    filters:
+      - assets/santiago-bilingual.lua
+
+knitr:
+  opts_chunk:
+    fig.align: center
+    out.width: "100%"
+
+editor:
+  markdown:
+    wrap: 72

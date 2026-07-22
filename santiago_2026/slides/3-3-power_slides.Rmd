@@ -1,0 +1,710 @@
+---
+title: "Statistical Power"
+author: "Jake Bowers \\ EGAP Learning days, Montevideo"
+date: "`r format(Sys.time(), '%d-%m-%Y')`"
+output:
+  beamer_presentation:
+    keep_tex: yes
+    slide_level: 2
+    toc: yes
+  revealjs::revealjs_presentation:
+    center: no
+    fig_caption: yes
+    highlight: pygments
+    pandoc_args: --toc
+    reveal_options:
+      chalkboard:
+        theme: whiteboard
+        toggleNotesButton: no
+      previewLinks: yes
+      slideNumber: yes
+    reveal_plugins:
+    - notes
+    - search
+    - chalkboard
+    self_contained: no
+    smart: no
+    theme: default
+    transition: fade
+bibliography: learningdays-book.bib
+header-includes: |
+   \setbeamertemplate{footline}{\begin{beamercolorbox}{section in head/foot}
+   \includegraphics[height=.5cm]{images/egap-logo.png} \hfill
+   \insertframenumber/\inserttotalframenumber \end{beamercolorbox}}
+   \usepackage{makecell}
+   \usepackage{tikz}
+   \usepackage{tikz-cd}
+   \usetikzlibrary{arrows,automata,positioning,trees,babel}
+   \usepackage{textpos}
+   \usepackage{booktabs,multirow}
+link-citations: yes
+colorlinks: yes
+biblio-style: apalike
+---
+
+
+```{r setup, include=FALSE, echo=FALSE}
+library(here)
+source("rmd_setup.R")
+library(DesignLibrary)
+library(styler)
+```
+
+# What is power?
+
+## What is power?
+
+We want to separate signal from noise.
+
+- Power = probability of rejecting null hypothesis, given true effect $\ne$ 0. We would like our tests to produce $p \le \alpha$ for the hypothesis of no effects when the truth is not zero.
+
+- It is the ability of a test to detect an effect given that it exists.
+
+- Formally: (1 - Type II) error rate of a hypothesis test.
+
+- Thus, power $\in$ (0, 1).
+
+- How often should we see a $p \le \alpha$? Standard thresholds: 0.8 or 0.9 ---
+"nearly always detect a signal when one exists".
+
+- "Power" is an operating characteristic of hypothesis tests (and by extension, confidence intervals).
+
+## Starting point for power analysis
+
+- Power analysis is something we do *before* we run a study.
+
+  - Helps you figure out the **how many units** you need to detect a given effect size.
+
+  - Helps you figure out a **minimal detectable difference** given a set sample size.
+
+  - **May help you decide whether to run a study at all.** (A power analysis
+    is part of answering the question, "Should we do this study?")
+
+- Goal: To discover whether our planned design allows us to detect the effects
+we expect (or the effects that we would need to see before acting) if they
+exist
+
+- It is hard to learn from an under-powered null finding.
+
+  - Was there an effect, but we were unable to detect it? or was there no effect?  We can't say.
+
+## Power
+
+- Say there truly is a treatment effect and you run your experiment many times.  How often will you get a $p \le .05$
+
+- It depends:
+
+  - How big is your treatment effect?
+
+  - How many units are treated, measured?
+
+  - How much noise is there in the measurement of your outcome?
+
+- **We do not know the answers to all those questions in advance. So some guesswork required to answer this question.**
+
+## Power analysis
+
+With power analysis, you can see how sensitive the probability of getting significant results is to changes in your assumptions.
+
+- Many disciplines have settled on a target power value of 0.80.
+- Reasons to move to 0.90?
+- Researchers can tweak their designs and assumptions until they can be confident that their experiments will return statistically significant results "most" of the time (where "most"=80% or 90%)
+- Requires lots of educated guesses, but it's often very sobering: if previous literature has always found an effect size of 1sd, we might not have the budget to find an effect that big.
+
+# Power trade offs
+
+## Power is increasing in $N$ {.allowframebreaks}
+
+```{r powplot_by_n, echo=TRUE}
+## here we use the overall SD or a standardized noise measure wrapped into an effect
+## ie  Cohen’s d: d = {m_{1} - m_{2}} / {/sigma}
+
+power.t.test(n = 100, delta = .25, sd = 1, sig.level = .05)
+
+some_ns <- seq(10, 1000, by = 10)
+pow_by_n <- sapply(some_ns, function(then) {
+  power.t.test(n = then, delta = 0.25, sd = 1, sig.level = 0.05)$power
+  #    pwr.t.test(n = then, d = 0.25, sig.level = 0.05)$power
+})
+```
+
+```{r echo=FALSE}
+plot(some_ns * 2, pow_by_n,
+  xlab = "Total Sample Size",
+  ylab = "Power"
+)
+abline(h = .8)
+```
+
+## Strategies to increase number of units
+
+- Increase Budget
+- Increase Population Definition (i.e. city to region, extend time)
+- Reduce Cluster Size (i.e. schools to classrooms)
+
+## Power increases with treatment effect size
+
+```{r powplot_by_tau, echo=FALSE}
+some_taus <- seq(0, 1, by = .05)
+pow_by_tau <- sapply(some_taus, function(thetau) {
+  #  pwr.t.test(n = 200, d = thetau, sig.level = 0.05)$power
+  power.t.test(n = 200, delta = thetau, sd = 1, sig.level = 0.05)$power
+})
+plot(some_taus, pow_by_tau,
+  xlab = "Average Treatment Effect (Standardized)",
+  ylab = "Power"
+)
+abline(h = .8)
+```
+
+## Strategies to increase treatment effect
+
+- What minimal effects would you want to be able to show with your study?
+  - What effect is realistic?
+  - In collaborative work: what effect is desirable?
+  - Would this effect-size be “satisfactory”? (cost effectiveness, other studies, rules of thumb)
+
+- Boost dosage / avoid very weak treatments
+  - One or multiple arms?
+  - Effect of treatment on what?
+  - Avoid outcomes close to floor and ceiling
+  - When to capture outcome?
+  
+## Power decreases with noise in outcome
+
+```{r powplot_by_sigma, echo=FALSE}
+some_sigma <- seq(0, 2, by = .05)
+pow_by_sigma <- sapply(some_sigma, function(thesigma) {
+  #  pwr.t.test(n = 200, d = thetau, sig.level = 0.05)$power
+  power.t.test(n = 200, delta = 0.25, sd = thesigma, sig.level = 0.05)$power
+})
+plot(some_sigma, pow_by_sigma,
+  xlab = "Noise (SD)",
+  ylab = "Power"
+)
+abline(h = .8)
+```
+
+## Outcome Noise ($\sigma$)
+
+- Reduce noise. How?
+  - Measurement, time interval
+  - Blocking. Conduct experiments among subjects that are more similar
+  - Collect baseline covariates and use residuals of outcome or direct covariance adjustment (in large enough experiments)
+  - Collect multiple measures of outcomes and either (1) test combined hypotheses ("no effects on any of $Y_1,Y_2,Y_3$") or (2) create an index.
+
+## Approaches to power calculation
+
+- Analytical calculations of power
+
+- Simulation
+
+## Power calculation tools
+
+- Interactive
+
+  - [EGAP Power Calculator](https://egap.shinyapps.io/power-app/)
+  - [rpsychologist](https://rpsychologist.com/d3/NHST/)
+
+- R Packages
+
+  - Built-in `power.t.test`
+
+  - [pwr](https://cran.r-project.org/web/packages/pwr/index.html)
+
+  - [DeclareDesign](https://cran.r-project.org/web/packages/DeclareDesign/index.html), see also <https://declaredesign.org/>
+
+# Analytical calculations of power
+
+## Analytical calculations of power for hypotheses of no average treatment effects
+
+The preceding graphs came from this formula.
+
+- Formula:
+  \begin{align*}
+  \text{Power} &= \Phi\left(\frac{|\tau| \sqrt{N}}{2\sigma}- \Phi^{-1}(1- \frac{\alpha}{2})\right)
+  \end{align*}
+
+- Components:
+  - $\phi$: standard normal CDF is monotonically increasing
+  - $\tau$: the effect size
+  - $N$: the sample size
+  - $\sigma$: the standard deviation of the outcome
+  - $\alpha$: the significance level (typically 0.05)
+
+Why standard normal? (the Central Limit Theorem (CLT))
+
+## Example: Analytical calculations of power
+
+```{r powerp, echo=TRUE, include=TRUE}
+# Power for a study with 80 observations and effect
+# size of 0.25, and SD of 1
+power.t.test(
+  n = 40, delta = 0.25, sd = 1,
+  sig.level = 0.05, power = NULL
+)
+```
+
+## Example: Analytical calculations of power
+
+```{r powerdelta, echo=TRUE, include=TRUE}
+power.t.test(
+  n = 40, delta = NULL, sd = 0.5,
+  sig.level = 0.05, power = 0.8
+)
+```
+
+## Example: Analytical calculations of power
+
+```{r powern, echo=TRUE, include=TRUE}
+power.t.test(
+  n = NULL, delta = 0.25, sd = 1,
+  sig.level = 0.05, power = 0.8
+)
+```
+
+## Limitations to analytical power calculations
+
+- Only derived for some test statistics (differences of means)
+- Makes specific assumptions about the data-generating process
+- Incompatible with more complex designs like block randomized designs with
+different probabilities of assignment in each block.
+
+# Simulation-based power calculation
+
+## Simulation-based power calculation steps
+
+In general:
+
+- Create dataset(s) based on past literature and contextual knowledge.
+- Simulate research design and analysis many times.
+- How many times did you get $p \le .05$ when you set $\tau=.25$? That is the power to detect an effect of $\tau=.25$.
+
+Assumptions are necessary for simulation studies, but you make your own.
+
+## Simulation-based power calculation with DeclareDesign
+
+- EGAP members created an R package called `DeclareDesign` (and wrote a book about simulations for research designs) see <https://declaredesign.org/> @blair2023research
+
+- Helps evaluate our designs with multiple "diagnosands"
+  - Power (of tests)
+  - Bias (of estimators)
+  - RMSE (of estimators)
+  - Coverage (of confidence intervals)
+
+## Steps in DeclareDesign
+
+- Define the sample and the potential outcomes function.
+- Define the treatment assignment procedure.
+- Create data.
+- Assign treatment, then test a hypothesis (using a $p$-value or a confidence interval)
+- Do this many times.
+
+## Examples
+
+- Complete randomization
+- Adding a covariate
+- Cluster randomization
+
+## Example: Simulation-based power for complete randomization
+
+First, using plain R code:
+
+```{r powersim, echo=TRUE, include=TRUE}
+# install.packages("randomizr")
+library(randomizr)
+library(estimatr)
+
+make_Y0 <- function(N) {
+  rnorm(n = N)
+}
+repeat_experiment_and_test <- function(N, Y0, tau) {
+  # N is size of experimental pool; Y0 is potential outcome to control
+  # tau is effect size (here, a constant additive effect)
+  Y1 <- Y0 + tau
+  Z <- complete_ra(N = N)
+  Yobs <- Z * Y1 + (1 - Z) * Y0
+  estimator <- lm_robust(Yobs ~ Z)
+  pval <- estimator$p.value[2]
+  return(pval)
+}
+```
+
+## Example: Simulation-based power for complete randomization
+
+```{r powersim2, echo=TRUE, include=TRUE}
+power_sim <- function(N, tau, sims) {
+  ## Y0 is fixed in most field experiments. So we only generate it once:
+  Y0 <- make_Y0(N)
+  ## And then repeat the experimental assignment and analysis:
+  pvals <- replicate(
+    n = sims,
+    repeat_experiment_and_test(N = N, Y0 = Y0, tau = tau)
+  )
+  pow <- sum(pvals < .05) / sims
+  return(pow)
+}
+
+set.seed(12345)
+## Notice simulation variability with sims=100
+power_sim(N = 80, tau = .25, sims = 100)
+power_sim(N = 80, tau = .25, sims = 100)
+```
+
+## Example: Using DeclareDesign {.allowframebreaks}
+
+```{r ddversion, echo=TRUE, message=FALSE, warning=FALSE}
+library(DeclareDesign)
+library(tidyverse)
+P0 <- declare_population(N, u0 = rnorm(N))
+# declare Y(Z=1) and Y(Z=0) where Y(Z=0) has a mean of 5
+O0 <- declare_potential_outcomes(Y_Z_0 = 5 + u0, Y_Z_1 = Y_Z_0 + tau)
+# Assign m units to treatment
+A0 <- declare_assignment(Z = conduct_ra(N = N, m = round(N / 2)))
+# estimand is the average difference between Y(Z=1) and Y(Z=0)
+estimand_ate <- declare_inquiry(ATE = mean(Y_Z_1 - Y_Z_0))
+R0 <- declare_reveal(Y, Z)
+design0_base <- P0 + A0 + O0 + R0
+
+## For example with N=100 and tau=.25:
+design0_N100_tau25 <- redesign(design0_base, N = 100, tau = .25)
+dat0_N100_tau25 <- draw_data(design0_N100_tau25)
+head(dat0_N100_tau25)
+# True ATE
+with(dat0_N100_tau25, mean(Y_Z_1 - Y_Z_0))
+# Estimated ATE
+with(dat0_N100_tau25, mean(Y[Z == 1]) - mean(Y[Z == 0]))
+# Using the ATE estimator as a test statistic to test the null hypothesis of no average effects:
+lm_robust(Y ~ Z, data = dat0_N100_tau25)$p.value[2]
+```
+
+```{r ddversion_sim, echo=TRUE, warnings=FALSE}
+E0 <- declare_estimator(Y ~ Z,
+  .method = lm_robust, label = "t test 1",
+  inquiry = "ATE"
+)
+
+t_test <- function(data) {
+  #  test <- with(data, t.test(x = Y[Z == 1], y = Y[Z == 0]))
+  test <- coin::oneway_test(Y ~ factor(Z), data = data, distribution = "asymptotic")
+  data.frame(statistic = coin::statistic(test), p.value = coin::pvalue(test))
+}
+T0 <- declare_test(handler = label_test(t_test), label = "t test 2")
+design0_plus_tests <- design0_base + E0 + T0
+
+design0_N100_tau25_plus <- redesign(design0_plus_tests, N = 100, tau = .25)
+
+## Only repeat the random assignment, not the creation of Y0. Ignore warning
+names(design0_N100_tau25_plus)
+str(design0_N100_tau25_plus)
+design0_N100_tau25_sims <- simulate_design(design0_N100_tau25_plus,
+  sims = c(1, 100, 1, 1, 1, 1)
+) # only repeat the random assignment
+# design0_N100_tau25_sims has 200 rows (2 tests * 100 random assignments)
+# just look at a few of the values
+str(design0_N100_tau25_sims)
+```
+
+## Power with complete randomization
+
+In 20% of experiments, when the truth is .25sds, and $N=100$, we get $p < .05$.
+
+```{r powsum, echo=TRUE}
+# for each estimator, power = proportion of simulations with p.value < 0.5
+design0_N100_tau25_sims %>%
+  group_by(estimator) %>%
+  summarize(pow = mean(p.value < .05), mean_p = mean(p.value), .groups = "drop")
+```
+
+# Power with covariate adjustment
+
+## Covariate adjustment and power
+
+- Covariate/Covariance adjustment can improve power because it reduces variation in the outcome variable.
+
+  - If prognostic (predictive of the outcome), covariate adjustment can reduce variance dramatically.  Lower variance means higher power.
+
+  - If non-prognostic, power gains are minimal.
+
+- All co-variates must be pre-treatment.  Do not drop observations on account of missingness.
+
+  - See the module on [threats to internal validity](threats-to-internal-validity-of-randomized-experiments.html) and the [10 things to know about covariate adjustment](https://egap.org/resource/10-things-to-know-about-covariate-adjustment/).
+
+  - @freedman2008rae pointed out that covariance-adjusted estimators of the ATE
+  are biased. @lin_agnostic_2013 shows that bias decreases with N and offers
+  approaches that reduce the bias.
+
+## Blocking
+
+- Blocking: randomly assign treatment within blocks
+
+  - “Ex-ante” covariate adjustment
+
+  - Higher precision/efficiency implies more power
+
+  - Reduce “conditional bias”: association between treatment assignment and potential outcomes
+
+  - Benefits of blocking over covariate adjustment clearest in small experiments
+
+## Example: Simulation-based power with a covariate {.shrink}
+
+```{r powsimcov, echo=TRUE}
+## Y0 is fixed in most field experiments. So we only generate it once
+make_Y0_cov <- function(N) {
+  u0 <- rnorm(n = N)
+  x <- rpois(n = N, lambda = 2)
+  Y0 <- .5 * sd(u0) * x + u0
+  return(data.frame(Y0 = Y0, x = x))
+}
+##  X is moderately predictive of Y0.
+test_dat <- make_Y0_cov(100)
+test_lm <- lm_robust(Y0 ~ x, data = test_dat)
+summary(test_lm)
+```
+
+## Example: Simulation-based power with a covariate {.allowframebreaks}
+
+Here  doing it by hand instead of DeclareDesign (either would be possible).
+
+```{r powsimcovsetup, echo=TRUE}
+## now set up the simulation
+repeat_experiment_and_test_cov <- function(N, tau, Y0, x) {
+  Y1 <- Y0 + tau
+  Z <- complete_ra(N = N)
+  Yobs <- Z * Y1 + (1 - Z) * Y0
+  estimator <- lm_robust(Yobs ~ Z + x, data = data.frame(Y0, Z, x))
+  pval <- estimator$p.value[2]
+  return(pval)
+}
+## create the data once, randomly assign treatment sims times
+## report what proportion return p-value < 0.05
+power_sim_cov <- function(N, tau, sims) {
+  dat <- make_Y0_cov(N)
+  pvals <- replicate(n = sims, repeat_experiment_and_test_cov(
+    N = N,
+    tau = tau, Y0 = dat$Y0, x = dat$x
+  ))
+  pow <- sum(pvals < .05) / sims
+  return(pow)
+}
+```
+
+## Example: Simulation-based power with a covariate {.allowframebreaks}
+
+Doing it twice to be clear that there is variability from simulation to simulation.
+
+```{r, echo=TRUE}
+set.seed(12345)
+power_sim_cov(N = 80, tau = .25, sims = 100)
+power_sim_cov(N = 80, tau = .25, sims = 100)
+```
+
+# Power for cluster randomization
+
+## Power and clustered designs
+
+- Given a fixed $N$, a clustered design is weakly less powered than a non-clustered design.
+  - The difference is often substantial.
+
+- We have to estimate variance accounting for dependence:
+  - Clustering standard errors (the usual)
+  - Randomization inference
+
+- To increase power:
+  - Better to increase number of clusters than number of units per cluster.
+  - How much clusters reduce power depends critically on the intra-cluster correlation (the ratio of variance within clusters to total variance).
+
+## Example: Simulation-based power for cluster randomization {.allowframebreaks}
+
+Here we set ICC=.1
+
+```{r powsimclus_datasetup, echo=TRUE}
+## Y0 is fixed in most field experiments. So we only generate it once
+make_Y0_clus <- function(n_indivs, n_clus) {
+  # n_indivs is number of people per cluster
+  # n_clus is number of clusters
+  clus_id <- gl(n_clus, n_indivs)
+  N <- n_clus * n_indivs
+  u0 <- fabricatr::draw_normal_icc(N = N, clusters = clus_id, ICC = .1)
+  Y0 <- u0
+  return(data.frame(Y0 = Y0, clus_id = clus_id))
+}
+
+test_dat <- make_Y0_clus(n_indivs = 10, n_clus = 100)
+# confirm that this produces data with 10 in each of 100 clusters
+table(test_dat$clus_id)
+# confirm ICC
+ICC::ICCbare(y = Y0, x = clus_id, data = test_dat)
+```
+
+## Example: Simulation-based power for cluster randomization {.shrink}
+
+```{r powsimclus_fns, echo=TRUE}
+repeat_experiment_and_test_clus <- function(N, tau, Y0, clus_id) {
+  Y1 <- Y0 + tau
+  # here we randomize Z at the cluster level
+  Z <- cluster_ra(clusters = clus_id)
+  Yobs <- Z * Y1 + (1 - Z) * Y0
+  estimator <- lm_robust(Yobs ~ Z,
+    clusters = clus_id,
+    data = data.frame(Y0, Z, clus_id), se_type = "CR2"
+  )
+  pval <- estimator$p.value[2]
+  return(pval)
+}
+power_sim_clus <- function(n_indivs, n_clus, tau, sims) {
+  dat <- make_Y0_clus(n_indivs, n_clus)
+  N <- n_indivs * n_clus
+  # randomize treatment sims times
+  pvals <- replicate(
+    n = sims,
+    repeat_experiment_and_test_clus(
+      N = N, tau = tau,
+      Y0 = dat$Y0, clus_id = dat$clus_id
+    )
+  )
+  pow <- sum(pvals < .05) / sims
+  return(pow)
+}
+```
+
+## Example: Simulation-based power for cluster randomization {.allowframebreaks}
+```{r, echo=TRUE}
+set.seed(12345)
+power_sim_clus(n_indivs = 8, n_clus = 100, tau = .25, sims = 100)
+power_sim_clus(n_indivs = 8, n_clus = 100, tau = .25, sims = 100)
+```
+
+## Example: Simulation-based power for cluster randomization (DeclareDesign)
+
+```{r ddversion_clus, echo=TRUE}
+P1 <- declare_population(
+  N = n_clus * n_indivs,
+  clusters = gl(n_clus, n_indivs),
+  u0 = draw_normal_icc(N = N, clusters = clusters, ICC = .2)
+)
+O1 <- declare_potential_outcomes(Y_Z_0 = 5 + u0, Y_Z_1 = Y_Z_0 + tau)
+A1 <- declare_assignment(Z = conduct_ra(N = N, clusters = clusters))
+estimand_ate <- declare_inquiry(ATE = mean(Y_Z_1 - Y_Z_0))
+R1 <- declare_reveal(Y, Z)
+design1_base <- P1 + A1 + O1 + R1 + estimand_ate
+```
+
+## Example: Simulation-based power for cluster randomization (DeclareDesign) {.shrink}
+
+```{r simclus_dd, echo=TRUE}
+## For example:
+design1_test <- redesign(design1_base, n_clus = 10, n_indivs = 100, tau = .25)
+test_d1 <- draw_data(design1_test)
+# confirm all individuals in a cluster have the same treatment assignment
+with(test_d1, table(Z, clusters))
+# three estimators, differ in se_type:
+E1a <- declare_estimator(Y ~ Z,
+  .method = lm_robust, clusters = clusters,
+  se_type = "CR2", label = "CR2 cluster t test",
+  inquiry = "ATE"
+)
+E1b <- declare_estimator(Y ~ Z,
+  .method = lm_robust, clusters = clusters,
+  se_type = "CR0", label = "CR0 cluster t test",
+  inquiry = "ATE"
+)
+E1c <- declare_estimator(Y ~ Z,
+  .method = lm_robust, clusters = clusters,
+  se_type = "stata", label = "stata RCSE t test",
+  inquiry = "ATE"
+)
+E1d <- declare_estimator(Y ~ Z,
+  .method = lm_robust,
+  se_type = "classical", label = "plain IID OLS t test",
+  inquiry = "ATE"
+)
+
+design1_plus <- design1_base + E1a + E1b + E1c + E1d
+
+design1_plus_tosim <- redesign(design1_plus, n_clus = 10, n_indivs = 100, tau = .25)
+```
+
+## Example: Simulation-based power for cluster randomization (DeclareDesign)
+
+```{r ddversion_clus_sims, echo=TRUE, cache=TRUE, warnings=FALSE}
+## Only repeat the random assignment, not the creation of Y0. Ignore warning
+## We would want more simulations in practice.
+set.seed(12355)
+design1_sims <- simulate_design(design1_plus_tosim,
+  sims = c(1, 1000, rep(1, length(design1_plus_tosim) - 2))
+)
+```
+
+## Simulation-based power for cluster randomization
+
+Notice: high power but low coverage for plain OLS ("coverage" of a confidence
+interval is the same as false positive rate of a hypothesis test.)
+
+```{r echo=TRUE}
+design1_sims %>%
+  group_by(estimator) %>%
+  summarize(
+    pow = mean(p.value < .05),
+    coverage = mean(estimand <= conf.high & estimand >= conf.low),
+    .groups = "drop"
+  )
+```
+
+## Example: Simulation-based power for cluster randomization (DeclareDesign)
+
+```{r ddversion_clus_2, echo=TRUE, cache=TRUE, results='hide', warning=FALSE,message=FALSE}
+library(DesignLibrary)
+## This may be simpler than the above:
+d1 <- block_cluster_two_arm_designer(
+  N_blocks = 1,
+  N_clusters_in_block = 10,
+  N_i_in_cluster = 100,
+  sd_block = 0,
+  sd_cluster = .3,
+  ate = .25
+)
+d1_plus <- d1 + E1b + E1c
+d1_sims <- simulate_design(d1_plus, sims = c(1, 1, 1000, 1, 1, 1, 1, 1))
+```
+
+## Example: Simulation-based power for cluster randomization (DeclareDesign)
+
+
+```{r ddversion_clus_2_print, echo=TRUE}
+d1_sims %>%
+  group_by(estimator) %>%
+  summarize(
+    pow = mean(p.value < .05),
+    coverage = mean(estimand <= conf.high & estimand >= conf.low),
+    .groups = "drop"
+  )
+```
+
+## Power Ingredients and Their Relationship
+
+- Power is:
+  - Increasing in $N$ (number of units in the experiment)
+  - Increasing in $|\tau|$ (treatment effect size)
+  - Decreasing in $\sigma$ (variance of the outcome)
+  - Decreasing in ICC (relative homogeneity of outcome within versus across clusters)
+
+## Comments {.shrink}
+
+- Know your outcome variable.
+- What effects can you realistically expect from your treatment? (Past studies
+that are similar to yours? Given what you know about "natural variation" in the
+outcome?)
+- What effects are substantively too small? (It may not be worth running *this
+experiment* at *this moment* if you cannot imagine detecting an effect at least
+this large.)
+- What is the plausible range of variation of the outcome variable?
+- A design with limited possible movement in the outcome variable may not be
+well-powered.
+  - See [10 Things Your Null Result Might
+  Mean](https://egap.org/resource/10-things-your-null-result-might-mean/) for
+  discussion of the various reasons a given experiment might have produced a $p > .05$ (if you are using $\alpha = .05$ as a rejection criteria or if you have some substantively small $\hat{\bar{\tau}}$ that might not be reached).
+
+Note: Power calculations (summaries of the false negative rate of tests/confidence intervals) depend on those tests/confidence intervals having controlled and low false positive rates (ex. 5% or less) or high coverage rates (ex. 95% or more)
+
+## References
