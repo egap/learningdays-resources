@@ -1,5 +1,5 @@
 ---
-title: "Poder estadístico"
+title: "Potencia estadística"
 author: "Jake Bowers --- EGAP Learning Days, Santiago de Chile"
 date: today
 lang: es
@@ -31,45 +31,45 @@ library(DesignLibrary)
 library(styler)
 ```
 
-# ¿Qué es el poder estadístico?
+# ¿Qué es la potencia estadística?
 
-## ¿Qué es el poder estadístico?
+## ¿Qué es la potencia estadística?
 
 Queremos separar la señal del ruido.
 
-- Poder (o "potencia estadística") = probabilidad de rechazar la hipótesis nula, dado un efecto verdadero $\ne$ 0. Queremos que nuestras pruebas produzcan $p \le \alpha$ para la hipótesis de ningún efecto cuando la verdad no es cero.
+- Potencia (o "poder estadístico") = probabilidad de rechazar la hipótesis nula, dado un efecto verdadero $\ne$ 0. Queremos que nuestras pruebas produzcan $p \le \alpha$ para la hipótesis de ningún efecto cuando la verdad no es cero.
 
 - Es la capacidad de una prueba de detectar un efecto, dado que el efecto existe.
 
 - Formalmente: 1 $-$ (tasa de error de tipo II) de una prueba de hipótesis.
 
-- Por lo tanto, el poder está $\in$ (0, 1).
+- Por lo tanto, la potencia está $\in$ (0, 1).
 
 - ¿Con qué frecuencia deberíamos ver un $p \le \alpha$? Umbrales estándar: 0.8 o 0.9 ---
 "detectar la señal casi siempre que exista".
 
-- El "poder" es una característica operativa de las pruebas de hipótesis (y, por extensión, de los intervalos de confianza).
+- La "potencia" es una característica operativa de las pruebas de hipótesis (y, por extensión, de los intervalos de confianza).
 
-## Punto de partida para el análisis de poder
+## Punto de partida para el análisis de potencia
 
-- El análisis de poder es algo que hacemos *antes* de realizar un estudio.
+- El análisis de potencia es algo que hacemos *antes* de realizar un estudio.
 
   - Les ayuda a determinar **cuántas unidades** necesitan para detectar un efecto de un tamaño dado.
 
   - Les ayuda a determinar la **diferencia mínima detectable** dado un tamaño de muestra fijo.
 
   - **Puede ayudarles a decidir si vale la pena realizar el estudio.** (El análisis
-    de poder es parte de responder la pregunta: "¿Deberíamos hacer este estudio?")
+    de potencia es parte de responder la pregunta: "¿Deberíamos hacer este estudio?")
 
 - Meta: descubrir si el diseño que planeamos nos permite detectar los efectos que
 esperamos (o los efectos que necesitaríamos ver antes de actuar) en caso de que
 existan.
 
-- Es difícil aprender de un hallazgo nulo con poco poder.
+- Es difícil aprender de un hallazgo nulo con poca potencia.
 
   - ¿Había un efecto que no pudimos detectar? ¿O no había efecto? No podemos distinguir.
 
-## Poder
+## Potencia
 
 - Supongamos que el tratamiento sí tiene un efecto y que repetimos el experimento muchas veces. ¿Con qué frecuencia obtendríamos $p \le .05$?
 
@@ -83,18 +83,18 @@ existan.
 
 - **No conocemos de antemano las respuestas a todas estas preguntas. Así que responderlas requiere hacer conjeturas.**
 
-## Análisis de poder
+## Análisis de potencia
 
-Con el análisis de poder pueden ver qué tan sensible es la probabilidad de obtener resultados significativos a cambios en sus supuestos.
+Con el análisis de potencia pueden ver qué tan sensible es la probabilidad de obtener resultados significativos a cambios en sus supuestos.
 
-- Muchas disciplinas han adoptado un poder objetivo de 0.80.
+- Muchas disciplinas han adoptado una potencia objetivo de 0.80.
 - ¿Razones para subir a 0.90?
 - Los investigadores pueden ajustar sus diseños y supuestos hasta confiar en que sus experimentos producirán resultados estadísticamente significativos "la mayoría" de las veces (donde "la mayoría" = 80% o 90%).
 - Requiere muchas conjeturas informadas, pero suele ser muy aleccionador: si la literatura previa siempre ha encontrado un tamaño de efecto de 1 desviación estándar, puede que no tengamos el presupuesto para detectar un efecto de ese tamaño.
 
-# Disyuntivas del poder
+# Disyuntivas de la potencia
 
-## El poder crece con $N$ {.allowframebreaks}
+## La potencia crece con $N$ {.allowframebreaks}
 
 ```{r powplot_by_n, echo=TRUE}
 ## aquí usamos la DE total, es decir, una medida estandarizada del ruido
@@ -112,7 +112,7 @@ pow_by_n <- sapply(some_ns, function(then) {
 ```{r echo=FALSE}
 plot(some_ns * 2, pow_by_n,
   xlab = "Tamaño total de la muestra",
-  ylab = "Poder"
+  ylab = "Potencia"
 )
 abline(h = .8)
 ```
@@ -123,7 +123,7 @@ abline(h = .8)
 - Ampliar la definición de la población (p. ej., de ciudad a región, extender el tiempo)
 - Reducir el tamaño de los conglomerados (p. ej., de escuelas a salones de clase)
 
-## El poder crece con el tamaño del efecto del tratamiento
+## La potencia crece con el tamaño del efecto del tratamiento
 
 ```{r powplot_by_tau, echo=FALSE}
 some_taus <- seq(0, 1, by = .05)
@@ -133,7 +133,7 @@ pow_by_tau <- sapply(some_taus, function(thetau) {
 })
 plot(some_taus, pow_by_tau,
   xlab = "Efecto promedio del tratamiento (estandarizado)",
-  ylab = "Poder"
+  ylab = "Potencia"
 )
 abline(h = .8)
 ```
@@ -151,7 +151,7 @@ abline(h = .8)
   - Evitar variables de resultado cerca del piso o del techo
   - ¿Cuándo medir la variable de resultado?
 
-## El poder decrece con el ruido en la variable de resultado
+## La potencia decrece con el ruido en la variable de resultado
 
 ```{r powplot_by_sigma, echo=FALSE}
 some_sigma <- seq(0, 2, by = .05)
@@ -161,7 +161,7 @@ pow_by_sigma <- sapply(some_sigma, function(thesigma) {
 })
 plot(some_sigma, pow_by_sigma,
   xlab = "Ruido (DE)",
-  ylab = "Poder"
+  ylab = "Potencia"
 )
 abline(h = .8)
 ```
@@ -174,17 +174,17 @@ abline(h = .8)
   - Recolectar covariables de línea de base y usar los residuos de la variable de resultado, o el ajuste directo de covarianza (en experimentos suficientemente grandes)
   - Recolectar varias medidas de los resultados y (1) probar hipótesis combinadas ("ningún efecto sobre ninguna de $Y_1,Y_2,Y_3$") o (2) crear un índice.
 
-## Métodos para calcular el poder
+## Métodos para calcular la potencia
 
-- Cálculos analíticos de poder
+- Cálculos analíticos de potencia
 
 - Simulación
 
-## Herramientas para el cálculo del poder
+## Herramientas para el cálculo de la potencia
 
 - Interactivas
 
-  - [Calculadora de poder de EGAP](https://egap.shinyapps.io/power-app/)
+  - [Calculadora de potencia de EGAP](https://egap.shinyapps.io/power-app/)
   - [rpsychologist](https://rpsychologist.com/d3/NHST/)
 
 - Paquetes de R
@@ -195,15 +195,15 @@ abline(h = .8)
 
   - [DeclareDesign](https://cran.r-project.org/web/packages/DeclareDesign/index.html), ver también <https://declaredesign.org/>
 
-# Cálculos analíticos de poder
+# Cálculos analíticos de potencia
 
-## Cálculos analíticos de poder para hipótesis de ningún efecto promedio del tratamiento
+## Cálculos analíticos de potencia para hipótesis de ningún efecto promedio del tratamiento
 
 Las gráficas anteriores provienen de esta fórmula.
 
 - Fórmula:
   \begin{align*}
-  \text{Poder} &= \Phi\left(\frac{|\tau| \sqrt{N}}{2\sigma}- \Phi^{-1}(1- \frac{\alpha}{2})\right)
+  \text{Potencia} &= \Phi\left(\frac{|\tau| \sqrt{N}}{2\sigma}- \Phi^{-1}(1- \frac{\alpha}{2})\right)
   \end{align*}
 
 - Componentes:
@@ -215,10 +215,10 @@ Las gráficas anteriores provienen de esta fórmula.
 
 ¿Por qué la normal estándar? (por el Teorema del Límite Central (TLC))
 
-## Ejemplo: Cálculos analíticos de poder
+## Ejemplo: Cálculos analíticos de potencia
 
 ```{r powerp, echo=TRUE, include=TRUE}
-# Poder para un estudio con 80 observaciones, un tamaño
+# Potencia para un estudio con 80 observaciones, un tamaño
 # de efecto de 0.25 y una DE de 1
 power.t.test(
   n = 40, delta = 0.25, sd = 1,
@@ -226,7 +226,7 @@ power.t.test(
 )
 ```
 
-## Ejemplo: Cálculos analíticos de poder
+## Ejemplo: Cálculos analíticos de potencia
 
 ```{r powerdelta, echo=TRUE, include=TRUE}
 power.t.test(
@@ -235,7 +235,7 @@ power.t.test(
 )
 ```
 
-## Ejemplo: Cálculos analíticos de poder
+## Ejemplo: Cálculos analíticos de potencia
 
 ```{r powern, echo=TRUE, include=TRUE}
 power.t.test(
@@ -244,31 +244,31 @@ power.t.test(
 )
 ```
 
-## Limitaciones de los cálculos analíticos de poder
+## Limitaciones de los cálculos analíticos de potencia
 
 - Solo se han derivado para algunas estadísticas de prueba (diferencias de medias)
 - Implican supuestos específicos acerca del proceso de generación de los datos
 - Son incompatibles con diseños más complejos, como los diseños aleatorizados por
 bloques con distintas probabilidades de asignación en cada bloque.
 
-# Cálculo del poder basado en simulación
+# Cálculo de la potencia basado en simulación
 
-## Pasos para el cálculo del poder basado en simulación
+## Pasos para el cálculo de la potencia basado en simulación
 
 En general:
 
 - Crear bases de datos a partir de la literatura previa y del conocimiento del contexto.
 - Simular el diseño de investigación y el análisis muchas veces.
-- ¿Cuántas veces obtuvieron $p \le .05$ cuando fijaron $\tau=.25$? Ese es el poder para detectar un efecto de $\tau=.25$.
+- ¿Cuántas veces obtuvieron $p \le .05$ cuando fijaron $\tau=.25$? Esa es la potencia para detectar un efecto de $\tau=.25$.
 
 Los estudios de simulación también requieren supuestos, pero ustedes definen los suyos.
 
-## Cálculo del poder basado en simulación con DeclareDesign
+## Cálculo de la potencia basado en simulación con DeclareDesign
 
 - Miembros de EGAP crearon un paquete de R llamado `DeclareDesign` (y escribieron un libro sobre simulaciones para diseños de investigación); ver <https://declaredesign.org/> @blair2023research
 
 - Ayuda a evaluar nuestros diseños con múltiples "diagnosands" (criterios de diagnóstico)
-  - Poder (de las pruebas)
+  - Potencia (de las pruebas)
   - Sesgo (de los estimadores)
   - RMSE (de los estimadores)
   - Cobertura (de los intervalos de confianza)
@@ -287,7 +287,7 @@ Los estudios de simulación también requieren supuestos, pero ustedes definen l
 - Agregando una covariable
 - Aleatorización por conglomerados
 
-## Ejemplo: Poder basado en simulación para la aleatorización completa
+## Ejemplo: Potencia basada en simulación para la aleatorización completa
 
 Primero, usando código R básico:
 
@@ -311,7 +311,7 @@ repeat_experiment_and_test <- function(N, Y0, tau) {
 }
 ```
 
-## Ejemplo: Poder basado en simulación para la aleatorización completa
+## Ejemplo: Potencia basada en simulación para la aleatorización completa
 
 ```{r powersim2, echo=TRUE, include=TRUE}
 power_sim <- function(N, tau, sims) {
@@ -393,26 +393,26 @@ design0_N100_tau25_sims <- simulate_design(design0_N100_tau25_plus,
 str(design0_N100_tau25_sims)
 ```
 
-## Poder con aleatorización completa
+## Potencia con aleatorización completa
 
 En el 20% de los experimentos, cuando la verdad es .25 DE y $N=100$, obtenemos $p < .05$.
 
 ```{r powsum, echo=TRUE}
-# para cada estimador, poder = proporción de simulaciones con p.value < 0.05
+# para cada estimador, potencia = proporción de simulaciones con p.value < 0.05
 design0_N100_tau25_sims %>%
   group_by(estimator) %>%
   summarize(pow = mean(p.value < .05), mean_p = mean(p.value), .groups = "drop")
 ```
 
-# Poder con ajuste de covariables
+# Potencia con ajuste de covariables
 
-## Ajuste de covariables y poder
+## Ajuste de covariables y potencia
 
-- El ajuste de covariables/covarianza puede mejorar el poder porque reduce la variación de la variable de resultado.
+- El ajuste de covariables/covarianza puede mejorar la potencia porque reduce la variación de la variable de resultado.
 
-  - Si las covariables son pronósticas (predicen la variable de resultado), el ajuste puede reducir la varianza drásticamente. Menor varianza significa mayor poder.
+  - Si las covariables son pronósticas (predicen la variable de resultado), el ajuste puede reducir la varianza drásticamente. Menor varianza significa mayor potencia.
 
-  - Si no son pronósticas, las ganancias en poder son mínimas.
+  - Si no son pronósticas, las ganancias en potencia son mínimas.
 
 - Todas las covariables deben ser pre-tratamiento. No eliminen observaciones por datos faltantes.
 
@@ -428,13 +428,13 @@ design0_N100_tau25_sims %>%
 
   - Ajuste de covariables "ex ante"
 
-  - Mayor precisión/eficiencia implica más poder
+  - Mayor precisión/eficiencia implica más potencia
 
   - Reducir el "sesgo condicional": la asociación entre la asignación del tratamiento y los resultados potenciales
 
   - Los beneficios de los bloques frente al ajuste de covariables son más claros en experimentos pequeños
 
-## Ejemplo: Poder basado en simulación con una covariable {.shrink}
+## Ejemplo: Potencia basada en simulación con una covariable {.shrink}
 
 ```{r powsimcov, echo=TRUE}
 ## Y0 es fijo en la mayoría de los experimentos de campo.
@@ -451,7 +451,7 @@ test_lm <- lm_robust(Y0 ~ x, data = test_dat)
 summary(test_lm)
 ```
 
-## Ejemplo: Poder basado en simulación con una covariable {.allowframebreaks}
+## Ejemplo: Potencia basada en simulación con una covariable {.allowframebreaks}
 
 Aquí lo hacemos a mano en vez de con DeclareDesign (ambas opciones son posibles).
 
@@ -478,7 +478,7 @@ power_sim_cov <- function(N, tau, sims) {
 }
 ```
 
-## Ejemplo: Poder basado en simulación con una covariable {.allowframebreaks}
+## Ejemplo: Potencia basada en simulación con una covariable {.allowframebreaks}
 
 Lo hacemos dos veces para dejar claro que hay variabilidad de simulación en simulación.
 
@@ -488,22 +488,22 @@ power_sim_cov(N = 80, tau = .25, sims = 100)
 power_sim_cov(N = 80, tau = .25, sims = 100)
 ```
 
-# Poder para la aleatorización por conglomerados
+# Potencia para la aleatorización por conglomerados
 
-## Poder y diseños por conglomerados
+## Potencia y diseños por conglomerados
 
-- Dado un $N$ fijo, un diseño por conglomerados tiene (débilmente) menos poder que un diseño sin conglomerados.
+- Dado un $N$ fijo, un diseño por conglomerados tiene (débilmente) menos potencia que un diseño sin conglomerados.
   - La diferencia suele ser sustancial.
 
 - Tenemos que estimar la varianza tomando en cuenta la dependencia:
   - Errores estándar agrupados por conglomerado (lo habitual)
   - Inferencia basada en la aleatorización (randomization inference)
 
-- Para aumentar el poder:
+- Para aumentar la potencia:
   - Es mejor aumentar el número de conglomerados que el número de unidades por conglomerado.
-  - Cuánto reducen el poder los conglomerados depende fundamentalmente de la correlación intra-clase (la razón entre la varianza dentro de los conglomerados y la varianza total).
+  - Cuánto reducen la potencia los conglomerados depende fundamentalmente de la correlación intra-clase (la razón entre la varianza dentro de los conglomerados y la varianza total).
 
-## Ejemplo: Poder basado en simulación para la aleatorización por conglomerados {.allowframebreaks}
+## Ejemplo: Potencia basada en simulación para la aleatorización por conglomerados {.allowframebreaks}
 
 Aquí fijamos ICC=.1
 
@@ -527,7 +527,7 @@ table(test_dat$clus_id)
 ICC::ICCbare(y = Y0, x = clus_id, data = test_dat)
 ```
 
-## Ejemplo: Poder basado en simulación para la aleatorización por conglomerados {.shrink}
+## Ejemplo: Potencia basada en simulación para la aleatorización por conglomerados {.shrink}
 
 ```{r powsimclus_fns, echo=TRUE}
 repeat_experiment_and_test_clus <- function(N, tau, Y0, clus_id) {
@@ -558,14 +558,14 @@ power_sim_clus <- function(n_indivs, n_clus, tau, sims) {
 }
 ```
 
-## Ejemplo: Poder basado en simulación para la aleatorización por conglomerados {.allowframebreaks}
+## Ejemplo: Potencia basada en simulación para la aleatorización por conglomerados {.allowframebreaks}
 ```{r, echo=TRUE}
 set.seed(12345)
 power_sim_clus(n_indivs = 8, n_clus = 100, tau = .25, sims = 100)
 power_sim_clus(n_indivs = 8, n_clus = 100, tau = .25, sims = 100)
 ```
 
-## Ejemplo: Poder basado en simulación para la aleatorización por conglomerados (DeclareDesign)
+## Ejemplo: Potencia basada en simulación para la aleatorización por conglomerados (DeclareDesign)
 
 ```{r ddversion_clus, echo=TRUE}
 ## Valores iniciales para que las declaraciones se construyan;
@@ -584,7 +584,7 @@ R1 <- declare_reveal(Y, Z)
 design1_base <- P1 + A1 + O1 + R1 + estimand_ate
 ```
 
-## Ejemplo: Poder basado en simulación para la aleatorización por conglomerados (DeclareDesign) {.shrink}
+## Ejemplo: Potencia basada en simulación para la aleatorización por conglomerados (DeclareDesign) {.shrink}
 
 ```{r simclus_dd, echo=TRUE}
 ## Por ejemplo:
@@ -620,7 +620,7 @@ design1_plus <- design1_base + E1a + E1b + E1c + E1d
 design1_plus_tosim <- redesign(design1_plus, n_clus = 10, n_indivs = 100, tau = .25)
 ```
 
-## Ejemplo: Poder basado en simulación para la aleatorización por conglomerados (DeclareDesign)
+## Ejemplo: Potencia basada en simulación para la aleatorización por conglomerados (DeclareDesign)
 
 ```{r ddversion_clus_sims, echo=TRUE, cache=TRUE, warnings=FALSE}
 ## Solo repetir la asignación aleatoria, no la creación de Y0.
@@ -632,9 +632,9 @@ design1_sims <- simulate_design(design1_plus_tosim,
 )
 ```
 
-## Poder basado en simulación para la aleatorización por conglomerados
+## Potencia basada en simulación para la aleatorización por conglomerados
 
-Noten: mucho poder pero poca cobertura para el OLS simple (la "cobertura" de un
+Noten: mucha potencia pero poca cobertura para el OLS simple (la "cobertura" de un
 intervalo de confianza es el complemento de la tasa de falsos positivos de una
 prueba de hipótesis: 95% de cobertura corresponde a una tasa de falsos positivos
 del 5%).
@@ -649,7 +649,7 @@ design1_sims %>%
   )
 ```
 
-## Ejemplo: Poder basado en simulación para la aleatorización por conglomerados (DeclareDesign)
+## Ejemplo: Potencia basada en simulación para la aleatorización por conglomerados (DeclareDesign)
 
 ```{r ddversion_clus_2, echo=TRUE, cache=TRUE, results='hide', warning=FALSE,message=FALSE}
 library(DesignLibrary)
@@ -666,7 +666,7 @@ d1_plus <- d1 + E1b + E1c
 d1_sims <- simulate_design(d1_plus, sims = c(1, 1, 1000, 1, 1, 1, 1, 1))
 ```
 
-## Ejemplo: Poder basado en simulación para la aleatorización por conglomerados (DeclareDesign)
+## Ejemplo: Potencia basada en simulación para la aleatorización por conglomerados (DeclareDesign)
 
 
 ```{r ddversion_clus_2_print, echo=TRUE}
@@ -679,9 +679,9 @@ d1_sims %>%
   )
 ```
 
-## Los ingredientes del poder y su relación
+## Los ingredientes de la potencia y su relación
 
-- El poder:
+- La potencia:
   - Crece con $N$ (el número de unidades en el experimento)
   - Crece con $|\tau|$ (el tamaño del efecto del tratamiento)
   - Decrece con $\sigma$ (la varianza de la variable de resultado)
@@ -698,7 +698,7 @@ pena realizar *este experimento* en *este momento* si no pueden imaginar
 detectar un efecto al menos así de grande.)
 - ¿Cuál es el rango plausible de variación de la variable de resultado?
 - Un diseño con poco movimiento posible en la variable de resultado puede tener
-poco poder.
+poca potencia.
   - Ver [10 cosas que su resultado nulo podría
   significar](https://egap.org/resource/10-things-your-null-result-might-mean/)
   para una discusión de las varias razones por las que un experimento dado pudo
@@ -706,6 +706,6 @@ poco poder.
   tienen algún $\hat{\bar{\tau}}$ sustantivamente pequeño que quizás no se
   alcance).
 
-Nota: los cálculos de poder (resúmenes de la tasa de falsos negativos de las pruebas/intervalos de confianza) dependen de que esas pruebas/intervalos de confianza tengan tasas de falsos positivos controladas y bajas (p. ej., 5% o menos) o tasas de cobertura altas (p. ej., 95% o más)
+Nota: los cálculos de potencia (resúmenes de la tasa de falsos negativos de las pruebas/intervalos de confianza) dependen de que esas pruebas/intervalos de confianza tengan tasas de falsos positivos controladas y bajas (p. ej., 5% o menos) o tasas de cobertura altas (p. ej., 95% o más)
 
 ## Referencias
