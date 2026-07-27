@@ -1,0 +1,11 @@
+% Shared beamer footline for the santiago_2026 decks (referenced from
+% _quarto.yml, format: beamer: include-in-header). EGAP logo bottom-left,
+% frame counter bottom-right, plain white background. The old per-deck
+% template wrapped these in \begin{beamercolorbox}{section in head/foot},
+% which the Madrid/dolphin theme paints as a full-width dark blue strip.
+% graphicspath lets the logo resolve for decks in slides/ (../assets/) and
+% any future deck at the folder root (assets/).
+\graphicspath{{../assets/}{assets/}}
+\setbeamertemplate{footline}{\hspace*{1.5mm}%
+\includegraphics[height=.5cm]{egap-logo.png}\hfill
+{\usebeamercolor[fg]{structure}\scriptsize\insertframenumber/\inserttotalframenumber}\hspace*{1.5mm}\vspace*{1mm}}

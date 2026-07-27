@@ -13,9 +13,6 @@ format:
     toc: true
     colorlinks: true
     header-includes: |
-      \setbeamertemplate{footline}{\begin{beamercolorbox}{section in head/foot}
-      \includegraphics[height=.5cm]{../assets/egap-logo.png} \hfill
-      \insertframenumber/\inserttotalframenumber \end{beamercolorbox}}
       \usepackage{makecell}
       \usepackage{tikz}
       \usepackage{tikz-cd}
@@ -401,7 +398,7 @@ Nuestras estimaciones varían según las aleatorizaciones. ¿Varían también nu
 
 ¿Cómo interpretar esta gráfica?
 
-```{r sim_plot, out.width=".8\\textwidth",warning=FALSE,message=FALSE}
+```{r sim_plot, out.width=".75\\textwidth", fig.width=9, fig.height=3, warning=FALSE,message=FALSE}
 sim_plot <- ggplot(sims1, aes(y = estimate, x = estimator, color = estimator)) +
   geom_boxplot() +
   geom_hline(yintercept = trueATE) +
@@ -587,7 +584,7 @@ base_design_blocks <-
   declare_reveal(Y, Z)
 ```
 
-## ¿Cuál estimador deberíamos usar {.shrink}
+## ¿Cuál estimador deberíamos usar?
 
 ```{r blockdd1, echo=TRUE, cache=FALSE}
 # El estimando es el efecto promedio del tratamiento
@@ -602,7 +599,11 @@ est2 <- declare_estimator(Y ~ Z,
   inquiry = estimandATEb, .method = difference_in_means, blocks = b,
   label = "DiM: Block-Size Weights"
 )
+```
 
+## ¿Cuál estimador deberíamos usar?
+
+```{r blockdd1b, echo=TRUE, cache=FALSE}
 nbwt_est_fun <- function(data) {
   data <- data %>%
     group_by(b) %>%
@@ -619,7 +620,11 @@ est3 <- declare_estimator(
   handler = label_estimator(nbwt_est_fun), inquiry = estimandATEb,
   label = "LM: Block Size Weights"
 )
+```
 
+## ¿Cuál estimador deberíamos usar?
+
+```{r blockdd1c, echo=TRUE, cache=FALSE}
 propertee_est_fun <- function(data) {
   des <- rct_spec(Z ~ unit_of_assignment(id) + block(b), data = data)
   obj <- lm_robust(Y ~ Z, data = data, weights = ate(des, data = data))
@@ -672,7 +677,7 @@ plan(sequential)
 ```
 
 ¿Cómo interpretar esta gráfica?
-```{r sim_plot2, warning=FALSE, out.width=".9\\textwidth", message=FALSE,warning=FALSE, echo=FALSE,tidy=FALSE}
+```{r sim_plot2, warning=FALSE, out.width=".85\\textwidth", fig.width=10, fig.height=4, message=FALSE,warning=FALSE, echo=FALSE,tidy=FALSE}
 sim_plot2 <- ggplot(sims2, aes(y = estimate, x = estimator, color = estimator)) +
   geom_boxplot() +
   geom_hline(yintercept = trueATE) +
@@ -950,7 +955,7 @@ kableExtra::kable(res_clus[, c(1:3)], digits = 3, booktabs = TRUE, linesep = "",
 
 ¿Cómo podemos interpretar esta gráfica?
 
-```{r sim_plot_clus, warning=FALSE, out.width=".95\\textwidth"}
+```{r sim_plot_clus, warning=FALSE, out.width=".9\\textwidth", fig.width=10, fig.height=3.8}
 sim_plot3 <- ggplot(sim_clus, aes(y = estimate, x = estimator, color = estimator)) +
   geom_boxplot() +
   coord_flip() +
@@ -1320,11 +1325,13 @@ sim_plot_bin <- ggplot(sims_bin, aes(y = estimate, x = estimator, color = estima
   geom_hline(data = estimand_dat, aes(yintercept = meanestimand)) +
   theme(
     text = element_text(size = 20),
+    axis.text.x = element_text(angle = 30, hjust = 1, size = 12),
     legend.position = "none", legend.title = element_blank()
-  )
+  ) +
+  xlab("")
 ```
 
-```{r sim_plot_bin_print, out.width=".9\\textwidth",warning=FALSE,message=FALSE, echo=FALSE, cache=FALSE, tidy=FALSE}
+```{r sim_plot_bin_print, out.width=".85\\textwidth", fig.width=10, fig.height=4, warning=FALSE,message=FALSE, echo=FALSE, cache=FALSE, tidy=FALSE}
 print(sim_plot_bin)
 ```
 
@@ -1360,8 +1367,7 @@ kableExtra::kable(res_bin[, c(1, 2, 3, 4)], digits = 3, booktabs = TRUE, linesep
 
 ## Ajuste de covarianza: Estimandos
 
-En general, simplemente "controlar" produce un estimador sesgado del estimando de ATE **o** ITT. Por ejemplo, @lin_agnostic_2013 y @freedman2008rae,
-@lin_agnostic_2013  muestran cómo reducir este sesgo y, lo que es más importante, este sesgo tiende a ser pequeño a medida que aumenta el tamaño de la muestra.
+En general, simplemente "controlar" produce un estimador sesgado del estimando de ATE **o** ITT. Por ejemplo, @freedman2008rae muestra este sesgo y @lin_agnostic_2013 muestra cómo reducirlo y, lo que es más importante, que este sesgo tiende a ser pequeño a medida que aumenta el tamaño de la muestra.
 
 
 # Conclusión
