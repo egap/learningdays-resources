@@ -394,7 +394,7 @@ str(design0_N100_tau25_sims)
 In 20% of experiments, when the truth is .25sds, and $N=100$, we get $p < .05$.
 
 ```{r powsum, echo=TRUE}
-# for each estimator, power = proportion of simulations with p.value < 0.5
+# for each estimator, power = proportion of simulations with p.value < 0.05
 design0_N100_tau25_sims %>%
   group_by(estimator) %>%
   summarize(pow = mean(p.value < .05), mean_p = mean(p.value), .groups = "drop")
@@ -626,7 +626,8 @@ design1_sims <- simulate_design(design1_plus_tosim,
 ## Simulation-based power for cluster randomization
 
 Notice: high power but low coverage for plain OLS ("coverage" of a confidence
-interval is the same as false positive rate of a hypothesis test.)
+interval is the complement of the false positive rate of a hypothesis test: 95%
+coverage corresponds to a 5% false positive rate.)
 
 ```{r echo=TRUE}
 design1_sims %>%

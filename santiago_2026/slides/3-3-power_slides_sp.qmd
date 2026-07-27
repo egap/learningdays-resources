@@ -1,0 +1,711 @@
+---
+title: "Poder estadístico"
+author: "Jake Bowers --- EGAP Learning Days, Santiago de Chile"
+date: today
+lang: es
+bibliography: ../assets/learningdays-book.bib
+link-citations: true
+format:
+  revealjs:
+    embed-resources: true
+    toc: true
+  beamer:
+    slide-level: 2
+    toc: true
+    colorlinks: true
+    header-includes: |
+      \usepackage{makecell}
+      \usepackage{tikz}
+      \usepackage{tikz-cd}
+      \usetikzlibrary{arrows,automata,positioning,trees,babel}
+      \usepackage{textpos}
+      \usepackage{booktabs,multirow}
+---
+
+
+```{r setup, include=FALSE, echo=FALSE}
+library(here)
+## Shared knitr config for the Quarto decks (format-aware; loads no packages)
+source("../R/qmd_setup.R")
+library(DesignLibrary)
+library(styler)
+```
+
+# ¿Qué es el poder estadístico?
+
+## ¿Qué es el poder estadístico?
+
+Queremos separar la señal del ruido.
+
+- Poder = probabilidad de rechazar la hipótesis nula, dado un efecto verdadero $\ne$ 0. Queremos que nuestras pruebas produzcan $p \le \alpha$ para la hipótesis de ningún efecto cuando la verdad no es cero.
+
+- Es la capacidad de una prueba de detectar un efecto, dado que el efecto existe.
+
+- Formalmente: 1 $-$ (tasa de error de tipo II) de una prueba de hipótesis.
+
+- Por lo tanto, el poder está $\in$ (0, 1).
+
+- ¿Con qué frecuencia deberíamos ver un $p \le \alpha$? Umbrales estándar: 0.8 o 0.9 ---
+"detectar la señal casi siempre que exista".
+
+- El "poder" es una característica operativa de las pruebas de hipótesis (y, por extensión, de los intervalos de confianza).
+
+## Punto de partida para el análisis de poder
+
+- El análisis de poder es algo que hacemos *antes* de realizar un estudio.
+
+  - Les ayuda a determinar **cuántas unidades** necesitan para detectar un efecto de un tamaño dado.
+
+  - Les ayuda a determinar la **diferencia mínima detectable** dado un tamaño de muestra fijo.
+
+  - **Puede ayudarles a decidir si vale la pena realizar el estudio.** (El análisis
+    de poder es parte de responder la pregunta: "¿Deberíamos hacer este estudio?")
+
+- Meta: descubrir si el diseño que planeamos nos permite detectar los efectos que
+esperamos (o los efectos que necesitaríamos ver antes de actuar) en caso de que
+existan.
+
+- Es difícil aprender de un hallazgo nulo con poco poder.
+
+  - ¿Había un efecto que no pudimos detectar? ¿O no había efecto? No podemos distinguir.
+
+## Poder
+
+- Supongamos que el tratamiento sí tiene un efecto y que repetimos el experimento muchas veces. ¿Con qué frecuencia obtendríamos $p \le .05$?
+
+- Depende:
+
+  - ¿Qué tan grande es el efecto del tratamiento?
+
+  - ¿Cuántas unidades reciben el tratamiento? ¿Cuántas se miden?
+
+  - ¿Cuánto ruido hay en la medición de la variable de resultado?
+
+- **No conocemos de antemano las respuestas a todas estas preguntas. Así que responderlas requiere hacer conjeturas.**
+
+## Análisis de poder
+
+Con el análisis de poder pueden ver qué tan sensible es la probabilidad de obtener resultados significativos a cambios en sus supuestos.
+
+- Muchas disciplinas han adoptado un poder objetivo de 0.80.
+- ¿Razones para subir a 0.90?
+- Los investigadores pueden ajustar sus diseños y supuestos hasta confiar en que sus experimentos producirán resultados estadísticamente significativos "la mayoría" de las veces (donde "la mayoría" = 80% o 90%).
+- Requiere muchas conjeturas informadas, pero suele ser muy aleccionador: si la literatura previa siempre ha encontrado un tamaño de efecto de 1 desviación estándar, puede que no tengamos el presupuesto para detectar un efecto de ese tamaño.
+
+# Disyuntivas del poder
+
+## El poder crece con $N$ {.allowframebreaks}
+
+```{r powplot_by_n, echo=TRUE}
+## aquí usamos la DE total, es decir, una medida estandarizada del ruido
+## incorporada al efecto; o sea, la d de Cohen: d = {m_{1} - m_{2}} / {/sigma}
+
+power.t.test(n = 100, delta = .25, sd = 1, sig.level = .05)
+
+some_ns <- seq(10, 1000, by = 10)
+pow_by_n <- sapply(some_ns, function(then) {
+  power.t.test(n = then, delta = 0.25, sd = 1, sig.level = 0.05)$power
+  #    pwr.t.test(n = then, d = 0.25, sig.level = 0.05)$power
+})
+```
+
+```{r echo=FALSE}
+plot(some_ns * 2, pow_by_n,
+  xlab = "Tamaño total de la muestra",
+  ylab = "Poder"
+)
+abline(h = .8)
+```
+
+## Estrategias para aumentar el número de unidades
+
+- Aumentar el presupuesto
+- Ampliar la definición de la población (p. ej., de ciudad a región, extender el tiempo)
+- Reducir el tamaño de los conglomerados (p. ej., de escuelas a salones de clase)
+
+## El poder crece con el tamaño del efecto del tratamiento
+
+```{r powplot_by_tau, echo=FALSE}
+some_taus <- seq(0, 1, by = .05)
+pow_by_tau <- sapply(some_taus, function(thetau) {
+  #  pwr.t.test(n = 200, d = thetau, sig.level = 0.05)$power
+  power.t.test(n = 200, delta = thetau, sd = 1, sig.level = 0.05)$power
+})
+plot(some_taus, pow_by_tau,
+  xlab = "Efecto promedio del tratamiento (estandarizado)",
+  ylab = "Poder"
+)
+abline(h = .8)
+```
+
+## Estrategias para aumentar el efecto del tratamiento
+
+- ¿Qué efectos mínimos querrían poder demostrar con su estudio?
+  - ¿Qué efecto es realista?
+  - En trabajo colaborativo: ¿qué efecto es deseable?
+  - ¿Sería "satisfactorio" este tamaño de efecto? (costo-efectividad, otros estudios, reglas generales)
+
+- Aumentar la dosis / evitar tratamientos muy débiles
+  - ¿Uno o varios brazos de tratamiento?
+  - ¿Efecto del tratamiento sobre qué?
+  - Evitar variables de resultado cerca del piso o del techo
+  - ¿Cuándo medir la variable de resultado?
+
+## El poder decrece con el ruido en la variable de resultado
+
+```{r powplot_by_sigma, echo=FALSE}
+some_sigma <- seq(0, 2, by = .05)
+pow_by_sigma <- sapply(some_sigma, function(thesigma) {
+  #  pwr.t.test(n = 200, d = thetau, sig.level = 0.05)$power
+  power.t.test(n = 200, delta = 0.25, sd = thesigma, sig.level = 0.05)$power
+})
+plot(some_sigma, pow_by_sigma,
+  xlab = "Ruido (DE)",
+  ylab = "Poder"
+)
+abline(h = .8)
+```
+
+## El ruido de la variable de resultado ($\sigma$)
+
+- Reducir el ruido. ¿Cómo?
+  - La medición, el intervalo de tiempo
+  - Bloques. Realizar el experimento entre sujetos más parecidos entre sí
+  - Recolectar covariables de línea de base y usar los residuos de la variable de resultado, o el ajuste directo de covarianza (en experimentos suficientemente grandes)
+  - Recolectar varias medidas de los resultados y (1) probar hipótesis combinadas ("ningún efecto sobre ninguna de $Y_1,Y_2,Y_3$") o (2) crear un índice.
+
+## Métodos para calcular el poder
+
+- Cálculos analíticos de poder
+
+- Simulación
+
+## Herramientas para el cálculo del poder
+
+- Interactivas
+
+  - [Calculadora de poder de EGAP](https://egap.shinyapps.io/power-app/)
+  - [rpsychologist](https://rpsychologist.com/d3/NHST/)
+
+- Paquetes de R
+
+  - `power.t.test` (incluida en R base)
+
+  - [pwr](https://cran.r-project.org/web/packages/pwr/index.html)
+
+  - [DeclareDesign](https://cran.r-project.org/web/packages/DeclareDesign/index.html), ver también <https://declaredesign.org/>
+
+# Cálculos analíticos de poder
+
+## Cálculos analíticos de poder para hipótesis de ningún efecto promedio del tratamiento
+
+Las gráficas anteriores provienen de esta fórmula.
+
+- Fórmula:
+  \begin{align*}
+  \text{Poder} &= \Phi\left(\frac{|\tau| \sqrt{N}}{2\sigma}- \Phi^{-1}(1- \frac{\alpha}{2})\right)
+  \end{align*}
+
+- Componentes:
+  - $\phi$: la función de distribución acumulada (CDF) de la normal estándar, que crece monotónicamente
+  - $\tau$: el tamaño del efecto
+  - $N$: el tamaño de la muestra
+  - $\sigma$: la desviación estándar de la variable de resultado
+  - $\alpha$: el nivel de significancia (normalmente 0.05)
+
+¿Por qué la normal estándar? (por el Teorema del Límite Central (TLC))
+
+## Ejemplo: Cálculos analíticos de poder
+
+```{r powerp, echo=TRUE, include=TRUE}
+# Poder para un estudio con 80 observaciones, un tamaño
+# de efecto de 0.25 y una DE de 1
+power.t.test(
+  n = 40, delta = 0.25, sd = 1,
+  sig.level = 0.05, power = NULL
+)
+```
+
+## Ejemplo: Cálculos analíticos de poder
+
+```{r powerdelta, echo=TRUE, include=TRUE}
+power.t.test(
+  n = 40, delta = NULL, sd = 0.5,
+  sig.level = 0.05, power = 0.8
+)
+```
+
+## Ejemplo: Cálculos analíticos de poder
+
+```{r powern, echo=TRUE, include=TRUE}
+power.t.test(
+  n = NULL, delta = 0.25, sd = 1,
+  sig.level = 0.05, power = 0.8
+)
+```
+
+## Limitaciones de los cálculos analíticos de poder
+
+- Solo se han derivado para algunas estadísticas de prueba (diferencias de medias)
+- Implican supuestos específicos acerca del proceso de generación de los datos
+- Son incompatibles con diseños más complejos, como los diseños aleatorizados por
+bloques con distintas probabilidades de asignación en cada bloque.
+
+# Cálculo del poder basado en simulación
+
+## Pasos para el cálculo del poder basado en simulación
+
+En general:
+
+- Crear bases de datos a partir de la literatura previa y del conocimiento del contexto.
+- Simular el diseño de investigación y el análisis muchas veces.
+- ¿Cuántas veces obtuvieron $p \le .05$ cuando fijaron $\tau=.25$? Ese es el poder para detectar un efecto de $\tau=.25$.
+
+Los estudios de simulación también requieren supuestos, pero ustedes definen los suyos.
+
+## Cálculo del poder basado en simulación con DeclareDesign
+
+- Miembros de EGAP crearon un paquete de R llamado `DeclareDesign` (y escribieron un libro sobre simulaciones para diseños de investigación); ver <https://declaredesign.org/> @blair2023research
+
+- Ayuda a evaluar nuestros diseños con múltiples "diagnosands" (criterios de diagnóstico)
+  - Poder (de las pruebas)
+  - Sesgo (de los estimadores)
+  - RMSE (de los estimadores)
+  - Cobertura (de los intervalos de confianza)
+
+## Pasos en DeclareDesign
+
+- Definir la muestra y la función de resultados potenciales.
+- Definir el procedimiento de asignación del tratamiento.
+- Crear los datos.
+- Asignar el tratamiento y luego probar una hipótesis (usando un valor $p$ o un intervalo de confianza)
+- Repetir esto muchas veces.
+
+## Ejemplos
+
+- Aleatorización completa
+- Agregando una covariable
+- Aleatorización por conglomerados
+
+## Ejemplo: Poder basado en simulación para la aleatorización completa
+
+Primero, usando código R básico:
+
+```{r powersim, echo=TRUE, include=TRUE}
+# install.packages("randomizr")
+library(randomizr)
+library(estimatr)
+
+make_Y0 <- function(N) {
+  rnorm(n = N)
+}
+repeat_experiment_and_test <- function(N, Y0, tau) {
+  # N es el tamaño del grupo experimental; Y0 es el resultado potencial bajo control
+  # tau es el tamaño del efecto (aquí, un efecto aditivo constante)
+  Y1 <- Y0 + tau
+  Z <- complete_ra(N = N)
+  Yobs <- Z * Y1 + (1 - Z) * Y0
+  estimator <- lm_robust(Yobs ~ Z)
+  pval <- estimator$p.value[2]
+  return(pval)
+}
+```
+
+## Ejemplo: Poder basado en simulación para la aleatorización completa
+
+```{r powersim2, echo=TRUE, include=TRUE}
+power_sim <- function(N, tau, sims) {
+  ## Y0 es fijo en la mayoría de los experimentos de campo.
+  ## Así que lo generamos solo una vez:
+  Y0 <- make_Y0(N)
+  ## Y luego repetimos la asignación experimental y el análisis:
+  pvals <- replicate(
+    n = sims,
+    repeat_experiment_and_test(N = N, Y0 = Y0, tau = tau)
+  )
+  pow <- sum(pvals < .05) / sims
+  return(pow)
+}
+
+set.seed(12345)
+## Noten la variabilidad de simulación en simulación con sims=100
+power_sim(N = 80, tau = .25, sims = 100)
+power_sim(N = 80, tau = .25, sims = 100)
+```
+
+## Ejemplo: Usando DeclareDesign {.allowframebreaks}
+
+```{r ddversion, echo=TRUE, message=FALSE, warning=FALSE}
+library(DeclareDesign)
+library(tidyverse)
+## DeclareDesign 1.1+ requiere que parámetros como N y tau existan cuando se
+## declara el diseño; redesign() abajo los reemplaza con otros valores.
+N <- 100
+tau <- .25
+P0 <- declare_population(N, u0 = rnorm(N))
+# declarar Y(Z=1) y Y(Z=0), donde Y(Z=0) tiene media 5
+O0 <- declare_potential_outcomes(Y_Z_0 = 5 + u0, Y_Z_1 = Y_Z_0 + tau)
+# Asignar m unidades al tratamiento
+A0 <- declare_assignment(Z = conduct_ra(N = N, m = round(N / 2)))
+# el estimando es la diferencia promedio entre Y(Z=1) y Y(Z=0)
+estimand_ate <- declare_inquiry(ATE = mean(Y_Z_1 - Y_Z_0))
+R0 <- declare_reveal(Y, Z)
+design0_base <- P0 + A0 + O0 + R0
+
+## Por ejemplo, con N=100 y tau=.25:
+design0_N100_tau25 <- redesign(design0_base, N = 100, tau = .25)
+dat0_N100_tau25 <- draw_data(design0_N100_tau25)
+head(dat0_N100_tau25)
+# ATE verdadero
+with(dat0_N100_tau25, mean(Y_Z_1 - Y_Z_0))
+# ATE estimado
+with(dat0_N100_tau25, mean(Y[Z == 1]) - mean(Y[Z == 0]))
+# Usando el estimador del ATE como estadística de prueba para probar la
+# hipótesis nula de ningún efecto promedio:
+lm_robust(Y ~ Z, data = dat0_N100_tau25)$p.value[2]
+```
+
+```{r ddversion_sim, echo=TRUE, warnings=FALSE}
+E0 <- declare_estimator(Y ~ Z,
+  .method = lm_robust, label = "t test 1",
+  inquiry = "ATE"
+)
+
+t_test <- function(data) {
+  #  test <- with(data, t.test(x = Y[Z == 1], y = Y[Z == 0]))
+  test <- coin::oneway_test(Y ~ factor(Z), data = data, distribution = "asymptotic")
+  data.frame(statistic = coin::statistic(test), p.value = coin::pvalue(test))
+}
+T0 <- declare_test(handler = label_test(t_test), label = "t test 2")
+design0_plus_tests <- design0_base + E0 + T0
+
+design0_N100_tau25_plus <- redesign(design0_plus_tests, N = 100, tau = .25)
+
+## Solo repetimos la asignación aleatoria, no la creación de Y0.
+## Ignoren la advertencia
+names(design0_N100_tau25_plus)
+str(design0_N100_tau25_plus)
+design0_N100_tau25_sims <- simulate_design(design0_N100_tau25_plus,
+  sims = c(1, 100, 1, 1, 1, 1)
+) # solo repetir la asignación aleatoria
+# design0_N100_tau25_sims tiene 200 filas (2 pruebas * 100 asignaciones aleatorias)
+# veamos solo algunos de los valores
+str(design0_N100_tau25_sims)
+```
+
+## Poder con aleatorización completa
+
+En el 20% de los experimentos, cuando la verdad es .25 DE y $N=100$, obtenemos $p < .05$.
+
+```{r powsum, echo=TRUE}
+# para cada estimador, poder = proporción de simulaciones con p.value < 0.05
+design0_N100_tau25_sims %>%
+  group_by(estimator) %>%
+  summarize(pow = mean(p.value < .05), mean_p = mean(p.value), .groups = "drop")
+```
+
+# Poder con ajuste de covariables
+
+## Ajuste de covariables y poder
+
+- El ajuste de covariables/covarianza puede mejorar el poder porque reduce la variación de la variable de resultado.
+
+  - Si las covariables son pronósticas (predicen la variable de resultado), el ajuste puede reducir la varianza drásticamente. Menor varianza significa mayor poder.
+
+  - Si no son pronósticas, las ganancias en poder son mínimas.
+
+- Todas las covariables deben ser pre-tratamiento. No eliminen observaciones por datos faltantes.
+
+  - Ver el módulo de [amenazas a la validez interna](threats-to-internal-validity-of-randomized-experiments.html) y [10 cosas que debe saber sobre el ajuste de covariables](https://egap.org/resource/10-things-to-know-about-covariate-adjustment/).
+
+  - @freedman2008rae señaló que los estimadores del ATE ajustados por covarianza
+  son sesgados. @lin_agnostic_2013 muestra que el sesgo decrece con $N$ y ofrece
+  métodos que reducen el sesgo.
+
+## Bloques
+
+- Bloques: asignar el tratamiento al azar dentro de los bloques
+
+  - Ajuste de covariables "ex ante"
+
+  - Mayor precisión/eficiencia implica más poder
+
+  - Reducir el "sesgo condicional": la asociación entre la asignación del tratamiento y los resultados potenciales
+
+  - Los beneficios de los bloques frente al ajuste de covariables son más claros en experimentos pequeños
+
+## Ejemplo: Poder basado en simulación con una covariable {.shrink}
+
+```{r powsimcov, echo=TRUE}
+## Y0 es fijo en la mayoría de los experimentos de campo.
+## Así que lo generamos solo una vez
+make_Y0_cov <- function(N) {
+  u0 <- rnorm(n = N)
+  x <- rpois(n = N, lambda = 2)
+  Y0 <- .5 * sd(u0) * x + u0
+  return(data.frame(Y0 = Y0, x = x))
+}
+##  X predice Y0 moderadamente.
+test_dat <- make_Y0_cov(100)
+test_lm <- lm_robust(Y0 ~ x, data = test_dat)
+summary(test_lm)
+```
+
+## Ejemplo: Poder basado en simulación con una covariable {.allowframebreaks}
+
+Aquí lo hacemos a mano en vez de con DeclareDesign (ambas opciones son posibles).
+
+```{r powsimcovsetup, echo=TRUE}
+## ahora preparamos la simulación
+repeat_experiment_and_test_cov <- function(N, tau, Y0, x) {
+  Y1 <- Y0 + tau
+  Z <- complete_ra(N = N)
+  Yobs <- Z * Y1 + (1 - Z) * Y0
+  estimator <- lm_robust(Yobs ~ Z + x, data = data.frame(Y0, Z, x))
+  pval <- estimator$p.value[2]
+  return(pval)
+}
+## crear los datos una vez, asignar aleatoriamente el tratamiento sims veces
+## reportar qué proporción produce un valor p < 0.05
+power_sim_cov <- function(N, tau, sims) {
+  dat <- make_Y0_cov(N)
+  pvals <- replicate(n = sims, repeat_experiment_and_test_cov(
+    N = N,
+    tau = tau, Y0 = dat$Y0, x = dat$x
+  ))
+  pow <- sum(pvals < .05) / sims
+  return(pow)
+}
+```
+
+## Ejemplo: Poder basado en simulación con una covariable {.allowframebreaks}
+
+Lo hacemos dos veces para dejar claro que hay variabilidad de simulación en simulación.
+
+```{r, echo=TRUE}
+set.seed(12345)
+power_sim_cov(N = 80, tau = .25, sims = 100)
+power_sim_cov(N = 80, tau = .25, sims = 100)
+```
+
+# Poder para la aleatorización por conglomerados
+
+## Poder y diseños por conglomerados
+
+- Dado un $N$ fijo, un diseño por conglomerados tiene (débilmente) menos poder que un diseño sin conglomerados.
+  - La diferencia suele ser sustancial.
+
+- Tenemos que estimar la varianza tomando en cuenta la dependencia:
+  - Errores estándar agrupados por conglomerado (lo habitual)
+  - Inferencia basada en la aleatorización (randomization inference)
+
+- Para aumentar el poder:
+  - Es mejor aumentar el número de conglomerados que el número de unidades por conglomerado.
+  - Cuánto reducen el poder los conglomerados depende fundamentalmente de la correlación intra-clase (la razón entre la varianza dentro de los conglomerados y la varianza total).
+
+## Ejemplo: Poder basado en simulación para la aleatorización por conglomerados {.allowframebreaks}
+
+Aquí fijamos ICC=.1
+
+```{r powsimclus_datasetup, echo=TRUE}
+## Y0 es fijo en la mayoría de los experimentos de campo.
+## Así que lo generamos solo una vez
+make_Y0_clus <- function(n_indivs, n_clus) {
+  # n_indivs es el número de personas por conglomerado
+  # n_clus es el número de conglomerados
+  clus_id <- gl(n_clus, n_indivs)
+  N <- n_clus * n_indivs
+  u0 <- fabricatr::draw_normal_icc(N = N, clusters = clus_id, ICC = .1)
+  Y0 <- u0
+  return(data.frame(Y0 = Y0, clus_id = clus_id))
+}
+
+test_dat <- make_Y0_clus(n_indivs = 10, n_clus = 100)
+# confirmar que esto produce datos con 10 personas en cada uno de los 100 conglomerados
+table(test_dat$clus_id)
+# confirmar el ICC
+ICC::ICCbare(y = Y0, x = clus_id, data = test_dat)
+```
+
+## Ejemplo: Poder basado en simulación para la aleatorización por conglomerados {.shrink}
+
+```{r powsimclus_fns, echo=TRUE}
+repeat_experiment_and_test_clus <- function(N, tau, Y0, clus_id) {
+  Y1 <- Y0 + tau
+  # aquí aleatorizamos Z al nivel del conglomerado
+  Z <- cluster_ra(clusters = clus_id)
+  Yobs <- Z * Y1 + (1 - Z) * Y0
+  estimator <- lm_robust(Yobs ~ Z,
+    clusters = clus_id,
+    data = data.frame(Y0, Z, clus_id), se_type = "CR2"
+  )
+  pval <- estimator$p.value[2]
+  return(pval)
+}
+power_sim_clus <- function(n_indivs, n_clus, tau, sims) {
+  dat <- make_Y0_clus(n_indivs, n_clus)
+  N <- n_indivs * n_clus
+  # aleatorizar el tratamiento sims veces
+  pvals <- replicate(
+    n = sims,
+    repeat_experiment_and_test_clus(
+      N = N, tau = tau,
+      Y0 = dat$Y0, clus_id = dat$clus_id
+    )
+  )
+  pow <- sum(pvals < .05) / sims
+  return(pow)
+}
+```
+
+## Ejemplo: Poder basado en simulación para la aleatorización por conglomerados {.allowframebreaks}
+```{r, echo=TRUE}
+set.seed(12345)
+power_sim_clus(n_indivs = 8, n_clus = 100, tau = .25, sims = 100)
+power_sim_clus(n_indivs = 8, n_clus = 100, tau = .25, sims = 100)
+```
+
+## Ejemplo: Poder basado en simulación para la aleatorización por conglomerados (DeclareDesign)
+
+```{r ddversion_clus, echo=TRUE}
+## Valores iniciales para que las declaraciones se construyan;
+## redesign() los varía abajo
+n_clus <- 10
+n_indivs <- 100
+P1 <- declare_population(
+  N = n_clus * n_indivs,
+  clusters = gl(n_clus, n_indivs),
+  u0 = draw_normal_icc(N = N, clusters = clusters, ICC = .2)
+)
+O1 <- declare_potential_outcomes(Y_Z_0 = 5 + u0, Y_Z_1 = Y_Z_0 + tau)
+A1 <- declare_assignment(Z = conduct_ra(N = N, clusters = clusters))
+estimand_ate <- declare_inquiry(ATE = mean(Y_Z_1 - Y_Z_0))
+R1 <- declare_reveal(Y, Z)
+design1_base <- P1 + A1 + O1 + R1 + estimand_ate
+```
+
+## Ejemplo: Poder basado en simulación para la aleatorización por conglomerados (DeclareDesign) {.shrink}
+
+```{r simclus_dd, echo=TRUE}
+## Por ejemplo:
+design1_test <- redesign(design1_base, n_clus = 10, n_indivs = 100, tau = .25)
+test_d1 <- draw_data(design1_test)
+# confirmar que todos los individuos de un conglomerado tienen la misma
+# asignación de tratamiento
+with(test_d1, table(Z, clusters))
+# tres estimadores, difieren en se_type:
+E1a <- declare_estimator(Y ~ Z,
+  .method = lm_robust, clusters = clusters,
+  se_type = "CR2", label = "CR2 cluster t test",
+  inquiry = "ATE"
+)
+E1b <- declare_estimator(Y ~ Z,
+  .method = lm_robust, clusters = clusters,
+  se_type = "CR0", label = "CR0 cluster t test",
+  inquiry = "ATE"
+)
+E1c <- declare_estimator(Y ~ Z,
+  .method = lm_robust, clusters = clusters,
+  se_type = "stata", label = "stata RCSE t test",
+  inquiry = "ATE"
+)
+E1d <- declare_estimator(Y ~ Z,
+  .method = lm_robust,
+  se_type = "classical", label = "plain IID OLS t test",
+  inquiry = "ATE"
+)
+
+design1_plus <- design1_base + E1a + E1b + E1c + E1d
+
+design1_plus_tosim <- redesign(design1_plus, n_clus = 10, n_indivs = 100, tau = .25)
+```
+
+## Ejemplo: Poder basado en simulación para la aleatorización por conglomerados (DeclareDesign)
+
+```{r ddversion_clus_sims, echo=TRUE, cache=TRUE, warnings=FALSE}
+## Solo repetir la asignación aleatoria, no la creación de Y0.
+## Ignoren la advertencia
+## En la práctica querríamos más simulaciones.
+set.seed(12355)
+design1_sims <- simulate_design(design1_plus_tosim,
+  sims = c(1, 1000, rep(1, length(design1_plus_tosim) - 2))
+)
+```
+
+## Poder basado en simulación para la aleatorización por conglomerados
+
+Noten: mucho poder pero poca cobertura para el OLS simple (la "cobertura" de un
+intervalo de confianza es el complemento de la tasa de falsos positivos de una
+prueba de hipótesis: 95% de cobertura corresponde a una tasa de falsos positivos
+del 5%).
+
+```{r echo=TRUE}
+design1_sims %>%
+  group_by(estimator) %>%
+  summarize(
+    pow = mean(p.value < .05),
+    coverage = mean(estimand <= conf.high & estimand >= conf.low),
+    .groups = "drop"
+  )
+```
+
+## Ejemplo: Poder basado en simulación para la aleatorización por conglomerados (DeclareDesign)
+
+```{r ddversion_clus_2, echo=TRUE, cache=TRUE, results='hide', warning=FALSE,message=FALSE}
+library(DesignLibrary)
+## Esto puede ser más simple que lo anterior:
+d1 <- block_cluster_two_arm_designer(
+  N_blocks = 1,
+  N_clusters_in_block = 10,
+  N_i_in_cluster = 100,
+  sd_block = 0,
+  sd_cluster = .3,
+  ate = .25
+)
+d1_plus <- d1 + E1b + E1c
+d1_sims <- simulate_design(d1_plus, sims = c(1, 1, 1000, 1, 1, 1, 1, 1))
+```
+
+## Ejemplo: Poder basado en simulación para la aleatorización por conglomerados (DeclareDesign)
+
+
+```{r ddversion_clus_2_print, echo=TRUE}
+d1_sims %>%
+  group_by(estimator) %>%
+  summarize(
+    pow = mean(p.value < .05),
+    coverage = mean(estimand <= conf.high & estimand >= conf.low),
+    .groups = "drop"
+  )
+```
+
+## Los ingredientes del poder y su relación
+
+- El poder:
+  - Crece con $N$ (el número de unidades en el experimento)
+  - Crece con $|\tau|$ (el tamaño del efecto del tratamiento)
+  - Decrece con $\sigma$ (la varianza de la variable de resultado)
+  - Decrece con el ICC (la homogeneidad relativa de la variable de resultado dentro de los conglomerados frente a entre conglomerados)
+
+## Comentarios {.shrink}
+
+- Conozcan bien su variable de resultado.
+- ¿Qué efectos pueden esperar de manera realista de su tratamiento? (¿Estudios
+previos parecidos al suyo? ¿Dado lo que saben sobre la "variación natural" de la
+variable de resultado?)
+- ¿Qué efectos son sustantivamente demasiado pequeños? (Puede que no valga la
+pena realizar *este experimento* en *este momento* si no pueden imaginar
+detectar un efecto al menos así de grande.)
+- ¿Cuál es el rango plausible de variación de la variable de resultado?
+- Un diseño con poco movimiento posible en la variable de resultado puede tener
+poco poder.
+  - Ver [10 cosas que su resultado nulo podría
+  significar](https://egap.org/resource/10-things-your-null-result-might-mean/)
+  para una discusión de las varias razones por las que un experimento dado pudo
+  producir un $p > .05$ (si usan $\alpha = .05$ como criterio de rechazo, o si
+  tienen algún $\hat{\bar{\tau}}$ sustantivamente pequeño que quizás no se
+  alcance).
+
+Nota: los cálculos de poder (resúmenes de la tasa de falsos negativos de las pruebas/intervalos de confianza) dependen de que esas pruebas/intervalos de confianza tengan tasas de falsos positivos controladas y bajas (p. ej., 5% o menos) o tasas de cobertura altas (p. ej., 95% o más)
+
+## Referencias
