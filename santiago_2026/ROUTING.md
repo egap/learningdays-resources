@@ -71,7 +71,7 @@ filenames were kept as the teaching team knows them (spaces removed only).
   parameters (`N`, `tau`, ...) to exist when a design is declared;
   `redesign()` only swaps values of existing symbols. Older Rmds that
   declared designs with undefined parameters need initial values added
-  (done in `3-3-power_slides.qmd`).
+  (done in `3-3-power_slides_en.qmd`).
 
 ## Build and publish
 
@@ -102,8 +102,8 @@ Spanish content.
 | `2-1-randomization-slides.pdf` | `slides/2-1-randomization-slides.pdf` | English (2023 deck) |
 | `2-2-Design talk_2025.pdf` | `slides/2-2-design-talk-2025.pdf` | Spanish |
 | `2-3-HypothesisTesting_2025.pdf` | `slides/2-3-HypothesisTesting_2025.pdf` | Spanish |
-| `3-1-estimation_slides.pdf` + `.Rmd` | `slides/` same names | Spanish |
-| `3-3-power_slides.pdf` + `.Rmd` | `slides/` same names | English |
+| `3-1-estimation_slides.pdf` + `.Rmd` | `slides/3-1-estimation_slides_sp.{qmd,pdf}` | Spanish |
+| `3-3-power_slides.pdf` + `.Rmd` | `slides/3-3-power_slides_en.{qmd,pdf}` | English |
 | `4-1-ethics-slides_sp.pdf` + `.html` | `slides/` same names | Spanish |
 | `1-3-threats.pdf` | `slides/1-3-threats.pdf` | Spanish (51 pp; the 40 pp `threats.pdf` variant was not copied) |
 | `4-3-transparency_sp.pdf` + `.Rmd` | `slides/` same names | Spanish |
