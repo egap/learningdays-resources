@@ -4,10 +4,20 @@ Live URL: https://egap.github.io/learningdays-resources/santiago_2026/
 
 This folder is a **hub site** for the EGAP LatAm Learning Days (Universidad
 Catolica de Chile, July 27-31, 2026), adapted from `../abidjan_2026/`. Unlike
-abidjan, the lecture decks are NOT (yet) bilingual Quarto sources: the cards
+abidjan, most lecture decks are NOT (yet) bilingual Quarto sources: the cards
 on the landing page link to static PDFs (and one self-contained HTML) copied
 from the workshop Dropbox. The folder keeps the full abidjan build machinery
-so decks can be converted one at a time after the workshop.
+so decks can be converted one at a time.
+
+Converted so far (2026-07-26, single-language faithful conversions that
+REPLACED the Dropbox .Rmd sources, not yet bilingual):
+`slides/3-1-estimation_slides.qmd` (es), `slides/3-3-power_slides.qmd` (en),
+`slides/4-3-transparency_sp.qmd` (es). Unlike abidjan, converted decks live
+in `slides/` next to their static PDFs; `assets/header.html` and
+`assets/after-body.html` therefore use `../assets/...` paths (browser-resolved
+relative to the rendered deck -- a future revealjs deck outside `slides/`
+needs those adjusted). `index.csv` still points at the static PDFs; flip the
+hrefs to `slides/<stem>.html` once the Quarto versions are approved.
 
 Languages: Spanish primary, English secondary. Machinery uses `es`/`en`
 codes everywhere (`lang-es` classes, `#es/...` hash routes, `SANTIAGO_LANG`
@@ -33,9 +43,11 @@ filenames were kept as the teaching team knows them (spaces removed only).
   small EN/ES badge on the card. `placeholder,TRUE` renders a grey card with
   no link (sessions with no publishable deck).
 - `slides/`, `r_sessions/`, `forms/`: static materials copied from Dropbox
-  (see the file map below). Rmd sources are committed with their helpers
-  (`rmd_setup.R`, `learningdays-book.bib`, `diagnosis1.rda`,
-  `images/egap-logo.png`) so they stay knittable.
+  (see the file map below), plus the converted `.qmd` decks. The three
+  converted decks' Rmd sources and their `rmd_setup.R` helper were deleted
+  2026-07-26 (git history keeps them); `diagnosis1.rda` stays -- the
+  estimation deck re-saves it on each render -- and `learningdays-book.bib`
+  in `slides/` is now unused (the decks cite `../assets/learningdays-book.bib`).
 - `assets/`: santiago-bilingual.{lua,css,js} (deck filter + styles + language
   toolbar for future converted decks), santiago-index.css + index-tabs.js
   (landing page), flags, logo, bib.
@@ -48,6 +60,18 @@ filenames were kept as the teaching team knows them (spaces removed only).
   with Spanish first; it assumes the source's LEFT column is Spanish, so swap
   columns first when converting from the EN-left `Slides_bilingual_fr_en`
   decks.
+- `R/qmd_setup.R`: shared knitr config sourced by the `.qmd` decks (as
+  `source("../R/qmd_setup.R")`). Replaces the Dropbox `rmd_setup.R` (deleted
+  from `slides/` 2026-07-26 once no Rmd sourced it; git history keeps it)
+  with two changes: LaTeX-only chunk defaults apply only under beamer, and it
+  loads no packages -- each deck's setup chunk lists its own dependencies.
+  Render byproducts of the root decks (`figs/`, `diagnosis1.rda`) are
+  gitignored; figures are embedded in the self-contained HTML.
+- Gotcha for future conversions: DeclareDesign >= 1.1 requires design
+  parameters (`N`, `tau`, ...) to exist when a design is declared;
+  `redesign()` only swaps values of existing symbols. Older Rmds that
+  declared designs with undefined parameters need initial values added
+  (done in `3-3-power_slides.qmd`).
 
 ## Build and publish
 
@@ -130,13 +154,23 @@ gitignored repo-wide and the page would arrive broken), `TA-rsession2.pdf`
    `R/pdf_lang_helpers.R` exposes `pick_lang(es, en)` for R chunks). In the
    rendered deck, Alt+B / Alt+S / Alt+E toggle both/Spanish/English (bare
    B and S belong to reveal.js: blackout and speaker notes).
-3. Save the `.qmd` at the FOLDER ROOT (like abidjan) -- not inside `slides/`;
-   the header include paths (`assets/santiago-bilingual.css` etc.) are
-   document-relative and only resolve from the root. Run
-   `Rscript 0_make_everything.R --html-only`, then set BOTH `href_es` and
-   `href_en` for that row in `index.csv` to `<stem>.html`. The badge
-   disappears automatically and the format-link row picks up the QMD and any
-   `pdf/<stem>.pdf`.
+3. Save the `.qmd` in `slides/` (NOT the folder root, unlike abidjan): the
+   header/after-body includes now use `../assets/...` paths that resolve from
+   there. Use `../assets/learningdays-book.bib`, the beamer logo at
+   `../assets/egap-logo.png`, and `source("../R/qmd_setup.R")` in the setup
+   chunk. Run `Rscript 0_make_everything.R --html-only`, then set BOTH
+   `href_es` and `href_en` for that row in `index.csv` to
+   `slides/<stem>.html`. The badge disappears automatically and the
+   format-link row picks up the QMD and any `pdf/<stem>.pdf` (the build
+   script flattens subdir hrefs to basenames in `pdf/`).
+
+   FOOTGUN: rendering `slides/<stem>.qmd` to beamer DELETES any
+   `slides/<stem>.pdf` sitting next to it -- Quarto cleans what it takes to
+   be a stale output of that input, even with `-o` elsewhere. So a frozen
+   Dropbox PDF sharing a converted deck's stem cannot survive rebuilds:
+   restore it with `git checkout -- slides/<stem>.pdf` after ad-hoc renders,
+   and when flipping that deck's `index.csv` row to the `.html`, retire the
+   frozen PDF (git history keeps it) so `0_make_everything.R` runs clean.
 
 ## Placeholders awaiting content
 
