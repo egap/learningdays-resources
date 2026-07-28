@@ -36,7 +36,7 @@ library(styler)
 
 We want to separate signal from noise.
 
-- Power = probability of rejecting null hypothesis, given true effect $\ne$ 0. We would like our tests to produce $p \le \alpha$ for the hypothesis of no effects when the truth is not zero.
+- Power = probability of rejecting null hypothesis, given true effect $\ne$ 0. We would like our tests to produce $p \le \alpha$ for the hypothesis of no effects *when the truth is not zero*.
 
 - It is the ability of a test to detect an effect given that it exists.
 
@@ -47,13 +47,13 @@ We want to separate signal from noise.
 - How often should we see a $p \le \alpha$? Standard thresholds: 0.8 or 0.9 ---
 "nearly always detect a signal when one exists".
 
-- "Power" is an operating characteristic of hypothesis tests (and by extension, confidence intervals).
+- "Power" is an operating characteristic of hypothesis tests (and by extension, confidence intervals). Estimators do not have statistical power.
 
 ## Starting point for power analysis
 
 - Power analysis is something we do *before* we run a study.
 
-  - Helps you figure out the **how many units** you need to detect a given effect size.
+  - Helps you figure out **how many units** you need to detect a given effect size.
 
   - Helps you figure out a **minimal detectable difference** given a set sample size.
 
@@ -84,20 +84,21 @@ exist
 
 ## Power analysis
 
-With power analysis, you can see how sensitive the probability of getting significant results is to changes in your assumptions.
+Power analysis shows us how much the probability of getting a significant result changes when we change our assumptions.
 
-- Many disciplines have settled on a target power value of 0.80.
-- Reasons to move to 0.90?
-- Researchers can tweak their designs and assumptions until they can be confident that their experiments will return statistically significant results "most" of the time (where "most"=80% or 90%)
+- Many disciplines have settled on a target power value of 0.80. Reasons to move to 0.90?
+- For example: if our current design has power of 0.70, what would it take to get to 0.80? More units? A less noisy outcome? A stronger treatment?
+- We can tweak our designs and assumptions until we can be confident that our experiment will return statistically significant results "most" of the time (where "most" = 80% or 90%)
 - Requires lots of educated guesses, but it's often very sobering: if previous literature has always found an effect size of 1sd, we might not have the budget to find an effect that big.
 
-# Power trade offs
+# What raises or lowers power?
 
 ## Power is increasing in $N$ {.allowframebreaks}
 
 ```{r powplot_by_n, echo=TRUE}
-## here we use the overall SD or a standardized noise measure wrapped into an effect
-## ie  Cohen’s d: d = {m_{1} - m_{2}} / {/sigma}
+## With sd = 1, delta is in standard-deviation units of the outcome:
+## delta = 0.25 means an effect of 0.25 standard deviations. That
+## standardized effect is Cohen's d: d = (m_1 - m_2) / sigma.
 
 power.t.test(n = 100, delta = .25, sd = 1, sig.level = .05)
 

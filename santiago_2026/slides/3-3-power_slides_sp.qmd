@@ -37,7 +37,10 @@ library(styler)
 
 Queremos separar la señal del ruido.
 
-- Potencia (o "poder estadístico") = probabilidad de rechazar la hipótesis nula, dado un efecto verdadero $\ne$ 0. Queremos que nuestras pruebas produzcan $p \le \alpha$ para la hipótesis de ningún efecto cuando la verdad no es cero.
+- Potencia (o "poder estadístico") = probabilidad de rechazar la hipótesis
+  nula, dado un efecto verdadero $\ne$ 0. Queremos que nuestras pruebas
+  produzcan $p \le \alpha$ para la hipótesis de ningún efecto *cuando la verdad
+  no es cero*.
 
 - Es la capacidad de una prueba de detectar un efecto, dado que el efecto existe.
 
@@ -48,17 +51,19 @@ Queremos separar la señal del ruido.
 - ¿Con qué frecuencia deberíamos ver un $p \le \alpha$? Umbrales estándar: 0.8 o 0.9 ---
 "detectar la señal casi siempre que exista".
 
-- La "potencia" es una característica operativa de las pruebas de hipótesis (y, por extensión, de los intervalos de confianza).
+- La "potencia" es una característica operativa de las pruebas de hipótesis (y,
+  por extensión, de los intervalos de confianza). Los estimadores no tienen
+  potencia estadística.
 
 ## Punto de partida para el análisis de potencia
 
 - El análisis de potencia es algo que hacemos *antes* de realizar un estudio.
 
-  - Les ayuda a determinar **cuántas unidades** necesitan para detectar un efecto de un tamaño dado.
+  - Nos ayuda a determinar **cuántas unidades** necesitamos para detectar un efecto de un tamaño dado.
 
-  - Les ayuda a determinar la **diferencia mínima detectable** dado un tamaño de muestra fijo.
+  - Nos ayuda a determinar la **diferencia mínima detectable** dado un tamaño de muestra fijo.
 
-  - **Puede ayudarles a decidir si vale la pena realizar el estudio.** (El análisis
+  - **Puede ayudarnos a decidir si vale la pena realizar el estudio.** (El análisis
     de potencia es parte de responder la pregunta: "¿Deberíamos hacer este estudio?")
 
 - Meta: descubrir si el diseño que planeamos nos permite detectar los efectos que
@@ -85,20 +90,30 @@ existan.
 
 ## Análisis de potencia
 
-Con el análisis de potencia pueden ver qué tan sensible es la probabilidad de obtener resultados significativos a cambios en sus supuestos.
+El análisis de potencia nos muestra cuánto cambia la probabilidad de obtener
+un resultado significativo cuando cambiamos los supuestos.
 
-- Muchas disciplinas han adoptado una potencia objetivo de 0.80.
-- ¿Razones para subir a 0.90?
-- Los investigadores pueden ajustar sus diseños y supuestos hasta confiar en que sus experimentos producirán resultados estadísticamente significativos "la mayoría" de las veces (donde "la mayoría" = 80% o 90%).
-- Requiere muchas conjeturas informadas, pero suele ser muy aleccionador: si la literatura previa siempre ha encontrado un tamaño de efecto de 1 desviación estándar, puede que no tengamos el presupuesto para detectar un efecto de ese tamaño.
+- Muchas disciplinas han adoptado una potencia objetivo de 0.80. ¿Razones
+  para subir a 0.90?
+- Por ejemplo: si con nuestros supuestos actuales la potencia es 0.70, ¿qué
+  tendríamos que cambiar para llegar a 0.80? ¿Más unidades? ¿Una variable de
+  resultado con menos ruido? ¿Un tratamiento más fuerte?
+- Podemos ajustar el diseño y los supuestos hasta confiar en que el
+  experimento producirá resultados estadísticamente significativos "la
+  mayoría" de las veces (donde "la mayoría" = 80% o 90%).
+- Requiere muchas conjeturas informadas, pero suele moderar nuestras
+  expectativas: si la literatura previa siempre ha encontrado un tamaño de
+  efecto de 1 desviación estándar, puede que no tengamos el presupuesto para
+  detectar un efecto de ese tamaño.
 
-# Disyuntivas de la potencia
+# ¿Qué aumenta o reduce la potencia?
 
 ## La potencia crece con $N$ {.allowframebreaks}
 
 ```{r powplot_by_n, echo=TRUE}
-## aquí usamos la DE total, es decir, una medida estandarizada del ruido
-## incorporada al efecto; o sea, la d de Cohen: d = {m_{1} - m_{2}} / {/sigma}
+## Con sd = 1, delta queda en unidades de desviación estándar de la variable
+## de resultado: delta = 0.25 es un efecto de 0.25 desviaciones estándar. Ese
+## efecto estandarizado es la d de Cohen: d = (m_1 - m_2) / sigma.
 
 power.t.test(n = 100, delta = .25, sd = 1, sig.level = .05)
 
@@ -160,7 +175,7 @@ pow_by_sigma <- sapply(some_sigma, function(thesigma) {
   power.t.test(n = 200, delta = 0.25, sd = thesigma, sig.level = 0.05)$power
 })
 plot(some_sigma, pow_by_sigma,
-  xlab = "Ruido (DE)",
+  xlab = "Ruido (desviación estándar)",
   ylab = "Potencia"
 )
 abline(h = .8)
@@ -218,8 +233,8 @@ Las gráficas anteriores provienen de esta fórmula.
 ## Ejemplo: Cálculos analíticos de potencia
 
 ```{r powerp, echo=TRUE, include=TRUE}
-# Potencia para un estudio con 80 observaciones, un tamaño
-# de efecto de 0.25 y una DE de 1
+# Potencia para un estudio con 80 observaciones, un tamaño de
+# efecto de 0.25 y una desviación estándar de 1
 power.t.test(
   n = 40, delta = 0.25, sd = 1,
   sig.level = 0.05, power = NULL
@@ -395,7 +410,7 @@ str(design0_N100_tau25_sims)
 
 ## Potencia con aleatorización completa
 
-En el 20% de los experimentos, cuando la verdad es .25 DE y $N=100$, obtenemos $p < .05$.
+En el 20% de los experimentos, cuando el efecto verdadero es de 0.25 desviaciones estándar y $N=100$, obtenemos $p < .05$.
 
 ```{r powsum, echo=TRUE}
 # para cada estimador, potencia = proporción de simulaciones con p.value < 0.05
