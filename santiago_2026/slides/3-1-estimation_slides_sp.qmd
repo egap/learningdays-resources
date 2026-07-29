@@ -57,7 +57,7 @@ La clave para la estimación en la inferencia causal es elegir un estimando que 
   - Un **estimador** es una fórmula para hacer una estimación (o cálculo de un número o intervalo) sobre el valor de un estimando. Por ejemplo, la diferencia de medias observadas para $m$ unidades tratadas es un estimador de $\bar{\tau}$:
    $\hat{\bar{\tau}} = \frac{\sum_{i=1}^n (T_i Y_i)}{m} - \frac{\sum_{i=1}^n ( ( 1 - T_i)Y_i)}{(n-m)}$.
 
-Esto es algo que podemos calcular con datos observados. Llamamos a un cálculo una "estimación" porque tenemos la esperanza de que este cálculo con cantidades observadas nos diga algo sobre algo no observable como: $\bar{\tau}=\bar{Y}_i(1) - \bar{Y}_i(0)$.
+Esto es algo que podemos calcular con datos observados. Llamamos a un cálculo una "estimación" porque tenemos la esperanza de que este cálculo con cantidades observadas nos diga algo sobre un no observable como: $\bar{\tau}=\bar{Y}_i(1) - \bar{Y}_i(0)$.
 
 ## Puntos clave para la estimación III (Pruebas e intervalos de confianza)
 
@@ -94,7 +94,11 @@ provenientes de experimentos aleatorios aunque sí usamos **ajuste de
 covarianza** (que son cálculos idénticos). Las covariables pueden hacer que nuestra
 estimación sea más **precisa**. Tengan en cuenta que es diferente controlar en
 estudios observacionales a hacer **ajuste de covarianza** en experimentos
-aleatorios aunque se usa el mismo comando de `lm(Y~Z+x)` en R.
+aleatorios aunque, algunos se usa el mismo comando de `lm(Y~Z+x)` en R.
+
+- Ajuste de covarianza simple produce un estimador sesgado
+  [@lin_agnostic_2013]. Pero el sesgo se hace pequeño en cuanto el N se hace
+  grande.
 
 # Recapitulación
 
@@ -396,17 +400,43 @@ head(sims1[, -c(1:6)])
 
 ## ¿Cómo se comportan nuestros estimadores para este diseño en particular?
 
-Nuestras estimaciones varían según las aleatorizaciones. ¿Varían también nuestros dos estimadores de la misma manera?
+¿Cómo interpretar esta gráfica (verdad = línea vertical discontinua)?
 
-¿Cómo interpretar esta gráfica?
+```{r sim_plot, out.width=".75\\textwidth", fig.width=9, fig.height=3.4, warning=FALSE,message=FALSE}
+## Ordenamos los estimadores por el promedio de sus estimaciones y mostramos
+## una submuestra de estimaciones como puntos: cada punto se puede leer como
+## "un experimento posible".
+sims1_plot <- sims1 %>% mutate(estimator = reorder(estimator, estimate, FUN = mean))
+set.seed(20260728)
+sims1_pts <- sims1_plot %>%
+  group_by(estimator) %>%
+  slice_sample(n = 100) %>%
+  ungroup()
 
-```{r sim_plot, out.width=".75\\textwidth", fig.width=9, fig.height=3, warning=FALSE,message=FALSE}
-sim_plot <- ggplot(sims1, aes(y = estimate, x = estimator, color = estimator)) +
-  geom_boxplot() +
-  geom_hline(yintercept = trueATE) +
-  geom_point(aes(group = estimator)) +
-  stat_summary(fun = mean) +
-  theme(text = element_text(size = 20))
+sim_plot <- ggplot(sims1_plot, aes(x = estimate, y = estimator)) +
+  geom_jitter(
+    data = sims1_pts, height = 0.25, width = 0,
+    color = "gray55", alpha = 0.5, size = 1.3
+  ) +
+  geom_boxplot(fill = NA, color = "gray20", outlier.shape = NA) +
+  geom_vline(xintercept = trueATE, linetype = "dashed") +
+  stat_summary(fun = mean, geom = "point", size = 3, orientation = "y") +
+  annotate("text",
+    x = trueATE + 2, y = 3.1, hjust = 0, vjust = 1, size = 6,
+    label = paste0("ATE verdadero = ", round(trueATE, 1))
+  ) +
+  scale_y_discrete(expand = expansion(add = c(0.5, 1.2))) +
+  labs(
+    x = "Estimación", y = "",
+    caption = "Cada punto gris es la estimación de un experimento posible (100 de las 10,000).\nEl punto negro marca el promedio de las estimaciones de cada estimador."
+  ) +
+  ## Caption centrada para no chocar ni con el logo de EGAP (esquina
+  ## inferior izquierda) ni con el número de página (esquina derecha).
+  theme(
+    text = element_text(size = 20),
+    plot.caption = element_text(size = 13, hjust = 0.5),
+    plot.caption.position = "plot"
+  )
 print(sim_plot)
 ```
 
@@ -679,17 +709,47 @@ plan(sequential)
 ```
 
 ¿Cómo interpretar esta gráfica?
-```{r sim_plot2, warning=FALSE, out.width=".85\\textwidth", fig.width=10, fig.height=4, message=FALSE,warning=FALSE, echo=FALSE,tidy=FALSE}
-sim_plot2 <- ggplot(sims2, aes(y = estimate, x = estimator, color = estimator)) +
-  geom_boxplot() +
-  geom_hline(yintercept = trueATE) +
-  geom_point(aes(group = estimator)) +
-  stat_summary(fun = mean) +
-  theme(
-    text = element_text(size = 20), axis.text.x = element_text(angle = 45, hjust = 1),
-    legend.position = "none", legend.title = element_blank()
+```{r sim_plot2, warning=FALSE, out.width=".85\\textwidth", fig.width=10, fig.height=4.5, message=FALSE,warning=FALSE, echo=FALSE,tidy=FALSE}
+## La línea marca el estimando del diseño con bloques tal como quedó
+## registrado en las simulaciones (es el mismo valor en las 10,000).
+trueATEb <- unique(sims2$estimand)
+## Ordenamos los estimadores por el promedio de sus estimaciones para que
+## el estimador sesgado se separe de los demás en la gráfica.
+sims2_plot <- sims2 %>% mutate(estimator = reorder(estimator, estimate, FUN = mean))
+
+## Mostramos una submuestra de las estimaciones como puntos para que cada
+## punto se pueda leer como "un experimento posible". Con las 10,000 los
+## puntos taparían las cajas. Cada chunk de simulación fija su propia
+## semilla, así que esta semilla local no cambia resultados posteriores.
+set.seed(20260728)
+sims2_pts <- sims2_plot %>%
+  group_by(estimator) %>%
+  slice_sample(n = 100) %>%
+  ungroup()
+
+sim_plot2 <- ggplot(sims2_plot, aes(x = estimate, y = estimator)) +
+  geom_jitter(
+    data = sims2_pts, height = 0.25, width = 0,
+    color = "gray55", alpha = 0.5, size = 1.3
   ) +
-  xlab("")
+  geom_boxplot(fill = NA, color = "gray20", outlier.shape = NA) +
+  geom_vline(xintercept = trueATEb, linetype = "dashed") +
+  stat_summary(fun = mean, geom = "point", size = 3, orientation = "y") +
+  annotate("text",
+    x = trueATEb + 4, y = 7.2, hjust = 0, vjust = 1, size = 6,
+    label = paste0("ATE verdadero = ", round(trueATEb, 1))
+  ) +
+  ## Espacio adicional arriba de la primera caja para la etiqueta del ATE
+  scale_y_discrete(expand = expansion(add = c(0.6, 1.4))) +
+  labs(
+    x = "Estimación", y = "",
+    caption = "Cada punto gris es la estimación de un experimento posible (100 de las 10,000); el punto negro marca el promedio."
+  ) +
+  theme(
+    text = element_text(size = 20),
+    plot.caption = element_text(size = 13, hjust = 0),
+    plot.caption.position = "plot"
+  )
 print(sim_plot2)
 ```
 
@@ -957,17 +1017,51 @@ kableExtra::kable(res_clus[, c(1:3)], digits = 3, booktabs = TRUE, linesep = "",
 
 ¿Cómo podemos interpretar esta gráfica?
 
-```{r sim_plot_clus, warning=FALSE, out.width=".9\\textwidth", fig.width=10, fig.height=3.8}
-sim_plot3 <- ggplot(sim_clus, aes(y = estimate, x = estimator, color = estimator)) +
-  geom_boxplot() +
-  coord_flip() +
-  geom_hline(yintercept = trueclusATE) +
-  geom_point(aes(group = estimator)) +
+```{r sim_plot_clus, warning=FALSE, out.width=".9\\textwidth", fig.width=10, fig.height=4.5}
+## El estimador de Lin (Y~Z*I(clus_size-mean(clus_size))) a veces no produce
+## una estimación; quitamos esos NA igual que en la tabla anterior.
+## Acortamos las etiquetas con los mismos nombres que usa la tabla para que
+## el eje ocupe menos espacio y la gráfica y la tabla se lean juntas.
+sim_clus_plot <- sim_clus %>%
+  filter(!is.na(estimate)) %>%
+  mutate(
+    estimator = trimws(gsub(" SE", "", estimator)),
+    estimator = recode(estimator,
+      "Y~Z+clus_size_fixed_effects, CR2" = "Y~Z+cl_sizeF, CR2",
+      "Y~Z, fixed_effects=~clus_size_fixed_effects, CR2" = "Y~Z, cl_size fe, CR2",
+      "Y~Z*I(clus_size-mean(clus_size)), CR2" = "Y~Z*I(cl_size-mean(cl_size)), CR2",
+      "Y~Z, weight=clus_size, CR2" = "Y~Z, weight=cl_size, CR2"
+    ),
+    estimator = reorder(estimator, estimate, FUN = mean)
+  )
+set.seed(20260728)
+sim_clus_pts <- sim_clus_plot %>%
+  group_by(estimator) %>%
+  slice_sample(n = 100) %>%
+  ungroup()
+
+sim_plot3 <- ggplot(sim_clus_plot, aes(x = estimate, y = estimator)) +
+  geom_jitter(
+    data = sim_clus_pts, height = 0.25, width = 0,
+    color = "gray55", alpha = 0.5, size = 1.1
+  ) +
+  geom_boxplot(fill = NA, color = "gray20", outlier.shape = NA) +
+  geom_vline(xintercept = trueclusATE, linetype = "dashed") +
+  stat_summary(fun = mean, geom = "point", size = 3, orientation = "y") +
+  annotate("text",
+    x = trueclusATE + 0.02, y = 8.3, hjust = 0, vjust = 1, size = 6,
+    label = paste0("ATE verdadero = ", round(trueclusATE, 2))
+  ) +
+  scale_y_discrete(expand = expansion(add = c(0.6, 1.5))) +
+  labs(
+    x = "Estimación", y = "",
+    caption = "Cada punto gris es la estimación de un experimento posible (100 de las 10,000); el punto negro marca el promedio."
+  ) +
   theme(
     text = element_text(size = 20),
-    legend.position = "none", legend.title = element_blank()
-  ) +
-  ylab("")
+    plot.caption = element_text(size = 13, hjust = 0),
+    plot.caption.position = "plot"
+  )
 print(sim_plot3)
 ```
 
@@ -1177,6 +1271,8 @@ freedman_plugin_lm_estfn2 <- function(data) {
 }
 ```
 
+## Un ejemplo de estimación: Los estimadores de Freedman II
+
 Ahora comparemos las estimaciones de los ocho estimadores diferentes
 ```{r echo=FALSE}
 c(
@@ -1319,21 +1415,42 @@ estimand_dat <- sims_bin %>%
   group_by(inquiry) %>%
   summarize(meanestimand = mean(estimand))
 
-sim_plot_bin <- ggplot(sims_bin, aes(y = estimate, x = estimator, color = estimator)) +
-  geom_boxplot() +
-  geom_point() +
-  stat_summary(fun = mean) +
+## El tmle produjo algunas estimaciones infinitas; las quitamos igual que
+## en la tabla siguiente.
+sims_bin_plot <- sims_bin %>%
+  filter(!is.infinite(estimate), !is.na(estimate)) %>%
+  mutate(estimator = reorder(estimator, estimate, FUN = mean))
+set.seed(20260728)
+sims_bin_pts <- sims_bin_plot %>%
+  group_by(estimator) %>%
+  slice_sample(n = 100) %>%
+  ungroup()
+
+sim_plot_bin <- ggplot(sims_bin_plot, aes(x = estimate, y = estimator)) +
+  geom_jitter(
+    data = sims_bin_pts, height = 0.25, width = 0,
+    color = "gray55", alpha = 0.5, size = 1.1
+  ) +
+  geom_boxplot(fill = NA, color = "gray20", outlier.shape = NA, width = 0.6) +
+  geom_vline(
+    data = estimand_dat, aes(xintercept = meanestimand),
+    linetype = "dashed"
+  ) +
+  stat_summary(fun = mean, geom = "point", size = 2.5, orientation = "y") +
   facet_wrap(~inquiry, scales = "free") +
-  geom_hline(data = estimand_dat, aes(yintercept = meanestimand)) +
+  labs(
+    x = "Estimación", y = "",
+    caption = "La línea discontinua marca el valor verdadero de cada estimando.\nLos puntos grises son 100 de las 1,000 estimaciones; el punto negro, su promedio."
+  ) +
   theme(
     text = element_text(size = 20),
-    axis.text.x = element_text(angle = 30, hjust = 1, size = 12),
-    legend.position = "none", legend.title = element_blank()
-  ) +
-  xlab("")
+    axis.text.y = element_text(size = 13),
+    plot.caption = element_text(size = 13, hjust = 0.5),
+    plot.caption.position = "plot"
+  )
 ```
 
-```{r sim_plot_bin_print, out.width=".85\\textwidth", fig.width=10, fig.height=4, warning=FALSE,message=FALSE, echo=FALSE, cache=FALSE, tidy=FALSE}
+```{r sim_plot_bin_print, out.width=".8\\textwidth", fig.width=10, fig.height=4.5, warning=FALSE,message=FALSE, echo=FALSE, cache=FALSE, tidy=FALSE}
 print(sim_plot_bin)
 ```
 
