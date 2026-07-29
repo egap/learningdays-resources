@@ -1077,16 +1077,19 @@ print(sim_plot3)
 
 ```{r setupbin, echo=TRUE}
 # population size
-N <- 20
+N <- 100
 # declare the population
 thepop_bin <- declare_population(
   N = N, x1 = draw_binary(prob = .5, N = N),
   x2 = rnorm(N)
 )
-# declare the potential outcomes
+# declare the potential outcomes on the log-odds scale: x1 STRONGLY
+# predicts the outcome (coefficient 3). That strong covariate is what
+# separates the conditional odds ratio from the marginal one
+# (non-collapsibility), the bias Freedman (2008) warns about below.
 thepo_bin <- declare_potential_outcomes(Y ~ rbinom(
   n = N, size = 1,
-  prob = 0.5 + 0.05 * Z + x1 * .05
+  prob = plogis(-1.5 + 1 * Z + 3 * x1)
 ))
 # two possible target quantities:
 # difference in means or difference in log-odds
@@ -1159,7 +1162,7 @@ Or the difference in proportions?
 
 Recall that $\bar{y}_1$ is the *proportion* of $y_{1}=1$ in the data.
 
-@freedman2008randomization shows us that the logit coefficient estimator is a biased estimator of the difference in log-odds estimand. He also shows an unbiased estimator of that same estimand.
+@freedman2008randomization shows us that the covariate-adjusted logit coefficient estimator is a biased estimator of the difference in log-odds estimand. He also shows a consistent estimator of that same estimand.
 
 We know that the difference of proportions in the sample should be an unbiased estimator of the difference of proportions.
 
@@ -1207,14 +1210,24 @@ c(
 )
 ```
 
+## Unadjusted versus adjusted logit: different targets
+
+- The logit with only `Z` is *saturated*: its coefficient is exactly the observed difference in log-odds, $\text{logit}(\bar{Y}_{Z=1}) - \text{logit}(\bar{Y}_{Z=0})$. It is a consistent estimator of the marginal difference $\delta$.
+
+- Adding a covariate changes the target: the coefficient on `Z` in `glm(Y ~ Z + x1)` aims at the difference in log-odds *holding `x1` fixed* --- a conditional quantity.
+
+- Odds ratios are not *collapsible*: the conditional difference in log-odds sits farther from zero than the marginal one, even with no confounding. So the adjusted coefficient is a biased estimator of $\delta$, and that gap does not shrink as $N$ grows [@freedman2008randomization].
+
+- Freedman's repair (the "plug-in"): with the *same* adjusted model, predict each unit's probability under $Z=1$ and under $Z=0$, average, and take the difference in log-odds. That estimator returns to the marginal scale and is consistent.
+
 
 ## An example of estimation: The Freedman estimators I
 
 No covariate:
 ```{r pluginest, echo=TRUE }
 freedman_plugin_estfn1 <- function(data) {
-  glmbin <- glm(Y ~ Z, data = dat2, family = binomial(link = "logit"))
-  preddat <- data.frame(Z = rep(c(0, 1), nrow(dat2)))
+  glmbin <- glm(Y ~ Z, data = data, family = binomial(link = "logit"))
+  preddat <- data.frame(Z = rep(c(0, 1), nrow(data)))
   preddat$yhat <- predict(glmbin, newdata = preddat, type = "response")
   bary1 <- mean(preddat$yhat[preddat$Z == 1])
   bary0 <- mean(preddat$yhat[preddat$Z == 0])
@@ -1225,8 +1238,8 @@ freedman_plugin_estfn1 <- function(data) {
 
 ```{r lm_pluginest, echo=TRUE }
 freedman_plugin_lm_estfn1 <- function(data) {
-  lmbin <- lm(Y ~ Z, data = dat2)
-  preddat <- data.frame(Z = rep(c(0, 1), nrow(dat2)))
+  lmbin <- lm(Y ~ Z, data = data)
+  preddat <- data.frame(Z = rep(c(0, 1), nrow(data)))
   preddat$yhat <- predict(lmbin, newdata = preddat)
   bary1 <- mean(preddat$yhat[preddat$Z == 1])
   bary0 <- mean(preddat$yhat[preddat$Z == 0])
@@ -1281,7 +1294,7 @@ c(
 ```
 
 
-```{r tmleapproach, eval=TRUE}
+```{r tmleapproach, eval=TRUE, include=FALSE}
 ## Here is another way to use the Freedman estimator but allowing standard errors, etc.
 ## It does not require a hand-written function like the ones used above..
 library(tmle)
@@ -1308,6 +1321,30 @@ tmle2 <- tmle(
 
 tmle2$estimates$ATE[c("psi", "CI")]
 tmle2$estimates$OR[c("psi", "log.psi", "CI")]
+```
+
+## tmle: an easy way to implement the Freedman plug-in
+
+- The `tmle` package implements targeted maximum likelihood estimation. Its first step is exactly the Freedman plug-in: fit a logistic model (`Qform`), predict each unit under $Z=1$ and under $Z=0$, and average.
+
+- Its second step ("targeting") corrects the initial fit using the treatment probability. In a randomized experiment that probability is constant (`gform = A ~ 1`), and with a logistic model containing an intercept and a treatment term fit by maximum likelihood the correction is exactly zero: the targeting step's "clever covariate" is already a linear combination of the logistic score functions.
+
+- The result: `tmle()` reports the *same* number as the Freedman plug-in --- and it adds standard errors and confidence intervals based on the influence curve, which our hand-written functions do not provide.
+
+## tmle = Freedman plug-in: numerical check
+
+The two estimators of the same log-odds estimand, using the same fitted model (`Y ~ Z + x1`):
+
+```{r tmle_vs_plugin, echo=TRUE}
+c(
+  freedman_plugin = freedman_plugin_estfn2(dat2)[["estimate"]],
+  tmle_log_odds = tmle2$estimates$OR$log.psi
+)
+## tmle adds the confidence interval for the odds ratio:
+tmle2$estimates$OR$CI
+## and it also reports the difference in proportions (ATE) with its interval:
+c(tmle_ate = tmle2$estimates$ATE$psi)
+tmle2$estimates$ATE$CI
 ```
 
 ## An example of using DeclareDesign to assess our estimators I
@@ -1461,7 +1498,7 @@ res_bin <- sims_bin %>%
   group_by(estimator, inquiry) %>%
   summarize(
     bias = mean(estimate - estimand, na.rm = TRUE),
-    rmse = sqrt(mean(estimate - estimand, na.rm = TRUE)^2),
+    rmse = sqrt(mean((estimate - estimand)^2, na.rm = TRUE)),
     power = mean(p.value < .05, na.rm = TRUE),
     coverage = mean(estimand <= conf.high & estimand >= conf.low, na.rm = TRUE),
     # mean_estimate = mean(estimate),
@@ -1473,6 +1510,71 @@ names(res_bin)[1:2] <- c("est", "estimand")
 
 ```{r showresbin1}
 kableExtra::kable(res_bin[, c(1, 2, 3, 4)], digits = 3, booktabs = TRUE, linesep = "", caption = "Estimator and test performance in 1000 simulations of the randomized design for different estimators.")
+```
+
+## The adjusted logit coefficient's bias does not shrink with N
+
+The same design as above with 500 simulations per N: the adjusted coefficient's bias stays put while the other two estimators converge on the estimand.
+
+```{r bias_vs_n, echo=FALSE, cache=TRUE, warning=FALSE, message=FALSE}
+## A lighter simulation than the diagnosis above: only the three
+## logit-based estimators of the log-odds estimand, at several N.
+one_bin_sim <- function(N) {
+  x1 <- draw_binary(prob = .5, N = N)
+  Y0 <- rbinom(N, 1, plogis(-1.5 + 0 + 3 * x1))
+  Y1 <- rbinom(N, 1, plogis(-1.5 + 1 + 3 * x1))
+  Z <- conduct_ra(N = N, m = floor(N / 3))
+  Y <- Z * Y1 + (1 - Z) * Y0
+  delta <- qlogis(mean(Y1)) - qlogis(mean(Y0))
+  glm_unadj <- glm(Y ~ Z, family = binomial)
+  glm_adj <- glm(Y ~ Z + x1, family = binomial)
+  p1 <- mean(predict(glm_adj, newdata = data.frame(Z = 1, x1 = x1), type = "response"))
+  p0 <- mean(predict(glm_adj, newdata = data.frame(Z = 0, x1 = x1), type = "response"))
+  c(
+    adj = coef(glm_adj)[["Z"]] - delta,
+    plugin = (qlogis(p1) - qlogis(p0)) - delta,
+    unadj = coef(glm_unadj)[["Z"]] - delta
+  )
+}
+set.seed(20260729)
+bias_ns <- c(100, 500, 2000)
+bias_res <- map_dfr(bias_ns, function(n) {
+  errs <- replicate(500, one_bin_sim(n))
+  tibble(N = n, estimator = rownames(errs), bias = rowMeans(errs))
+})
+bias_labels <- c(
+  adj = "Adjusted logit coefficient (x1)",
+  plugin = "Freedman plug-in (same model)",
+  unadj = "Logit with no covariates (saturated)"
+)
+bias_res$estimator <- factor(bias_res$estimator,
+  levels = names(bias_labels), labels = bias_labels
+)
+bias_plot <- ggplot(bias_res, aes(x = N, y = bias, color = estimator, shape = estimator)) +
+  geom_hline(yintercept = 0, linetype = "dashed", color = "gray60") +
+  geom_line(linewidth = 0.8) +
+  geom_point(size = 3) +
+  scale_x_log10(breaks = bias_ns) +
+  ## Okabe-Ito colors (colorblind-safe); point shape also
+  ## distinguishes the series
+  scale_color_manual(values = c("#D55E00", "#0072B2", "gray30")) +
+  labs(
+    x = "Sample size N (log scale)",
+    y = "Bias (estimate - estimand)",
+    color = NULL, shape = NULL
+  ) +
+  ## The legend sits INSIDE the panel (the empty region at right) so the
+  ## whole figure fits on the slide
+  theme(
+    text = element_text(size = 16),
+    legend.position = "inside",
+    legend.position.inside = c(0.96, 0.55),
+    legend.justification.inside = c(1, 0.5)
+  )
+```
+
+```{r bias_vs_n_print, out.width=".8\\textwidth", fig.width=10, fig.height=4.2, warning=FALSE, message=FALSE, echo=FALSE, cache=FALSE}
+print(bias_plot)
 ```
 
 # Other topics in estimation

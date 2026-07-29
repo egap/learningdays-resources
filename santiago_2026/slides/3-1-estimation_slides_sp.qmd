@@ -1082,16 +1082,19 @@ print(sim_plot3)
 
 ```{r setupbin, echo=TRUE}
 # tamaño de la población
-N <- 20
+N <- 100
 # declarar la población
 thepop_bin <- declare_population(
   N = N, x1 = draw_binary(prob = .5, N = N),
   x2 = rnorm(N)
 )
-# declarar los resultados potenciales
+# declarar los resultados potenciales en la escala log-odds: x1 predice
+# FUERTEMENTE el resultado (coeficiente 3). Esa covariable fuerte es la
+# que separa el odds ratio condicional del marginal (no-colapsabilidad),
+# el sesgo del que nos advierte Freedman (2008) más abajo.
 thepo_bin <- declare_potential_outcomes(Y ~ rbinom(
   n = N, size = 1,
-  prob = 0.5 + 0.05 * Z + x1 * .05
+  prob = plogis(-1.5 + 1 * Z + 3 * x1)
 ))
 # dos cantidades objetivo posibles:
 # diferencia de medias o diferencia de log-odds
@@ -1164,7 +1167,7 @@ c(
 
 Recuerden que $\bar{y}_1$ es la *proporción* de $y_{1}=1$ en los datos.
 
-@freedman2008randomization  nos muestra que el estimador del coeficiente logit es un estimador sesgado del estimando de la diferencia en los log-odds. Así mismo también presenta un estimador insesgado para ese mismo estimando.
+@freedman2008randomization  nos muestra que el estimador del coeficiente logit ajustado por covariables es un estimador sesgado del estimando de la diferencia en los log-odds. Así mismo también presenta un estimador consistente para ese mismo estimando.
 
 Es claro que la diferencia de proporciones en la muestra debería ser un estimador insesgado de la diferencia de proporciones.
 
@@ -1212,14 +1215,24 @@ c(
 )
 ```
 
+## Logit sin ajustar versus logit ajustado: apuntan a blancos distintos
+
+- La logística con solo `Z` está *saturada*: su coeficiente es exactamente la diferencia de log-odds observada, $\text{logit}(\bar{Y}_{Z=1}) - \text{logit}(\bar{Y}_{Z=0})$. Es un estimador consistente de la diferencia marginal $\delta$.
+
+- Al agregar una covariable cambia el blanco: el coeficiente de `Z` en `glm(Y ~ Z + x1)` apunta a la diferencia de log-odds *manteniendo fija* `x1` --- una cantidad condicional.
+
+- Los odds ratios no son *colapsables*: la diferencia condicional de log-odds queda más lejos de cero que la marginal, aun sin confusión. Por eso el coeficiente ajustado es un estimador sesgado de $\delta$, y esa brecha no se achica al crecer $N$ [@freedman2008randomization].
+
+- La reparación de Freedman ("plug-in"): con el *mismo* modelo ajustado, predecir la probabilidad de cada unidad bajo $Z=1$ y bajo $Z=0$, promediar, y tomar la diferencia de log-odds. Ese estimador vuelve a la escala marginal y es consistente.
+
 
 ## Un ejemplo de estimación: Los estimadores de Freedman I
 
 Sin covariables:
 ```{r pluginest, echo=TRUE }
 freedman_plugin_estfn1 <- function(data) {
-  glmbin <- glm(Y ~ Z, data = dat2, family = binomial(link = "logit"))
-  preddat <- data.frame(Z = rep(c(0, 1), nrow(dat2)))
+  glmbin <- glm(Y ~ Z, data = data, family = binomial(link = "logit"))
+  preddat <- data.frame(Z = rep(c(0, 1), nrow(data)))
   preddat$yhat <- predict(glmbin, newdata = preddat, type = "response")
   bary1 <- mean(preddat$yhat[preddat$Z == 1])
   bary0 <- mean(preddat$yhat[preddat$Z == 0])
@@ -1230,8 +1243,8 @@ freedman_plugin_estfn1 <- function(data) {
 
 ```{r lm_pluginest, echo=TRUE }
 freedman_plugin_lm_estfn1 <- function(data) {
-  lmbin <- lm(Y ~ Z, data = dat2)
-  preddat <- data.frame(Z = rep(c(0, 1), nrow(dat2)))
+  lmbin <- lm(Y ~ Z, data = data)
+  preddat <- data.frame(Z = rep(c(0, 1), nrow(data)))
   preddat$yhat <- predict(lmbin, newdata = preddat)
   bary1 <- mean(preddat$yhat[preddat$Z == 1])
   bary0 <- mean(preddat$yhat[preddat$Z == 0])
@@ -1288,7 +1301,7 @@ c(
 ```
 
 
-```{r tmleapproach, eval=TRUE}
+```{r tmleapproach, eval=TRUE, include=FALSE}
 ## Aquí hay otra forma para usar el estimador de Freedman pero permitiendo errores estándar, etc.
 ## No requiere una función escrita a mano como las que se usaron anteriormente..
 library(tmle)
@@ -1315,6 +1328,30 @@ tmle2 <- tmle(
 
 tmle2$estimates$ATE[c("psi", "CI")]
 tmle2$estimates$OR[c("psi", "log.psi", "CI")]
+```
+
+## tmle: una manera fácil de implementar el plug-in de Freedman
+
+- El paquete `tmle` implementa la estimación por máxima verosimilitud dirigida (targeted maximum likelihood). Su primer paso es exactamente el plug-in de Freedman: ajustar una logística (`Qform`), predecir cada unidad bajo $Z=1$ y bajo $Z=0$, y promediar.
+
+- Su segundo paso ("targeting") corrige el ajuste inicial usando la probabilidad de tratamiento. En un experimento aleatorizado esa probabilidad es constante (`gform = A ~ 1`), y con una logística con intercepto y término de tratamiento ajustada por máxima verosimilitud la corrección resulta exactamente cero: la "covariable inteligente" del targeting ya es una combinación lineal de los scores de la logística.
+
+- Resultado: `tmle()` reporta el *mismo* número que el plug-in de Freedman --- y además entrega errores estándar e intervalos de confianza basados en la curva de influencia, que nuestras funciones escritas a mano no dan.
+
+## tmle = plug-in de Freedman: verificación numérica
+
+Los dos estimadores del mismo estimando de log-odds, con el mismo modelo ajustado (`Y ~ Z + x1`):
+
+```{r tmle_vs_plugin, echo=TRUE}
+c(
+  freedman_plugin = freedman_plugin_estfn2(dat2)[["estimate"]],
+  tmle_log_odds = tmle2$estimates$OR$log.psi
+)
+## tmle agrega el intervalo de confianza para el odds ratio:
+tmle2$estimates$OR$CI
+## y también reporta la diferencia de proporciones (ATE) con su intervalo:
+c(tmle_ate = tmle2$estimates$ATE$psi)
+tmle2$estimates$ATE$CI
 ```
 
 ## Un ejemplo del uso de DeclareDesign para evaluar estimadores I
@@ -1468,7 +1505,7 @@ res_bin <- sims_bin %>%
   group_by(estimator, inquiry) %>%
   summarize(
     bias = mean(estimate - estimand, na.rm = TRUE),
-    rmse = sqrt(mean(estimate - estimand, na.rm = TRUE)^2),
+    rmse = sqrt(mean((estimate - estimand)^2, na.rm = TRUE)),
     power = mean(p.value < .05, na.rm = TRUE),
     coverage = mean(estimand <= conf.high & estimand >= conf.low, na.rm = TRUE),
     # mean_estimate = mean(estimate),
@@ -1480,6 +1517,71 @@ names(res_bin)[1:2] <- c("est", "estimand")
 
 ```{r showresbin1}
 kableExtra::kable(res_bin[, c(1, 2, 3, 4)], digits = 3, booktabs = TRUE, linesep = "", caption = "Desempeño de estimadores y pruebas con 1000 simulaciones del diseño aleatorizado para diferentes estimadores.")
+```
+
+## El sesgo del coeficiente logit ajustado no disminuye con N
+
+El mismo diseño de arriba con 500 simulaciones por cada N: el sesgo del coeficiente ajustado se queda quieto mientras los otros dos estimadores convergen al estimando.
+
+```{r bias_vs_n, echo=FALSE, cache=TRUE, warning=FALSE, message=FALSE}
+## Una simulación más liviana que el diagnóstico anterior: solo los tres
+## estimadores basados en logit del estimando de log-odds, para varios N.
+one_bin_sim <- function(N) {
+  x1 <- draw_binary(prob = .5, N = N)
+  Y0 <- rbinom(N, 1, plogis(-1.5 + 0 + 3 * x1))
+  Y1 <- rbinom(N, 1, plogis(-1.5 + 1 + 3 * x1))
+  Z <- conduct_ra(N = N, m = floor(N / 3))
+  Y <- Z * Y1 + (1 - Z) * Y0
+  delta <- qlogis(mean(Y1)) - qlogis(mean(Y0))
+  glm_unadj <- glm(Y ~ Z, family = binomial)
+  glm_adj <- glm(Y ~ Z + x1, family = binomial)
+  p1 <- mean(predict(glm_adj, newdata = data.frame(Z = 1, x1 = x1), type = "response"))
+  p0 <- mean(predict(glm_adj, newdata = data.frame(Z = 0, x1 = x1), type = "response"))
+  c(
+    adj = coef(glm_adj)[["Z"]] - delta,
+    plugin = (qlogis(p1) - qlogis(p0)) - delta,
+    unadj = coef(glm_unadj)[["Z"]] - delta
+  )
+}
+set.seed(20260729)
+bias_ns <- c(100, 500, 2000)
+bias_res <- map_dfr(bias_ns, function(n) {
+  errs <- replicate(500, one_bin_sim(n))
+  tibble(N = n, estimator = rownames(errs), bias = rowMeans(errs))
+})
+etiquetas_bias <- c(
+  adj = "Coeficiente logit ajustado por x1",
+  plugin = "Plug-in de Freedman (mismo modelo)",
+  unadj = "Logit sin covariables (saturado)"
+)
+bias_res$estimator <- factor(bias_res$estimator,
+  levels = names(etiquetas_bias), labels = etiquetas_bias
+)
+bias_plot <- ggplot(bias_res, aes(x = N, y = bias, color = estimator, shape = estimator)) +
+  geom_hline(yintercept = 0, linetype = "dashed", color = "gray60") +
+  geom_line(linewidth = 0.8) +
+  geom_point(size = 3) +
+  scale_x_log10(breaks = bias_ns) +
+  ## Colores de Okabe-Ito (seguros para daltonismo); la forma del punto
+  ## también distingue las series
+  scale_color_manual(values = c("#D55E00", "#0072B2", "gray30")) +
+  labs(
+    x = "Tamaño de muestra N (escala logarítmica)",
+    y = "Sesgo (estimación - estimando)",
+    color = NULL, shape = NULL
+  ) +
+  ## La leyenda va DENTRO del panel (zona vacía a la derecha) para que la
+  ## figura quepa completa en la diapositiva
+  theme(
+    text = element_text(size = 16),
+    legend.position = "inside",
+    legend.position.inside = c(0.96, 0.55),
+    legend.justification.inside = c(1, 0.5)
+  )
+```
+
+```{r bias_vs_n_print, out.width=".8\\textwidth", fig.width=10, fig.height=4.2, warning=FALSE, message=FALSE, echo=FALSE, cache=FALSE}
+print(bias_plot)
 ```
 
 # Otros temas sobre estimación
