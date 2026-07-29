@@ -775,6 +775,84 @@ get_simulations(diagnosis2) %>%
   summarize(mean_est_se = mean(std.error), sd_est = sd(estimate))
 ```
 
+## ¿Cuándo es grande el sesgo de los "pesos de precisión"?
+
+- El estimador de efectos fijos / LSDV pondera cada bloque por $n_j p_j (1-p_j)$ --- los "pesos de precisión" --- en vez de ponderar por el tamaño $n_j$. Si la proporción tratada $p_j$ es igual en todos los bloques, los dos conjuntos de pesos coinciden y no hay sesgo.
+
+- El sesgo aparece cuando se cumplen *dos* condiciones a la vez: $p_j$ varía entre bloques *y* el $ATE_j$ varía junto con $p_j$.
+
+- En nuestro ejemplo el sesgo fue minúsculo (0.92 sobre un ATE de 54): los ATEs por bloque son parecidos (60 y 45) y los dos conjuntos de pesos casi iguales (.57/.43 contra .60/.40).
+
+- Construyamos dos diseños: uno donde las dos condiciones se cumplen con fuerza (diseño A) y uno donde el efecto es igual en todos los bloques (diseño B).
+
+## Dos diseños para ver el sesgo (y la ganancia de precisión) I
+
+```{r biasdemo_setup, echo=TRUE}
+## Dos bloques de 40 unidades. En B1 tratamos a la mitad (20 de 40);
+## en B2 tratamos a muy pocos (2 de 40): p_1 = .5, p_2 = .05.
+## Los pesos de precisión resultan .84/.16; los de tamaño, .5/.5.
+set.seed(20260729)
+datAB <- data.frame(
+  b = rep(c("B1", "B2"), each = 40),
+  y0 = rnorm(80, mean = 0, sd = 5),
+  id = 1:80
+)
+## Diseño A: el ATE del bloque varía JUNTO con p_j (10 en B1, 0 en B2)
+datAB$tau_A <- ifelse(datAB$b == "B1", 10, 0)
+## Diseño B: el mismo efecto en los dos bloques
+datAB$tau_B <- 10
+assign_AB <- declare_assignment(
+  Z = conduct_ra(N = 80, blocks = b, block_m = c(20, 2))
+)
+```
+
+## Dos diseños para ver el sesgo (y la ganancia de precisión) II
+
+```{r biasdemo_designs, echo=TRUE}
+est_dim <- declare_estimator(Y ~ Z,
+  .method = difference_in_means, blocks = b,
+  inquiry = "ATE", label = "DiM: Block-Size Weights"
+)
+est_fe <- declare_estimator(Y ~ Z,
+  .method = lm_robust, fixed_effects = ~b,
+  inquiry = "ATE", label = "Precision Weights (FE)"
+)
+design_A <- declare_population(datAB) + assign_AB +
+  declare_potential_outcomes(Y ~ Z * (y0 + tau_A) + (1 - Z) * y0) +
+  declare_reveal(Y, Z) + declare_inquiry(ATE = mean(tau_A)) +
+  est_dim + est_fe
+design_B <- declare_population(datAB) + assign_AB +
+  declare_potential_outcomes(Y ~ Z * (y0 + tau_B) + (1 - Z) * y0) +
+  declare_reveal(Y, Z) + declare_inquiry(ATE = mean(tau_B)) +
+  est_dim + est_fe
+```
+
+## Dos diseños para ver el sesgo (y la ganancia de precisión) III
+
+```{r biasdemo_diag, echo=FALSE, cache=TRUE, warning=FALSE, message=FALSE}
+plan(multicore)
+set.seed(12345)
+diagnosisAB <- diagnose_design(design_A, design_B, sims = 10000, bootstrap_sims = 0)
+plan(sequential)
+```
+
+10,000 simulaciones de cada diseño:
+
+```{r biasdemo_tab}
+abtab <- reshape_diagnosis(diagnosisAB,
+  select = c("Mean Estimand", "Bias", "RMSE", "SD Estimate")
+)[, c("Design", "Estimator", "Mean Estimand", "Bias", "RMSE", "SD Estimate")]
+kableExtra::kable(abtab, booktabs = TRUE, linesep = "")
+```
+
+## Lecciones de los dos diseños
+
+- En el diseño A los pesos de precisión producen un sesgo de alrededor de 3.4 sobre un ATE verdadero de 5 --- un error sistemático de casi el 70% que *no* desaparece al crecer la muestra. Los pesos por tamaño de bloque quedan insesgados.
+
+- En el diseño B --- el mismo diseño, pero con el efecto igual en los dos bloques --- ambos estimadores son insesgados y los pesos de precisión cumplen su promesa: una desviación estándar de alrededor de 1.5 contra 2.1, porque le restan peso al bloque donde solo 2 unidades fueron tratadas.
+
+- La lección: cuando $p_j$ difiere entre bloques, los pesos por tamaño de bloque son la opción segura para estimar el ATE; los pesos de precisión compran menor varianza al precio de un sesgo que depende de cuánto varíe el $ATE_j$ con $p_j$ --- algo que no podemos verificar en los datos observados.
+
 # Aleatorización por conglomerados
 
 ## En los experimentos aleatorizados por conglomerados, las unidades se asignan  al azar al tratamiento como grupo (conglomerado)  {.allowframebreaks}

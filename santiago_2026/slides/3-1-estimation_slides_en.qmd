@@ -770,6 +770,84 @@ get_simulations(diagnosis2) %>%
   summarize(mean_est_se = mean(std.error), sd_est = sd(estimate))
 ```
 
+## When is the "precision weights" bias large?
+
+- The fixed-effects / LSDV estimator weights each block by $n_j p_j (1-p_j)$ --- the "precision weights" --- instead of weighting by size $n_j$. If the treated share $p_j$ is the same in every block, the two sets of weights coincide and there is no bias.
+
+- The bias appears when *two* conditions hold at once: $p_j$ varies across blocks *and* the block-level $ATE_j$ varies along with $p_j$.
+
+- In our example the bias was tiny (0.92 against an ATE of 54): the block ATEs are similar (60 and 45) and the two sets of weights nearly equal (.57/.43 versus .60/.40).
+
+- Let's build two designs: one where both conditions hold strongly (design A) and one where the effect is the same in every block (design B).
+
+## Two designs to see the bias (and the precision gain) I
+
+```{r biasdemo_setup, echo=TRUE}
+## Two blocks of 40 units. In B1 we treat half (20 of 40);
+## in B2 we treat very few (2 of 40): p_1 = .5, p_2 = .05.
+## The precision weights come out .84/.16; the size weights, .5/.5.
+set.seed(20260729)
+datAB <- data.frame(
+  b = rep(c("B1", "B2"), each = 40),
+  y0 = rnorm(80, mean = 0, sd = 5),
+  id = 1:80
+)
+## Design A: the block ATE varies ALONG WITH p_j (10 in B1, 0 in B2)
+datAB$tau_A <- ifelse(datAB$b == "B1", 10, 0)
+## Design B: the same effect in both blocks
+datAB$tau_B <- 10
+assign_AB <- declare_assignment(
+  Z = conduct_ra(N = 80, blocks = b, block_m = c(20, 2))
+)
+```
+
+## Two designs to see the bias (and the precision gain) II
+
+```{r biasdemo_designs, echo=TRUE}
+est_dim <- declare_estimator(Y ~ Z,
+  .method = difference_in_means, blocks = b,
+  inquiry = "ATE", label = "DiM: Block-Size Weights"
+)
+est_fe <- declare_estimator(Y ~ Z,
+  .method = lm_robust, fixed_effects = ~b,
+  inquiry = "ATE", label = "Precision Weights (FE)"
+)
+design_A <- declare_population(datAB) + assign_AB +
+  declare_potential_outcomes(Y ~ Z * (y0 + tau_A) + (1 - Z) * y0) +
+  declare_reveal(Y, Z) + declare_inquiry(ATE = mean(tau_A)) +
+  est_dim + est_fe
+design_B <- declare_population(datAB) + assign_AB +
+  declare_potential_outcomes(Y ~ Z * (y0 + tau_B) + (1 - Z) * y0) +
+  declare_reveal(Y, Z) + declare_inquiry(ATE = mean(tau_B)) +
+  est_dim + est_fe
+```
+
+## Two designs to see the bias (and the precision gain) III
+
+```{r biasdemo_diag, echo=FALSE, cache=TRUE, warning=FALSE, message=FALSE}
+plan(multicore)
+set.seed(12345)
+diagnosisAB <- diagnose_design(design_A, design_B, sims = 10000, bootstrap_sims = 0)
+plan(sequential)
+```
+
+10,000 simulations of each design:
+
+```{r biasdemo_tab}
+abtab <- reshape_diagnosis(diagnosisAB,
+  select = c("Mean Estimand", "Bias", "RMSE", "SD Estimate")
+)[, c("Design", "Estimator", "Mean Estimand", "Bias", "RMSE", "SD Estimate")]
+kableExtra::kable(abtab, booktabs = TRUE, linesep = "")
+```
+
+## Lessons from the two designs
+
+- In design A the precision weights produce a bias of about 3.4 against a true ATE of 5 --- a systematic error of nearly 70% that does *not* go away as the sample grows. The block-size weights remain unbiased.
+
+- In design B --- the same design, but with the effect equal in both blocks --- both estimators are unbiased and the precision weights deliver on their promise: a standard deviation of about 1.5 versus 2.1, because they down-weight the block where only 2 units were treated.
+
+- The lesson: when $p_j$ differs across blocks, block-size weights are the safe choice for estimating the ATE; precision weights buy lower variance at the price of a bias that depends on how much $ATE_j$ varies with $p_j$ --- something we cannot check in the observed data.
+
 # Cluster randomization
 
 ## In cluster-randomized experiments, units are randomized as a group (cluster) to treatment  {.allowframebreaks}
