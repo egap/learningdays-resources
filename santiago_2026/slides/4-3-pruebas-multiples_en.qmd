@@ -1,0 +1,302 @@
+---
+title: "Ten tests, no effect: an introduction to multiple testing"
+author: "Jake Bowers --- EGAP Learning Days, Santiago de Chile"
+date: today
+lang: en
+bibliography: ../assets/learningdays-book.bib
+link-citations: true
+format:
+  html:
+    embed-resources: true
+    toc: true
+---
+
+```{r setup}
+#| include: false
+library(knitr)
+library(coin)
+library(estimatr)
+opts_chunk$set(echo = TRUE, message = FALSE, comment = NA)
+options(digits = 3, scipen = 3)
+```
+
+## The situation
+
+Imagine we evaluate a social program in 100 households: half, assigned at
+random, receive the program. Because the program could affect many dimensions
+of life, we measure ten outcome variables: income, employment, school
+attendance, health, trust in neighbors, civic participation, savings,
+perceived security, consumption, and life satisfaction. At the end of the
+study we run one hypothesis test per outcome and report which ones produced a
+p-value below 0.05.
+
+Each individual test promises to err rarely: if the program has no effect on
+that outcome, the probability of declaring a "significant effect" by pure
+chance is 5%. This document asks a different question: if the program has no
+effect on **any** of the ten outcomes, what is the probability that **at
+least one** of the ten tests declares an effect? Intuition says "5%, same as
+before." The correct answer is about 40%.
+
+To see this, we will build a world where we know for certain that the program
+does nothing --- because we generate the data ourselves --- and then look at
+what the tests produce in that world.
+
+## A world where the program does nothing
+
+Each household has, for each variable, two **potential outcomes**: the
+outcome it would show if it received the program, $y(1)$, and the outcome it
+would show if it did not, $y(0)$. "The program does nothing" has an exact
+translation into this language: $y(1) = y(0)$ for every household and every
+outcome. We build that world directly:
+
+```{r data}
+set.seed(20260751) ## master seed: fixes Y0 and the first experiment's assignment
+
+N <- 100 ## households
+K <- 10 ## outcome variables
+
+outcome_names <- c(
+  "income", "employment", "attendance", "health", "trust",
+  "participation", "savings", "security", "consumption", "satisfaction"
+)
+
+## Potential outcomes: Y0 under control, Y1 under treatment.
+## "The program does nothing" is literally Y1 = Y0,
+## for every household and every outcome.
+Y0 <- matrix(rnorm(N * K), nrow = N, dimnames = list(NULL, outcome_names))
+Y1 <- Y0
+```
+
+The null hypothesis --- the program changes nothing for anyone --- is true by
+construction, for all ten outcomes at once. Now we assign the treatment at
+random (50 treated households, 50 control) and observe, for each household,
+the potential outcome that corresponds to its assignment: $Y_{obs} = Z \cdot
+y(1) + (1 - Z) \cdot y(0)$.
+
+```{r assignment}
+Z <- sample(rep(c(0, 1), N / 2)) ## completely randomized assignment
+
+## We observe Y1 in the treated and Y0 in the controls.
+## Because Y1 = Y0, the assignment changes nothing about what we see.
+Yobs <- Z * Y1 + (1 - Z) * Y0
+dat <- data.frame(Z = factor(Z), Yobs)
+```
+
+## One experiment, ten tests
+
+We do what the evaluation team would do: one test per outcome. We use two
+different procedures to show that the problem does not come from any
+particular test. `oneway_test()` from the `coin` package compares means using
+the permutation distribution: it re-shuffles the assignment 5000 times and
+asks how extreme the observed statistic is among those re-shuffles.
+`lm_robust()` from the `estimatr` package estimates the difference in means
+with HC2 standard errors and a normal approximation. Both are justified by
+the random assignment --- the first uses it directly, the second
+approximates it.
+
+```{r oneexperiment}
+p_oneway <- sapply(outcome_names, function(v) {
+  pvalue(oneway_test(reformulate("Z", v),
+    data = dat,
+    distribution = approximate(nresample = 5000)
+  ))
+})
+
+p_lm <- sapply(outcome_names, function(v) {
+  est <- tidy(lm_robust(reformulate("Z", v), data = dat))
+  est$p.value[est$term == "Z1"]
+})
+
+table1 <- data.frame(
+  outcome = outcome_names,
+  p_oneway = round(p_oneway, 3),
+  p_lm_robust = round(p_lm, 3),
+  significant = ifelse(p_lm <= 0.05, "*", "")
+)
+kable(table1, row.names = FALSE)
+```
+
+Look at the `health` row: p = `{r} round(p_lm[["health"]], 3)` with both
+tests.^[We chose the master seed from among several so that this first
+experiment would fall inside the ~40% of experiments that produce at least
+one false positive. The simulation below shows how often that happens; it is
+not a rare case.] If this were a real study, the report would say "the
+program improved health (p < 0.05)" --- and perhaps the executive summary
+would mention only that result. But we know the program did nothing: we built
+`health` with $y(1) = y(0)$ for every household. The two tests agree almost
+exactly, because the problem is not in the test. It is in how many questions
+we asked the data.
+
+## The family-wise error rate (FWER)
+
+First in words. When we run a single test at significance level
+$\alpha = 0.05$, the 5% is the probability of a false positive **in that
+test**. When we run ten tests, the set of ten is a **family**, and the
+question that matters to the reader of the report is: what is the probability
+that the whole family produces **at least one** false positive? That
+probability is called the **family-wise error rate** (FWER).
+
+Now with a little algebra. Suppose the $K$ tests were independent and all the
+null hypotheses were true. Each test "gets it right" (does not reject) with
+probability $1 - \alpha$: with $\alpha = 0.05$, it gets it right 95% of the
+time. With what probability do the first two get it right at the same time?
+Because they are independent, we multiply:
+$0.95 \times 0.95 \approx 0.90$. Each additional test multiplies by 0.95
+again, so after $K$ tests the probability that **all** of them get it right
+is $(1 - \alpha)^K$ --- a number that shrinks with every test we add. And "at
+least one false positive" is exactly the opposite of "all get it right", so
+its probability is one minus that:
+
+$$
+\text{FWER} = 1 - (1 - \alpha)^K.
+$$
+
+With $\alpha = 0.05$ and $K = 10$, that gives $1 - 0.95^{10}$ =
+`{r} round(1 - 0.95^10, 3)`. Back to words: a team that evaluates ten
+outcomes of a program with no effect has about a 40% chance of "discovering"
+something. With twenty outcomes, the probability reaches
+`{r} round(1 - 0.95^20, 2)`. The curve grows fast:
+
+```{r fwercurve}
+#| echo: false
+#| fig-width: 6
+#| fig-height: 4
+K_seq <- 1:20
+par(mar = c(4, 4, 1, 1), mgp = c(2.2, 0.7, 0))
+plot(K_seq, 1 - (1 - 0.05)^K_seq,
+  type = "b", pch = 19, ylim = c(0, 0.7),
+  xlab = "Number of tests (K)",
+  ylab = "Prob. of at least one false positive"
+)
+abline(h = 0.05, lty = 2)
+text(18.5, 0.08, expression(alpha == 0.05))
+```
+
+In a real experiment the outcomes are usually correlated with each other, and
+then the formula $1 - (1-\alpha)^K$ is only an approximation. That is why we
+do not stop at the algebra: we simulate.
+
+## The simulation: we repeat the experiment 1000 times
+
+In our constructed world, the only source of randomness is the treatment
+assignment --- exactly the source of randomness that justifies the two tests.
+So we keep the potential outcomes `Y0` and `Y1` fixed and re-draw the
+assignment $B = 1000$ times, applying the same observation equation each
+time. In each repetition we run the ten tests with each procedure and store
+the p-values.
+
+```{r simulation}
+#| cache: true
+run_experiment <- function() {
+  ## Re-draw the assignment and observe again; Y0 and Y1 stay fixed.
+  Z_new <- sample(rep(c(0, 1), N / 2))
+  d <- data.frame(Z = factor(Z_new), Z_new * Y1 + (1 - Z_new) * Y0)
+  p_ow <- sapply(outcome_names, function(v) {
+    pvalue(oneway_test(reformulate("Z", v),
+      data = d,
+      distribution = approximate(nresample = 5000)
+    ))
+  })
+  p_lm <- sapply(outcome_names, function(v) {
+    est <- tidy(lm_robust(reformulate("Z", v), data = d))
+    est$p.value[est$term == "Z1"]
+  })
+  rbind(oneway = p_ow, lm_robust = p_lm)
+}
+
+set.seed(20260731) ## simulation seed
+B <- 1000
+sims <- replicate(B, run_experiment()) ## dimensions: 2 procedures x K x B
+```
+
+Before looking at the FWER, let us verify that each individual test keeps its
+promise. For each outcome, we compute the proportion of the 1000 repetitions
+in which that test rejected with $p \leq 0.05$:
+
+```{r pertest}
+reject_ow <- rowMeans(sims["oneway", , ] <= 0.05)
+reject_lm <- rowMeans(sims["lm_robust", , ] <= 0.05)
+kable(
+  data.frame(
+    outcome = outcome_names,
+    oneway_test = round(reject_ow, 3),
+    lm_robust = round(reject_lm, 3)
+  ),
+  row.names = FALSE
+)
+```
+
+Each number estimates a proportion with $B = 1000$ repetitions, so it carries
+a simulation error (Monte Carlo standard error) of
+$\sqrt{0.05 \times 0.95 / 1000} \approx `{r} round(sqrt(.05 * .95 / 1000), 3)`$.
+All the rates are where they should be: near 5%. Test by test, nothing is
+broken.
+
+Now the family question: in what proportion of the 1000 repetitions did **at
+least one** of the ten tests reject?
+
+```{r fwer}
+fwer_ow <- mean(apply(sims["oneway", , ] <= 0.05, 2, any))
+fwer_lm <- mean(apply(sims["lm_robust", , ] <= 0.05, 2, any))
+c(oneway_test = fwer_ow, lm_robust = fwer_lm)
+```
+
+The estimated FWER is `{r} round(fwer_ow, 2)` with `oneway_test()` and
+`{r} round(fwer_lm, 2)` with `lm_robust()` (Monte Carlo standard error
+$\approx `{r} round(sqrt(.4 * .6 / 1000), 3)`$), consistent with the
+theoretical value of `{r} round(1 - 0.95^10, 3)` for independent tests. This
+is the contrast that matters: **every row of the previous table says 5%, and
+yet the family errs 40% of the time.** In four of every ten evaluations of a
+program that does nothing, the report can say "we found a significant effect"
+without anyone having cheated.
+
+## The correction: one line of code
+
+Multiple-comparison procedures adjust the p-values so that the 5% promise
+applies to the whole family and not to each test separately [@bretz2011]. The
+simplest is Bonferroni: compare each p-value with $\alpha / K$ instead of
+$\alpha$. The Holm procedure does the same thing step by step and rejects at
+least as much as Bonferroni, so we use Holm. In R it is one line:
+`p.adjust(p, method = "holm")`.
+
+We repeat the FWER calculation, now adjusting the ten p-values within each
+repetition before asking whether any falls below 0.05:
+
+```{r holm}
+fwer_holm_ow <- mean(apply(sims["oneway", , ], 2, function(p) {
+  any(p.adjust(p, method = "holm") <= 0.05)
+}))
+fwer_holm_lm <- mean(apply(sims["lm_robust", , ], 2, function(p) {
+  any(p.adjust(p, method = "holm") <= 0.05)
+}))
+c(oneway_test = fwer_holm_ow, lm_robust = fwer_holm_lm)
+```
+
+With the Holm adjustment, the estimated FWER drops to
+`{r} round(fwer_holm_ow, 3)` and `{r} round(fwer_holm_lm, 3)` --- below the
+promised 5%. The correction is not free: demanding smaller p-values means
+less power to detect real effects when they exist. That cost is a reason to
+declare few primary hypotheses, or to group outcomes into indices, rather
+than test everything that was measured. When the family is very large,
+controlling a different rate --- the expected proportion of false discoveries
+among the rejections (FDR) --- can be a more reasonable target than the FWER
+[@benjamini1995].
+
+## What does this have to do with transparency?
+
+The 40% calculation assumes something that almost never holds: that the
+reader sees all ten tests. If the report mentions only `health`, the reader
+cannot know that it was one test among ten, and the p-value of 0.01 looks
+like strong evidence. Nor does the problem require bad faith: it is enough
+for the analysis decisions --- which outcomes to test, how to define them,
+which subgroups to examine --- to be made after seeing the data
+[@gelman2013garden].
+
+The pre-analysis plan answers exactly this. Declaring in advance which
+hypotheses are primary, how each outcome is defined, and which
+multiple-testing correction will be applied makes the size of the family
+visible. The FWER guarantee is a promise about the complete family; it only
+means something to a reader who can see the complete family. That is what
+registering the design delivers.
+
+## References
