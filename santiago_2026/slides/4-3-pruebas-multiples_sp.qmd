@@ -1,0 +1,303 @@
+---
+title: "Diez pruebas, ningún efecto: una introducción a las pruebas múltiples"
+author: "Jake Bowers --- EGAP Learning Days, Santiago de Chile"
+date: today
+lang: es
+bibliography: ../assets/learningdays-book.bib
+link-citations: true
+format:
+  html:
+    embed-resources: true
+    toc: true
+---
+
+```{r setup}
+#| include: false
+library(knitr)
+library(coin)
+library(estimatr)
+opts_chunk$set(echo = TRUE, message = FALSE, comment = NA)
+options(digits = 3, scipen = 3)
+```
+
+## La situación
+
+Imaginemos que evaluamos un programa social en 100 hogares: la mitad,
+asignada al azar, recibe el programa. Como el programa podría afectar muchas
+dimensiones de la vida, medimos diez variables de resultado: ingreso, empleo,
+asistencia escolar, salud, confianza en los vecinos, participación cívica,
+ahorro, seguridad percibida, consumo y satisfacción con la vida. Al final del
+estudio hacemos una prueba de hipótesis por cada resultado y reportamos cuáles
+dieron un valor p menor que 0.05.
+
+Cada prueba individual promete equivocarse poco: si el programa no tiene
+efecto sobre ese resultado, la probabilidad de declarar un "efecto
+significativo" por puro azar es del 5%. La pregunta de este documento es otra:
+si el programa no tiene efecto sobre **ninguno** de los diez resultados, ¿cuál
+es la probabilidad de que **al menos una** de las diez pruebas declare un
+efecto? La intuición dice "5%, igual que antes". La respuesta correcta es
+cerca del 40%.
+
+Para verlo, vamos a construir un mundo donde sabemos con certeza que el
+programa no hace nada --- porque nosotros mismos generamos los datos --- y
+luego vamos a ver qué producen las pruebas en ese mundo.
+
+## Un mundo donde el programa no hace nada
+
+Cada hogar tiene, para cada variable, dos **resultados potenciales**: el
+resultado que mostraría si recibiera el programa, $y(1)$, y el resultado que
+mostraría si no lo recibiera, $y(0)$. "El programa no hace nada" tiene una
+traducción exacta en este lenguaje: $y(1) = y(0)$ para cada hogar y cada
+resultado. Construimos ese mundo directamente:
+
+```{r datos}
+set.seed(20260751) ## semilla maestra: fija Y0 y la asignación del primer experimento
+
+N <- 100 ## hogares
+K <- 10 ## variables de resultado
+
+outcome_names <- c(
+  "ingreso", "empleo", "asistencia", "salud", "confianza",
+  "participacion", "ahorro", "seguridad", "consumo", "satisfaccion"
+)
+
+## Resultados potenciales: Y0 bajo control, Y1 bajo tratamiento.
+## "El programa no hace nada" es literalmente Y1 = Y0,
+## para cada hogar y cada resultado.
+Y0 <- matrix(rnorm(N * K), nrow = N, dimnames = list(NULL, outcome_names))
+Y1 <- Y0
+```
+
+La hipótesis nula --- el programa no cambia nada para nadie --- es verdadera
+por construcción, para los diez resultados a la vez. Ahora asignamos el
+tratamiento al azar (50 hogares tratados, 50 de control) y observamos, para
+cada hogar, el resultado potencial que le corresponde: $Y_{obs} = Z \cdot
+y(1) + (1 - Z) \cdot y(0)$.
+
+```{r asignacion}
+Z <- sample(rep(c(0, 1), N / 2)) ## asignación completamente aleatoria
+
+## Observamos Y1 en los tratados y Y0 en los controles.
+## Como Y1 = Y0, la asignación no cambia nada de lo que vemos.
+Yobs <- Z * Y1 + (1 - Z) * Y0
+dat <- data.frame(Z = factor(Z), Yobs)
+```
+
+## Un experimento, diez pruebas
+
+Hacemos lo que haría el equipo de evaluación: una prueba por resultado.
+Usamos dos procedimientos distintos para mostrar que el problema no viene de
+una prueba en particular. `oneway_test()` del paquete `coin` compara medias
+usando la distribución de permutación: re-sortea la asignación 5000 veces y
+pregunta qué tan extrema resulta la estadística observada entre esos
+re-sorteos. `lm_robust()` del paquete `estimatr` estima la diferencia de
+medias con errores estándar HC2 y una aproximación normal. Ambos están
+justificados por la asignación aleatoria --- el primero la usa directamente,
+el segundo la aproxima.
+
+```{r unexperimento}
+p_oneway <- sapply(outcome_names, function(v) {
+  pvalue(oneway_test(reformulate("Z", v),
+    data = dat,
+    distribution = approximate(nresample = 5000)
+  ))
+})
+
+p_lm <- sapply(outcome_names, function(v) {
+  est <- tidy(lm_robust(reformulate("Z", v), data = dat))
+  est$p.value[est$term == "Z1"]
+})
+
+tabla1 <- data.frame(
+  resultado = outcome_names,
+  p_oneway = round(p_oneway, 3),
+  p_lm_robust = round(p_lm, 3),
+  significativo = ifelse(p_lm <= 0.05, "*", "")
+)
+kable(tabla1, row.names = FALSE)
+```
+
+Miren la fila de `salud`: p = `{r} round(p_lm[["salud"]], 3)` con ambas
+pruebas.^[Elegimos la semilla maestra entre varias para que este primer
+experimento cayera dentro del ~40% de experimentos que producen al menos un
+falso positivo. La simulación de más abajo muestra con qué frecuencia ocurre;
+no es un caso raro.] Si este fuera un estudio real, el informe diría "el
+programa mejoró la salud (p < 0.05)" --- y quizás el resumen ejecutivo solo
+mencionaría ese resultado. Pero nosotros sabemos que el programa no hizo nada:
+construimos `salud` con $y(1) = y(0)$ para cada hogar. Las dos pruebas coinciden
+casi exactamente, porque el problema no está en la prueba. Está en cuántas
+preguntas le hicimos a los datos.
+
+## La tasa de error por familia (FWER)
+
+Primero en palabras. Cuando hacemos una sola prueba con nivel de significancia
+$\alpha = 0.05$, el 5% es la probabilidad de un falso positivo **en esa
+prueba**. Cuando hacemos diez pruebas, el conjunto de las diez es una
+**familia**, y la pregunta relevante para el lector del informe es: ¿cuál es
+la probabilidad de que la familia entera produzca **al menos un** falso
+positivo? Esa probabilidad se llama la **tasa de error por familia**
+(*family-wise error rate*, FWER).
+
+Ahora con un poco de álgebra. Supongamos que las $K$ pruebas fueran
+independientes y todas las hipótesis nulas fueran verdaderas. Cada prueba
+"acierta" (no rechaza) con probabilidad $1 - \alpha$: con $\alpha = 0.05$,
+acierta el 95% de las veces. ¿Con qué probabilidad aciertan las dos primeras
+a la vez? Como son independientes, multiplicamos:
+$0.95 \times 0.95 \approx 0.90$. Cada prueba adicional vuelve a multiplicar
+por 0.95, así que después de $K$ pruebas la probabilidad de que **todas**
+acierten es $(1 - \alpha)^K$ --- un número que se encoge con cada prueba que
+agregamos. Y "al menos un falso positivo" es exactamente lo contrario de
+"todas aciertan", así que su probabilidad es uno menos eso:
+
+$$
+\text{FWER} = 1 - (1 - \alpha)^K.
+$$
+
+Con $\alpha = 0.05$ y $K = 10$, eso da $1 - 0.95^{10}$ =
+`{r} round(1 - 0.95^10, 3)`. De vuelta a las palabras: un equipo que evalúa
+diez resultados de un programa sin ningún efecto tiene cerca de un 40% de
+probabilidad de "descubrir" algo. Con veinte resultados, la probabilidad
+llega a `{r} round(1 - 0.95^20, 2)`. La curva crece rápido:
+
+```{r curvafwer}
+#| echo: false
+#| fig-width: 6
+#| fig-height: 4
+K_seq <- 1:20
+par(mar = c(4, 4, 1, 1), mgp = c(2.2, 0.7, 0))
+plot(K_seq, 1 - (1 - 0.05)^K_seq,
+  type = "b", pch = 19, ylim = c(0, 0.7),
+  xlab = "Número de pruebas (K)",
+  ylab = "Prob. de al menos un falso positivo"
+)
+abline(h = 0.05, lty = 2)
+text(18.5, 0.08, expression(alpha == 0.05))
+```
+
+En un experimento real los resultados suelen estar correlacionados entre sí,
+y entonces la fórmula $1 - (1-\alpha)^K$ es solo una aproximación. Por eso no
+nos quedamos con el álgebra: simulamos.
+
+## La simulación: repetimos el experimento 1000 veces
+
+En nuestro mundo construido, la única fuente de azar es la asignación del
+tratamiento --- exactamente la fuente de azar que justifica las dos pruebas.
+Así que dejamos los resultados potenciales `Y0` y `Y1` fijos y re-sorteamos
+la asignación $B = 1000$ veces, aplicando cada vez la misma ecuación de
+observación. En cada repetición corremos las diez pruebas con cada
+procedimiento y guardamos los valores p.
+
+```{r simulacion}
+#| cache: true
+run_experiment <- function() {
+  ## Re-sorteamos la asignación y volvemos a observar; Y0 y Y1 quedan fijos.
+  Z_nuevo <- sample(rep(c(0, 1), N / 2))
+  d <- data.frame(Z = factor(Z_nuevo), Z_nuevo * Y1 + (1 - Z_nuevo) * Y0)
+  p_ow <- sapply(outcome_names, function(v) {
+    pvalue(oneway_test(reformulate("Z", v),
+      data = d,
+      distribution = approximate(nresample = 5000)
+    ))
+  })
+  p_lm <- sapply(outcome_names, function(v) {
+    est <- tidy(lm_robust(reformulate("Z", v), data = d))
+    est$p.value[est$term == "Z1"]
+  })
+  rbind(oneway = p_ow, lm_robust = p_lm)
+}
+
+set.seed(20260731) ## semilla de la simulación
+B <- 1000
+sims <- replicate(B, run_experiment()) ## dimensiones: 2 procedimientos x K x B
+```
+
+Antes de mirar el FWER, verifiquemos que cada prueba individual cumple su
+promesa. Para cada resultado, calculamos la proporción de las 1000
+repeticiones en que esa prueba rechazó con $p \leq 0.05$:
+
+```{r porprueba}
+rechazos_ow <- rowMeans(sims["oneway", , ] <= 0.05)
+rechazos_lm <- rowMeans(sims["lm_robust", , ] <= 0.05)
+kable(
+  data.frame(
+    resultado = outcome_names,
+    oneway_test = round(rechazos_ow, 3),
+    lm_robust = round(rechazos_lm, 3)
+  ),
+  row.names = FALSE
+)
+```
+
+Cada número estima una proporción con $B = 1000$ repeticiones, así que trae
+un error de simulación (error estándar Monte Carlo) de
+$\sqrt{0.05 \times 0.95 / 1000} \approx `{r} round(sqrt(.05 * .95 / 1000), 3)`$.
+Todas las tasas están donde deben estar: cerca del 5%. Prueba por prueba, no
+hay nada roto.
+
+Ahora la pregunta de la familia: ¿en qué proporción de las 1000 repeticiones
+**al menos una** de las diez pruebas rechazó?
+
+```{r fwer}
+fwer_ow <- mean(apply(sims["oneway", , ] <= 0.05, 2, any))
+fwer_lm <- mean(apply(sims["lm_robust", , ] <= 0.05, 2, any))
+c(oneway_test = fwer_ow, lm_robust = fwer_lm)
+```
+
+El FWER estimado es `{r} round(fwer_ow, 2)` con `oneway_test()` y
+`{r} round(fwer_lm, 2)` con `lm_robust()` (error estándar Monte Carlo
+$\approx `{r} round(sqrt(.4 * .6 / 1000), 3)`$), consistente con el valor
+teórico de `{r} round(1 - 0.95^10, 3)` para pruebas independientes. Este es
+el contraste que importa: **cada fila de la tabla anterior dice 5%, y sin
+embargo la familia se equivoca el 40% de las veces.** En cuatro de cada diez
+evaluaciones de un programa que no hace nada, el informe puede decir
+"encontramos un efecto significativo" sin que nadie haya hecho trampa.
+
+## La corrección: una línea de código
+
+Los procedimientos de comparaciones múltiples ajustan los valores p para que
+la promesa del 5% aplique a la familia entera y no a cada prueba por separado
+[@bretz2011]. El más simple es Bonferroni: comparar cada valor p con
+$\alpha / K$ en lugar de $\alpha$. El procedimiento de Holm hace lo mismo
+paso a paso y rechaza al menos tanto como Bonferroni, así que usamos Holm.
+En R es una línea: `p.adjust(p, method = "holm")`.
+
+Repetimos el cálculo del FWER, ahora ajustando los diez valores p dentro de
+cada repetición antes de preguntar si alguno queda bajo 0.05:
+
+```{r holm}
+fwer_holm_ow <- mean(apply(sims["oneway", , ], 2, function(p) {
+  any(p.adjust(p, method = "holm") <= 0.05)
+}))
+fwer_holm_lm <- mean(apply(sims["lm_robust", , ], 2, function(p) {
+  any(p.adjust(p, method = "holm") <= 0.05)
+}))
+c(oneway_test = fwer_holm_ow, lm_robust = fwer_holm_lm)
+```
+
+Con el ajuste de Holm, el FWER estimado baja a
+`{r} round(fwer_holm_ow, 3)` y `{r} round(fwer_holm_lm, 3)` --- por debajo
+del 5% prometido. La corrección no es gratis: exigir valores p más pequeños
+significa menos potencia para detectar efectos reales cuando existen. Ese
+costo es una razón para declarar pocas hipótesis primarias, o para agrupar
+resultados en índices, en lugar de probar todo lo que se midió. Cuando la
+familia es muy grande, controlar una tasa distinta --- la proporción esperada
+de falsos descubrimientos entre los rechazos (FDR) --- puede ser un objetivo
+más razonable que el FWER [@benjamini1995].
+
+## ¿Qué tiene esto que ver con la transparencia?
+
+El cálculo del 40% supone algo que casi nunca se cumple: que el lector ve las
+diez pruebas. Si el informe solo menciona `salud`, el lector no puede saber
+que fue una prueba entre diez, y el valor p de 0.01 parece evidencia fuerte.
+El problema tampoco requiere mala fe: basta con que las decisiones de
+análisis --- qué resultados probar, cómo definirlos, qué subgrupos mirar ---
+se tomen después de ver los datos [@gelman2013garden].
+
+El plan de pre-análisis responde exactamente a esto. Declarar por adelantado
+cuáles son las hipótesis primarias, cómo se define cada resultado, y qué
+corrección por pruebas múltiples se aplicará hace visible el tamaño de la
+familia. La garantía del FWER es una promesa sobre la familia completa; solo
+significa algo para el lector que puede ver la familia completa. Eso es lo
+que el registro del diseño le entrega.
+
+## Referencias
