@@ -1662,12 +1662,282 @@ bias_plot <- ggplot(bias_res, aes(x = N, y = bias, color = estimator, shape = es
 print(bias_plot)
 ```
 
-# Otros temas sobre estimación
+# Ajuste de covarianza
 
-## Ajuste de covarianza: Estimandos
+## En experimentos las covariables sirven para la precisión --- pero "controlar por" no es gratis
 
-En general, simplemente "controlar" produce un estimador sesgado del estimando de ATE **o** ITT. Por ejemplo, @freedman2008rae muestra este sesgo y @lin_agnostic_2013 muestra cómo reducirlo y, lo que es más importante, que este sesgo tiende a ser pequeño a medida que aumenta el tamaño de la muestra.
+- La aleatorización equilibra las covariables en promedio: no necesitamos `x` para identificar el ATE. Aun así, una covariable que predice el resultado puede achicar nuestros errores estándar --- por eso ajustamos.
 
+- El reflejo de los estudios observacionales --- reportar el coeficiente de `Z` en `lm(Y ~ Z + x)` --- es otro estimador, y @freedman2008rae mostró que es un estimador **sesgado** del ATE. El sesgo disminuye cuando $N$ crece [@lin_agnostic_2013], así que la pregunta es cuándo importa y qué hacer al respecto.
+
+- Plan: construir un experimento pequeño donde el sesgo se vea, comparar cuatro estimadores y luego observar cómo el sesgo se desvanece a medida que el experimento crece.
+
+## Un experimento pequeño con una covariable asimétrica que predice el resultado
+
+```{r covadjpop, echo=TRUE}
+set.seed(5)
+N3 <- 20 # el tamaño de un piloto o de un análisis a nivel de conglomerado
+## Una covariable asimétrica: la mayoría de las unidades son pequeñas,
+## unas pocas quedan lejos en la cola
+x <- exp(rnorm(N3, mean = 0, sd = 1))
+## x predice fuertemente el resultado bajo control, así que
+## el ajuste promete una ganancia real de precisión
+y0 <- x + rnorm(N3, sd = 0.5)
+## Los efectos son más grandes justo donde x es extrema. El sesgo de
+## Freedman crece con esta covarianza entre apalancamiento
+## (leverage) y tamaño del efecto
+y1 <- y0 + 0.75 * x^2
+dat3 <- data.frame(x = x, y0 = y0, y1 = y1)
+trueATE3 <- mean(dat3$y1 - dat3$y0)
+c(ATE = trueATE3, cor_x_y0 = cor(dat3$x, dat3$y0), max_x = max(dat3$x))
+```
+
+Asignaremos 10 de las 20 unidades al tratamiento:
+
+```{r covadjdes, echo=TRUE}
+base_design_cov <- declare_population(dat3) +
+  declare_assignment(Z = conduct_ra(N = N, m = 10)) +
+  declare_potential_outcomes(Y ~ Z * y1 + (1 - Z) * y0) +
+  declare_reveal(Y, Z)
+```
+
+## Tres estimadores conocidos del mismo ATE
+
+```{r covadjests, echo=TRUE}
+estimandATEc <- declare_inquiry(ATE = mean(Y_Z_1 - Y_Z_0))
+est_c1 <- declare_estimator(Y ~ Z,
+  inquiry = estimandATEc, .method = difference_in_means,
+  label = "Diff means: ignores x"
+)
+est_c2 <- declare_estimator(Y ~ Z + x,
+  inquiry = estimandATEc, .method = lm_robust,
+  label = "Y~Z+x: 'controls for' x"
+)
+## La reparación de Lin a la crítica de eficiencia de Freedman: centrar
+## x, interactuar con Z y usar errores estándar robustos
+est_c3 <- declare_estimator(Y ~ Z,
+  covariates = ~x, inquiry = estimandATEc, .method = lm_lin,
+  label = "lm_lin: Y~Z*(x-mean(x))"
+)
+```
+
+## lm_lin es el principio del plug-in aplicado al modelo lineal
+
+La misma movida que el plug-in de Freedman para el logit de arriba: ajustamos el modelo, predecimos el resultado de cada unidad bajo $Z=1$ y bajo $Z=0$, promediamos y tomamos la diferencia. Para un modelo lineal con interacciones, el plug-in **es** `lm_lin` --- dos nombres, un solo estimador.
+
+```{r covadjplugin, echo=TRUE}
+set.seed(20260731)
+dat3sim <- draw_data(base_design_cov)
+lin_fit <- lm_lin(Y ~ Z, covariates = ~x, data = dat3sim)
+ifit <- lm(Y ~ Z * x, data = dat3sim)
+p1 <- predict(ifit, newdata = transform(dat3sim, Z = 1))
+p0 <- predict(ifit, newdata = transform(dat3sim, Z = 0))
+c(lm_lin = coef(lin_fit)[["Z"]], plugin = mean(p1) - mean(p0))
+```
+
+(Sin la interacción, el plug-in de `lm(Y ~ Z + x)` devuelve simplemente el coeficiente de `Z`, así que el estimador ingenuo no gana nada con esta movida.)
+
+## El sesgo restante se puede estimar con los datos observados --- y luego restar
+
+@chang2024exact escriben el sesgo exacto del estimador de Lin --- covarianzas entre el *apalancamiento* (leverage) de cada unidad y su resultado --- y cada término se puede estimar sin sesgo, así que restar esa estimación produce un estimador exactamente insesgado para cualquier $N$. Su Teorema 4.2 para una covariable:
+
+```{r covadjcma, echo=TRUE}
+cma_bias_hat <- function(Y, Z, x) {
+  n <- length(Y)
+  xs <- (x - mean(x)) / sqrt(mean((x - mean(x))^2)) # estandarizar x
+  h <- xs^2 # el apalancamiento de cada unidad
+  zt <- Z == 1
+  zc <- Z == 0
+  nT <- sum(zt)
+  nC <- sum(zc)
+  xbT <- mean(xs[zt])
+  xbC <- mean(xs[zc])
+  LT <- mean(xs[zt]^2) - xbT^2 # varianzas de x por grupo ...
+  LC <- mean(xs[zc]^2) - xbC^2
+  NT <- mean(Y[zt] * xs[zt]) - mean(Y[zt]) * xbT # ... covarianzas de x, Y
+  NC <- mean(Y[zc] * xs[zc]) - mean(Y[zc]) * xbC
+  covhT <- mean(h[zt] * Y[zt]) - mean(h[zt]) * mean(Y[zt]) # apalancamiento, Y
+  covhC <- mean(h[zc] * Y[zc]) - mean(h[zc]) * mean(Y[zc])
+  nT / ((n - 2) * nC) * covhC + xbC * (1 / LC - 1) * NC -
+    nC / ((n - 2) * nT) * covhT - xbT * (1 / LT - 1) * NT
+}
+```
+
+## El cuarto estimador: lm_lin menos su sesgo estimado
+
+```{r covadjcma2, echo=TRUE}
+cma_est_fun <- function(data) {
+  lin_fit <- lm_lin(Y ~ Z, covariates = ~x, data = data)
+  res <- tidy(lin_fit) %>% filter(term == "Z")
+  res$estimate <- res$estimate - cma_bias_hat(data$Y, data$Z, data$x)
+  ## Conservamos el error estándar del estimador sin corregir: la
+  ## corrección no cambia la distribución de muestras grandes (Chang et
+  ## al. 2024). Observen qué le hace esto a la cobertura con N = 20
+  res$conf.low <- res$estimate - qt(.975, df = res$df) * res$std.error
+  res$conf.high <- res$estimate + qt(.975, df = res$df) * res$std.error
+  return(res)
+}
+est_c4 <- declare_estimator(
+  handler = label_estimator(cma_est_fun), inquiry = estimandATEc,
+  label = "lm_lin - estimated bias"
+)
+design_cov <- base_design_cov + estimandATEc +
+  est_c1 + est_c2 + est_c3 + est_c4
+```
+
+Luego, como antes, reasignamos el tratamiento 10,000 veces y aplicamos los cuatro estimadores a cada experimento simulado.
+
+## ¿Cuál estimador deberíamos usar?
+
+```{r covadjdiag, echo=FALSE, cache=TRUE}
+options(parallelly.fork.enable = TRUE)
+plan(multicore)
+set.seed(20260730)
+diagnosis_cov <- diagnose_design(design_cov, bootstrap_sims = 0, sims = 10000)
+simsc <- get_simulations(diagnosis_cov)
+plan(sequential)
+```
+
+```{r covadjsum, echo=FALSE}
+## Resumen numérico que usan el gráfico, la tabla y el texto de abajo
+covsum <- simsc %>%
+  group_by(estimator) %>%
+  summarize(
+    bias = mean(estimate - estimand),
+    sd_est = sd(estimate),
+    rmse = sqrt(mean((estimate - estimand)^2)),
+    coverage = mean(conf.low <= estimand & conf.high >= estimand)
+  )
+naive_row <- filter(covsum, estimator == "Y~Z+x: 'controls for' x")
+lin_row <- filter(covsum, estimator == "lm_lin: Y~Z*(x-mean(x))")
+cma_row <- filter(covsum, estimator == "lm_lin - estimated bias")
+dim_row <- filter(covsum, estimator == "Diff means: ignores x")
+```
+
+```{r covadjplot, out.width=".85\\textwidth", fig.width=10, fig.height=4.5, echo=FALSE, message=FALSE, warning=FALSE}
+## El mismo formato de las secciones anteriores: cada punto gris es un
+## experimento posible; las cajas resumen las 10,000; el punto negro es
+## el promedio
+simsc_plot <- simsc %>% mutate(estimator = reorder(estimator, estimate, FUN = mean))
+set.seed(20260728)
+simsc_pts <- simsc_plot %>%
+  group_by(estimator) %>%
+  slice_sample(n = 100) %>%
+  ungroup()
+covadj_plot <- ggplot(simsc_plot, aes(x = estimate, y = estimator)) +
+  geom_jitter(
+    data = simsc_pts, height = 0.25, width = 0,
+    color = "gray55", alpha = 0.5, size = 1.3
+  ) +
+  geom_boxplot(fill = NA, color = "gray20", outlier.shape = NA) +
+  geom_vline(xintercept = trueATE3, linetype = "dashed") +
+  stat_summary(fun = mean, geom = "point", size = 3, orientation = "y") +
+  annotate("text",
+    x = trueATE3 + 0.5, y = 5.05, hjust = 0, vjust = 1, size = 6,
+    label = paste0("ATE verdadero = ", round(trueATE3, 2))
+  ) +
+  scale_y_discrete(expand = expansion(add = c(0.6, 1.2))) +
+  labs(
+    x = "Estimación", y = "",
+    caption = "Cada punto gris es la estimación de un experimento posible (100 de las 10,000); el punto negro marca el promedio."
+  ) +
+  theme(
+    text = element_text(size = 20),
+    plot.caption = element_text(size = 13, hjust = 0),
+    plot.caption.position = "plot"
+  )
+print(covadj_plot)
+```
+
+## ¿Cuál estimador está más cerca del valor real?
+
+```{r covadjtab, echo=FALSE}
+covsum %>%
+  arrange(abs(bias)) %>%
+  kableExtra::kable(
+    digits = 2,
+    col.names = c("Estimador", "Sesgo", "Desviación estándar", "RMSE", "Cobertura")
+  )
+```
+
+- `Y~Z+x` subestima el ATE de `r round(trueATE3, 2)` por `r round(abs(naive_row$bias), 2)` --- cerca del `r round(100 * abs(naive_row$bias) / trueATE3)`% --- y sus intervalos cubren solo el `r round(100 * naive_row$coverage)`% de las veces.
+
+- `lm_lin` tiene el RMSE más pequeño; su sesgo es cerca de un tercio del sesgo ingenuo, pero no es cero.
+
+- La corrección exacta elimina el sesgo --- y lo paga con varianza. Su error estándar prestado no sabe nada de ese ruido extra, así que sus intervalos cubren solo el `r round(100 * cma_row$coverage)`%. La insesgadez es una propiedad entre varias, no todo el juego.
+
+- Hasta la diferencia de medias insesgada cubre el `r round(100 * dim_row$coverage)`%, no el 95%: $N=20$ con un resultado asimétrico exige demasiado a todos los intervalos basados en la aproximación Normal.
+
+## El sesgo del ajuste se desvanece cuando el experimento crece
+
+Copias de las mismas 20 unidades, así que solo cambia $N$: duplicar el experimento reduce el sesgo ingenuo aproximadamente a la mitad. A diferencia del coeficiente logit ajustado de arriba, este es un problema de muestras pequeñas, no de estimando equivocado.
+
+```{r covadjbiasn, echo=FALSE, cache=TRUE, warning=FALSE, message=FALSE}
+## Una simulación más liviana: copias de las mismas 20 unidades, de modo
+## que los momentos de la población quedan fijos y solo cambia N.
+## 2,000 reasignaciones por cada N.
+one_cov_sim <- function(pop, m) {
+  Z <- conduct_ra(N = nrow(pop), m = m)
+  simdat <- data.frame(Z = Z, x = pop$x, Y = ifelse(Z == 1, pop$y1, pop$y0))
+  xc <- simdat$x - mean(simdat$x)
+  lin <- coef(lm(Y ~ Z * xc, data = simdat))[["Z"]]
+  c(
+    naive = coef(lm(Y ~ Z + x, data = simdat))[["Z"]],
+    lin = lin,
+    debiased = lin - cma_bias_hat(simdat$Y, simdat$Z, simdat$x),
+    dim = mean(simdat$Y[simdat$Z == 1]) - mean(simdat$Y[simdat$Z == 0])
+  )
+}
+set.seed(20260729)
+covadj_ns <- c(20, 40, 80, 160, 320)
+biasn_res <- map_dfr(covadj_ns, function(n) {
+  pop <- dat3[rep(seq_len(N3), n / N3), ]
+  errs <- replicate(2000, one_cov_sim(pop, m = n / 2)) - trueATE3
+  tibble(N = n, estimator = rownames(errs), bias = rowMeans(errs))
+})
+biasn_labels <- c(
+  naive = "Y~Z+x ('controlar por')",
+  lin = "lm_lin",
+  debiased = "lm_lin - sesgo estimado",
+  dim = "Diferencia de medias"
+)
+biasn_res$estimator <- factor(biasn_res$estimator,
+  levels = names(biasn_labels), labels = biasn_labels
+)
+biasn_plot <- ggplot(biasn_res, aes(x = N, y = bias, color = estimator, shape = estimator)) +
+  geom_hline(yintercept = 0, linetype = "dashed", color = "gray60") +
+  geom_line(linewidth = 0.8) +
+  geom_point(size = 3) +
+  scale_x_log10(breaks = covadj_ns) +
+  ## Colores de Okabe-Ito (seguros para daltonismo); la forma del punto
+  ## también distingue las series
+  scale_color_manual(values = c("#D55E00", "#0072B2", "#009E73", "gray30")) +
+  labs(
+    x = "Tamaño de muestra N (escala logarítmica)",
+    y = "Sesgo (estimación - estimando)",
+    color = NULL, shape = NULL
+  ) +
+  theme(
+    text = element_text(size = 16),
+    legend.position = "inside",
+    legend.position.inside = c(0.96, 0.35),
+    legend.justification.inside = c(1, 0.5)
+  )
+```
+
+```{r covadjbiasnprint, out.width=".8\\textwidth", fig.width=10, fig.height=4.2, warning=FALSE, message=FALSE, echo=FALSE, cache=FALSE}
+print(biasn_plot)
+```
+
+## Consejos sobre el ajuste de covarianza
+
+- En experimentos medianos y grandes: ajusten con unas pocas covariables **preespecificadas** que predigan el resultado, usando `lm_lin()` --- o, de manera idéntica, el plug-in con un modelo lineal interactuado [@lin_agnostic_2013]. Ganan precisión; el sesgo restante es de orden $1/N$.
+
+- En experimentos pequeños (decenas de unidades): el sesgo puede ser una fracción visible del efecto y puede distorsionar la cobertura. Reporten la diferencia de medias sin ajustar junto a cualquier estimación ajustada, y prefieran usar las covariables en el **diseño** (bloques) y no en el análisis.
+
+- Existe una corrección exactamente insesgada [@chang2024exact]. Cambia sesgo por varianza: con $N=20$ el RMSE siguió favoreciendo a `lm_lin`. Elijan estimadores por sus propiedades --- sesgo, precisión, cobertura --- simulando su propio diseño, como en toda esta sesión.
+
+- Elijan las covariables antes de ver los resultados. Ajustar después de mirar invita a la pesca de resultados (más sobre esto en la sesión de transparencia).
 
 # Conclusión
 

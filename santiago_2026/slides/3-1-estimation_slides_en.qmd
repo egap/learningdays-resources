@@ -1655,12 +1655,278 @@ bias_plot <- ggplot(bias_res, aes(x = N, y = bias, color = estimator, shape = es
 print(bias_plot)
 ```
 
-# Other topics in estimation
+# Covariance adjustment
 
-## Covariance adjustment: Estimands
+## Covariates are for precision in experiments --- but "controlling for" is not free
 
-In general, simply "controlling for" produces a biased estimator of the ATE **or** ITT estimand. For example, @freedman2008rae shows this bias and @lin_agnostic_2013 shows how to reduce it and, importantly, that this bias tends to be small as the sample size increases.
+- Randomization balances covariates on average: we do not need `x` to identify the ATE. A covariate that predicts the outcome can still shrink our standard errors --- that is why we adjust.
 
+- The reflex from observational studies --- report the coefficient on `Z` in `lm(Y ~ Z + x)` --- is a different estimator, and @freedman2008rae showed it is a **biased** estimator of the ATE. The bias shrinks as $N$ grows [@lin_agnostic_2013], so the question is when it matters and what to do about it.
+
+- Plan: build a small experiment where the bias is visible, compare four estimators, then watch the bias fade as the experiment grows.
+
+## A small experiment with a skewed, prognostic covariate
+
+```{r covadjpop, echo=TRUE}
+set.seed(5)
+N3 <- 20 # the size of a pilot study or of a cluster-level analysis
+## A skewed covariate: most units small, a few far out in the tail
+x <- exp(rnorm(N3, mean = 0, sd = 1))
+## x strongly predicts the outcome under control, so
+## adjustment promises a real precision gain
+y0 <- x + rnorm(N3, sd = 0.5)
+## Treatment effects are biggest exactly where x is extreme. Freedman's
+## bias grows with this covariance between leverage and effect size
+y1 <- y0 + 0.75 * x^2
+dat3 <- data.frame(x = x, y0 = y0, y1 = y1)
+trueATE3 <- mean(dat3$y1 - dat3$y0)
+c(ATE = trueATE3, cor_x_y0 = cor(dat3$x, dat3$y0), max_x = max(dat3$x))
+```
+
+10 of the 20 units will be assigned to treatment:
+
+```{r covadjdes, echo=TRUE}
+base_design_cov <- declare_population(dat3) +
+  declare_assignment(Z = conduct_ra(N = N, m = 10)) +
+  declare_potential_outcomes(Y ~ Z * y1 + (1 - Z) * y0) +
+  declare_reveal(Y, Z)
+```
+
+## Three familiar estimators of the same ATE
+
+```{r covadjests, echo=TRUE}
+estimandATEc <- declare_inquiry(ATE = mean(Y_Z_1 - Y_Z_0))
+est_c1 <- declare_estimator(Y ~ Z,
+  inquiry = estimandATEc, .method = difference_in_means,
+  label = "Diff means: ignores x"
+)
+est_c2 <- declare_estimator(Y ~ Z + x,
+  inquiry = estimandATEc, .method = lm_robust,
+  label = "Y~Z+x: 'controls for' x"
+)
+## Lin's repair of Freedman's efficiency critique: center x, interact
+## with Z, use robust standard errors
+est_c3 <- declare_estimator(Y ~ Z,
+  covariates = ~x, inquiry = estimandATEc, .method = lm_lin,
+  label = "lm_lin: Y~Z*(x-mean(x))"
+)
+```
+
+## lm_lin is the plug-in principle applied to the linear model
+
+The same move as the Freedman plug-in for logit above: fit the adjusted model, predict each unit's outcome under $Z=1$ and under $Z=0$, average, take the difference. For a linear model with interactions, the plug-in **is** `lm_lin` --- two names, one estimator.
+
+```{r covadjplugin, echo=TRUE}
+set.seed(20260731)
+dat3sim <- draw_data(base_design_cov)
+lin_fit <- lm_lin(Y ~ Z, covariates = ~x, data = dat3sim)
+ifit <- lm(Y ~ Z * x, data = dat3sim)
+p1 <- predict(ifit, newdata = transform(dat3sim, Z = 1))
+p0 <- predict(ifit, newdata = transform(dat3sim, Z = 0))
+c(lm_lin = coef(lin_fit)[["Z"]], plugin = mean(p1) - mean(p0))
+```
+
+(Without the interaction the plug-in from `lm(Y ~ Z + x)` just returns the coefficient on `Z`, so the naive estimator gains nothing from this move.)
+
+## The remaining bias can be estimated from observed data --- then subtracted
+
+@chang2024exact write out the exact bias of the Lin estimator --- covariances of each unit's *leverage* with its outcome --- and every term is estimable without bias, so subtracting the estimate yields an exactly unbiased estimator at any $N$. Their Theorem 4.2 for one covariate:
+
+```{r covadjcma, echo=TRUE}
+cma_bias_hat <- function(Y, Z, x) {
+  n <- length(Y)
+  xs <- (x - mean(x)) / sqrt(mean((x - mean(x))^2)) # standardize x
+  h <- xs^2 # the leverage of each unit
+  zt <- Z == 1
+  zc <- Z == 0
+  nT <- sum(zt)
+  nC <- sum(zc)
+  xbT <- mean(xs[zt])
+  xbC <- mean(xs[zc])
+  LT <- mean(xs[zt]^2) - xbT^2 # within-group variances of x ...
+  LC <- mean(xs[zc]^2) - xbC^2
+  NT <- mean(Y[zt] * xs[zt]) - mean(Y[zt]) * xbT # ... covariances of x, Y
+  NC <- mean(Y[zc] * xs[zc]) - mean(Y[zc]) * xbC
+  covhT <- mean(h[zt] * Y[zt]) - mean(h[zt]) * mean(Y[zt]) # leverage, Y
+  covhC <- mean(h[zc] * Y[zc]) - mean(h[zc]) * mean(Y[zc])
+  nT / ((n - 2) * nC) * covhC + xbC * (1 / LC - 1) * NC -
+    nC / ((n - 2) * nT) * covhT - xbT * (1 / LT - 1) * NT
+}
+```
+
+## The fourth estimator: lm_lin minus its estimated bias
+
+```{r covadjcma2, echo=TRUE}
+cma_est_fun <- function(data) {
+  lin_fit <- lm_lin(Y ~ Z, covariates = ~x, data = data)
+  res <- tidy(lin_fit) %>% filter(term == "Z")
+  res$estimate <- res$estimate - cma_bias_hat(data$Y, data$Z, data$x)
+  ## Keep the uncorrected estimator's standard error: the correction
+  ## does not change the large-sample distribution (Chang et al. 2024).
+  ## Watch what this does to coverage at N = 20 below
+  res$conf.low <- res$estimate - qt(.975, df = res$df) * res$std.error
+  res$conf.high <- res$estimate + qt(.975, df = res$df) * res$std.error
+  return(res)
+}
+est_c4 <- declare_estimator(
+  handler = label_estimator(cma_est_fun), inquiry = estimandATEc,
+  label = "lm_lin - estimated bias"
+)
+design_cov <- base_design_cov + estimandATEc +
+  est_c1 + est_c2 + est_c3 + est_c4
+```
+
+Then, as before, we reassign treatment 10,000 times and apply all four estimators to each simulated experiment.
+
+## Which estimator should we use?
+
+```{r covadjdiag, echo=FALSE, cache=TRUE}
+options(parallelly.fork.enable = TRUE)
+plan(multicore)
+set.seed(20260730)
+diagnosis_cov <- diagnose_design(design_cov, bootstrap_sims = 0, sims = 10000)
+simsc <- get_simulations(diagnosis_cov)
+plan(sequential)
+```
+
+```{r covadjsum, echo=FALSE}
+## Numeric summary used by the plot, the table, and the text below
+covsum <- simsc %>%
+  group_by(estimator) %>%
+  summarize(
+    bias = mean(estimate - estimand),
+    sd_est = sd(estimate),
+    rmse = sqrt(mean((estimate - estimand)^2)),
+    coverage = mean(conf.low <= estimand & conf.high >= estimand)
+  )
+naive_row <- filter(covsum, estimator == "Y~Z+x: 'controls for' x")
+lin_row <- filter(covsum, estimator == "lm_lin: Y~Z*(x-mean(x))")
+cma_row <- filter(covsum, estimator == "lm_lin - estimated bias")
+dim_row <- filter(covsum, estimator == "Diff means: ignores x")
+```
+
+```{r covadjplot, out.width=".85\\textwidth", fig.width=10, fig.height=4.5, echo=FALSE, message=FALSE, warning=FALSE}
+## Same display as the earlier sections: each gray point is one possible
+## experiment; boxes summarize all 10,000; the black dot is the mean
+simsc_plot <- simsc %>% mutate(estimator = reorder(estimator, estimate, FUN = mean))
+set.seed(20260728)
+simsc_pts <- simsc_plot %>%
+  group_by(estimator) %>%
+  slice_sample(n = 100) %>%
+  ungroup()
+covadj_plot <- ggplot(simsc_plot, aes(x = estimate, y = estimator)) +
+  geom_jitter(
+    data = simsc_pts, height = 0.25, width = 0,
+    color = "gray55", alpha = 0.5, size = 1.3
+  ) +
+  geom_boxplot(fill = NA, color = "gray20", outlier.shape = NA) +
+  geom_vline(xintercept = trueATE3, linetype = "dashed") +
+  stat_summary(fun = mean, geom = "point", size = 3, orientation = "y") +
+  annotate("text",
+    x = trueATE3 + 0.5, y = 5.05, hjust = 0, vjust = 1, size = 6,
+    label = paste0("True ATE = ", round(trueATE3, 2))
+  ) +
+  scale_y_discrete(expand = expansion(add = c(0.6, 1.2))) +
+  labs(
+    x = "Estimate", y = "",
+    caption = "Each gray point is the estimate from one possible experiment (100 of the 10,000); the black dot marks the average."
+  ) +
+  theme(
+    text = element_text(size = 20),
+    plot.caption = element_text(size = 13, hjust = 0),
+    plot.caption.position = "plot"
+  )
+print(covadj_plot)
+```
+
+## Which estimator is closer to the truth?
+
+```{r covadjtab, echo=FALSE}
+covsum %>%
+  arrange(abs(bias)) %>%
+  kableExtra::kable(
+    digits = 2,
+    col.names = c("Estimator", "Bias", "SD Estimate", "RMSE", "Coverage")
+  )
+```
+
+- `Y~Z+x` underestimates the ATE of `r round(trueATE3, 2)` by `r round(abs(naive_row$bias), 2)` --- about `r round(100 * abs(naive_row$bias) / trueATE3)`% --- and its intervals cover only `r round(100 * naive_row$coverage)`% of the time.
+
+- `lm_lin` has the smallest RMSE; its bias is about a third of the naive bias but not zero.
+
+- The exact correction removes the bias --- and pays for it with variance. Its borrowed standard error knows nothing about that extra noise, so its intervals cover only `r round(100 * cma_row$coverage)`%. Unbiasedness is one operating characteristic, not the whole game.
+
+- Even the unbiased difference of means covers `r round(100 * dim_row$coverage)`%, not 95%: $N=20$ with a skewed outcome strains every Normal-approximation interval here.
+
+## The adjustment bias fades as the experiment grows
+
+Copies of the same 20 units, so only $N$ changes: doubling the experiment roughly halves the naive bias. Unlike the adjusted logit coefficient above, this is a small-sample problem, not a wrong-estimand problem.
+
+```{r covadjbiasn, echo=FALSE, cache=TRUE, warning=FALSE, message=FALSE}
+## A lighter simulation: copies of the same 20 units, so the population
+## moments stay fixed and only N changes. 2,000 reassignments per N.
+one_cov_sim <- function(pop, m) {
+  Z <- conduct_ra(N = nrow(pop), m = m)
+  simdat <- data.frame(Z = Z, x = pop$x, Y = ifelse(Z == 1, pop$y1, pop$y0))
+  xc <- simdat$x - mean(simdat$x)
+  lin <- coef(lm(Y ~ Z * xc, data = simdat))[["Z"]]
+  c(
+    naive = coef(lm(Y ~ Z + x, data = simdat))[["Z"]],
+    lin = lin,
+    debiased = lin - cma_bias_hat(simdat$Y, simdat$Z, simdat$x),
+    dim = mean(simdat$Y[simdat$Z == 1]) - mean(simdat$Y[simdat$Z == 0])
+  )
+}
+set.seed(20260729)
+covadj_ns <- c(20, 40, 80, 160, 320)
+biasn_res <- map_dfr(covadj_ns, function(n) {
+  pop <- dat3[rep(seq_len(N3), n / N3), ]
+  errs <- replicate(2000, one_cov_sim(pop, m = n / 2)) - trueATE3
+  tibble(N = n, estimator = rownames(errs), bias = rowMeans(errs))
+})
+biasn_labels <- c(
+  naive = "Y~Z+x ('controlling for')",
+  lin = "lm_lin",
+  debiased = "lm_lin - estimated bias",
+  dim = "Difference of means"
+)
+biasn_res$estimator <- factor(biasn_res$estimator,
+  levels = names(biasn_labels), labels = biasn_labels
+)
+biasn_plot <- ggplot(biasn_res, aes(x = N, y = bias, color = estimator, shape = estimator)) +
+  geom_hline(yintercept = 0, linetype = "dashed", color = "gray60") +
+  geom_line(linewidth = 0.8) +
+  geom_point(size = 3) +
+  scale_x_log10(breaks = covadj_ns) +
+  ## Okabe-Ito colors (colorblind-safe); point shape also
+  ## distinguishes the series
+  scale_color_manual(values = c("#D55E00", "#0072B2", "#009E73", "gray30")) +
+  labs(
+    x = "Sample size N (log scale)",
+    y = "Bias (estimate - estimand)",
+    color = NULL, shape = NULL
+  ) +
+  theme(
+    text = element_text(size = 16),
+    legend.position = "inside",
+    legend.position.inside = c(0.96, 0.35),
+    legend.justification.inside = c(1, 0.5)
+  )
+```
+
+```{r covadjbiasnprint, out.width=".8\\textwidth", fig.width=10, fig.height=4.2, warning=FALSE, message=FALSE, echo=FALSE, cache=FALSE}
+print(biasn_plot)
+```
+
+## Advice about covariance adjustment
+
+- In moderate and large experiments: adjust using a few **pre-specified**, prognostic covariates via `lm_lin()` --- or, identically, the plug-in with an interacted linear model [@lin_agnostic_2013]. You gain precision; the remaining bias is of order $1/N$.
+
+- In small experiments (tens of units): the bias can be a visible share of the effect and can distort coverage. Report the unadjusted difference in means alongside any adjusted estimate, and prefer to use covariates in the **design** (blocking) rather than in the analysis.
+
+- An exactly unbiased correction exists [@chang2024exact]. It trades bias for variance: at $N=20$ the RMSE still favored `lm_lin`. Choose estimators by their operating characteristics --- bias, precision, coverage --- by simulating your own design, as throughout this session.
+
+- Choose covariates before seeing outcomes. Adjusting after looking at results invites fishing (more on this in the transparency session).
 
 # Conclusion
 
