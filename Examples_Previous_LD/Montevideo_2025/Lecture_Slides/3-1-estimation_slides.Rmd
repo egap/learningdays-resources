@@ -283,7 +283,7 @@ diff_means <- declare_estimator(Y ~ Z,
 topcode_var <- function(x) {
   rank_x <- rank(x)
   ## Reemplace el valor del máximo de Y por el segundo valor más alto de Y
-  new_x <- ifelse(rank_x == max(rank_x), Y[rank_x == (max(rank_x) - 1)], Y)
+  new_x <- ifelse(rank_x == max(rank_x), x[rank_x == (max(rank_x) - 1)], x)
   return(new_x)
 }
 
