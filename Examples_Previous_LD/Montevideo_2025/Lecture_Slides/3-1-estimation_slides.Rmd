@@ -1125,8 +1125,8 @@ c(
 Sin covariables:
 ```{r pluginest, echo=TRUE }
 freedman_plugin_estfn1 <- function(data) {
-  glmbin <- glm(Y ~ Z, data = dat2, family = binomial(link = "logit"))
-  preddat <- data.frame(Z = rep(c(0, 1), nrow(dat2)))
+  glmbin <- glm(Y ~ Z, data = data, family = binomial(link = "logit"))
+  preddat <- data.frame(Z = rep(c(0, 1), nrow(data)))
   preddat$yhat <- predict(glmbin, newdata = preddat, type = "response")
   bary1 <- mean(preddat$yhat[preddat$Z == 1])
   bary0 <- mean(preddat$yhat[preddat$Z == 0])
@@ -1137,8 +1137,8 @@ freedman_plugin_estfn1 <- function(data) {
 
 ```{r lm_pluginest, echo=TRUE }
 freedman_plugin_lm_estfn1 <- function(data) {
-  lmbin <- lm(Y ~ Z, data = dat2)
-  preddat <- data.frame(Z = rep(c(0, 1), nrow(dat2)))
+  lmbin <- lm(Y ~ Z, data = data)
+  preddat <- data.frame(Z = rep(c(0, 1), nrow(data)))
   preddat$yhat <- predict(lmbin, newdata = preddat)
   bary1 <- mean(preddat$yhat[preddat$Z == 1])
   bary0 <- mean(preddat$yhat[preddat$Z == 0])
@@ -1350,7 +1350,7 @@ res_bin <- sims_bin %>%
   group_by(estimator, inquiry) %>%
   summarize(
     bias = mean(estimate - estimand, na.rm = TRUE),
-    rmse = sqrt(mean(estimate - estimand, na.rm = TRUE)^2),
+    rmse = sqrt(mean((estimate - estimand)^2, na.rm = TRUE)),
     power = mean(p.value < .05, na.rm = TRUE),
     coverage = mean(estimand <= conf.high & estimand >= conf.low, na.rm = TRUE),
     # mean_estimate = mean(estimate),

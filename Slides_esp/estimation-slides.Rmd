@@ -977,8 +977,8 @@ c(dim=coef(lmbin1)[["Z"]],
 Sin covariables:
 ```{r pluginest, echo=TRUE }
 freedman_plugin_estfn1 <- function(data){
-    glmbin <- glm(Y~Z,data=dat2,family=binomial(link="logit"))
-    preddat <- data.frame(Z=rep(c(0,1),nrow(dat2)))
+    glmbin <- glm(Y~Z,data=data,family=binomial(link="logit"))
+    preddat <- data.frame(Z=rep(c(0,1),nrow(data)))
     preddat$yhat <- predict(glmbin,newdata=preddat,type="response")
     bary1 <- mean(preddat$yhat[preddat$Z==1])
     bary0 <- mean(preddat$yhat[preddat$Z==0])
