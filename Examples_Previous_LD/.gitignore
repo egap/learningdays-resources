@@ -1,0 +1,35 @@
+# Guards: these folders hold participant photos, participant lists, survey
+# responses, grades, and copyrighted readings. The repo is public and GitHub
+# Pages serves it. A deck source from Mexico 2023 can still be tracked with
+# `git add -f`.
+/Bogota 2022/
+/Mexico 2023/
+
+# Byte-for-byte copies of the Aug 2023 decks in "Mexico 2023/"
+/*/Lecture_Slides/OLD/
+
+# Written by rendering the tracked .Rmd decks: the slides themselves, knitr
+# figures, and the DeclareDesign diagnosis that the estimation deck saves and
+# then reloads
+/*/Lecture_Slides/*.html
+/*/Lecture_Slides/*.pdf
+/*/Lecture_Slides/figs/
+/*/Lecture_Slides/diagnosis1.rda
+/*/Lecture_Slides/tmp.csv
+
+# Local image folder, 48 MB each. 66 of its 136 files are not in the
+# repo-wide Images/, so ignoring it leaves them only on this disk.
+/*/Lecture_Slides/images/
+
+# Colombia's copies of the deck setup files stay untracked (decided
+# 2026-09-23); Montevideo_2025 tracks its own copies of the same five
+/Colombia_2024/Lecture_Slides/.Rprofile
+/Colombia_2024/Lecture_Slides/learningdays-book.bib
+/Colombia_2024/Lecture_Slides/renv.lock
+/Colombia_2024/Lecture_Slides/rmd2pdf.sh
+/Colombia_2024/Lecture_Slides/rmd_setup.R
+# renv/ is inert without the .Rprofile and renv.lock above
+/Colombia_2024/Lecture_Slides/renv/
+
+# Per-user R linter settings
+/*/Lecture_Slides/.lintr
