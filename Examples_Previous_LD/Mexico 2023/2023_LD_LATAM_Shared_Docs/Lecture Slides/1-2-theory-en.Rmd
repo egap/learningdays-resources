@@ -1,0 +1,199 @@
+---
+title: "Theory in Experimental Designs"
+author: "Danilo Freire"
+date: "7th August 2023"
+output:
+  beamer_presentation:
+    keep_tex: yes
+    pandoc_args: 
+    slide_level: 2
+    toc: no
+  revealjs::revealjs_presentation:
+    center: no
+    fig_caption: yes
+    highlight: pygments
+    pandoc_args: --toc
+    reveal_options:
+      chalkboard:
+        theme: whiteboard
+        toggleNotesButton: no
+      previewLinks: yes
+      slideNumber: yes
+    reveal_plugins:
+    - notes
+    - search
+    - chalkboard
+    self_contained: no
+    smart: no
+    theme: default
+    transition: fade
+header-includes: |
+  \setbeamertemplate{footline}{\begin{beamercolorbox}{section in head/foot}
+  \includegraphics[height=.5cm]{../Images/egap-logo.png} \hfill
+  \insertframenumber/\inserttotalframenumber \end{beamercolorbox}}
+  \usepackage{tikz}
+  \usepackage{tikz-cd}
+  \usepackage{textpos}
+  \usepackage{booktabs,multirow,makecell}
+link-citations: yes
+colorlinks: yes
+biblio-style: apalike
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+
+## from https://bookdown.org/yihui/rmarkdown-cookbook/font-color.html
+colorize <- function(x, color) {
+  if (knitr::is_latex_output()) {
+    sprintf("\\textcolor{%s}{%s}", color, x)
+  } else if (knitr::is_html_output()) {
+    sprintf("<span style='color: %s;'>%s</span>", color,
+      x)
+  } else x
+}
+```
+
+## Causality and experiments
+
+-  As researchers, we are interested in research questions about how the world works.
+- There are a number of different types of questions that we may want to answer.
+
+  - **Descriptive questions**: Descriptions of a given phenomena: e.g., “_how do bureaucrats allocate their time across different tasks?_”
+  - **Causal questions**: Questions about _how_ X affects Y: e.g., “_Does providing vocational training to migrants improve their economic integration in the receiving country?_”
+
+- Then we can move on to questions about why? $\rightarrow$ i.e., knowing the effect of a cause is necessary before moving on to understanding the causes of an effect.
+- (Next session: more on about what we mean by causality and how experiments give us leverage to make causal claims.)
+
+## Theory
+
+- What is the phenomenon we want to explain?
+  - **Our outcome** (we are going to call it **Y**)
+
+- Does the cause we theorize lead to observing changes in Y?
+  - **Our treatment** (in the context of experiments) (we are going to call it $\mathcal{T}$)
+
+- What is the theory of change?
+  
+- We are ultimately interested in how **two theoretical concepts are related**, measured
+by **observed variables** $\mathcal{T}$ (our treatment) and Y (our outcomes)
+
+## Why is theory important?
+
+- Our theory allows us to:
+
+- Derive **observable implications** (hypotheses) that we test in the real world.
+- **Separate two completely unrelated experiments** with identical empirical properties for Y and $\mathcal{T}$
+    - For example, we could have two identically sized experiments with the same treatment assignment, the same observed outcomes, but with significantly different underlying theories.
+
+## From theory to research design
+
+- We then need to connect what we are interested in to what we observe in the real world $\rightarrow$ **operationalization** of theoretical concepts.
+
+- How are we going to _measure_ our outcomes? How are we going to _manipulate_ the cause of interest?
+
+- This close link between theory and research design helps us interpret the results of our experiment.
+
+## Measurement
+
+- Measurement is the link between a researcher’s theory and an (experimental) research design.
+
+- Measurement then follows from our theory of the way you think the world works and how our treatment manipulates that world.
+
+- The ideal case is direct measurement of the phenomenon of interest with no error. But this
+is generally not possible.
+
+- We are often only able to measure indicators connected to the underlying phenomenon of interest.
+
+## Let’s consider the example from our experiment practicum
+
+- What is the outcome of interest (Y)?
+
+- What is the cause of interest ($\mathcal{T}$)?
+
+- What can be a theory that yields to this experimental design?
+
+- What can be the main hypothesis?
+
+## Measuring treatments
+
+- **Can we directly manipulate** $\mathcal{T}$? (underlying treatment concept of interest)
+
+  - Ethical, logistical and other types of considerations can limit our ability to manipulate all of the indicators of $\mathcal{T}$.
+  - At best, we may be able to change **some of its indicators**.
+  - We design a treatment, **T**, to do so.
+  
+- **How does T relate to** $\mathcal{T}$?
+
+  - But T can be manipulating other things (bundled treatments).
+
+- **Did everyone receive T**?
+
+  - Measure compliance.
+  
+## Thinking about the treatment from the practicum...
+
+- What could be underlying treatment concept ($\mathcal{T}$)?
+
+- What was the actual treatment (**T**)?
+
+- What dimensions of $\mathcal{T}$ does **T** manipulate?
+
+- What else can **T** be manipulating? What is the “bundle” of **T**?
+
+## Thinking about the treatment from the practicum...
+
+- Now think of yourselves as the researchers.   
+
+- In pairs or groups of three:
+
+  - Generate hypothesis on the direction of expected average effect 
+  - Generate hypothesis on potential heterogeneous effects 
+  - Generate expected effect size 
+  - Discuss theories behind the hypothesis and expected effect size, with emphasis on the importance of theory 
+  - Other ways of measuring the outcome or mode of administering the treatment?
+
+## Measuring outcomes
+
+- As social scientists, we cannot directly observe the true value of the outcome concept for most of the outcomes we are interested in.
+
+- Examples:
+
+  - Correct answers to problems (indicators) for underlying mathematical aptitude (the actual phenomenon).
+  - Days without food (indicators) for hunger (the actual phenomenon).
+  - Reports of bribes (indicators) for corruption (the actual phenomenon).
+  
+- Moreover, the underlying outcome concept may be even under debate (e.g., democracy).
+
+-  If our indicators don’t measure the underlying concept that we’re interested in, then we may not be able to learn very much, even if we have an otherwise very sound experiment.
+
+## Back to our experiment practicum...
+
+- What items are designed to measure our theoretical outcome of interest (**Y**)?
+
+  - Any concerns about this operationalization?
+  - Other possible ways to measure Y?
+  
+## Things to consider
+
+- Problems with measurement can lead you to draw incorrect causal inferences from your study (systematic error, more bias).
+
+- Noisy measurement reduces power (random error, less precision) [discussing this on Thursday].
+
+- Data collection often takes up a very large portion of the time and financial resources available in the project budget.
+
+- New data can be a useful research output in its own right and an important foundation for future research. Data is a public good!
+
+## To wrap up
+
+- As researchers, we have theories about how the world works.
+
+- Some of these theories imply causal statements, and we can use experiments to test them empirically (i.e., with the data we observe from the real world).
+
+- Measurement connects theory and research design.
+
+- We observe real-world indicators of the broader theoretical concepts we are interested in.
+
+## Questions?
+
+- Your questions are most welcome!

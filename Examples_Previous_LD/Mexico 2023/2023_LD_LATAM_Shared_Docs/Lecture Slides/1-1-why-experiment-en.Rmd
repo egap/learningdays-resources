@@ -1,0 +1,263 @@
+---
+title: "Why experiment?"
+author: "Maarten Voors"
+date: "07 August 2023"
+output:
+  beamer_presentation:
+    includes:
+      in_header: columns.tex
+  revealjs::revealjs_presentation:
+    fig_caption: true
+    theme: default
+    highlight: pygments
+    center: false
+    transition: fade
+    smart: false
+    self_contained: false
+    reveal_plugins: ["notes", "search", "chalkboard"]
+    pandoc_args: [ "--toc" ]
+    reveal_options:
+      slideNumber: true
+      previewLinks: true
+      chalkboard:
+        theme: whiteboard
+        toggleNotesButton: false
+header-includes: |
+   \setbeamertemplate{footline}{\begin{beamercolorbox}{section in head/foot}
+   \includegraphics[height=.5cm]{egap-logo.png} \hfill
+   \insertframenumber / \inserttotalframenumber \end{beamercolorbox}}
+   \usepackage{textpos}
+   \usepackage{booktabs,multirow,makecell}
+---
+
+## Key points for this lecture *
+
+- What is a policy experiment?
+
+- Who uses experiments?
+
+- What are experiments good for (and not)?
+
+
+## Policy experiments
+
+A method for: \medskip
+
+- Putting beliefs about what works to the test
+- Enabling policy decisions based on data
+
+
+## What is an experiment?
+
+- Question: does engaging commmunities with service providers increase utilisation and health outcomes
+- Why we care: accountability of service providers to end users
+- Idea: if communities know what they should expect from clinics and can action on this information they can hold nurses to account and increase outcomes (like absenteeism, service, information, etc)
+
+## What is an experiment?
+
+- Research partner: Three NGOs and MoH in Sierra Leone
+- Intervention: community monitoring program
+- Experimental design: 2 year program randomly assigned to clinics
+
+- Outcome: clinic utilisation, satisfaction, health outcomes
+- Results: more people coming to clinics, more satisfied and lower U5M
+- And more likely to get rested during Ebola crisis
+
+source:
+\tiny{Christensen et al (2021) Healthcare Delivery during Crises: Experimental Evidence from Sierra Leone’s Ebola Outbreak, Quarterly Journal of Economics}
+
+## Why an experiment?
+
+Random assignment $\rightarrow$ highly credible evidence that the change to messages at rallies led to a change in vote share \bigskip
+
+If politicians believe results $\rightarrow$ decide to change campaigns
+
+
+## Long history of the method
+
+- Late 1700s, early 1800s: early double-blind experiments with comparison group (not randomized)
+- 1920s: first randomized experiments in agriculture, education, and political science
+- 1965: first clinical randomized trial (Streptomycin for TB)
+- 2019: Nobel prize for popularizing randomized experiments in economics (Banerjee, Duflo, Kremer)
+
+
+## Widespread use
+
+- Clinical trials required by regulators for vaccines, medicines, and treatments
+- Political campaigns test mobilization and persuasion strategies
+- Economic policies to combat poverty
+- Tech companies test website features to find most lucrative ("lean startup")
+- Governments test policies in "nudge units"
+
+
+## Use in social science
+
+Despite recent introduction in social science, big impacts already \bigskip
+
+- Proved long-held beliefs wrong
+- Demonstrated practices that work in US don't work in Global South
+- Proved new ideas right
+
+## Use in social science
+
+Despite recent introduction in social science, big impacts already \bigskip
+
+- Led to scaling up good policies
+- Led to discovery that policies do not scale well
+
+## Proving beliefs wrong I
+
+- Belief: local democratic institutions improve delivery of development aid (CDD)
+- Partner: International Rescue Committee, CARE
+- Intervention: two years of democratic institutions and development program
+
+## Proving beliefs wrong I
+
+- Experimental design: randomly assign village clusters to treatment or not
+- Outcomes: corruption, government practices chosen after intervention
+- Result: no change (well, at least in the short run)
+
+\medskip
+- source:
+- \tiny{Casey et al (2018) “Radical Decentralization: Does Community Driven Development Work?” Annual Review of Economics}
+- \tiny{Casey et al (2022) “Long Run Effects of Aid: Evidence versus Forecasts from Sierra Leone" Economic Journal}
+
+## Proving beliefs wrong II
+
+- Belief: engagement between police & citizens improves trust, lowers crime
+- Partner: Police agencies in six countries
+- Intervention: "community policing" (townhalls, beat patrols, etc.)
+- Experimental design: randomly assign police beats to receive/not
+- Outcomes: citizen trust in and cooperation with police, crime
+- Result: no change in any main outcome
+
+\medskip
+- See EGAP Metaketa project Community Policing
+\tiny{https://egap.org/our-work/the-metaketa-initiative/round4-community-policing/}
+
+## Proving beliefs wrong III Example COVID Vaccine Uptake
+
+\centering
+\includegraphics[height=6cm]{images/vaccine_rate}
+
+## Example COVID Vaccine Uptake
+
+\centering
+\includegraphics[height=6cm]{images/vaccine_distribution}
+
+## Example COVID Vaccine Uptake
+
+\centering
+\includegraphics[height=6cm]{images/vaccine_hesitancy}
+
+## Example COVID Vaccine Uptake
+
+\centering
+\includegraphics[height=6cm]{images/vaccine_cost}
+
+## Example COVID Vaccine Uptake
+
+\centering
+\includegraphics[height=5cm]{images/vaccine_design}
+
+
+## Example COVID Vaccine Uptake
+
+\centering
+\includegraphics[height=6cm]{images/vaccine_step1}
+
+## Example COVID Vaccine Uptake
+
+\centering
+\includegraphics[height=5cm]{images/vaccine_step2}
+
+## Example COVID Vaccine Uptake
+
+\centering
+\includegraphics[height=6cm]{images/vaccine_step3-1}
+
+## Example COVID Vaccine Uptake
+
+\centering
+\includegraphics[height=6cm]{images/vaccine_step3-2}
+
+## Example COVID Vaccine Uptake
+
+\centering
+\includegraphics[height=6cm]{images/vaccine_step4}
+
+## Example COVID Vaccine Uptake
+
+\centering
+\includegraphics[height=6cm]{images/vaccine_step5}
+
+## Example COVID Vaccine Uptake
+
+\centering
+\includegraphics[height=6cm]{images/vaccine_itt_count}
+
+## Example COVID Vaccine Uptake
+
+\centering
+\includegraphics[height=6cm]{images/vaccine_itt_rate}
+
+## Example COVID Vaccine Uptake
+
+\centering
+\includegraphics[height=7cm]{images/vaccine_impact}
+
+
+## Proving beliefs right
+
+- Belief: conditional cash transfers change behavior, improve welfare
+- Implementing agency: Mexico public health ministry
+- Intervention: cash to mothers conditioned on children attending school, going to health clinics (Progresa)
+- Experimental design: first phase of rollout randomly assigned to communities
+- Outcomes: poverty, school attendance, health
+- Result: improvements in every outcome
+
+## Proving beliefs right
+
+Incomplete list of places with CCTs following the Progresa study:\bigskip
+
+Argentina, Bangladesh, Brazil, Cambodia, Chile, Colombia, Egypt, Guatemala, Honduras, Indonesia, Jamaica, Mexico, Nicaragua, Panama, Peru, Philippines, Turkey, US
+
+
+## Scaling up successes
+
+- Belief: deworming medication affects only patient's health
+- Intervention: deworm all children in a community at once
+- Experimental design: randomly assign communities to receive/not mass deworming
+- Outcomes: health, but also school attendance
+- Results: effects much larger than believed; cost effective way to improve school attendance, health, even after 20 years
+
+\medskip
+- \tiny{Hamory et al (2021) Twenty-year economic impacts of deworming, PNAS}
+
+
+## Limitations to experiments
+
+Some questions don't need an experiment\medskip
+
+- Does smoking cause poor health?
+- Do parachutes help when you jump out of a plane? \medskip
+
+## Limitations to experiments
+
+Some questions shouldn't have an experiment \medskip
+
+- Does changing the interest rate affect inflation?
+- What is the poverty rate? \medskip
+
+Important role for descriptive research, qualitative investigation
+
+
+
+## Why experiments
+
+Put beliefs about effects of policies to the test \bigskip
+
+What policies works? \smallskip
+
+$\rightarrow$ let's find out
+

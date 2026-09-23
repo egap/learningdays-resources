@@ -1,0 +1,417 @@
+---
+title: "Interpreting Results"
+author: "Maarten Voors"
+date: "10 August 2023"
+biblio-style: apalike
+link-citations: yes
+colorlinks: yes
+fig_caption: no
+classoption: "aspectratio=169"
+header-includes: |
+   \setbeamertemplate{footline}{\begin{beamercolorbox}{section in head/foot}
+   \includegraphics[height=.5cm]{images/egap-logo.png} \hfill
+   \insertframenumber/\inserttotalframenumber \end{beamercolorbox}}
+   \usepackage{tikz}
+   \usepackage{tikz-cd}
+   \usepackage{textpos}
+   \usepackage{booktabs,multirow,makecell}
+output:
+  beamer_presentation:
+    keep_tex: true
+    includes:
+      in_header: columns.tex
+    toc: true
+    pandoc_args: [ "--toc" ]
+    fig_caption: false
+  revealjs::revealjs_presentation:
+    fig_caption: true
+    theme: default
+    highlight: pygments
+    center: false
+    transition: fade
+    smart: false
+    self_contained: false
+    reveal_plugins: ["notes", "search", "chalkboard"]
+    pandoc_args: [ "--toc" ]
+    reveal_options:
+      slideNumber: true
+      previewLinks: true
+      chalkboard:
+        theme: whiteboard
+        toggleNotesButton: false
+editor_options: 
+  markdown: 
+    wrap: 72
+---
+
+```{r setup, include=FALSE}
+# source("rmd_setup.R")
+# Load all the libraries we need
+# library(here)
+# library(tidyverse)
+# library(kableExtra)
+# library(DeclareDesign)
+# library(estimatr)
+# library(styler)
+# library(coin)
+# library(multcomp)
+# library(devtools)
+# library(randomizr)
+# library(rcompanion) ## for pairwisePermutationTest()
+```
+
+## Key points for this lecture 
+
+-   Look for:
+
+    -   Estimand (what we want to know)
+    -   Estimator (procedure applied to data)
+    -   Estimate (produced by that procedure)
+    -   Standard error and type
+    -   $p$-value
+    -   Sample size
+    -   Clusters
+    -   Blocks
+    -   Control group mean
+
+-   Interpret:
+
+    -   Coefficient on treatments
+    -   Coefficient on interaction terms
+
+## Regression 
+
+$$ Y_i = \alpha_0 + \alpha_1 T_i + \epsilon_i$$
+
+-   A technique to estimate the relationship between an outcome variable
+    and predictor variables.
+
+-   Often we propose and estimate a linear relationship because
+    regression without covariates is closely related to the
+    difference-in-means.
+
+## Some Regression Equations 
+
+$$ Y_i = \alpha_0 + \alpha_1 T_i + \epsilon_i$$
+<!-- $$ Y_i = \beta_0 + \beta_1 T_{1i} + \beta_2 T_{2i} + \nu_i$$ -->
+$$ Y_i = \gamma_0 + \gamma_1 T_i + \gamma_2 X_i + \upsilon_i$$
+$$ Y_i = \delta_0 + \delta_1 T_i + \delta_2 X_i + \delta_3 T_iX_i + \zeta_i$$
+
+-   Outcome: $Y_i$
+
+-   Treatment: $T_i$
+<!-- , $T_{1i}$, $T_{2i}$ -->
+
+-   Covariate: $X_i$
+
+# Main Components of a Regression Table 
+
+## The study 
+
+![](images/GN_abstract.png)
+
+## The study
+
+-   Rural-to-urban migration in India.
+
+-   Possible explanations for low political integration of internal
+    migrants:
+
+    -   Strong ties to home region
+
+    -   Bureaucratic barriers
+
+    -   Exclusion by local-born residents and elites
+
+-   Treatment (binary): door-to-door campaign to facilitate voter
+    registration of internal migrants.
+
+-   Three indicators of political integration.
+
+## Table
+
+\centering
+
+![](images/GN_Table_nocov.png){width="450"}
+
+-   Each column is a different regression and has a different outcome
+    (indicator).
+
+## The Table 
+
+\centering
+
+![](images/GN_Table_nocov_1.png){width="450"}
+
+-   For each column 
+    $Y_i = \widehat{\alpha}_0 + \widehat{\alpha}_1 T_i$
+
+-   No covariates 
+
+## Outcome variable
+
+\centering
+
+![](images/GN_Table_nocov_1c.png){width="450"}
+
+-   DV (dependent variable) values = {0,1}
+
+
+## The estimand
+
+\centering
+
+![](images/GN_Table_nocov_1a.png){width="450"}
+
+-   The estimand is the intent-to-treat effect (ITT, the effect of
+    assignment to treatment = offer of aid in voter registration).
+
+## The estimator 
+
+\centering
+
+![](images/GN_Table_nocov_1a.png){width="450"}
+
+-   The estimator is OLS (ordinary least squares) regression.
+
+
+## Intent-to-Treat Effect (ATE of the offer of help) 
+
+![](images/GN_Table_nocov_2.png){width="450"}
+
+-   Estimate of the intent to treat effect on whether a migrant has a
+    city-based voter ID card: 0.243.
+
+## Robust standard errors
+
+\centering
+![](images/GN_Table_nocov_3.png){width="450"}
+
+
+-   Standard error of this estimate : 0.019.
+
+## Control group mean 
+
+\centering
+
+![](images/GN_Table_nocov_6.png){width="450"}
+
+-   \% of migrants without treatment who have a city-based voter ID card: 0.161.
+
+## Control group mean 
+
+Sometimes you will see 
+
+|             |                    |
+|-------------|-------------------:|
+|             |     Has City-based |
+|             |           Voter ID |
+| ----------- | ------------------ |
+| Treatment   |              0.243 |
+|             |            (0.019) |
+| Intercept   |              0.161 |
+|             |             (s.e.) |
+
+-   With one treatment group and one control group, without covariates: intercept = control
+    group mean.
+
+
+## $p$-value 
+
+\centering
+
+![](images/GN_Table_nocov_4.png){width="450"}
+
+-   $p$-value (upper bound):  $p< 0.001$
+
+## Sample Size ($n$)
+
+\centering
+
+![](images/GN_Table_nocov_5a.png){width="450"}
+
+-   Observations ($n$) = 2120
+
+## Regression with covariates
+
+\centering
+
+![](images/GN_Tab2_1.png)
+
+-   What is the estimate of the ITT on the first outcome? 
+
+-   Is it different from the estimate of the ITT without covariates?
+
+## Regression with covariates 
+
+\centering
+
+![](images/GN_Tab2_1.png)
+
+-   $Y_i = \gamma_0 + \gamma_1 T_i + \gamma_2 X_i + \upsilon_i$
+
+-   Estimate of the ITT: $\widehat{\gamma}_1$ = 0.236
+
+## Coefficients on the covariates 
+
+-   You can generally ignore coefficients on the covariates. They are
+    not even reported here.
+
+-   If they are reported, do not interpret them as the causal effect of
+    the covariate.
+
+# Regression with interaction terms
+
+## Regression with interaction terms 
+
+$$Y_i = \widehat{\delta}_0 + \widehat{\delta}_1 T_i + \widehat{\delta}_2 \text{PrimEduc}_i + \widehat{\delta}_3 T_i\cdot\text{PrimEduc}_i$$
+
+-   We often use regressions with interaction terms when we want to
+    estimate the ATE for different subsets of units (conditional average
+    treatment effect, CATE).
+
+-   For example: The ATE for people who have completed primary education
+    and the ATE for people who have not completed primary education.
+
+## Regression with interaction terms
+
+$$Y_i = \widehat{\delta}_0 + \widehat{\delta}_1 T_i + \widehat{\delta}_2 \text{PrimEduc}_i + \widehat{\delta}_3 T_i\cdot\text{PrimEduc}$$
+
+-   Average $Y_i$ if $T_i=0$ and $PrimEduc_i=0$ : $\widehat{\delta}_0$
+
+-   Average $Y_i$ if $T_i=1$ and $PrimEduc_i=0$ :
+    $\widehat{\delta}_0 + \widehat{\delta}_1$
+
+-   Average $Y_i$ if $T_i=0$ and $PrimEduc_i=1$ :
+
+-   Average $Y_i$ if $T_i=1$ and $PrimEduc_i=1$ :
+
+## Regression with interaction terms 
+
+\centering
+
+![](images/GN_tab4.png){width="400"}
+
+## Regression with interaction terms 
+
+\centering
+
+![](images/GN_tab4_1.png){width="400"}
+
+## Regression with interaction terms 
+
+With/ $Muslim_i=0$, $SC/ST_i=0$, $HighIncome_i=0$, and
+$LongTermMigrant_i=0$:
+
+-   $Y_i = \delta_0 + \delta_1 T_i + \delta_2 X_i + \delta_3 T_iX_i + \zeta_i$
+
+-   $Y_i = \delta_0 + \widehat{\delta}_1 T_i + \widehat{\delta}_2 \text{PrimEduc}_i + \widehat{\delta}_3 T_i\cdot\text{PrimEduc}$
+
+-   $Y_i = 0.149 + 0.248 T_i - 0.058 \text{PrimEduc}_i + 0.083 T_i\cdot\text{PrimEduc}_i$
+
+## Regression with interaction terms 
+
+$$Y_i = 0.149 + 0.248 T_i - 0.058 \text{PrimEduc}_i + 0.083 T_i\cdot\text{PrimEduc}_i$$
+
+-   What is the average treatment effect (ATE) for $PrimEduc_i=0$?
+
+-   What is the average treatment effect (ATE) for $PrimEduc_i=1$?
+
+-   Are these conditional average treatment effects different?
+
+
+## Conditional average treatment effects 
+
+Are these conditional average treatment effects different? 
+
+
+![](images/GN_tab4_3.png)
+
+![](images/GN_tab4_4.png)
+
+# Cluster Randomization 
+
+## Second treatment in the India study 
+
+-   Possible explanations for low political integration of internal
+    migrants:
+
+    -   Strong ties to home region
+
+    -   Bureaucratic barriers $\rightarrow T1$
+
+    -   Exclusion by local-born residents and elites $\rightarrow T2$
+
+-   Approximately 2000 people around 87 polling stations in 4 blocks:
+    Delhi/Lucknow \* above/below median number of experimental subjects
+    at polling station
+
+## Second treatment in the India study 
+
+-   Letters, Whatsapp messages, and emails in 2-4 weeks before election
+    to incumbent MP, MP candidates, other local officials informing them
+    that a voter registration drive among migrants had recently been
+    carried out.
+
+## The outcomes
+
+\centering
+
+![](images/GN_Tab5.png){width="400"}
+
+-   Index = average of $z$ scores
+
+-   $z$-score for indicator $k$ for individual $i$: $z_i^k$ = ($y_i^k$ -
+    control group mean) / control group standard deviation
+
+## Units and Clusters 
+
+\centering
+
+![](images/GN_Tab5.png){width="350"}
+
+-   Number of observations =
+
+-   Number of clusters =
+
+## The estimator 
+
+\centering
+
+![](images/GN_Tab5_1.png){width="350"}
+
+-   Estimator: weighted least squares, with clusters weighted equally,
+    with block fixed effects and individual covariates.
+
+
+## Cluster-robust standard errors 
+
+\centering
+
+![](images/GN_Tab5_2.png){width="350"}
+
+## Estimation 
+
+\centering
+
+![](images/GN_Tab5.png){width="350"}
+
+-   What is the estimated average effect of $T2$ on the outcome index?
+
+## Hypothesis testing 
+
+\centering
+
+![](images/GN_Tab5.png){width="350"}
+
+-   On which components of the index does $T2$ have a statistically
+    significant effect? 
+
+## Intepretation
+
+\centering
+
+![](images/GN_Tab5_a.png){width="350"}
+
+
+-   Are these results positive or negative for internal migrants?

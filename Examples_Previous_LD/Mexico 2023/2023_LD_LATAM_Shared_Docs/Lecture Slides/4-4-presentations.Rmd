@@ -1,0 +1,98 @@
+---
+title: "The impact of Exposure to a Positive
+Environment on People Attitude about the World
+and their Mental Health"
+author: "EGAP Latin America Hub Learning Days"
+date: "10 August 2023"
+biblio-style: apalike
+link-citations: yes
+colorlinks: yes
+header-includes: |
+   \setbeamertemplate{footline}{\begin{beamercolorbox}{section in head/foot}
+   \includegraphics[height=.5cm]{images/egap-logo.png} \hfill
+   \insertframenumber/\inserttotalframenumber \end{beamercolorbox}}
+output:
+  beamer_presentation:
+    keep_tex: true
+    toc: true
+    pandoc_args: [ "--toc" ]
+  revealjs::revealjs_presentation:
+    fig_caption: true
+    theme: default
+    highlight: pygments
+    center: false
+    transition: fade
+    smart: false
+    self_contained: false
+    reveal_plugins: ["notes", "search", "chalkboard"]
+    pandoc_args: [ "--toc" ]
+    reveal_options:
+      slideNumber: true
+      previewLinks: true
+      chalkboard:
+        theme: whiteboard
+        toggleNotesButton: false
+---
+
+# Motivation
+- Mental health is an essential part of people’s lives and society
+  - 1 in 3 women experience major depression in their live (Our World Data, 2023)
+  - 1 in 5 men experience major depression in their live (Our World Data, 2023).
+  
+- Mental health deteriorates the socioeconomic status of populations (Reiss, 2013; Alegria, 2018).
+-  In recent years, there has been an increasing amount of research showing that being exposed to a positive
+environment can improve people perception about the sate of the world and, consequently, have an impact (see Newton, 2006 and Stieger, 2020).  
+
+- However, there is less evidence in developing countries.
+
+# Research question & Hypothesis
+
+- Research question: What is the impact of being exposed to a positive environment (positive imagery) on how
+people perceive the world and their mental health?  
+- Hypothesis: Positive environments improve the way people perceive the world
+
+# Treatment
+
+\includegraphics[height=4cm]{images/LD_experiment}
+
+# Outcome variables
+
+- An individual’s perception about the state of the world.
+- “On a scale of 1-10 (1 being lowest, 10 being highest), how do you feel about the state of the world?”
+
+# Research design
+
+- Population of interest: 2023 Mexico Learning Days Participants and Instructors
+- Sample size = 29
+- 2 conditions: 1 treatment and 1 control.
+- Online survey (google forms) (implemented on laptops)
+  - Shows treatment/control photo to respondent
+  - Collects respondent’s answer for outcome of interest
+- Block randomization by gender (Female vs. male)
+- In the block, each unit has probability 0.5 of being in treatment or control  
+
+# Answer Strategy/Estimation
+
+- Block randomization, all units have the same probability of treatment assignment: linear regression with block fixed effects and robust standard errors
+
+# Power Analysis {.allowframebreaks}
+
+```{r powplot_by_tau, echo=TRUE}
+# power for n = 29, SD = 1, what can we find?
+# ignoring blocks
+some_taus <- seq(0,1,by=.05)
+pow_by_tau <- sapply(some_taus, function(thetau){
+power.t.test(n = 29, delta = thetau, sd = 1, sig.level = 0.05)$power
+              })
+plot(some_taus,pow_by_tau,
+    xlab="Average Treatment Effect (Standardized)",
+    ylab="Power")
+abline(h=.8)
+```
+
+# Next steps and concerns
+
+- Non-interference?
+- How to increase power?
+- Avoid measurement bias?
+

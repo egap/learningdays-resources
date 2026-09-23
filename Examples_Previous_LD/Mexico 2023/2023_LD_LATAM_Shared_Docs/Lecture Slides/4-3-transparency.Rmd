@@ -1,0 +1,85 @@
+---
+title: "Transparency: An Introduction"
+author: "Rosario Aguilar, Jake Bowers"
+date: "10 August 2023"
+output:
+  beamer_presentation:
+    keep_tex: yes
+    slide_level: 2
+    toc: yes
+  revealjs::revealjs_presentation:
+    center: no
+    fig_caption: yes
+    highlight: pygments
+    pandoc_args: --toc
+    reveal_options:
+      chalkboard:
+        theme: whiteboard
+        toggleNotesButton: no
+      previewLinks: yes
+      slideNumber: yes
+    reveal_plugins:
+    - notes
+    - search
+    - chalkboard
+    self_contained: no
+    smart: no
+    theme: default
+    transition: fade
+bibliography: learningdays-book.bib
+header-includes: |
+   \setbeamertemplate{footline}{\begin{beamercolorbox}{section in head/foot}
+   \includegraphics[height=.5cm]{images/egap-logo.png} \hfill
+   \insertframenumber/\inserttotalframenumber \end{beamercolorbox}}
+   \usepackage{makecell}
+   \usepackage{tikz}
+   \usepackage{tikz-cd}
+   \usetikzlibrary{arrows,automata,positioning,trees,babel}
+   \usepackage{textpos}
+   \usepackage{booktabs,multirow}
+   \usepackage[utf8]{inputenc}
+   \usepackage[T1]{fontenc}
+link-citations: yes
+colorlinks: yes
+biblio-style: apalike
+---
+
+
+```{r setup, include=FALSE, echo=FALSE}
+library(here)
+source(here("Lecture Slides","rmd_setup.R"))
+#source(here("rmd_setup.R"))
+library(DesignLibrary)
+library(styler)
+```
+
+## What do we mean by "transparency" in research?
+
+Part of the research process includes: sharing data, sharing designs, sharing
+analysis plans, sharing deviations from plans.
+
+Share with whom?
+
+ - The public
+ - Other researchers
+ - Policy makers and other decision makers
+ - Political actors
+ - **Your future self** [@bowers2016future]
+
+## Why transparency?
+
+ - Makes it easier for people to interpret your results.
+    - Makes it easier to for you to justify your choices about: design, analysis, interpretation.
+ - Makes the investigator accountable to a community (or communities).
+ - Make **future you** happier with **present you** [@bowers2016future]
+
+## How transparency?
+
+ - Share designs and analysis plans on the [EGAP Registry](https://egap.org/registry/) or other registry.
+ - Follow best practices for using code to change the world:
+   - @bowers2016future and [10 Things To Know about Project Workflow](https://egap.org/resource/10-things-to-know-about-project-workflow/)^[see also [some of the opinionated guide about using LaTeX](https://egap.org/resource/10-things-writing-in-latex/)].
+      - for example share your code on Github (see [the repository for the @rabb2022pnas](https://github.com/thepolicylab/COVID-VaccinesSocialNorms) or the [repository for the @rabb2022nature](https://github.com/thepolicylab/COVID-SMSExperiment)).
+   - See the [OES Project Process](https://oes.gsa.gov/projectprocess/) for how a **team** does transparency.
+   
+## References
+
